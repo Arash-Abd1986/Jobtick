@@ -24,7 +24,7 @@ import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.models.AttachmentModel
-import com.jobtick.android.retrofit.ApiClient
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.karumi.dexter.Dexter

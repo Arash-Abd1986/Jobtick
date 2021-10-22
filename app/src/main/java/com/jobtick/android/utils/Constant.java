@@ -97,7 +97,9 @@ public class Constant {
     public static final String URL_OFFERS = BASE_URL + "offers";
     public static final String URL_PROFILE = BASE_URL + "profile";
     public static final int MAX_LINE_TEXTVIEW_MORE_4 = 4;
+    public static final int MAX_LINE_TEXTVIEW_MORE_5 = 5;
     public static final int MAX_LINE_TEXTVIEW_MORE_2 = 2;
+    public static final int MAX_LINE_TEXTVIEW_MORE_3 = 3;
     public static final String URL_PAYMENTS_METHOD = BASE_URL + "payments/method";
     public static final String URL_DELETE_BANK_ACCOUNT = BASE_URL + "account/bankaccount";
     public static final String URL_DELETE_BILLING_ADDRESS = BASE_URL + "account/billingaddress";

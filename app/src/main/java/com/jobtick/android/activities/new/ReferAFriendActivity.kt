@@ -1,13 +1,11 @@
-package com.jobtick.android.activities.others
+package com.jobtick.android.activities.new
 
 import com.jobtick.android.activities.ActivityBase
-import butterknife.BindView
 import com.jobtick.android.R
 import android.widget.LinearLayout
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import butterknife.ButterKnife
 
 class ReferAFriendActivity : ActivityBase() {
 

@@ -21,34 +21,50 @@
             app:civ_border="false" />
 
         <LinearLayout
-            android:layout_width="@dimen/_30dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_name"
-                style="@style/materialText_700_12"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="9dp"
-                android:singleLine="true"
-                android:text="@string/nathan_fox"
-                android:textColor="@color/textColor" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_poster"
-                style="@style/materialText_500_12"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="9dp"
-                android:paddingHorizontal="@dimen/_3dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/linear_rounded_n50_fill"
-                android:singleLine="true"
-                android:text="Poster"
-                android:visibility="gone"
-                android:textColor="@color/white" />
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_name"
+                    style="@style/materialText_700_12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/nathan_fox"
+                    android:textColor="@color/textColor" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_poster"
+                    style="@style/materialText_500_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="9dp"
+                    android:paddingVertical="3dp"
+                    android:background="@drawable/rectangle_card_round_blue_8"
+                    android:paddingHorizontal="6dp"
+                    android:singleLine="true"
+                    android:text="Poster"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_created_date"
+                style="@style/materialText_500_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="21 min. ago"
+                android:textColor="@color/grey_40"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
@@ -61,44 +77,17 @@
             android:orientation="horizontal"
             android:padding="3dp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivReport"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/todo"
                 android:padding="@dimen/spacing_small"
-                android:src="@drawable/ic_red_flag" />
+                app:srcCompat="@drawable/ic_black_flag" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/lyt_btn_reply"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="3dp"
-            android:background="?attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="@dimen/spacing_small">
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/todo"
-                android:padding="@dimen/spacing_small"
-                android:src="@drawable/ic_corner_blue" />
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_500_10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="1dp"
-                android:gravity="center_vertical"
-                android:text="@string/reply"
-                android:textColor="@color/colorPrimary" />
-        </LinearLayout>
     </LinearLayout>
 
     <TextView
@@ -141,50 +130,4 @@
             android:scaleType="fitXY"
             android:src="@drawable/ic_gallery" />
     </androidx.cardview.widget.CardView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/lyt_btn_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="?attr/selectableItemBackground"
-                android:orientation="horizontal"
-                android:padding="@dimen/spacing_small"
-                tools:ignore="RelativeOverlap,RtlHardcoded">
-
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_more_less"
-                    style="@style/materialText_500_10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/spacing_middle"
-                    android:gravity="center_vertical"
-                    android:text="More >"
-                    android:textColor="@color/colorPrimary" />
-            </LinearLayout>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_created_date"
-                style="@style/materialText_500_10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="21 min. ago"
-                android:textColor="@color/grey_40"
-                tools:ignore="HardcodedText" />
-
-
-        </LinearLayout>
-    </RelativeLayout>
 </LinearLayout>

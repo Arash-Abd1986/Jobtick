@@ -11,21 +11,13 @@
         android:orientation="vertical"
         android:layout_marginBottom="@dimen/spacing_middle">
 
-        <com.jobtick.android.text_view.TextViewBold
-            android:id="@+id/txt_questions_count"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="18dp"
-            android:singleLine="true"
-            android:text="@string/question"
-            android:textColor="@color/N900" />
 
         <RelativeLayout
             android:id="@+id/rlt_layout_action_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="18dp"
+            android:layout_marginTop="18dp"
             android:minHeight="?attr/actionBarSize">
 
             <FrameLayout
@@ -33,11 +25,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
-                android:layout_marginStart="18dp"
                 android:layout_toStartOf="@id/img_add_attachment"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="18dp"
-                android:layout_marginBottom="@dimen/spacing_middle"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/shape_border"
                 android:focusableInTouchMode="true"
                 tools:ignore="UselessParent">
@@ -118,15 +107,13 @@
             android:id="@+id/recycler_view_questions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="10dp"
             android:focusableInTouchMode="true"
             android:overScrollMode="never"
             />
 
 
         <RelativeLayout
+            android:layout_marginTop="10dp"
             android:id="@+id/lyt_view_all_questions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

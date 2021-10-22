@@ -29,7 +29,7 @@ import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.CommentModel
 import com.jobtick.android.models.OfferModel
 import com.jobtick.android.models.QuestionModel
-import com.jobtick.android.retrofit.ApiClient
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -68,7 +68,6 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
     private var txtNameQuestion: TextView? = null
     private var txtCreatedDateQuestion: TextView? = null
     private var txtMessageQuestion: TextView? = null
-    private var lytBtnReplyQuestion: LinearLayout? = null
     private var linearAcceptDeleteOffer: LinearLayout? = null
     private var imgMoreLessArrow: ImageView? = null
     private var txtMoreLess: TextView? = null
@@ -102,7 +101,6 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
         cardLiveVideo!!.visibility = View.GONE
         lytBtnReply!!.visibility = View.GONE
         lytBtnMore!!.visibility = View.GONE
-        lytBtnReplyQuestion!!.visibility = View.GONE
         lytBtnMoreQuestion!!.visibility = View.GONE
         layoutOffer!!.visibility = View.GONE
         layoutQuestion!!.visibility = View.GONE
@@ -117,10 +115,10 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
         questionModel = QuestionModel()
         if (TaskDetailsActivity.isOfferQuestion == "offer") {
             offerModel = TaskDetailsActivity.offerModel
-            toolbar!!.title = "Replay Offer"
+            toolbar!!.title = "Reply Offer"
         } else {
             questionModel = TaskDetailsActivity.questionModel
-            toolbar!!.title = "Replay Question"
+            toolbar!!.title = "Reply Question"
         }
         initLayout()
         toolbar!!.setNavigationOnClickListener { onBackPressed() }
@@ -166,7 +164,6 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
         txtNameQuestion = findViewById(R.id.txt_name_question)
         txtCreatedDateQuestion = findViewById(R.id.txt_created_date_question)
         txtMessageQuestion = findViewById(R.id.txt_message_question)
-        lytBtnReplyQuestion = findViewById(R.id.lyt_btn_reply_question)
         linearAcceptDeleteOffer = findViewById(R.id.linearAcceptDeleteOffer)
         imgMoreLessArrow = findViewById(R.id.img_more_less_arrow)
         txtMoreLess = findViewById(R.id.txt_more_less)

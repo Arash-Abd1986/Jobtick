@@ -6,7 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.jobtick.android.R
-import com.jobtick.android.activities.others.ReferAFriendActivity
+import com.jobtick.android.activities.new.ReferAFriendActivity
 import com.jobtick.android.fragments.LogOutBottomSheet
 import com.jobtick.android.widget.ExtendedSettingItem
 

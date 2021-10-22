@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="YN400">#FECF5D</color>
+
+    <color name="GN400">#959494</color>
+    <color name="GN300">#939393</color>
+    <color name="GN100">#D3D3D3</color>
+
+    <color name="RN050">#FCEFED</color>
+    <color name="RN600">#DE5246</color>
+
+
+</resources>

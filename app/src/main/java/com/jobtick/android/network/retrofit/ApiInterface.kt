@@ -1,5 +1,6 @@
-package com.jobtick.android.retrofit
+package com.jobtick.android.network.retrofit
 
+import com.jobtick.android.network.model.Response
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -57,4 +58,9 @@ interface ApiInterface {
                                  @Header("X-Requested-With") XMLHttpRequest: String?,
                                  @Header("authorization") auth: String?,  // @Part("file\"; filename=\"pp.png\" ") RequestBody file);
                                  @Query("media") attachmentId: Int): Call<String?>?
+
+
+
+    @GET("profile/{userId}/reviews/{whoIs}")
+    suspend fun reviews(@Path("userId") userId: Int?, @Path("whoIs") whoIs: String?): Response
 }

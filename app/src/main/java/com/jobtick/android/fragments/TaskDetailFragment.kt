@@ -42,7 +42,7 @@ import com.jobtick.android.models.PositionModel
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.models.response.searchsuburb.Feature
 import com.jobtick.android.models.task.AttachmentModels
-import com.jobtick.android.retrofit.ApiClient
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.SuburbAutoComplete
 import com.jobtick.android.utils.Tools

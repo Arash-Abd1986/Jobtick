@@ -2,25 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ln_offers"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginTop="10dp"
     android:gravity="center"
-    android:id="@+id/ln_offers"
     android:orientation="vertical">
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_offers_count"
-        style="@style/materialText_600_14"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="18dp"
-        android:singleLine="true"
-        android:text="@string/offer"
-        android:textColor="@color/N900" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_offer_layout"
@@ -40,10 +28,10 @@
             android:orientation="vertical">
 
             <FrameLayout
-                android:id="@+id/txt_waiting_for_offer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:paddingTop="@dimen/_8dp"
                 android:visibility="visible">
 
                 <LinearLayout
@@ -52,127 +40,86 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/spacing_small"
                     android:gravity="center"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     tools:ignore="UselessParent">
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/spacing_large"
-                        android:background="@drawable/ic_no_offer_holder"
-                        android:contentDescription="@string/todo"
-                        android:padding="@dimen/spacing_small" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginRight="10dp"
+                        app:srcCompat="@drawable/ic_warning_new" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_600_14"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:singleLine="true"
-                        android:text="@string/waiting_for_offer"
-                        android:textColor="@color/black" />
-
-                    <LinearLayout
-                        android:id="@+id/first_offer_lyt"
+                        android:id="@+id/txt_offer_count"
+                        style="@style/materialText_500_14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:singleLine="true"
+                        android:text="You haven’t received any offers yet"
+                        android:textColor="@color/black" />
 
-                        <com.google.android.material.textview.MaterialTextView
-                            style="@style/materialText_400_14"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/spacing_line"
-                            android:layout_marginTop="@dimen/spacing_small"
-                            android:layout_marginEnd="@dimen/spacing_line"
-                            android:layout_marginBottom="@dimen/spacing_small"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:text="@string/be_the_first_to"
-                            android:textColor="@color/textColor"
-                            tools:ignore="TooDeepLayout" />
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/first_offer"
-                            style="@style/materialText_400_14"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/spacing_line"
-                            android:layout_marginTop="@dimen/spacing_small"
-                            android:layout_marginEnd="@dimen/spacing_line"
-                            android:layout_marginBottom="@dimen/spacing_small"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:text="@string/make_an_offer"
-                            android:textColor="@color/colorPrimary" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            style="@style/materialText_400_14"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/spacing_line"
-                            android:layout_marginTop="@dimen/spacing_small"
-                            android:layout_marginEnd="@dimen/spacing_line"
-                            android:layout_marginBottom="@dimen/spacing_small"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:text="@string/on_this_job"
-                            android:textColor="@color/textColor" />
-                    </LinearLayout>
                 </LinearLayout>
             </FrameLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_offers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
-                android:overScrollMode="never"
-                android:visibility="visible"
-                app:layout_anchor="@+id/nested_scroll_view"
-                app:layout_anchorGravity="bottom|center"
-                tools:itemCount="1" />
 
             <RelativeLayout
                 android:id="@+id/card_view_all_offers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_margin="18dp"
                 android:orientation="vertical"
                 android:visibility="visible">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ln_show_offers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/rectangle_card_round_fill_blue_6dp_radius"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="35dp"
+                    android:paddingVertical="10dp"
+                    android:visibility="visible">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="2dp"
+                        android:gravity="center"
+                        android:text="Show offer list"
+                        android:textAppearance="@style/materialText_400_12"
+                        android:textColor="@color/white"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ln_show_offers_deactive"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:background="@drawable/linear_rounded_white_fill_gray_border"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingHorizontal="35dp"
-                    android:paddingVertical="10dp">
+                    android:paddingVertical="10dp"
+                    android:visibility="visible">
 
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/materialText_500_12"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="See more"
+                        android:text="Show offer list"
                         android:textColor="@color/N100" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/spacing_line"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:background="@color/grey_10" />
 </LinearLayout>

@@ -143,7 +143,9 @@
     <declare-styleable name="ExtendedAlertBox">
         <attr name="eAlertTitle" format="string"/>
         <attr name="eAlertButtonText" format="string"/>
+        <attr name="eAlertType" format="string"/>
         <attr name="eAlertHasButton" format="boolean"/>
+        <attr name="eAlertHasTopColor" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="ExtendedCommentText">

@@ -149,7 +149,7 @@ fun Double.appendMBT(): String {
 
 fun String.insertComma(): String {
     var amount = this
-    if (amount == null || amount.trim { it <= ' ' } == "") {
+    if (amount.trim { it <= ' ' } == "") {
         return amount
     }
     if (Build.MANUFACTURER.toLowerCase().equals("motorola", ignoreCase = true)) return amount

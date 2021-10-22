@@ -4,14 +4,21 @@
     android:layout_height="wrap_content"
     android:background="@color/transparent"
     android:orientation="vertical"
-    android:paddingTop="10dp">
-   <LinearLayout
-       android:background="@drawable/bg_white_top_c"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
+    android:paddingTop="15dp">
 
-       <include
-           layout="@layout/job_details_card_questions"
-           android:visibility="visible" />
-   </LinearLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_white_top_c">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                layout="@layout/job_details_card_questions"
+                android:visibility="visible" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </RelativeLayout>

@@ -1,21 +1,15 @@
-package com.jobtick.android.adapers;
+package com.jobtick.android.adapers
 
-import android.view.View;
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
-import androidx.recyclerview.widget.RecyclerView;
+abstract class BaseViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
+    var currentPosition = 0
+        private set
 
-public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
-    private int mCurrentPosition;
-    public BaseViewHolder(View itemView) {
-        super(itemView);
+    protected abstract fun clear()
+    open fun onBind(position: Int) {
+        currentPosition = position
+        clear()
     }
-    protected abstract void clear();
-    public void onBind(int position) {
-        mCurrentPosition = position;
-        clear();
-    }
-    public int getCurrentPosition() {
-        return mCurrentPosition;
-    }
-
 }

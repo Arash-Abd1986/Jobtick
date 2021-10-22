@@ -1,422 +1,226 @@
-package com.jobtick.android.adapers;
+package com.jobtick.android.adapers
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
+import com.jobtick.android.R
+import com.jobtick.android.activities.ProfileActivity
+import com.jobtick.android.activities.ReportActivity
+import com.jobtick.android.activities.ZoomImageActivity
+import com.jobtick.android.models.AttachmentModel
+import com.jobtick.android.models.CommentModel
+import com.jobtick.android.models.OfferModel
+import com.jobtick.android.models.QuestionModel
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.ImageUtil
+import com.jobtick.android.utils.setMoreLess
+import com.mikhaellopez.circularimageview.CircularImageView
+import java.util.*
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
+class PublicChatListAdapter : RecyclerView.Adapter<BaseViewHolder> {
+    private val context: Context?
+    private val isInPublicChat: Boolean
+    private val posterID: String?
+    private var mOnItemClickListener: OnItemClickListener? = null
+    private var offerModel: OfferModel? = null
+    private var questionModel: QuestionModel? = null
+    private var isOfferModel = true
+    private var status: String? = null
+    fun addExtraItems(item: OfferModel?, isOfferModel: Boolean) {
+        offerModel = item
+        this.isOfferModel = isOfferModel
+    }
 
-import com.jobtick.android.activities.ProfileActivity;
-import com.jobtick.android.activities.ReportActivity;
-import com.jobtick.android.activities.ZoomImageActivity;
-import com.jobtick.android.models.AttachmentModel;
-import com.jobtick.android.utils.ConstantKey;
-import com.mikhaellopez.circularimageview.CircularImageView;
-import com.jobtick.android.R;
+    fun addExtraItems(item: QuestionModel?, isOfferModel: Boolean) {
+        questionModel = item
+        this.isOfferModel = isOfferModel
+    }
 
-import android.annotation.SuppressLint;
+    interface OnItemClickListener {
+        fun onItemClick(view: View?, obj: OfferModel?, position: Int, action: String?)
+        fun onItemClick(view: View?, obj: QuestionModel?, position: Int, action: String?)
+        fun onItemClick(view: View?, obj: CommentModel?, position: Int, action: String?)
+    }
 
-import com.jobtick.android.models.CommentModel;
-import com.jobtick.android.models.OfferModel;
-import com.jobtick.android.models.QuestionModel;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.ImageUtil;
+    fun setOnItemClickListener(mItemClickListener: OnItemClickListener?) {
+        mOnItemClickListener = mItemClickListener
+    }
 
-import org.jetbrains.annotations.NotNull;
+    private var isLoaderVisible = false
+    private val mItems: MutableList<CommentModel>?
 
-import java.util.ArrayList;
-import java.util.List;
+    constructor(context: Context?, mItems: MutableList<CommentModel>?, isInPublicChat: Boolean, posterID: String?) {
+        this.mItems = mItems
+        this.context = context
+        this.isInPublicChat = isInPublicChat
+        this.posterID = posterID
+    }
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import timber.log.Timber;
+    constructor(context: Context?, mItems: MutableList<CommentModel>?, status: String?, posterID: Int) {
+        this.mItems = mItems
+        this.context = context
+        isInPublicChat = false
+        this.status = status
+        this.posterID = posterID.toString() + ""
+    }
 
-import static com.jobtick.android.utils.ConstantKey.KEY_COMMENT_REPORT;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_LOADING -> ProgressHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false))
+            else -> ViewHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_offer_chat, parent, false))
+        }
+    }
+
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        holder.onBind(position)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (isLoaderVisible) {
+            if (position == mItems!!.size - 1) VIEW_TYPE_LOADING else VIEW_TYPE_NORMAL
+        } else {
+            VIEW_TYPE_NORMAL
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return mItems?.size ?: 0
+    }
+
+    fun addItems(mItems: List<CommentModel>?) {
+        this.mItems!!.addAll(mItems!!)
+        notifyDataSetChanged()
+    }
+
+    fun addItem(mItem: CommentModel) {
+        mItems!!.add(mItem)
+        notifyDataSetChanged()
+        notifyItemInserted(mItems.size)
+    }
+
+    fun addLoading() {
+        isLoaderVisible = true
+        mItems!!.add(CommentModel())
+        notifyItemInserted(mItems.size - 1)
+    }
+
+    fun removeLoading() {
+        isLoaderVisible = false
+        val position = mItems!!.size - 1
+        val item = getItem(position)
+        if (item != null) {
+            mItems.removeAt(position)
+            notifyItemRemoved(position)
+        }
+    }
+
+    fun clear() {
+        mItems!!.clear()
+        notifyDataSetChanged()
+    }
+
+    private fun getItem(position: Int): CommentModel {
+        return mItems!![position]
+    }
+
+    inner class ViewHolder internal constructor(itemView: View?) : BaseViewHolder(itemView) {
+
+        var imgAvatar: CircularImageView = itemView!!.findViewById(R.id.img_avatar)
+        var txtName: TextView = itemView!!.findViewById(R.id.txt_name)
+        var txtCreatedDate: TextView = itemView!!.findViewById(R.id.txt_created_date)
+        var txtMessage: TextView = itemView!!.findViewById(R.id.txt_message)
+        var imgFile: ImageView = itemView!!.findViewById(R.id.img_file)
+        var cardImgFile: CardView = itemView!!.findViewById(R.id.card_img_file)
+        var txtPoster: TextView = itemView!!.findViewById(R.id.txt_poster)
+        var ivFlag: LinearLayout = itemView!!.findViewById(R.id.ivFlag)
 
 
-public class PublicChatListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+        override fun clear() {}
 
-    /*
+        @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
+        override fun onBind(position: Int) {
+            super.onBind(position)
+            val item = mItems!![position]
+            if (item.user.avatar != null) ImageUtil.displayImage(imgAvatar, item.user.avatar.thumbUrl, null)
+            txtName.text = item.user.name
+            txtMessage.text = item.commentText
+            txtCreatedDate.text = item.createdAt
+
+            if (item.attachments != null && item.attachments.size != 0) {
+                cardImgFile.visibility = View.VISIBLE
+                ImageUtil.displayImage(imgFile, item.attachments[0].modalUrl, null)
+                if (context != null) {
+                    imgFile.setOnClickListener { v: View? ->
+                        val intent = Intent(context, ZoomImageActivity::class.java)
+                        val attachmentArrayList = ArrayList<AttachmentModel>()
+                        attachmentArrayList.add(item.attachments[0])
+                        intent.putExtra("url", attachmentArrayList)
+                        intent.putExtra("title", "")
+                        intent.putExtra("pos", 0)
+                        context.startActivity(intent)
+                    }
+                }
+            } else {
+                cardImgFile.visibility = View.GONE
+            }
+            if (posterID != null) if (posterID == item.id.toString()) {
+                txtPoster.visibility = View.VISIBLE
+            } else {
+                txtPoster.visibility = View.GONE
+            }
+            ivFlag.setOnClickListener { view: View? ->
+                val bundle = Bundle()
+                val intent = Intent(context, ReportActivity::class.java)
+                bundle.putString("key", ConstantKey.KEY_COMMENT_REPORT)
+                bundle.putInt(ConstantKey.commentId, item.id)
+                intent.putExtras(bundle)
+                context!!.startActivity(intent)
+            }
+            imgAvatar.setOnClickListener { v: View? ->
+                val intent = Intent(context, ProfileActivity::class.java)
+                intent.putExtra("id", item.user.id)
+                context!!.startActivity(intent)
+            }
+            txtName.setOnClickListener { imgAvatar.performClick() }
+
+            setMoreLess(txtMessage,item.commentText,3)
+        }
+
+
+    }
+
+    @JvmOverloads
+    fun toggleArrow(show: String, view: View, delay: Boolean = true) {
+        if (show.equals("Less", ignoreCase = true)) {
+            view.animate().setDuration(if (delay) 200 else 0.toLong()).rotation(180f)
+        } else {
+            view.animate().setDuration(if (delay) 200 else 0.toLong()).rotation(0f)
+        }
+    }
+
+    class ProgressHolder internal constructor(itemView: View?) : BaseViewHolder(itemView) {
+        override fun clear() {}
+    }
+
+    companion object {
+        /*
      * Note:
      * In OfferChatList
      * i am added OfferListModel Model Class
      * because reply btn i want work both side
      * */
-    private static final int VIEW_TYPE_LOADING = 0;
-    private static final int VIEW_TYPE_NORMAL = 1;
-
-
-    private final Context context;
-    private final Boolean isInPublicChat;
-    private final String posterID;
-    private OnItemClickListener mOnItemClickListener;
-    private OfferModel offerModel;
-    private QuestionModel questionModel;
-    private boolean isOfferModel = true;
-    private String status;
-
-
-    public void addExtraItems(OfferModel item, boolean isOfferModel) {
-        this.offerModel = item;
-        this.isOfferModel = isOfferModel;
-    }
-
-    public void addExtraItems(QuestionModel item, boolean isOfferModel) {
-        this.questionModel = item;
-        this.isOfferModel = isOfferModel;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, OfferModel obj, int position, String action);
-
-        void onItemClick(View view, QuestionModel obj, int position, String action);
-
-        void onItemClick(View view, CommentModel obj, int position, String action);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener mItemClickListener) {
-        this.mOnItemClickListener = mItemClickListener;
-    }
-
-
-    private boolean isLoaderVisible = false;
-    private final List<CommentModel> mItems;
-
-    public PublicChatListAdapter(Context context, List<CommentModel> mItems, Boolean isInPublicChat, String posterID) {
-        this.mItems = mItems;
-        this.context = context;
-        this.isInPublicChat = isInPublicChat;
-        this.posterID = posterID;
-    }
-
-    public PublicChatListAdapter(Context context, List<CommentModel> mItems, String status,int posterID) {
-        this.mItems = mItems;
-        this.context = context;
-        this.isInPublicChat = false;
-        this.status = status;
-        this.posterID = posterID+"";
-
-    }
-
-    @NonNull
-    @Override
-    public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case VIEW_TYPE_NORMAL:
-                return new ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_offer_chat, parent, false));
-            case VIEW_TYPE_LOADING:
-                return new ProgressHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false));
-            default:
-                return null;
-        }
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-        holder.onBind(position);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (isLoaderVisible) {
-            return position == mItems.size() - 1 ? VIEW_TYPE_LOADING : VIEW_TYPE_NORMAL;
-        } else {
-            return VIEW_TYPE_NORMAL;
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        return mItems == null ? 0 : mItems.size();
-    }
-
-    public void addItems(List<CommentModel> mItems) {
-        this.mItems.addAll(mItems);
-        notifyDataSetChanged();
-    }
-
-    public void addItem(CommentModel mItem) {
-        this.mItems.add(mItem);
-        notifyDataSetChanged();
-
-        notifyItemInserted(mItems.size());
-    }
-
-    public void addLoading() {
-        isLoaderVisible = true;
-        this.mItems.add(new CommentModel());
-        notifyItemInserted(this.mItems.size() - 1);
-    }
-
-    public void removeLoading() {
-        isLoaderVisible = false;
-        int position = mItems.size() - 1;
-        CommentModel item = getItem(position);
-        if (item != null) {
-            mItems.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
-
-    public void clear() {
-        mItems.clear();
-        notifyDataSetChanged();
-    }
-
-    private CommentModel getItem(int position) {
-        return mItems.get(position);
-    }
-
-    public class ViewHolder extends BaseViewHolder {
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.img_avatar)
-        CircularImageView imgAvatar;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.txt_name)
-        TextView txtName;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.txt_created_date)
-        TextView txtCreatedDate;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.txt_message)
-        TextView txtMessage;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.txt_more_less)
-        TextView txtMoreLess;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.img_file)
-        ImageView imgFile;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.lyt_btn_reply)
-        LinearLayout lytBtnReply;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.lyt_btn_more)
-        LinearLayout lytBtnMore;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.card_img_file)
-        CardView cardImgFile;
-
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.txt_poster)
-        TextView txtPoster;
-
-
-/*        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.textViewOptions)
-        TextView textViewOptions;*/
-
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.ivFlag)
-        LinearLayout ivFlag;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-
-        }
-
-        protected void clear() {
-        }
-
-
-        @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
-        public void onBind(int position) {
-            super.onBind(position);
-            CommentModel item = mItems.get(position);
-            if (item.getUser().getAvatar() != null)
-                ImageUtil.displayImage(imgAvatar, item.getUser().getAvatar().getThumbUrl(), null);
-            txtName.setText(item.getUser().getName());
-            txtMessage.setText(item.getCommentText());
-            txtCreatedDate.setText(item.getCreatedAt());
-
-
-            txtMessage.post(() -> {
-                int lineCount = txtMessage.getLineCount();
-                Timber.e(String.valueOf(lineCount));
-                if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_4) {
-                    // view.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
-                    lytBtnMore.setVisibility(View.VISIBLE);
-                    txtMoreLess.setText(item.getStrMore());
-                    mItems.get(getAdapterPosition()).setIsUserPrefrenceToMore(true);
-                    if (item.getIsUserPrefrenceToMore()) {
-                        txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
-                    }
-                } else {
-                    lytBtnMore.setVisibility(View.GONE);
-                }
-            });
-
-
-        /*    txtMessage.setOnLayoutListener(new TextViewRegular.OnLayoutListener()
-
-                {
-                    @Override
-                    public void onLayouted (TextView view){
-                    int lineCount = view.getLineCount();
-                    Log.e("valueline", "Number of lines is " + lineCount);
-                    if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE) {
-                       // view.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
-                        lytBtnMore.setVisibility(View.VISIBLE);
-                        txtMoreLess.setText(item.getStrMore());
-                        mItems.get(getAdapterPosition()).setIsUserPrefrenceToMore(true);
-                        if (item.getIsUserPrefrenceToMore()) {
-                     //       txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
-                        }
-                    } else {
-                        lytBtnMore.setVisibility(View.GONE);
-                    }
-
-                }
-                });*/
-
-
-            if (item.getAttachments() != null && item.getAttachments().
-
-                    size() != 0) {
-                cardImgFile.setVisibility(View.VISIBLE);
-                ImageUtil.displayImage(imgFile, item.getAttachments().get(0).getModalUrl(), null);
-                if (context != null) {
-                    imgFile.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, ZoomImageActivity.class);
-                            ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
-                            attachmentArrayList.add(item.getAttachments().get(0));
-                            intent.putExtra("url", attachmentArrayList);
-                            intent.putExtra("title", "");
-                            intent.putExtra("pos", 0);
-                            context.startActivity(intent);
-                        }
-                    });
-                }
-            } else {
-                cardImgFile.setVisibility(View.GONE);
-            }
-            if (isInPublicChat) {
-                lytBtnReply.setVisibility(View.GONE);
-            } else {
-                lytBtnReply.setVisibility(View.VISIBLE);
-            }
-            if (posterID != null)
-                if (posterID.equals(item.getId().toString())) {
-                    txtPoster.setVisibility(View.VISIBLE);
-                } else {
-                    txtPoster.setVisibility(View.GONE);
-                }
-            if (status != null)
-                if (!status.equals(""))
-                    if (status.equals(Constant.TASK_OPEN))
-                        lytBtnReply.setVisibility(View.VISIBLE);
-                    else
-                        lytBtnReply.setVisibility(View.GONE);
-
-            ivFlag.setOnClickListener(view -> {
-
-               /* //creating a popup menutextViewOptions
-                PopupMenu popup = new PopupMenu(context, ivFlag);
-                //inflating menu from xml resource
-                popup.inflate(R.menu.menu_report);
-                //adding click listener
-                popup.setOnMenuItemClickListener(item1 -> {
-                    switch (item1.getItemId()) {
-                        case R.id.action_report:
-
-                            break;
-                    }
-                    return false;
-                });
-                //displaying the popup
-                popup.show();*/
-                Bundle bundle = new Bundle();
-                Intent intent = new Intent(context, ReportActivity.class);
-                bundle.putString("key", KEY_COMMENT_REPORT);
-                bundle.putInt(ConstantKey.commentId, item.getId());
-                intent.putExtras(bundle);
-                context.startActivity(intent);
-
-
-            });
-
-            lytBtnReply.setOnClickListener(v -> {
-                if (mOnItemClickListener != null) {
-                    if (isOfferModel) {
-                        mOnItemClickListener.onItemClick(v, offerModel, getAdapterPosition(), "reply");
-                    } else {
-                        mOnItemClickListener.onItemClick(v, questionModel, getAdapterPosition(), "reply");
-                    }
-                }
-            });
-
-            imgAvatar.setOnClickListener(v -> {
-                Intent intent = new Intent(context, ProfileActivity.class);
-                intent.putExtra("id", item.getUser().getId());
-                context.startActivity(intent);
-            });
-
-            txtName.setOnClickListener(v -> {
-                imgAvatar.performClick();
-            });
-
-            lytBtnMore.setOnClickListener(v -> {
-                if (item.getStrMore().equalsIgnoreCase("More")) {
-                    txtMessage.setMaxLines(Integer.MAX_VALUE);
-                    lytBtnMore.setVisibility(View.VISIBLE);
-                    txtMoreLess.setText("Less");
-                    mItems.get(getAdapterPosition()).setStrMore("Less");
-                    item.setStrMore("Less");
-                } else {
-                    txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
-                    lytBtnMore.setVisibility(View.VISIBLE);
-                    txtMoreLess.setText("More");
-                    mItems.get(getAdapterPosition()).setStrMore("More");
-                    item.setStrMore("More");
-                }
-            });
-        }
-    }
-
-   /* private String toggleLayoutExpand(String show, View view) {
-        toggleArrow(show, view);
-       /* if (show.equalsIgnoreCase("Less")) {
-
-            ViewAnimation.expand(lyt_expand);
-        } else {
-            ViewAnimation.collapse(lyt_expand);
-        }*/
-    //      return show;
-    //  }
-
-
-    public void toggleArrow(String show, View view) {
-        toggleArrow(show, view, true);
-    }
-
-    public void toggleArrow(String show, View view, boolean delay) {
-        if (show.equalsIgnoreCase("Less")) {
-            view.animate().setDuration(delay ? 200 : 0).rotation(180);
-        } else {
-            view.animate().setDuration(delay ? 200 : 0).rotation(0);
-        }
-    }
-
-
-    public static class ProgressHolder extends BaseViewHolder {
-        ProgressHolder(View itemView) {
-            super(itemView);
-        }
-
-        @Override
-        protected void clear() {
-        }
+        private const val VIEW_TYPE_LOADING = 0
+        private const val VIEW_TYPE_NORMAL = 1
     }
 }

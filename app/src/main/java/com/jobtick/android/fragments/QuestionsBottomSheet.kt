@@ -29,7 +29,7 @@ import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.OfferModel
 import com.jobtick.android.models.QuestionModel
 import com.jobtick.android.models.TaskModel
-import com.jobtick.android.retrofit.ApiClient
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.tapadoo.alerter.Alerter
@@ -49,7 +49,6 @@ class QuestionsBottomSheet(
         private val sessionManager: SessionManager, private val str_slug: String,
         private var taskModel: TaskModel, private val isUserThePoster: Boolean,
         private val pushQuestionID: Int) : BottomSheetDialogFragment(), QuestionListAdapter.OnItemClickListener, QuestionAttachmentAdapterV2.OnItemClickListener {
-    private lateinit var txtQuestionsCount: TextView
     private lateinit var recyclerViewQuestions: RecyclerView
     private lateinit var lytBtnViewAllQuestions: LinearLayout
     private lateinit var lytViewAllQuestions: RelativeLayout
@@ -94,8 +93,8 @@ class QuestionsBottomSheet(
         lytViewAllQuestions.setOnClickListener {
             val intent = Intent(requireContext(), ViewAllQuestionsActivity::class.java)
             val bundle = Bundle()
-            bundle.putString(ConstantKey.SLUG, taskModel!!.slug)
-            bundle.putString(ConstantKey.TASK_STATUS, taskModel!!.status.toLowerCase())
+            bundle.putString(ConstantKey.SLUG, taskModel.slug)
+            bundle.putString(ConstantKey.TASK_STATUS, taskModel.status.toLowerCase())
             intent.putExtras(bundle)
             startActivityForResult(intent, 121)
         }
@@ -120,7 +119,6 @@ class QuestionsBottomSheet(
     }
 
     private fun setIDs() {
-        txtQuestionsCount = requireView().findViewById(R.id.txt_questions_count)
         recyclerViewQuestions = requireView().findViewById(R.id.recycler_view_questions)
         lytBtnViewAllQuestions = requireView().findViewById(R.id.lyt_btn_view_all_questions)
         lytViewAllQuestions = requireView().findViewById(R.id.lyt_view_all_questions)
@@ -164,11 +162,6 @@ class QuestionsBottomSheet(
         } else {
             rltQuestionAdd.visibility = View.VISIBLE
         }
-        if (questionCount == 0) {
-            txtQuestionsCount.text = getString(R.string.questions)
-        } else {
-            txtQuestionsCount.text = String.format("%s (%s)", getString(R.string.questions), questionCount)
-        }
 
         //TODO taskModel.getQuestionCount() > 5
         if (taskModel.questionCount > 5) {
@@ -191,7 +184,7 @@ class QuestionsBottomSheet(
         adapter.setOnItemClickListener(this)
     }
 
-    override fun onItemQuestionClick(view: View?, obj: QuestionModel, position: Int, action: String) {
+    override fun onItemQuestionClick(view: View?, obj: QuestionModel?, position: Int, action: String?) {
         if (action.equals("reply", ignoreCase = true)) {
             val intent = Intent(requireContext(), PublicChatActivity::class.java)
             val bundle = Bundle()

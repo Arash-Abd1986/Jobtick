@@ -1,4 +1,4 @@
-package com.jobtick.android.retrofit;
+package com.jobtick.android.network.retrofit;
 
 
 

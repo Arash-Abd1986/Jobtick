@@ -12,7 +12,7 @@ import com.jobtick.android.activities.*
 import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.UserAccountModel
-import com.jobtick.android.retrofit.ApiClient
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.HttpStatus
 import com.jobtick.android.utils.ImageUtil

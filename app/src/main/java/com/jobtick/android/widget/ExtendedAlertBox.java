@@ -1,6 +1,7 @@
 package com.jobtick.android.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.text.Spanned;
 import android.util.AttributeSet;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
+import com.jobtick.android.activities.TaskDetailsActivity;
 
 public class ExtendedAlertBox extends FrameLayout {
 
@@ -18,8 +20,10 @@ public class ExtendedAlertBox extends FrameLayout {
     private final TextView mTitle;
 
     private final String buttonText;
+    private final String alertType;
     private final MaterialButton mButton;
     private final boolean hasButton;
+    private final boolean hasTopColor;
 
     private OnExtendedAlertButtonClickListener onExtendedAlertButtonClickListener;
 
@@ -42,28 +46,41 @@ public class ExtendedAlertBox extends FrameLayout {
         try {
             title = sharedAttribute.getString(R.styleable.ExtendedAlertBox_eAlertTitle);
             buttonText = sharedAttribute.getString(R.styleable.ExtendedAlertBox_eAlertButtonText);
+            alertType = sharedAttribute.getString(R.styleable.ExtendedAlertBox_eAlertType);
             hasButton = sharedAttribute.getBoolean(R.styleable.ExtendedAlertBox_eAlertHasButton, true);
+            hasTopColor = sharedAttribute.getBoolean(R.styleable.ExtendedAlertBox_eAlertHasTopColor, true);
         } finally {
             sharedAttribute.recycle();
         }
 
+
         //Inflate and attach the content
         LayoutInflater.from(context).inflate(R.layout.view_alert_box, this);
 
-        setBackgroundResource(R.drawable.rectangle_round_corners_red_8dp);
         mTitle = findViewById(R.id.title);
         mButton = findViewById(R.id.button_text);
 
         mTitle.setText(title);
         mButton.setText(buttonText);
-        if(hasButton)
+        if (hasButton)
             mButton.setVisibility(View.VISIBLE);
         else
             mButton.setVisibility(View.GONE);
+        if (hasTopColor)
+            setBackgroundResource(R.drawable.rectangle_round_corners_red_8dp);
+        else
+            setBackgroundResource(R.drawable.shape_transparent);
+
 
         mButton.setOnClickListener(v -> {
             onExtendedAlertButtonClickListener.onExtendedAlertButtonClick();
         });
+        if (alertType != null)
+        if (alertType.equals(TaskDetailsActivity.AlertType.REVIEW.name())) {
+            mButton.setBackgroundColor(context.getColor(R.color.blue));
+            mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+            mButton.setTextColor(context.getColor(R.color.white));
+        }
     }
 
 
@@ -92,10 +109,23 @@ public class ExtendedAlertBox extends FrameLayout {
     }
 
     public void setHasButton(boolean hasButton) {
-        if(hasButton)
+        if (hasButton)
             this.mButton.setVisibility(View.VISIBLE);
         else
             this.mButton.setVisibility(View.GONE);
+    }
+    public void setAlertType(String alertType, Context context) {
+        if (alertType.equals(TaskDetailsActivity.AlertType.REVIEW.name())) {
+            mButton.setBackgroundColor(context.getColor(R.color.blue));
+            mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+            mButton.setTextColor(context.getColor(R.color.white));
+        }
+    }
+
+    public void setHasTopColor(boolean hasTopColor) {
+        if (!hasTopColor)
+            setBackgroundResource(R.drawable.shape_transparent);
+
     }
 
     public OnExtendedAlertButtonClickListener getOnExtendedAlertButtonClickListener() {

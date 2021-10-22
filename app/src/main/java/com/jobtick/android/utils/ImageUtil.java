@@ -19,7 +19,6 @@ public class ImageUtil {
 		try {
 			loader.displayImage(path, view, DEFAULT_DISPLAY_IMAGE_OPTIONS, listener);
 		} catch (Exception e) {
-			e.printStackTrace();
 			loader.clearMemoryCache();
 		}
 	}
@@ -29,7 +28,6 @@ public class ImageUtil {
 		try {
 			loader.displayImage(path, view, ROUND_DISPLAY_IMAGE_OPTIONS, listener);
 		} catch (Exception e) {
-			e.printStackTrace();
 			loader.clearMemoryCache();
 		}
 	}
@@ -39,7 +37,7 @@ public class ImageUtil {
 		try {
 			loader.loadImage(path, DEFAULT_DISPLAY_IMAGE_OPTIONS, listener);
 		} catch (Exception e) {
-			e.printStackTrace();
+			loader.clearMemoryCache();
 		}
 	}
 	

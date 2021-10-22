@@ -38,7 +38,7 @@ import com.jobtick.android.models.ConversationModel
 import com.jobtick.android.models.response.chat.ChatResponse
 import com.jobtick.android.models.response.chat.MessageItem
 import com.jobtick.android.pagination.PaginationListener
-import com.jobtick.android.retrofit.ApiClient
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
 import com.mikhaellopez.circularimageview.CircularImageView
 import com.pusher.client.channel.PresenceChannel

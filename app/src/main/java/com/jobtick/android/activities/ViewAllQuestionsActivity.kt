@@ -62,7 +62,7 @@ class ViewAllQuestionsActivity : ActivityBase(), OnRefreshListener, QuestionList
         recyclerViewAllQuestions.layoutManager = LinearLayoutManager(this@ViewAllQuestionsActivity, LinearLayoutManager.VERTICAL, false)
         recyclerViewAllQuestions.setHasFixedSize(true)
         sessionManager = SessionManager(this@ViewAllQuestionsActivity)
-        questionListAdapter = QuestionListAdapter(this@ViewAllQuestionsActivity, ArrayList(), status, 0)
+        questionListAdapter = QuestionListAdapter(this@ViewAllQuestionsActivity, ArrayList(), status!!, 0)
         recyclerViewAllQuestions.adapter = questionListAdapter
         swipeRefresh.setOnRefreshListener(this)
 
@@ -154,7 +154,7 @@ class ViewAllQuestionsActivity : ActivityBase(), OnRefreshListener, QuestionList
         doApiCall()
     }
 
-    override fun onItemQuestionClick(view: View, obj: QuestionModel, position: Int, action: String) {
+    override fun onItemQuestionClick(view: View?, obj: QuestionModel?, position: Int, action: String?) {
         if (action.equals("reply", ignoreCase = true)) {
             val intent = Intent(this@ViewAllQuestionsActivity, PublicChatActivity::class.java)
             TaskDetailsActivity.questionModel = obj

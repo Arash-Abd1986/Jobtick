@@ -357,7 +357,7 @@
     <color name="grey_800">#424242</color>
     <color name="grey_900">#212121</color>
     <color name="grey_1000">#1a1a1a</color>
-    <color name="textColor">@color/N900</color>
+    <color name="textColor">@color/black</color>
     <color name="textColorDark">#2B3240</color>
     <color name="N30">#EBECF0</color>
 

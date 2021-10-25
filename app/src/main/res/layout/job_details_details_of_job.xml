@@ -193,9 +193,10 @@
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/img_avtar_poster"
-                        android:layout_width="@dimen/_55dp"
-                        android:layout_height="@dimen/_55dp"
+                        android:layout_width="58dp"
+                        android:layout_height="55dp"
                         android:layout_alignParentTop="true"
+                        android:layout_marginTop="0dp"
                         android:src="@drawable/ic_place_holder"
                         app:civ_border="false" />
 
@@ -207,7 +208,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center"
                         android:contentDescription="@string/todo"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:srcCompat="@drawable/ic_confirmed_profile" />
 
                     <ImageView
@@ -236,6 +237,7 @@
                         android:id="@+id/txt_poster_name"
                         style="@style/materialText_600_12"
                         android:layout_width="wrap_content"
+                        android:layout_marginBottom="4dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColor" />
 
@@ -253,6 +255,7 @@
                         android:id="@+id/txt_poster_last_online"
                         style="@style/fontSmall"
                         android:layout_width="match_parent"
+                        android:layout_marginTop="4dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/grey_40"
                         app:layout_anchor="@+id/nested_scroll_view"
@@ -310,10 +313,11 @@
                 android:layout_height="46dp"
                 android:layout_gravity="bottom"
                 android:layout_below="@+id/lin_poster"
-                android:layout_margin="@dimen/spacing_large"
+                android:layout_marginVertical="@dimen/spacing_large"
                 android:backgroundTint="@color/colorPrimary"
                 android:clickable="false"
                 android:visibility="gone"
+                android:layout_marginHorizontal="9dp"
                 app:cardCornerRadius="@dimen/spacing_medium"
                 app:cardElevation="0dp">
 

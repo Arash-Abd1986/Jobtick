@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Typeface
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Build
@@ -14,6 +15,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Html
 import android.text.Spanned
+import android.util.TypedValue
 import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.AppCompatImageView
@@ -39,8 +41,10 @@ import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.new.IS_USER_THE_POSTER
@@ -93,8 +97,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private lateinit var txtDueDate: TextView
     private lateinit var smallRatingValue: RatingBar
     private lateinit var bigRatingValue: RatingBar
+    private lateinit var rbBigratingReview: RatingBar
     private lateinit var cnOfferDetails: ConstraintLayout
     private lateinit var txtWorkerLastOnline: TextView
+    private lateinit var txtReview: TextView
     private lateinit var txtOfferPrice: TextView
     private lateinit var txtDueTime: TextView
     private lateinit var txtCreatedDate: TextView
@@ -104,12 +110,16 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private lateinit var txtOfferCount: TextView
     private lateinit var lytBtnMessage: LinearLayout
     private lateinit var imgPChat: AppCompatImageView
+    private lateinit var icClock: AppCompatImageView
     private lateinit var llLocation: LinearLayout
     private lateinit var postedByLyt: RelativeLayout
+    private lateinit var cardReviewLayout: RelativeLayout
     private lateinit var lytBtnMakeAnOffer: LinearLayout
     private lateinit var cardMakeAnOffer: CardView
     private lateinit var nestedScrollView: NestedScrollView
     private lateinit var txtBtnText: TextView
+    private lateinit var txtReviewDate: TextView
+    private lateinit var review_title: TextView
     private lateinit var lytBtnViewAllOffers: LinearLayout
     private lateinit var lnShowOffers: LinearLayout
     private lateinit var lnShowOffersDeactive: LinearLayout
@@ -119,8 +129,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private lateinit var imgAvtarWorker: CircularImageView
     private lateinit var txtWorkerName: TextView
     private lateinit var cardAssigneeLayout: RelativeLayout
+    private lateinit var btnAlert: MaterialButton
     private lateinit var imgAvtarPoster: CircularImageView
     private lateinit var txtPosterName: TextView
+    private lateinit var assigned_title: TextView
     private lateinit var txtPosterLocation: TextView
     private lateinit var txtPosterLastOnline: TextView
     private lateinit var adapterImageSlider: AdapterImageSlider
@@ -129,9 +141,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private lateinit var budget: TextView
     private lateinit var liAssign: LinearLayout
     private lateinit var linearUserProfile: LinearLayout
+    private lateinit var lnAssignTo: LinearLayout
     private lateinit var mustHaveLyt: CardView
     private lateinit var mustHaveList: RecyclerView
-    private lateinit var bottom_sheet: FrameLayout
+    private lateinit var bottomSheet: FrameLayout
     private lateinit var content: LinearLayout
     private lateinit var lnOffers: LinearLayout
     private lateinit var llLoading: RelativeLayout
@@ -157,8 +170,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private var mBehavior: BottomSheetBehavior<*>? = null
     private val requirementState = HashMap<TickerRequirementsBottomSheet.Requirement?, Boolean?>()
     private var alertType: AlertType? = null
-    private var isUserPrefToMore = false
-    private var strMoreOrLess = "show more"
     private lateinit var viewModel: JobDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -168,8 +179,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         setContentView(R.layout.activity_task_details)
         setIDs()
         onViewClick()
-        alertBox.onExtendedAlertButtonClickListener = this
-        BottomSheetBehavior.from<FrameLayout?>(bottom_sheet).also { mBehavior = it }
+        BottomSheetBehavior.from<FrameLayout?>(bottomSheet).also { mBehavior = it }
         requestAcceptListener = this
         widthDrawListener = this
         userAccountModel = SessionManager(this).userAccount
@@ -191,13 +201,15 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             it?.let {
                 when (it.status) {
                     Status.SUCCESS -> {
-                        val item = (it.data!!.data as ArrayList<ReviewItem>).filter { it.rater.id == (if (isUserThePoster)taskModel!!.worker.id else taskModel!!.poster.id) }
-                        if (item.isNotEmpty()){
-                            showRating(item[0])
+                        val turnsType = object : TypeToken<List<ReviewItem>>() {}.type
+                        val turns = Gson().myFromJson<List<ReviewItem>>(Gson().toJson(it.data!!.data), turnsType)
+
+                        turns.forEach {
+                            if (it.rater.id == (if (isUserThePoster) taskModel!!.worker.id else taskModel!!.poster.id))
+                                showRating(it)
                         }
                     }
                     Status.ERROR -> {
-                        it.message
                     }
                     Status.LOADING -> {
 
@@ -208,7 +220,11 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun showRating(reviewItem: ReviewItem) {
-             reviewItem
+        review_title.text = if (isUserTheTicker) "Worker review" else "Ticker review"
+        cardReviewLayout.visibility = View.VISIBLE
+        rbBigratingReview.rating = reviewItem.rating.toFloat()
+        txtReview.text = reviewItem.message
+        txtReviewDate.text = TimeHelper.convertToShowJustDateFormat(reviewItem.created_at)
     }
 
     private fun showQuestions() {
@@ -230,7 +246,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         llLoading = findViewById(R.id.llLoading)
         lnOffers = findViewById(R.id.ln_offers)
         content = findViewById(R.id.content)
-        alertBox = findViewById(R.id.alert_box)
         toolbar = findViewById(R.id.toolbar)
         collapsingToolbar = findViewById(R.id.collapsing_toolbar)
         appBarLayout = findViewById(R.id.app_bar_layout)
@@ -239,8 +254,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         txtDueDate = findViewById(R.id.txt_due_date)
         smallRatingValue = findViewById(R.id.rb_rating_value)
         bigRatingValue = findViewById(R.id.rb_bigRating_value)
+        rbBigratingReview = findViewById(R.id.rb_bigRating_review)
         cnOfferDetails = findViewById(R.id.cn_offer_details)
         txtWorkerLastOnline = findViewById(R.id.txt_worker_last_online)
+        txtReview = findViewById(R.id.txt_review)
         txtOfferPrice = findViewById(R.id.txt_offer_price)
         txtDueTime = findViewById(R.id.txt_due_time)
         txtCreatedDate = findViewById(R.id.txt_created_date)
@@ -250,12 +267,16 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         txtOfferCount = findViewById(R.id.txt_offer_count)
         lytBtnMessage = findViewById(R.id.lyt_btn_message)
         imgPChat = findViewById(R.id.img_pChat)
+        icClock = findViewById(R.id.ic_clock)
         llLocation = findViewById(R.id.llLocation)
         postedByLyt = findViewById(R.id.postedByLyt)
+        cardReviewLayout = findViewById(R.id.card_review_layout)
         lytBtnMakeAnOffer = findViewById(R.id.lyt_btn_make_an_offer)
         cardMakeAnOffer = findViewById(R.id.card_make_an_offer)
         nestedScrollView = findViewById(R.id.nested_scroll_view)
         txtBtnText = findViewById(R.id.txt_btn_text)
+        txtReviewDate = findViewById(R.id.txt_review_date)
+        review_title = findViewById(R.id.review_title)
         lytBtnViewAllOffers = findViewById(R.id.lyt_btn_view_all_offers)
         lnShowOffersDeactive = findViewById(R.id.ln_show_offers_deactive)
         lnShowOffers = findViewById(R.id.ln_show_offers)
@@ -264,7 +285,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         txtTitle = findViewById(R.id.txt_title)
         imgAvtarWorker = findViewById(R.id.img_avtar_worker)
         txtWorkerName = findViewById(R.id.txt_worker_name)
+        lnAssignTo = findViewById(R.id.ln_assign_to)
+        assigned_title = findViewById(R.id.assigned_title)
         cardAssigneeLayout = findViewById(R.id.card_assignee_layout)
+        btnAlert = findViewById(R.id.btn_alert)
         imgAvtarPoster = findViewById(R.id.img_avtar_poster)
         txtPosterName = findViewById(R.id.txt_poster_name)
         txtPosterLocation = findViewById(R.id.txt_poster_location)
@@ -276,7 +300,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         linearUserProfile = findViewById(R.id.linearUserProfile)
         mustHaveLyt = findViewById(R.id.mustHaveLyt)
         mustHaveList = findViewById(R.id.mustHaveList)
-        bottom_sheet = findViewById(R.id.bottom_sheet)
+        bottomSheet = findViewById(R.id.bottom_sheet)
     }
 
     override fun getExtras() {
@@ -306,194 +330,21 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private fun initStatusTask(status: String) {
         when (status) {
             Constant.TASK_ASSIGNED -> {
-                lytStatus.setStatus(getString(R.string.assigned))
-                cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
-                        R.color.colorTaskAssigned)
-                //txtOffersCount.visibility = View.GONE
-
-                if (isUserThePoster) {
-                    cardMakeAnOffer.visibility = View.GONE
-                    txtBtnText.text = ConstantKey.BTN_ASSIGNED
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, true)
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, true)
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, true)
-
-                } else {
-
-                    if (noActionAvailable) {
-                        cardMakeAnOffer.visibility = View.GONE
-                        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-                        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
-                        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                    } else {
-                        cardMakeAnOffer.visibility = View.VISIBLE
-                        txtBtnText.text = ConstantKey.BTN_ASK_TO_RELEASE_MONEY
-                        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_copy, true)
-                        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, true)
-                        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, true)
-
-                    }
-                }
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
-                //                cardMessage.setVisibility(View.VISIBLE);
-                cardAssigneeLayout.visibility = View.VISIBLE
-                //rltQuestionAdd.visibility = View.GONE
-                //cardQuestionsLayout.visibility = View.VISIBLE
-                setPrice()
+                setStatusAssign()
             }
             Constant.TASK_OPEN -> {
-                lytStatus.setStatus(getString(R.string.open))
-                cardMakeAnOffer.setCardBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
-                cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
-                        R.color.colorPrimary)
-                if (isUserThePoster) {
-                    //poster task
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, taskModel!!.offers.size == 0)
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, true)
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-                    cardMakeAnOffer.visibility = View.GONE
-                } else {
-                    //worker task
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, true)
-                    if (taskModel!!.offerSent) {
-                        cardMakeAnOffer.visibility = View.GONE
-                        txtBtnText.text = ConstantKey.BTN_OFFER_PENDING
-                    } else {
-                        cardMakeAnOffer.visibility = View.VISIBLE
-                        txtBtnText.text = ConstantKey.BTN_MAKE_AN_OFFER
-                    }
-                }
-                //toolbar.getMenu().findItem(R.id.item_three_dot).getSubMenu().setGroupVisible(R.id.grp_report, false);
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
-                //                cardMessage.setVisibility(View.VISIBLE);
-                cardAssigneeLayout.visibility = View.GONE
-                //                cardPrivateChat.setVisibility(View.GONE);
-                if (taskModel!!.offers.size != 0) {
-                    /* recyclerViewOffers.visibility = View.VISIBLE
-                     offerListAdapter.clear()*/
-                    if (taskModel!!.offers.size > 0) {
-                        var i = 0
-                        while (i < taskModel!!.offers.size) {
-                            if (taskModel!!.offers[i].worker.id == sessionManager.userAccount.id) {
-                                val item = taskModel!!.offers[i]
-                                taskModel!!.offers.removeAt(i)
-                                taskModel!!.offers.add(0, item)
-                                break
-                            }
-                            i++
-                        }
-                    }
-                    if (taskModel!!.offers.size > 5) {
-                        offerListS = ArrayList()
-                        offerListF = ArrayList()
-                        offerListF.addAll(taskModel!!.offers)
-                        offerListS.addAll(taskModel!!.offers.subList(0, 2))
-                        //offerListAdapter.addItems(offerListS)
-                    } else {
-                        //offerListAdapter.addItems(taskModel!!.offers)
-                    }
-                    var i = 0
-                    while (i < taskModel!!.offers.size) {
-                        if (taskModel!!.offers[i].id == pushOfferID) {
-                            //onItemOfferClick(null, taskModel!!.offers[i], i, "reply")
-                            break
-                        }
-                        i++
-                    }
-                }
-                setPrice()
+                setStatusOpen()
             }
             Constant.TASK_CANCELLED -> {
-                lytStatus.setStatus(getString(R.string.cancelled))
-                cardMakeAnOffer.visibility = View.GONE
-                cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
-                        R.color.colorPrimary)
-                if (taskModel!!.worker != null) cardAssigneeLayout.visibility = View.VISIBLE else {
-                    cardAssigneeLayout.visibility = View.GONE
-                }
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-                cardAssigneeLayout.visibility = View.VISIBLE
-                //rltQuestionAdd.visibility = View.GONE
-                //cardQuestionsLayout.visibility = View.VISIBLE
-                setPrice()
+                setStatusCancel()
             }
             Constant.TASK_OVERDUE, Constant.TASK_COMPLETED -> {
-                //txtOffersCount.visibility = View.GONE
-                cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
-                        R.color.colorPrimary)
-                if (isUserThePoster) {
-                    if (status == Constant.TASK_OVERDUE)
-                        lytStatus.setStatus(getString(R.string.overdue))
-                    else lytStatus.setStatus(getString(R.string.completed))
-
-
-                    // poster task
-                    if (noActionAvailable) {
-                        cardMakeAnOffer.visibility = View.GONE
-                    } else {
-                        cardMakeAnOffer.visibility = View.GONE
-                        txtBtnText.text = ConstantKey.BTN_RELEASE_MONEY
-                    }
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-                } else {
-                    lytStatus.setStatus(getString(R.string.completed))
-                    // worker task
-                    if (noActionAvailable) {
-                        cardMakeAnOffer.visibility = View.GONE
-                        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-                    } else {
-                        cardMakeAnOffer.visibility = View.GONE
-                        txtBtnText.text = ConstantKey.BTN_WAIT_TO_RELEASE_MONEY
-                        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-                    }
-                }
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                cardAssigneeLayout.visibility = View.VISIBLE
-                setPrice()
+                setStatusOverdueAndComplete(status)
             }
             Constant.TASK_DRAFT -> {
             }
             Constant.TASK_CLOSED -> {
-                lytStatus.setStatus(getString(R.string.completed))
-                //txtOffersCount.visibility = View.GONE
-                if (isUserThePoster) {
-                    cardMakeAnOffer.visibility = View.GONE
-                    txtBtnText.text = ConstantKey.BTN_WRITE_A_REVIEW
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-                } else {
-                    // worker task
-                    if (noActionAvailable) {
-                        cardMakeAnOffer.visibility = View.GONE
-                        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-                    } else {
-                        cardMakeAnOffer.visibility = View.GONE
-                        txtBtnText.text = ConstantKey.BTN_WRITE_A_REVIEW
-                        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-                    }
-                }
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                cardAssigneeLayout.visibility = View.VISIBLE
-                setPrice()
+                setStatusClosed()
             }
         }
         handleOverDueStatus(status)
@@ -510,9 +361,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         toolbar.setNavigationOnClickListener { v: View? -> onBackPressed() }
         toolbar.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
-                R.id.menu_share -> Helper.shareTask(this@TaskDetailsActivity,
-                        """Hey ! Checkout this task. 
- https://${Constant.SHARE_APPEND_TXT}jobtick.com/explore-jobs/${taskModel!!.slug}""")
                 R.id.menu_bookmark -> if (taskModel!!.bookmarkID != null) {
                     try {
                         if (isFav) {
@@ -587,9 +435,195 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     intent.putExtras(bundle)
                     startActivity(intent)
                 }
+                R.id.menu_share -> {
+                    Helper.shareTask(this@TaskDetailsActivity,
+                            """Hey ! Checkout this task. 
+ https://${Constant.SHARE_APPEND_TXT}jobtick.com/explore-jobs/${taskModel!!.slug}""")
+                }
             }
             false
         }
+    }
+
+    private fun setStatusClosed() {
+        icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
+                R.color.newComplete))
+        lytStatus.setStatus(getString(R.string.completed))
+        //txtOffersCount.visibility = View.GONE
+        if (isUserThePoster) {
+            cardMakeAnOffer.visibility = View.GONE
+            txtBtnText.text = ConstantKey.BTN_WRITE_A_REVIEW
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+        } else {
+            // worker task
+            if (noActionAvailable) {
+                cardMakeAnOffer.visibility = View.GONE
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+            } else {
+                cardMakeAnOffer.visibility = View.GONE
+                txtBtnText.text = ConstantKey.BTN_WRITE_A_REVIEW
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+            }
+        }
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
+        cardAssigneeLayout.visibility = View.VISIBLE
+        setPrice()
+    }
+
+    private fun setStatusOverdueAndComplete(status: String) {
+        //txtOffersCount.visibility = View.GONE
+        icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
+                R.color.newComplete))
+        cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
+                R.color.colorPrimary)
+        if (isUserThePoster) {
+            if (status == Constant.TASK_OVERDUE)
+                lytStatus.setStatus(getString(R.string.overdue))
+            else lytStatus.setStatus(getString(R.string.completed))
+
+
+            // poster task
+            if (noActionAvailable) {
+                cardMakeAnOffer.visibility = View.GONE
+            } else {
+                cardMakeAnOffer.visibility = View.GONE
+                txtBtnText.text = ConstantKey.BTN_RELEASE_MONEY
+            }
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+        } else {
+            lytStatus.setStatus(getString(R.string.completed))
+            // worker task
+            if (noActionAvailable) {
+                cardMakeAnOffer.visibility = View.GONE
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+            } else {
+                cardMakeAnOffer.visibility = View.GONE
+                txtBtnText.text = ConstantKey.BTN_WAIT_TO_RELEASE_MONEY
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+            }
+        }
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
+        cardAssigneeLayout.visibility = View.VISIBLE
+        setPrice()
+    }
+
+    private fun setStatusCancel() {
+        icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
+                R.color.newCanceled))
+        lytStatus.setStatus(getString(R.string.cancelled))
+        cardMakeAnOffer.visibility = View.GONE
+        cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
+                R.color.colorPrimary)
+        if (taskModel!!.worker != null) cardAssigneeLayout.visibility = View.VISIBLE else {
+            cardAssigneeLayout.visibility = View.GONE
+        }
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+        cardAssigneeLayout.visibility = View.VISIBLE
+        setPrice()
+    }
+
+    private fun setStatusOpen() {
+        icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
+                R.color.newOpen))
+        lytStatus.setStatus(getString(R.string.open))
+        cardMakeAnOffer.setCardBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
+                R.color.colorPrimary)
+        if (isUserThePoster) {
+            //poster task
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, taskModel!!.offers.size == 0)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, true)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+            cardMakeAnOffer.visibility = View.GONE
+        } else {
+            //worker task
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, true)
+            if (taskModel!!.offerSent) {
+                cardMakeAnOffer.visibility = View.GONE
+                txtBtnText.text = ConstantKey.BTN_OFFER_PENDING
+            } else {
+                cardMakeAnOffer.visibility = View.VISIBLE
+                txtBtnText.text = ConstantKey.BTN_MAKE_AN_OFFER
+            }
+        }
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+        cardAssigneeLayout.visibility = View.GONE
+        if (taskModel!!.offers.size != 0) {
+            if (taskModel!!.offers.size > 0) {
+                var i = 0
+                while (i < taskModel!!.offers.size) {
+                    if (taskModel!!.offers[i].worker.id == sessionManager.userAccount.id) {
+                        val item = taskModel!!.offers[i]
+                        taskModel!!.offers.removeAt(i)
+                        taskModel!!.offers.add(0, item)
+                        break
+                    }
+                    i++
+                }
+            }
+            if (taskModel!!.offers.size > 5) {
+                offerListS = ArrayList()
+                offerListF = ArrayList()
+                offerListF.addAll(taskModel!!.offers)
+                offerListS.addAll(taskModel!!.offers.subList(0, 2))
+            }
+        }
+        setPrice()
+    }
+
+    private fun setStatusAssign() {
+        icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
+                R.color.newAssigned))
+        lytStatus.setStatus(getString(R.string.assigned))
+        cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
+                R.color.colorTaskAssigned)
+
+        if (isUserThePoster) {
+            cardMakeAnOffer.visibility = View.GONE
+            txtBtnText.text = ConstantKey.BTN_ASSIGNED
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, true)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, true)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, true)
+
+        } else {
+
+            if (noActionAvailable) {
+                cardMakeAnOffer.visibility = View.GONE
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
+            } else {
+                cardMakeAnOffer.visibility = View.VISIBLE
+                txtBtnText.text = ConstantKey.BTN_ASK_TO_RELEASE_MONEY
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_copy, true)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, true)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, true)
+
+            }
+        }
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
+        cardAssigneeLayout.visibility = View.VISIBLE
+        setPrice()
     }
 
     private fun handleOverDueStatus(status: String) {
@@ -845,8 +879,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                                 !jsonObject.isNull("success") &&
                                 jsonObject.getBoolean("success")) {
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                val jsonObject_data = jsonObject.getJSONObject("data")
-                                taskModel = TaskModel().getJsonToModel(jsonObject_data, this@TaskDetailsActivity)
+                                val jsonObjectData = jsonObject.getJSONObject("data")
+                                taskModel = TaskModel().getJsonToModel(jsonObjectData, this@TaskDetailsActivity)
                                 taskModel!!.offerSent = false
                                 taskModel!!.offers.forEach(Consumer { offerModel1: OfferModel -> if (offerModel1.worker.id == sessionManager.userAccount.id) taskModel!!.offerSent = true }
                                 )
@@ -854,8 +888,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                                 initStatusTask(taskModel!!.status.toLowerCase())
                                 initComponent()
                                 setDataInLayout(taskModel!!)
-                                setPosterChatButton(taskModel!!.status.toLowerCase(), jsonObject_data)
-                                initRestConf(jsonObject_data)
+                                setPosterChatButton(taskModel!!.status.toLowerCase(), jsonObjectData)
+                                initRestConf(jsonObjectData)
 
                             }
                         } else {
@@ -893,13 +927,15 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun initRestConf(jsonObject_data: JSONObject) {
-        txtAskQuestion.text = if (taskModel!!.questionCount == 0) getString(R.string.no_question_yet) else
+        txtAskQuestion.text = if (taskModel!!.questionCount == 0) getString(R.string.no_question_yet)
+        else
             (if (!isUserThePoster) getString(R.string.do_you_have_question) else "You have ${taskModel!!.questionCount} new questions")
-
-        if (taskModel!!.questionCount > 0)
-            txtAskQuestion.setOnClickListener {
-                showQuestions()
-            }
+        if (isUserThePoster and (taskModel!!.questionCount != 0)) {
+            txtAskQuestion.setSpanColor(8, taskModel!!.questionCount.toString().length + 9, if (taskModel!!.status.equals("open", ignoreCase = true))
+                ContextCompat.getColor(this, R.color.blue) else ContextCompat.getColor(this, R.color.RN600))
+            txtAskQuestion.setSpanFont(8, taskModel!!.questionCount.toString().length + 9, 1.1f)
+        }
+        setClickOnQuestion()
         if ((taskModel!!.poster.id.toString() == sessionManager.userAccount.id.toString()) and (taskModel!!.status.equals(Constant.TASK_OPEN, ignoreCase = true))) {
             lytStatus.setStatus(getString(R.string.posted))
         } else {
@@ -911,8 +947,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 val first = jsonObject_data.getJSONArray("conversations").getJSONObject(i).getJSONArray("users").getJSONObject(0).getInt("id")
                 val sec = jsonObject_data.getJSONArray("conversations").getJSONObject(i).getJSONArray("users").getJSONObject(1).getInt("id")
                 if (first == sessionManager.userAccount.id || sec == sessionManager.userAccount.id) {
-                    imgPChat.setImageDrawable(getDrawable(R.drawable.ic_p_chat_enable_v2))
-                    lytBtnMessage.setOnClickListener { v: View? -> getConversationId(taskModel!!.slug, taskModel!!.poster.id.toString()) }
+                    imgPChat.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_p_chat_enable_v2))
+                    lytBtnMessage.setOnClickListener { getConversationId(taskModel!!.slug, taskModel!!.poster.id.toString()) }
                 }
             }
         }
@@ -924,11 +960,24 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         }
     }
 
+    private fun setClickOnQuestion() {
+        if ((isUserThePoster and (taskModel!!.questionCount > 0))
+                or
+                (((!isUserTheTicker and !isUserThePoster)
+                        or isUserTheTicker) and (taskModel!!.questionCount != 0) and !(taskModel!!.status.equals("open", ignoreCase = true)))
+                or
+                ((!isUserTheTicker and !isUserThePoster)
+                        or isUserTheTicker) and (taskModel!!.status.equals("open", ignoreCase = true)))
+            txtAskQuestion.setOnClickListener {
+                showQuestions()
+            }
+    }
+
 
     private fun setPosterChatButton(state: String, jsonObject: JSONObject) {
         if (taskModel!!.worker == null) return
         if (taskModel!!.worker.id != sessionManager.userAccount.id) return
-        llBtnPosterMessageEnable.setOnClickListener { v: View? ->
+        llBtnPosterMessageEnable.setOnClickListener {
             try {
                 val conversation = jsonObject.getJSONObject("conversation")
                 val conversationModel = ConversationModel(this@TaskDetailsActivity).getJsonToModel(conversation,
@@ -976,6 +1025,13 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 noActionAvailable = false
             }
         }
+
+        alertBox = if (isUserThePoster)
+            findViewById(R.id.alert_box)
+        else
+            findViewById(R.id.alert_box_ticker)
+        alertBox.onExtendedAlertButtonClickListener = this
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -1009,8 +1065,16 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         }
         if (taskModel.dueTime != null) {
             try {
-                val time = Tools.jobDetailsDate(taskModel.dueDate)
-                txtDueDate.text = Tools.formatJobDetailsDateV3(time) + ", "
+                if (!taskModel.status.equals("open", ignoreCase = true)) {
+                    val time = Tools.jobDetailsDate(taskModel.dueDate)
+                    txtDueDate.text = Tools.formatJobDetailsDateV3(time) + ", "
+                } else {
+                    txtDueDate.text = Tools.dateSub(taskModel.dueDate, Calendar.getInstance().time).toString() + "d"
+                    txtDueDate.setTypeface(txtDueDate.typeface, Typeface.BOLD);
+                    txtDueTime.text = "Left"
+                    txtDueTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f);
+                    txtDueDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);
+                }
             } catch (e: ParseException) {
                 txtDueDate.text = taskModel.dueDate + ", "
             }
@@ -1180,10 +1244,17 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
             }
             if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRate.text = taskModel!!.worker.workTaskStatistics.completionRate.toString() + "%"
-            if (isUserThePoster) {
+            if (isUserThePoster and taskModel!!.status!!.equals("assigned", ignoreCase = true)) {
                 cardAssigneeLayout.setOnClickListener {
                     showOffer(taskModel!!.offers.filter { taskModel!!.worker.id == it.worker.id }[0])
                 }
+            }
+            if (taskModel!!.status!!.equals("completed", ignoreCase = true)) {
+                lnAssignTo.setBackgroundResource(R.drawable.rectangle_card_round_fill_blue_6dp_radius)
+                assigned_title.text = "Completed by"
+            }
+            if (alertType == AlertType.CANCELLATION) {
+                lnAssignTo.setBackgroundResource(R.drawable.rectangle_card_round_red_6dp_radius)
             }
         }
 
@@ -1255,6 +1326,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             lnShowOffers.visibility = View.VISIBLE
             lnShowOffersDeactive.visibility = View.GONE
             txtOfferCount.text = "You have received $offerCount offers"
+            txtOfferCount.setSpanColor(18, offerCount.toString().length + 18, ContextCompat.getColor(this, R.color.blue))
+            txtOfferCount.setSpanFont(18, offerCount.toString().length + 18, 1.2f)
         }
 
     }
@@ -1821,8 +1894,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             mBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
         }
         @SuppressLint("InflateParams") val view = layoutInflater.inflate(R.layout.sheet_requirement, null)
-        val lyt_btn_make_an_offer = view.findViewById<LinearLayout>(R.id.lyt_btn_make_an_offer)
-        val card_make_an_offer: CardView = view.findViewById(R.id.card_make_an_offer)
+        val lytMOffer = view.findViewById<LinearLayout>(R.id.lyt_btn_make_an_offer)
+        val cardMOffer: CardView = view.findViewById(R.id.card_make_an_offer)
         val adapter: MustHaveListAdapter
         val addTagList = ArrayList<MustHaveModel>()
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
@@ -1838,14 +1911,14 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         adapter = MustHaveListAdapter(this, addTagList)
         adapter.onCheckedAllItems {
             if (adapter.isAllSelected) {
-                card_make_an_offer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
+                cardMOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
                         R.color.colorPrimary)
             } else {
-                card_make_an_offer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
+                cardMOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
                         R.color.colorAccent)
             }
         }
-        lyt_btn_make_an_offer.setOnClickListener { v: View? ->
+        lytMOffer.setOnClickListener { v: View? ->
             if (adapter.isAllSelected) {
                 val intent = Intent(this@TaskDetailsActivity, MakeAnOfferActivity::class.java)
                 val bundle = Bundle()
@@ -2186,10 +2259,17 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         alertBox.visibility = View.VISIBLE
         this.alertType = alertType
         alertBox.setTitle(title)
-        alertBox.isHasButton = hasButton
+        alertBox.isHasButton = hasButton && isUserThePoster
         alertBox.setHasTopColor(hasTopColor)
         alertBox.buttonText = buttonText
+        alertBox.isTicker = isUserTheTicker
         alertBox.setAlertType(alertType.name, this)
+        if (isUserTheTicker and hasButton)
+            btnAlert.visibility = View.VISIBLE
+        btnAlert.text = buttonText
+        btnAlert.setOnClickListener {
+            onExtendedAlertButtonClick()
+        }
     }
 
     private fun hideAlertBox() {

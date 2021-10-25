@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
+    android:maxHeight="120dp"
     android:layout_marginBottom="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -18,13 +19,13 @@
             android:layout_height="match_parent">
 
             <ImageView
-                app:cornerRadius="10dp"
                 android:id="@+id/img_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/attech"
-                android:visibility="visible" />
+                android:scaleType="centerInside"
+                android:src="@drawable/image_load"
+                android:visibility="visible"
+                app:cornerRadius="10dp" />
 
             <ImageView
                 android:layout_margin="@dimen/spacing_medium"

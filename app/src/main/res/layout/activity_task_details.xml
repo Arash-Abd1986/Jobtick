@@ -51,6 +51,8 @@
 
                     <include layout="@layout/job_details_card_offer" />
 
+                    <include layout="@layout/job_details_card_review" />
+
 
                 </LinearLayout>
             </LinearLayout>

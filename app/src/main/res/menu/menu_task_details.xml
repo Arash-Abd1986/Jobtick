@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_share"
-        android:icon="@drawable/ic_share_white_background_white_32dp"
-        android:title="@string/share"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/menu_bookmark"
         android:icon="@drawable/ic_bookmark_white_background_white_32dp"
         android:title="@string/menu_bookmark"
@@ -16,12 +10,19 @@
 
     <item
         android:id="@+id/item_three_dot"
-        android:icon="@drawable/ic_more_vertical_white_background_grey_32dp"
+        android:icon="@drawable/ic_menu_new"
         android:title="@string/menu"
         app:showAsAction="always">
 
         <menu>
 
+            <group android:id="@+id/grp_share">
+                <item
+                    android:id="@+id/menu_share"
+                    android:icon="@drawable/ic_share_gray"
+                    android:title="@string/share"
+                    app:showAsAction="withText" />
+            </group>
             <group android:id="@+id/grp_delete">
                 <item
                     android:id="@+id/action_delete"

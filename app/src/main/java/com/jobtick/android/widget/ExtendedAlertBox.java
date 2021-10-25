@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.TaskDetailsActivity;
@@ -22,8 +24,20 @@ public class ExtendedAlertBox extends FrameLayout {
     private final String buttonText;
     private final String alertType;
     private final MaterialButton mButton;
+    private final ConstraintLayout cnlMain;
     private final boolean hasButton;
     private final boolean hasTopColor;
+    private boolean isTicker;
+
+    public boolean getIsTicker() {
+        return isTicker;
+    }
+    public void setIsTicker(Boolean isTicker) {
+        this.isTicker = isTicker;
+        if (isTicker) {
+            cnlMain.setBackgroundResource(R.drawable.shape_rounded_white_outline_s_back);
+        }
+    }
 
     private OnExtendedAlertButtonClickListener onExtendedAlertButtonClickListener;
 
@@ -49,6 +63,7 @@ public class ExtendedAlertBox extends FrameLayout {
             alertType = sharedAttribute.getString(R.styleable.ExtendedAlertBox_eAlertType);
             hasButton = sharedAttribute.getBoolean(R.styleable.ExtendedAlertBox_eAlertHasButton, true);
             hasTopColor = sharedAttribute.getBoolean(R.styleable.ExtendedAlertBox_eAlertHasTopColor, true);
+            isTicker = sharedAttribute.getBoolean(R.styleable.ExtendedAlertBox_eAlertIsTicker, false);
         } finally {
             sharedAttribute.recycle();
         }
@@ -59,10 +74,11 @@ public class ExtendedAlertBox extends FrameLayout {
 
         mTitle = findViewById(R.id.title);
         mButton = findViewById(R.id.button_text);
+        cnlMain = findViewById(R.id.cnl_main);
 
         mTitle.setText(title);
         mButton.setText(buttonText);
-        if (hasButton)
+        if (hasButton && isTicker)
             mButton.setVisibility(View.VISIBLE);
         else
             mButton.setVisibility(View.GONE);
@@ -76,11 +92,15 @@ public class ExtendedAlertBox extends FrameLayout {
             onExtendedAlertButtonClickListener.onExtendedAlertButtonClick();
         });
         if (alertType != null)
-        if (alertType.equals(TaskDetailsActivity.AlertType.REVIEW.name())) {
-            mButton.setBackgroundColor(context.getColor(R.color.blue));
-            mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
-            mButton.setTextColor(context.getColor(R.color.white));
+            if (alertType.equals(TaskDetailsActivity.AlertType.REVIEW.name())) {
+                mButton.setBackgroundColor(context.getColor(R.color.blue));
+                mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+                mButton.setTextColor(context.getColor(R.color.white));
+            }
+        if (isTicker) {
+            cnlMain.setBackgroundResource(R.drawable.shape_rounded_white_outline_s_back);
         }
+
     }
 
 
@@ -114,6 +134,9 @@ public class ExtendedAlertBox extends FrameLayout {
         else
             this.mButton.setVisibility(View.GONE);
     }
+
+
+
     public void setAlertType(String alertType, Context context) {
         if (alertType.equals(TaskDetailsActivity.AlertType.REVIEW.name())) {
             mButton.setBackgroundColor(context.getColor(R.color.blue));

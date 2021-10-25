@@ -83,22 +83,21 @@
                 android:layout_marginEnd="@dimen/spacing_small"
                 android:layout_marginBottom="@dimen/spacing_small"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/spacing_middle"
-                android:src="@drawable/ic_send_primary"
+                android:src="@drawable/ic_send_message_new"
                 tools:ignore="ContentDescription" />
+
             <ImageView
                 android:id="@+id/img_add_attachment"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_toLeftOf="@id/lyt_btn_comment_send"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:layout_marginEnd="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_medium"
                 android:layout_marginBottom="@dimen/spacing_small"
+                android:layout_toLeftOf="@id/lyt_btn_comment_send"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/spacing_middle"
-                android:src="@drawable/ic_attachment_new"
+                android:src="@drawable/ic_attach_new"
                 tools:ignore="ContentDescription" />
         </RelativeLayout>
 

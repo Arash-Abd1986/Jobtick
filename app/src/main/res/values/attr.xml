@@ -146,6 +146,7 @@
         <attr name="eAlertType" format="string"/>
         <attr name="eAlertHasButton" format="boolean"/>
         <attr name="eAlertHasTopColor" format="boolean"/>
+        <attr name="eAlertIsTicker" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="ExtendedCommentText">

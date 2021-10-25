@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class Tools {
 
@@ -109,6 +110,13 @@ public class Tools {
         Date date = sdf.parse(dateString);
         return date.getTime();
     }
+
+    public static long dateSub(String target , Date start) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = sdf.parse(target);
+        return TimeUnit.DAYS.convert(date.getTime() - start.getTime(), TimeUnit.MILLISECONDS);
+    }
+
     public static long chatDateToMillis(String dateString) throws ParseException {
         dateString =dateString.replace("T"," ");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00", Locale.getDefault());

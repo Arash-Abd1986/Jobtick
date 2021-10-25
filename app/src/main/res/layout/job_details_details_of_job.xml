@@ -91,10 +91,10 @@
 
         </androidx.cardview.widget.CardView>
         <RelativeLayout
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/google_map_job_location"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50dp"
+            android:layout_height="@dimen/_60dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="@dimen/spacing_smlarge"
             android:layout_marginEnd="@dimen/spacing_smlarge"
@@ -145,10 +145,10 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="95dp"
-                android:layout_height="15dp"
+                android:layout_height="25dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:paddingRight="80dp"
+                android:paddingRight="75dp"
                 app:srcCompat="@drawable/ic_location_point" />
         </RelativeLayout>
 
@@ -181,6 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
+                android:layout_marginHorizontal="18dp"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -301,6 +302,7 @@
                         android:contentDescription="@string/todo"
                         android:src="@drawable/ic_p_chat_disable_v2" />
                 </LinearLayout>
+
             </LinearLayout>
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_make_an_offer"
@@ -334,6 +336,20 @@
                         android:textColor="@color/white" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <com.jobtick.android.widget.ExtendedAlertBox
+                android:id="@+id/alert_box_ticker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lin_poster"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="18dp"
+                android:visibility="gone"
+                app:eAlertButtonText="@string/view_cancellation_request"
+                app:eAlertTitle="You have requested to cancel this job on 9th Dec. 2020 9:45 PM" />
+
         </RelativeLayout>
     </LinearLayout>
 

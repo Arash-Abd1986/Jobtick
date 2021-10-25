@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_review_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/review_title"
+        style="@style/materialText_600_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="@dimen/spacing_smlarge"
+        android:layout_marginBottom="@dimen/spacing_middle"
+        android:singleLine="true"
+        android:text="Ticker review"
+        android:textColor="@color/N900" />
+
+    <LinearLayout
+        android:id="@+id/ln_assign_to"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/review_title"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/shape_rounded_white_5dp"
+        android:orientation="vertical"
+        android:paddingTop="5dp"
+        tools:ignore="TooManyViews">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+            <RatingBar
+                android:id="@+id/rb_bigRating_review"
+                style="@style/RatingBar_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="1"
+                android:rating="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_review_date"
+                style="@style/materialText_600_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23 min ago"
+                android:textColor="@color/GN300"
+                app:layout_constraintBottom_toBottomOf="@+id/rb_bigRating_review"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rb_bigRating_review" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_review"
+                style="@style/materialText_500_12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="23 min ago"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rb_bigRating_review" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

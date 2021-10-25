@@ -81,13 +81,15 @@ class QuestionsBottomSheet(
         setIDs()
         onClick()
         initQuestionList()
-        setQuestionView(taskModel.questionCount)
+        (activity as TaskDetailsActivity).showProgressDialog()
+        dataOnlyQuestions
+        setQuestionView()
         initQuestion()
     }
 
     private fun onClick() {
         imgAddAttachment.setOnClickListener {
-            onItemClick(requireView(), AttachmentModel(),-1,"add")
+            onItemClick(requireView(), AttachmentModel(), -1, "add")
         }
 
         lytViewAllQuestions.setOnClickListener {
@@ -147,7 +149,6 @@ class QuestionsBottomSheet(
         recyclerViewQuestions.adapter = questionListAdapter
         questionListAdapter.setOnItemClickListener(this)
         questionListAdapter.clear()
-        if (taskModel.questions.size > 5) questionListAdapter.addItems(taskModel.questions.subList(0, 5)) else questionListAdapter.addItems(taskModel.questions)
         for (i in taskModel.questions.indices) {
             if (taskModel.questions[i].id == pushQuestionID) {
                 onItemQuestionClick(null, taskModel.questions[i], i, "reply")
@@ -156,8 +157,8 @@ class QuestionsBottomSheet(
         }
     }
 
-    private fun setQuestionView(questionCount: Int) {
-        if (isUserThePoster) {
+    private fun setQuestionView() {
+        if (isUserThePoster or !taskModel.status.equals("open",ignoreCase = true)) {
             rltQuestionAdd.visibility = View.GONE
         } else {
             rltQuestionAdd.visibility = View.VISIBLE
@@ -240,10 +241,11 @@ class QuestionsBottomSheet(
             showToast("The question text must be at least 5 characters", requireContext())
             return
         }
-        //showProgressDialog()
+        (activity as TaskDetailsActivity).showProgressDialog()
         val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_QUESTIONS + "/" + taskModel.id + "/create",
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
+                    (activity as TaskDetailsActivity).hideProgressDialog()
                     try {
                         val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
@@ -261,7 +263,7 @@ class QuestionsBottomSheet(
                         } else {
                             showToast(getString(R.string.server_went_wrong), requireContext())
                         }
-                        if (adapter != null) adapter.notifyDataSetChanged()
+                        adapter.notifyDataSetChanged()
                         dataOnlyQuestions
                         //hideProgressDialog()
                     } catch (e: JSONException) {
@@ -270,6 +272,7 @@ class QuestionsBottomSheet(
                     }
                 },
                 com.android.volley.Response.ErrorListener { error: VolleyError ->
+                    (activity as TaskDetailsActivity).hideProgressDialog()
                     val networkResponse = error.networkResponse
                     if (networkResponse?.data != null) {
                         val jsonError = String(networkResponse.data)
@@ -328,10 +331,11 @@ class QuestionsBottomSheet(
 
     private val dataOnlyQuestions: Unit
         get() {
+            (activity as TaskDetailsActivity).showProgressDialog()
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_TASKS + "/" + str_slug,
                     com.android.volley.Response.Listener { response: String? ->
                         try {
-                            //llLoading.visibility = View.GONE
+                            (activity as TaskDetailsActivity).hideProgressDialog()
                             val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
                             println(jsonObject.toString())
@@ -344,20 +348,7 @@ class QuestionsBottomSheet(
                                     taskModel.offerSent = false
                                     taskModel.offers.forEach(Consumer { offerModel1: OfferModel -> if (offerModel1.worker.id == sessionManager.userAccount.id) taskModel.offerSent = true }
                                     )
-                                    /* setOwnerTask()
-                                     //                                initOfferList();
-                                     initStatusTask(taskModel!!.status.toLowerCase())
-                                     initComponent()
-                                     setDataInLayout(taskModel!!)*/
                                     initQuestion()
-                                    /* setChatButton(taskModel!!.status.toLowerCase(), jsonObject_data)
-                                     setPosterChatButton(taskModel!!.status.toLowerCase(), jsonObject_data)
-                                     if (taskModel!!.taskType == "physical") {
-                                         llLocation.setOnClickListener { v: View? ->
-                                             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:<" + taskModel!!.position.latitude + ">,<" + taskModel!!.position.longitude + ">?q=<" + taskModel!!.position.latitude + ">,<" + taskModel!!.position.longitude + ">(" + "job address" + ")"))
-                                             startActivity(intent)
-                                         }
-                                     }*/
                                     questionListAdapter.clear()
                                     if (taskModel.questions.size > 5) questionListAdapter.addItems(taskModel.questions.subList(0, 5)) else questionListAdapter.addItems(taskModel.questions)
                                     for (i in taskModel.questions.indices) {
@@ -376,9 +367,9 @@ class QuestionsBottomSheet(
                             e.printStackTrace()
                         }
                     },
-                    com.android.volley.Response.ErrorListener { error: VolleyError ->
-                        //    fl_task_details.setVisibility(View.GONE);
-                        //errorHandle1(error.networkResponse)
+                    com.android.volley.Response.ErrorListener {
+                        (activity as TaskDetailsActivity).hideProgressDialog()
+                        showToast(getString(R.string.server_went_wrong), requireContext())
                     }) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()

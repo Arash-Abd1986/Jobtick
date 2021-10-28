@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -64,7 +65,10 @@ class QuestionsBottomSheet(
     private lateinit var adapter: QuestionAttachmentAdapterV2
     private val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123
     private val GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400
-
+    lateinit var  noticeListener:NoticeListener
+    interface NoticeListener {
+        fun onOnNewQuestion()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,7 +162,7 @@ class QuestionsBottomSheet(
     }
 
     private fun setQuestionView() {
-        if (isUserThePoster or !taskModel.status.equals("open",ignoreCase = true)) {
+        if (isUserThePoster or !taskModel.status.equals("open", ignoreCase = true)) {
             rltQuestionAdd.visibility = View.GONE
         } else {
             rltQuestionAdd.visibility = View.VISIBLE
@@ -235,7 +239,10 @@ class QuestionsBottomSheet(
         }
     }
 
-
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        noticeListener.onOnNewQuestion()
+    }
     private fun postComment(str_comment: String, attachmentModels: QuestionAttachmentAdapterV2?) {
         if (str_comment.length < 5) {
             showToast("The question text must be at least 5 characters", requireContext())

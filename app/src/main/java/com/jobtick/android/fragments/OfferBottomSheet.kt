@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -29,10 +30,7 @@ import com.jobtick.android.R
 import com.jobtick.android.activities.*
 import com.jobtick.android.models.*
 import com.jobtick.android.models.response.conversationinfo.GetConversationInfoResponse
-import com.jobtick.android.utils.Constant
-import com.jobtick.android.utils.ConstantKey
-import com.jobtick.android.utils.ImageUtil
-import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.*
 import com.mikhaellopez.circularimageview.CircularImageView
 import com.tapadoo.alerter.Alerter
 import org.json.JSONObject
@@ -41,7 +39,7 @@ import java.util.*
 
 class OfferBottomSheet(
         private val item: OfferModel, private val isUserThePoster: Boolean,
-        private val sessionManager: SessionManager, private val isAssigned: Boolean) : BottomSheetDialogFragment() {
+        private val sessionManager: SessionManager, private val isAssigned: Boolean, private val isMyOffer: Boolean) : BottomSheetDialogFragment() {
     lateinit var cardLiveVideo: CardView
     lateinit var txtMessage: TextView
     lateinit var txtName: TextView
@@ -50,9 +48,9 @@ class OfferBottomSheet(
     lateinit var imgOfferOnTask: ImageView
     lateinit var starRatingBar: RatingBar
     lateinit var imgAvatar: CircularImageView
-    lateinit var lnAcceptOrRescheduleOffer: LinearLayout
+    lateinit var lnAction: LinearLayout
     lateinit var ivFlag: ImageView
-    lateinit var linOfferMessage: ConstraintLayout
+    lateinit var lnOfferMessage: ConstraintLayout
     private var spanS: Spannable? = null
     private var spanF: Spannable? = null
     lateinit var offerBottomSheetClick: OfferBottomSheetClick
@@ -81,27 +79,52 @@ class OfferBottomSheet(
         txtActionLeft = requireView().findViewById(R.id.txt_action_left)
         txtCompletionRate = requireView().findViewById(R.id.txt_completion_rate)
         imgOfferOnTask = requireView().findViewById(R.id.img_offer_on_task)
-        lnAcceptOrRescheduleOffer = requireView().findViewById(R.id.ln_accept_offer)
+        lnAction = requireView().findViewById(R.id.ln_accept_offer)
         imgAvatar = requireView().findViewById(R.id.img_avatar)
-        linOfferMessage = requireView().findViewById(R.id.cons_message)
+        lnOfferMessage = requireView().findViewById(R.id.cons_message)
         ivFlag = requireView().findViewById(R.id.img_report)
         starRatingBar = requireView().findViewById(R.id.ratingbar_worker)
     }
 
     @SuppressLint("SetTextI18n")
     private fun setUI() {
-        txtActionLeft.text = if (isAssigned) "Reschedule" else "Accept"
-        lnAcceptOrRescheduleOffer.background = if (isAssigned) ContextCompat.getDrawable(requireContext(), R.drawable.rectangle_card_round_fill_orange)
-        else ContextCompat.getDrawable(requireContext(), R.drawable.rectangle_card_round_fill_blue)
+        txtActionLeft.text = when {
+            isAssigned -> "Reschedule"
+            isMyOffer -> "Withdraw"
+            else -> "Accept"
+        }
 
-        linOfferMessage.setOnClickListener {
+        if (isAssigned or isMyOffer) {
+            lnAction.setBackgroundShape(
+                    ContextCompat.getColor(requireContext(), R.color.newAssigned),
+                    8,
+                    GradientDrawable.RECTANGLE
+            )
+        } else {
+            lnAction.setBackgroundShape(
+                    ContextCompat.getColor(requireContext(), R.color.colorPrimary),
+                    8,
+                    GradientDrawable.RECTANGLE
+            )
+        }
+        lnOfferMessage.setOnClickListener {
             onItemOfferClick("message")
         }
-        lnAcceptOrRescheduleOffer.setOnClickListener {
-            if (isAssigned)
-                onItemOfferClick("reschedule")
-            else
-                onItemOfferClick("accept")
+        lnAction.setOnClickListener {
+            when {
+                isAssigned -> onItemOfferClick("reschedule")
+                isMyOffer -> onItemOfferClick("withdraw")
+                else -> onItemOfferClick("accept")
+            }
+        }
+        if (isMyOffer) {
+            lnOfferMessage.visibility = View.GONE
+            val param = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    (50).dpToPx(),
+                    10.0f
+            )
+            lnAction.layoutParams = param
         }
 
         ivFlag.setOnClickListener {
@@ -189,9 +212,10 @@ class OfferBottomSheet(
             action.equals("message", ignoreCase = true) -> {
                 getConversationId(TaskDetailsActivity.taskModel!!.slug, item.worker.id.toString())
             }
-            action.equals("reschedule", ignoreCase = true) -> {
+
+            action.equals("reschedule", ignoreCase = true) or action.equals("withdraw", ignoreCase = true) -> {
                 this.dismiss()
-                offerBottomSheetClick.onClickOnOffer(item)
+                offerBottomSheetClick.onClickOnOffer(item, action)
             }
         }
     }
@@ -314,8 +338,7 @@ class OfferBottomSheet(
     }
 
 
-
-    interface OfferBottomSheetClick{
-        fun onClickOnOffer(item: OfferModel)
+    interface OfferBottomSheetClick {
+        fun onClickOnOffer(item: OfferModel, action: String)
     }
 }

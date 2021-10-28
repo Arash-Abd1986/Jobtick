@@ -59,7 +59,7 @@ class OfferListActivity : ActivityBase(), OfferListAdapterV2.OnItemClickListener
 
 
     override fun onItemOfferClick(offer: OfferModel?, action: String?) {
-        val questionsBottomSheet = OfferBottomSheet(offer!!, isUserThePoster, sessionManagerO!!, false)
+        val questionsBottomSheet = OfferBottomSheet(offer!!, isUserThePoster, sessionManagerO!!, false, false)
         questionsBottomSheet.show(supportFragmentManager, null)
     }
 

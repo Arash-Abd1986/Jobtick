@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_smlarge"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="@dimen/spacing_smlarge"
             android:layout_marginBottom="3dp"
             android:textColor="@color/textColor" />
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginStart="@dimen/spacing_smlarge"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:layout_marginEnd="@dimen/spacing_smlarge"
             android:layout_marginBottom="@dimen/spacing_medium"
             android:lineSpacingExtra="@dimen/_3dp"

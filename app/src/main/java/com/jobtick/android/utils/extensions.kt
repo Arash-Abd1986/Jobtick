@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.net.ConnectivityManager
 import android.os.Build
 import android.text.Spannable
@@ -18,7 +19,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import java.util.regex.Pattern
 import kotlin.math.floor
@@ -57,6 +57,32 @@ fun Activity.hideKeyboard() {
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
+fun View.setBackgroundShape(backgroundColor: Int, borderColor: Int, redii: FloatArray, strokeSize: Int, shapeIn: Int) {
+    val shape = GradientDrawable()
+    shape.shape = shapeIn
+    shape.cornerRadii = redii
+    shape.setColor(backgroundColor)
+    shape.setStroke(strokeSize, borderColor)
+    this.background = shape
+}
+fun View.setBackgroundShape(backgroundColor: Int, borderColor: Int, radius: Int, strokeSize: Int, shapeIn: Int) {
+    val shape = GradientDrawable()
+    shape.shape = shapeIn
+    shape.cornerRadii = floatArrayOf((radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat())
+    shape.setColor(backgroundColor)
+    shape.setStroke(strokeSize, borderColor)
+    this.background = shape
+}
+fun View.setBackgroundShape(backgroundColor: Int, radius: Int, shapeIn: Int) {
+    val shape = GradientDrawable()
+    shape.shape = shapeIn
+    shape.cornerRadii = floatArrayOf((radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat())
+    shape.setColor(backgroundColor)
+    this.background = shape
+}
+
 fun TextView.setSpanColor(start: Int, end: Int, color: Int) {
     val wordToSpan: Spannable = SpannableString(this.text)
 
@@ -69,6 +95,7 @@ fun <T : Any> String.toClass(clazz: Class<T>): T {
     val gson = Gson()
     return gson.fromJson(this, clazz)
 }
+
 fun <T> Gson.myFromJson(json: String, type: Type) = fromJson<T>(json, type)
 
 fun TextView.setSpanFont(start: Int, end: Int, textSize: Float) {

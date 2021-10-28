@@ -94,16 +94,19 @@
                     android:layout_height="match_parent"
                     android:paddingTop="@dimen/spacing_medium"
                     android:paddingBottom="@dimen/spacing_medium"
+                    android:text="dm a;sdcm "
+                    android:gravity="center"
                     android:textColor="@color/textColor" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_due_time"
                     style="@style/materialText_500_12"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center"
                     android:paddingTop="@dimen/spacing_medium"
                     android:paddingEnd="@dimen/spacing_middle"
+                    android:text="ssmd sdsdm'sd"
                     android:paddingBottom="@dimen/spacing_medium"
                     android:textColor="@color/textColor" />
 

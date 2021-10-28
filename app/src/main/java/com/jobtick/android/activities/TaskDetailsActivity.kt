@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Typeface
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Build
@@ -15,7 +14,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Html
 import android.text.Spanned
-import android.util.TypedValue
 import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.AppCompatImageView
@@ -87,7 +85,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         QuestionAttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, OnExtendedAlertButtonClickListener,
         RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener, IncreaseBudgetNoticeBottomSheet.NoticeListener,
         IncreaseBudgetDeclineBottomSheet.NoticeListener, ConfirmAskToReleaseBottomSheet.NoticeListener, ConfirmReleaseBottomSheet.NoticeListener,
-        TickerRequirementsBottomSheet.NoticeListener, OfferBottomSheet.OfferBottomSheetClick {
+        TickerRequirementsBottomSheet.NoticeListener, OfferBottomSheet.OfferBottomSheetClick, QuestionsBottomSheet.NoticeListener {
     private lateinit var alertBox: ExtendedAlertBox
     private lateinit var toolbar: Toolbar
     private lateinit var collapsingToolbar: CollapsingToolbarLayout
@@ -119,7 +117,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private lateinit var nestedScrollView: NestedScrollView
     private lateinit var txtBtnText: TextView
     private lateinit var txtReviewDate: TextView
-    private lateinit var review_title: TextView
+    private lateinit var reviewTitle: TextView
     private lateinit var lytBtnViewAllOffers: LinearLayout
     private lateinit var lnShowOffers: LinearLayout
     private lateinit var lnShowOffersDeactive: LinearLayout
@@ -128,11 +126,19 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private lateinit var txtTitle: TextView
     private lateinit var imgAvtarWorker: CircularImageView
     private lateinit var txtWorkerName: TextView
+    private lateinit var txtMyOfferName: TextView
+    private lateinit var rbMyOfferBigratingValue: RatingBar
+    private lateinit var lnMyOffer: LinearLayout
+    private lateinit var txtMyOfferOfferPrice: TextView
+    private lateinit var txtMyOfferTime: TextView
+    private lateinit var txtMyOfferCompletionRate: TextView
+    private lateinit var imgAvatarMyOffer: CircularImageView
     private lateinit var cardAssigneeLayout: RelativeLayout
+    private lateinit var cardMyOfferLayout: RelativeLayout
     private lateinit var btnAlert: MaterialButton
     private lateinit var imgAvtarPoster: CircularImageView
     private lateinit var txtPosterName: TextView
-    private lateinit var assigned_title: TextView
+    private lateinit var assignedTitle: TextView
     private lateinit var txtPosterLocation: TextView
     private lateinit var txtPosterLastOnline: TextView
     private lateinit var adapterImageSlider: AdapterImageSlider
@@ -179,6 +185,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         setContentView(R.layout.activity_task_details)
         setIDs()
         onViewClick()
+    }
+
+    override fun onResume() {
+        super.onResume()
         BottomSheetBehavior.from<FrameLayout?>(bottomSheet).also { mBehavior = it }
         requestAcceptListener = this
         widthDrawListener = this
@@ -220,7 +230,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun showRating(reviewItem: ReviewItem) {
-        review_title.text = if (isUserTheTicker) "Worker review" else "Ticker review"
+        reviewTitle.text = if (isUserTheTicker) "Worker review" else "Ticker review"
         cardReviewLayout.visibility = View.VISIBLE
         rbBigratingReview.rating = reviewItem.rating.toFloat()
         txtReview.text = reviewItem.message
@@ -230,6 +240,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private fun showQuestions() {
         val questionsBottomSheet = QuestionsBottomSheet(sessionManager, str_slug!!, taskModel!!, isUserThePoster, pushQuestionID)
         questionsBottomSheet.show(supportFragmentManager, null)
+        questionsBottomSheet.noticeListener = this
     }
 
     private fun showOfferList(offers: ArrayList<OfferModel>) {
@@ -276,7 +287,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         nestedScrollView = findViewById(R.id.nested_scroll_view)
         txtBtnText = findViewById(R.id.txt_btn_text)
         txtReviewDate = findViewById(R.id.txt_review_date)
-        review_title = findViewById(R.id.review_title)
+        reviewTitle = findViewById(R.id.review_title)
         lytBtnViewAllOffers = findViewById(R.id.lyt_btn_view_all_offers)
         lnShowOffersDeactive = findViewById(R.id.ln_show_offers_deactive)
         lnShowOffers = findViewById(R.id.ln_show_offers)
@@ -286,7 +297,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         imgAvtarWorker = findViewById(R.id.img_avtar_worker)
         txtWorkerName = findViewById(R.id.txt_worker_name)
         lnAssignTo = findViewById(R.id.ln_assign_to)
-        assigned_title = findViewById(R.id.assigned_title)
+        assignedTitle = findViewById(R.id.assigned_title)
         cardAssigneeLayout = findViewById(R.id.card_assignee_layout)
         btnAlert = findViewById(R.id.btn_alert)
         imgAvtarPoster = findViewById(R.id.img_avtar_poster)
@@ -301,6 +312,15 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         mustHaveLyt = findViewById(R.id.mustHaveLyt)
         mustHaveList = findViewById(R.id.mustHaveList)
         bottomSheet = findViewById(R.id.bottom_sheet)
+
+        txtMyOfferName = findViewById(R.id.txt_my_offer_name)
+        rbMyOfferBigratingValue = findViewById(R.id.rb_my_offer_bigRating_value)
+        txtMyOfferOfferPrice = findViewById(R.id.txt_my_offer_offer_price)
+        txtMyOfferTime = findViewById(R.id.txt_my_offer_time)
+        txtMyOfferCompletionRate = findViewById(R.id.txt_my_offer_completion_rate)
+        imgAvatarMyOffer = findViewById(R.id.img_avatar_my_offer)
+        lnMyOffer = findViewById(R.id.ln_my_offer)
+        cardMyOfferLayout = findViewById(R.id.card_my_offer_layout)
     }
 
     override fun getExtras() {
@@ -1063,18 +1083,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             val dueTime = convertObjectToString(taskModel.dueTime, "")
             txtDueTime.text = dueTime
         }
-        if (taskModel.dueTime != null) {
+        if (taskModel.dueDate != null) {
             try {
-                if (!taskModel.status.equals("open", ignoreCase = true)) {
-                    val time = Tools.jobDetailsDate(taskModel.dueDate)
-                    txtDueDate.text = Tools.formatJobDetailsDateV3(time) + ", "
-                } else {
-                    txtDueDate.text = Tools.dateSub(taskModel.dueDate, Calendar.getInstance().time).toString() + "d"
-                    txtDueDate.setTypeface(txtDueDate.typeface, Typeface.BOLD);
-                    txtDueTime.text = "Left"
-                    txtDueTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f);
-                    txtDueDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);
-                }
+                val time = Tools.jobDetailsDate(taskModel.dueDate)
+                txtDueDate.text = Tools.formatJobDetailsDateV3(time) + ", "
             } catch (e: ParseException) {
                 txtDueDate.text = taskModel.dueDate + ", "
             }
@@ -1208,6 +1220,31 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         setPrice()
         setAttachmentAndSlider()
         setWorker()
+        setMyOffer()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setMyOffer() {
+        cardMyOfferLayout.visibility = View.GONE
+        if (!isUserTheTicker and !isUserThePoster) {
+            val myOffer = taskModel!!.offers.filter { it.worker.id == sessionManager.userAccount.id }
+            if (myOffer.isNotEmpty()) {
+                cardMyOfferLayout.visibility = View.VISIBLE
+                if (myOffer[0].worker.avatar != null && myOffer[0].worker.avatar.thumbUrl != null) {
+                    ImageUtil.displayImage(imgAvtarWorker, myOffer[0].worker.avatar.thumbUrl, null)
+                }
+                txtMyOfferName.text = myOffer[0].worker.name
+                txtMyOfferTime.text = myOffer[0].createdAt
+                txtMyOfferOfferPrice.text = myOffer[0].offerPrice.toString()
+                txtMyOfferCompletionRate.text = myOffer[0].worker.workTaskStatistics.completionRate.toString() + "%"
+                if (myOffer[0].worker.workerRatings != null && myOffer[0].worker.workerRatings.avgRating != null) {
+                    rbMyOfferBigratingValue.rating = myOffer[0].worker.workerRatings.avgRating
+                }
+                cardMyOfferLayout.setOnClickListener {
+                    showOffer(myOffer[0], isAssigned = false, isMyOffer = true)
+                }
+            }
+        }
     }
 
     private fun setPrice() {
@@ -1246,12 +1283,12 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRate.text = taskModel!!.worker.workTaskStatistics.completionRate.toString() + "%"
             if (isUserThePoster and taskModel!!.status!!.equals("assigned", ignoreCase = true)) {
                 cardAssigneeLayout.setOnClickListener {
-                    showOffer(taskModel!!.offers.filter { taskModel!!.worker.id == it.worker.id }[0])
+                    showOffer(taskModel!!.offers.filter { taskModel!!.worker.id == it.worker.id }[0], true, false)
                 }
             }
             if (taskModel!!.status!!.equals("completed", ignoreCase = true)) {
                 lnAssignTo.setBackgroundResource(R.drawable.rectangle_card_round_fill_blue_6dp_radius)
-                assigned_title.text = "Completed by"
+                assignedTitle.text = "Completed by"
             }
             if (alertType == AlertType.CANCELLATION) {
                 lnAssignTo.setBackgroundResource(R.drawable.rectangle_card_round_red_6dp_radius)
@@ -1260,18 +1297,12 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     }
 
-    private fun showOffer(offer: OfferModel?) {
-        val offerBottomSheet = OfferBottomSheet(offer!!, isUserThePoster, sessionManager!!, true)
+    private fun showOffer(offer: OfferModel?, isAssigned: Boolean, isMyOffer: Boolean) {
+        val offerBottomSheet = OfferBottomSheet(offer!!, isUserThePoster, sessionManager!!, isAssigned = isAssigned, isMyOffer = isMyOffer)
         offerBottomSheet.show(supportFragmentManager, null)
         offerBottomSheet.offerBottomSheetClick = this
     }
 
-    override fun onClickOnOffer(item: OfferModel) {
-        intent = Intent(this@TaskDetailsActivity, RescheduleTimeRequestActivity::class.java)
-        val bundle = Bundle()
-        intent.putExtras(bundle)
-        startActivityForResult(intent, ConstantKey.RESULTCODE_RESCHEDULE)
-    }
 
     private fun getOfferPrice(workerID: Int?): String {
         taskModel!!.offers.forEach { if (it.worker.id == workerID) return it.offerPrice.toString() }
@@ -1579,6 +1610,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     override fun onStripeRequirementFilled() {
         initialStage()
     }
+
 
     override fun startWithdraw(id: Int) {
         doApiCall(Constant.URL_OFFERS + "/" + id)
@@ -2445,6 +2477,17 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         requestQueue.add(stringRequest)
     }
 
+    override fun onClickOnOffer(item: OfferModel, action: String) {
+        if (action.equals("reschedule", ignoreCase = true)) {
+            intent = Intent(this@TaskDetailsActivity, RescheduleTimeRequestActivity::class.java)
+            val bundle = Bundle()
+            intent.putExtras(bundle)
+            startActivityForResult(intent, ConstantKey.RESULTCODE_RESCHEDULE)
+        } else {
+            onWithdraw(item.id)
+        }
+    }
+
     override fun onAskToReleaseConfirmClick() {
         submitAskToReleaseMoney()
     }
@@ -2478,6 +2521,14 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     override fun onSubmitIncreasePrice() {
+        getData
+    }
+
+    override fun onOnNewQuestion() {
+        getData
+    }
+
+    override fun onRequirementAdded() {
         getData
     }
 

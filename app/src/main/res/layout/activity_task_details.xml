@@ -49,6 +49,8 @@
 
                     <include layout="@layout/job_details_card_assign" />
 
+                    <include layout="@layout/job_details_card_my_offer" />
+
                     <include layout="@layout/job_details_card_offer" />
 
                     <include layout="@layout/job_details_card_review" />

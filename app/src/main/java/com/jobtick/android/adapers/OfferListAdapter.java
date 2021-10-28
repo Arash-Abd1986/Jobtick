@@ -384,16 +384,11 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 intent.putExtra("id", item.getWorker().getId());
                 context.startActivity(intent);
             });
-
             cardDeleteOffer.setOnClickListener(v -> {
-
                 if (widthDrawListener != null) {
                     widthDrawListener.onWithdraw(item.getId());
                 }
-
-
             });
-
 
 //            lytBtnReply.setOnClickListener(v -> {
 //                if (mOnItemClickListener != null) {

@@ -39,12 +39,12 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rounded_white_5dp"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:padding="18dp">
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/img_avtar_worker"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="63dp"
+                android:layout_height="63dp"
                 android:src="@drawable/pic"
                 app:civ_border="false"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,17 +55,43 @@
                 style="@style/materialText_600_10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/GN300"
                 android:text="23 min ago"
+                android:textColor="@color/GN300"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/liAssign" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_job_success"
+                style="@style/materialText_500_10"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:gravity="center"
+                android:paddingStart="3dp"
+                android:text="@string/job_success"
+                android:textColor="@color/_4f4f4f"
+                app:layout_constraintBottom_toBottomOf="@+id/liAssign"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_completion_rate_observer"
+                style="@style/materialText_500_12"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/_00"
+                android:visibility="gone"
+                android:textColor="@color/green"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_job_success"
+                app:layout_constraintEnd_toStartOf="@+id/txt_job_success"
+                app:layout_constraintTop_toTopOf="@+id/txt_job_success" />
             <LinearLayout
                 android:id="@+id/liAssign"
-                android:minWidth="@dimen/_100dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_toRightOf="@+id/img_avtar_worker"
+                android:minWidth="@dimen/_100dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@+id/img_avtar_worker"
                 app:layout_constraintStart_toEndOf="@+id/img_avtar_worker"
@@ -80,18 +106,34 @@
                     android:textColor="@color/textColor" />
 
                 <LinearLayout
-                    android:layout_marginTop="4dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/img_star_assign"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_new_star_active" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_av_rating"
+                        style="@style/materialText_500_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="1dp"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:textColor="@color/textColor" />
                     <RatingBar
+                        android:visibility="gone"
                         android:id="@+id/rb_rating_value"
                         style="@style/RatingBar_small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:isIndicator="true"
                         android:layout_marginTop="2dp"
+                        android:isIndicator="true"
                         android:numStars="5"
                         android:stepSize="1" />
 
@@ -112,13 +154,14 @@
                             android:textColor="@color/green" />
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_success"
                             style="@style/materialText_500_10"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="@string/success"
                             android:layout_marginTop="1dp"
                             android:gravity="center"
-                            android:textColor="@color/_4f4f4f" />
+                            android:text="@string/job_success"
+                            android:textColor="@color/textColor" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -126,10 +169,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cn_offer_details"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/img_avtar_worker"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="@+id/img_avtar_worker"
                 app:layout_constraintTop_toBottomOf="@+id/img_avtar_worker">
@@ -141,8 +184,8 @@
                     android:layout_height="wrap_content"
                     android:isIndicator="true"
                     android:numStars="5"
-                    android:stepSize="1"
                     android:rating="0"
+                    android:stepSize="1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -162,7 +205,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="99999"
+                    android:text=""
                     android:textColor="@color/textColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -177,10 +220,10 @@
                 android:backgroundTint="@color/RN050"
                 android:text="button text"
                 android:textColor="@color/RN600"
+                android:visibility="gone"
                 app:cornerRadius="5dp"
                 app:layout_constraintTop_toBottomOf="@+id/cn_offer_details"
                 app:strokeColor="@color/RN600"
-                android:visibility="gone"
                 tools:layout_editor_absoluteX="0dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

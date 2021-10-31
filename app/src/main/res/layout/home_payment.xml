@@ -19,6 +19,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_72dp"
+            android:paddingRight="10dp"
             android:background="@drawable/shape_rounded_back_card_white">
 
             <RelativeLayout
@@ -84,6 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_72dp"
             android:layout_marginTop="6dp"
+            android:paddingEnd="10dp"
             android:background="@drawable/shape_rounded_back_card_white">
 
             <RelativeLayout

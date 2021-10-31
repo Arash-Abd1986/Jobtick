@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:padding="18dp">
             <RatingBar
                 android:id="@+id/rb_bigRating_review"
                 style="@style/RatingBar_medium"

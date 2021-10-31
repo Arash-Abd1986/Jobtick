@@ -168,7 +168,7 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBot
     }
 
     private fun setOnlineAdapter() {
-        adapter = TaskListAdapterV2(ArrayList(), null)
+        adapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id)
         recyclerView!!.adapter = adapter
         adapter!!.setOnItemClickListener(this)
     }

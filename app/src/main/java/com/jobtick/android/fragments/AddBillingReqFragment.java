@@ -110,7 +110,7 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher, Subu
             }
         };
 
-        BillingAdreessModel billingAdreessModel = ((TaskDetailsActivity) getActivity()).billingAdreessModel;
+        BillingAdreessModel billingAdreessModel = ((TaskDetailsActivity) getActivity()).billingAdressModel;
         if (billingAdreessModel != null && billingAdreessModel.getData() != null) {
             edtAddressLine1.setText(billingAdreessModel.getData().getLine1());
             edtSuburs.setText(billingAdreessModel.getData().getLocation());

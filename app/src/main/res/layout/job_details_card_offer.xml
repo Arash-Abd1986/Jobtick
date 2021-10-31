@@ -5,9 +5,8 @@
     android:id="@+id/ln_offers"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_gravity="top"
     android:layout_marginTop="10dp"
-    android:gravity="center"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -68,15 +67,16 @@
             <RelativeLayout
                 android:id="@+id/card_view_all_offers"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="18dp"
+                android:layout_height="50dp"
+                android:layout_marginVertical="18dp"
+                android:layout_marginHorizontal="12dp"
                 android:orientation="vertical"
                 android:visibility="visible">
 
                 <LinearLayout
                     android:id="@+id/ln_show_offers"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:background="@drawable/rectangle_card_round_fill_blue_6dp_radius"
                     android:gravity="center"
@@ -101,12 +101,11 @@
                 <LinearLayout
                     android:id="@+id/ln_show_offers_deactive"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:background="@drawable/linear_rounded_white_fill_gray_border"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingHorizontal="35dp"
                     android:paddingVertical="10dp"
                     android:visibility="visible">
 

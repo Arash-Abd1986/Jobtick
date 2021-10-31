@@ -587,5 +587,9 @@
     <string name="listening">Listening ...</string>
     <string name="no_question_yet">No questions have been asked yet</string>
     <string name="do_you_have_question">Do You Have Any Question?</string>
+    <string name="this_job_has_been_assigned">This job has been assigned</string>
+    <string name="this_job_has_been_complete">This job has been completed</string>
+    <string name="this_job_has_been_canceled">This job has been canceled</string>
+    <string name="this_job_has_been_closed">This job has been closed</string>
 
 </resources>

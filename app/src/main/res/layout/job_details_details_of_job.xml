@@ -56,6 +56,7 @@
             android:layout_marginEnd="@dimen/spacing_smlarge"
             android:layout_marginBottom="3dp"
             android:textColor="@color/textColor" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_description"
             style="@style/materialText_500_14"
@@ -90,14 +91,15 @@
                 tools:listitem="@layout/item_must_have" />
 
         </androidx.cardview.widget.CardView>
+
         <RelativeLayout
-            android:layout_marginTop="10dp"
-            android:background="@drawable/google_map_job_location"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_60dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="@dimen/spacing_smlarge"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="@dimen/spacing_smlarge"
+            android:background="@drawable/google_map_job_location"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -164,37 +166,35 @@
             app:eAlertTitle="You have requested to cancel this job on 9th Dec. 2020 9:45 PM" />
 
 
-
-
         <RelativeLayout
-            android:background="@drawable/shape_rounded_white_5dp"
             android:id="@+id/postedByLyt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_smlarge"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="@dimen/spacing_smlarge"
             android:layout_marginBottom="@dimen/spacing_middle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:background="@drawable/shape_rounded_white_5dp">
 
             <LinearLayout
                 android:id="@+id/lin_poster"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
                 android:layout_marginHorizontal="18dp"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <RelativeLayout
                     android:id="@+id/relativProfile"
-                    android:layout_width="60dp"
+                    android:layout_width="63dp"
                     android:layout_height="63dp"
                     android:layout_gravity="center"
                     android:gravity="center_horizontal">
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/img_avtar_poster"
-                        android:layout_width="58dp"
-                        android:layout_height="55dp"
+                        android:layout_width="63dp"
+                        android:layout_height="63dp"
                         android:layout_alignParentTop="true"
                         android:layout_marginTop="0dp"
                         android:src="@drawable/ic_place_holder"
@@ -237,8 +237,8 @@
                         android:id="@+id/txt_poster_name"
                         style="@style/materialText_600_12"
                         android:layout_width="wrap_content"
-                        android:layout_marginBottom="4dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
                         android:textColor="@color/textColor" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -255,8 +255,8 @@
                         android:id="@+id/txt_poster_last_online"
                         style="@style/fontSmall"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="4dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:textColor="@color/grey_40"
                         app:layout_anchor="@+id/nested_scroll_view"
                         app:layout_anchorGravity="center" />
@@ -289,36 +289,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/spacing_small"
                     android:orientation="horizontal"
-                    android:paddingStart="@dimen/_8dp"
                     android:paddingTop="8dp"
-                    android:paddingEnd="@dimen/_8dp"
                     android:paddingBottom="8dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/img_pChat"
-                        android:layout_width="55dp"
-                        android:layout_height="@dimen/_55dp"
+                        android:layout_width="63dp"
+                        android:layout_height="63dp"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/spacing_small"
-                        android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_p_chat_disable_v2" />
+                        app:srcCompat="@drawable/ic_message_v3" />
                 </LinearLayout>
 
             </LinearLayout>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_make_an_offer"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_gravity="bottom"
+                android:layout_height="50dp"
                 android:layout_below="@+id/lin_poster"
-                android:layout_marginVertical="@dimen/spacing_large"
+                android:layout_gravity="bottom"
+                android:layout_marginHorizontal="9dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/spacing_large"
                 android:backgroundTint="@color/colorPrimary"
                 android:clickable="false"
                 android:visibility="gone"
-                android:layout_marginHorizontal="9dp"
-                app:cardCornerRadius="@dimen/spacing_medium"
+                app:cardCornerRadius="8dp"
                 app:cardElevation="0dp">
 
                 <LinearLayout
@@ -340,6 +337,33 @@
                         android:textColor="@color/white" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/lin_poster"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="18dp"
+                android:id="@+id/ln_assign_message"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_assign_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="2dp"
+                    android:gravity="center"
+                    android:text="Accept"
+                    android:textAppearance="@style/materialText_400_14_med"
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
+
+            </LinearLayout>
 
             <com.jobtick.android.widget.ExtendedAlertBox
                 android:id="@+id/alert_box_ticker"

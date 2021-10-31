@@ -62,18 +62,20 @@ fun View.setBackgroundShape(backgroundColor: Int, borderColor: Int, redii: Float
     shape.shape = shapeIn
     shape.cornerRadii = redii
     shape.setColor(backgroundColor)
-    shape.setStroke(strokeSize, borderColor)
+    shape.setStroke(strokeSize.dpToPx(), borderColor)
     this.background = shape
 }
+
 fun View.setBackgroundShape(backgroundColor: Int, borderColor: Int, radius: Int, strokeSize: Int, shapeIn: Int) {
     val shape = GradientDrawable()
     shape.shape = shapeIn
     shape.cornerRadii = floatArrayOf((radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(),
             (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat())
     shape.setColor(backgroundColor)
-    shape.setStroke(strokeSize, borderColor)
+    shape.setStroke(strokeSize.dpToPx(), borderColor)
     this.background = shape
 }
+
 fun View.setBackgroundShape(backgroundColor: Int, radius: Int, shapeIn: Int) {
     val shape = GradientDrawable()
     shape.shape = shapeIn

@@ -278,7 +278,7 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         recyclerViewBrowse!!.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
         recyclerViewBrowse!!.layoutManager = layoutManager
-        taskListAdapter = TaskListAdapterV2(taskArrayList, null)
+        taskListAdapter = TaskListAdapterV2(taskArrayList, sessionManager!!.userAccount.id)
         recyclerViewBrowse!!.adapter = taskListAdapter
         taskListAdapter!!.setOnItemClickListener(this)
         recyclerViewBrowse!!.addOnScrollListener(object : PaginationListener(layoutManager) {

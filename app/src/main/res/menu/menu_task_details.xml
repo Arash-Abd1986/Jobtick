@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
+<!--    <item
         android:id="@+id/menu_bookmark"
         android:icon="@drawable/ic_bookmark_white_background_white_32dp"
         android:title="@string/menu_bookmark"
-        app:showAsAction="always" />
+        app:showAsAction="always" />-->
 
     <item
         android:id="@+id/item_three_dot"

@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:paddingVertical="13dp"
+        android:minHeight="40dp"
         android:background="@drawable/shape_rounded_white_5dp">
 
         <com.rishabhharit.roundedimageview.RoundedImageView
@@ -32,6 +33,7 @@
             android:layout_toEndOf="@id/alert_image"
             android:gravity="center_vertical"
             android:lineHeight="21dp"
+            android:minHeight="35dp"
             android:layout_marginEnd="18dp"
             android:layout_marginStart="@dimen/_70dp"
             android:textAppearance="@style/materialText_400_14"

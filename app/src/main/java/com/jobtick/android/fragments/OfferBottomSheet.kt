@@ -45,11 +45,13 @@ class OfferBottomSheet(
     lateinit var txtName: TextView
     lateinit var txtActionLeft: TextView
     lateinit var txtCompletionRate: TextView
+    lateinit var txtBudget: TextView
     lateinit var imgOfferOnTask: ImageView
     lateinit var starRatingBar: RatingBar
     lateinit var imgAvatar: CircularImageView
     lateinit var lnAction: LinearLayout
     lateinit var ivFlag: ImageView
+    lateinit var imgBtnPlay: ImageView
     lateinit var lnOfferMessage: ConstraintLayout
     private var spanS: Spannable? = null
     private var spanF: Spannable? = null
@@ -80,9 +82,11 @@ class OfferBottomSheet(
         txtCompletionRate = requireView().findViewById(R.id.txt_completion_rate)
         imgOfferOnTask = requireView().findViewById(R.id.img_offer_on_task)
         lnAction = requireView().findViewById(R.id.ln_accept_offer)
+        txtBudget = requireView().findViewById(R.id.txt_budget)
         imgAvatar = requireView().findViewById(R.id.img_avatar)
         lnOfferMessage = requireView().findViewById(R.id.cons_message)
         ivFlag = requireView().findViewById(R.id.img_report)
+        imgBtnPlay = requireView().findViewById(R.id.img_btn_play)
         starRatingBar = requireView().findViewById(R.id.ratingbar_worker)
     }
 
@@ -136,15 +140,26 @@ class OfferBottomSheet(
             ImageUtil.displayImage(imgAvatar, item.worker.avatar.thumbUrl, null)
         }
         txtName.text = item.worker.name
+        txtBudget.text = item.offerPrice.toString()
         if (item.worker != null && item.worker.workerRatings != null && item.worker.workerRatings.avgRating != null) {
             starRatingBar.rating = item.worker.workerRatings.avgRating
         } else {
             starRatingBar.rating = 0f
         }
+
         if (item.attachments != null && item.attachments.isNotEmpty()) {
             cardLiveVideo.visibility = View.VISIBLE
             txtMessage.visibility = View.GONE
-            ImageUtil.displayImage(imgOfferOnTask, item.attachments[0].modalUrl, null)
+            imgBtnPlay.setOnClickListener {
+                ImageUtil.displayImage(imgOfferOnTask, item.attachments[0].modalUrl, null)
+                if (item.attachments[0] == null || item.attachments[0].url == null) {
+                    (requireActivity() as ActivityBase).showToast("Sorry, there is no video to play.", requireContext())
+                    return@setOnClickListener
+                }
+                val intent = Intent(requireActivity(), VideoPlayerActivity::class.java)
+                intent.putExtra(ConstantKey.VIDEO_PATH, "" + item.attachments[0].url)
+                requireActivity().startActivity(intent)
+            }
         } else {
             cardLiveVideo.visibility = View.GONE
             txtMessage.visibility = View.VISIBLE

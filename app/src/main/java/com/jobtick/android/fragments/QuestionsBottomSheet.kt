@@ -49,7 +49,8 @@ import java.util.function.Consumer
 class QuestionsBottomSheet(
         private val sessionManager: SessionManager, private val str_slug: String,
         private var taskModel: TaskModel, private val isUserThePoster: Boolean,
-        private val pushQuestionID: Int) : BottomSheetDialogFragment(), QuestionListAdapter.OnItemClickListener, QuestionAttachmentAdapterV2.OnItemClickListener {
+        private val pushQuestionID: Int) : BottomSheetDialogFragment(),
+        QuestionListAdapter.OnItemClickListener, QuestionAttachmentAdapterV2.OnItemClickListener {
     private lateinit var recyclerViewQuestions: RecyclerView
     private lateinit var lytBtnViewAllQuestions: LinearLayout
     private lateinit var lytViewAllQuestions: RelativeLayout
@@ -59,6 +60,7 @@ class QuestionsBottomSheet(
     private lateinit var imgAddAttachment: ImageView
     private lateinit var recyclerViewQuestionAttachment: RecyclerView
     private lateinit var rltQuestionAdd: RelativeLayout
+    private lateinit var linGray: View
 
     private lateinit var questionListAdapter: QuestionListAdapter
     private val attachmentArrayListQuestion = java.util.ArrayList<AttachmentModel>()
@@ -134,6 +136,7 @@ class QuestionsBottomSheet(
         recyclerViewQuestionAttachment = requireView().findViewById(R.id.recycler_view_question_attachment)
         rltQuestionAdd = requireView().findViewById(R.id.rlt_layout_action_data)
         imgAddAttachment = requireView().findViewById(R.id.img_add_attachment)
+        linGray = requireView().findViewById(R.id.lin_gray)
     }
 
     private fun initQuestionList() {
@@ -162,10 +165,12 @@ class QuestionsBottomSheet(
     }
 
     private fun setQuestionView() {
-        if (isUserThePoster or !taskModel.status.equals("open", ignoreCase = true)) {
+        if (isUserThePoster or !(taskModel.status.equals("open", ignoreCase = true))) {
             rltQuestionAdd.visibility = View.GONE
+            linGray.visibility = View.GONE
         } else {
             rltQuestionAdd.visibility = View.VISIBLE
+            linGray.visibility = View.VISIBLE
         }
 
         //TODO taskModel.getQuestionCount() > 5
@@ -259,22 +264,24 @@ class QuestionsBottomSheet(
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             edtComment.setText("")
                             attachmentArrayListQuestion.clear()
-                            attachmentArrayListQuestion.add(AttachmentModel())
+                            adapter.clear()
+                            //attachmentArrayListQuestion.add(AttachmentModel())
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 if (recyclerViewQuestions.visibility != View.VISIBLE) {
                                     recyclerViewQuestions.visibility = View.VISIBLE
                                 }
                                 val questionModel = QuestionModel().getJsonToModel(jsonObject.getJSONObject("data"))
-                                questionListAdapter.addItem(questionModel)
+                                val mItems: ArrayList<QuestionModel> = ArrayList()
+                                mItems.addAll(questionListAdapter.getItems()!!)
+                                mItems.add(0,questionModel)
+                                questionListAdapter.clear()
+                                questionListAdapter.addItems(mItems)
                             }
                         } else {
                             showToast(getString(R.string.server_went_wrong), requireContext())
                         }
-                        adapter.notifyDataSetChanged()
-                        dataOnlyQuestions
-                        //hideProgressDialog()
+
                     } catch (e: JSONException) {
-                        //hideProgressDialog()
                         e.printStackTrace()
                     }
                 },

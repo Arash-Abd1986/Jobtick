@@ -30,8 +30,8 @@
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/img_avatar"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="63dp"
+                android:layout_height="63dp"
                 android:src="@drawable/pic"
                 app:civ_border="false"
                 app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +91,7 @@
                             style="@style/materialText_500_10"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="@string/success"
+                            android:text="@string/job_success"
                             android:layout_marginTop="1dp"
                             android:gravity="center"
                             android:textColor="@color/_4f4f4f" />
@@ -138,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="99999"
+                    android:text=""
                     android:textColor="@color/textColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_rounded_white_5dp"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:paddingVertical="12dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/img_report"
@@ -150,7 +150,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:text="99999"
+                            android:text=""
                             android:textColor="@color/textColor"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

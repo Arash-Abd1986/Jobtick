@@ -70,6 +70,9 @@ class QuestionListAdapter(private val context: Context, private val mItems: Muta
         mItems!!.add(0, items)
         notifyItemInserted(0)
     }
+    fun getItems(): MutableList<QuestionModel>? {
+        return mItems
+    }
 
     fun addLoading() {
         isLoaderVisible = true

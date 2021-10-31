@@ -7,11 +7,11 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.GradientDrawable
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.text.Html
 import android.text.Spanned
 import android.view.*
@@ -91,6 +91,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private lateinit var collapsingToolbar: CollapsingToolbarLayout
     private lateinit var appBarLayout: AppBarLayout
     private lateinit var txtCompletionRate: TextView
+    private lateinit var txtCompletionRateObserver: TextView
     private lateinit var lytStatus: StatusLayout
     private lateinit var txtDueDate: TextView
     private lateinit var smallRatingValue: RatingBar
@@ -103,7 +104,11 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private lateinit var txtDueTime: TextView
     private lateinit var txtCreatedDate: TextView
     private lateinit var txtLocation: TextView
+    private lateinit var txtJobSuccess: TextView
+    private lateinit var txtSuccess: TextView
+    private lateinit var txtAvRating: TextView
     private lateinit var imgMapPin: ImageView
+    private lateinit var imgStarAssign: ImageView
     private lateinit var txtDescription: TextView
     private lateinit var txtOfferCount: TextView
     private lateinit var lytBtnMessage: LinearLayout
@@ -121,6 +126,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private lateinit var lytBtnViewAllOffers: LinearLayout
     private lateinit var lnShowOffers: LinearLayout
     private lateinit var lnShowOffersDeactive: LinearLayout
+    private lateinit var txtAssignMessage: TextView
+    private lateinit var lnAssignMessage: LinearLayout
     private lateinit var cardViewAllOffers: RelativeLayout
     private lateinit var cardOfferLayout: CardView
     private lateinit var txtTitle: TextView
@@ -156,15 +163,16 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private lateinit var llLoading: RelativeLayout
     private lateinit var llBtnPosterMessageEnable: LinearLayout
     private lateinit var txtAskQuestion: TextView
+    private lateinit var lnQuestions: LinearLayout
     private var isFav = true
     private var offerListS = ArrayList<OfferModel>()
     private var offerListF = ArrayList<OfferModel>()
     lateinit var userAccountModel: UserAccountModel
     lateinit var bankAccountModel: BankAccountModel
-    lateinit var billingAdreessModel: BillingAdreessModel
+    lateinit var billingAdressModel: BillingAdreessModel
     private val dataList = ArrayList<AttachmentModel>()
     private val attachmentArrayListQuestion = ArrayList<AttachmentModel>()
-    private var str_slug: String? = ""
+    private var strSlug: String? = ""
     private var isUserThePoster = false
     private var isUserTheTicker = false
     var isToolbarCollapsed = false
@@ -238,7 +246,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun showQuestions() {
-        val questionsBottomSheet = QuestionsBottomSheet(sessionManager, str_slug!!, taskModel!!, isUserThePoster, pushQuestionID)
+        val questionsBottomSheet = QuestionsBottomSheet(sessionManager, strSlug!!, taskModel!!, isUserThePoster, pushQuestionID)
         questionsBottomSheet.show(supportFragmentManager, null)
         questionsBottomSheet.noticeListener = this
     }
@@ -253,6 +261,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private fun setIDs() {
 
         txtAskQuestion = findViewById(R.id.txt_ask_question)
+        lnQuestions = findViewById(R.id.ln_questions)
         llBtnPosterMessageEnable = findViewById(R.id.llBtnPosterMessageEnable)
         llLoading = findViewById(R.id.llLoading)
         lnOffers = findViewById(R.id.ln_offers)
@@ -261,8 +270,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         collapsingToolbar = findViewById(R.id.collapsing_toolbar)
         appBarLayout = findViewById(R.id.app_bar_layout)
         txtCompletionRate = findViewById(R.id.txt_completion_rate)
+        txtCompletionRateObserver = findViewById(R.id.txt_completion_rate_observer)
         lytStatus = findViewById(R.id.lyt_status)
         txtDueDate = findViewById(R.id.txt_due_date)
+        txtAvRating = findViewById(R.id.txt_av_rating)
         smallRatingValue = findViewById(R.id.rb_rating_value)
         bigRatingValue = findViewById(R.id.rb_bigRating_value)
         rbBigratingReview = findViewById(R.id.rb_bigRating_review)
@@ -274,6 +285,9 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         txtCreatedDate = findViewById(R.id.txt_created_date)
         txtLocation = findViewById(R.id.txt_location)
         imgMapPin = findViewById(R.id.img_map_pin)
+        imgStarAssign = findViewById(R.id.img_star_assign)
+        txtJobSuccess = findViewById(R.id.txt_job_success)
+        txtSuccess = findViewById(R.id.txt_success)
         txtDescription = findViewById(R.id.txt_description)
         txtOfferCount = findViewById(R.id.txt_offer_count)
         lytBtnMessage = findViewById(R.id.lyt_btn_message)
@@ -321,6 +335,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         imgAvatarMyOffer = findViewById(R.id.img_avatar_my_offer)
         lnMyOffer = findViewById(R.id.ln_my_offer)
         cardMyOfferLayout = findViewById(R.id.card_my_offer_layout)
+        lnAssignMessage = findViewById(R.id.ln_assign_message)
+        txtAssignMessage = findViewById(R.id.txt_assign_message)
     }
 
     override fun getExtras() {
@@ -330,7 +346,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         }
         val bundle = intent.extras
         if (bundle!!.getString(ConstantKey.SLUG) != null) {
-            str_slug = bundle.getString(ConstantKey.SLUG)
+            strSlug = bundle.getString(ConstantKey.SLUG)
         }
         if (bundle.getInt(ConstantKey.PUSH_OFFER_ID) != 0) {
             pushOfferID = bundle.getInt(ConstantKey.PUSH_OFFER_ID)
@@ -381,27 +397,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         toolbar.setNavigationOnClickListener { v: View? -> onBackPressed() }
         toolbar.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
-                R.id.menu_bookmark -> if (taskModel!!.bookmarkID != null) {
-                    try {
-                        if (isFav) {
-                            isFav = false
-                            removeBookmark()
-                            Handler().postDelayed({ isFav = true }, 3000)
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                } else {
-                    try {
-                        if (isFav) {
-                            isFav = false
-                            addToBookmark()
-                            Handler().postDelayed({ isFav = true }, 3000)
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
                 R.id.action_report -> {
                     val bundleReport = Bundle()
                     val intentReport = Intent(this@TaskDetailsActivity, ReportActivity::class.java)
@@ -466,6 +461,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun setStatusClosed() {
+        showStatusWarn(getString(R.string.this_job_has_been_closed), ContextCompat.getColor(this, R.color.N080))
+
         icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
                 R.color.newComplete))
         lytStatus.setStatus(getString(R.string.completed))
@@ -495,7 +492,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun setStatusOverdueAndComplete(status: String) {
-        //txtOffersCount.visibility = View.GONE
+        showStatusWarn(getString(R.string.this_job_has_been_complete), ContextCompat.getColor(this, R.color.newComplete))
         icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
                 R.color.newComplete))
         cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
@@ -536,6 +533,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun setStatusCancel() {
+        showStatusWarn(getString(R.string.this_job_has_been_canceled), ContextCompat.getColor(this, R.color.newCanceled))
+
         icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
                 R.color.newCanceled))
         lytStatus.setStatus(getString(R.string.cancelled))
@@ -551,14 +550,18 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-        cardAssigneeLayout.visibility = View.VISIBLE
+        cardAssigneeLayout.visibility = View.GONE
         setPrice()
     }
 
     private fun setStatusOpen() {
         icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
                 R.color.newOpen))
-        lytStatus.setStatus(getString(R.string.open))
+        when {
+            isUserThePoster and (taskModel!!.offerCount > 0) -> lytStatus.setStatus(getString(R.string.offered))
+            isUserThePoster -> lytStatus.setStatus(getString(R.string.posted))
+            else -> lytStatus.setStatus(getString(R.string.open))
+        }
         cardMakeAnOffer.setCardBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
         cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
                 R.color.colorPrimary)
@@ -609,6 +612,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun setStatusAssign() {
+        showStatusWarn(getString(R.string.this_job_has_been_assigned), ContextCompat.getColor(this, R.color.newAssigned))
+
         icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
                 R.color.newAssigned))
         lytStatus.setStatus(getString(R.string.assigned))
@@ -644,6 +649,21 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
         cardAssigneeLayout.visibility = View.VISIBLE
         setPrice()
+    }
+
+    private fun showStatusWarn(message: String, color: Int) {
+        if (!isUserThePoster and !isUserTheTicker) {
+            lnAssignMessage.visibility = View.VISIBLE
+            txtAssignMessage.text = message
+            txtAssignMessage.setTextColor(color)
+            lnAssignMessage.setBackgroundShape(
+                    ContextCompat.getColor(this, R.color.transparent),
+                    color,
+                    8,
+                    1,
+                    GradientDrawable.RECTANGLE
+            )
+        }
     }
 
     private fun handleOverDueStatus(status: String) {
@@ -793,7 +813,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                                     if (data != null) {
                                         if (data.isSuccess) {
                                             if (data.data != null && data.data.line1 != null) {
-                                                billingAdreessModel = data
+                                                billingAdressModel = data
                                             }
                                         }
                                     }
@@ -888,7 +908,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         }
     private var isInitPageLoaded = false
     private fun initPage() {
-        val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_TASKS + "/" + str_slug,
+        val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_TASKS + "/" + strSlug,
                 com.android.volley.Response.Listener { response: String? ->
                     try {
                         content.visibility = View.VISIBLE
@@ -905,6 +925,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                                 taskModel!!.offers.forEach(Consumer { offerModel1: OfferModel -> if (offerModel1.worker.id == sessionManager.userAccount.id) taskModel!!.offerSent = true }
                                 )
                                 setOwnerTask()
+                                dismissStatusAlert()
                                 initStatusTask(taskModel!!.status.toLowerCase())
                                 initComponent()
                                 setDataInLayout(taskModel!!)
@@ -956,12 +977,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             txtAskQuestion.setSpanFont(8, taskModel!!.questionCount.toString().length + 9, 1.1f)
         }
         setClickOnQuestion()
-        if ((taskModel!!.poster.id.toString() == sessionManager.userAccount.id.toString()) and (taskModel!!.status.equals(Constant.TASK_OPEN, ignoreCase = true))) {
-            lytStatus.setStatus(getString(R.string.posted))
-        } else {
-            if (taskModel!!.offerSent and (taskModel!!.status.equals(Constant.TASK_OPEN, ignoreCase = true)))
-                lytStatus.setStatus(getString(R.string.offered))
-        }
         if (jsonObject_data.has("conversations") && !jsonObject_data.isNull("conversations")) {
             for (i in 0 until jsonObject_data.getJSONArray("conversations").length()) {
                 val first = jsonObject_data.getJSONArray("conversations").getJSONObject(i).getJSONArray("users").getJSONObject(0).getInt("id")
@@ -981,16 +996,20 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun setClickOnQuestion() {
-        if ((isUserThePoster and (taskModel!!.questionCount > 0))
+        if ((taskModel!!.questionCount > 0)
                 or
                 (((!isUserTheTicker and !isUserThePoster)
                         or isUserTheTicker) and (taskModel!!.questionCount != 0) and !(taskModel!!.status.equals("open", ignoreCase = true)))
                 or
-                ((!isUserTheTicker and !isUserThePoster)
-                        or isUserTheTicker) and (taskModel!!.status.equals("open", ignoreCase = true)))
+                (((!isUserTheTicker and !isUserThePoster)
+                        or isUserTheTicker) and (taskModel!!.status.equals("open", ignoreCase = true))) ) {
             txtAskQuestion.setOnClickListener {
                 showQuestions()
             }
+            lnQuestions.setOnClickListener {
+                showQuestions()
+            }
+        }
     }
 
 
@@ -1058,9 +1077,9 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private fun setDataInLayout(taskModel: TaskModel?) {
         txtTitle.text = taskModel!!.title
         txtCreatedDate.text = "Posted " + taskModel.createdAt
-        if (taskModel.bookmarkID != null) {
-            toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_white_32dp)
-        }
+        /*  if (taskModel.bookmarkID != null) {
+              toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_white_32dp)
+          }*/
         setDescription()
         if (taskModel.poster.avatar != null && taskModel.poster.avatar.thumbUrl != null) {
             ImageUtil.displayImage(imgAvtarPoster, taskModel.poster.avatar.thumbUrl, null)
@@ -1086,9 +1105,9 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         if (taskModel.dueDate != null) {
             try {
                 val time = Tools.jobDetailsDate(taskModel.dueDate)
-                txtDueDate.text = Tools.formatJobDetailsDateV3(time) + ", "
+                txtDueDate.text = Tools.formatJobDetailsDateV3(time) + " - "
             } catch (e: ParseException) {
-                txtDueDate.text = taskModel.dueDate + ", "
+                txtDueDate.text = taskModel.dueDate + " - "
             }
         }
         if (taskModel.musthave != null && taskModel.musthave.size > 0) {
@@ -1223,6 +1242,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         setMyOffer()
     }
 
+    private fun dismissStatusAlert() {
+        lnAssignMessage.visibility = View.GONE
+    }
+
     @SuppressLint("SetTextI18n")
     private fun setMyOffer() {
         cardMyOfferLayout.visibility = View.GONE
@@ -1262,25 +1285,64 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             if (taskModel!!.worker.avatar != null && taskModel!!.worker.avatar.thumbUrl != null) {
                 ImageUtil.displayImage(imgAvtarWorker, taskModel!!.worker.avatar.thumbUrl, null)
             }
+            txtJobSuccess.visibility = View.GONE
+
             txtWorkerName.text = taskModel!!.worker.name
+            txtWorkerLastOnline.text = taskModel!!.worker.lastOnline
+            txtOfferPrice.text = getOfferPrice(taskModel!!.worker.id)
+/*            val ratingModel = RatingModel()
+            ratingModel.avgRating = 3.2f
+            taskModel!!.worker.workerRatings = ratingModel*/
             if (taskModel!!.worker != null && taskModel!!.worker.workerRatings != null && taskModel!!.worker.workerRatings.avgRating != null) {
-                txtWorkerLastOnline.text = taskModel!!.worker.lastOnline
-                txtOfferPrice.text = getOfferPrice(taskModel!!.worker.id)
+
                 if (isUserTheTicker or isUserThePoster) {
-                    smallRatingValue.visibility = View.GONE
-                    cnOfferDetails.visibility = View.VISIBLE
                     bigRatingValue.rating = taskModel!!.worker.workerRatings.avgRating
+                    cnOfferDetails.visibility = View.VISIBLE
+                    txtSuccess.visibility = View.VISIBLE
+                    txtCompletionRate.visibility = View.VISIBLE
+                    if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRate.text = "%" + taskModel!!.worker.workTaskStatistics.completionRate.toString()
+                    if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRateObserver.text = "%" + taskModel!!.worker.workTaskStatistics.completionRate.toString()
+
+                    imgStarAssign.visibility = View.GONE
+                    txtAvRating.visibility = View.GONE
+                    txtCompletionRateObserver.visibility = View.GONE
+                    txtJobSuccess.visibility = View.GONE
                 } else {
+                    txtAvRating.text = "(" + taskModel!!.worker.workerRatings.avgRating + ")"
                     cnOfferDetails.visibility = View.GONE
-                    smallRatingValue.visibility = View.VISIBLE
-                    smallRatingValue.rating = taskModel!!.worker.workerRatings.avgRating
+                    txtSuccess.visibility = View.GONE
+                    txtCompletionRate.visibility = View.GONE
+                    imgStarAssign.visibility = View.VISIBLE
+                    txtAvRating.visibility = View.VISIBLE
+                    txtCompletionRateObserver.visibility = View.VISIBLE
+                    txtJobSuccess.visibility = View.VISIBLE
+                    if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRate.text = taskModel!!.worker.workTaskStatistics.completionRate.toString() + "%"
+                    if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRateObserver.text = taskModel!!.worker.workTaskStatistics.completionRate.toString() + "%"
+
                 }
             } else {
-                smallRatingValue.visibility = View.GONE
-                bigRatingValue.rating = 0f
+                if (isUserTheTicker or isUserThePoster) {
+                    cnOfferDetails.visibility = View.VISIBLE
+                    txtSuccess.visibility = View.GONE
+                    txtCompletionRate.text = "New"
+                    txtJobSuccess.visibility = View.GONE
+                    txtAvRating.visibility = View.GONE
+                    txtCompletionRateObserver.visibility = View.GONE
+                    imgStarAssign.visibility = View.GONE
+                    bigRatingValue.rating = 0f
+                } else {
+                    txtAvRating.text = "New"
+                    txtAvRating.setTextColor(ContextCompat.getColor(this, R.color.green))
+                    txtAvRating.visibility = View.VISIBLE
 
+                    cnOfferDetails.visibility = View.GONE
+                    txtSuccess.visibility = View.GONE
+                    imgStarAssign.visibility = View.GONE
+                    txtCompletionRateObserver.visibility = View.GONE
+                    txtCompletionRate.visibility = View.GONE
+                    txtJobSuccess.visibility = View.GONE
+                }
             }
-            if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRate.text = taskModel!!.worker.workTaskStatistics.completionRate.toString() + "%"
             if (isUserThePoster and taskModel!!.status!!.equals("assigned", ignoreCase = true)) {
                 cardAssigneeLayout.setOnClickListener {
                     showOffer(taskModel!!.offers.filter { taskModel!!.worker.id == it.worker.id }[0], true, false)
@@ -1451,8 +1513,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 requirementState[TickerRequirementsBottomSheet.Requirement.BankAccount] = true
             }
         //checking one filed is enough
-        if (::billingAdreessModel.isInitialized)
-            if (billingAdreessModel.data != null && billingAdreessModel.data.post_code != null && billingAdreessModel.data.post_code != "") {
+        if (::billingAdressModel.isInitialized)
+            if (billingAdressModel.data != null && billingAdressModel.data.post_code != null && billingAdressModel.data.post_code != "") {
                 requirementState[TickerRequirementsBottomSheet.Requirement.BillingAddress] = true
             }
         if (::userAccountModel.isInitialized)
@@ -1655,7 +1717,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     act.startActivity(intent)
                 }
             } else {
-                image.scaleType = ImageView.ScaleType.FIT_XY
+                image.scaleType = ImageView.ScaleType.CENTER_CROP
                 if (taskModel!!.location != null && !taskModel!!.location.isEmpty()) {
 //                    Tools.displayImageOriginal(act, image, attachment.getDrawable());
                     image.setImageResource(R.drawable.banner1)
@@ -1839,87 +1901,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         Timber.e(stringRequest.url)
     }
 
-    fun addToBookmark() {
-        toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_white_32dp)
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/bookmark",
-                com.android.volley.Response.Listener { response: String? ->
-                    toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_filled_background_white_32dp)
-                    getData
-                },
-                com.android.volley.Response.ErrorListener { error: VolleyError ->
-                    errorHandle1(error.networkResponse)
-                    toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_white_32dp)
-                }) {
-            override fun getParams(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["is_important"] = "0"
-                return map1
-            }
-
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                return map1
-            }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-        val requestQueue = Volley.newRequestQueue(this@TaskDetailsActivity)
-        requestQueue.add(stringRequest)
-        Timber.e(stringRequest.url)
-    }
-
-    private fun removeBookmark() {
-        toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_white_32dp)
-        val stringRequest: StringRequest = object : StringRequest(Method.DELETE, Constant.BASE_URL + "bookmarks/" + taskModel!!.bookmarkID,
-                com.android.volley.Response.Listener { response: String? ->
-                    Timber.e(response)
-                    try {
-                        val jsonObject = JSONObject(response!!)
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_white_32dp)
-                                getData
-                                if (SavedTaskActivity.onRemoveSavedtasklistener != null) {
-                                    SavedTaskActivity.onRemoveSavedtasklistener!!.onRemoveSavedTask()
-                                }
-                            } else {
-                                showToast("Task not deleted", this@TaskDetailsActivity)
-                            }
-                        } else {
-                            showToast(getString(R.string.server_went_wrong), this@TaskDetailsActivity)
-                        }
-                    } catch (e: JSONException) {
-                        hideProgressDialog()
-                        e.printStackTrace()
-                        toolbar.menu.findItem(R.id.menu_bookmark).setIcon(R.drawable.ic_bookmark_white_background_white_32dp)
-                    }
-                },
-                com.android.volley.Response.ErrorListener { error: VolleyError ->
-                    //  swipeRefresh.setRefreshing(false);
-                    errorHandle1(error.networkResponse)
-                }) {
-            override fun getParams(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["is_important"] = "1"
-                return map1
-            }
-
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                return map1
-            }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-        val requestQueue = Volley.newRequestQueue(this@TaskDetailsActivity)
-        requestQueue.add(stringRequest)
-    }
 
     fun showRequirementDialog() {
         if (mBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED) {

@@ -16,7 +16,7 @@ class MyNotificationOpenedHandler(private val application: Application) : OSNoti
     private fun startApp() {
         val bundle = Bundle()
         val intent = Intent(application, DashboardActivity::class.java)
-                .setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT or Intent.FLAG_ACTIVITY_NEW_TASK)
+                .setFlags( Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         bundle.putParcelable(ConstantKey.PUSH_NOTIFICATION_MODEL, pushNotificationModel)
         intent.putExtras(bundle)
         application.startActivity(intent)

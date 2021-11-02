@@ -106,7 +106,7 @@ class QuestionListAdapter(private val context: Context, private val mItems: Muta
         var txtCreatedDate: TextView = itemView!!.findViewById(R.id.txt_created_date)
         var txtMessage: TextView = itemView!!.findViewById(R.id.txt_message)
         var recyclerViewQuestion: RecyclerView = itemView!!.findViewById(R.id.recycler_view_question)
-        var imgFile: ImageView = itemView!!.findViewById(R.id.img_file)
+        var imgFile: ImageView = itemView!!.findViewById(R.id.img_file_questions)
         var cardImgFile: CardView = itemView!!.findViewById(R.id.card_img_file)
         var lytBtnReply: LinearLayout = itemView!!.findViewById(R.id.lyt_btn_reply)
         var lnMoreReply: LinearLayout = itemView!!.findViewById(R.id.ln_more_reply)

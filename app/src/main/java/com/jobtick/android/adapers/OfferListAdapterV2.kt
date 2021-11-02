@@ -15,14 +15,21 @@ import com.jobtick.android.utils.ImageUtil
 import com.jobtick.android.utils.SessionManager
 import com.mikhaellopez.circularimageview.CircularImageView
 
-class OfferListAdapterV2(private val context: Context, private val isMyTask: Boolean, private val mItems: MutableList<OfferModel>?) : RecyclerView.Adapter<BaseViewHolder>() {
+class OfferListAdapterV2(
+    private val context: Context,
+    private val isMyTask: Boolean,
+    private val mItems: MutableList<OfferModel>?
+) : RecyclerView.Adapter<BaseViewHolder>() {
     var sessionManager: SessionManager
     var spanS: Spannable? = null
     var spanF: Spannable? = null
     private var mOnItemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemOfferClick( obj: OfferModel?, action: String?) //  void onItemClick(View view, OfferChatModel obj, int position, String action);
+        fun onItemOfferClick(
+            obj: OfferModel?,
+            action: String?
+        ) //  void onItemClick(View view, OfferChatModel obj, int position, String action);
     }
 
     fun setOnItemClickListener(mItemClickListener: OnItemClickListener?) {
@@ -32,7 +39,8 @@ class OfferListAdapterV2(private val context: Context, private val isMyTask: Boo
     private var isLoaderVisible = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return ViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.item_offer_v3, parent, false))
+            LayoutInflater.from(parent.context).inflate(R.layout.item_offer_v3, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
@@ -85,11 +93,13 @@ class OfferListAdapterV2(private val context: Context, private val isMyTask: Boo
         var imgAvatar: CircularImageView = itemView!!.findViewById(R.id.img_avatar)
         var txtName: TextView = itemView!!.findViewById(R.id.txt_name)
         var txtCompletionRate: TextView = itemView!!.findViewById(R.id.txt_completion_rate)
+        var txt_job_success: TextView = itemView!!.findViewById(R.id.txt_job_success)
         var txtBudget: TextView = itemView!!.findViewById(R.id.txt_budget)
         var starRatingBar: RatingBar = itemView!!.findViewById(R.id.ratingbar_worker)
         var txtCreatedDate: TextView = itemView!!.findViewById(R.id.txt_created_date)
 
         override fun clear() {}
+
         @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
         override fun onBind(position: Int) {
             super.onBind(position)
@@ -106,10 +116,17 @@ class OfferListAdapterV2(private val context: Context, private val isMyTask: Boo
                 starRatingBar.rating = 0f
             }
             assert(item.worker != null)
-            txtCompletionRate.text = item.worker.workTaskStatistics.completionRate.toString() + "%"
+            if (item.worker.workTaskStatistics.completionRate != null) {
+                txtCompletionRate.text =
+                    item.worker.workTaskStatistics.completionRate.toString() + "%"
+                txt_job_success.visibility = View.VISIBLE
+            } else {
+                txt_job_success.visibility = View.GONE
+                txtCompletionRate.text = "New"
+            }
 
             itemView.setOnClickListener {
-                mOnItemClickListener!!.onItemOfferClick(item,"")
+                mOnItemClickListener!!.onItemOfferClick(item, "")
             }
 
         }

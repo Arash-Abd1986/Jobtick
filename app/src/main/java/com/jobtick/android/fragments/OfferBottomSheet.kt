@@ -150,8 +150,9 @@ class OfferBottomSheet(
         if (item.attachments != null && item.attachments.isNotEmpty()) {
             cardLiveVideo.visibility = View.VISIBLE
             txtMessage.visibility = View.GONE
+            ImageUtil.displayImage(imgOfferOnTask, item.attachments[0].modalUrl, null)
+
             imgBtnPlay.setOnClickListener {
-                ImageUtil.displayImage(imgOfferOnTask, item.attachments[0].modalUrl, null)
                 if (item.attachments[0] == null || item.attachments[0].url == null) {
                     (requireActivity() as ActivityBase).showToast("Sorry, there is no video to play.", requireContext())
                     return@setOnClickListener

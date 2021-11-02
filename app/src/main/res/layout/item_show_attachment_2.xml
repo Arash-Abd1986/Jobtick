@@ -11,8 +11,8 @@
         android:id="@+id/content"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="@dimen/_5sp">
+        android:layout_height="150dp"
+        app:cardCornerRadius="@dimen/_8dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:id="@+id/img_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
                 android:src="@drawable/image_load"
                 android:visibility="visible"
                 app:cornerRadius="10dp" />

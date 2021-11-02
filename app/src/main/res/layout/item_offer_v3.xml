@@ -88,6 +88,7 @@
                             android:textColor="@color/green" />
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_job_success"
                             style="@style/materialText_500_10"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"

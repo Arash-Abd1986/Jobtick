@@ -165,7 +165,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
             } else
                 rlPostedJobs!!.visibility = View.GONE
             if (hasRecommendedJobs) {
-                setRecommendedJobs(postedJobs)
+                setRecommendedJobs(recommendedJobs)
                 rlRecommendedJobs!!.visibility = View.VISIBLE
             } else
                 rlRecommendedJobs!!.visibility = View.GONE
@@ -192,11 +192,11 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 rlRecommendedJobs!!.visibility = View.GONE
             }
         })
-        viewModel.getError().observe(viewLifecycleOwner, androidx.lifecycle.Observer { jsonObject ->
+        viewModel.getError().observe(viewLifecycleOwner, {
             dashboardActivity.showToast("Something went wrong", dashboardActivity)
             dashboardActivity.hideProgressDialog()
         })
-        viewModel.getError2().observe(viewLifecycleOwner, androidx.lifecycle.Observer { jsonObject ->
+        viewModel.getError2().observe(viewLifecycleOwner, {
             ivNotification!!.setImageResource(R.drawable.ic_notification_bel_24_28dp)
         })
 

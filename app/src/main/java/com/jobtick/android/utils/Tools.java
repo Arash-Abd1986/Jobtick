@@ -93,7 +93,7 @@ public class Tools {
         return dateFormat.format(timeInMillis);
     }
     public static String formatJobDetailsDateV3(long timeInMillis) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EE, d MMM", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMM", Locale.getDefault());
         return dateFormat.format(timeInMillis);
     }
     public static String formatJobDetailsDateV2(long timeInMillis) {

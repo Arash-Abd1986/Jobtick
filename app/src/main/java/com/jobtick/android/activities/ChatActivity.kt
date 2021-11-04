@@ -37,8 +37,8 @@ import com.jobtick.android.models.ChatModel
 import com.jobtick.android.models.ConversationModel
 import com.jobtick.android.models.response.chat.ChatResponse
 import com.jobtick.android.models.response.chat.MessageItem
-import com.jobtick.android.pagination.PaginationListener
 import com.jobtick.android.network.retrofit.ApiClient
+import com.jobtick.android.pagination.PaginationListener
 import com.jobtick.android.utils.*
 import com.mikhaellopez.circularimageview.CircularImageView
 import com.pusher.client.channel.PresenceChannel
@@ -473,7 +473,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                 txtTitle.setOnClickListener { v: View? -> imgAvatar.performClick() }
             }
         }
-        if (conversationModel!!.receiver.avatar != null && conversationModel.receiver.avatar.thumbUrl != null) {
+        if (conversationModel!!.receiver != null && conversationModel!!.receiver.avatar != null && conversationModel.receiver.avatar.thumbUrl != null) {
 //            imgAvatar.setImageDrawable(getResources().getDrawable(R.drawable.avatar));
             ImageUtil.displayImage(imgAvatar, conversationModel.receiver.avatar.thumbUrl, null)
         } else {

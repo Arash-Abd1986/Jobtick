@@ -82,10 +82,14 @@ import java.util.function.Consumer
 import kotlin.collections.ArrayList
 
 class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItemClickListener,
-        QuestionAttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener, OnExtendedAlertButtonClickListener,
-        RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener, IncreaseBudgetNoticeBottomSheet.NoticeListener,
-        IncreaseBudgetDeclineBottomSheet.NoticeListener, ConfirmAskToReleaseBottomSheet.NoticeListener, ConfirmReleaseBottomSheet.NoticeListener,
-        TickerRequirementsBottomSheet.NoticeListener, OfferBottomSheet.OfferBottomSheetClick, QuestionsBottomSheet.NoticeListener {
+    QuestionAttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener,
+    OnExtendedAlertButtonClickListener,
+    RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
+    IncreaseBudgetNoticeBottomSheet.NoticeListener,
+    IncreaseBudgetDeclineBottomSheet.NoticeListener, ConfirmAskToReleaseBottomSheet.NoticeListener,
+    ConfirmReleaseBottomSheet.NoticeListener,
+    TickerRequirementsBottomSheet.NoticeListener, OfferBottomSheet.OfferBottomSheetClick,
+    QuestionsBottomSheet.NoticeListener {
     private lateinit var alertBox: ExtendedAlertBox
     private lateinit var toolbar: Toolbar
     private lateinit var collapsingToolbar: CollapsingToolbarLayout
@@ -188,7 +192,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val w = window
-        w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        w.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_details)
         setIDs()
@@ -207,20 +214,27 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
-                this,
-                ViewModelFactory(ApiHelper(ApiClient.getClient()))
+            this,
+            ViewModelFactory(ApiHelper(ApiClient.getClient()))
         ).get(JobDetailsViewModel::class.java)
 
     }
 
     private fun getReview() {
-        viewModel.getReviews(ReviewsRequest(if (isUserTheTicker) "worker" else "poster",
-                if (isUserTheTicker) taskModel!!.worker.id else taskModel!!.poster.id)).observe(this, {
+        viewModel.getReviews(
+            ReviewsRequest(
+                if (isUserTheTicker) "worker" else "poster",
+                if (isUserTheTicker) taskModel!!.worker.id else taskModel!!.poster.id
+            )
+        ).observe(this, {
             it?.let {
                 when (it.status) {
                     Status.SUCCESS -> {
                         val turnsType = object : TypeToken<List<ReviewItem>>() {}.type
-                        val turns = Gson().myFromJson<List<ReviewItem>>(Gson().toJson(it.data!!.data), turnsType)
+                        val turns = Gson().myFromJson<List<ReviewItem>>(
+                            Gson().toJson(it.data!!.data),
+                            turnsType
+                        )
 
                         turns.forEach {
                             if (it.rater.id == (if (isUserThePoster) taskModel!!.worker.id else taskModel!!.poster.id))
@@ -246,7 +260,13 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun showQuestions() {
-        val questionsBottomSheet = QuestionsBottomSheet(sessionManager, strSlug!!, taskModel!!, isUserThePoster, pushQuestionID)
+        val questionsBottomSheet = QuestionsBottomSheet(
+            sessionManager,
+            strSlug!!,
+            taskModel!!,
+            isUserThePoster,
+            pushQuestionID
+        )
         questionsBottomSheet.show(supportFragmentManager, null)
         questionsBottomSheet.noticeListener = this
     }
@@ -406,19 +426,19 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     startActivity(intentReport)
                 }
                 R.id.action_edit -> MaterialAlertDialogBuilder(this@TaskDetailsActivity)
-                        .setTitle(resources.getString(R.string.title_edit))
-                        .setNegativeButton(resources.getString(R.string.no)) { dialog: DialogInterface, which: Int -> dialog.dismiss() }
-                        .setPositiveButton(resources.getString(R.string.yes)) { dialog: DialogInterface, which: Int ->
-                            dialog.dismiss()
-                            EditTask(taskModel!!)
-                        }.show()
+                    .setTitle(resources.getString(R.string.title_edit))
+                    .setNegativeButton(resources.getString(R.string.no)) { dialog: DialogInterface, which: Int -> dialog.dismiss() }
+                    .setPositiveButton(resources.getString(R.string.yes)) { dialog: DialogInterface, which: Int ->
+                        dialog.dismiss()
+                        EditTask(taskModel!!)
+                    }.show()
                 R.id.action_delete -> MaterialAlertDialogBuilder(this@TaskDetailsActivity)
-                        .setTitle(resources.getString(R.string.title_delete))
-                        .setNegativeButton(resources.getString(R.string.no)) { dialog: DialogInterface, which: Int -> dialog.dismiss() }
-                        .setPositiveButton(resources.getString(R.string.yes)) { dialog: DialogInterface, which: Int ->
-                            dialog.dismiss()
-                            deleteTaskPermanent(taskModel!!.slug)
-                        }.show()
+                    .setTitle(resources.getString(R.string.title_delete))
+                    .setNegativeButton(resources.getString(R.string.no)) { dialog: DialogInterface, which: Int -> dialog.dismiss() }
+                    .setPositiveButton(resources.getString(R.string.yes)) { dialog: DialogInterface, which: Int ->
+                        dialog.dismiss()
+                        deleteTaskPermanent(taskModel!!.slug)
+                    }.show()
                 R.id.action_copy -> copyTask(taskModel!!)
                 R.id.action_cancellation -> {
                     val intent: Intent = if (isUserThePoster) {
@@ -437,7 +457,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     showDialogIncreaseBudgetRequest()
                 }
                 R.id.action_rechedule -> {
-                    intent = Intent(this@TaskDetailsActivity, RescheduleTimeRequestActivity::class.java)
+                    intent =
+                        Intent(this@TaskDetailsActivity, RescheduleTimeRequestActivity::class.java)
                     val bundle = Bundle()
                     intent.putExtras(bundle)
                     startActivityForResult(intent, ConstantKey.RESULTCODE_RESCHEDULE)
@@ -451,9 +472,11 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     startActivity(intent)
                 }
                 R.id.menu_share -> {
-                    Helper.shareTask(this@TaskDetailsActivity,
-                            """Hey ! Checkout this task. 
- https://${Constant.SHARE_APPEND_TXT}jobtick.com/explore-jobs/${taskModel!!.slug}""")
+                    Helper.shareTask(
+                        this@TaskDetailsActivity,
+                        """Hey ! Checkout this task. 
+ https://${Constant.SHARE_APPEND_TXT}jobtick.com/explore-jobs/${taskModel!!.slug}"""
+                    )
                 }
             }
             false
@@ -461,42 +484,76 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun setStatusClosed() {
-        showStatusWarn(getString(R.string.this_job_has_been_closed), ContextCompat.getColor(this, R.color.N080))
+        showStatusWarn(
+            getString(R.string.this_job_has_been_closed),
+            ContextCompat.getColor(this, R.color.N080)
+        )
 
-        icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
-                R.color.newComplete))
+        icClock.setColorFilter(
+            ContextCompat.getColor(
+                this@TaskDetailsActivity,
+                R.color.newComplete
+            )
+        )
         lytStatus.setStatus(getString(R.string.completed))
         //txtOffersCount.visibility = View.GONE
         if (isUserThePoster) {
             cardMakeAnOffer.visibility = View.GONE
             txtBtnText.text = ConstantKey.BTN_WRITE_A_REVIEW
-            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                R.id.grp_report,
+                false
+            )
         } else {
             // worker task
             if (noActionAvailable) {
                 cardMakeAnOffer.visibility = View.GONE
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_report,
+                    false
+                )
             } else {
                 cardMakeAnOffer.visibility = View.GONE
                 txtBtnText.text = ConstantKey.BTN_WRITE_A_REVIEW
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_report,
+                    false
+                )
             }
         }
         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_cancellation,
+            false
+        )
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_increase_budget,
+            false
+        )
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_reschedule,
+            false
+        )
         cardAssigneeLayout.visibility = View.VISIBLE
         setPrice()
     }
 
     private fun setStatusOverdueAndComplete(status: String) {
-        showStatusWarn(getString(R.string.this_job_has_been_complete), ContextCompat.getColor(this, R.color.newComplete))
-        icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
-                R.color.newComplete))
-        cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
-                R.color.colorPrimary)
+        showStatusWarn(
+            getString(R.string.this_job_has_been_complete),
+            ContextCompat.getColor(this, R.color.newComplete)
+        )
+        icClock.setColorFilter(
+            ContextCompat.getColor(
+                this@TaskDetailsActivity,
+                R.color.newComplete
+            )
+        )
+        cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(
+            this@TaskDetailsActivity,
+            R.color.colorPrimary
+        )
         if (isUserThePoster) {
             if (status == Constant.TASK_OVERDUE)
                 lytStatus.setStatus(getString(R.string.overdue))
@@ -510,72 +567,129 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 cardMakeAnOffer.visibility = View.GONE
                 txtBtnText.text = ConstantKey.BTN_RELEASE_MONEY
             }
-            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                R.id.grp_report,
+                false
+            )
         } else {
             lytStatus.setStatus(getString(R.string.completed))
             // worker task
             if (noActionAvailable) {
                 cardMakeAnOffer.visibility = View.GONE
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_report,
+                    false
+                )
             } else {
                 cardMakeAnOffer.visibility = View.GONE
                 txtBtnText.text = ConstantKey.BTN_WAIT_TO_RELEASE_MONEY
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_report,
+                    false
+                )
             }
         }
         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_increase_budget,
+            false
+        )
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_reschedule,
+            false
+        )
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_cancellation,
+            false
+        )
         cardAssigneeLayout.visibility = View.VISIBLE
         setPrice()
     }
 
     private fun setStatusCancel() {
-        showStatusWarn(getString(R.string.this_job_has_been_canceled), ContextCompat.getColor(this, R.color.newCanceled))
+        showStatusWarn(
+            getString(R.string.this_job_has_been_canceled),
+            ContextCompat.getColor(this, R.color.newCanceled)
+        )
 
-        icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
-                R.color.newCanceled))
+        icClock.setColorFilter(
+            ContextCompat.getColor(
+                this@TaskDetailsActivity,
+                R.color.newCanceled
+            )
+        )
         lytStatus.setStatus(getString(R.string.cancelled))
         cardMakeAnOffer.visibility = View.GONE
-        cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
-                R.color.colorPrimary)
+        cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(
+            this@TaskDetailsActivity,
+            R.color.colorPrimary
+        )
         if (taskModel!!.worker != null) cardAssigneeLayout.visibility = View.VISIBLE else {
             cardAssigneeLayout.visibility = View.GONE
         }
         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_cancellation,
+            false
+        )
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_increase_budget,
+            false
+        )
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_reschedule,
+            false
+        )
         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
         cardAssigneeLayout.visibility = View.GONE
         setPrice()
     }
 
     private fun setStatusOpen() {
-        icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
-                R.color.newOpen))
+        icClock.setColorFilter(
+            ContextCompat.getColor(
+                this@TaskDetailsActivity,
+                R.color.newOpen
+            )
+        )
         when {
             isUserThePoster and (taskModel!!.offerCount > 0) -> lytStatus.setStatus(getString(R.string.offered))
             isUserThePoster -> lytStatus.setStatus(getString(R.string.posted))
             else -> lytStatus.setStatus(getString(R.string.open))
         }
         cardMakeAnOffer.setCardBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
-        cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
-                R.color.colorPrimary)
+        cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(
+            this@TaskDetailsActivity,
+            R.color.colorPrimary
+        )
         if (isUserThePoster) {
             //poster task
-            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, taskModel!!.offers.size == 0)
-            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, true)
-            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                R.id.grp_edit,
+                taskModel!!.offers.size == 0
+            )
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                R.id.grp_delete,
+                true
+            )
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                R.id.grp_report,
+                false
+            )
             cardMakeAnOffer.visibility = View.GONE
         } else {
             //worker task
             toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
-            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_delete, false)
-            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, true)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                R.id.grp_delete,
+                false
+            )
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                R.id.grp_report,
+                true
+            )
             if (taskModel!!.offerSent) {
                 cardMakeAnOffer.visibility = View.GONE
                 txtBtnText.text = ConstantKey.BTN_OFFER_PENDING
@@ -584,9 +698,18 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 txtBtnText.text = ConstantKey.BTN_MAKE_AN_OFFER
             }
         }
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_cancellation,
+            false
+        )
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_reschedule,
+            false
+        )
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_increase_budget,
+            false
+        )
         cardAssigneeLayout.visibility = View.GONE
         if (taskModel!!.offers.size != 0) {
             if (taskModel!!.offers.size > 0) {
@@ -612,36 +735,78 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun setStatusAssign() {
-        showStatusWarn(getString(R.string.this_job_has_been_assigned), ContextCompat.getColor(this, R.color.newAssigned))
+        showStatusWarn(
+            getString(R.string.this_job_has_been_assigned),
+            ContextCompat.getColor(this, R.color.newAssigned)
+        )
 
-        icClock.setColorFilter(ContextCompat.getColor(this@TaskDetailsActivity,
-                R.color.newAssigned))
+        icClock.setColorFilter(
+            ContextCompat.getColor(
+                this@TaskDetailsActivity,
+                R.color.newAssigned
+            )
+        )
         lytStatus.setStatus(getString(R.string.assigned))
-        cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
-                R.color.colorTaskAssigned)
+        cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(
+            this@TaskDetailsActivity,
+            R.color.colorTaskAssigned
+        )
 
         if (isUserThePoster) {
             cardMakeAnOffer.visibility = View.GONE
             txtBtnText.text = ConstantKey.BTN_ASSIGNED
-            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, true)
-            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, true)
-            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, true)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                R.id.grp_cancellation,
+                true
+            )
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                R.id.grp_report,
+                false
+            )
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                R.id.grp_increase_budget,
+                true
+            )
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                R.id.grp_reschedule,
+                true
+            )
 
         } else {
 
             if (noActionAvailable) {
                 cardMakeAnOffer.visibility = View.GONE
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_report, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_report,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_cancellation,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_increase_budget,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_reschedule,
+                    false
+                )
             } else {
                 cardMakeAnOffer.visibility = View.VISIBLE
                 txtBtnText.text = ConstantKey.BTN_ASK_TO_RELEASE_MONEY
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_copy, true)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, true)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, true)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_copy,
+                    true
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_cancellation,
+                    true
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_increase_budget,
+                    true
+                )
 
             }
         }
@@ -657,11 +822,11 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             txtAssignMessage.text = message
             txtAssignMessage.setTextColor(color)
             lnAssignMessage.setBackgroundShape(
-                    ContextCompat.getColor(this, R.color.transparent),
-                    color,
-                    8,
-                    1,
-                    GradientDrawable.RECTANGLE
+                ContextCompat.getColor(this, R.color.transparent),
+                color,
+                8,
+                1,
+                GradientDrawable.RECTANGLE
             )
         }
     }
@@ -689,13 +854,31 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 taskDate.add(Calendar.DAY_OF_YEAR, 14)
                 val df = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
                 if (taskDate.timeInMillis - today.timeInMillis >= 0) {
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, true)
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, true)
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, true)
+                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                        R.id.grp_cancellation,
+                        true
+                    )
+                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                        R.id.grp_reschedule,
+                        true
+                    )
+                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                        R.id.grp_increase_budget,
+                        true
+                    )
                 } else {
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, true)
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                        R.id.grp_cancellation,
+                        true
+                    )
+                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                        R.id.grp_reschedule,
+                        false
+                    )
+                    toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                        R.id.grp_increase_budget,
+                        false
+                    )
                 }
             }
         }
@@ -719,7 +902,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     //http request
     val bankAccountAddress: Unit
         get() {
-            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL + Constant.ADD_ACCOUNT_DETAILS,
+            val stringRequest: StringRequest =
+                object : StringRequest(Method.GET, Constant.BASE_URL + Constant.ADD_ACCOUNT_DETAILS,
                     com.android.volley.Response.Listener { response: String? ->
                         Timber.e(response)
                         try {
@@ -778,17 +962,20 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                         isGetBankAccountLoaded = true
                         onLoadingFinished()
                     }) {
-                override fun getHeaders(): Map<String, String> {
-                    val map1: MutableMap<String, String> = HashMap()
-                    map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                    map1["Content-Type"] = "application/x-www-form-urlencoded"
-                    map1["X-Requested-With"] = "XMLHttpRequest"
-                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                    return map1
+                    override fun getHeaders(): Map<String, String> {
+                        val map1: MutableMap<String, String> = HashMap()
+                        map1["authorization"] =
+                            sessionManager.tokenType + " " + sessionManager.accessToken
+                        map1["Content-Type"] = "application/x-www-form-urlencoded"
+                        map1["X-Requested-With"] = "XMLHttpRequest"
+                        map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                        return map1
+                    }
                 }
-            }
-            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
             val requestQueue = Volley.newRequestQueue(this)
             requestQueue.add(stringRequest)
         }
@@ -797,7 +984,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     //http request
     val billingAddress: Unit
         get() {
-            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL + Constant.ADD_BILLING,
+            val stringRequest: StringRequest =
+                object : StringRequest(Method.GET, Constant.BASE_URL + Constant.ADD_BILLING,
                     com.android.volley.Response.Listener { response: String? ->
                         Timber.e(response)
                         try {
@@ -809,7 +997,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                                     val jsonString = jsonObject.toString() //http request
                                     var data = BillingAdreessModel()
                                     val gson = Gson()
-                                    data = gson.fromJson(jsonString, BillingAdreessModel::class.java)
+                                    data =
+                                        gson.fromJson(jsonString, BillingAdreessModel::class.java)
                                     if (data != null) {
                                         if (data.isSuccess) {
                                             if (data.data != null && data.data.line1 != null) {
@@ -854,16 +1043,19 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                         isGetBillingAddressLoaded = true
                         onLoadingFinished()
                     }) {
-                override fun getHeaders(): Map<String, String> {
-                    val map1: MutableMap<String, String> = HashMap()
-                    map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                    map1["Content-Type"] = "application/x-www-form-urlencoded"
-                    map1["X-Requested-With"] = "XMLHttpRequest"
-                    return map1
+                    override fun getHeaders(): Map<String, String> {
+                        val map1: MutableMap<String, String> = HashMap()
+                        map1["authorization"] =
+                            sessionManager.tokenType + " " + sessionManager.accessToken
+                        map1["Content-Type"] = "application/x-www-form-urlencoded"
+                        map1["X-Requested-With"] = "XMLHttpRequest"
+                        return map1
+                    }
                 }
-            }
-            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
             val requestQueue = Volley.newRequestQueue(this)
             requestQueue.add(stringRequest)
         }
@@ -872,43 +1064,49 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     // map1.put("X-Requested-With", "XMLHttpRequest");
     val allUserProfileDetails: Unit
         get() {
-            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + sessionManager.userAccount.id,
-                    com.android.volley.Response.Listener { response: String? ->
-                        try {
-                            val jsonObject = JSONObject(response!!)
-                            Timber.e(jsonObject.toString())
-                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                userAccountModel = UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
-                                sessionManager.userAccount = userAccountModel
-                            }
-                        } catch (e: JSONException) {
-                            Timber.e(e.toString())
-                            e.printStackTrace()
+            val stringRequest: StringRequest = object : StringRequest(Method.GET,
+                Constant.URL_PROFILE + "/" + sessionManager.userAccount.id,
+                com.android.volley.Response.Listener { response: String? ->
+                    try {
+                        val jsonObject = JSONObject(response!!)
+                        Timber.e(jsonObject.toString())
+                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                            userAccountModel =
+                                UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
+                            sessionManager.userAccount = userAccountModel
                         }
-                        isUserProfileLoaded = true
-                        onLoadingFinished()
-                    },
-                    com.android.volley.Response.ErrorListener { error: VolleyError ->
-                        errorHandle1(error.networkResponse)
-                        isUserProfileLoaded = true
-                        onLoadingFinished()
-                    }) {
+                    } catch (e: JSONException) {
+                        Timber.e(e.toString())
+                        e.printStackTrace()
+                    }
+                    isUserProfileLoaded = true
+                    onLoadingFinished()
+                },
+                com.android.volley.Response.ErrorListener { error: VolleyError ->
+                    errorHandle1(error.networkResponse)
+                    isUserProfileLoaded = true
+                    onLoadingFinished()
+                }) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
-                    map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
                     map1["Content-Type"] = "application/x-www-form-urlencoded"
                     // map1.put("X-Requested-With", "XMLHttpRequest");
                     return map1
                 }
             }
-            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
             val requestQueue = Volley.newRequestQueue(this)
             requestQueue.add(stringRequest)
         }
     private var isInitPageLoaded = false
     private fun initPage() {
-        val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_TASKS + "/" + strSlug,
+        val stringRequest: StringRequest =
+            object : StringRequest(Method.GET, Constant.URL_TASKS + "/" + strSlug,
                 com.android.volley.Response.Listener { response: String? ->
                     try {
                         content.visibility = View.VISIBLE
@@ -916,20 +1114,30 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                         Timber.e(jsonObject.toString())
                         println(jsonObject.toString())
                         if (jsonObject.has("success") &&
-                                !jsonObject.isNull("success") &&
-                                jsonObject.getBoolean("success")) {
+                            !jsonObject.isNull("success") &&
+                            jsonObject.getBoolean("success")
+                        ) {
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 val jsonObjectData = jsonObject.getJSONObject("data")
-                                taskModel = TaskModel().getJsonToModel(jsonObjectData, this@TaskDetailsActivity)
+                                taskModel = TaskModel().getJsonToModel(
+                                    jsonObjectData,
+                                    this@TaskDetailsActivity
+                                )
                                 taskModel!!.offerSent = false
-                                taskModel!!.offers.forEach(Consumer { offerModel1: OfferModel -> if (offerModel1.worker.id == sessionManager.userAccount.id) taskModel!!.offerSent = true }
+                                taskModel!!.offers.forEach(Consumer { offerModel1: OfferModel ->
+                                    if (offerModel1.worker.id == sessionManager.userAccount.id) taskModel!!.offerSent =
+                                        true
+                                }
                                 )
                                 setOwnerTask()
                                 dismissStatusAlert()
                                 initStatusTask(taskModel!!.status.toLowerCase())
                                 initComponent()
                                 setDataInLayout(taskModel!!)
-                                setPosterChatButton(taskModel!!.status.toLowerCase(), jsonObjectData)
+                                setPosterChatButton(
+                                    taskModel!!.status.toLowerCase(),
+                                    jsonObjectData
+                                )
                                 initRestConf(jsonObjectData)
 
                             }
@@ -953,43 +1161,69 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     //    fl_task_details.setVisibility(View.GONE);
                     errorHandle1(error.networkResponse)
                 }) {
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    // map1.put("X-Requested-With", "XMLHttpRequest");
+                    return map1
+                }
             }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@TaskDetailsActivity)
         requestQueue.add(stringRequest)
     }
 
     private fun initRestConf(jsonObject_data: JSONObject) {
-        txtAskQuestion.text = if (taskModel!!.questionCount == 0) getString(R.string.no_question_yet)
-        else
-            (if (!isUserThePoster) getString(R.string.do_you_have_question) else "You have ${taskModel!!.questionCount} new questions")
+        txtAskQuestion.text =
+            if (taskModel!!.questionCount == 0) getString(R.string.no_question_yet)
+            else
+                (if (!isUserThePoster) getString(R.string.do_you_have_question) else "You have ${taskModel!!.questionCount} new questions")
         if (isUserThePoster and (taskModel!!.questionCount != 0)) {
-            txtAskQuestion.setSpanColor(8, taskModel!!.questionCount.toString().length + 9, if (taskModel!!.status.equals("open", ignoreCase = true))
-                ContextCompat.getColor(this, R.color.blue) else ContextCompat.getColor(this, R.color.RN600))
+            txtAskQuestion.setSpanColor(
+                8,
+                taskModel!!.questionCount.toString().length + 9,
+                if (taskModel!!.status.equals("open", ignoreCase = true))
+                    ContextCompat.getColor(this, R.color.blue) else ContextCompat.getColor(
+                    this,
+                    R.color.RN600
+                )
+            )
             txtAskQuestion.setSpanFont(8, taskModel!!.questionCount.toString().length + 9, 1.1f)
         }
         setClickOnQuestion()
         if (jsonObject_data.has("conversations") && !jsonObject_data.isNull("conversations")) {
             for (i in 0 until jsonObject_data.getJSONArray("conversations").length()) {
-                val first = jsonObject_data.getJSONArray("conversations").getJSONObject(i).getJSONArray("users").getJSONObject(0).getInt("id")
-                val sec = jsonObject_data.getJSONArray("conversations").getJSONObject(i).getJSONArray("users").getJSONObject(1).getInt("id")
+                val first = jsonObject_data.getJSONArray("conversations").getJSONObject(i)
+                    .getJSONArray("users").getJSONObject(0).getInt("id")
+                val sec = jsonObject_data.getJSONArray("conversations").getJSONObject(i)
+                    .getJSONArray("users").getJSONObject(1).getInt("id")
                 if (first == sessionManager.userAccount.id || sec == sessionManager.userAccount.id) {
-                    imgPChat.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_p_chat_enable_v2))
-                    lytBtnMessage.setOnClickListener { getConversationId(taskModel!!.slug, taskModel!!.poster.id.toString()) }
+                    imgPChat.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_p_chat_enable_v2
+                        )
+                    )
+                    lytBtnMessage.setOnClickListener {
+                        getConversationId(
+                            taskModel!!.slug,
+                            taskModel!!.poster.id.toString()
+                        )
+                    }
                 }
             }
         }
         if (taskModel!!.taskType == "physical") {
             llLocation.setOnClickListener { v: View? ->
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:<" + taskModel!!.position.latitude + ">,<" + taskModel!!.position.longitude + ">?q=<" + taskModel!!.position.latitude + ">,<" + taskModel!!.position.longitude + ">(" + "job address" + ")"))
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("geo:<" + taskModel!!.position.latitude + ">,<" + taskModel!!.position.longitude + ">?q=<" + taskModel!!.position.latitude + ">,<" + taskModel!!.position.longitude + ">(" + "job address" + ")")
+                )
                 startActivity(intent)
             }
         }
@@ -997,12 +1231,16 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     private fun setClickOnQuestion() {
         if ((taskModel!!.questionCount > 0)
-                or
-                (((!isUserTheTicker and !isUserThePoster)
-                        or isUserTheTicker) and (taskModel!!.questionCount != 0) and !(taskModel!!.status.equals("open", ignoreCase = true)))
-                or
-                (((!isUserTheTicker and !isUserThePoster)
-                        or isUserTheTicker) and (taskModel!!.status.equals("open", ignoreCase = true))) ) {
+            or (isUserThePoster and (taskModel!!.status.equals("open", ignoreCase = true))) or
+            (((!isUserTheTicker and !isUserThePoster)
+                    or isUserTheTicker) and (taskModel!!.questionCount != 0) and !(taskModel!!.status.equals(
+                "open",
+                ignoreCase = true
+            )))
+            or
+            (((!isUserTheTicker and !isUserThePoster)
+                    or isUserTheTicker) and (taskModel!!.status.equals("open", ignoreCase = true)))
+        ) {
             txtAskQuestion.setOnClickListener {
                 showQuestions()
             }
@@ -1019,8 +1257,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         llBtnPosterMessageEnable.setOnClickListener {
             try {
                 val conversation = jsonObject.getJSONObject("conversation")
-                val conversationModel = ConversationModel(this@TaskDetailsActivity).getJsonToModel(conversation,
-                        this@TaskDetailsActivity)
+                val conversationModel = ConversationModel(this@TaskDetailsActivity).getJsonToModel(
+                    conversation,
+                    this@TaskDetailsActivity
+                )
                 val intent = Intent(this@TaskDetailsActivity, ChatActivity::class.java)
                 val bundle = Bundle()
                 bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel)
@@ -1163,11 +1403,21 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     scrollRange = appBarLayout.totalScrollRange
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(application, R.color.black))
+                    collapsingToolbar.setCollapsedTitleTextColor(
+                        ContextCompat.getColor(
+                            application,
+                            R.color.black
+                        )
+                    )
                     toolbar.setTitleTextColor(resources.getColor(R.color.black))
                     isToolbarCollapsed = true
                 } else if (isToolbarCollapsed) {
-                    collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(application, R.color.white))
+                    collapsingToolbar.setCollapsedTitleTextColor(
+                        ContextCompat.getColor(
+                            application,
+                            R.color.white
+                        )
+                    )
                     toolbar.setTitleTextColor(resources.getColor(R.color.white))
                     isToolbarCollapsed = false
                 }
@@ -1195,7 +1445,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     private fun deleteTaskPermanent(slug: String) {
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + slug + "/cancellation",
+        val stringRequest: StringRequest =
+            object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + slug + "/cancellation",
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -1203,12 +1454,18 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 getData
-                                showSuccessToast("Job Cancelled Successfully", this@TaskDetailsActivity)
+                                showSuccessToast(
+                                    "Job Cancelled Successfully",
+                                    this@TaskDetailsActivity
+                                )
                             } else {
                                 showToast("Job not cancelled", this@TaskDetailsActivity)
                             }
                         } else {
-                            showToast(getString(R.string.server_went_wrong), this@TaskDetailsActivity)
+                            showToast(
+                                getString(R.string.server_went_wrong),
+                                this@TaskDetailsActivity
+                            )
                         }
                         hideProgressDialog()
                     } catch (e: JSONException) {
@@ -1217,16 +1474,19 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     }
                 },
                 com.android.volley.Response.ErrorListener { error: VolleyError? -> hideProgressDialog() }) {
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/json"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                return map1
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/json"
+                    map1["X-Requested-With"] = "XMLHttpRequest"
+                    return map1
+                }
             }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@TaskDetailsActivity)
         requestQueue.add(stringRequest)
     }
@@ -1250,7 +1510,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private fun setMyOffer() {
         cardMyOfferLayout.visibility = View.GONE
         if (!isUserTheTicker and !isUserThePoster) {
-            val myOffer = taskModel!!.offers.filter { it.worker.id == sessionManager.userAccount.id }
+            val myOffer =
+                taskModel!!.offers.filter { it.worker.id == sessionManager.userAccount.id }
             if (myOffer.isNotEmpty()) {
                 cardMyOfferLayout.visibility = View.VISIBLE
                 if (myOffer[0].worker.avatar != null && myOffer[0].worker.avatar.thumbUrl != null) {
@@ -1259,7 +1520,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 txtMyOfferName.text = myOffer[0].worker.name
                 txtMyOfferTime.text = myOffer[0].createdAt
                 txtMyOfferOfferPrice.text = myOffer[0].offerPrice.toString()
-                txtMyOfferCompletionRate.text = myOffer[0].worker.workTaskStatistics.completionRate.toString() + "%"
+                txtMyOfferCompletionRate.text =
+                    myOffer[0].worker.workTaskStatistics.completionRate.toString() + "%"
                 if (myOffer[0].worker.workerRatings != null && myOffer[0].worker.workerRatings.avgRating != null) {
                     rbMyOfferBigratingValue.rating = myOffer[0].worker.workerRatings.avgRating
                 }
@@ -1271,8 +1533,12 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun setPrice() {
-        if (taskModel!!.status != null && !taskModel!!.status.equals(Constant.TASK_OPEN, ignoreCase = true)
-                && (isUserThePoster || isUserTheTicker)) {
+        if (taskModel!!.status != null && !taskModel!!.status.equals(
+                Constant.TASK_OPEN,
+                ignoreCase = true
+            )
+            && (isUserThePoster || isUserTheTicker)
+        ) {
             budget.text = String.format(Locale.ENGLISH, "%d", taskModel!!.amount)
         } else {
             budget.text = String.format(Locale.ENGLISH, "%d", taskModel!!.budget)
@@ -1300,8 +1566,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     cnOfferDetails.visibility = View.VISIBLE
                     txtSuccess.visibility = View.VISIBLE
                     txtCompletionRate.visibility = View.VISIBLE
-                    if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRate.text = "%" + taskModel!!.worker.workTaskStatistics.completionRate.toString()
-                    if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRateObserver.text = "%" + taskModel!!.worker.workTaskStatistics.completionRate.toString()
+                    if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRate.text =
+                        "%" + taskModel!!.worker.workTaskStatistics.completionRate.toString()
+                    if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRateObserver.text =
+                        "%" + taskModel!!.worker.workTaskStatistics.completionRate.toString()
 
                     imgStarAssign.visibility = View.GONE
                     txtAvRating.visibility = View.GONE
@@ -1316,8 +1584,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     txtAvRating.visibility = View.VISIBLE
                     txtCompletionRateObserver.visibility = View.VISIBLE
                     txtJobSuccess.visibility = View.VISIBLE
-                    if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRate.text = taskModel!!.worker.workTaskStatistics.completionRate.toString() + "%"
-                    if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRateObserver.text = taskModel!!.worker.workTaskStatistics.completionRate.toString() + "%"
+                    if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRate.text =
+                        taskModel!!.worker.workTaskStatistics.completionRate.toString() + "%"
+                    if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRateObserver.text =
+                        taskModel!!.worker.workTaskStatistics.completionRate.toString() + "%"
 
                 }
             } else {
@@ -1345,7 +1615,11 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             }
             if (isUserThePoster and taskModel!!.status!!.equals("assigned", ignoreCase = true)) {
                 cardAssigneeLayout.setOnClickListener {
-                    showOffer(taskModel!!.offers.filter { taskModel!!.worker.id == it.worker.id }[0], true, false)
+                    showOffer(
+                        taskModel!!.offers.filter { taskModel!!.worker.id == it.worker.id }[0],
+                        true,
+                        false
+                    )
                 }
             }
             if (taskModel!!.status!!.equals("completed", ignoreCase = true)) {
@@ -1360,7 +1634,13 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun showOffer(offer: OfferModel?, isAssigned: Boolean, isMyOffer: Boolean) {
-        val offerBottomSheet = OfferBottomSheet(offer!!, isUserThePoster, sessionManager!!, isAssigned = isAssigned, isMyOffer = isMyOffer)
+        val offerBottomSheet = OfferBottomSheet(
+            offer!!,
+            isUserThePoster,
+            sessionManager!!,
+            isAssigned = isAssigned,
+            isMyOffer = isMyOffer
+        )
         offerBottomSheet.show(supportFragmentManager, null)
         offerBottomSheet.offerBottomSheetClick = this
     }
@@ -1390,7 +1670,13 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         }
 
         viewPager.addOnPageChangeListener(object : OnPageChangeListener {
-            override fun onPageScrolled(pos: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrolled(
+                pos: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
             override fun onPageSelected(pos: Int) {
                 addBottomDots(layoutDots, adapterImageSlider.count, pos)
             }
@@ -1419,7 +1705,11 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             lnShowOffers.visibility = View.VISIBLE
             lnShowOffersDeactive.visibility = View.GONE
             txtOfferCount.text = "You have received $offerCount offers"
-            txtOfferCount.setSpanColor(18, offerCount.toString().length + 18, ContextCompat.getColor(this, R.color.blue))
+            txtOfferCount.setSpanColor(
+                18,
+                offerCount.toString().length + 18,
+                ContextCompat.getColor(this, R.color.blue)
+            )
             txtOfferCount.setSpanFont(18, offerCount.toString().length + 18, 1.2f)
         }
 
@@ -1431,7 +1721,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         for (i in dots.indices) {
             dots[i] = ImageView(this)
             val width_height = 20
-            val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams(width_height, width_height))
+            val params =
+                LinearLayout.LayoutParams(ViewGroup.LayoutParams(width_height, width_height))
             params.setMargins(10, 10, 10, 10)
             dots[i]!!.layoutParams = params
             dots[i]!!.setImageResource(R.drawable.shape_circle_outline_gray)
@@ -1538,7 +1829,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     private fun submitAskToReleaseMoney() {
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/complete",
+        val stringRequest: StringRequest = object :
+            StringRequest(Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/complete",
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -1548,7 +1840,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                             initialStage()
                         } else {
                             hideProgressDialog()
-                            showToast(getString(R.string.server_went_wrong), this@TaskDetailsActivity)
+                            showToast(
+                                getString(R.string.server_went_wrong),
+                                this@TaskDetailsActivity
+                            )
                         }
                     } catch (e: JSONException) {
                         hideProgressDialog()
@@ -1589,15 +1884,18 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@TaskDetailsActivity)
         requestQueue.add(stringRequest)
     }
 
     private fun submitReleaseMoney() {
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/close",
+        val stringRequest: StringRequest = object :
+            StringRequest(Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/close",
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -1607,7 +1905,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                             initialStage()
                         } else {
                             hideProgressDialog()
-                            showToast(getString(R.string.server_went_wrong), this@TaskDetailsActivity)
+                            showToast(
+                                getString(R.string.server_went_wrong),
+                                this@TaskDetailsActivity
+                            )
                         }
                     } catch (e: JSONException) {
                         hideProgressDialog()
@@ -1650,8 +1951,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@TaskDetailsActivity)
         requestQueue.add(stringRequest)
     }
@@ -1679,7 +1982,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private class AdapterImageSlider  // constructor
-    (private val act: Activity, private var items: ArrayList<AttachmentModel>) : PagerAdapter() {
+        (private val act: Activity, private var items: ArrayList<AttachmentModel>) :
+        PagerAdapter() {
         fun setOnItemClickListener() {}
         override fun getCount(): Int {
             return items.size
@@ -1737,7 +2041,11 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        for (fragment in supportFragmentManager.fragments) (fragment as? TickerRequirementsBottomSheet)?.onActivityResult(requestCode, resultCode, data)
+        for (fragment in supportFragmentManager.fragments) (fragment as? TickerRequirementsBottomSheet)?.onActivityResult(
+            requestCode,
+            resultCode,
+            data
+        )
         if (requestCode == ConstantKey.RESULTCODE_MAKEANOFFER) {
             if (data != null) {
                 val bundle = data.extras
@@ -1812,10 +2120,15 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     fun checkPermissionREAD_EXTERNAL_STORAGE(context: Context?): Boolean {
-        return if (ContextCompat.checkSelfPermission(context!!,
-                        permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(((context as Activity?)!!), arrayOf(permission.READ_EXTERNAL_STORAGE),
-                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
+        return if (ContextCompat.checkSelfPermission(
+                context!!,
+                permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                ((context as Activity?)!!), arrayOf(permission.READ_EXTERNAL_STORAGE),
+                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
+            )
             false
         } else {
             true
@@ -1823,7 +2136,12 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
 
-    override fun onItemQuestionClick(view: View?, obj: QuestionModel?, position: Int, action: String?) {
+    override fun onItemQuestionClick(
+        view: View?,
+        obj: QuestionModel?,
+        position: Int,
+        action: String?
+    ) {
         if (action.equals("reply", ignoreCase = true)) {
             val intent = Intent(this@TaskDetailsActivity, PublicChatActivity::class.java)
             val bundle = Bundle()
@@ -1848,7 +2166,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 val intent = Intent()
                 intent.type = "image/*"
                 intent.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE)
+                startActivityForResult(
+                    Intent.createChooser(intent, "Select Picture"),
+                    GALLERY_PICKUP_IMAGE_REQUEST_CODE
+                )
             } else if (action.equals("delete", ignoreCase = true)) {
                 //recyclerViewQuestionAttachment.removeViewAt(position)
                 attachmentArrayListQuestion.removeAt(position)
@@ -1864,28 +2185,28 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private fun doApiCall(url: String) {
         showProgressDialog()
         val stringRequest: StringRequest = object : StringRequest(Method.DELETE, url,
-                com.android.volley.Response.Listener { response: String? ->
+            com.android.volley.Response.Listener { response: String? ->
+                hideProgressDialog()
+                Timber.e(response)
+                // categoryArrayList.clear();
+                try {
+                    val jsonObject = JSONObject(response!!)
+                    var data = OfferDeleteModel()
+                    val gson = Gson()
+                    data = gson.fromJson(jsonObject.toString(), OfferDeleteModel::class.java)
+                    initialStage()
+                    //       showToast(data.getMessage(), this);
+                } catch (e: JSONException) {
                     hideProgressDialog()
-                    Timber.e(response)
-                    // categoryArrayList.clear();
-                    try {
-                        val jsonObject = JSONObject(response!!)
-                        var data = OfferDeleteModel()
-                        val gson = Gson()
-                        data = gson.fromJson(jsonObject.toString(), OfferDeleteModel::class.java)
-                        initialStage()
-                        //       showToast(data.getMessage(), this);
-                    } catch (e: JSONException) {
-                        hideProgressDialog()
-                        Timber.e(e.toString())
-                        e.printStackTrace()
-                    }
-                },
-                com.android.volley.Response.ErrorListener { error: VolleyError ->
-                    //  swipeRefresh.setRefreshing(false);
-                    hideProgressDialog()
-                    errorHandle1(error.networkResponse)
-                }) {
+                    Timber.e(e.toString())
+                    e.printStackTrace()
+                }
+            },
+            com.android.volley.Response.ErrorListener { error: VolleyError ->
+                //  swipeRefresh.setRefreshing(false);
+                hideProgressDialog()
+                errorHandle1(error.networkResponse)
+            }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
@@ -1894,8 +2215,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@TaskDetailsActivity)
         requestQueue.add(stringRequest)
         Timber.e(stringRequest.url)
@@ -1906,7 +2229,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         if (mBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
         }
-        @SuppressLint("InflateParams") val view = layoutInflater.inflate(R.layout.sheet_requirement, null)
+        @SuppressLint("InflateParams") val view =
+            layoutInflater.inflate(R.layout.sheet_requirement, null)
         val lytMOffer = view.findViewById<LinearLayout>(R.id.lyt_btn_make_an_offer)
         val cardMOffer: CardView = view.findViewById(R.id.card_make_an_offer)
         val adapter: MustHaveListAdapter
@@ -1924,11 +2248,15 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         adapter = MustHaveListAdapter(this, addTagList)
         adapter.onCheckedAllItems {
             if (adapter.isAllSelected) {
-                cardMOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
-                        R.color.colorPrimary)
+                cardMOffer.backgroundTintList = ContextCompat.getColorStateList(
+                    this@TaskDetailsActivity,
+                    R.color.colorPrimary
+                )
             } else {
-                cardMOffer.backgroundTintList = ContextCompat.getColorStateList(this@TaskDetailsActivity,
-                        R.color.colorAccent)
+                cardMOffer.backgroundTintList = ContextCompat.getColorStateList(
+                    this@TaskDetailsActivity,
+                    R.color.colorAccent
+                )
             }
         }
         lytMOffer.setOnClickListener { v: View? ->
@@ -1953,7 +2281,9 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         // set background transparent
         (view.parent as View).setBackgroundColor(resources.getColor(android.R.color.transparent))
         mBottomSheetDialog!!.show()
-        mBottomSheetDialog!!.setOnDismissListener { dialog: DialogInterface? -> mBottomSheetDialog = null }
+        mBottomSheetDialog!!.setOnDismissListener { dialog: DialogInterface? ->
+            mBottomSheetDialog = null
+        }
     }
 
     private fun initCancelled() {
@@ -1971,21 +2301,53 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         }
         if (taskModel!!.cancellation == null) return
         if (isUserThePoster) {
-            if (taskModel!!.cancellation.status.equals(ConstantKey.CANCELLATION_PENDING, ignoreCase = true)) {
-                showCancellationCard(false, taskModel!!.cancellation.requesterId != sessionManager.userAccount.id)
+            if (taskModel!!.cancellation.status.equals(
+                    ConstantKey.CANCELLATION_PENDING,
+                    ignoreCase = true
+                )
+            ) {
+                showCancellationCard(
+                    false,
+                    taskModel!!.cancellation.requesterId != sessionManager.userAccount.id
+                )
                 cardMakeAnOffer.visibility = View.GONE
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_cancellation,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_reschedule,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_increase_budget,
+                    false
+                )
             }
         } else {
-            if (taskModel!!.cancellation.status.equals(ConstantKey.CANCELLATION_PENDING, ignoreCase = true) &&
-                    isUserTheTicker) {
-                showCancellationCard(true, taskModel!!.cancellation.requesterId == sessionManager.userAccount.id)
+            if (taskModel!!.cancellation.status.equals(
+                    ConstantKey.CANCELLATION_PENDING,
+                    ignoreCase = true
+                ) &&
+                isUserTheTicker
+            ) {
+                showCancellationCard(
+                    true,
+                    taskModel!!.cancellation.requesterId == sessionManager.userAccount.id
+                )
                 cardMakeAnOffer.visibility = View.GONE
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_cancellation,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_reschedule,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_increase_budget,
+                    false
+                )
             }
         }
     }
@@ -1999,14 +2361,32 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         if (taskModel!!.status.toLowerCase() == "completed") {
             if (isUserThePoster) {
                 showConfirmReleaseCard()
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_cancellation,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_reschedule,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_increase_budget,
+                    false
+                )
             } else if (isUserTheTicker) {
                 showAskToReleaseCard()
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_cancellation,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_reschedule,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_increase_budget,
+                    false
+                )
             }
         }
     }
@@ -2056,9 +2436,18 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                         pos = i
                         if (isUserThePoster || isUserTheTicker) {
                             showRescheduleTimeCard(i)
-                            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+                            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                                R.id.grp_cancellation,
+                                false
+                            )
+                            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                                R.id.grp_reschedule,
+                                false
+                            )
+                            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                                R.id.grp_increase_budget,
+                                false
+                            )
                             break
                         }
                     }
@@ -2068,8 +2457,14 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun initJobReceipt() {
-        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_job_receipt, false)
-        if (isUserTheTicker || isUserThePoster) toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_job_receipt, taskModel!!.status.toLowerCase() == Constant.TASK_CLOSED)
+        toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_job_receipt,
+            false
+        )
+        if (isUserTheTicker || isUserThePoster) toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+            R.id.grp_job_receipt,
+            taskModel!!.status.toLowerCase() == Constant.TASK_CLOSED
+        )
     }
 
     private fun initIncreaseBudget() {
@@ -2077,20 +2472,41 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             hideAlertBox()
         }
         if (isUserThePoster) {
-            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+            toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                R.id.grp_increase_budget,
+                false
+            )
         }
         if (taskModel!!.additionalFund != null && taskModel!!.additionalFund.status == "pending") {
             if (isUserThePoster) {
                 showIncreaseBudgetCard()
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_cancellation,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_reschedule,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_increase_budget,
+                    false
+                )
             } else if (isUserTheTicker) {
                 showIncreaseBudgetCard()
                 //TODO: updated design of mahan should be applied here
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_cancellation, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_reschedule, false)
-                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_increase_budget, false)
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_cancellation,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_reschedule,
+                    false
+                )
+                toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
+                    R.id.grp_increase_budget,
+                    false
+                )
             }
         }
     }
@@ -2122,7 +2538,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     private fun showCustomDialogAskToReleaseMoney() {
         if (taskModel!!.additionalFund != null && taskModel!!.additionalFund.status == "pending") {
-            showToast("Increase price request already pending. You either delete or wait for poster response on that.", this)
+            showToast(
+                "Increase price request already pending. You either delete or wait for poster response on that.",
+                this
+            )
             return
         }
         if (taskModel!!.rescheduleReqeust != null && taskModel!!.rescheduleReqeust.size > 0) {
@@ -2131,7 +2550,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     if (taskModel!!.status.toLowerCase() != Constant.TASK_CANCELLED && taskModel!!.status.toLowerCase() != Constant.TASK_CLOSED) {
                         pos = i
                         if (isUserThePoster || isUserTheTicker) {
-                            showToast("Reschedule time request already pending. You either delete or wait for poster response on that.", this)
+                            showToast(
+                                "Reschedule time request already pending. You either delete or wait for poster response on that.",
+                                this
+                            )
                             return
                         }
                     }
@@ -2150,8 +2572,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun showCancelledCard() {
-        showAlertBox(Html.fromHtml("This job has been canceled"),
-                ConstantKey.BTN_POST_NEW_JOB, AlertType.CANCELLED, true, hasTopColor = true)
+        showAlertBox(
+            Html.fromHtml("This job has been canceled"),
+            ConstantKey.BTN_POST_NEW_JOB, AlertType.CANCELLED, true, hasTopColor = true
+        )
     }
 
     private var isTicker = false
@@ -2163,30 +2587,38 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         if (isTicker && tickerCancels) {
             cancellationTitle = "<b>You</b> have requested to cancel this job on <b>" +
                     TimeHelper.convertToShowTimeFormat(taskModel!!.cancellation.createdAt) + "</b>"
-            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
-                    AlertType.CANCELLATION, true, hasTopColor = false)
+            showAlertBox(
+                Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
+                AlertType.CANCELLATION, true, hasTopColor = false
+            )
         }
         if (!isTicker && !tickerCancels) {
             cancellationTitle = "<b>You</b> have requested to cancel this job on <b>" +
                     TimeHelper.convertToShowTimeFormat(taskModel!!.cancellation.createdAt) + "</b>"
-            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
-                    AlertType.CANCELLATION, true, hasTopColor = false)
+            showAlertBox(
+                Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
+                AlertType.CANCELLATION, true, hasTopColor = false
+            )
         }
         if (isTicker && !tickerCancels) {
             val cancelledByWho = taskModel!!.poster.name
             cancellationTitle = "<b>" + cancelledByWho + "</b> " +
                     "has requested to cancel this job on <b>" +
                     TimeHelper.convertToShowTimeFormat(taskModel!!.cancellation.createdAt) + "</b>"
-            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
-                    AlertType.CANCELLATION, true, hasTopColor = false)
+            showAlertBox(
+                Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
+                AlertType.CANCELLATION, true, hasTopColor = false
+            )
         }
         if (!isTicker && tickerCancels) {
             val cancelledByWho = taskModel!!.worker.name
             cancellationTitle = "<b>" + cancelledByWho + "</b> " +
                     "has requested to cancel this job on <b>" +
                     TimeHelper.convertToShowTimeFormat(taskModel!!.cancellation.createdAt) + "</b>"
-            showAlertBox(Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
-                    AlertType.CANCELLATION, true, hasTopColor = false)
+            showAlertBox(
+                Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
+                AlertType.CANCELLATION, true, hasTopColor = false
+            )
         }
     }
 
@@ -2210,10 +2642,14 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         } else {
             isRescheduledRequestForMine = false
         }
-        showAlertBox(Html.fromHtml("<b>" + rescheduledByWho + "</b> " +
-                " has requested to reschedule time on this job on <b>" +
-                TimeHelper.convertToShowTimeFormat(taskModel!!.rescheduleReqeust[pos].created_at) + ".</b>"),
-                ConstantKey.BTN_RESCHEDULE_REQUEST_SENT, AlertType.RESCHEDULE, true, hasTopColor = false)
+        showAlertBox(
+            Html.fromHtml(
+                "<b>" + rescheduledByWho + "</b> " +
+                        " has requested to reschedule time on this job on <b>" +
+                        TimeHelper.convertToShowTimeFormat(taskModel!!.rescheduleReqeust[pos].created_at) + ".</b>"
+            ),
+            ConstantKey.BTN_RESCHEDULE_REQUEST_SENT, AlertType.RESCHEDULE, true, hasTopColor = false
+        )
     }
 
     var isIncreaseBudgetRequestForMine = false
@@ -2237,38 +2673,61 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         } else {
             isIncreaseBudgetRequestForMine = false
         }
-        showAlertBox(Html.fromHtml("<b>" + increaseRequestByWho + "</b> " +
-                "has requested to increase price on this job on <b>" +
-                TimeHelper.convertToShowTimeFormat(taskModel!!.additionalFund.createdAt) + "</b>"),
-                ConstantKey.BTN_INCREASE_BUDGET_REQUEST_SENT, AlertType.INCREASE_BUDGET, true, hasTopColor = false)
+        showAlertBox(
+            Html.fromHtml(
+                "<b>" + increaseRequestByWho + "</b> " +
+                        "has requested to increase price on this job on <b>" +
+                        TimeHelper.convertToShowTimeFormat(taskModel!!.additionalFund.createdAt) + "</b>"
+            ),
+            ConstantKey.BTN_INCREASE_BUDGET_REQUEST_SENT,
+            AlertType.INCREASE_BUDGET,
+            true,
+            hasTopColor = false
+        )
     }
 
     private fun showReviewCard() {
         val writeAReviewForWho: String
-        writeAReviewForWho = if (isUserThePoster) taskModel!!.worker.name else taskModel!!.poster.name
-        showAlertBox(Html.fromHtml(
-                "Make our community more trusted by leaving a review for <b>$writeAReviewForWho</b>"),
-                ConstantKey.BTN_LEAVE_A_REVIEW, AlertType.REVIEW, true, hasTopColor = false)
+        writeAReviewForWho =
+            if (isUserThePoster) taskModel!!.worker.name else taskModel!!.poster.name
+        showAlertBox(
+            Html.fromHtml(
+                "Make our community more trusted by leaving a review for <b>$writeAReviewForWho</b>"
+            ),
+            ConstantKey.BTN_LEAVE_A_REVIEW, AlertType.REVIEW, true, hasTopColor = false
+        )
     }
 
     private fun showAskToReleaseCard() {
-        showAlertBox(Html.fromHtml(
+        showAlertBox(
+            Html.fromHtml(
                 "You have requested to release money this job on <b>" +
-                        TimeHelper.convertToShowTimeFormat(taskModel!!.conversation.task.completedAt) + "</b>"),
-                null, AlertType.ASK_TO_RELEASE, false, hasTopColor = false)
+                        TimeHelper.convertToShowTimeFormat(taskModel!!.conversation.task.completedAt) + "</b>"
+            ),
+            null, AlertType.ASK_TO_RELEASE, false, hasTopColor = false
+        )
     }
 
     private fun showConfirmReleaseCard() {
         val whoRequestToReleaseMoney = taskModel!!.worker.name
-        showAlertBox(Html.fromHtml("<b>" + whoRequestToReleaseMoney + "</b> " +
-                " have requested to release money this job on <b>" +
-                TimeHelper.convertToShowTimeFormat(taskModel!!.conversation.task.completedAt) + "</b>"),
-                ConstantKey.BTN_CONFIRM_RELEASE_MONEY, AlertType.CONFIRM_RELEASE, true, hasTopColor = false)
+        showAlertBox(
+            Html.fromHtml(
+                "<b>" + whoRequestToReleaseMoney + "</b> " +
+                        " have requested to release money this job on <b>" +
+                        TimeHelper.convertToShowTimeFormat(taskModel!!.conversation.task.completedAt) + "</b>"
+            ),
+            ConstantKey.BTN_CONFIRM_RELEASE_MONEY,
+            AlertType.CONFIRM_RELEASE,
+            true,
+            hasTopColor = false
+        )
     }
 
     //we use spanned to support middle bolds
-    private fun showAlertBox(title: Spanned, buttonText: String?, alertType: AlertType,
-                             hasButton: Boolean, hasTopColor: Boolean) {
+    private fun showAlertBox(
+        title: Spanned, buttonText: String?, alertType: AlertType,
+        hasButton: Boolean, hasTopColor: Boolean
+    ) {
         alertBox.visibility = View.VISIBLE
         this.alertType = alertType
         alertBox.setTitle(title)
@@ -2339,110 +2798,121 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun getConversationId(slug: String, targetId: String) {
-        val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL_v2 + "jobs/" + slug + "/start_chat/" + targetId,
-                com.android.volley.Response.Listener { response: String? ->
-                    Timber.e(response)
-                    try {
-                        val jsonObject = JSONObject(response!!)
-                        val gson = Gson()
-                        val chatModel = ChatModel()
-                        val sender = UserAccountModel()
-                        val reciver = UserAccountModel()
-                        val senderA = AttachmentModel()
-                        val reciverA = AttachmentModel()
-                        val attachment = AttachmentModel()
-                        val (data, _, success) = gson.fromJson(jsonObject.toString(), GetConversationInfoResponse::class.java)
-                        if (success!!) {
-                            if (data!!.last_message != null) {
-                                chatModel.id = data.last_message!!.id
-                                chatModel.conversationId = data.last_message.conversation_id
-                                chatModel.createdAt = data.last_message.created_at
-                                chatModel.message = data.last_message.message
-                                chatModel.senderId = data.last_message.sender_id
-                                chatModel.isSeen = data.last_message.is_seen
-                                if (data.last_message.attachment != null) {
-                                    attachment.url = data.last_message.attachment.url
-                                    attachment.id = data.last_message.attachment.id
-                                    attachment.thumbUrl = data.last_message.attachment.thumb_url
-                                    attachment.name = data.last_message.attachment.name
-                                    attachment.modalUrl = data.last_message.attachment.modal_url
-                                    attachment.mime = data.last_message.attachment.mime
-                                    attachment.createdAt = data.last_message.attachment.created_at
-                                    chatModel.attachment = attachment
-                                }
+        val stringRequest: StringRequest = object : StringRequest(Method.GET,
+            Constant.BASE_URL_v2 + "jobs/" + slug + "/start_chat/" + targetId,
+            com.android.volley.Response.Listener { response: String? ->
+                Timber.e(response)
+                try {
+                    val jsonObject = JSONObject(response!!)
+                    val gson = Gson()
+                    val chatModel = ChatModel()
+                    val sender = UserAccountModel()
+                    val reciver = UserAccountModel()
+                    val senderA = AttachmentModel()
+                    val reciverA = AttachmentModel()
+                    val attachment = AttachmentModel()
+                    val (data, _, success) = gson.fromJson(
+                        jsonObject.toString(),
+                        GetConversationInfoResponse::class.java
+                    )
+                    if (success!!) {
+                        if (data!!.last_message != null) {
+                            chatModel.id = data.last_message!!.id
+                            chatModel.conversationId = data.last_message.conversation_id
+                            chatModel.createdAt = data.last_message.created_at
+                            chatModel.message = data.last_message.message
+                            chatModel.senderId = data.last_message.sender_id
+                            chatModel.isSeen = data.last_message.is_seen
+                            if (data.last_message.attachment != null) {
+                                attachment.url = data.last_message.attachment.url
+                                attachment.id = data.last_message.attachment.id
+                                attachment.thumbUrl = data.last_message.attachment.thumb_url
+                                attachment.name = data.last_message.attachment.name
+                                attachment.modalUrl = data.last_message.attachment.modal_url
+                                attachment.mime = data.last_message.attachment.mime
+                                attachment.createdAt = data.last_message.attachment.created_at
+                                chatModel.attachment = attachment
                             }
-                            if (data.users!!.size == 2) {
-                                var senderId = 0
-                                var reciverId = 0
-                                for (i in 0..1) {
-                                    if (data.users[i].id === sessionManager.userAccount.id) {
-                                        senderId = i
-                                        if (senderId == 0) {
-                                            reciverId = 1
-                                        }
+                        }
+                        if (data.users!!.size == 2) {
+                            var senderId = 0
+                            var reciverId = 0
+                            for (i in 0..1) {
+                                if (data.users[i].id === sessionManager.userAccount.id) {
+                                    senderId = i
+                                    if (senderId == 0) {
+                                        reciverId = 1
                                     }
                                 }
-                                senderA.createdAt = data.users[senderId].avatar!!.created_at
-                                senderA.fileName = data.users[senderId].avatar!!.file_name
-                                senderA.id = data.users[senderId].avatar!!.id
-                                senderA.mime = data.users[senderId].avatar!!.mime
-                                senderA.modalUrl = data.users[senderId].avatar!!.modal_url
-                                senderA.name = data.users[senderId].avatar!!.name
-                                senderA.thumbUrl = data.users[senderId].avatar!!.thumb_url
-                                senderA.url = data.users[senderId].avatar!!.url
-                                sender.avatar = senderA
-                                if (data.users[senderId].position != null) {
-                                    if (data.users[senderId].position!!.latitude != null) sender.latitude = data.users[senderId].position!!.latitude
-                                    if (data.users[senderId].position!!.longitude != null) sender.longitude = data.users[senderId].position!!.longitude
-                                }
-                                if (data.users[senderId].last_online != null) sender.lastOnline = data.users[senderId].last_online
-                                sender.name = data.users[senderId].name
-                                sender.id = data.users[senderId].id
-                                reciverA.createdAt = data.users[reciverId].avatar!!.created_at
-                                reciverA.fileName = data.users[reciverId].avatar!!.file_name
-                                reciverA.id = data.users[reciverId].avatar!!.id
-                                reciverA.mime = data.users[reciverId].avatar!!.mime
-                                reciverA.modalUrl = data.users[reciverId].avatar!!.modal_url
-                                reciverA.name = data.users[reciverId].avatar!!.name
-                                reciverA.thumbUrl = data.users[reciverId].avatar!!.thumb_url
-                                reciverA.url = data.users[reciverId].avatar!!.url
-                                reciver.avatar = reciverA
-                                if (data.users[reciverId].position != null) {
-                                    if (data.users[reciverId].position!!.longitude != null) reciver.longitude = data.users[reciverId].position!!.longitude
-                                    if (data.users[reciverId].position!!.latitude != null) reciver.latitude = data.users[reciverId].position!!.latitude
-                                }
-                                reciver.lastOnline = data.users[reciverId].last_online
-                                reciver.name = data.users[reciverId].name
-                                reciver.id = data.users[reciverId].id
                             }
-                            val conversationModel = ConversationModel(data.id, data.name, data.task!!.id,
-                                    chatModel,
-                                    data.unseen_count, data.created_at,
-                                    sender,
-                                    reciver,
-                                    data.task.slug, data.task.status, data.chat_closed)
-                            val intent = Intent(this@TaskDetailsActivity, ChatActivity::class.java)
-                            val bundle = Bundle()
-                            bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel)
-                            intent.putExtras(bundle)
-                            startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT)
-                        } else {
-                            showToast("Something Went Wrong", this)
+                            senderA.createdAt = data.users[senderId].avatar!!.created_at
+                            senderA.fileName = data.users[senderId].avatar!!.file_name
+                            senderA.id = data.users[senderId].avatar!!.id
+                            senderA.mime = data.users[senderId].avatar!!.mime
+                            senderA.modalUrl = data.users[senderId].avatar!!.modal_url
+                            senderA.name = data.users[senderId].avatar!!.name
+                            senderA.thumbUrl = data.users[senderId].avatar!!.thumb_url
+                            senderA.url = data.users[senderId].avatar!!.url
+                            sender.avatar = senderA
+                            if (data.users[senderId].position != null) {
+                                if (data.users[senderId].position!!.latitude != null) sender.latitude =
+                                    data.users[senderId].position!!.latitude
+                                if (data.users[senderId].position!!.longitude != null) sender.longitude =
+                                    data.users[senderId].position!!.longitude
+                            }
+                            if (data.users[senderId].last_online != null) sender.lastOnline =
+                                data.users[senderId].last_online
+                            sender.name = data.users[senderId].name
+                            sender.id = data.users[senderId].id
+                            reciverA.createdAt = data.users[reciverId].avatar!!.created_at
+                            reciverA.fileName = data.users[reciverId].avatar!!.file_name
+                            reciverA.id = data.users[reciverId].avatar!!.id
+                            reciverA.mime = data.users[reciverId].avatar!!.mime
+                            reciverA.modalUrl = data.users[reciverId].avatar!!.modal_url
+                            reciverA.name = data.users[reciverId].avatar!!.name
+                            reciverA.thumbUrl = data.users[reciverId].avatar!!.thumb_url
+                            reciverA.url = data.users[reciverId].avatar!!.url
+                            reciver.avatar = reciverA
+                            if (data.users[reciverId].position != null) {
+                                if (data.users[reciverId].position!!.longitude != null) reciver.longitude =
+                                    data.users[reciverId].position!!.longitude
+                                if (data.users[reciverId].position!!.latitude != null) reciver.latitude =
+                                    data.users[reciverId].position!!.latitude
+                            }
+                            reciver.lastOnline = data.users[reciverId].last_online
+                            reciver.name = data.users[reciverId].name
+                            reciver.id = data.users[reciverId].id
                         }
-                    } catch (e: Exception) {
-                        Timber.e(e.toString())
-                        e.printStackTrace()
+                        val conversationModel = ConversationModel(
+                            data.id, data.name, data.task!!.id,
+                            chatModel,
+                            data.unseen_count, data.created_at,
+                            sender,
+                            reciver,
+                            data.task.slug, data.task.status, data.chat_closed
+                        )
+                        val intent = Intent(this@TaskDetailsActivity, ChatActivity::class.java)
+                        val bundle = Bundle()
+                        bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel)
+                        intent.putExtras(bundle)
+                        startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT)
+                    } else {
                         showToast("Something Went Wrong", this)
                     }
-                    isGetBankAccountLoaded = true
-                    onLoadingFinished()
-                },
-                com.android.volley.Response.ErrorListener { error: VolleyError ->
+                } catch (e: Exception) {
+                    Timber.e(e.toString())
+                    e.printStackTrace()
                     showToast("Something Went Wrong", this)
-                    Timber.e(error.toString())
-                    hideProgressDialog()
-                    onLoadingFinished()
-                }) {
+                }
+                isGetBankAccountLoaded = true
+                onLoadingFinished()
+            },
+            com.android.volley.Response.ErrorListener { error: VolleyError ->
+                showToast("Something Went Wrong", this)
+                Timber.e(error.toString())
+                hideProgressDialog()
+                onLoadingFinished()
+            }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
@@ -2452,8 +2922,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this)
         requestQueue.add(stringRequest)
     }

@@ -107,7 +107,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 
-    //facebook
+    //facebook/crash on update
     implementation 'com.facebook.android:facebook-login:9.1.0'
 
     //google auth

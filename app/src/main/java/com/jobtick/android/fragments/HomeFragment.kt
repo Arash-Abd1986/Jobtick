@@ -192,11 +192,11 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 rlRecommendedJobs!!.visibility = View.GONE
             }
         })
-        viewModel.getError().observe(viewLifecycleOwner, {
+        viewModel.getError().observe(viewLifecycleOwner, androidx.lifecycle.Observer { jsonObject ->
             dashboardActivity.showToast("Something went wrong", dashboardActivity)
             dashboardActivity.hideProgressDialog()
         })
-        viewModel.getError2().observe(viewLifecycleOwner, {
+        viewModel.getError2().observe(viewLifecycleOwner, androidx.lifecycle.Observer { jsonObject ->
             ivNotification!!.setImageResource(R.drawable.ic_notification_bel_24_28dp)
         })
 

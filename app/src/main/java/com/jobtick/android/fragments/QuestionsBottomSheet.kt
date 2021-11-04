@@ -165,7 +165,7 @@ class QuestionsBottomSheet(
     }
 
     private fun setQuestionView() {
-        if (isUserThePoster or !(taskModel.status.equals("open", ignoreCase = true))) {
+        if (!(taskModel.status.equals("open", ignoreCase = true))) {
             rltQuestionAdd.visibility = View.GONE
             linGray.visibility = View.GONE
         } else {

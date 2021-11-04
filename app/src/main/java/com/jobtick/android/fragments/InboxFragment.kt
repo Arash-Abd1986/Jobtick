@@ -359,7 +359,11 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
     }
 
     override fun onDestroy() {
-        pusher!!.disconnect()
+        try {
+            pusher!!.disconnect()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
         super.onDestroy()
     }
 

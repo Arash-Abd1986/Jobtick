@@ -438,7 +438,7 @@ class AttachmentActivity : ActivityBase(), AttachmentAdapter.OnItemClickListener
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         // MultipartBody.Part is used to send also the actual file name
         val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
-        call = ApiClient.getClient().getTaskTempAttachmentMediaData( /*"application/x-www-form-urlencoded",*/"XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, imageFile)
+        call = ApiClient.getClient().getTaskTempAttachmentMediaData( "XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, imageFile)
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: retrofit2.Response<String?>) {
                 hideProgressDialog()

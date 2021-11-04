@@ -525,7 +525,8 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
-        call = new ApiClient().buildAndGetClientForVideoUpload().getTaskTempAttachmentMediaData(/*"application/x-www-form-urlencoded",*/ "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
+        call = new ApiClient().buildAndGetClientForVideoUpload().getTaskTempAttachmentMediaData(
+                "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
 
 
         call.enqueue(new Callback<String>() {

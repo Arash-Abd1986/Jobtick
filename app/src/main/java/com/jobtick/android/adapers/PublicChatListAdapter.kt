@@ -58,14 +58,24 @@ class PublicChatListAdapter : RecyclerView.Adapter<BaseViewHolder> {
     private var isLoaderVisible = false
     private val mItems: MutableList<CommentModel>?
 
-    constructor(context: Context?, mItems: MutableList<CommentModel>?, isInPublicChat: Boolean, posterID: String?) {
+    constructor(
+        context: Context?,
+        mItems: MutableList<CommentModel>?,
+        isInPublicChat: Boolean,
+        posterID: String?
+    ) {
         this.mItems = mItems
         this.context = context
         this.isInPublicChat = isInPublicChat
         this.posterID = posterID
     }
 
-    constructor(context: Context?, mItems: MutableList<CommentModel>?, status: String?, posterID: Int) {
+    constructor(
+        context: Context?,
+        mItems: MutableList<CommentModel>?,
+        status: String?,
+        posterID: Int
+    ) {
         this.mItems = mItems
         this.context = context
         isInPublicChat = false
@@ -76,9 +86,11 @@ class PublicChatListAdapter : RecyclerView.Adapter<BaseViewHolder> {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (viewType) {
             VIEW_TYPE_LOADING -> ProgressHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false))
+                LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false)
+            )
             else -> ViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.item_offer_chat, parent, false))
+                LayoutInflater.from(parent.context).inflate(R.layout.item_offer_chat, parent, false)
+            )
         }
     }
 
@@ -142,7 +154,7 @@ class PublicChatListAdapter : RecyclerView.Adapter<BaseViewHolder> {
         var txtMessage: TextView = itemView!!.findViewById(R.id.txt_message)
         var imgFile: ImageView = itemView!!.findViewById(R.id.img_file)
         var cardImgFile: CardView = itemView!!.findViewById(R.id.card_img_file)
-        var txtPoster: TextView = itemView!!.findViewById(R.id.txt_poster)
+        var isPoster: TextView = itemView!!.findViewById(R.id.is_poster)
         var ivFlag: LinearLayout = itemView!!.findViewById(R.id.ivFlag)
 
 
@@ -152,7 +164,11 @@ class PublicChatListAdapter : RecyclerView.Adapter<BaseViewHolder> {
         override fun onBind(position: Int) {
             super.onBind(position)
             val item = mItems!![position]
-            if (item.user.avatar != null) ImageUtil.displayImage(imgAvatar, item.user.avatar.thumbUrl, null)
+            if (item.user.avatar != null) ImageUtil.displayImage(
+                imgAvatar,
+                item.user.avatar.thumbUrl,
+                null
+            )
             txtName.text = item.user.name
             txtMessage.text = item.commentText
             txtCreatedDate.text = item.createdAt
@@ -174,11 +190,10 @@ class PublicChatListAdapter : RecyclerView.Adapter<BaseViewHolder> {
             } else {
                 cardImgFile.visibility = View.GONE
             }
-            if (posterID != null) if (posterID == item.id.toString()) {
-                txtPoster.visibility = View.VISIBLE
-            } else {
-                txtPoster.visibility = View.GONE
-            }
+            if (posterID != null)
+                if (item.user.id.toString() == posterID) isPoster.visibility =
+                    View.VISIBLE else isPoster.visibility = View.GONE
+
             ivFlag.setOnClickListener { view: View? ->
                 val bundle = Bundle()
                 val intent = Intent(context, ReportActivity::class.java)
@@ -194,7 +209,7 @@ class PublicChatListAdapter : RecyclerView.Adapter<BaseViewHolder> {
             }
             txtName.setOnClickListener { imgAvatar.performClick() }
 
-            setMoreLess(txtMessage,item.commentText,3)
+            setMoreLess(txtMessage, item.commentText, 3)
         }
 
 

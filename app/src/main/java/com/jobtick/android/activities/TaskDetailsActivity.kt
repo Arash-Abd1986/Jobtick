@@ -1179,6 +1179,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun initRestConf(jsonObject_data: JSONObject) {
+        taskModel!!.questionCount = taskModel!!.questions.filter { it.user.id != sessionManager.userAccount.id }.size
         txtAskQuestion.text =
             if (taskModel!!.questionCount == 0) getString(R.string.no_question_yet)
             else
@@ -1622,13 +1623,20 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     )
                 }
             }
+
+
             if (taskModel!!.status!!.equals("completed", ignoreCase = true)) {
                 lnAssignTo.setBackgroundResource(R.drawable.rectangle_card_round_fill_blue_6dp_radius)
                 assignedTitle.text = "Completed by"
+            }else if(taskModel!!.status!!.equals("assigned", ignoreCase = true)){
+                lnAssignTo.setBackgroundResource(R.drawable.rectangle_round_corners_yellow_8dp)
+                assignedTitle.text = "Assigned to"
             }
+
             if (alertType == AlertType.CANCELLATION) {
                 lnAssignTo.setBackgroundResource(R.drawable.rectangle_card_round_red_6dp_radius)
             }
+
         }
 
     }
@@ -1720,10 +1728,11 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         layout_dots!!.removeAllViews()
         for (i in dots.indices) {
             dots[i] = ImageView(this)
-            val width_height = 20
+
+            val widthHeight = if (taskModel!!.attachments.size>5) (6).dpToPx() else (8).dpToPx()
             val params =
-                LinearLayout.LayoutParams(ViewGroup.LayoutParams(width_height, width_height))
-            params.setMargins(10, 10, 10, 10)
+                LinearLayout.LayoutParams(ViewGroup.LayoutParams(widthHeight, widthHeight))
+            params.setMargins(10, 10, (1).dpToPx(), 10)
             dots[i]!!.layoutParams = params
             dots[i]!!.setImageResource(R.drawable.shape_circle_outline_gray)
             layout_dots.addView(dots[i])

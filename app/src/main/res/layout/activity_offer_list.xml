@@ -48,7 +48,7 @@
         android:id="@+id/recycler_view_offers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/_50dp"
+        android:paddingTop="@dimen/_45dp"
         android:paddingBottom="20dp"
         android:layout_marginVertical="4dp"
         android:overScrollMode="never"

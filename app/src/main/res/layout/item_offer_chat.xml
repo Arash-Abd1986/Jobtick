@@ -15,53 +15,57 @@
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/img_avatar"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:src="@drawable/pic"
             app:civ_border="false" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical">
-
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="9"
+            android:orientation="vertical"
+            android:weightSum="10">
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:layout_height="0dp"
+                android:layout_weight="5">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_name"
-                    style="@style/materialText_700_12"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/nathan_fox"
-                    android:textColor="@color/textColor" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_name"
+                        style="@style/materialText_700_12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        android:singleLine="true"
+                        android:text="@string/nathan_fox"
+                        android:textColor="@color/textColor" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/is_poster"
+                        style="@style/materialText_500_12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:paddingHorizontal="10dp"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center"
+                        android:background="@drawable/shape_cirlce_complete"
+                        android:singleLine="true"
+                        android:text="Poster"
+                        android:visibility="gone"
+                        android:textColor="@color/white" />
+                </LinearLayout>
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_poster"
-                    style="@style/materialText_500_10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="9dp"
-                    android:paddingVertical="3dp"
-                    android:background="@drawable/rectangle_card_round_blue_8"
-                    android:paddingHorizontal="6dp"
-                    android:singleLine="true"
-                    android:text="Poster"
-                    android:textColor="@color/white"
-                    android:visibility="gone" />
-            </LinearLayout>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_created_date"
-                style="@style/materialText_500_10"
+                style="@style/materialText_500_12"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_8dp"
+                android:layout_weight="5"
+                android:gravity="top"
                 android:text="21 min. ago"
                 android:textColor="@color/grey_40"
                 tools:ignore="HardcodedText" />

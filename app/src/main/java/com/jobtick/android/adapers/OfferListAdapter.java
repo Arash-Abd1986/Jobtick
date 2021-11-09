@@ -364,7 +364,6 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 */
 
 
-
                 imgBtnPlay.setOnClickListener(v -> {
                     if (mOnItemClickListener != null) {
                         mOnItemClickListener.onItemOfferClick(v, item, getAdapterPosition(), "play_video");
@@ -486,7 +485,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             }
 
-            PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>(), "", 0);
+            PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>(), "", 0, sessionManager.getUserAccount().getId());
             recyclerViewOfferChat.setHasFixedSize(true);
             recyclerViewOfferChat.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             recyclerViewOfferChat.setAdapter(publicChatListAdapter);

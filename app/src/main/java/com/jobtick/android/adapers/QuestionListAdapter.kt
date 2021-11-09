@@ -28,7 +28,8 @@ class QuestionListAdapter(
     private val context: Context,
     private val mItems: MutableList<QuestionModel>?,
     private val status: String,
-    private val posterID: Int
+    private val posterID: Int,
+    private val userId: Int
 ) : RecyclerView.Adapter<BaseViewHolder>() {
     private var mOnItemClickListener: OnItemClickListener? = null
 
@@ -137,8 +138,19 @@ class QuestionListAdapter(
             if (item.user.avatar != null) {
                 ImageUtil.displayImage(imgAvatar, item.user.avatar.thumbUrl, null)
             }
-            if (item.user.id == posterID) isPoster.visibility =
-                View.VISIBLE else isPoster.visibility = View.GONE
+            if (item.user.id == posterID) {
+                isPoster.visibility =
+                    View.VISIBLE
+            } else {
+                isPoster.visibility = View.GONE
+            }
+            if (item.user.id == userId) {
+                ivReport.visibility =
+                    View.GONE
+            } else {
+                ivReport.visibility =
+                    View.VISIBLE
+            }
 
             if (status == Constant.TASK_OPEN) lytBtnReply.visibility =
                 View.VISIBLE else lytBtnReply.visibility = View.GONE
@@ -192,7 +204,7 @@ class QuestionListAdapter(
             imgAvatar.setOnClickListener { v: View? -> linearUserProfile.performClick() }
             txtName.setOnClickListener { v: View? -> linearUserProfile.performClick() }
             val publicChatListAdapter =
-                PublicChatListAdapter(context, ArrayList(), status, posterID)
+                PublicChatListAdapter(context, ArrayList(), status, posterID,userId)
             recyclerViewQuestionsChat.setHasFixedSize(true)
             recyclerViewQuestionsChat.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

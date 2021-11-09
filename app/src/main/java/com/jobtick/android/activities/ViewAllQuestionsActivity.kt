@@ -62,7 +62,7 @@ class ViewAllQuestionsActivity : ActivityBase(), OnRefreshListener, QuestionList
         recyclerViewAllQuestions.layoutManager = LinearLayoutManager(this@ViewAllQuestionsActivity, LinearLayoutManager.VERTICAL, false)
         recyclerViewAllQuestions.setHasFixedSize(true)
         sessionManager = SessionManager(this@ViewAllQuestionsActivity)
-        questionListAdapter = QuestionListAdapter(this@ViewAllQuestionsActivity, ArrayList(), status!!, 0)
+        questionListAdapter = QuestionListAdapter(this@ViewAllQuestionsActivity, ArrayList(), status!!, 0,sessionManager.userAccount.id)
         recyclerViewAllQuestions.adapter = questionListAdapter
         swipeRefresh.setOnRefreshListener(this)
 

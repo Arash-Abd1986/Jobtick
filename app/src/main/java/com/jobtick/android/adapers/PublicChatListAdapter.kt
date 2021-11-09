@@ -30,6 +30,7 @@ class PublicChatListAdapter : RecyclerView.Adapter<BaseViewHolder> {
     private val context: Context?
     private val isInPublicChat: Boolean
     private val posterID: String?
+    private val userId: String?
     private var mOnItemClickListener: OnItemClickListener? = null
     private var offerModel: OfferModel? = null
     private var questionModel: QuestionModel? = null
@@ -62,24 +63,28 @@ class PublicChatListAdapter : RecyclerView.Adapter<BaseViewHolder> {
         context: Context?,
         mItems: MutableList<CommentModel>?,
         isInPublicChat: Boolean,
-        posterID: String?
+        posterID: String?,
+        userId: String
     ) {
         this.mItems = mItems
         this.context = context
         this.isInPublicChat = isInPublicChat
         this.posterID = posterID
+        this.userId = userId
     }
 
     constructor(
         context: Context?,
         mItems: MutableList<CommentModel>?,
         status: String?,
-        posterID: Int
+        posterID: Int,
+        userId: Int
     ) {
         this.mItems = mItems
         this.context = context
         isInPublicChat = false
         this.status = status
+        this.userId = userId.toString()
         this.posterID = posterID.toString() + ""
     }
 
@@ -191,8 +196,23 @@ class PublicChatListAdapter : RecyclerView.Adapter<BaseViewHolder> {
                 cardImgFile.visibility = View.GONE
             }
             if (posterID != null)
-                if (item.user.id.toString() == posterID) isPoster.visibility =
-                    View.VISIBLE else isPoster.visibility = View.GONE
+                if (item.user.id.toString() == posterID) {
+                    isPoster.visibility =
+                        View.VISIBLE
+                    ivFlag.visibility =
+                        View.GONE
+                } else {
+                    isPoster.visibility = View.GONE
+                    ivFlag.visibility =
+                        View.VISIBLE
+                }
+            if (item.user.id.toString() == userId) {
+                ivFlag.visibility =
+                    View.GONE
+            } else {
+                ivFlag.visibility =
+                    View.VISIBLE
+            }
 
             ivFlag.setOnClickListener { view: View? ->
                 val bundle = Bundle()

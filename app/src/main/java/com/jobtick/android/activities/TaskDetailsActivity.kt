@@ -1144,8 +1144,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                         } else {
                             showToast("Something went wrong", this@TaskDetailsActivity)
                         }
-                    } catch (e: JSONException) {
-                        showToast("JSONException", this@TaskDetailsActivity)
+                    } catch (e: Exception) {
+                        showToast("Something went wrong", this@TaskDetailsActivity)
                         Timber.e(e.toString())
                         e.printStackTrace()
                     }

@@ -152,7 +152,13 @@ class QuestionsBottomSheet(
         recyclerViewQuestions.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(requireContext())
         recyclerViewQuestions.layoutManager = layoutManager
-        questionListAdapter = QuestionListAdapter(requireContext(), ArrayList(), taskModel.status.toLowerCase(), taskModel.poster.id)
+        questionListAdapter = QuestionListAdapter(
+            requireContext(),
+            ArrayList(),
+            taskModel.status.toLowerCase(),
+            taskModel.poster.id,
+            sessionManager.userAccount.id
+        )
         recyclerViewQuestions.adapter = questionListAdapter
         questionListAdapter.setOnItemClickListener(this)
         questionListAdapter.clear()

@@ -10,6 +10,7 @@ import android.view.View.OnTouchListener
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -48,6 +49,7 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
     private var learnMore: TextView? = null
     private lateinit var submit: Button
     private var animFirstWidth = 0
+
     @JvmField
     protected var taskModel: TaskModel? = null
     protected var str_SLUG: String? = null
@@ -83,7 +85,7 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
         learnMore!!.setOnClickListener { ExternalIntentHelper.openLink(this, Constant.URL_privacy_policy) }
         str_SLUG = taskModel!!.slug
         val bundle = intent.extras ?: throw IllegalStateException("there is no bundle.")
-        title!!.text = Html.fromHtml(bundle.getString(ConstantKey.CANCELLATION_TITLE))
+        title!!.text = Html.fromHtml(bundle.getString(ConstantKey.CANCELLATION_TITLE), HtmlCompat.FROM_HTML_MODE_LEGACY)
         if (taskModel!!.poster.avatar != null && taskModel!!.poster.avatar.thumbUrl != null) {
             Glide.with(imgAvatar!!).load(taskModel!!.poster.avatar.thumbUrl).into(imgAvatar!!)
         }
@@ -109,7 +111,8 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
         } else if (taskModel!!.cancellation != null) {
             submit.visibility = View.GONE
             cancellationReason!!.text = reasonRectify(taskModel!!.cancellation.reason)
-            if (taskModel!!.cancellation.comment == null || taskModel!!.cancellation.comment.trim { it <= ' ' }.isEmpty()) commentBox!!.visibility = View.GONE else commentContent!!.text = taskModel!!.cancellation.comment.trim { it <= ' ' }
+            if (taskModel!!.cancellation.comment == null || taskModel!!.cancellation.comment.trim { it <= ' ' }
+                            .isEmpty()) commentBox!!.visibility = View.GONE else commentContent!!.text = taskModel!!.cancellation.comment.trim { it <= ' ' }
             if (taskModel!!.cancellation.reasonModel != null && taskModel!!.cancellation.reasonModel.reason != null && taskModel!!.cancellation.reasonModel.reason == userType) {
                 noticeList
             }
@@ -130,8 +133,8 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
         return super.onOptionsItemSelected(item)
     }
 
-    private fun reasonRectify(reason: String): String {
-        var reason = reason
+    private fun reasonRectify(reasonIn: String): String {
+        var reason = reasonIn
         if (reason.contains("{worker}")) reason = reason.replace("{worker}", taskModel!!.worker.name)
         if (reason.contains("{poster}")) reason = reason.replace("{poster}", taskModel!!.worker.name)
         reason = String.format("\"%s\"", reason)
@@ -154,7 +157,7 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
                         Timber.e(response)
                         hideProgressDialog()
                         try {
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
                             if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                                 if (jsonObject.getBoolean("success")) {
@@ -178,33 +181,33 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
                             hideProgressDialog()
                         }
                     },
-            Response.ErrorListener { error: VolleyError ->
-                val networkResponse = error.networkResponse
-                if (networkResponse?.data != null) {
-                    val jsonError = String(networkResponse.data)
-                    // Print Error!
-                    Timber.e(jsonError)
-                    if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                        unauthorizedUser()
-                        hideProgressDialog()
-                        return@ErrorListener
-                    }
-                    try {
-                        val jsonObject = JSONObject(jsonError)
-                        val jsonObjectError = jsonObject.getJSONObject("error")
-                        if (jsonObjectError.has("message")) {
-                            showToast(jsonObjectError.getString("message"), this)
+                    Response.ErrorListener { error: VolleyError ->
+                        val networkResponse = error.networkResponse
+                        if (networkResponse?.data != null) {
+                            val jsonError = String(networkResponse.data)
+                            // Print Error!
+                            Timber.e(jsonError)
+                            if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                                unauthorizedUser()
+                                hideProgressDialog()
+                                return@ErrorListener
+                            }
+                            try {
+                                val jsonObject = JSONObject(jsonError)
+                                val jsonObjectError = jsonObject.getJSONObject("error")
+                                if (jsonObjectError.has("message")) {
+                                    showToast(jsonObjectError.getString("message"), this)
+                                }
+                            } catch (e: JSONException) {
+                                e.printStackTrace()
+                                showToast("Something Went Wrong", this)
+                            }
+                        } else {
+                            showToast("Something Went Wrong", this)
                         }
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                        showToast("Something Went Wrong", this)
-                    }
-                } else {
-                    showToast("Something Went Wrong", this)
-                }
-                Timber.e(error.toString())
-                hideProgressDialog()
-            }) {
+                        Timber.e(error.toString())
+                        hideProgressDialog()
+                    }) {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
@@ -229,7 +232,7 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
@@ -249,31 +252,31 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
                         hideProgressDialog()
                     }
                 },
-        Response.ErrorListener { error: VolleyError ->
-            hideProgressDialog()
-            val networkResponse = error.networkResponse
-            if (networkResponse?.data != null) {
-                val jsonError = String(networkResponse.data)
-                // Print Error!
-                Timber.e(jsonError)
-                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                    unauthorizedUser()
-                    return@ErrorListener
-                }
-                try {
-                    val jsonObject = JSONObject(jsonError)
-                    val jsonObjectError = jsonObject.getJSONObject("error")
-                    if (jsonObjectError.has("message")) {
-                        showToast(jsonObjectError.getString("message"), this)
+                Response.ErrorListener { error: VolleyError ->
+                    hideProgressDialog()
+                    val networkResponse = error.networkResponse
+                    if (networkResponse?.data != null) {
+                        val jsonError = String(networkResponse.data)
+                        // Print Error!
+                        Timber.e(jsonError)
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser()
+                            return@ErrorListener
+                        }
+                        try {
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObjectError = jsonObject.getJSONObject("error")
+                            if (jsonObjectError.has("message")) {
+                                showToast(jsonObjectError.getString("message"), this)
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this)
                     }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            } else {
-                showToast("Something Went Wrong", this)
-            }
-            Timber.e(error.toString())
-        }) {
+                    Timber.e(error.toString())
+                }) {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
@@ -298,7 +301,7 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
@@ -319,32 +322,32 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
                         hideProgressDialog()
                     }
                 },
-        Response.ErrorListener { error: VolleyError ->
-            hideProgressDialog()
-            val networkResponse = error.networkResponse
-            if (networkResponse?.data != null) {
-                val jsonError = String(networkResponse.data)
-                // Print Error!
-                Timber.e(jsonError)
-                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                    unauthorizedUser()
-                    return@ErrorListener
-                }
-                try {
-                    val jsonObject = JSONObject(jsonError)
-                    val jsonObjectError = jsonObject.getJSONObject("error")
-                    if (jsonObjectError.has("message")) {
-                        showToast(jsonObjectError.getString("message"), this)
+                Response.ErrorListener { error: VolleyError ->
+                    hideProgressDialog()
+                    val networkResponse = error.networkResponse
+                    if (networkResponse?.data != null) {
+                        val jsonError = String(networkResponse.data)
+                        // Print Error!
+                        Timber.e(jsonError)
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser()
+                            return@ErrorListener
+                        }
+                        try {
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObjectError = jsonObject.getJSONObject("error")
+                            if (jsonObjectError.has("message")) {
+                                showToast(jsonObjectError.getString("message"), this)
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                            showToast("Something Went Wrong", this)
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this)
                     }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                    showToast("Something Went Wrong", this)
-                }
-            } else {
-                showToast("Something Went Wrong", this)
-            }
-            Timber.e(error.toString())
-        }) {
+                    Timber.e(error.toString())
+                }) {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
@@ -368,7 +371,7 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
@@ -397,33 +400,33 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
                         e.printStackTrace()
                     }
                 },
-        Response.ErrorListener { error: VolleyError ->
-            val networkResponse = error.networkResponse
-            if (networkResponse?.data != null) {
-                val jsonError = String(networkResponse.data)
-                // Print Error!
-                Timber.e(jsonError)
-                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                    unauthorizedUser()
-                    hideProgressDialog()
-                    return@ErrorListener
-                }
-                try {
-                    val jsonObject = JSONObject(jsonError)
-                    val jsonObjectError = jsonObject.getJSONObject("error")
-                    if (jsonObjectError.has("message")) {
-                        showToast(jsonObjectError.getString("message"), this)
+                Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
+                    if (networkResponse?.data != null) {
+                        val jsonError = String(networkResponse.data)
+                        // Print Error!
+                        Timber.e(jsonError)
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser()
+                            hideProgressDialog()
+                            return@ErrorListener
+                        }
+                        try {
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObjectError = jsonObject.getJSONObject("error")
+                            if (jsonObjectError.has("message")) {
+                                showToast(jsonObjectError.getString("message"), this)
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                            showToast("Something Went Wrong", this)
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this)
                     }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                    showToast("Something Went Wrong", this)
-                }
-            } else {
-                showToast("Something Went Wrong", this)
-            }
-            Timber.e(error.toString())
-            hideProgressDialog()
-        }) {
+                    Timber.e(error.toString())
+                    hideProgressDialog()
+                }) {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()

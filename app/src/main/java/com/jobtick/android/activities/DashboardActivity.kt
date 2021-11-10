@@ -26,7 +26,7 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
-import com.jobtick.android.activities.others.ReferAFriendActivity
+import com.jobtick.android.activities.new.ReferAFriendActivity
 import com.jobtick.android.fragments.CategoryListBottomSheet
 import com.jobtick.android.fragments.LogOutBottomSheet
 import com.jobtick.android.interfaces.onProfileUpdateListener
@@ -290,11 +290,14 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun setHeaderLayout() {
-        OneSignal.setExternalUserId(sessionManager1!!.userAccount.id.toString(), { results: JSONObject? -> })
+        OneSignal.setExternalUserId(sessionManager!!.userAccount.id.toString())
+        OneSignal.setEmail(sessionManager!!.userAccount.email)
+        OneSignal.sendTag("Email", sessionManager!!.userAccount.email)
+        OneSignal.sendTag("Name", sessionManager!!.userAccount.fname +" " + sessionManager!!.userAccount.lname)
+        OneSignal.sendTag("Mobile", sessionManager!!.userAccount.fname + sessionManager!!.userAccount.mobile)
+        OneSignal.sendTag("Location", sessionManager!!.userAccount.fname + sessionManager!!.userAccount.location)
     }
-
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
@@ -397,7 +400,7 @@ Team ${resources.getString(R.string.app_name)}""")
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_GET_ACCOUNT,
                     Response.Listener { response: String? ->
                         try {
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             val jsonobjectData = jsonObject.getJSONObject("data")
                             sessionManager!!.role = jsonobjectData.getString("role")
                             val userAccountModel = UserAccountModel().getJsonToModel(jsonobjectData)

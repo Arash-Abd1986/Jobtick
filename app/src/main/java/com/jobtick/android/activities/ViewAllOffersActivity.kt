@@ -86,7 +86,7 @@ class ViewAllOffersActivity : ActivityBase(), OnRefreshListener, OfferListAdapte
                     Timber.e(response)
                     // categoryArrayList.clear();
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (!jsonObject.has("data")) {
                             showToast("some went to wrong", this@ViewAllOffersActivity)

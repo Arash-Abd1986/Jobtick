@@ -41,7 +41,7 @@ import com.jobtick.android.activities.VideoPlayerActivity;
 import com.jobtick.android.adapers.AttachmentAdapter;
 import com.jobtick.android.models.AttachmentModel;
 import com.jobtick.android.models.MakeAnOfferModel;
-import com.jobtick.android.retrofit.ApiClient;
+import com.jobtick.android.network.retrofit.ApiClient;
 import com.jobtick.android.utils.CameraUtils;
 import com.jobtick.android.utils.ConstantKey;
 import com.jobtick.android.utils.ImageUtil;
@@ -56,7 +56,6 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -526,7 +525,8 @@ public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickLi
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
         // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
-        call = new ApiClient().buildAndGetClientForVideoUpload().getTaskTempAttachmentMediaData(/*"application/x-www-form-urlencoded",*/ "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
+        call = new ApiClient().buildAndGetClientForVideoUpload().getTaskTempAttachmentMediaData(
+                "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
 
 
         call.enqueue(new Callback<String>() {

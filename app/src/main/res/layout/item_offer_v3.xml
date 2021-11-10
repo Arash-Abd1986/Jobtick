@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_assignee_layout"
+    android:layout_width="match_parent"
+    android:layout_marginTop="18dp"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:visibility="visible">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/rectangle_round_corners_yellow_8dp"
+        android:orientation="vertical"
+        android:paddingTop="5dp"
+        tools:ignore="TooManyViews">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rounded_white_5dp"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/img_avatar"
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:src="@drawable/pic"
+                app:civ_border="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_created_date"
+                style="@style/materialText_600_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/GN300"
+                android:text="23 min ago"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/liAssign" />
+            <LinearLayout
+                android:id="@+id/liAssign"
+                android:minWidth="@dimen/_100dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toRightOf="@+id/img_avatar"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/img_avatar"
+                app:layout_constraintStart_toEndOf="@+id/img_avatar"
+                app:layout_constraintTop_toTopOf="@+id/img_avatar">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_name"
+                    style="@style/materialText_600_12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/textColor" />
+
+                <LinearLayout
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_completion_rate"
+                            style="@style/materialText_500_12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="5dp"
+                            android:gravity="center"
+                            android:text="@string/_00"
+                            android:textColor="@color/green" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_job_success"
+                            style="@style/materialText_500_10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/job_success"
+                            android:layout_marginTop="1dp"
+                            android:gravity="center"
+                            android:textColor="@color/_4f4f4f" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cn_offer_details"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_avatar"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/img_avatar"
+                app:layout_constraintTop_toBottomOf="@+id/img_avatar">
+
+                <RatingBar
+                    android:id="@+id/ratingbar_worker"
+                    style="@style/RatingBar_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:rating="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="20dp"
+                    android:layout_height="25dp"
+                    android:layout_toStartOf="@+id/txt_budget"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_budget"
+                    app:layout_constraintEnd_toStartOf="@+id/txt_budget"
+                    app:layout_constraintTop_toTopOf="@+id/txt_budget"
+                    app:srcCompat="@drawable/ic_big_blue_dollar" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_budget"
+                    style="@style/materialText_700_20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text=""
+                    android:textColor="@color/textColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_600_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/private_chat"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_private_chat"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_margin="@dimen/spacing_large"
+            android:backgroundTint="@color/colorPrimary"
+            android:elevation="@dimen/spacing_middle"
+            android:visibility="gone"
+            app:cardCornerRadius="@dimen/spacing_medium">
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</RelativeLayout>

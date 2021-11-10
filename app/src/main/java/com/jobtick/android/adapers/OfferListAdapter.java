@@ -288,11 +288,12 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 cardAccept.setVisibility(View.GONE);
                 linearAcceptDeleteOffer.setVisibility(View.GONE);
             }
-            if (item.getReply()) {
-                lytBtnReply.setVisibility(View.VISIBLE);
-            } else {
-                lytBtnReply.setVisibility(View.VISIBLE);
-            }
+            if (item.getReply() != null)
+                if (item.getReply()) {
+                    lytBtnReply.setVisibility(View.VISIBLE);
+                } else {
+                    lytBtnReply.setVisibility(View.VISIBLE);
+                }
 
             if (item.getCommentsTotal() > 3) {
                 int remaining_number = item.getCommentsTotal() - 3;
@@ -361,27 +362,6 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 });
 
 */
-                spanS = null;
-                spanF = null;
-                txtMessage.post(() -> {
-                    int lineCount = txtMessage.getLineCount();
-                    if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_4) {
-                        // view.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
-                        spanF = new SpannableString(txtMessage.getText().toString() + "  Less");
-                        spanF.setSpan(new ForegroundColorSpan(Color.BLUE), txtMessage.getText().toString().length(), txtMessage.getText().toString().length() + 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-
-                        int end = txtMessage.getLayout().getLineStart(4);
-                        spanS = new SpannableString(txtMessage.getText().toString().substring(0, end - 1) + "  More");
-                        spanS.setSpan(new ForegroundColorSpan(Color.BLUE), txtMessage.getText().toString().substring(0, end).length(), txtMessage.getText().toString().substring(0, end - 1).length() + 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                        txtMessage.setText(spanS);
-                        mItems.get(getAdapterPosition()).setIsUserPrefrenceToMore(true);
-                        if (item.getIsUserPrefrenceToMore()) {
-                            txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
-                        }
-                    }
-                });
 
 
                 imgBtnPlay.setOnClickListener(v -> {
@@ -403,28 +383,9 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 intent.putExtra("id", item.getWorker().getId());
                 context.startActivity(intent);
             });
-
             cardDeleteOffer.setOnClickListener(v -> {
-
                 if (widthDrawListener != null) {
                     widthDrawListener.onWithdraw(item.getId());
-                }
-
-
-            });
-            txtMessage.setOnClickListener(v -> {
-                if (item.getStrMore().equalsIgnoreCase("More")) {
-                    if (spanF != null) {
-                        txtMessage.setMaxLines(Integer.MAX_VALUE);
-                        txtMessage.setText(spanF);
-                        item.setStrMore("Less");
-                    }
-                } else {
-                    if (spanS != null) {
-                        txtMessage.setText(spanS);
-                        txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE_4);
-                        item.setStrMore("More");
-                    }
                 }
             });
 
@@ -524,7 +485,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             }
 
-            PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>(),"",0);
+            PublicChatListAdapter publicChatListAdapter = new PublicChatListAdapter(context, new ArrayList<>(), "", 0, sessionManager.getUserAccount().getId());
             recyclerViewOfferChat.setHasFixedSize(true);
             recyclerViewOfferChat.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             recyclerViewOfferChat.setAdapter(publicChatListAdapter);

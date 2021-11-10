@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_my_offer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="visible">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/assigned_title"
+        style="@style/materialText_600_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="@dimen/spacing_middle"
+        android:singleLine="true"
+        android:text="My Offer"
+        android:textColor="@color/N900" />
+
+    <LinearLayout
+        android:id="@+id/ln_my_offer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/assigned_title"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/rectangle_card_round_blue_8"
+        android:orientation="vertical"
+        android:paddingTop="5dp"
+        tools:ignore="TooManyViews">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rounded_white_5dp"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/img_avatar_my_offer"
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:src="@drawable/pic"
+                app:civ_border="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_my_offer_time"
+                style="@style/materialText_600_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23 min ago"
+                android:textColor="@color/GN300"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/liMYOffer" />
+
+            <LinearLayout
+                android:id="@+id/liMYOffer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toRightOf="@+id/img_avatar_my_offer"
+                android:minWidth="@dimen/_100dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/img_avatar_my_offer"
+                app:layout_constraintStart_toEndOf="@+id/img_avatar_my_offer"
+                app:layout_constraintTop_toTopOf="@+id/img_avatar_my_offer">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_my_offer_name"
+                    style="@style/materialText_600_12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/textColor" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_my_offer_completion_rate"
+                            style="@style/materialText_500_12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="5dp"
+                            android:gravity="center"
+                            android:text="@string/_00"
+                            android:textColor="@color/green" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/materialText_500_10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="1dp"
+                            android:gravity="center"
+                            android:text="@string/success"
+                            android:textColor="@color/_4f4f4f" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cn_offer_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_avatar_my_offer"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/img_avatar_my_offer"
+                app:layout_constraintTop_toBottomOf="@+id/img_avatar_my_offer">
+
+                <RatingBar
+                    android:id="@+id/rb_my_offer_bigRating_value"
+                    style="@style/RatingBar_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="20dp"
+                    android:layout_height="25dp"
+                    android:layout_toStartOf="@+id/txt_my_offer_offer_price"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_my_offer_offer_price"
+                    app:layout_constraintEnd_toStartOf="@+id/txt_my_offer_offer_price"
+                    app:layout_constraintTop_toTopOf="@+id/txt_my_offer_offer_price"
+                    app:srcCompat="@drawable/ic_big_blue_dollar" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_my_offer_offer_price"
+                    style="@style/materialText_700_20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="99999"
+                    android:textColor="@color/textColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</RelativeLayout>

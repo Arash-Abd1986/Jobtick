@@ -131,7 +131,7 @@ open class AuthActivity : ActivityBase() {
                 Response.Listener { response: String? ->
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         val jsonObjectData = jsonObject.getJSONObject("data")
                         sessionManagerA.accessToken = jsonObjectData.getString("access_token")
                         sessionManagerA.tokenType = jsonObjectData.getString("token_type")
@@ -272,13 +272,13 @@ open class AuthActivity : ActivityBase() {
         showProgressDialog()
         val request = GraphRequest.newMeRequest(
                 loginResult.accessToken
-        ) { `object`: JSONObject, response: GraphResponse? ->
+        ) { `object`: JSONObject?, response: GraphResponse? ->
             // Application code
             try {
                 var email = ""
                 var firstName: String? = ""
                 var lastName: String? = ""
-                if (`object`.has("email")) email = `object`.getString("email")
+                if (`object`!!.has("email")) email = `object`.getString("email")
                 if (`object`.has("first_name")) firstName = `object`.getString("first_name")
                 if (`object`.has("last_name")) lastName = `object`.getString("last_name")
                 fbSubmitData(loginResult.accessToken.token, email, firstName, lastName)
@@ -303,7 +303,7 @@ open class AuthActivity : ActivityBase() {
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         val jsonObjectData = jsonObject.getJSONObject("data")
                         sessionManagerA.accessToken = jsonObjectData.getString("access_token")
@@ -432,7 +432,7 @@ open class AuthActivity : ActivityBase() {
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         val jsonObjectData = jsonObject.getJSONObject("data")
                         sessionManagerA.accessToken = jsonObjectData.getString("access_token")
@@ -624,7 +624,7 @@ open class AuthActivity : ActivityBase() {
                                 Timber.e(response)
                                 hideProgressDialog()
                                 try {
-                                    val jsonObject = JSONObject(response)
+                                    val jsonObject = JSONObject(response!!)
                                     Timber.e(jsonObject.toString())
                                     val jsonObjectData = jsonObject.getJSONObject("data")
                                     sessionManagerA.accessToken = jsonObjectData.getString("access_token")
@@ -804,7 +804,7 @@ open class AuthActivity : ActivityBase() {
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         val jsonObjectData = jsonObject.getJSONObject("data")
                         sessionManagerA.accessToken = jsonObjectData.getString("access_token")
@@ -874,7 +874,7 @@ open class AuthActivity : ActivityBase() {
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         val jsonObjectData = jsonObject.getJSONObject("data")
                         sessionManagerA.accessToken = jsonObjectData.getString("access_token")

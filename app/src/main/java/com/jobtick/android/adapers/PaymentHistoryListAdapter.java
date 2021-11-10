@@ -76,16 +76,18 @@ public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHisto
             holder.descriptionTxt.setText(temp.getTask().getTitle());
 
         if (isPoster) {
-            holder.nameTxt.setText(temp.getTask().getWorker().getName());
-
-            if (temp.getTask().getWorker().getAvatar() != null) {
-                ImageUtil.displayImage(holder.ivAvatar, temp.getTask().getWorker().getAvatar().getUrl(), null);
+            if (temp.getTask().getWorker() != null) {
+                holder.nameTxt.setText(temp.getTask().getWorker().getName());
+                if (temp.getTask().getWorker().getAvatar() != null) {
+                    ImageUtil.displayImage(holder.ivAvatar, temp.getTask().getWorker().getAvatar().getUrl(), null);
+                }
             }
         } else {
-            holder.nameTxt.setText(temp.getTask().getPoster().getName());
-
-            if (temp.getTask().getPoster().getAvatar() != null) {
-                ImageUtil.displayImage(holder.ivAvatar, temp.getTask().getPoster().getAvatar().getUrl(), null);
+            if (temp.getTask().getPoster() != null) {
+                holder.nameTxt.setText(temp.getTask().getPoster().getName());
+                if (temp.getTask().getPoster().getAvatar() != null) {
+                    ImageUtil.displayImage(holder.ivAvatar, temp.getTask().getPoster().getAvatar().getUrl(), null);
+                }
             }
         }
 

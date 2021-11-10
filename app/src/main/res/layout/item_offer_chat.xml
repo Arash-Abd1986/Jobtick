@@ -15,40 +15,60 @@
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/img_avatar"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:src="@drawable/pic"
             app:civ_border="false" />
 
         <LinearLayout
-            android:layout_width="@dimen/_30dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="9"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:weightSum="10">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="5">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_name"
+                        style="@style/materialText_700_12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        android:singleLine="true"
+                        android:text="@string/nathan_fox"
+                        android:textColor="@color/textColor" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/is_poster"
+                        style="@style/materialText_500_12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:paddingHorizontal="10dp"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center"
+                        android:background="@drawable/shape_cirlce_complete"
+                        android:singleLine="true"
+                        android:text="Poster"
+                        android:visibility="gone"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_name"
-                style="@style/materialText_700_12"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="9dp"
-                android:singleLine="true"
-                android:text="@string/nathan_fox"
-                android:textColor="@color/textColor" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_poster"
+                android:id="@+id/txt_created_date"
                 style="@style/materialText_500_12"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="9dp"
-                android:paddingHorizontal="@dimen/_3dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/linear_rounded_n50_fill"
-                android:singleLine="true"
-                android:text="Poster"
-                android:visibility="gone"
-                android:textColor="@color/white" />
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_8dp"
+                android:layout_weight="5"
+                android:gravity="top"
+                android:text="21 min. ago"
+                android:textColor="@color/grey_40"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
@@ -61,44 +81,17 @@
             android:orientation="horizontal"
             android:padding="3dp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivReport"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/todo"
                 android:padding="@dimen/spacing_small"
-                android:src="@drawable/ic_red_flag" />
+                app:srcCompat="@drawable/ic_black_flag" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/lyt_btn_reply"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="3dp"
-            android:background="?attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="@dimen/spacing_small">
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/todo"
-                android:padding="@dimen/spacing_small"
-                android:src="@drawable/ic_corner_blue" />
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_500_10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="1dp"
-                android:gravity="center_vertical"
-                android:text="@string/reply"
-                android:textColor="@color/colorPrimary" />
-        </LinearLayout>
     </LinearLayout>
 
     <TextView
@@ -124,67 +117,26 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_img_file"
-        android:layout_width="wrap_content"
-        android:layout_height="90dp"
-        android:layout_marginTop="5dp"
-        app:cardCornerRadius="@dimen/spacing_medium"
-        app:cardElevation="0dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:background="@color/green_100"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="@dimen/spacing_middle">
 
         <ImageView
             android:id="@+id/img_file"
-            android:layout_width="90dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
             android:layout_marginTop="@dimen/spacing_medium"
             android:adjustViewBounds="true"
             android:background="?attr/selectableItemBackground"
             android:contentDescription="@string/todo"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_gallery" />
+            android:src="@drawable/image_load" />
     </androidx.cardview.widget.CardView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/lyt_btn_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="?attr/selectableItemBackground"
-                android:orientation="horizontal"
-                android:padding="@dimen/spacing_small"
-                tools:ignore="RelativeOverlap,RtlHardcoded">
-
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_more_less"
-                    style="@style/materialText_500_10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/spacing_middle"
-                    android:gravity="center_vertical"
-                    android:text="More >"
-                    android:textColor="@color/colorPrimary" />
-            </LinearLayout>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_created_date"
-                style="@style/materialText_500_10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="21 min. ago"
-                android:textColor="@color/grey_40"
-                tools:ignore="HardcodedText" />
-
-
-        </LinearLayout>
-    </RelativeLayout>
 </LinearLayout>

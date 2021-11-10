@@ -87,7 +87,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         // use a linear layout manager
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewTask!!.layoutManager = layoutManager
-        taskListAdapter = TaskListAdapterV2(ArrayList(), null)
+        taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id)
         recyclerViewTask!!.adapter = taskListAdapter
         taskListAdapter!!.setOnItemClickListener(this)
         doApiCall()

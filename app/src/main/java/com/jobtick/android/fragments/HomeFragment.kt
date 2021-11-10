@@ -165,7 +165,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
             } else
                 rlPostedJobs!!.visibility = View.GONE
             if (hasRecommendedJobs) {
-                setRecommendedJobs(postedJobs)
+                setRecommendedJobs(recommendedJobs)
                 rlRecommendedJobs!!.visibility = View.VISIBLE
             } else
                 rlRecommendedJobs!!.visibility = View.GONE

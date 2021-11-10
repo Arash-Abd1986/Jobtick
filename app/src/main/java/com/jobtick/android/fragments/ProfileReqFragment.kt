@@ -12,7 +12,7 @@ import com.jobtick.android.activities.*
 import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.UserAccountModel
-import com.jobtick.android.retrofit.ApiClient
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.HttpStatus
 import com.jobtick.android.utils.ImageUtil
@@ -44,7 +44,7 @@ class ProfileReqFragment : Fragment() {
         }
         btnNext = view.findViewById(R.id.btn_next)
         btnNext!!.setOnClickListener { (parentFragment as TickerRequirementsBottomSheet?)!!.changeFragment(1) }
-        userAccountModel = (activity as TaskDetailsActivity?)!!.userAccountModel!!
+        userAccountModel = (activity as TaskDetailsActivity?)!!.userAccountModel
         setUpAvatar(userAccountModel)
         uploadableImage = object : AbstractUploadableImageImpl(requireActivity()) {
             override fun onImageReady(imageFile: File) {

@@ -91,7 +91,7 @@ class CompleteRegistrationActivity : ActivityBase(), SelectRoleBottomSheet.Notic
                 Response.Listener { response: String? ->
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         val jsonObjectUser = jsonObject.getJSONObject("data")
                         val userAccountModel = UserAccountModel().getJsonToModel(jsonObjectUser)
                         sessionManager.userAccount = userAccountModel

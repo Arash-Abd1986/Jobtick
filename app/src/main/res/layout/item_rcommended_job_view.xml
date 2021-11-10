@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/rectangle_just_border_grey_round_corners_4dp"
         android:padding="1dp">
 
         <com.rishabhharit.roundedimageview.RoundedImageView

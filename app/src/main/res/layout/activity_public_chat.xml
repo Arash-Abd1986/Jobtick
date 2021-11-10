@@ -43,7 +43,7 @@
                 android:background="@drawable/radio_profile_bg"
                 android:orientation="vertical"
                 android:padding="4dp"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -146,15 +146,15 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="2dp"
-                                    android:text="@string/_00"
                                     android:layout_marginEnd="4dp"
+                                    android:text="@string/_00"
                                     android:textColor="@color/green" />
 
                                 <com.google.android.material.textview.MaterialTextView
                                     style="@style/materialText_500_10"
                                     android:layout_width="wrap_content"
-                                    android:text="Job success"
                                     android:layout_height="wrap_content"
+                                    android:text="Job success"
                                     android:textColor="@color/_4f4f4f" />
                             </LinearLayout>
 
@@ -163,23 +163,24 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
-<!--                                <androidx.appcompat.widget.AppCompatRatingBar-->
-<!--                                    android:id="@+id/ratingbar_worker"-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_gravity="center"-->
-<!--                                    android:rating="1"-->
-<!--                                    android:visibility="gone"-->
-<!--                                    android:contentDescription="@string/todo"-->
-<!--                                    android:src="@drawable/rating_fill" />-->
+                                <!--                                <androidx.appcompat.widget.AppCompatRatingBar-->
+                                <!--                                    android:id="@+id/ratingbar_worker"-->
+                                <!--                                    android:layout_width="wrap_content"-->
+                                <!--                                    android:layout_height="wrap_content"-->
+                                <!--                                    android:layout_gravity="center"-->
+                                <!--                                    android:rating="1"-->
+                                <!--                                    android:visibility="gone"-->
+                                <!--                                    android:contentDescription="@string/todo"-->
+                                <!--                                    android:src="@drawable/rating_fill" />-->
                                 <ImageView
                                     android:id="@+id/ratingbar_worker"
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
-                                    android:layout_marginEnd="4dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/rating_fill"
-                                    android:contentDescription="@string/todo" />
+                                    android:layout_marginEnd="4dp"
+                                    android:contentDescription="@string/todo"
+                                    android:src="@drawable/rating_fill" />
+
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/txt_rating_value"
                                     style="@style/materialText_600_12"
@@ -248,8 +249,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_15sp"
-                        android:visibility="gone"
-                        android:background="@drawable/linear_rounded_f0f0f0_fill">
+                        android:background="@drawable/linear_rounded_f0f0f0_fill"
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:id="@+id/lyt_budget_status"
@@ -515,58 +516,40 @@
                         android:src="@drawable/pic"
                         app:civ_border="false" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_name_question"
-                        style="@style/materialText_600_12"
+                    <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:singleLine="true"
-                        android:text="@string/nathan_fox"
-                        android:textColor="@color/textColor" />
-
-                    <LinearLayout
-                        android:id="@+id/ivFlag_question"
-                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="?attr/selectableItemBackground"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="3dp">
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:id="@+id/lyt_btn_reply_question"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:background="?attr/selectableItemBackground"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/spacing_small">
-
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/todo"
-                            android:padding="@dimen/spacing_small"
-                            android:src="@drawable/ic_corner_blue" />
+                        android:layout_weight="9"
+                        android:weightSum="10"
+                        android:layout_marginStart="10dp"
+                        android:orientation="vertical">
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_name_question"
+                            style="@style/materialText_700_12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:singleLine="true"
+                            android:gravity="bottom"
+                            android:layout_weight="5"
+                            android:text="@string/nathan_fox"
+                            android:textColor="@color/textColor" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_created_date_question"
                             style="@style/materialText_500_12"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="1dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/reply"
-                            android:textColor="@color/colorPrimary" />
+                            android:layout_height="0dp"
+                            android:layout_weight="5"
+                            android:layout_marginTop="@dimen/_8dp"
+                            android:gravity="top"
+                            android:text="21 min. ago"
+                            android:textColor="@color/grey_40"
+                            tools:ignore="HardcodedText" />
                     </LinearLayout>
+
+
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -644,18 +627,6 @@
                                 android:text="@string/more"
                                 android:textColor="@color/colorPrimary" />
                         </LinearLayout>
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_created_date_question"
-                            style="@style/materialText_500_12"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_medium"
-                            android:layout_marginTop="@dimen/spacing_medium"
-                            android:layout_marginEnd="@dimen/spacing_medium"
-                            android:text="21 min. ago"
-                            android:textColor="@color/grey_40"
-                            tools:ignore="HardcodedText" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -693,8 +664,8 @@
                             android:id="@+id/recycler_view_questions_chat"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_marginBottom="10dp"
+                            android:orientation="vertical"
                             android:overScrollMode="never" />
                     </LinearLayout>
                 </LinearLayout>
@@ -710,7 +681,8 @@
         android:layout_gravity="bottom"
         android:layout_marginTop="70dp"
         android:gravity="bottom"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
 
         <RelativeLayout
@@ -727,8 +699,8 @@
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="18dp"
-                android:background="@drawable/shape_border"
                 android:layout_marginBottom="@dimen/spacing_middle"
+                android:background="@drawable/shape_border"
                 tools:ignore="UselessParent">
 
                 <RelativeLayout
@@ -752,9 +724,9 @@
                         style="@style/materialText_400_14"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginEnd="40dp"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/spacing_middle"
+                        android:layout_marginEnd="40dp"
                         android:layout_toEndOf="@+id/recycler_view_question_attachment"
                         android:background="@null"
                         android:hint="@string/reply"

@@ -63,7 +63,7 @@ class NewSplashActivity : AppCompatActivity() {
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_GET_ACCOUNT,
                     Response.Listener { response: String? ->
                         try {
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             val jsonObject_data = jsonObject.getJSONObject("data")
                             sessionManager!!.role =  jsonObject.getJSONObject("data").getString("role")
                             val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_data)
@@ -111,7 +111,7 @@ class NewSplashActivity : AppCompatActivity() {
         val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL + Constant.CHECK_UPDATE,
                 Response.Listener { response: String? ->
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         val jsonString = jsonObject.toString() //http request
                         val gson = Gson()
                         val (data, _, success) = gson.fromJson(jsonString, CheckForUpdateResponse::class.java)

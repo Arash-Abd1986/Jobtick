@@ -304,7 +304,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
                         pbLoading!!.visibility = View.GONE
                         //                    btnQuote.setVisibility(View.VISIBLE);
                         try {
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 userAccountModel = UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))

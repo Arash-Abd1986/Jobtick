@@ -3,6 +3,7 @@ package com.jobtick.android.fragments
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -204,6 +205,12 @@ class TickerRequirementsBottomSheet : AbstractStateExpandedBottomSheet() {
 
     interface NoticeListener {
         fun onStripeRequirementFilled()
+        fun onRequirementAdded()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener!!.onRequirementAdded()
     }
 
     companion object {

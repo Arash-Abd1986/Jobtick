@@ -17,7 +17,6 @@ import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.Helper
 import org.json.JSONObject
 import timber.log.Timber
-import java.lang.Exception
 import java.util.*
 
 private const val TYPE = "push"
@@ -93,13 +92,15 @@ class PushNotificationsSettingsActivity : ActivityBase() {
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         val gson = Gson()
                         val notifSettingResponse = gson.fromJson(jsonObject.toString(), NotifSettingResponse::class.java)
 
                         chbJobAlert!!.isChecked = notifSettingResponse.data!!.jobalerts != 0
                         chbJobUpdate!!.isChecked = notifSettingResponse.data.jobupdates != 0
                         chbUpdatesRec!!.isChecked = notifSettingResponse.data.recommendations != 0
+                        chbTransactions!!.isChecked = notifSettingResponse.data.transactional != 0
+
                         saveSettings()
                     } catch (e: Exception) {
                         hideProgressDialog()

@@ -1,21 +1,30 @@
 @file:JvmName("MyExtensions")
+
 package com.jobtick.android.utils
+
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.net.ConnectivityManager
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import com.google.gson.Gson
+import java.lang.reflect.Type
 import java.util.regex.Pattern
 import kotlin.math.floor
 import kotlin.math.round
 import kotlin.math.roundToInt
+
 
 const val MILLION = 1000000L
 const val BILLION = 1000000000L
@@ -29,14 +38,16 @@ fun Double.round(): String {
     else
         String.format("%.0f", this)
 }
+
 fun Double.round(decimals: Int): Double {
     var multiplier = 1.0
     repeat(decimals) { multiplier *= 10 }
     return round(this * multiplier) / multiplier
 }
+
 fun Activity.hideKeyboard() {
     val imm: InputMethodManager =
-        getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
     var view: View? = currentFocus
     if (view == null) {
@@ -44,6 +55,62 @@ fun Activity.hideKeyboard() {
     }
 
     imm.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun View.setBackgroundShape(backgroundColor: Int, borderColor: Int, redii: FloatArray, strokeSize: Int, shapeIn: Int) {
+    val shape = GradientDrawable()
+    shape.shape = shapeIn
+    shape.cornerRadii = redii
+    shape.setColor(backgroundColor)
+    shape.setStroke(strokeSize.dpToPx(), borderColor)
+    this.background = shape
+}
+
+fun View.setBackgroundShape(backgroundColor: Int, borderColor: Int, radius: Int, strokeSize: Int, shapeIn: Int) {
+    val shape = GradientDrawable()
+    shape.shape = shapeIn
+    shape.cornerRadii = floatArrayOf((radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat())
+    shape.setColor(backgroundColor)
+    shape.setStroke(strokeSize.dpToPx(), borderColor)
+    this.background = shape
+}
+
+fun View.setBackgroundShape(backgroundColor: Int, radius: Int, shapeIn: Int) {
+    val shape = GradientDrawable()
+    shape.shape = shapeIn
+    shape.cornerRadii = floatArrayOf((radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat(), (radius).dpToPx().toFloat())
+    shape.setColor(backgroundColor)
+    this.background = shape
+}
+
+fun TextView.setSpanColor(start: Int, end: Int, color: Int) {
+    val wordToSpan: Spannable = SpannableString(this.text)
+
+    wordToSpan.setSpan(ForegroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    this.text = wordToSpan
+}
+
+
+fun <T : Any> String.toClass(clazz: Class<T>): T {
+    val gson = Gson()
+    return gson.fromJson(this, clazz)
+}
+
+fun <T> Gson.myFromJson(json: String, type: Type) = fromJson<T>(json, type)
+
+fun TextView.setSpanFont(start: Int, end: Int, textSize: Float) {
+    val smallSizeText = RelativeSizeSpan(textSize)
+    val ssBuilder = SpannableStringBuilder(text)
+    ssBuilder.setSpan(
+            smallSizeText,
+            start,
+            end,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+    this.text = ssBuilder
+
 }
 
 fun Context.isNetworkAvailable(): Boolean {
@@ -65,7 +132,7 @@ fun String.isMailValid(): Boolean {
     val inputStr: CharSequence = this
 
     val pattern =
-        Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE)
+            Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE)
     val matcher = pattern.matcher(inputStr)
 
     return matcher.matches()
@@ -89,7 +156,7 @@ fun String.normalPhoneNumber(): String {
 fun String.getState(): String {
     when {
         this.toUpperCase().contains(", NSW") -> {
-            return  "NSW"
+            return "NSW"
         }
         this.toUpperCase().contains(", QLD") -> {
             return "QLD"
@@ -110,10 +177,11 @@ fun String.getState(): String {
         else -> return ""
     }
 }
+
 fun String.getShortAddress(): String {
     when {
         this.contains("New South Wales") -> {
-            return this.replace("New South Wales", "NSW").replace( ", Australia", "")
+            return this.replace("New South Wales", "NSW").replace(", Australia", "")
         }
         this.contains("Queensland") -> {
             return this.replace("Queensland", "QLD").replace(", Australia", "")
@@ -149,7 +217,7 @@ fun Double.appendMBT(): String {
 
 fun String.insertComma(): String {
     var amount = this
-    if (amount == null || amount.trim { it <= ' ' } == "") {
+    if (amount.trim { it <= ' ' } == "") {
         return amount
     }
     if (Build.MANUFACTURER.toLowerCase().equals("motorola", ignoreCase = true)) return amount
@@ -167,7 +235,7 @@ fun String.insertComma(): String {
     var reversedAmount = StringBuffer(amount.trim { it <= ' ' }).reverse().toString()
     if (reversedAmount[amount.length - 1] == '-') {
         reversedAmount =
-            reversedAmount.substring(0, amount.length - 1)
+                reversedAmount.substring(0, amount.length - 1)
         isNegative = true
     }
     for (i in 0 until reversedAmount.length) {
@@ -202,8 +270,8 @@ fun String.cardFormat(): String {
     return if (Build.MANUFACTURER.toLowerCase().equals("motorola", ignoreCase = true)) {
         str
     } else str.substring(0, 4) + "-" + str.substring(4, 8) + "-" + str.substring(
-        8,
-        12
+            8,
+            12
     ) + "-" + str.substring(12)
 
 }
@@ -212,13 +280,13 @@ fun String.cardFormat(): String {
 fun String.convertToEnglishDigits(): String {
     return try {
         this.replace("١".toRegex(), "1").replace("٢".toRegex(), "2")
-            .replace("٣".toRegex(), "3").replace("٤".toRegex(), "4").replace("٥".toRegex(), "5")
-            .replace("٦".toRegex(), "6").replace("٧".toRegex(), "7").replace("٨".toRegex(), "8")
-            .replace("٩".toRegex(), "9").replace("٠".toRegex(), "0")
-            .replace("۱".toRegex(), "1").replace("۲".toRegex(), "2").replace("۳".toRegex(), "3")
-            .replace("۴".toRegex(), "4").replace("۵".toRegex(), "5")
-            .replace("۶".toRegex(), "6").replace("۷".toRegex(), "7").replace("۸".toRegex(), "8")
-            .replace("۹".toRegex(), "9").replace("۰".toRegex(), "0")
+                .replace("٣".toRegex(), "3").replace("٤".toRegex(), "4").replace("٥".toRegex(), "5")
+                .replace("٦".toRegex(), "6").replace("٧".toRegex(), "7").replace("٨".toRegex(), "8")
+                .replace("٩".toRegex(), "9").replace("٠".toRegex(), "0")
+                .replace("۱".toRegex(), "1").replace("۲".toRegex(), "2").replace("۳".toRegex(), "3")
+                .replace("۴".toRegex(), "4").replace("۵".toRegex(), "5")
+                .replace("۶".toRegex(), "6").replace("۷".toRegex(), "7").replace("۸".toRegex(), "8")
+                .replace("۹".toRegex(), "9").replace("۰".toRegex(), "0")
     } catch (e: Exception) {
         e.printStackTrace()
         this
@@ -234,13 +302,13 @@ fun String.removeComma(): String = this.replace(",".toRegex(), "").replace("٫",
 fun TextView.changeToRequired() {
 
     val wordToSpan: Spannable =
-        SpannableString(this.text.toString() + " *")
+            SpannableString(this.text.toString() + " *")
 
     wordToSpan.setSpan(
-        ForegroundColorSpan(Color.RED),
-        this.text.toString().length + 1,
-        this.text.toString().length + 2,
-        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(Color.RED),
+            this.text.toString().length + 1,
+            this.text.toString().length + 2,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
     )
     this.text = wordToSpan
 
@@ -273,7 +341,7 @@ fun String.isPhoneNumber(): Boolean {
 
 fun Char.isPersian(): Boolean {
     val rtlCharacters =
-        Pattern.compile("[\\u0600-\\u06FF\\u0750-\\u077F\\u0590-\\u05FF\\uFE70-\\uFEFF]")
+            Pattern.compile("[\\u0600-\\u06FF\\u0750-\\u077F\\u0590-\\u05FF\\uFE70-\\uFEFF]")
     val matcher = rtlCharacters.matcher(this.toString())
     return matcher.find()
 }

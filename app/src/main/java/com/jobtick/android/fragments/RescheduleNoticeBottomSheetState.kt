@@ -111,7 +111,7 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
                     Timber.e(response)
                     (requireActivity() as ActivityBase).hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 listener!!.onRescheduleWithDraw()
@@ -184,7 +184,7 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 listener!!.onRescheduleTimeAcceptDeclineClick()
@@ -251,7 +251,7 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 listener!!.onRescheduleTimeAcceptDeclineClick()

@@ -205,6 +205,9 @@
     <string name="assigned">Assigned</string>
     <string name="cancelled">Cancelled</string>
     <string name="overdue">Overdue</string>
+    <string name="closed">Closed</string>
+    <string name="posted">Posted</string>
+    <string name="offered">Offered</string>
     <string name="completed">Completed</string>
     <string name="reviewed">Reviewed</string>
     <string name="repost_this_job">Repost this job</string>
@@ -339,6 +342,7 @@
     <string name="_78">78%</string>
     <string name="_546">(546)</string>
     <string name="job_success">Job Success</string>
+    <string name="success">success</string>
     <string name="_5_star_website_and_graphic_designer">“5 Star website and graphic designer”</string>
     <string name="education">Education</string>
     <string name="certificates">Certificates</string>
@@ -581,5 +585,11 @@
     <string name="new_job_count">%1$s new job</string>
     <string name="didnt_get_you">Didn’t get you!</string>
     <string name="listening">Listening ...</string>
+    <string name="no_question_yet">No questions have been asked yet</string>
+    <string name="do_you_have_question">Do You Have Any Question?</string>
+    <string name="this_job_has_been_assigned">This job has been assigned</string>
+    <string name="this_job_has_been_complete">This job has been completed</string>
+    <string name="this_job_has_been_canceled">This job has been canceled</string>
+    <string name="this_job_has_been_closed">This job has been closed</string>
 
 </resources>

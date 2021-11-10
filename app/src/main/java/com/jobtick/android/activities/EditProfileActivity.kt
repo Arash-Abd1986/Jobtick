@@ -35,7 +35,7 @@ import com.jobtick.android.fragments.SearchSuburbBottomSheet
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.models.response.searchsuburb.Feature
-import com.jobtick.android.retrofit.ApiClient
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
 import com.jobtick.android.widget.ExtendedCommentText
 import com.jobtick.android.widget.ExtendedEntryText

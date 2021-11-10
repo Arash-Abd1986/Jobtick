@@ -29,7 +29,7 @@ import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.CommentModel
 import com.jobtick.android.models.OfferModel
 import com.jobtick.android.models.QuestionModel
-import com.jobtick.android.retrofit.ApiClient
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -44,7 +44,8 @@ import timber.log.Timber
 import java.io.File
 import java.util.*
 
-class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapter.OnItemClickListener, QuestionAttachmentAdapter.OnItemClickListener {
+class PublicChatActivity : ActivityBase(), View.OnClickListener,
+    AttachmentAdapter.OnItemClickListener, QuestionAttachmentAdapter.OnItemClickListener {
     private var toolbar: MaterialToolbar? = null
     private var ivReport: ImageView? = null
     private var imgAvatar: CircularImageView? = null
@@ -68,7 +69,6 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
     private var txtNameQuestion: TextView? = null
     private var txtCreatedDateQuestion: TextView? = null
     private var txtMessageQuestion: TextView? = null
-    private var lytBtnReplyQuestion: LinearLayout? = null
     private var linearAcceptDeleteOffer: LinearLayout? = null
     private var imgMoreLessArrow: ImageView? = null
     private var txtMoreLess: TextView? = null
@@ -102,7 +102,6 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
         cardLiveVideo!!.visibility = View.GONE
         lytBtnReply!!.visibility = View.GONE
         lytBtnMore!!.visibility = View.GONE
-        lytBtnReplyQuestion!!.visibility = View.GONE
         lytBtnMoreQuestion!!.visibility = View.GONE
         layoutOffer!!.visibility = View.GONE
         layoutQuestion!!.visibility = View.GONE
@@ -117,10 +116,10 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
         questionModel = QuestionModel()
         if (TaskDetailsActivity.isOfferQuestion == "offer") {
             offerModel = TaskDetailsActivity.offerModel
-            toolbar!!.title = "Replay Offer"
+            toolbar!!.title = "Reply Offer"
         } else {
             questionModel = TaskDetailsActivity.questionModel
-            toolbar!!.title = "Replay Question"
+            toolbar!!.title = "Reply Question"
         }
         initLayout()
         toolbar!!.setNavigationOnClickListener { onBackPressed() }
@@ -131,7 +130,13 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
         lytBtnMore!!.setOnClickListener(this)
         val layoutManager = LinearLayoutManager(this@PublicChatActivity)
         recyclerViewOfferChat!!.layoutManager = layoutManager
-        publicChatListAdapter = PublicChatListAdapter(this@PublicChatActivity, ArrayList(), true, posterID)
+        publicChatListAdapter = PublicChatListAdapter(
+            this@PublicChatActivity,
+            ArrayList(),
+            true,
+            posterID,
+            sessionManager.userAccount.id.toString()
+        )
         recyclerViewOfferChat!!.adapter = publicChatListAdapter
         // publicChatListAdapter.setOnItemClickListener(this);
         initQuestion()
@@ -166,7 +171,6 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
         txtNameQuestion = findViewById(R.id.txt_name_question)
         txtCreatedDateQuestion = findViewById(R.id.txt_created_date_question)
         txtMessageQuestion = findViewById(R.id.txt_message_question)
-        lytBtnReplyQuestion = findViewById(R.id.lyt_btn_reply_question)
         linearAcceptDeleteOffer = findViewById(R.id.linearAcceptDeleteOffer)
         imgMoreLessArrow = findViewById(R.id.img_more_less_arrow)
         txtMoreLess = findViewById(R.id.txt_more_less)
@@ -185,8 +189,15 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
     private fun initQuestion() {
         attachmentArraylistQuestion.clear()
         attachmentArraylistQuestion.add(AttachmentModel())
-        recyclerViewQuestionAttachment!!.layoutManager = LinearLayoutManager(this@PublicChatActivity, RecyclerView.HORIZONTAL, false)
-        recyclerViewQuestionAttachment!!.addItemDecoration(SpacingItemDecoration(3, Tools.dpToPx(this@PublicChatActivity, 5), true))
+        recyclerViewQuestionAttachment!!.layoutManager =
+            LinearLayoutManager(this@PublicChatActivity, RecyclerView.HORIZONTAL, false)
+        recyclerViewQuestionAttachment!!.addItemDecoration(
+            SpacingItemDecoration(
+                3,
+                Tools.dpToPx(this@PublicChatActivity, 5),
+                true
+            )
+        )
         recyclerViewQuestionAttachment!!.setHasFixedSize(true)
         //set data and list adapter
         adapter = QuestionAttachmentAdapter(attachmentArraylistQuestion, true)
@@ -201,7 +212,8 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
             if (isPoster) {
                 linearAcceptDeleteOffer!!.visibility = View.VISIBLE
                 btnAccept!!.setOnClickListener { v: View? ->
-                    val intent = Intent(this@PublicChatActivity, PaymentOverviewActivity::class.java)
+                    val intent =
+                        Intent(this@PublicChatActivity, PaymentOverviewActivity::class.java)
                     val bundle = Bundle()
                     //    bundle.putParcelable(ConstantKey.TASK, taskModel);
                     //     bundle.putParcelable(ConstantKey.OFFER_LIST_MODEL, obj);
@@ -220,10 +232,18 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
             layoutOffer!!.visibility = View.VISIBLE
             layoutQuestion!!.visibility = View.GONE
             txtBudget!!.text = String.format(Locale.ENGLISH, "$ %d", offerModel!!.offerPrice)
-            if (offerModel!!.worker.avatar != null) ImageUtil.displayImage(imgAvatar, offerModel!!.worker.avatar.thumbUrl, null)
+            if (offerModel!!.worker.avatar != null) ImageUtil.displayImage(
+                imgAvatar,
+                offerModel!!.worker.avatar.thumbUrl,
+                null
+            )
             txtName!!.text = offerModel!!.worker.name
             if (offerModel!!.worker != null && offerModel!!.worker.workerRatings != null && offerModel!!.worker.workerRatings.avgRating != null) {
-                txtRatingValue!!.text = String.format(Locale.US, "%.1f", offerModel!!.worker.workerRatings.avgRating) + " (" + offerModel!!.worker.workerRatings.receivedReviews + ")"
+                txtRatingValue!!.text = String.format(
+                    Locale.US,
+                    "%.1f",
+                    offerModel!!.worker.workerRatings.avgRating
+                ) + " (" + offerModel!!.worker.workerRatings.receivedReviews + ")"
                 //                ratingbarWorker.setProgress(Math.round(offerModel.getWorker().getWorkerRatings().getAvgRating()));
             } else {
                 starRatingBar!!.visibility = View.GONE
@@ -233,7 +253,11 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
             } else {
                 ivVerifiedAccount!!.visibility = View.GONE
             }
-            txtCompletionRate!!.text = String.format(Locale.ENGLISH, "%d%% Job success", offerModel!!.worker.workTaskStatistics.completionRate)
+            txtCompletionRate!!.text = String.format(
+                Locale.ENGLISH,
+                "%d%% Job success",
+                offerModel!!.worker.workTaskStatistics.completionRate
+            )
             txtCreatedDate!!.text = offerModel!!.createdAt
             if (offerModel!!.attachments != null && offerModel!!.attachments.size != 0) {
                 cardLiveVideo!!.visibility = View.VISIBLE
@@ -248,7 +272,11 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
         } else {
             layoutOffer!!.visibility = View.GONE
             layoutQuestion!!.visibility = View.VISIBLE
-            if (questionModel!!.user.avatar != null) ImageUtil.displayImage(imgAvatarQuestion, questionModel!!.user.avatar.thumbUrl, null)
+            if (questionModel!!.user.avatar != null) ImageUtil.displayImage(
+                imgAvatarQuestion,
+                questionModel!!.user.avatar.thumbUrl,
+                null
+            )
             txtNameQuestion!!.text = questionModel!!.user.name
             txtMessageQuestion!!.visibility = View.VISIBLE
             txtMessageQuestion!!.text = questionModel!!.questionText
@@ -256,7 +284,11 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
                 recyclerViewQuestion!!.visibility = View.VISIBLE
                 val attachmentAdapter = AttachmentAdapter(questionModel!!.attachments, false)
                 recyclerViewQuestion!!.setHasFixedSize(true)
-                recyclerViewQuestion!!.layoutManager = LinearLayoutManager(this@PublicChatActivity, LinearLayoutManager.HORIZONTAL, false)
+                recyclerViewQuestion!!.layoutManager = LinearLayoutManager(
+                    this@PublicChatActivity,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
                 recyclerViewQuestion!!.adapter = attachmentAdapter
                 recyclerViewQuestion!!.isNestedScrollingEnabled = true
                 attachmentAdapter.setOnItemClickListener(this)
@@ -275,21 +307,37 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
                 val strMessage = edtCommentMessage!!.text.toString().trim { it <= ' ' }
                 if (offerModel!!.taskId != null) {
                     if (attachment!!.thumbUrl != null) {
-                        addCommentIntoServer(strMessage, attachment!!.id, Constant.URL_OFFERS + "/" + offerModel!!.id)
+                        addCommentIntoServer(
+                            strMessage,
+                            attachment!!.id,
+                            Constant.URL_OFFERS + "/" + offerModel!!.id
+                        )
                         edtCommentMessage!!.text = null
                         //imgBtnImageSelect.setImageDrawable(getResources().getDrawable(R.drawable.ic_paperclip));
                     } else {
-                        addCommentIntoServer(strMessage, null, Constant.URL_OFFERS + "/" + offerModel!!.id)
+                        addCommentIntoServer(
+                            strMessage,
+                            null,
+                            Constant.URL_OFFERS + "/" + offerModel!!.id
+                        )
                         edtCommentMessage!!.text = null
                         // imgBtnImageSelect.setImageDrawable(getResources().getDrawable(R.drawable.ic_paperclip));
                     }
                 } else {
                     if (attachment!!.thumbUrl != null) {
-                        addCommentIntoServer(strMessage, attachment!!.id, Constant.URL_QUESTIONS + "/" + questionModel!!.id)
+                        addCommentIntoServer(
+                            strMessage,
+                            attachment!!.id,
+                            Constant.URL_QUESTIONS + "/" + questionModel!!.id
+                        )
                         edtCommentMessage!!.text = null
                         // imgBtnImageSelect.setImageDrawable(getResources().getDrawable(R.drawable.ic_paperclip));
                     } else {
-                        addCommentIntoServer(strMessage, null, Constant.URL_QUESTIONS + "/" + questionModel!!.id)
+                        addCommentIntoServer(
+                            strMessage,
+                            null,
+                            Constant.URL_QUESTIONS + "/" + questionModel!!.id
+                        )
                         edtCommentMessage!!.text = null
                         //  imgBtnImageSelect.setImageDrawable(getResources().getDrawable(R.drawable.ic_paperclip));
                     }
@@ -300,10 +348,15 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
 
 
     private fun checkPermissionReadExternalStorage(context: Context?): Boolean {
-        return if (ContextCompat.checkSelfPermission(context!!,
-                        permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((context as Activity?)!!, arrayOf(permission.READ_EXTERNAL_STORAGE),
-                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
+        return if (ContextCompat.checkSelfPermission(
+                context!!,
+                permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                (context as Activity?)!!, arrayOf(permission.READ_EXTERNAL_STORAGE),
+                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
+            )
             false
         } else {
             true
@@ -313,65 +366,66 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
     private fun addCommentIntoServer(str_message: String, id: Int?, url: String) {
         showProgressDialog()
         val stringRequest: StringRequest = object : StringRequest(Method.POST, "$url/comments",
-                Response.Listener { response ->
-                    Timber.e(response)
-                    hideProgressDialog()
+            Response.Listener { response ->
+                Timber.e(response)
+                hideProgressDialog()
+                try {
+                    val jsonObject = JSONObject(response!!)
+                    Timber.e(jsonObject.toString())
+                    if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                        attachmentArraylistQuestion.clear()
+                        attachmentArraylistQuestion.add(AttachmentModel())
+                        if (jsonObject.getBoolean("success")) {
+                            val jsonObjectOfferChat = jsonObject.getJSONObject("data")
+                            val commentModel = CommentModel().getJsonToModel(jsonObjectOfferChat)
+                            publicChatListAdapter!!.addItem(commentModel)
+                            if (recyclerViewQuestion != null) recyclerViewQuestion!!.adapter =
+                                publicChatListAdapter
+                        } else {
+                            showToast("Something went Wrong", this@PublicChatActivity)
+                        }
+                        if (adapter != null) {
+                            adapter!!.notifyDataSetChanged()
+                        }
+                    }
+                } catch (e: JSONException) {
+                    Timber.e(e.toString())
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error ->
+                val networkResponse = error.networkResponse
+                if (networkResponse?.data != null) {
+                    val jsonError = String(networkResponse.data)
+                    // Print Error!
+                    Timber.e(jsonError)
+                    if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                        unauthorizedUser()
+                        hideProgressDialog()
+                        return@ErrorListener
+                    }
                     try {
-                        val jsonObject = JSONObject(response)
-                        Timber.e(jsonObject.toString())
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            attachmentArraylistQuestion.clear()
-                            attachmentArraylistQuestion.add(AttachmentModel())
-                            if (jsonObject.getBoolean("success")) {
-                                val jsonObjectOfferChat = jsonObject.getJSONObject("data")
-                                val commentModel = CommentModel().getJsonToModel(jsonObjectOfferChat)
-                                publicChatListAdapter!!.addItem(commentModel)
-                                if (recyclerViewQuestion != null) recyclerViewQuestion!!.adapter = publicChatListAdapter
-                            } else {
-                                showToast("Something went Wrong", this@PublicChatActivity)
-                            }
-                            if (adapter != null) {
-                                adapter!!.notifyDataSetChanged()
+                        val jsonObject = JSONObject(jsonError)
+                        val jsonObjectError = jsonObject.getJSONObject("error")
+                        if (jsonObjectError.has("message")) {
+                            showToast(jsonObjectError.getString("message"), this@PublicChatActivity)
+                        }
+                        if (jsonObjectError.has("errors")) {
+                            val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
+                            if (jsonObjectErrors.has("comment_text") && !jsonObjectErrors.has("comment_text")) {
+                                val message = jsonObjectErrors.getString("comment_text")
+                                edtCommentMessage!!.error = message
                             }
                         }
                     } catch (e: JSONException) {
-                        Timber.e(e.toString())
                         e.printStackTrace()
                     }
-                },
-                Response.ErrorListener { error ->
-                    val networkResponse = error.networkResponse
-                    if (networkResponse?.data != null) {
-                        val jsonError = String(networkResponse.data)
-                        // Print Error!
-                        Timber.e(jsonError)
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser()
-                            hideProgressDialog()
-                            return@ErrorListener
-                        }
-                        try {
-                            val jsonObject = JSONObject(jsonError)
-                            val jsonObjectError = jsonObject.getJSONObject("error")
-                            if (jsonObjectError.has("message")) {
-                                showToast(jsonObjectError.getString("message"), this@PublicChatActivity)
-                            }
-                            if (jsonObjectError.has("errors")) {
-                                val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
-                                if (jsonObjectErrors.has("comment_text") && !jsonObjectErrors.has("comment_text")) {
-                                    val message = jsonObjectErrors.getString("comment_text")
-                                    edtCommentMessage!!.error = message
-                                }
-                            }
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                        }
-                    } else {
-                        showToast("Something Went Wrong", this@PublicChatActivity)
-                    }
-                    Timber.e(error.toString())
-                    hideProgressDialog()
-                }) {
+                } else {
+                    showToast("Something Went Wrong", this@PublicChatActivity)
+                }
+                Timber.e(error.toString())
+                hideProgressDialog()
+            }) {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
@@ -393,8 +447,10 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@PublicChatActivity)
         requestQueue.add(stringRequest)
         Timber.e(stringRequest.url)
@@ -412,42 +468,42 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
         val items = ArrayList<CommentModel>()
         Helper.closeKeyboard(this@PublicChatActivity)
         val stringRequest: StringRequest = object : StringRequest(Method.GET, "$url/comments",
-                Response.Listener { response: String? ->
-                    Timber.e(response)
-                    // categoryArrayList.clear();
-                    try {
-                        val jsonObject = JSONObject(response)
-                        Timber.e(jsonObject.toString())
-                        val jsonArrayData = jsonObject.getJSONArray("data")
-                        var i = 0
-                        while (jsonArrayData.length() > i) {
-                            val jsonObjectOfferChat = jsonArrayData.getJSONObject(i)
-                            val commentModel = CommentModel().getJsonToModel(jsonObjectOfferChat)
-                            items.add(commentModel)
-                            i++
-                        }
-                        publicChatListAdapter!!.clear()
-                        publicChatListAdapter!!.addItems(items)
-                        if (isOffer) {
-                            recyclerViewOfferChat!!.scrollToPosition(items.size - 1)
-                        } else {
-                            val layoutManager = LinearLayoutManager(this@PublicChatActivity)
-                            recyclerViewQuestion!!.visibility = View.VISIBLE
-                            recyclerViewQuestion!!.layoutManager = layoutManager
-                            recyclerViewQuestion!!.adapter = publicChatListAdapter
-                            recyclerViewQuestion!!.scrollToPosition(items.size - 1)
-                        }
-                        recyclerViewQuestion!!.scrollToPosition(items.size - 1)
-                    } catch (e: JSONException) {
-                        hideProgressDialog()
-                        Timber.e(e.toString())
-                        e.printStackTrace()
+            Response.Listener { response: String? ->
+                Timber.e(response)
+                // categoryArrayList.clear();
+                try {
+                    val jsonObject = JSONObject(response!!)
+                    Timber.e(jsonObject.toString())
+                    val jsonArrayData = jsonObject.getJSONArray("data")
+                    var i = 0
+                    while (jsonArrayData.length() > i) {
+                        val jsonObjectOfferChat = jsonArrayData.getJSONObject(i)
+                        val commentModel = CommentModel().getJsonToModel(jsonObjectOfferChat)
+                        items.add(commentModel)
+                        i++
                     }
-                },
-                Response.ErrorListener { error: VolleyError ->
-                    //  swipeRefresh.setRefreshing(false);
-                    errorHandle1(error.networkResponse)
-                }) {
+                    publicChatListAdapter!!.clear()
+                    publicChatListAdapter!!.addItems(items)
+                    if (isOffer) {
+                        recyclerViewOfferChat!!.scrollToPosition(items.size - 1)
+                    } else {
+                        val layoutManager = LinearLayoutManager(this@PublicChatActivity)
+                        recyclerViewQuestion!!.visibility = View.VISIBLE
+                        recyclerViewQuestion!!.layoutManager = layoutManager
+                        recyclerViewQuestion!!.adapter = publicChatListAdapter
+                        recyclerViewQuestion!!.scrollToPosition(items.size - 1)
+                    }
+                    recyclerViewQuestion!!.scrollToPosition(items.size - 1)
+                } catch (e: JSONException) {
+                    hideProgressDialog()
+                    Timber.e(e.toString())
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error: VolleyError ->
+                //  swipeRefresh.setRefreshing(false);
+                errorHandle1(error.networkResponse)
+            }) {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
@@ -457,8 +513,10 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@PublicChatActivity)
         requestQueue.add(stringRequest)
         Timber.e(stringRequest.url)
@@ -469,7 +527,11 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
         val call: Call<String?>?
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
-        call = ApiClient.getClient().getTaskTempAttachmentMediaData("XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, imageFile)
+        call = ApiClient.getClient().getTaskTempAttachmentMediaData(
+            "XMLHttpRequest",
+            sessionManager.tokenType + " " + sessionManager.accessToken,
+            imageFile
+        )
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: retrofit2.Response<String?>) {
                 hideProgressDialog()
@@ -546,7 +608,8 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled recording
                 showToast(
-                        "User cancelled Pickup Image", this)
+                    "User cancelled Pickup Image", this
+                )
             } else {
                 // failed to record video
                 showToast("Sorry! Failed to Pickup Image", this)
@@ -560,7 +623,10 @@ class PublicChatActivity : ActivityBase(), View.OnClickListener, AttachmentAdapt
                 val intent = Intent()
                 intent.type = "image/*"
                 intent.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_PICKUP_IMAGE_REQUEST_CODE)
+                startActivityForResult(
+                    Intent.createChooser(intent, "Select Picture"),
+                    GALLERY_PICKUP_IMAGE_REQUEST_CODE
+                )
             } else if (action.equals("delete", ignoreCase = true)) {
                 recyclerViewQuestionAttachment!!.removeViewAt(position)
                 attachmentArraylistQuestion.removeAt(position)

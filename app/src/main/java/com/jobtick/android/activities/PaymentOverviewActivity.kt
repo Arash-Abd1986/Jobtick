@@ -154,7 +154,7 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
                     Response.Listener { response: String? ->
                         Timber.e(response)
                         try {
-                            val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
                             if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                                 if (jsonObject.getBoolean("success")) {
@@ -271,7 +271,7 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
                     Timber.e(response)
                     //   hidepDialog();
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
@@ -365,7 +365,7 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
                 Response.Listener { response: String? ->
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         val data = jsonObject.getString("data")
                         val model = gson!!.fromJson(data, PayingCalculationModel::class.java)
                         txtServiceFee.text = String.format(Locale.ENGLISH, "$%.1f", model.serviceFee)

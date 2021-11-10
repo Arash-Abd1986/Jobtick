@@ -24,6 +24,12 @@
     -->
     <uses-permission android:name="android.permission.RECORD_VIDEO" />
 
+    <queries>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+    </queries>
+
     <application
         android:name=".AppController"
         android:allowBackup="false"
@@ -36,8 +42,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".activities.ServerUnderMaintenance"></activity>
-        <activity android:name=".activities.others.ReferAFriendActivity" />
+        <activity
+            android:name=".activities.new.OfferListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.ServerUnderMaintenance" />
+        <activity android:name=".activities.new.ReferAFriendActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -318,19 +327,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <meta-data
-            android:name="com.onesignal.NotificationOpened.DEFAULT"
-            android:value="DISABLE" />
-
-        <service
-            android:name=".utils.NotificationExtenderBareBonesExample"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE">
-            <intent-filter>
-                <action android:name="com.onesignal.NotificationExtender" />
-            </intent-filter>
-        </service>
-
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -359,13 +355,6 @@
         <meta-data
             android:name="firebase_performance_collection_enabled"
             android:value="true" />
-
-
     </application>
-    <queries>
-        <intent>
-            <action
-                android:name="android.speech.RecognitionService" />
-        </intent>
-    </queries>
+
 </manifest>

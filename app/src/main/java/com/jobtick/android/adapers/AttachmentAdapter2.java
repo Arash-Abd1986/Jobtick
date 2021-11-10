@@ -135,7 +135,7 @@ public class AttachmentAdapter2 extends RecyclerView.Adapter<RecyclerView.ViewHo
             // super.onBind(position);
             AttachmentModel item = items.get(position);
             if (item.getThumbUrl() != null) {
-                //ImageUtil.displayImage(imgView, item.getUrl(), null);
+                ImageUtil.displayImage(imgView, item.getUrl(), null);
                 if(context!=null) {
                     content.setOnClickListener(v -> {
                         Intent intent = new Intent(context, ZoomImageActivity.class);

@@ -131,7 +131,7 @@ class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.Extended
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {

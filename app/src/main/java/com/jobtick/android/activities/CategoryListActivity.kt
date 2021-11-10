@@ -102,7 +102,7 @@ class CategoryListActivity : ActivityBase(), TaskCategoryAdapter.OnItemClickList
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL + Constant.TASK_CATEGORY + "?query=" + query + "&page=" + currentPage, label@
             Response.Listener { response: String? ->
                 try {
-                    val jsonObject = JSONObject(response)
+                    val jsonObject = JSONObject(response!!)
                     if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                         val jsonArrayData = jsonObject.getJSONArray("data")
                         var i = 0

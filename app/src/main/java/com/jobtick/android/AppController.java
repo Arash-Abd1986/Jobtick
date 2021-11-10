@@ -35,28 +35,18 @@ public class AppController extends Application {
         super.onCreate();
         isDebug = BuildConfig.DEBUG;
 
+        /*new Instabug.Builder(this, "14cdc056876dd1e8bf9a8579522f9b85")
+                .setInvocationEvents(InstabugInvocationEvent.SHAKE, InstabugInvocationEvent.SCREENSHOT)
+                .build();*/
+
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
         Mapbox.getInstance(getApplicationContext(), Constant.MAPBOX_API_KEY);
+
         OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
-
-        // OneSignal Initialization
-        OneSignal.startInit(this)
-                .setNotificationOpenedHandler(new MyNotificationOpenedHandler(this))
-                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)//
-                .unsubscribeWhenNotificationsAreDisabled(true)
-                .init();
-
-        OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
-            @Override
-            public void idsAvailable(String userId, String registrationId) {
-               // Log.d("debug", "User:" + userId);
-                //if (registrationId != null)
-                    //Log.d("debug", "registrationId:" + registrationId);
-
-            }
-        });
-
+        OneSignal.initWithContext(this);
+        OneSignal.setNotificationOpenedHandler(new MyNotificationOpenedHandler(this));
+        OneSignal.setAppId("dd77e2db-8358-4c20-95b9-e4943e401d4b");
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // Operations on FirebaseCrashlytics.
         mCrashlytics = FirebaseCrashlytics.getInstance();

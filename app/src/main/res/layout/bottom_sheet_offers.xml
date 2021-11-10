@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/transparent"
+    android:orientation="vertical"
+    android:paddingTop="10dp">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_offers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:overScrollMode="never"
+        android:visibility="visible"
+        app:layout_anchorGravity="bottom|center"
+        tools:itemCount="1" />
+</RelativeLayout>

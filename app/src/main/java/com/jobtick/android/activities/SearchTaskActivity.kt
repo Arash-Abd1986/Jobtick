@@ -117,7 +117,7 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBot
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         val gson = Gson()
                         val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(jsonObject.toString(), MyJobsResponse::class.java)
@@ -168,7 +168,7 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBot
     }
 
     private fun setOnlineAdapter() {
-        adapter = TaskListAdapterV2(ArrayList(), null)
+        adapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id)
         recyclerView!!.adapter = adapter
         adapter!!.setOnItemClickListener(this)
     }

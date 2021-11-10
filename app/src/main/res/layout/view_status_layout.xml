@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:minWidth="@dimen/_100dp"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="20dp"
+            android:id="@+id/im_dot"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_white_cirlce"
+            android:layout_alignParentStart="true"
+            android:padding="6dp"
+            android:layout_marginStart="5dp"
+            android:layout_height="20dp"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_status"
+            style="@style/materialText_600_10"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:singleLine="true"
+            android:layout_centerInParent="true"
+            android:text="@string/open"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</merge>

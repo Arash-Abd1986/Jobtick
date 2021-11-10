@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ln_offers"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_offer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="@dimen/spacing_middle"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:visibility="visible"
+        app:cardCornerRadius="@dimen/spacing_middle"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="@dimen/_8dp"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/spacing_small"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    tools:ignore="UselessParent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginRight="10dp"
+                        app:srcCompat="@drawable/ic_warning_new" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_offer_count"
+                        style="@style/materialText_500_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="You haven’t received any offers yet"
+                        android:textColor="@color/black" />
+
+
+                </LinearLayout>
+            </FrameLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/card_view_all_offers"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginVertical="18dp"
+                android:layout_marginHorizontal="12dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/ln_show_offers"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/rectangle_card_round_fill_blue_6dp_radius"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="35dp"
+                    android:paddingVertical="10dp"
+                    android:visibility="visible">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="2dp"
+                        android:gravity="center"
+                        android:text="Show offer list"
+                        android:textAppearance="@style/materialText_400_12"
+                        android:textColor="@color/white"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ln_show_offers_deactive"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/linear_rounded_white_fill_gray_border"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp"
+                    android:visibility="visible">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/materialText_500_12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Show offer list"
+                        android:textColor="@color/N100" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

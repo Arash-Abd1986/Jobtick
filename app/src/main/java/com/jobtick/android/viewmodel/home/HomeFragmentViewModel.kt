@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
@@ -14,7 +13,6 @@ import com.jobtick.android.models.response.home.HomeResponse
 import com.jobtick.android.utils.Constant
 import org.json.JSONObject
 import timber.log.Timber
-import java.lang.Exception
 import java.util.*
 
 class HomeFragmentViewModel : ViewModel() {
@@ -90,7 +88,7 @@ class HomeFragmentViewModel : ViewModel() {
                         error.postValue("Something went wrong")
                     }
                 },
-                Response.ErrorListener { error: VolleyError? ->
+                Response.ErrorListener {
                     this.error.postValue("Something went wrong")
                 }
         ) {

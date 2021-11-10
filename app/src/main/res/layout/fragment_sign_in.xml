@@ -68,7 +68,7 @@
                         android:layout_marginBottom="@dimen/spacing_middle"
                         app:eImeOptions="actionNext"
                         app:eInputType="email"
-                        app:eMaxCharNumber="30"
+                        app:eMaxCharNumber="50"
                         app:eTitle="@string/email_address" />
 
                 </RelativeLayout>

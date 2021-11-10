@@ -278,7 +278,7 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         recyclerViewBrowse!!.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
         recyclerViewBrowse!!.layoutManager = layoutManager
-        taskListAdapter = TaskListAdapterV2(taskArrayList, null)
+        taskListAdapter = TaskListAdapterV2(taskArrayList, sessionManager!!.userAccount.id)
         recyclerViewBrowse!!.adapter = taskListAdapter
         taskListAdapter!!.setOnItemClickListener(this)
         recyclerViewBrowse!!.addOnScrollListener(object : PaginationListener(layoutManager) {
@@ -405,7 +405,7 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
                     linNewMessage!!.visibility = View.GONE
                     // categoryArrayList.clear();
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         val gson = Gson()
                         val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(jsonObject.toString(), MyJobsResponse::class.java)

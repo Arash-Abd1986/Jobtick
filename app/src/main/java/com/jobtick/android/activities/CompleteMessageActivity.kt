@@ -12,7 +12,6 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
-import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.fragments.CategoryListBottomSheet
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.SessionManager
@@ -96,9 +95,9 @@ class CompleteMessageActivity : AppCompatActivity() {
     private fun onViewClick() {
         cardFinish!!.setOnClickListener {
             if (from == ConstantKey.RESULTCODE_INCREASE_BUDGET) {
-                if (TaskDetailsActivity.requestAcceptListener != null) {
+               /* if (TaskDetailsActivity.requestAcceptListener != null) {
                     TaskDetailsActivity.requestAcceptListener!!.onRequestAccept()
-                }
+                }*/
                 onBackPressed()
             } else {
                 onBackPressed()
@@ -130,9 +129,9 @@ class CompleteMessageActivity : AppCompatActivity() {
             startActivity(intent)
         }
         viewYourOffer!!.setOnClickListener {
-            if (TaskDetailsActivity.requestAcceptListener != null) {
+           /* if (TaskDetailsActivity.requestAcceptListener != null) {
                 TaskDetailsActivity.requestAcceptListener!!.onMakeAnOffer()
-            }
+            }*/
             onBackPressed()
         }
 

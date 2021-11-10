@@ -34,7 +34,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_toLeftOf="@+id/update_profile">
 
-                <!--    <ImageView
+                    <!--    <ImageView
                         android:id="@+id/hand"
                         android:layout_width="24dp"
                         android:layout_height="match_parent"
@@ -114,23 +114,23 @@
             </RelativeLayout>
 
             <include
-                android:visibility="gone"
                 android:id="@+id/rl_banner"
                 layout="@layout/home_banner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="24dp" />
+                android:layout_marginTop="24dp"
+                android:visibility="gone" />
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/rl_posted_jobs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/shape_rounded_back_card_white"
-                android:padding="12dp">
+                android:padding="12dp"
+                android:visibility="gone">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/posted_job_title"
@@ -160,15 +160,16 @@
                     android:layout_marginTop="12dp"
                     android:overScrollMode="never" />
             </RelativeLayout>
+
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/rl_offered_jobs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/shape_rounded_back_card_white"
-                android:padding="12dp">
+                android:padding="12dp"
+                android:visibility="gone">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/offered_jobs_title"
@@ -201,23 +202,23 @@
 
 
             <include
-                android:visibility="gone"
                 android:id="@+id/rl_payment"
                 layout="@layout/home_payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="12dp"
-                />
+                android:visibility="gone" />
+
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/rl_recent_jobs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/shape_rounded_back_card_white"
-                android:padding="12dp">
+                android:padding="12dp"
+                android:visibility="gone">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/recent_jobs_title"
@@ -247,15 +248,16 @@
                     android:layout_marginTop="12dp"
                     android:overScrollMode="never" />
             </RelativeLayout>
+
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/rl_recommended_jobs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/shape_rounded_back_card_white"
-                android:padding="12dp">
+                android:padding="12dp"
+                android:visibility="gone">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/recommended_job_title"
@@ -273,10 +275,10 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="8dp"
-                    android:visibility="invisible"
                     android:text="See all"
                     android:textAppearance="@style/materialText_400_15"
-                    android:textColor="@color/P300" />
+                    android:textColor="@color/P300"
+                    android:visibility="invisible" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_recommended_jobs"
@@ -286,6 +288,7 @@
                     android:layout_marginTop="12dp"
                     android:overScrollMode="never" />
             </RelativeLayout>
+
             <Space
                 android:id="@+id/space"
                 android:layout_width="0dp"

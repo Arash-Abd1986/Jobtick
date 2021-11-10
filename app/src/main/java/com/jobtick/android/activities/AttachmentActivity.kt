@@ -1,58 +1,57 @@
 package com.jobtick.android.activities
 
-import com.jobtick.android.adapers.AttachmentAdapter
-import com.jobtick.android.models.AttachmentModel
-import com.jobtick.android.R
-import com.google.android.material.appbar.MaterialToolbar
-import android.widget.FrameLayout
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import android.graphics.Bitmap
-import android.os.Bundle
-import com.jobtick.android.utils.ConstantKey
-import android.os.Parcelable
-import android.content.Intent
-import androidx.recyclerview.widget.GridLayoutManager
-import com.jobtick.android.widget.SpacingItemDecoration
-import com.jobtick.android.utils.Tools
-import android.widget.LinearLayout
-import android.os.Build
-import android.content.pm.PackageManager
-import android.provider.MediaStore
-import android.view.WindowManager
-import android.content.DialogInterface
 import android.Manifest.permission
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import timber.log.Timber
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
+import android.os.Bundle
 import android.os.Environment
+import android.os.Parcelable
+import android.provider.MediaStore
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.*
-import okhttp3.RequestBody
-import okhttp3.MultipartBody
-import com.jobtick.android.retrofit.ApiClient
-import org.json.JSONException
-import com.jobtick.android.utils.HttpStatus
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
+import com.jobtick.android.adapers.AttachmentAdapter
+import com.jobtick.android.models.AttachmentModel
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.HttpStatus
+import com.jobtick.android.utils.Tools
+import com.jobtick.android.widget.SpacingItemDecoration
 import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
+import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -109,7 +108,7 @@ class AttachmentActivity : ActivityBase(), AttachmentAdapter.OnItemClickListener
     private fun initToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_cancel)
         setSupportActionBar(toolbar)
-        Objects.requireNonNull(supportActionBar)!!.setDisplayHomeAsUpEnabled(true)
+        (supportActionBar)!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = "Attachment"
     }
 
@@ -150,7 +149,7 @@ class AttachmentActivity : ActivityBase(), AttachmentAdapter.OnItemClickListener
         val lytBtnVideo = view.findViewById<LinearLayout>(R.id.lyt_btn_video)
         val lytBtnDoc = view.findViewById<LinearLayout>(R.id.lyt_btn_doc)
         val lyrBtnVideoCamera = view.findViewById<LinearLayout>(R.id.lyt_btn_video_camera)
-        lytBtnCamera.setOnClickListener { view1: View? ->
+        lytBtnCamera.setOnClickListener {
             if (checkSelfPermission(permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(arrayOf(permission.CAMERA), MY_CAMERA_PERMISSION_CODE)
             } else {
@@ -159,15 +158,15 @@ class AttachmentActivity : ActivityBase(), AttachmentAdapter.OnItemClickListener
             }
             mBottomSheetDialog!!.hide()
         }
-        lytBtnVideo.setOnClickListener { view12: View? ->
+        lytBtnVideo.setOnClickListener {
             galleryVideo
             mBottomSheetDialog!!.hide()
         }
-        lyrBtnVideoCamera.setOnClickListener { view13: View? ->
+        lyrBtnVideoCamera.setOnClickListener {
             recordVideo()
             mBottomSheetDialog!!.hide()
         }
-        lytBtnDoc.setOnClickListener { view14: View? ->
+        lytBtnDoc.setOnClickListener {
             val intent = Intent()
             intent.type = "application/pdf"
             intent.action = Intent.ACTION_GET_CONTENT
@@ -189,7 +188,7 @@ class AttachmentActivity : ActivityBase(), AttachmentAdapter.OnItemClickListener
         // set background transparent
         (view.parent as View).setBackgroundColor(resources.getColor(android.R.color.transparent))
         mBottomSheetDialog!!.show()
-        mBottomSheetDialog!!.setOnDismissListener { dialog: DialogInterface? -> mBottomSheetDialog = null }
+        mBottomSheetDialog!!.setOnDismissListener { mBottomSheetDialog = null }
     }
 
     private val galleryVideo: Unit
@@ -439,7 +438,7 @@ class AttachmentActivity : ActivityBase(), AttachmentAdapter.OnItemClickListener
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         // MultipartBody.Part is used to send also the actual file name
         val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
-        call = ApiClient.getClient().getTaskTempAttachmentMediaData( /*"application/x-www-form-urlencoded",*/"XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, imageFile)
+        call = ApiClient.getClient().getTaskTempAttachmentMediaData( "XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, imageFile)
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: retrofit2.Response<String?>) {
                 hideProgressDialog()
@@ -566,7 +565,7 @@ class AttachmentActivity : ActivityBase(), AttachmentAdapter.OnItemClickListener
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {

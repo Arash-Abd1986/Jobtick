@@ -143,7 +143,10 @@
     <declare-styleable name="ExtendedAlertBox">
         <attr name="eAlertTitle" format="string"/>
         <attr name="eAlertButtonText" format="string"/>
+        <attr name="eAlertType" format="string"/>
         <attr name="eAlertHasButton" format="boolean"/>
+        <attr name="eAlertHasTopColor" format="boolean"/>
+        <attr name="eAlertIsTicker" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="ExtendedCommentText">
@@ -163,6 +166,10 @@
             <enum name="actionDone" value="1"/>
             <enum name="normal" value="2"/>
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="StatusLayout">
+        <attr name="status" format="string"/>
     </declare-styleable>
 
 

@@ -24,7 +24,7 @@ import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.models.AttachmentModel
-import com.jobtick.android.retrofit.ApiClient
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.karumi.dexter.Dexter
@@ -331,7 +331,7 @@ class PortfolioActivity : ActivityBase(), AttachmentAdapter.OnItemClickListener 
                     Timber.e(response)
                     hideProgressDialog()
                     try {
-                        val jsonObject = JSONObject(response)
+                        val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {

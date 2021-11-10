@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.models.ConversationModel;
@@ -19,7 +21,9 @@ import com.jobtick.android.utils.ImageUtil;
 import com.jobtick.android.utils.SessionManager;
 import com.jobtick.android.utils.TimeAgo;
 import com.jobtick.android.utils.Tools;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -238,9 +242,9 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_user_name)
         TextView txtUserName;
-       // @SuppressLint("NonConstantResourceId")
-     //   @BindView(R.id.img_gallery)
-     //   ImageView imgGallery;
+        // @SuppressLint("NonConstantResourceId")
+        //   @BindView(R.id.img_gallery)
+        //   ImageView imgGallery;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_last_message)
         TextView txtLastMessage;
@@ -273,19 +277,19 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             super.onBind(position);
             ConversationModel item = mItems.get(position);
+            if (item.getReceiver() != null)
+                if (!item.getReceiver().getId().equals(sessionManager.getUserAccount().getId())) {
+                    if (item.getReceiver().getAvatar() != null && item.getReceiver().getAvatar().getThumbUrl() != null) {
+                        ImageUtil.displayImage(imgAvatar, item.getReceiver().getAvatar().getThumbUrl(), null);
+                    }  //TODO DEFAULT IMAGE
 
-            if (!item.getReceiver().getId().equals(sessionManager.getUserAccount().getId())) {
-                if (item.getReceiver().getAvatar() != null && item.getReceiver().getAvatar().getThumbUrl() != null) {
-                    ImageUtil.displayImage(imgAvatar, item.getReceiver().getAvatar().getThumbUrl(), null);
-                }  //TODO DEFAULT IMAGE
-
-                txtUserName.setText(item.getReceiver().getName());
-                if (item.getReceiver().getIsOnline()) {
-                    txtStatus.setVisibility(View.VISIBLE);
-                } else {
-                    txtStatus.setVisibility(View.GONE);
+                    txtUserName.setText(item.getReceiver().getName());
+                    if (item.getReceiver().getIsOnline()) {
+                        txtStatus.setVisibility(View.VISIBLE);
+                    } else {
+                        txtStatus.setVisibility(View.GONE);
+                    }
                 }
-            }
 
             txtTitle.setText(item.getName());
             if (item.getLastMessage() != null) {
@@ -297,9 +301,9 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
                 if (item.getLastMessage().getAttachment() != null) {
                     txtLastMessage.setText("Image");
-                   // imgGallery.setVisibility(View.VISIBLE);
+                    // imgGallery.setVisibility(View.VISIBLE);
                 } else {
-                   // imgGallery.setVisibility(View.GONE);
+                    // imgGallery.setVisibility(View.GONE);
                 }
                 if (item.getLastMessage().getMessage() != null) {
                     txtLastMessage.setText(item.getLastMessage().getMessage());
@@ -311,10 +315,10 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (item.getUnseenCount() != 0) {
                 txtUnseenCount.setVisibility(View.VISIBLE);
                 rlUnseenCount.setVisibility(View.VISIBLE);
-                if (item.getUnseenCount()>9){
+                if (item.getUnseenCount() > 9) {
                     txtUnseenCount.setText("+9");
-                }else{
-                    txtUnseenCount.setText(item.getUnseenCount()+"");
+                } else {
+                    txtUnseenCount.setText(item.getUnseenCount() + "");
                 }
 
             } else {

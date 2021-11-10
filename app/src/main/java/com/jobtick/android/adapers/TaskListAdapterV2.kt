@@ -264,7 +264,7 @@ class TaskListAdapterV2(private val mItems: ArrayList<Data> = ArrayList(), priva
             }
             if (item.amount != null) {
                 txtBudget!!.text = "$" + item.amount
-            } else txtBudget!!.text = "$"
+            } else txtBudget!!.text = ""
             if (item.offers != null) {
                 val count = item.offers.size
                 if (count >= 1) {
@@ -381,10 +381,13 @@ class TaskListAdapterV2(private val mItems: ArrayList<Data> = ArrayList(), priva
 //                txtStatus.setText("Posted");
 //            } else
             when {
+                userId != null && userId == item.poster_id && item.status == "open" && item.offers!!.isNotEmpty()-> {
+                    txtStatus!!.text = "Offered"
+                }
                 userId != null && userId == item.poster_id && item.status == "open" -> {
                     txtStatus!!.text = "Posted"
                 }
-                userId != null && item.status == "open" -> {
+                item.status.equals("open", ignoreCase = true) -> {
                     txtStatus!!.text = "Open"
                 }
                 item.status.equals("Offered", ignoreCase = true) -> {
@@ -421,9 +424,7 @@ class TaskListAdapterV2(private val mItems: ArrayList<Data> = ArrayList(), priva
                         }
                     }
                 }
-                item.status.equals("open", ignoreCase = true) -> {
-                    txtStatus!!.text = "Open"
-                }
+
                 else -> {
                     txtStatus!!.text = item.status
                 }

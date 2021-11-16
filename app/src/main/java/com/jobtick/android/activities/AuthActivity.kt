@@ -253,12 +253,13 @@ open class AuthActivity : ActivityBase() {
                     }
 
                     override fun onCancel() {
-                        // App code
+
                     }
 
                     override fun onError(exception: FacebookException) {
-                        // App code
+                        exception.printStackTrace()
                     }
+
                 })
         init()
         fireBaseEvent = FireBaseEvent.getInstance(applicationContext)
@@ -416,7 +417,7 @@ open class AuthActivity : ActivityBase() {
     }
 
     fun facebookLogin(fromSignUp: Boolean) {
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email"))
+        LoginManager.getInstance().logInWithReadPermissions(this, listOf("email", "public_profile", "user_friends"))
         this.fromSignUp = fromSignUp
     }
 

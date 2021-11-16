@@ -417,7 +417,7 @@ open class AuthActivity : ActivityBase() {
     }
 
     fun facebookLogin(fromSignUp: Boolean) {
-        LoginManager.getInstance().logInWithReadPermissions(this, listOf("email", "public_profile", "user_friends"))
+        LoginManager.getInstance().logInWithReadPermissions(this, listOf("email", "public_profile"))
         this.fromSignUp = fromSignUp
     }
 

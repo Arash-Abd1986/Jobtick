@@ -1,20 +1,26 @@
 package com.jobtick.android.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CalendarView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -27,10 +33,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jobtick.android.BuildConfig;
 import com.jobtick.android.R;
-
-import android.annotation.SuppressLint;
-import android.widget.Toast;
-
 import com.jobtick.android.activities.ActivityBase;
 import com.jobtick.android.adapers.PaymentHistoryListAdapter;
 import com.jobtick.android.models.payments.PaymentHistory;
@@ -75,9 +77,6 @@ public abstract class AbstractPaymentFragment extends Fragment {
     @BindView(R.id.pbLoading)
     ProgressBar pbLoading;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.filter)
-    TextView filter;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.download)
     TextView download;
     @SuppressLint("NonConstantResourceId")
@@ -103,6 +102,39 @@ public abstract class AbstractPaymentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(requireActivity());
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setSpinner();
+    }
+
+    private void setSpinner() {
+        String[] type = new String[] {"All date", "Custom range"};
+        Spinner spin = requireView().findViewById(R.id.spinner);
+
+        ArrayAdapter aa = new ArrayAdapter(requireActivity(),R.layout.dropdown_menu_popup_item,type);
+        aa.setDropDownViewResource(R.layout.dropdown_menu_popup_item);
+        spin.setAdapter(aa);
+
+        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 1){
+                    showBottomSheetDialogDate(true);
+                }else if(i==0){
+                    getPaymentHistory(null, null);
+                    txtFilter.setText("All date");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     @Override
@@ -112,10 +144,6 @@ public abstract class AbstractPaymentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_payment_history, container, false);
         ButterKnife.bind(this, view);
         getPaymentHistory(null, null);
-
-        filter.setOnClickListener(v -> {
-            showBottomSheetDialogDate(true);
-        });
 
         download.setOnClickListener(v -> {
 
@@ -270,7 +298,6 @@ public abstract class AbstractPaymentFragment extends Fragment {
         txtCancel.setOnClickListener(v -> {
             mBottomSheetDialog.dismiss();
             txtFilter.setText("All date");
-            filter.setText("All");
             setFilterToList(false);
         });
 
@@ -287,7 +314,6 @@ public abstract class AbstractPaymentFragment extends Fragment {
                 this.to = String.format(Locale.ENGLISH, "%d/%d/%d", cday , cmonth + 1, cyear);
                 this.toApiFormat = String.format(Locale.ENGLISH, "%d-%d-%d", cyear , cmonth + 1, cday);
                 txtFilter.setText(String.format("%s to %s", this.from, this.to));
-                filter.setText("Custom range");
                 mBottomSheetDialog.dismiss();
                 setFilterToList(true);
             }

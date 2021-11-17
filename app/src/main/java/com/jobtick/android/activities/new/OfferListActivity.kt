@@ -2,7 +2,6 @@ package com.jobtick.android.activities.new
 
 
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,7 +52,7 @@ class OfferListActivity : ActivityBase(), OfferListAdapterV2.OnItemClickListener
 
 
     private fun initComponents() {
-        ivBack.setOnClickListener { v: View? -> super.onBackPressed() }
+        ivBack.setOnClickListener { onBackPressed() }
         sessionManagerO = SessionManager(applicationContext)
     }
 

@@ -56,7 +56,7 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
     private var adapter: InboxListAdapter? = null
     private var currentPage = PaginationListener.PAGE_START
     private var isLastPageItems = false
-    private var totalPage = 10
+    private var totalPage = 0
     private var isLoadingItems = false
     private var toolbar: Toolbar? = null
     private var queryParameter = ""
@@ -293,6 +293,8 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
                 var i = 0
                 while (i < items.size) {
                     if (items[i].id == conversationId) {
+                        swipeRefresh!!.isRefreshing = false
+                        dashboardActivity!!.hideProgressDialog()
                         onItemClick(requireView(), items[i], i, "parent_layout")
                         conversationId = 0
                         break

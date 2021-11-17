@@ -24,8 +24,8 @@
             app:status="@string/completed" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="20dp"
-            android:layout_height="25dp"
+            android:layout_width="17dp"
+            android:layout_height="22dp"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/txt_budgets"
             app:srcCompat="@drawable/ic_big_blue_dollar" />

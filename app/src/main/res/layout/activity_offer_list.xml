@@ -6,7 +6,20 @@
     android:layout_height="match_parent"
     android:background="#F2F2F2"
     tools:context=".activities.new.OfferListActivity">
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_offers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/_45dp"
+        android:paddingBottom="20dp"
+        android:layout_marginVertical="4dp"
+        android:overScrollMode="never"
+        android:visibility="visible"
+        app:layout_anchorGravity="bottom|center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:itemCount="1" />
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
@@ -44,18 +57,5 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_offers"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="@dimen/_45dp"
-        android:paddingBottom="20dp"
-        android:layout_marginVertical="4dp"
-        android:overScrollMode="never"
-        android:visibility="visible"
-        app:layout_anchorGravity="bottom|center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        tools:itemCount="1" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

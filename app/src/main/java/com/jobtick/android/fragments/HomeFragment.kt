@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.text.Html
 import android.view.*
 import android.widget.*
@@ -11,7 +12,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,6 +55,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     private var linMain: LinearLayout? = null
     private var space: Space? = null
     private var rlRecentJobs: RelativeLayout? = null
+    private var llLoading: RelativeLayout? = null
     private var rlOfferedJobs: RelativeLayout? = null
     private var rlRecommendedJobs: RelativeLayout? = null
     private var updateProfile: TextView? = null
@@ -110,8 +111,8 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     private fun initVM() {
         val dashboardActivity = requireActivity() as DashboardActivity
         viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
-        dashboardActivity.showProgressDialog()
-        viewModel.getNotifResponse().observe(viewLifecycleOwner, androidx.lifecycle.Observer { jsonObject ->
+        llLoading!!.visibility = View.VISIBLE
+        viewModel.getNotifResponse().observe(viewLifecycleOwner, { jsonObject ->
             try {
                 if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                     val jsonObjectD = jsonObject.getJSONObject("data")
@@ -134,14 +135,16 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
             }
         })
 
-        viewModel.getHomeResponse().observe(viewLifecycleOwner, Observer {
-            dashboardActivity.hideProgressDialog()
+        viewModel.getHomeResponse().observe(viewLifecycleOwner, {
+            Handler().postDelayed({
+                llLoading!!.visibility = View.GONE
+            },1500)
+
             recentJobs = ArrayList()
             offeredJobs = ArrayList()
             postedJobs = ArrayList()
             recommendedJobs = ArrayList()
             val jsonArray = it.getJSONArray("data")
-            (requireActivity() as DashboardActivity).hideProgressDialog()
             for (i in 0 until jsonArray.length()) {
                 val item = jsonArray.getJSONObject(i)
                 setView(item)
@@ -183,7 +186,9 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 linMain!!.addView(space)
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
-                dashboardActivity.hideProgressDialog()
+                Handler().postDelayed({
+                    llLoading!!.visibility = View.GONE
+                },1500)
             }
 
             if ((sessionManager!!.role == "worker") && hasRecommendedJobs) {
@@ -192,11 +197,13 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 rlRecommendedJobs!!.visibility = View.GONE
             }
         })
-        viewModel.getError().observe(viewLifecycleOwner, androidx.lifecycle.Observer { jsonObject ->
+        viewModel.getError().observe(viewLifecycleOwner, {
             dashboardActivity.showToast("Something went wrong", dashboardActivity)
-            dashboardActivity.hideProgressDialog()
+            Handler().postDelayed({
+                llLoading!!.visibility = View.GONE
+            },1500)
         })
-        viewModel.getError2().observe(viewLifecycleOwner, androidx.lifecycle.Observer { jsonObject ->
+        viewModel.getError2().observe(viewLifecycleOwner, {
             ivNotification!!.setImageResource(R.drawable.ic_notification_bel_24_28dp)
         })
 
@@ -446,6 +453,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
         val dashboardActivity = requireActivity() as DashboardActivity
         ivNotification = dashboardActivity.findViewById(R.id.ivNotification)
         toolbar = dashboardActivity.findViewById(R.id.toolbar)
+        llLoading = requireView().findViewById(R.id.loading_view)
         name = requireView().findViewById(R.id.name)
         updateProfile = requireView().findViewById(R.id.update_profile)
         myJobs = requireView().findViewById(R.id.my_jobs)

@@ -49,7 +49,7 @@
             android:layout_height="32dp"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_place_holder" />
+            android:src="@drawable/pic" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvPosterName"

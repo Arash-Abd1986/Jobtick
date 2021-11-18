@@ -60,7 +60,8 @@ import java.io.File
 import java.util.*
 import kotlin.math.roundToInt
 
-class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, TextWatcher, SubClickListener {
+class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, TextWatcher,
+    SubClickListener {
     private lateinit var lytBtnDetails: LinearLayout
     private lateinit var cardDetails: CardView
     private lateinit var addAttach: FrameLayout
@@ -102,8 +103,10 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
     var isEditTask = false
     var taskSlug: String? = null
     private val attachmentArrayList: ArrayList<AttachmentModel>? = ArrayList()
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_task_detail, container, false)
         uploadableImage = object : AbstractUploadableImageImpl(requireActivity()) {
             override fun onImageReady(imageFile: File) {
@@ -163,7 +166,11 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         task!!.taskType = requireArguments().getString("TASK_TYPE")
         task!!.location = requireArguments().getString("LOCATION")
         task!!.position = requireArguments().getParcelable("POSITION")
-        task!!.attachments = ArrayList((requireArguments().getParcelable<Parcelable>("ATTACHMENT") as AttachmentModels?)!!.attachmentModelList)
+        task!!.attachments =
+            ArrayList((requireArguments().getParcelable<Parcelable>("ATTACHMENT") as AttachmentModels?)!!.attachmentModelList)
+        if (!task!!.attachments.isNullOrEmpty())
+            if (task!!.attachments[0].id == null)
+                task!!.attachments.removeAt(0)
         isEditTask = requireArguments().getBoolean("isEditTask", false)
         taskSlug = requireArguments().getString("taskSlug", null)
         //lytBtnDetails.setBackgroundResource(R.drawable.rectangle_round_white_with_shadow);
@@ -194,7 +201,13 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         cardDetails.outlineProvider = ViewOutlineProvider.BACKGROUND
         showBottomSheetAddMustHave(true)
         recyclerAddMustHave.layoutManager = GridLayoutManager(taskCreateActivity, 1)
-        recyclerAddMustHave.addItemDecoration(SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true))
+        recyclerAddMustHave.addItemDecoration(
+            SpacingItemDecoration(
+                1,
+                Tools.dpToPx(taskCreateActivity, 5),
+                true
+            )
+        )
         recyclerAddMustHave.setHasFixedSize(true)
         tagAdapter = AddTagAdapter(addTagList) { data: String? ->
             addTagList!!.remove(data)
@@ -264,7 +277,12 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             edtTitle.clearFocus()
             showBottomSheetAddMustHave(false)
         }
-        relReqSmall.setOnClickListener { if ((recyclerAddMustHave.adapter)!!.itemCount >= 3) taskCreateActivity!!.showToast("you can add only 3 requirements", taskCreateActivity) else showBottomSheetAddMustHave(false) }
+        relReqSmall.setOnClickListener {
+            if ((recyclerAddMustHave.adapter)!!.itemCount >= 3) taskCreateActivity!!.showToast(
+                "you can add only 3 requirements",
+                taskCreateActivity
+            ) else showBottomSheetAddMustHave(false)
+        }
         checkboxOnline.setOnClickListener {
             edtDescription.clearFocus()
             edtTitle.clearFocus()
@@ -274,9 +292,19 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
                 txtSuburb.visibility = View.VISIBLE
             }
             if (validationCode == 0) {
-                btnNext.setBackgroundDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.shape_rounded_back_button_active)!!)
+                btnNext.setBackgroundDrawable(
+                    ContextCompat.getDrawable(
+                        requireActivity(),
+                        R.drawable.shape_rounded_back_button_active
+                    )!!
+                )
             } else {
-                btnNext.setBackgroundDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.shape_rounded_back_button_deactive)!!)
+                btnNext.setBackgroundDrawable(
+                    ContextCompat.getDrawable(
+                        requireActivity(),
+                        R.drawable.shape_rounded_back_button_deactive
+                    )!!
+                )
             }
         }
         btnNext.setOnClickListener {
@@ -284,13 +312,13 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
                 0 -> {
                     //success
                     operationsListener!!.onNextClick(
-                            edtTitle.text.trim { it <= ' ' },
-                            edtDescription.text.trim { it <= ' ' },
-                            addTagList,
-                            if (checkboxOnline.isChecked) "remote" else "physical",
-                            txtSuburb.text.trim { it <= ' ' },
-                            task!!.position,
-                            attachmentArrayList
+                        edtTitle.text.trim { it <= ' ' },
+                        edtDescription.text.trim { it <= ' ' },
+                        addTagList,
+                        if (checkboxOnline.isChecked) "remote" else "physical",
+                        txtSuburb.text.trim { it <= ' ' },
+                        task!!.position,
+                        attachmentArrayList
                     )
                     operationsListener!!.onValidDataFilled()
                 }
@@ -338,9 +366,19 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
     override fun onResume() {
         super.onResume()
         if (validationCode == 0) {
-            btnNext.setBackgroundDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.shape_rounded_back_button_active)!!)
+            btnNext.setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    requireActivity(),
+                    R.drawable.shape_rounded_back_button_active
+                )!!
+            )
         } else {
-            btnNext.setBackgroundDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.shape_rounded_back_button_deactive)!!)
+            btnNext.setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    requireActivity(),
+                    R.drawable.shape_rounded_back_button_deactive
+                )!!
+            )
         }
     }
 
@@ -348,7 +386,12 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         if (taskSlug == null) return
         taskCreateActivity!!.showProgressDialog()
         val call: Call<String?>?
-        call = ApiClient.getClient().deleteEditTaskAttachment(taskSlug, "XMLHttpRequest", sessionManager!!.tokenType + " " + sessionManager!!.accessToken, attachmentId)
+        call = ApiClient.getClient().deleteEditTaskAttachment(
+            taskSlug,
+            "XMLHttpRequest",
+            sessionManager!!.tokenType + " " + sessionManager!!.accessToken,
+            attachmentId
+        )
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 taskCreateActivity!!.hideProgressDialog()
@@ -379,9 +422,19 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     override fun afterTextChanged(s: Editable) {
         if (validationCode == 0) {
-            btnNext.setBackgroundDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.shape_rounded_back_button_active)!!)
+            btnNext.setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    requireActivity(),
+                    R.drawable.shape_rounded_back_button_active
+                )!!
+            )
         } else {
-            btnNext.setBackgroundDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.shape_rounded_back_button_deactive)!!)
+            btnNext.setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    requireActivity(),
+                    R.drawable.shape_rounded_back_button_deactive
+                )!!
+            )
         }
     }
 
@@ -395,8 +448,15 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
     }
 
     interface OperationsListener {
-        fun onNextClick(title: String?, description: String?, musthave: ArrayList<String>?, task_type: String?, location: String?,
-                        positionModel: PositionModel?, attachmentArrayList: ArrayList<AttachmentModel>?)
+        fun onNextClick(
+            title: String?,
+            description: String?,
+            musthave: ArrayList<String>?,
+            task_type: String?,
+            location: String?,
+            positionModel: PositionModel?,
+            attachmentArrayList: ArrayList<AttachmentModel>?
+        )
 
         fun onValidDataFilled()
         fun draftTaskDetails(taskModel: TaskModel?, moveForword: Boolean)
@@ -407,7 +467,8 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
 */
-        @SuppressLint("InflateParams") val view = layoutInflater.inflate(R.layout.sheet_full_image, null)
+        @SuppressLint("InflateParams") val view =
+            layoutInflater.inflate(R.layout.sheet_full_image, null)
         mBottomSheetDialog = BottomSheetDialog(taskCreateActivity!!)
         mBottomSheetDialog!!.setContentView(view)
         mBottomSheetDialog!!.window!!.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -435,12 +496,14 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
 
     @SuppressLint("SetTextI18n")
     private fun showBottomSheetAddMustHave(justInit: Boolean) {
-        @SuppressLint("InflateParams") val view = layoutInflater.inflate(R.layout.sheet_add_must_have, null)
+        @SuppressLint("InflateParams") val view =
+            layoutInflater.inflate(R.layout.sheet_add_must_have, null)
         mBottomSheetDialog = BottomSheetDialog(taskCreateActivity!!)
         mBottomSheetDialog!!.setContentView(view)
         mBottomSheetDialog!!.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         val txtCount = view.findViewById<TextView>(R.id.txt_count)
-        val recyclerAddMustHaveBottomSheet: RecyclerView = view.findViewById(R.id.recycler_add_must_have_bottom_sheet)
+        val recyclerAddMustHaveBottomSheet: RecyclerView =
+            view.findViewById(R.id.recycler_add_must_have_bottom_sheet)
         val txtTotalCount = view.findViewById<TextView>(R.id.txt_total_count)
         val btnAdd = view.findViewById<FrameLayout>(R.id.btn_add)
         val btnClose: MaterialButton = view.findViewById(R.id.btn_close)
@@ -449,19 +512,24 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         val edtAddTag = view.findViewById<EditText>(R.id.edtAddTag)
         val r = resources
         val px = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 750f, r.displayMetrics).roundToInt()
+            TypedValue.COMPLEX_UNIT_DIP, 750f, r.displayMetrics
+        ).roundToInt()
         val pxMin = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 400f, r.displayMetrics).roundToInt()
-        edtAddTag.onFocusChangeListener = OnFocusChangeListener { v: View?, hasFocus: Boolean -> if (hasFocus) root.minimumHeight = px else root.minimumHeight = pxMin }
+            TypedValue.COMPLEX_UNIT_DIP, 400f, r.displayMetrics
+        ).roundToInt()
+        edtAddTag.onFocusChangeListener = OnFocusChangeListener { v: View?, hasFocus: Boolean ->
+            if (hasFocus) root.minimumHeight = px else root.minimumHeight = pxMin
+        }
         edtAddTag.requestFocus()
         edtAddTag.post {
             val imm = requireActivity().baseContext
-                    .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(edtAddTag, 0)
         }
         relRequire.setOnClickListener {
             edtAddTag.requestFocus()
-            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(edtAddTag, InputMethodManager.SHOW_IMPLICIT)
         }
         edtAddTag.setOnEditorActionListener { _: TextView?, i: Int, _: KeyEvent? ->
@@ -473,7 +541,13 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         }
         btnClose.setOnClickListener { v: View? -> mBottomSheetDialog!!.dismiss() }
         recyclerAddMustHaveBottomSheet.layoutManager = GridLayoutManager(taskCreateActivity, 1)
-        recyclerAddMustHaveBottomSheet.addItemDecoration(SpacingItemDecoration(1, Tools.dpToPx(taskCreateActivity, 5), true))
+        recyclerAddMustHaveBottomSheet.addItemDecoration(
+            SpacingItemDecoration(
+                1,
+                Tools.dpToPx(taskCreateActivity, 5),
+                true
+            )
+        )
         recyclerAddMustHaveBottomSheet.setHasFixedSize(true)
         tagAdapterBottomSheet = AddTagAdapter(addTagList) { data: String? ->
             addTagList!!.remove(data)
@@ -484,7 +558,9 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         recyclerAddMustHaveBottomSheet.adapter = tagAdapterBottomSheet
         txtCount.text = addTagList!!.size.toString() + ""
         btnAdd.setOnClickListener { v: View? ->
-            if (addTagList!!.size == 0) relReqSmall.visibility = View.INVISIBLE else if (addTagList!!.size < 4) relReqSmall.visibility = View.INVISIBLE
+            if (addTagList!!.size == 0) relReqSmall.visibility =
+                View.INVISIBLE else if (addTagList!!.size < 4) relReqSmall.visibility =
+                View.INVISIBLE
             if (TextUtils.isEmpty(edtAddTag.text.toString().trim { it <= ' ' })) {
                 edtAddTag.error = "Text is empty"
                 return@setOnClickListener
@@ -497,7 +573,10 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
                 tagAdapter!!.updateItem(addTagList)
                 edtAddTag.setText("")
             } else {
-                taskCreateActivity!!.showToast("you can add only 3 requirements", taskCreateActivity)
+                taskCreateActivity!!.showToast(
+                    "you can add only 3 requirements",
+                    taskCreateActivity
+                )
             }
             if (addTagList!!.size > 0) {
                 recyclerAddMustHaveBottomSheet.visibility = View.VISIBLE
@@ -518,7 +597,9 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         (view.parent as View).setBackgroundColor(resources.getColor(android.R.color.transparent))
         if (!justInit) {
             mBottomSheetDialog!!.show()
-            mBottomSheetDialog!!.setOnDismissListener { dialog: DialogInterface? -> mBottomSheetDialog = null }
+            mBottomSheetDialog!!.setOnDismissListener { dialog: DialogInterface? ->
+                mBottomSheetDialog = null
+            }
         }
     }
 
@@ -527,8 +608,10 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         val call: Call<String?>?
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
-        call = ApiClient.getClient().getTaskTempAttachmentMediaData( /*"application/x-www-form-urlencoded",*/"XMLHttpRequest",
-                sessionManager!!.tokenType + " " + sessionManager!!.accessToken, imageFile)
+        call = ApiClient.getClient()
+            .getTaskTempAttachmentMediaData( /*"application/x-www-form-urlencoded",*/"XMLHttpRequest",
+                sessionManager!!.tokenType + " " + sessionManager!!.accessToken, imageFile
+            )
         call?.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 taskCreateActivity!!.hideProgressDialog()
@@ -584,7 +667,12 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         val call: Call<String?>?
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
-        call = ApiClient.getClient().getTasKAttachmentMediaUpload(taskSlug, "XMLHttpRequest", sessionManager!!.tokenType + " " + sessionManager!!.accessToken, imageFile)
+        call = ApiClient.getClient().getTasKAttachmentMediaUpload(
+            taskSlug,
+            "XMLHttpRequest",
+            sessionManager!!.tokenType + " " + sessionManager!!.accessToken,
+            imageFile
+        )
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 taskCreateActivity!!.hideProgressDialog()
@@ -624,7 +712,8 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun selectDetailsBtn() {
-        val cslPrimary = AppCompatResources.getColorStateList(requireContext(), R.color.colorPrimary)
+        val cslPrimary =
+            AppCompatResources.getColorStateList(requireContext(), R.color.colorPrimary)
         imgDetails.imageTintList = cslPrimary
         imgDetails.setImageDrawable(resources.getDrawable(R.drawable.ic_details_big))
         txtDetails.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -673,9 +762,18 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
 
     companion object {
         const val MEDIA_TYPE_VIDEO = 2
-        fun newInstance(title: String?, description: String?, mustHave: ArrayList<String?>?,
-                        task_type: String?, location: String?, positionModel: PositionModel?, attachmentModels: AttachmentModels?, operationsListener: OperationsListener?,
-                        isEditTask: Boolean, taskSlug: String?): TaskDetailFragment {
+        fun newInstance(
+            title: String?,
+            description: String?,
+            mustHave: ArrayList<String?>?,
+            task_type: String?,
+            location: String?,
+            positionModel: PositionModel?,
+            attachmentModels: AttachmentModels?,
+            operationsListener: OperationsListener?,
+            isEditTask: Boolean,
+            taskSlug: String?
+        ): TaskDetailFragment {
             val fragment = TaskDetailFragment()
             fragment.operationsListener = operationsListener
             val args = Bundle()

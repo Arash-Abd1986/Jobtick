@@ -37,7 +37,7 @@
                         android:layout_width="60sp"
                         android:layout_height="60sp"
                         android:paddingBottom="@dimen/_10sp"
-                        android:src="@drawable/ic_place_holder" />
+                        android:src="@drawable/pic" />
                 </RelativeLayout>
 
                 <LinearLayout

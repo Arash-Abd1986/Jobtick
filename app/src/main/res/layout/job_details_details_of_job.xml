@@ -197,7 +197,7 @@
                         android:layout_height="63dp"
                         android:layout_alignParentTop="true"
                         android:layout_marginTop="0dp"
-                        android:src="@drawable/ic_place_holder"
+                        android:src="@drawable/pic"
                         app:civ_border="false" />
 
                     <androidx.appcompat.widget.AppCompatImageView

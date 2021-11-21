@@ -54,7 +54,7 @@
                             android:background="@drawable/rectangle_just_border_grey_round_corners_4dp"
                             app:hintTextAppearance="@style/materialText_400_12">
 
-                            <Spinner
+                            <com.jobtick.android.widget.NDSpinner
                                 style="@style/materialText_400_12"
                                 android:id="@+id/spinner"
                                 android:layout_gravity="center"

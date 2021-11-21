@@ -335,11 +335,12 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
     }
 
     override fun draftTaskDetails(taskModel: TaskModel?, moveForeword: Boolean) {
+        val bundle = intent.extras
         if (moveForeword) {
             actionDraftDateTime!!.callDraftTaskDateTime(this.taskModel)
         } else {
             this.taskModel = taskModel!!
-            if (taskModel.title != null && taskModel.title.trim { it <= ' ' }.length >= 10) {
+            if (taskModel.title != null && taskModel.title.trim { it <= ' ' }.length >= 10 && !bundle!!.getBoolean(ConstantKey.COPY, false)) {
                 uploadDataToServer(true)
             } else {
                 val intent = Intent()

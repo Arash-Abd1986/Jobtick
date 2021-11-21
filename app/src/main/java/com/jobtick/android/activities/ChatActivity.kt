@@ -140,8 +140,8 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
 //        }.also { runnable = it }, delay.toLong())
     }
 
-    private val onDisconnect = Emitter.Listener { _: Array<Any?>? -> runOnUiThread { Log.i(TAG, "diconnected") } }
-    private val onConnect = Emitter.Listener { _: Array<Any?>? -> runOnUiThread({ Log.e(TAG, "Success connecting") }) }
+    private val onDisconnect = Emitter.Listener { runOnUiThread { Log.i(TAG, "diconnected") } }
+    private val onConnect = Emitter.Listener { runOnUiThread({ Log.e(TAG, "Success connecting") }) }
     private val onConnectError = Emitter.Listener { args: Array<Any?>? ->
         runOnUiThread {
             Log.e(TAG, "Error connecting " + args)

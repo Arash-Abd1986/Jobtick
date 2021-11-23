@@ -274,9 +274,9 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         if (marker.tag != null) {
             val position = marker.tag as Int
             if (position != -1) recyclerViewTask!!.smoothScrollToPosition(position)
-            mMarkerArray.forEach {
+            /*mMarkerArray.forEach {
                 it.setIcon(bitmapFromVector(this, R.drawable.ic_pin_white_image_large))
-            }
+            }*/
             marker.setIcon(bitmapFromVector(this, R.drawable.ic_pin_blue_image_large))
         }
         return false

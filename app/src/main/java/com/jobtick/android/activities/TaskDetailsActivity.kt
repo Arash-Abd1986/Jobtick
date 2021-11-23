@@ -12,6 +12,7 @@ import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.text.Html
 import android.text.Spanned
 import android.view.*
@@ -1143,24 +1144,29 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                             }
                         } else {
                             showToast("Something went wrong", this@TaskDetailsActivity)
-                        }
+                            Handler().postDelayed({
+                                onBackPressed()
+                            },2000) }
+                        llLoading.visibility = View.GONE
                     } catch (e: Exception) {
                         showToast("Something went wrong", this@TaskDetailsActivity)
+                        Handler().postDelayed({
+                            onBackPressed()
+                        },2000)
                         Timber.e(e.toString())
                         e.printStackTrace()
                     }
                     isInitPageLoaded = true
-                    llLoading.visibility = View.GONE
                     onLoadingFinished()
                 },
                 com.android.volley.Response.ErrorListener { error: VolleyError ->
                     isInitPageLoaded = true
-                    llLoading.visibility = View.GONE
+                    //llLoading.visibility = View.GONE
                     onLoadingFinished()
-
-                    //    fl_task_details.setVisibility(View.GONE);
                     errorHandle1(error.networkResponse)
-                }) {
+                    Handler().postDelayed({
+                        onBackPressed()
+                    },2000)                }) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
                     map1["authorization"] =

@@ -113,6 +113,7 @@ dependencies {
     //google auth
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
+    implementation "com.squareup.okhttp3:logging-interceptor:3.12.6"
 
     //app flyer
     implementation 'com.appsflyer:af-android-sdk:6.1.4'

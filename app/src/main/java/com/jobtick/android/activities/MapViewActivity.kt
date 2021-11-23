@@ -1,35 +1,41 @@
 package com.jobtick.android.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.os.Handler
 import android.os.Parcelable
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.*
-import com.android.volley.toolbox.Volley
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.gson.Gson
 import com.jobtick.android.R
 import com.jobtick.android.adapers.FilterAdapter
 import com.jobtick.android.adapers.TaskListAdapterV2
 import com.jobtick.android.models.FilterModel
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.models.response.myjobs.Data
-import com.jobtick.android.models.response.myjobs.MyJobsResponse
+import com.jobtick.android.network.coroutines.ApiHelper
+import com.jobtick.android.network.coroutines.Status
+import com.jobtick.android.network.model.request.NearJobsRequest
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.pagination.PaginationListener
 import com.jobtick.android.utils.*
 import com.jobtick.android.viewmodel.MapViewModel
-import org.json.JSONException
-import timber.log.Timber
+import com.jobtick.android.viewmodel.ViewModelFactory
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
     TaskListAdapterV2.OnItemClickListener {
@@ -38,6 +44,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
     private var taskListArrayList: ArrayList<TaskModel>? = null
     private var recyclerViewTask: RecyclerView? = null
     private var txtFilters: TextView? = null
+    private var txtSearch: TextView? = null
     private var lytBtnFilters: LinearLayout? = null
     private var recyclerViewFilters: RecyclerView? = null
     private var locationButton: View? = null
@@ -56,6 +63,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
     private var myLongitude = 0.0
     private var mySuburb: String? = null
     private lateinit var viewModel: MapViewModel
+    private var mMarkerArray = ArrayList<Marker>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,65 +100,74 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         taskListAdapter!!.setOnItemClickListener(this)
         doApiCall()
 
-       recyclerViewTask!!.addOnScrollListener(object : PaginationListener(layoutManager) {
-            override fun loadMoreItems() {
-                isLoadingItem = true
-                currentPage++
-                doApiCall()
-            }
 
-           override val isLastPage: Boolean
-               get() = isLastPageItem
-           override val isLoading: Boolean
-               get() = isLoadingItem
-
-        })
+        txtSearch!!.setOnClickListener {
+            viewModel.getNearJobs(
+                NearJobsRequest(
+                    googleMap!!.cameraPosition.target.latitude.toFloat(),
+                    googleMap!!.cameraPosition.target.longitude.toFloat(), 100000, 100
+                )
+            )
+        }
     }
 
     private fun initVM() {
-        viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
+        ).get(MapViewModel::class.java)
+        viewModel.response.observe(this, {
+            it?.let {
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        hideProgressDialog()
+                        txtSearch!!.visibility = View.GONE
+                        mMarkerArray = ArrayList()
+                        try {
 
-        viewModel.getHomeResponse().observe(this, androidx.lifecycle.Observer{
-            try {
-                Timber.e(it.toString())
-                val gson = Gson()
-                val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(
-                    it.toString(),
-                    MyJobsResponse::class.java
-                )
-                if (data == null) {
-                    showToast("some went to wrong", this)
-                    return@Observer
-                }
-                totalItem = total!!
-                Constant.PAGE_SIZE = per_page!!
-                totalPage = total
-                var i = 0
-                while (data.size > i) {
-                    try {
-                        val latitude = java.lang.Double.valueOf(data.get(i).latitude)
-                        val longitude = java.lang.Double.valueOf(data[i].longitude)
-                        addMarker(latitude, longitude, data[i].title, i)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+                            if (it.data == null) {
+                                showToast("some went to wrong", this)
+                                return@observe
+                            }
+                            var i = 0
+                            while (it.data.data.size > i) {
+                                try {
+                                    val latitude =
+                                        java.lang.Double.valueOf(it.data.data[i].latitude)
+                                    val longitude =
+                                        java.lang.Double.valueOf(it.data.data[i].longitude)
+                                    addMarker(
+                                        latitude + (Random().nextFloat() / 15 - Random().nextFloat() / 15),
+                                        longitude + (Random().nextFloat() / 15 - Random().nextFloat() / 15),
+                                        it.data.data[i].title,
+                                        i
+                                    )
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                                i++
+                            }
+                            findCurrentLocation()
+                            /* addMarker(myLatitude, myLongitude, mySuburb, -1)
+                             goToLocation(myLatitude, myLongitude)*/
+                            taskListAdapter!!.addItemsWithoutLoading(it.data.data)
+                        } catch (e: Exception) {
+                            hideProgressDialog()
+                            this.showToast("Something went wrong", this)
+                            e.printStackTrace()
+                        }
                     }
-                    i++
+                    Status.ERROR -> {
+                        hideProgressDialog()
+                        this.showToast("Something went wrong", this)
+                    }
+                    Status.LOADING -> {
+                        showProgressDialog()
+                    }
                 }
-                findCurrentLocation()
-                addMarker(myLatitude, myLongitude, mySuburb, -1)
-                goToLocation(myLatitude, myLongitude)
-                taskListAdapter!!.addItems(data, totalItem)
-            } catch (e: JSONException) {
-                hideProgressDialog()
-                this.showToast("Something went wrong", this)
-                Timber.e(e.toString())
-                e.printStackTrace()
             }
         })
-        viewModel.getError().observe(this, androidx.lifecycle.Observer { jsonObject ->
-            this.showToast("Something went wrong", this)
-            this.hideProgressDialog()
-        })
+
     }
 
     private fun initIDS() {
@@ -158,6 +175,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         mapView = findViewById(R.id.map_view)
         recyclerViewTask = findViewById(R.id.recycler_view_task)
         txtFilters = findViewById(R.id.txt_filters)
+        txtSearch = findViewById(R.id.txt_search)
         lytBtnFilters = findViewById(R.id.lyt_btn_filters)
         recyclerViewFilters = findViewById(R.id.recycler_view_filters)
         locationButton = findViewById(R.id.location_button)
@@ -245,61 +263,33 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         this.googleMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         Handler().postDelayed({ mapView!!.visibility = View.VISIBLE }, 200)
         this.googleMap!!.setOnMarkerClickListener(this)
+        this.googleMap!!.uiSettings.isMapToolbarEnabled = false
+        this.googleMap!!.setInfoWindowAdapter(CustomInfoWindowForGoogleMap(this))
+        this.googleMap!!.setOnCameraMoveStartedListener {
+            txtSearch!!.visibility = View.VISIBLE
+        }
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
         if (marker.tag != null) {
             val position = marker.tag as Int
             if (position != -1) recyclerViewTask!!.smoothScrollToPosition(position)
+            mMarkerArray.forEach {
+                it.setIcon(bitmapFromVector(this, R.drawable.ic_pin_white_image_large))
+            }
+            marker.setIcon(bitmapFromVector(this, R.drawable.ic_pin_blue_image_large))
         }
         return false
     }
 
     private fun doApiCall() {
-        var queryParameter = ""
-        if (filterModel!!.query != null && !filterModel!!.query.equals("", ignoreCase = true)) {
-            queryParameter = "&search_query=" + filterModel!!.query
-        }
-        when {
-            filterModel!!.section.equals(Constant.FILTER_ALL, ignoreCase = true) -> {
-                queryParameter = queryParameter + "&task_type=" + Constant.FILTER_ALL_QUERY
-                queryParameter = queryParameter + "&distance=" + filterModel!!.distance
-                val price =
-                    filterModel!!.price.replace("$", "").replace(",", "").split("-").toTypedArray()
-                queryParameter =
-                    queryParameter + "&min_price=" + price[0].trim { it <= ' ' } + "&max_price=" + price[1].trim { it <= ' ' }
-                queryParameter = queryParameter + "&current_lat=" + filterModel!!.latitude
-                queryParameter = queryParameter + "&current_lng=" + filterModel!!.logitude
-                if (filterModel!!.task_open != null) {
-                    queryParameter = "$queryParameter&hide_assigned=true"
-                }
-            }
-            filterModel!!.section.equals(Constant.FILTER_REMOTE, ignoreCase = true) -> {
-                queryParameter = queryParameter + "&task_type=" + Constant.FILTER_REMOTE_QUERY
-                val price =
-                    filterModel!!.price.replace("$", "").replace(",", "").split("-").toTypedArray()
-                queryParameter =
-                    queryParameter + "&min_price=" + price[0].trim { it <= ' ' } + "&max_price=" + price[1].trim { it <= ' ' }
-                if (filterModel!!.task_open != null) {
-                    queryParameter = "$queryParameter&hide_assigned=true"
-                }
-            }
-            filterModel!!.section.equals(Constant.FILTER_IN_PERSON, ignoreCase = true) -> {
-                queryParameter = queryParameter + "&task_type=" + Constant.FILTER_IN_PERSON_QUERY
-                queryParameter = queryParameter + "&distance=" + filterModel!!.distance
-                val price =
-                    filterModel!!.price.replace("$", "").replace(",", "").split("-").toTypedArray()
-                queryParameter =
-                    queryParameter + "&min_price=" + price[0].trim { it <= ' ' } + "&max_price=" + price[1].trim { it <= ' ' }
-                queryParameter = queryParameter + "&current_lat=" + filterModel!!.latitude
-                queryParameter = queryParameter + "&current_lng=" + filterModel!!.logitude
-                if (filterModel!!.task_open != null) {
-                    queryParameter = "$queryParameter&hide_assigned=true"
-                }
-            }
-        }
         Helper.closeKeyboard(this)
-        viewModel.getJobs(sessionManager!!.accessToken, Volley.newRequestQueue(this),currentPage.toString(),queryParameter)
+        viewModel.getNearJobs(
+            NearJobsRequest(
+                sessionManagerM.latitude.toFloat(),
+                sessionManagerM.longitude.toFloat(), 3000, 100
+            )
+        )
 
     }
 
@@ -322,10 +312,30 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
     private fun addMarker(latitude: Double, longitude: Double, title: String?, tag: Int) {
         val destination = LatLng(latitude, longitude)
         val markerOptions = MarkerOptions().position(destination)
-            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_blue_image))
+            .icon(bitmapFromVector(this, R.drawable.ic_pin_white_image_large))
         val marker = googleMap!!.addMarker(markerOptions)
         marker.tag = tag
         marker.title = title
+        mMarkerArray.add(marker)
+    }
+
+    private fun bitmapFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
+        val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
+
+        vectorDrawable!!.setBounds(
+            0,
+            0,
+            (31).dpToPx(),
+            (40).dpToPx()
+        )
+        val bitmap = Bitmap.createBitmap(
+            (31).dpToPx(),
+            (40).dpToPx(),
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        vectorDrawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
     private fun removeAllMarkers() {

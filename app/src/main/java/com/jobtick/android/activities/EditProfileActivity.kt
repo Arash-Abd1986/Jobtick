@@ -252,7 +252,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             //addFormDataPart("cover", null)
         }.build()
         Log.d(TAG, "updateProfile: " + requestBody)
-        call = ApiClient.getClientV2().uploadProfile("XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, requestBody)
+        call = ApiClient.getClientV2(sessionManager).uploadProfile("XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, requestBody)
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 hideProgressDialog()
@@ -832,7 +832,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         val call: Call<String?>?
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
-        call = ApiClient.getClientV2().uploadProfilePicture("XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, imageFile)
+        call = ApiClient.getClientV2(sessionManager).uploadProfilePicture("XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, imageFile)
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 hideProgressDialog()

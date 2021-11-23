@@ -2,11 +2,14 @@ package com.jobtick.android.network.retrofit;
 
 
 
+import com.jobtick.android.network.TokenInterceptor;
 import com.jobtick.android.utils.Constant;
+import com.jobtick.android.utils.SessionManager;
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
@@ -36,10 +39,11 @@ public class ApiClient {
         return retrofit.create(ApiInterface.class);
     }
 
-    public static ApiInterface getClientV2() {
+    public static ApiInterface getClientV2(SessionManager sessionManager) {
 
         if (retrofit2 == null) {
-
+            HttpLoggingInterceptor logIn = new HttpLoggingInterceptor();
+            logIn.setLevel(HttpLoggingInterceptor.Level.BODY);
             retrofit2 = new retrofit2.Retrofit.Builder()
                     .baseUrl(Constant.BASE_URL_v2)
                     .addConverterFactory(ScalarsConverterFactory.create())
@@ -49,6 +53,8 @@ public class ApiClient {
                             .callTimeout(15, TimeUnit.SECONDS)
                             .connectTimeout(15, TimeUnit.SECONDS)
                             .writeTimeout(15, TimeUnit.SECONDS)
+                            .addInterceptor(new TokenInterceptor(sessionManager))
+                            .addInterceptor(logIn)
                             .build())
                     .build();
 

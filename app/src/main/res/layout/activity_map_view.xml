@@ -4,67 +4,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MapViewActivity"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".activities.MapViewActivity">
 
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:background="@drawable/rectangle_gradiant">
 
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="@string/explore"
-        app:titleTextColor="@color/white"
-        android:background="@android:color/transparent"
-        app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="@drawable/ic_back_white"
-        style="@style/materialToolBar"/>
-        
-        <include layout="@layout/view_filter_list"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/materialToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:contentInsetStartWithNavigation="0dp"
+            app:navigationIcon="@drawable/ic_back_white"
+            app:title="@string/explore"
+            app:titleTextColor="@color/white" />
+
+        <include
+            layout="@layout/view_filter_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/toolbar"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/location_button"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            android:elevation="0dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:layout_below="@+id/filter_container"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="22dp"
-            android:layout_marginEnd="10dp">
-            
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_location_map"
-                android:layout_gravity="center"/>
-            
-        </androidx.cardview.widget.CardView>
-            
-
-
+        <com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/txt_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/shape_rounded_white_20dp"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            android:visibility="gone"
+            android:text="Search this area"
+            android:textAppearance="@style/materialText_600_10"
+            android:textColor="@color/N900" />
 
 
     </RelativeLayout>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/location_button"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_above="@+id/recycler_view_task"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="36dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:elevation="0dp"
+        app:cardCornerRadius="22dp"
+        app:cardElevation="0dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_direction" />
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_task"

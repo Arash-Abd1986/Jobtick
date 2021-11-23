@@ -72,6 +72,12 @@ class TaskListAdapterV2(private val mItems: ArrayList<Data> = ArrayList(), priva
         }
     }
 
+    fun addItemsWithoutLoading(mItems: List<Data>) {
+        removeLoading()
+        this.mItems.addAll(mItems)
+        notifyDataSetChanged()
+    }
+
     private fun addLoading() {
         if (isLoaderVisible) return
         isLoaderVisible = true

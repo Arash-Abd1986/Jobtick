@@ -7,10 +7,17 @@ import com.jobtick.android.network.coroutines.MainRepository
 class ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(JobDetailsViewModel::class.java)) {
-            return JobDetailsViewModel(MainRepository(apiHelper)) as T
+
+        return when {
+            modelClass.isAssignableFrom(JobDetailsViewModel::class.java) -> {
+                JobDetailsViewModel(MainRepository(apiHelper)) as T
+            }
+            modelClass.isAssignableFrom(MapViewModel::class.java) -> {
+                MapViewModel(MainRepository(apiHelper)) as T
+            }
+            else -> throw IllegalArgumentException("Unknown class name")
         }
-        throw IllegalArgumentException("Unknown class name")
+
     }
 
 }

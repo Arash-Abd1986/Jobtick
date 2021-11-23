@@ -1,61 +1,25 @@
 package com.jobtick.android.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.jobtick.android.BuildConfig
-import com.jobtick.android.utils.Constant
-import org.json.JSONObject
-import timber.log.Timber
-import java.util.*
+import androidx.lifecycle.viewModelScope
+import com.jobtick.android.network.coroutines.MainRepository
+import com.jobtick.android.network.coroutines.Resource
+import com.jobtick.android.network.coroutines.ServiceType
+import com.jobtick.android.network.coroutines.getData
+import com.jobtick.android.network.model.request.NearJobsRequest
+import com.jobtick.android.network.model.response.NearJobsResponse
+import kotlinx.coroutines.launch
 
-class MapViewModel : ViewModel() {
+class MapViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
-    private val error = MutableLiveData<String>()
-    private val jobsResponse = MutableLiveData<JSONObject>()
-
-    fun getHomeResponse(): LiveData<JSONObject> {
-        return this.jobsResponse
-    }
-
-    fun getError(): LiveData<String> {
-        return this.error
-    }
-
-
-
-    fun getJobs(token: String, requestQueue: RequestQueue,currentPage:String,queryParameter:String) {
-        val stringRequest: StringRequest = object : StringRequest(
-            Method.GET,
-            Constant.URL_TASKS_v2 + "?task_type=physical&page=" + currentPage + queryParameter,
-            Response.Listener { response: String? ->
-                Timber.e(response)
-                try {
-                    val jsonObject = JSONObject(response!!)
-                    Timber.e(jsonObject.toString())
-                    jobsResponse.postValue(jsonObject)
-                }catch (exception:Exception){
-                    this.error.postValue("Something went wrong")
-                }
-            },
-            Response.ErrorListener { this.error.postValue("Something went wrong") }) {
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["Authorization"] = "Bearer " + token
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                return map1
-            }
+    var response: MutableLiveData<Resource<NearJobsResponse>> = MutableLiveData()
+    fun getNearJobs(request: NearJobsRequest) {
+        viewModelScope.launch {
+            getData(ServiceType.NEAR_JOBS, mainRepository, request, response)
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(
-            0, -1,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
-        requestQueue.add(stringRequest)
-        Timber.e(stringRequest.url)
     }
+
+
+
 }

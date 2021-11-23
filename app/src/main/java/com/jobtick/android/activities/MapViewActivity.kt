@@ -95,7 +95,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         // use a linear layout manager
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewTask!!.layoutManager = layoutManager
-        taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id)
+        taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id,true)
         recyclerViewTask!!.adapter = taskListAdapter
         taskListAdapter!!.setOnItemClickListener(this)
         doApiCall()
@@ -105,7 +105,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
             viewModel.getNearJobs(
                 NearJobsRequest(
                     googleMap!!.cameraPosition.target.latitude.toFloat(),
-                    googleMap!!.cameraPosition.target.longitude.toFloat(), 100000, 100
+                    googleMap!!.cameraPosition.target.longitude.toFloat(), 50, 100
                 )
             )
         }
@@ -124,7 +124,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
                         txtSearch!!.visibility = View.GONE
                         mMarkerArray = ArrayList()
                         try {
-
+                            googleMap!!.clear()
                             if (it.data == null) {
                                 showToast("some went to wrong", this)
                                 return@observe
@@ -137,8 +137,8 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
                                     val longitude =
                                         java.lang.Double.valueOf(it.data.data[i].longitude)
                                     addMarker(
-                                        latitude + (Random().nextFloat() / 15 - Random().nextFloat() / 15),
-                                        longitude + (Random().nextFloat() / 15 - Random().nextFloat() / 15),
+                                        latitude + (Random().nextFloat() / 60 - Random().nextFloat() / 60),
+                                        longitude + (Random().nextFloat() / 60 - Random().nextFloat() / 60),
                                         it.data.data[i].title,
                                         i
                                     )
@@ -150,6 +150,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
                             findCurrentLocation()
                             /* addMarker(myLatitude, myLongitude, mySuburb, -1)
                              goToLocation(myLatitude, myLongitude)*/
+                            taskListAdapter!!.clear()
                             taskListAdapter!!.addItemsWithoutLoading(it.data.data)
                         } catch (e: Exception) {
                             hideProgressDialog()
@@ -287,7 +288,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         viewModel.getNearJobs(
             NearJobsRequest(
                 sessionManagerM.latitude.toFloat(),
-                sessionManagerM.longitude.toFloat(), 3000, 100
+                sessionManagerM.longitude.toFloat(), 50, 100
             )
         )
 

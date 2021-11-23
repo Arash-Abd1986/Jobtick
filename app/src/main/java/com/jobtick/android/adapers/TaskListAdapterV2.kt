@@ -17,7 +17,11 @@ import com.jobtick.android.utils.Tools
 import com.mikhaellopez.circularimageview.CircularImageView
 import java.text.ParseException
 
-class TaskListAdapterV2(private val mItems: ArrayList<Data> = ArrayList(), private val userId: Int?) :
+class TaskListAdapterV2(
+    private val mItems: ArrayList<Data> = ArrayList(),
+    private val userId: Int?,
+    private val isSingleLineBody: Boolean
+) :
     RecyclerView.Adapter<BaseViewHolder>() {
     private var context: Context? = null
     private var mOnItemClickListener: OnItemClickListener? = null
@@ -146,26 +150,30 @@ class TaskListAdapterV2(private val mItems: ArrayList<Data> = ArrayList(), priva
         override fun clear() {}
 
         init {
-            imgAvatar3  = itemView!!.findViewById(R.id.img_avatar3)
-            imgAvatar2  = itemView.findViewById(R.id.img_avatar2)
-            imgAvatar1  = itemView.findViewById(R.id.img_avatar1)
-            imgAvatar0  = itemView.findViewById(R.id.img_avatar0)
-            txtOfferCount  = itemView.findViewById(R.id.txt_offer_count)
-            txtTitle  = itemView.findViewById(R.id.txt_title)
-            txtLocation  = itemView.findViewById(R.id.txt_location)
-            txtDueDate  = itemView.findViewById(R.id.txt_due_date)
-            txtBudget  = itemView.findViewById(R.id.txt_budget)
-            txtStatus  = itemView.findViewById(R.id.txt_status)
-            txtStatusDraft  = itemView.findViewById(R.id.txt_status_draft)
-            tvDelete  = itemView.findViewById(R.id.tv_delete)
-            cardTaskBackground  = itemView.findViewById(R.id.card_task_background)
-            content  = itemView.findViewById(R.id.content)
+            imgAvatar3 = itemView!!.findViewById(R.id.img_avatar3)
+            imgAvatar2 = itemView.findViewById(R.id.img_avatar2)
+            imgAvatar1 = itemView.findViewById(R.id.img_avatar1)
+            imgAvatar0 = itemView.findViewById(R.id.img_avatar0)
+            txtOfferCount = itemView.findViewById(R.id.txt_offer_count)
+            txtTitle = itemView.findViewById(R.id.txt_title)
+            txtLocation = itemView.findViewById(R.id.txt_location)
+            txtDueDate = itemView.findViewById(R.id.txt_due_date)
+            txtBudget = itemView.findViewById(R.id.txt_budget)
+            txtStatus = itemView.findViewById(R.id.txt_status)
+            txtStatusDraft = itemView.findViewById(R.id.txt_status_draft)
+            tvDelete = itemView.findViewById(R.id.tv_delete)
+            cardTaskBackground = itemView.findViewById(R.id.card_task_background)
+            content = itemView.findViewById(R.id.content)
         }
 
         @SuppressLint("SetTextI18n")
         override fun onBind(position: Int) {
             super.onBind(position)
             val item = mItems[position]
+            if (isSingleLineBody)
+                txtTitle!!.maxLines = 1
+            else
+                txtTitle!!.maxLines = 2
             if (item.offers != null) if (item.offers.isNotEmpty()) {
                 txtOfferCount!!.setTextColor(ContextCompat.getColor(context!!, R.color.N900))
                 when {
@@ -387,7 +395,7 @@ class TaskListAdapterV2(private val mItems: ArrayList<Data> = ArrayList(), priva
 //                txtStatus.setText("Posted");
 //            } else
             when {
-                userId != null && userId == item.poster_id && item.status == "open" && item.offers!!.isNotEmpty()-> {
+                userId != null && userId == item.poster_id && item.status == "open" && item.offers!!.isNotEmpty() -> {
                     txtStatus!!.text = "Offered"
                 }
                 userId != null && userId == item.poster_id && item.status == "open" -> {

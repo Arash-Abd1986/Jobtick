@@ -40,7 +40,9 @@ import org.json.JSONObject
 import timber.log.Timber
 import java.util.*
 
-class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBottomSheet.VoiceRecorderInterface, TaskListAdapterV2.OnItemClickListener, PreviewTaskAdapter.OnItemClickListener<PreviewTaskModel?> {
+class SearchTaskActivity : ActivityBase(), OnEditorActionListener,
+    VoiceSearchBottomSheet.VoiceRecorderInterface, TaskListAdapterV2.OnItemClickListener,
+    PreviewTaskAdapter.OnItemClickListener<PreviewTaskModel?> {
     var ivBack: ImageView? = null
     var recyclerView: RecyclerView? = null
     var emptySearch: RelativeLayout? = null
@@ -112,37 +114,41 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBot
         queryParameter = edtSearch!!.text.toString()
         Helper.closeKeyboard(this)
         var url = Constant.URL_TASKS_v2 + "?search_query=" + queryParameter + "&page=" + currentPage
-        if (isFromMyJobs) url = Constant.URL_TASKS_v2 + "&search_query=" + queryParameter + "&page=" + currentPage
+        if (isFromMyJobs) url =
+            Constant.URL_TASKS_v2 + "&search_query=" + queryParameter + "&page=" + currentPage
         val stringRequest: StringRequest = object : StringRequest(Method.GET, url,
-                Response.Listener { response: String? ->
-                    Timber.e(response)
-                    try {
-                        val jsonObject = JSONObject(response!!)
-                        Timber.e(jsonObject.toString())
-                        val gson = Gson()
-                        val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(jsonObject.toString(), MyJobsResponse::class.java)
-                        if (data == null) {
-                            showToast("some went to wrong", this)
-                            return@Listener
-                        }
-                        totalItem = total!!
-                        Constant.PAGE_SIZE = per_page!!
-                        totalPage = total
-                        if (data.size <= 0) {
-                            emptySearch!!.visibility = View.VISIBLE
-                            recyclerView!!.visibility = View.GONE
-                        } else {
-                            recyclerView!!.visibility = View.VISIBLE
-                            emptySearch!!.visibility = View.GONE
-                        }
-                        adapter!!.addItems(data, totalItem)
-                    } catch (e: JSONException) {
-                        hideProgressDialog()
-                        Timber.e(e.toString())
-                        e.printStackTrace()
+            Response.Listener { response: String? ->
+                Timber.e(response)
+                try {
+                    val jsonObject = JSONObject(response!!)
+                    Timber.e(jsonObject.toString())
+                    val gson = Gson()
+                    val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(
+                        jsonObject.toString(),
+                        MyJobsResponse::class.java
+                    )
+                    if (data == null) {
+                        showToast("some went to wrong", this)
+                        return@Listener
                     }
-                },
-                Response.ErrorListener { error: VolleyError -> errorHandle1(error.networkResponse) }) {
+                    totalItem = total!!
+                    Constant.PAGE_SIZE = per_page!!
+                    totalPage = total
+                    if (data.size <= 0) {
+                        emptySearch!!.visibility = View.VISIBLE
+                        recyclerView!!.visibility = View.GONE
+                    } else {
+                        recyclerView!!.visibility = View.VISIBLE
+                        emptySearch!!.visibility = View.GONE
+                    }
+                    adapter!!.addItems(data, totalItem)
+                } catch (e: JSONException) {
+                    hideProgressDialog()
+                    Timber.e(e.toString())
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error: VolleyError -> errorHandle1(error.networkResponse) }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["Content-Type"] = "application/x-www-form-urlencoded"
@@ -151,15 +157,18 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBot
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this)
         requestQueue.add(stringRequest)
         Timber.e(stringRequest.url)
     }
 
     private fun setPreviewAdapter() {
-        previewTaskSetModel = sessionManagerT.getPreviewTaskModel(SearchTaskActivity::class.java, isFromMyJobs)
+        previewTaskSetModel =
+            sessionManagerT.getPreviewTaskModel(SearchTaskActivity::class.java, isFromMyJobs)
         if (previewTaskSetModel == null) previewTaskSetModel = PreviewTaskSetModel()
         previewTaskAdapter = PreviewTaskAdapter(ArrayList(previewTaskSetModel!!.previewSet))
         recyclerView!!.adapter = previewTaskAdapter
@@ -168,7 +177,7 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBot
     }
 
     private fun setOnlineAdapter() {
-        adapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id)
+        adapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id, false)
         recyclerView!!.adapter = adapter
         adapter!!.setOnItemClickListener(this)
     }
@@ -176,7 +185,8 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBot
     private var previewMode = true
     private fun setLoadMoreListener() {
         if (!previewMode) return
-        recyclerView!!.addOnScrollListener(object : PaginationListener((recyclerView!!.layoutManager as LinearLayoutManager?)!!) {
+        recyclerView!!.addOnScrollListener(object :
+            PaginationListener((recyclerView!!.layoutManager as LinearLayoutManager?)!!) {
             override fun loadMoreItems() {
                 isLoadingItem = true
                 currentPage++
@@ -194,13 +204,14 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBot
     private fun showKeyboard(editText: EditText) {
         editText.post {
             val imm = baseContext
-                    .getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                .getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(editText, 0)
         }
     }
 
     override fun onItemClick(view: View?, obj: Data?, position: Int, action: String?) {
-        val previewTaskModel = PreviewTaskModel(obj!!.id!!, obj.title, sessionManagerT.userAccount.id, obj.slug)
+        val previewTaskModel =
+            PreviewTaskModel(obj!!.id!!, obj.title, sessionManagerT.userAccount.id, obj.slug)
         onItemClick(view, previewTaskModel, position)
     }
 
@@ -212,14 +223,26 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBot
         //   bundle.putInt(ConstantKey.USER_ID, obj.getUserId());
         intent.putExtras(bundle)
         startActivity(intent)
-        sessionManagerT.setPreviewTaskModel(previewTaskSetModel, SearchTaskActivity::class.java, isFromMyJobs)
+        sessionManagerT.setPreviewTaskModel(
+            previewTaskSetModel,
+            SearchTaskActivity::class.java,
+            isFromMyJobs
+        )
     }
 
 
     private fun searchWithVoice() {
         btnVoice!!.setOnClickListener { view: View? ->
-            if (ContextCompat.checkSelfPermission(this@SearchTaskActivity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this@SearchTaskActivity, arrayOf(Manifest.permission.RECORD_AUDIO), MY_PERMISSIONS_RECORD_AUDIO)
+            if (ContextCompat.checkSelfPermission(
+                    this@SearchTaskActivity,
+                    Manifest.permission.RECORD_AUDIO
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this@SearchTaskActivity,
+                    arrayOf(Manifest.permission.RECORD_AUDIO),
+                    MY_PERMISSIONS_RECORD_AUDIO
+                )
             } else {
                 speechToText()
             }
@@ -232,16 +255,16 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,VoiceSearchBot
     }
 
     override fun onVoiceRecordResult(status: Boolean, result: String) {
-    if (status){
-        edtSearch!!.setText(result)
-        setOnlineAdapter()
-        setLoadMoreListener()
-        doApiCall()
-        btnVoice!!.clearAnimation()
-    }else{
-        btnVoice!!.clearAnimation()
+        if (status) {
+            edtSearch!!.setText(result)
+            setOnlineAdapter()
+            setLoadMoreListener()
+            doApiCall()
+            btnVoice!!.clearAnimation()
+        } else {
+            btnVoice!!.clearAnimation()
 
-    }
+        }
 
     }
 }

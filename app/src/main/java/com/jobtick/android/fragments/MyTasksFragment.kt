@@ -67,8 +67,8 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
     private var noJobs: LinearLayout? = null
     var mypopupWindow: PopupWindow? = null
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_tasks, container, false)
@@ -445,7 +445,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
         }
 
     private fun resetTaskListAdapter() {
-        taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id)
+        taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id, false)
         taskListAdapter!!.setOnItemClickListener(this)
         taskListAdapter!!.onDraftDeleteListener = this
         recyclerViewStatus!!.adapter = taskListAdapter

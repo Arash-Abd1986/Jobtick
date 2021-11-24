@@ -133,9 +133,9 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
                             while (it.data.data.size > i) {
                                 try {
                                     val latitude =
-                                        java.lang.Double.valueOf(it.data.data[i].latitude)
+                                        (it.data.data[i].latitude)!!.toDouble()
                                     val longitude =
-                                        java.lang.Double.valueOf(it.data.data[i].longitude)
+                                        (it.data.data[i].longitude)!!.toDouble()
                                     addMarker(
                                         latitude + (Random().nextFloat() / 60 - Random().nextFloat() / 60),
                                         longitude + (Random().nextFloat() / 60 - Random().nextFloat() / 60),
@@ -152,6 +152,9 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
                              goToLocation(myLatitude, myLongitude)*/
                             taskListAdapter!!.clear()
                             taskListAdapter!!.addItemsWithoutLoading(it.data.data)
+                            /*if (googleMap!!.cameraPosition.zoom>12f && mMarkerArray.isNotEmpty()){
+                                goToLocation((it.data.data[0].latitude)!!.toDouble(),(it.data.data[0].longitude)!!.toDouble())
+                            }*/
                         } catch (e: Exception) {
                             hideProgressDialog()
                             this.showToast("Something went wrong", this)

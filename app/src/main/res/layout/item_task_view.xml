@@ -35,9 +35,9 @@
             android:layout_marginBottom="8dp"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:textAppearance="@style/materialText_400_14"
+            android:textAppearance="@style/materialText_400_12"
             android:textColor="@color/P300"
-            tools:text="@string/clean_my_two_bedroom_apartment" />
+            tools:text="Open" />
 
         <RelativeLayout
             android:id="@+id/rl_title"
@@ -52,10 +52,10 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="30dp"
                 android:layout_toLeftOf="@+id/txt_budget"
+                android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="2"
-                android:ellipsize="end"
-                android:textAppearance="@style/materialText_400_14"
+                android:textAppearance="@style/materialText_W400_16"
                 android:textColor="@color/N900"
                 tools:text="@string/clean_my_two_bedroom_apartment" />
 
@@ -68,7 +68,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginEnd="4dp"
                 android:gravity="end|center_vertical"
-                android:textAppearance="@style/materialText_400_16"
+                android:textAppearance="@style/materialText_W500_16"
                 android:textColor="@color/P300"
                 tools:text="@string/_200" />
         </RelativeLayout>
@@ -85,8 +85,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="13dp"
+                android:layout_height="16dp"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_map_pin" />
@@ -101,7 +101,7 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="@string/no_location_set"
-                android:textAppearance="@style/materialText_400_12"
+                android:textAppearance="@style/materialText_W400_14"
                 android:textColor="@color/N300" />
         </LinearLayout>
 
@@ -117,8 +117,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="13dp"
+                android:layout_height="16dp"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_calendar" />
@@ -134,7 +134,7 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="No time set"
-                android:textAppearance="@style/materialText_400_12"
+                android:textAppearance="@style/materialText_W400_14"
                 android:textColor="@color/N300" />
 
             <RelativeLayout

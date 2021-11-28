@@ -25,13 +25,12 @@ import com.jobtick.android.activities.*
 import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.adapers.BadgesAdapter
 import com.jobtick.android.interfaces.onProfileUpdateListener
+import com.jobtick.android.models.AccountStatusModel
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.BadgesModel
 import com.jobtick.android.models.UserAccountModel
-import com.jobtick.android.utils.Constant
-import com.jobtick.android.utils.ImageUtil
-import com.jobtick.android.utils.SessionManager
-import com.jobtick.android.utils.Tools
+import com.jobtick.android.utils.*
+import com.jobtick.android.widget.CircularProgressView
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.mikhaellopez.circularimageview.CircularImageView
 import org.json.JSONException
@@ -47,6 +46,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var imgAvatar: CircularImageView? = null
     private var ivCall: ImageView? = null
     private var ivCard: ImageView? = null
+    private var ivCall2: ImageView? = null
+    private var ivCard2: ImageView? = null
     private var txtAbout: TextView? = null
     private var tvAboutHeading: TextView? = null
     private var tvAboutMeHeader: TextView? = null
@@ -81,6 +82,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var ivMedalSilver: ImageView? = null
     private var ivMedalGOld: ImageView? = null
     private var ivMedalMax: ImageView? = null
+    private var progressLevel1: CircularProgressView? = null
+    private var progressLevel2: CircularProgressView? = null
+    private var progressLevel3: CircularProgressView? = null
+    private var progressLevel4: CircularProgressView? = null
     private var pbLoading: ProgressBar? = null
     private var content: LinearLayout? = null
     private var dashboardActivity: DashboardActivity? = null
@@ -99,24 +104,53 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var ivProfileInfo: ImageView? = null
     private var noReview: LinearLayout? = null
     private var tickerReview: LinearLayout? = null
+    private var linLevel: LinearLayout? = null
+    private var linFcc2: LinearLayout? = null
+    private var linFcc: LinearLayout? = null
     private var posterReview: LinearLayout? = null
     private var noSkill: LinearLayout? = null
     private var txtNoReview: TextView? = null
     private var addSkill: TextView? = null
     private var addPortFilo: TextView? = null
+
+    private var txtAccountStatus: TextView? = null
+    private var txtPaymentStatus: TextView? = null
+    private var txtSkillsStatus: TextView? = null
+    private var txtAlertStatus: TextView? = null
+    private var imAccountStatus: ImageView? = null
+    private var imPaymentStatus: ImageView? = null
+    private var imSkillsStatus: ImageView? = null
+    private var imAlertStatus: ImageView? = null
+    private var line1: View? = null
+    private var line2: View? = null
+    private var line3: View? = null
     override fun onResume() {
         super.onResume()
         allProfileData
     }
 
     @SuppressLint("SetTextI18n", "RtlHardcoded")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
         onProfileupdatelistener = this
         return view
     }
+
     private fun setIDs() {
+        txtAccountStatus = requireView().findViewById(R.id.txt_account_status)
+        txtPaymentStatus = requireView().findViewById(R.id.txt_payment_status)
+        txtSkillsStatus = requireView().findViewById(R.id.txt_skills_status)
+        txtAlertStatus = requireView().findViewById(R.id.txt_alert_status)
+        imAccountStatus = requireView().findViewById(R.id.im_account_status)
+        imPaymentStatus = requireView().findViewById(R.id.im_payment_status)
+        imSkillsStatus = requireView().findViewById(R.id.im_skills_status)
+        imAlertStatus = requireView().findViewById(R.id.im_alert_status)
+        line1 = requireView().findViewById(R.id.line1)
+        line2 = requireView().findViewById(R.id.line2)
+        line3 = requireView().findViewById(R.id.line3)
         noPortfolio = requireView().findViewById(R.id.no_port_folio)
         lPort = requireView().findViewById(R.id.lyt_Port)
         lSkill = requireView().findViewById(R.id.lyt_skills)
@@ -134,6 +168,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         txtAbout = requireView().findViewById(R.id.txt_about)
         ivCall = requireView().findViewById(R.id.ivCall)
         ivCard = requireView().findViewById(R.id.ivCard)
+        ivCall2 = requireView().findViewById(R.id.ivCall2)
+        ivCard2 = requireView().findViewById(R.id.ivCard2)
         tvAboutHeading = requireView().findViewById(R.id.tvAboutHeading)
         imgVerified = requireView().findViewById(R.id.img_verified)
         tagEducation = requireView().findViewById(R.id.tag_education)
@@ -168,6 +204,19 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         ivMedalSilver = requireView().findViewById(R.id.ivMedalSilver)
         ivMedalGOld = requireView().findViewById(R.id.ivMedalGOld)
         ivMedalMax = requireView().findViewById(R.id.ivMedalMax)
+        progressLevel1 = requireView().findViewById(R.id.progress_level1)
+        progressLevel2 = requireView().findViewById(R.id.progress_level2)
+        progressLevel3 = requireView().findViewById(R.id.progress_level3)
+        progressLevel4 = requireView().findViewById(R.id.progress_level4)
+        linFcc = requireView().findViewById(R.id.lin_fcc)
+        linFcc2 = requireView().findViewById(R.id.lin_fcc2)
+        linLevel = requireView().findViewById(R.id.lin_level)
+        progressLevel1!!.progress = 36
+        progressLevel2!!.progress = 55
+        progressLevel3!!.progress = 20
+        progressLevel4!!.progress = 87
+        linLevel!!.visibility = View.GONE
+        linFcc2!!.visibility = View.GONE
     }
 
     private fun initToolbar() {
@@ -183,9 +232,13 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             val toolbarTitle = dashboardActivity!!.findViewById<TextView>(R.id.toolbar_title)
             toolbarTitle.visibility = View.VISIBLE
             toolbarTitle.setText(R.string.profile)
-            toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_semi_bold)
+            toolbarTitle.typeface =
+                ResourcesCompat.getFont(requireContext(), R.font.roboto_semi_bold)
             toolbar!!.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey_100))
-            val params = Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT)
+            val params = Toolbar.LayoutParams(
+                Toolbar.LayoutParams.WRAP_CONTENT,
+                Toolbar.LayoutParams.WRAP_CONTENT
+            )
             params.gravity = Gravity.START
             toolbarTitle.layoutParams = params
             btnQuote!!.setOnClickListener {
@@ -220,7 +273,12 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             when (item.itemId) {
                 R.id.action_flag -> {
                 }
-                R.id.action_edit -> startActivity(Intent(dashboardActivity, EditProfileActivity::class.java))
+                R.id.action_edit -> startActivity(
+                    Intent(
+                        dashboardActivity,
+                        EditProfileActivity::class.java
+                    )
+                )
             }
             false
         }
@@ -237,7 +295,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     @SuppressLint("SetTextI18n")
     private fun onChangeTabUser() {
         if (userAccountModel!!.postTaskStatistics != null && userAccountModel!!.postTaskStatistics.completionRate != null) {
-            tvTickerCompletionRate!!.text = userAccountModel!!.postTaskStatistics.completionRate.toString() + "%"
+            tvTickerCompletionRate!!.text =
+                userAccountModel!!.postTaskStatistics.completionRate.toString() + "%"
         }
     }
 
@@ -251,12 +310,16 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 recyclerViewPortfolio!!.visibility = View.GONE
                 addPortFilo!!.setOnClickListener { view13: View? ->
                     val intent = Intent(requireActivity(), EditProfileActivity::class.java)
+                    intent.putExtra(ConstantKey.TAB, ConstantKey.PORTFO_SKILLS)
                     startActivity(intent)
                 }
                 lPort!!.visibility = View.GONE
             } else {
                 if (attachmentArrayList!!.size > 10) {
-                    (requireActivity() as ActivityBase).showToast("MAX 10 picture", requireContext())
+                    (requireActivity() as ActivityBase).showToast(
+                        "MAX 10 picture",
+                        requireContext()
+                    )
                 }
                 recyclerViewPortfolio!!.visibility = View.VISIBLE
                 noSkill!!.visibility = View.GONE
@@ -264,8 +327,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 lPort!!.visibility = View.VISIBLE
             }
             lSkill!!.visibility = View.GONE
-            rbPortfollio!!.setTextColor(resources.getColor(R.color.blue))
-            rbSkills!!.setTextColor(resources.getColor(R.color.textColor))
+            rbPortfollio!!.setTextColor(resources.getColor(R.color.N600))
+            rbSkills!!.setTextColor(resources.getColor(R.color.N100))
         } else if (rbSkills!!.isChecked) {
             if (tagEducation!!.size() <= 0 && tagExperience!!.size() <= 0 && tagLanguage!!.size() <= 0 && tagSpecialities!!.size() <= 0 && tagTransportation!!.size() <= 0) {
                 noPortfolio!!.visibility = View.GONE
@@ -284,14 +347,20 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             }
             recyclerViewPortfolio!!.visibility = View.GONE
             lPort!!.visibility = View.GONE
-            rbPortfollio!!.setTextColor(resources.getColor(R.color.textColor))
-            rbSkills!!.setTextColor(resources.getColor(R.color.blue))
+            rbPortfollio!!.setTextColor(resources.getColor(R.color.N100))
+            rbSkills!!.setTextColor(resources.getColor(R.color.N600))
         }
     }
 
     private fun init() {
         recyclerViewPortfolio!!.layoutManager = GridLayoutManager(dashboardActivity, 3)
-        recyclerViewPortfolio!!.addItemDecoration(SpacingItemDecoration(3, Tools.dpToPx(dashboardActivity, 3), true))
+        recyclerViewPortfolio!!.addItemDecoration(
+            SpacingItemDecoration(
+                3,
+                Tools.dpToPx(dashboardActivity, 3),
+                true
+            )
+        )
         recyclerViewPortfolio!!.setHasFixedSize(true)
         adapter = AttachmentAdapter(attachmentArrayList, false, activity)
         recyclerViewPortfolio!!.adapter = adapter
@@ -304,72 +373,160 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         get() {
             pbLoading!!.visibility = View.VISIBLE
             content!!.visibility = View.GONE
-            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + sessionManager!!.userAccount.id,
-                    Response.Listener { response: String? ->
-                        Timber.e(response)
-                        content!!.visibility = View.VISIBLE
-                        pbLoading!!.visibility = View.GONE
-                        btnQuote!!.visibility = View.GONE
-                        try {
-                            val jsonObject = JSONObject(response!!)
-                            Timber.e(jsonObject.toString())
-                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                userAccountModel = UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
-                                setUpAllEditFields(userAccountModel)
-                                attachmentArrayList = userAccountModel!!.portfolio
-                                adapter!!.clear()
-                                badgesModelArrayList = userAccountModel!!.badges
-                                if (attachmentArrayList!!.size <= 0) {
-                                    noPortfolio!!.visibility = View.VISIBLE
-                                    lPort!!.visibility = View.GONE
-                                } else {
-                                    recyclerViewPortfolio!!.visibility = View.VISIBLE
-                                    noPortfolio!!.visibility = View.GONE
-                                    lPort!!.visibility = View.VISIBLE
-                                    adapter!!.addItems(attachmentArrayList)
-                                }
-                                if (badgesModelArrayList!!.size <= 0) {
-                                    noPortfolio!!.visibility = View.VISIBLE
-                                    lSkill!!.visibility = View.GONE
-                                } else {
-                                    noPortfolio!!.visibility = View.GONE
-                                    lSkill!!.visibility = View.VISIBLE
-                                }
-                                badgesAdapter!!.addItems(badgesModelArrayList)
-                                if (userAccountModel!!.portfolio.size == 0) {
-                                    noPortfolio!!.visibility = View.VISIBLE
-                                } else {
-                                    noPortfolio!!.visibility = View.GONE
-                                }
-                                if (rbPortfollio!!.isChecked) {
-                                    lSkill!!.visibility = View.GONE
-                                    noSkill!!.visibility = View.GONE
-                                }
+            val stringRequest: StringRequest = object : StringRequest(Method.GET,
+                Constant.URL_PROFILE + "/" + sessionManager!!.userAccount.id,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
+                    content!!.visibility = View.VISIBLE
+                    pbLoading!!.visibility = View.GONE
+                    btnQuote!!.visibility = View.GONE
+                    try {
+                        val jsonObject = JSONObject(response!!)
+                        Timber.e(jsonObject.toString())
+                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                            userAccountModel =
+                                UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
+                            setUpAllEditFields(userAccountModel)
+                            setJobStatus(userAccountModel!!.account_status)
+                            attachmentArrayList = userAccountModel!!.portfolio
+                            adapter!!.clear()
+                            badgesModelArrayList = userAccountModel!!.badges
+                            if (attachmentArrayList!!.size <= 0) {
+                                noPortfolio!!.visibility = View.VISIBLE
+                                lPort!!.visibility = View.GONE
                             } else {
-                                dashboardActivity!!.showToast("Connection error", dashboardActivity)
+                                recyclerViewPortfolio!!.visibility = View.VISIBLE
+                                noPortfolio!!.visibility = View.GONE
+                                lPort!!.visibility = View.VISIBLE
+                                adapter!!.addItems(attachmentArrayList)
                             }
-                        } catch (e: JSONException) {
-                            dashboardActivity!!.showToast("JSONException", dashboardActivity)
-                            Timber.e(e.toString())
-                            e.printStackTrace()
+                            if (badgesModelArrayList!!.size <= 0) {
+                                noPortfolio!!.visibility = View.VISIBLE
+                                lSkill!!.visibility = View.GONE
+                            } else {
+                                noPortfolio!!.visibility = View.GONE
+                                lSkill!!.visibility = View.VISIBLE
+                            }
+                            badgesAdapter!!.addItems(badgesModelArrayList)
+                            if (userAccountModel!!.portfolio.size == 0) {
+                                noPortfolio!!.visibility = View.VISIBLE
+                            } else {
+                                noPortfolio!!.visibility = View.GONE
+                            }
+                            if (rbPortfollio!!.isChecked) {
+                                lSkill!!.visibility = View.GONE
+                                noSkill!!.visibility = View.GONE
+                            }
+                        } else {
+                            dashboardActivity!!.showToast("Connection error", dashboardActivity)
                         }
-                    },
-                    Response.ErrorListener { error: VolleyError -> dashboardActivity!!.errorHandle1(error.networkResponse) }) {
+                    } catch (e: JSONException) {
+                        dashboardActivity!!.showToast("JSONException", dashboardActivity)
+                        Timber.e(e.toString())
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    dashboardActivity!!.errorHandle1(
+                        error.networkResponse
+                    )
+                }) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
-                    map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                    map1["authorization"] =
+                        sessionManager!!.tokenType + " " + sessionManager!!.accessToken
                     map1["Content-Type"] = "application/x-www-form-urlencoded"
                     map1["Version"] = BuildConfig.VERSION_CODE.toString()
                     // map1.put("X-Requested-With", "XMLHttpRequest");
                     return map1
                 }
             }
-            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
             val requestQueue = Volley.newRequestQueue(dashboardActivity)
             requestQueue.add(stringRequest)
             Timber.e(stringRequest.url)
         }
+
+    private fun setJobStatus(accountStatus: AccountStatusModel) {
+        if (accountStatus.isBank_account) {
+            txtAccountStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            imAccountStatus!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_completed_status
+                )
+            )
+        } else {
+            txtAccountStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
+            imAccountStatus!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_not_completed_status
+                )
+            )
+        }
+        if (accountStatus.isSkills) {
+            txtSkillsStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            imSkillsStatus!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_completed_status
+                )
+            )
+            line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+        } else {
+            txtSkillsStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
+            imSkillsStatus!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_not_completed_status
+                )
+            )
+            line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
+        }
+        if (accountStatus.isBank_account) {
+            txtPaymentStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            imPaymentStatus!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_completed_status
+                )
+            )
+            line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+        } else {
+            txtPaymentStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
+            imPaymentStatus!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_not_completed_status
+                )
+            )
+            line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
+        }
+        if (accountStatus.isJobalerts) {
+            txtAlertStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            imAlertStatus!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_completed_status
+                )
+            )
+            line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+        } else {
+            txtAlertStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
+            imAlertStatus!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_not_completed_status
+                )
+            )
+            line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
+        }
+
+    }
 
     @SuppressLint("SetTextI18n")
     private fun setUpAllEditFields(userAccountModel: UserAccountModel?) {
@@ -377,16 +534,18 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         tvAboutHeading!!.setTypeface(txtAbout!!.typeface, Typeface.BOLD_ITALIC)
         if (userAccountModel.mobileVerifiedAt != null) {
             ivCall!!.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable)
+            ivCall2!!.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable)
         }
         if (userAccountModel.account_status != null && userAccountModel.account_status.isBadges) {
             ivCard!!.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable)
+            ivCard2!!.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable)
         }
         if (userAccountModel.about == null || userAccountModel.about == "") {
             txtAbout!!.text = ""
             txtAbout!!.visibility = View.GONE
         } else {
             txtAbout!!.visibility = View.VISIBLE
-            txtAbout!!.text = "" + userAccountModel.about
+            setMoreLess(txtAbout!!, userAccountModel.about, 5)
         }
         if (userAccountModel.tagline == null || userAccountModel.tagline == "") {
             tvAboutHeading!!.text = "\"\""
@@ -399,23 +558,29 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             tickerReview!!.visibility = View.GONE
             noReview!!.visibility = View.VISIBLE
             txtNoReview!!.visibility = View.VISIBLE
+            tvViewAllReviews!!.visibility = View.GONE
         } else {
             noReview!!.visibility = View.GONE
             tickerReview!!.visibility = View.VISIBLE
             ratingbarAsTicker!!.rating = userAccountModel.workerRatings.avgRating
-            tvTickerReview!!.text = "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
-            if (userAccountModel.workTaskStatistics != null) tvTickerCompletionRate!!.text = userAccountModel.workTaskStatistics.completionRate.toString() + "%"
+            tvTickerReview!!.text =
+                "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
+            if (userAccountModel.workTaskStatistics != null) tvTickerCompletionRate!!.text =
+                userAccountModel.workTaskStatistics.completionRate.toString() + "%"
         }
         if (userAccountModel.posterRatings == null) {
             posterReview!!.visibility = View.GONE
             noReview!!.visibility = View.VISIBLE
             txtNoReview!!.visibility = View.VISIBLE
+            tvViewAllReviews!!.visibility = View.GONE
         } else {
             posterReview!!.visibility = View.VISIBLE
             noReview!!.visibility = View.GONE
             ratingbarAsPoster!!.rating = userAccountModel.posterRatings.avgRating
-            tvPosterReview!!.text = "(" + userAccountModel.posterRatings.receivedReviews.toString() + ")"
-            if (userAccountModel.postTaskStatistics != null) tvPosterCompletionRate!!.text = userAccountModel.postTaskStatistics.completionRate.toString() + "%"
+            tvPosterReview!!.text =
+                "(" + userAccountModel.posterRatings.receivedReviews.toString() + ")"
+            if (userAccountModel.postTaskStatistics != null) tvPosterCompletionRate!!.text =
+                userAccountModel.postTaskStatistics.completionRate.toString() + "%"
         }
         when (userAccountModel.workerTier.id) {
             1 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_boronz_selected)
@@ -498,8 +663,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             bundle.putString("WhoIs", Constant.AS_A_WORKER)
             ReviewsActivity.userAccountModel = null
             //      bundle.putParcelable(Constant.userAccount, userAccountModel);
-            startActivity(Intent(dashboardActivity, ReviewsActivity::class.java)
-                    .putExtras(bundle))
+            startActivity(
+                Intent(dashboardActivity, ReviewsActivity::class.java)
+                    .putExtras(bundle)
+            )
         }
         onChangeTabBiography()
         onChangeTabUser()

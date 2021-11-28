@@ -80,7 +80,7 @@ class SkillsTagActivity : ActivityBase() {
     }
 
     private fun init() {
-        txtTitle!!.text = title
+        edtAddTag!!.hint = title
         recyclerView!!.layoutManager = LinearLayoutManager(this@SkillsTagActivity)
         recyclerView!!.addItemDecoration(SpacingItemDecoration(1, Tools.dpToPx(this@SkillsTagActivity, 5), true))
         recyclerView!!.setHasFixedSize(true)

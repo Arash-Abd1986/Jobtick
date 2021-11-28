@@ -58,7 +58,8 @@ import kotlin.collections.ArrayList
 
 private const val TAG = "EditProfile"
 
-class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemClickListener, SubClickListener, DateChange {
+class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemClickListener,
+    SubClickListener, DateChange {
     private val PLACE_SELECTION_REQUEST_CODE = 1
     var edtFirstName: ExtendedEntryText? = null
     var edtLastName: ExtendedEntryText? = null
@@ -123,6 +124,12 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         edtPhoneNumber!!.setExtendedViewOnClickListener { verifyPhone() }
         ivBack!!.setOnClickListener { onBackPressed() }
         init()
+
+        if (intent.hasExtra(ConstantKey.TAB)) {
+            if (intent.getStringExtra(ConstantKey.TAB) == ConstantKey.PORTFO_SKILLS) {
+                setTab3()
+            }
+        }
         allUserProfileDetails
         uploadableImage = object : AbstractUploadableImageImpl(this) {
             override fun onImageReady(imageFile: File) {
@@ -252,7 +259,11 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             //addFormDataPart("cover", null)
         }.build()
         Log.d(TAG, "updateProfile: " + requestBody)
-        call = ApiClient.getClientV2(sessionManager).uploadProfile("XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, requestBody)
+        call = ApiClient.getClientV2(sessionManager).uploadProfile(
+            "XMLHttpRequest",
+            sessionManager.tokenType + " " + sessionManager.accessToken,
+            requestBody
+        )
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 hideProgressDialog()
@@ -286,7 +297,13 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
     private fun init() {
         initTabs()
         recyclerView!!.layoutManager = GridLayoutManager(this@EditProfileActivity, 4)
-        recyclerView!!.addItemDecoration(SpacingItemDecoration(4, Tools.dpToPx(this@EditProfileActivity, 8), true))
+        recyclerView!!.addItemDecoration(
+            SpacingItemDecoration(
+                4,
+                Tools.dpToPx(this@EditProfileActivity, 8),
+                true
+            )
+        )
         recyclerView!!.setHasFixedSize(true)
         //set data and list adapter
         adapter = AttachmentAdapterEditProfile(this@EditProfileActivity, attachmentArrayList, true)
@@ -320,45 +337,59 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         llPinfo!!.visibility = View.GONE
         llPS!!.visibility = View.GONE
         txtGeneralInfo!!.setOnClickListener {
-            llGeneral!!.visibility = View.VISIBLE
-            llPinfo!!.visibility = View.GONE
-            llPS!!.visibility = View.GONE
-            txtGeneralInfo!!.setTextColor(getColor(R.color.colorAccent))
-            txtPrivateInfo!!.setTextColor(getColor(R.color.N100))
-            txtPortfolioSkills!!.setTextColor(getColor(R.color.N100))
-            underTab1!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line_selected)
-            underTab2!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
-            underTab3!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+            setTab1()
         }
         txtPrivateInfo!!.setOnClickListener {
-            llGeneral!!.visibility = View.GONE
-            llPinfo!!.visibility = View.VISIBLE
-            llPS!!.visibility = View.GONE
-            txtGeneralInfo!!.setTextColor(getColor(R.color.N100))
-            txtPrivateInfo!!.setTextColor(getColor(R.color.colorAccent))
-            txtPortfolioSkills!!.setTextColor(getColor(R.color.N100))
-            underTab1!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
-            underTab2!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line_selected)
-            underTab3!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+            setTab2()
         }
         txtPortfolioSkills!!.setOnClickListener {
-            llGeneral!!.visibility = View.GONE
-            llPinfo!!.visibility = View.GONE
-            llPS!!.visibility = View.VISIBLE
-            txtGeneralInfo!!.setTextColor(getColor(R.color.N100))
-            txtPrivateInfo!!.setTextColor(getColor(R.color.N100))
-            txtPortfolioSkills!!.setTextColor(getColor(R.color.colorAccent))
-            underTab1!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
-            underTab2!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
-            underTab3!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line_selected)
+            setTab3()
         }
+    }
+
+    private fun setTab1() {
+        llGeneral!!.visibility = View.VISIBLE
+        llPinfo!!.visibility = View.GONE
+        llPS!!.visibility = View.GONE
+        txtGeneralInfo!!.setTextColor(getColor(R.color.colorAccent))
+        txtPrivateInfo!!.setTextColor(getColor(R.color.N100))
+        txtPortfolioSkills!!.setTextColor(getColor(R.color.N100))
+        underTab1!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line_selected)
+        underTab2!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+        underTab3!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+    }
+
+    private fun setTab2() {
+        llGeneral!!.visibility = View.GONE
+        llPinfo!!.visibility = View.VISIBLE
+        llPS!!.visibility = View.GONE
+        txtGeneralInfo!!.setTextColor(getColor(R.color.N100))
+        txtPrivateInfo!!.setTextColor(getColor(R.color.colorAccent))
+        txtPortfolioSkills!!.setTextColor(getColor(R.color.N100))
+        underTab1!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+        underTab2!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line_selected)
+        underTab3!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+    }
+
+    private fun setTab3() {
+        llGeneral!!.visibility = View.GONE
+        llPinfo!!.visibility = View.GONE
+        llPS!!.visibility = View.VISIBLE
+        txtGeneralInfo!!.setTextColor(getColor(R.color.N100))
+        txtPrivateInfo!!.setTextColor(getColor(R.color.N100))
+        txtPortfolioSkills!!.setTextColor(getColor(R.color.colorAccent))
+        underTab1!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+        underTab2!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line)
+        underTab3!!.background = ContextCompat.getDrawable(this, R.drawable.tab_line_selected)
     }
 
     private fun initDatePicker() {
         userAccountModel = sessionManager.userAccount
         var calendar = Calendar.getInstance()
         if (userAccountModel!!.dob != null) {
-            calendar[TimeHelper.getYear(userAccountModel!!.dob), TimeHelper.getMonth(userAccountModel!!.dob)] = TimeHelper.getDay(userAccountModel!!.dob)
+            calendar[TimeHelper.getYear(userAccountModel!!.dob), TimeHelper.getMonth(
+                userAccountModel!!.dob
+            )] = TimeHelper.getDay(userAccountModel!!.dob)
             year = calendar[Calendar.YEAR]
             month = calendar[Calendar.MONTH]
             day = calendar[Calendar.DAY_OF_MONTH]
@@ -383,49 +414,54 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
 
     private val allUserProfileDetails: Unit
         get() {
-            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + sessionManager.userAccount.id,
-                    com.android.volley.Response.Listener { response: String? ->
-                        Timber.e(response)
-                        hideProgressDialog()
-                        try {
-                            val jsonObject = JSONObject(response!!)
-                            Timber.e(jsonObject.toString())
-                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                userAccountModel = UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
-                                /*
-                    * Add Button for empty attachment
-                    * */setUpAllEditFields(userAccountModel)
-                                attachmentArrayList = userAccountModel!!.portfolio
-                                // attachmentArrayList.add(new AttachmentModel());
-                                Timber.e("%s", attachmentArrayList!!.size)
-                                if (attachmentArrayList!!.size >= 0) {
-                                    recyclerView!!.visibility = View.VISIBLE
-                                    adapter!!.addItems(attachmentArrayList)
-                                }
-                            } else {
-                                showToast("Something went wrong", this@EditProfileActivity)
+            val stringRequest: StringRequest = object : StringRequest(Method.GET,
+                Constant.URL_PROFILE + "/" + sessionManager.userAccount.id,
+                com.android.volley.Response.Listener { response: String? ->
+                    Timber.e(response)
+                    hideProgressDialog()
+                    try {
+                        val jsonObject = JSONObject(response!!)
+                        Timber.e(jsonObject.toString())
+                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                            userAccountModel =
+                                UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
+                            /*
+                * Add Button for empty attachment
+                * */setUpAllEditFields(userAccountModel)
+                            attachmentArrayList = userAccountModel!!.portfolio
+                            // attachmentArrayList.add(new AttachmentModel());
+                            Timber.e("%s", attachmentArrayList!!.size)
+                            if (attachmentArrayList!!.size >= 0) {
+                                recyclerView!!.visibility = View.VISIBLE
+                                adapter!!.addItems(attachmentArrayList)
                             }
-                        } catch (e: JSONException) {
-                            showToast("JSONException", this@EditProfileActivity)
-                            Timber.e(e.toString())
-                            e.printStackTrace()
+                        } else {
+                            showToast("Something went wrong", this@EditProfileActivity)
                         }
-                    },
-                    com.android.volley.Response.ErrorListener { error: VolleyError ->
-                        errorHandle1(error.networkResponse)
-                        hideProgressDialog()
-                    }) {
+                    } catch (e: JSONException) {
+                        showToast("JSONException", this@EditProfileActivity)
+                        Timber.e(e.toString())
+                        e.printStackTrace()
+                    }
+                },
+                com.android.volley.Response.ErrorListener { error: VolleyError ->
+                    errorHandle1(error.networkResponse)
+                    hideProgressDialog()
+                }) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
-                    map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
                     map1["Content-Type"] = "application/x-www-form-urlencoded"
                     map1["Version"] = BuildConfig.VERSION_CODE.toString()
                     // map1.put("X-Requested-With", "XMLHttpRequest");
                     return map1
                 }
             }
-            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
             val requestQueue = Volley.newRequestQueue(this@EditProfileActivity)
             requestQueue.add(stringRequest)
             Timber.e(stringRequest.url)
@@ -441,7 +477,8 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         edtLastName!!.seteContent(userAccountModel.lname)
         edtLastName!!.seteContent(userAccountModel.lname)
         if (userAccountModel.mobile != null) {
-            if (userAccountModel.mobile.length > 3) edtPhoneNumber!!.text = "0" + userAccountModel.mobile.substring(3)
+            if (userAccountModel.mobile.length > 3) edtPhoneNumber!!.text =
+                "0" + userAccountModel.mobile.substring(3)
         } else {
             edtPhoneNumber!!.seteVerifyVisible(true)
         }
@@ -451,7 +488,9 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         edtPhoneNumber!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (s.length > 0) edtPhoneNumber!!.seteVerifyVisible(true) else edtPhoneNumber!!.seteVerifyVisible(false)
+                if (s.length > 0) edtPhoneNumber!!.seteVerifyVisible(true) else edtPhoneNumber!!.seteVerifyVisible(
+                    false
+                )
             }
 
             override fun afterTextChanged(s: Editable) {}
@@ -554,47 +593,48 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
 
     private fun deleteMediaInAttachment(position: Int) {
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.DELETE, Constant.URL_PROFILE + "/portfolio/" + attachmentArrayList!![position].id,
-                com.android.volley.Response.Listener { response: String? ->
-                    Timber.e(response)
-                    hideProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(Method.DELETE,
+            Constant.URL_PROFILE + "/portfolio/" + attachmentArrayList!![position].id,
+            com.android.volley.Response.Listener { response: String? ->
+                Timber.e(response)
+                hideProgressDialog()
+                try {
+                    val jsonObject = JSONObject(response!!)
+                    Timber.e(jsonObject.toString())
+                    attachmentArrayList!!.removeAt(position)
+                    adapter!!.DeleteItem(position)
+                    showToast("Portfolio Deleted", this@EditProfileActivity)
+                } catch (e: JSONException) {
+                    Timber.e(e.toString())
+                    e.printStackTrace()
+                }
+            },
+            com.android.volley.Response.ErrorListener { error: VolleyError ->
+                val networkResponse = error.networkResponse
+                if (networkResponse != null && networkResponse.data != null) {
+                    val jsonError = String(networkResponse.data)
+                    // Print Error!
+                    Timber.e(jsonError)
+                    if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                        unauthorizedUser()
+                        hideProgressDialog()
+                        return@ErrorListener
+                    }
                     try {
-                        val jsonObject = JSONObject(response!!)
-                        Timber.e(jsonObject.toString())
-                        attachmentArrayList!!.removeAt(position)
-                        adapter!!.DeleteItem(position)
-                        showToast("Portfolio Deleted", this@EditProfileActivity)
+                        val jsonObject = JSONObject(jsonError)
+                        val jsonObject_error = jsonObject.getJSONObject("error")
+                        if (jsonObject_error.has("message")) {
+                            showToast(jsonObject_error.getString("message"), this)
+                        }
                     } catch (e: JSONException) {
-                        Timber.e(e.toString())
                         e.printStackTrace()
                     }
-                },
-                com.android.volley.Response.ErrorListener { error: VolleyError ->
-                    val networkResponse = error.networkResponse
-                    if (networkResponse != null && networkResponse.data != null) {
-                        val jsonError = String(networkResponse.data)
-                        // Print Error!
-                        Timber.e(jsonError)
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser()
-                            hideProgressDialog()
-                            return@ErrorListener
-                        }
-                        try {
-                            val jsonObject = JSONObject(jsonError)
-                            val jsonObject_error = jsonObject.getJSONObject("error")
-                            if (jsonObject_error.has("message")) {
-                                showToast(jsonObject_error.getString("message"), this)
-                            }
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                        }
-                    } else {
-                        showToast("Something Went Wrong", this@EditProfileActivity)
-                    }
-                    Timber.e(error.toString())
-                    hideProgressDialog()
-                }) {
+                } else {
+                    showToast("Something Went Wrong", this@EditProfileActivity)
+                }
+                Timber.e(error.toString())
+                hideProgressDialog()
+            }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
@@ -604,8 +644,10 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@EditProfileActivity)
         requestQueue.add(stringRequest)
         Timber.e(stringRequest.url)
@@ -664,17 +706,17 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         }
         lytDeletePicture!!.setOnClickListener {
             MaterialAlertDialogBuilder(this@EditProfileActivity)
-                    .setTitle("")
-                    .setMessage("Remove profile photo?")
-                    .setCancelable(false)
-                    .setPositiveButton("Yes") { dialog1: DialogInterface, _: Int ->
-                        dialog1.dismiss()
-                        removeProfilePicture()
-                    }
-                    .setNegativeButton("No") { dialog12: DialogInterface, _: Int ->
-                        //  Action for 'NO' Button
-                        dialog12.cancel()
-                    }.show()
+                .setTitle("")
+                .setMessage("Remove profile photo?")
+                .setCancelable(false)
+                .setPositiveButton("Yes") { dialog1: DialogInterface, _: Int ->
+                    dialog1.dismiss()
+                    removeProfilePicture()
+                }
+                .setNegativeButton("No") { dialog12: DialogInterface, _: Int ->
+                    //  Action for 'NO' Button
+                    dialog12.cancel()
+                }.show()
         }
         cardSaveProfile!!.setOnClickListener {
             if (validation()) updateProfile()
@@ -701,8 +743,10 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         val call: Call<String?>?
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
-        call = ApiClient.getClient().getTaskTempAttachmentMediaData("XMLHttpRequest",
-                sessionManager.tokenType + " " + sessionManager.accessToken, imageFile)
+        call = ApiClient.getClient().getTaskTempAttachmentMediaData(
+            "XMLHttpRequest",
+            sessionManager.tokenType + " " + sessionManager.accessToken, imageFile
+        )
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 hideProgressDialog()
@@ -728,14 +772,22 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                         if (jsonObject.has("data")) {
                             val attachment = AttachmentModel()
                             val jsonObjectData = jsonObject.getJSONObject("data")
-                            if (jsonObjectData.has("id") && !jsonObjectData.isNull("id")) attachment.id = jsonObjectData.getInt("id")
-                            if (jsonObjectData.has("name") && !jsonObjectData.isNull("name")) attachment.name = jsonObjectData.getString("name")
-                            if (jsonObjectData.has("file_name") && !jsonObjectData.isNull("file_name")) attachment.fileName = jsonObjectData.getString("file_name")
-                            if (jsonObjectData.has("mime") && !jsonObjectData.isNull("mime")) attachment.mime = jsonObjectData.getString("mime")
-                            if (jsonObjectData.has("url") && !jsonObjectData.isNull("url")) attachment.url = jsonObjectData.getString("url")
-                            if (jsonObjectData.has("thumb_url") && !jsonObjectData.isNull("thumb_url")) attachment.thumbUrl = jsonObjectData.getString("thumb_url")
-                            if (jsonObjectData.has("modal_url") && !jsonObjectData.isNull("modal_url")) attachment.modalUrl = jsonObjectData.getString("modal_url")
-                            if (jsonObjectData.has("created_at") && !jsonObjectData.isNull("created_at")) attachment.createdAt = jsonObjectData.getString("created_at")
+                            if (jsonObjectData.has("id") && !jsonObjectData.isNull("id")) attachment.id =
+                                jsonObjectData.getInt("id")
+                            if (jsonObjectData.has("name") && !jsonObjectData.isNull("name")) attachment.name =
+                                jsonObjectData.getString("name")
+                            if (jsonObjectData.has("file_name") && !jsonObjectData.isNull("file_name")) attachment.fileName =
+                                jsonObjectData.getString("file_name")
+                            if (jsonObjectData.has("mime") && !jsonObjectData.isNull("mime")) attachment.mime =
+                                jsonObjectData.getString("mime")
+                            if (jsonObjectData.has("url") && !jsonObjectData.isNull("url")) attachment.url =
+                                jsonObjectData.getString("url")
+                            if (jsonObjectData.has("thumb_url") && !jsonObjectData.isNull("thumb_url")) attachment.thumbUrl =
+                                jsonObjectData.getString("thumb_url")
+                            if (jsonObjectData.has("modal_url") && !jsonObjectData.isNull("modal_url")) attachment.modalUrl =
+                                jsonObjectData.getString("modal_url")
+                            if (jsonObjectData.has("created_at") && !jsonObjectData.isNull("created_at")) attachment.createdAt =
+                                jsonObjectData.getString("created_at")
                             attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
                             attachmentArrayList!!.add(attachment)
 
@@ -779,27 +831,33 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             if (bundle != null) {
                 when (requestCode) {
                     1 -> {
-                        userAccountModel!!.skills.transportation = bundle.getStringArrayList(ConstantKey.SKILLS)
+                        userAccountModel!!.skills.transportation =
+                            bundle.getStringArrayList(ConstantKey.SKILLS)
                         transportationSetUp(userAccountModel)
                     }
                     2 -> {
-                        userAccountModel!!.skills.language = bundle.getStringArrayList(ConstantKey.SKILLS)
+                        userAccountModel!!.skills.language =
+                            bundle.getStringArrayList(ConstantKey.SKILLS)
                         languagesSetUp(userAccountModel)
                     }
                     3 -> {
-                        userAccountModel!!.skills.education = bundle.getStringArrayList(ConstantKey.SKILLS)
+                        userAccountModel!!.skills.education =
+                            bundle.getStringArrayList(ConstantKey.SKILLS)
                         educationSetUp(userAccountModel)
                     }
                     4 -> {
-                        userAccountModel!!.skills.experience = bundle.getStringArrayList(ConstantKey.SKILLS)
+                        userAccountModel!!.skills.experience =
+                            bundle.getStringArrayList(ConstantKey.SKILLS)
                         experienceSetUp(userAccountModel)
                     }
                     5 -> {
-                        userAccountModel!!.skills.specialities = bundle.getStringArrayList(ConstantKey.SKILLS)
+                        userAccountModel!!.skills.specialities =
+                            bundle.getStringArrayList(ConstantKey.SKILLS)
                         specialitiesSetUp(userAccountModel)
                     }
                     234 -> {
-                        userAccountModel!!.portfolio = bundle.getParcelableArrayList(ConstantKey.ATTACHMENT)
+                        userAccountModel!!.portfolio =
+                            bundle.getParcelableArrayList(ConstantKey.ATTACHMENT)
                         adapter!!.clearAll()
                         attachmentArrayList!!.clear()
                         attachmentArrayList = userAccountModel!!.portfolio
@@ -832,7 +890,11 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         val call: Call<String?>?
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
-        call = ApiClient.getClientV2(sessionManager).uploadProfilePicture("XMLHttpRequest", sessionManager.tokenType + " " + sessionManager.accessToken, imageFile)
+        call = ApiClient.getClientV2(sessionManager).uploadProfilePicture(
+            "XMLHttpRequest",
+            sessionManager.tokenType + " " + sessionManager.accessToken,
+            imageFile
+        )
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 hideProgressDialog()
@@ -858,22 +920,34 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                         if (jsonObject.has("data")) {
                             val attachment = AttachmentModel()
                             val jsonObjectData = jsonObject.getJSONObject("data")
-                            if (jsonObjectData.has("id") && !jsonObjectData.isNull("id")) attachment.id = jsonObjectData.getInt("id")
-                            if (jsonObjectData.has("name") && !jsonObjectData.isNull("name")) attachment.name = jsonObjectData.getString("name")
-                            if (jsonObjectData.has("file_name") && !jsonObjectData.isNull("file_name")) attachment.fileName = jsonObjectData.getString("file_name")
-                            if (jsonObjectData.has("mime") && !jsonObjectData.isNull("mime")) attachment.mime = jsonObjectData.getString("mime")
-                            if (jsonObjectData.has("url") && !jsonObjectData.isNull("url")) attachment.url = jsonObjectData.getString("url")
-                            if (jsonObjectData.has("thumb_url") && !jsonObjectData.isNull("thumb_url")) attachment.thumbUrl = jsonObjectData.getString("thumb_url")
-                            if (jsonObjectData.has("modal_url") && !jsonObjectData.isNull("modal_url")) attachment.modalUrl = jsonObjectData.getString("modal_url")
-                            if (jsonObjectData.has("created_at") && !jsonObjectData.isNull("created_at")) attachment.createdAt = jsonObjectData.getString("created_at")
+                            if (jsonObjectData.has("id") && !jsonObjectData.isNull("id")) attachment.id =
+                                jsonObjectData.getInt("id")
+                            if (jsonObjectData.has("name") && !jsonObjectData.isNull("name")) attachment.name =
+                                jsonObjectData.getString("name")
+                            if (jsonObjectData.has("file_name") && !jsonObjectData.isNull("file_name")) attachment.fileName =
+                                jsonObjectData.getString("file_name")
+                            if (jsonObjectData.has("mime") && !jsonObjectData.isNull("mime")) attachment.mime =
+                                jsonObjectData.getString("mime")
+                            if (jsonObjectData.has("url") && !jsonObjectData.isNull("url")) attachment.url =
+                                jsonObjectData.getString("url")
+                            if (jsonObjectData.has("thumb_url") && !jsonObjectData.isNull("thumb_url")) attachment.thumbUrl =
+                                jsonObjectData.getString("thumb_url")
+                            if (jsonObjectData.has("modal_url") && !jsonObjectData.isNull("modal_url")) attachment.modalUrl =
+                                jsonObjectData.getString("modal_url")
+                            if (jsonObjectData.has("created_at") && !jsonObjectData.isNull("created_at")) attachment.createdAt =
+                                jsonObjectData.getString("created_at")
                             attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
                             sessionManager.userAccount.avatar = attachment
                             lytDeletePicture!!.visibility = View.VISIBLE
                             if (ProfileFragment.onProfileupdatelistener != null) {
-                                ProfileFragment.onProfileupdatelistener!!.updatedSuccesfully(attachment.thumbUrl)
+                                ProfileFragment.onProfileupdatelistener!!.updatedSuccesfully(
+                                    attachment.thumbUrl
+                                )
                             }
                             if (DashboardActivity.onProfileupdatelistenerSideMenu != null) {
-                                DashboardActivity.onProfileupdatelistenerSideMenu!!.updatedSuccesfully(attachment.thumbUrl)
+                                DashboardActivity.onProfileupdatelistenerSideMenu!!.updatedSuccesfully(
+                                    attachment.thumbUrl
+                                )
                             }
                         }
                         //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
@@ -896,7 +970,8 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
 
     private fun removeProfilePicture() {
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.DELETE, Constant.URL_PROFILE + Constant.URL_REMOVE_AVTAR,
+        val stringRequest: StringRequest =
+            object : StringRequest(Method.DELETE, Constant.URL_PROFILE + Constant.URL_REMOVE_AVTAR,
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     hideProgressDialog()
@@ -905,14 +980,19 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
-                                showSuccessToast("Profile Picture has been  Deleted", this@EditProfileActivity)
+                                showSuccessToast(
+                                    "Profile Picture has been  Deleted",
+                                    this@EditProfileActivity
+                                )
                                 imgAvatar!!.setImageResource(R.drawable.ic_circle_logo)
                                 lytDeletePicture!!.visibility = View.GONE
                                 if (ProfileFragment.onProfileupdatelistener != null) {
                                     ProfileFragment.onProfileupdatelistener!!.updatedSuccesfully("")
                                 }
                                 if (DashboardActivity.onProfileupdatelistenerSideMenu != null) {
-                                    DashboardActivity.onProfileupdatelistenerSideMenu!!.updatedSuccesfully("")
+                                    DashboardActivity.onProfileupdatelistenerSideMenu!!.updatedSuccesfully(
+                                        ""
+                                    )
                                 }
                             } else {
                                 showToast("Something went Wrong", this@EditProfileActivity)
@@ -949,17 +1029,20 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                     Timber.e(error.toString())
                     hideProgressDialog()
                 }) {
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                // map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    // map1.put("X-Requested-With", "XMLHttpRequest");
+                    return map1
+                }
             }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@EditProfileActivity)
         requestQueue.add(stringRequest)
         Timber.e(stringRequest.url)
@@ -986,7 +1069,11 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         this.year = year
         month = monthOfYear
         day = dayOfMonth
-        txtBirthDate!!.text = dob.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())!! + " " + dayOfMonth + ", " + year
+        txtBirthDate!!.text = dob.getDisplayName(
+            Calendar.MONTH,
+            Calendar.LONG,
+            Locale.getDefault()
+        )!! + " " + dayOfMonth + ", " + year
     }
 
     companion object {

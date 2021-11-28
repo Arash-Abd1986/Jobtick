@@ -38,6 +38,10 @@ public class AccountStatusModel implements Parcelable {
     @Expose
     private boolean portfolio;
 
+    @SerializedName("jobalerts")
+    @Expose
+    private boolean jobalerts;
+
 
     protected AccountStatusModel(Parcel in) {
         TAG = in.readString();
@@ -47,6 +51,7 @@ public class AccountStatusModel implements Parcelable {
         skills = in.readByte() != 0;
         badges = in.readByte() != 0;
         portfolio = in.readByte() != 0;
+        jobalerts = in.readByte() != 0;
     }
 
     public static final Creator<AccountStatusModel> CREATOR = new Creator<AccountStatusModel>() {
@@ -79,6 +84,7 @@ public class AccountStatusModel implements Parcelable {
         dest.writeByte((byte) (skills ? 1 : 0));
         dest.writeByte((byte) (badges ? 1 : 0));
         dest.writeByte((byte) (portfolio ? 1 : 0));
+        dest.writeByte((byte) (jobalerts ? 1 : 0));
 
     }
 
@@ -125,9 +131,15 @@ public class AccountStatusModel implements Parcelable {
     public boolean isPortfolio() {
         return portfolio;
     }
+    public boolean isJobalerts() {
+        return jobalerts;
+    }
 
     public void setPortfolio(boolean portfolio) {
         this.portfolio = portfolio;
+    }
+    public void setJobalerts(boolean jobalerts) {
+        this.jobalerts = jobalerts;
     }
 
     public AccountStatusModel getJsonToModel(JSONObject jsonObject){
@@ -150,6 +162,9 @@ public class AccountStatusModel implements Parcelable {
 
             if(jsonObject.has("portfolio") && !jsonObject.isNull("portfolio"))
                 statusModel.setPortfolio(jsonObject.getBoolean("portfolio"));
+
+            if(jsonObject.has("jobalerts") && !jsonObject.isNull("jobalerts"))
+                statusModel.setJobalerts(jsonObject.getBoolean("jobalerts"));
 
 
         }catch (JSONException e){

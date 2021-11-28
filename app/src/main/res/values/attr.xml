@@ -2,7 +2,6 @@
 <resources>
 
 
-
     <declare-styleable name="ReadMoreTextView">
         <attr name="trimExpandedText" format="string" />
         <attr name="trimCollapsedText" format="string" />
@@ -11,8 +10,8 @@
         <attr name="colorClickableText" format="color" />
         <attr name="trimLines" format="integer" />
         <attr name="trimMode">
-            <enum name="trimModeLine" value="0"/>
-            <enum name="trimModeLength" value="1"/>
+            <enum name="trimModeLine" value="0" />
+            <enum name="trimModeLength" value="1" />
         </attr>
     </declare-styleable>
 
@@ -69,108 +68,116 @@
     </declare-styleable>
 
     <declare-styleable name="CircleSeekBar">
-        <attr name="csb_progress" format="integer"/>
-        <attr name="csb_min" format="integer"/>
-        <attr name="csb_max" format="integer"/>
-        <attr name="csb_step" format="integer"/>
+        <attr name="csb_progress" format="integer" />
+        <attr name="csb_min" format="integer" />
+        <attr name="csb_max" format="integer" />
+        <attr name="csb_step" format="integer" />
 
-        <attr name="csb_thumbDrawable" format="reference"/>
+        <attr name="csb_thumbDrawable" format="reference" />
         <attr name="csb_thumbSize" format="dimension" />
 
-        <attr name="csb_progressColor" format="color"/>
-        <attr name="csb_progressWidth" format="dimension"/>
+        <attr name="csb_progressColor" format="color" />
+        <attr name="csb_progressWidth" format="dimension" />
 
-        <attr name="csb_arcColor" format="color"/>
-        <attr name="csb_arcWidth" format="dimension"/>
+        <attr name="csb_arcColor" format="color" />
+        <attr name="csb_arcWidth" format="dimension" />
 
-        <attr name="csb_textSize" format="dimension"/>
-        <attr name="csb_textColor" format="color"/>
-        <attr name="csb_minTextSize" format="dimension"/>
-        <attr name="csb_secondaryText" format="string"/>
+        <attr name="csb_textSize" format="dimension" />
+        <attr name="csb_textColor" format="color" />
+        <attr name="csb_minTextSize" format="dimension" />
+        <attr name="csb_secondaryText" format="string" />
 
         <attr name="csb_isShowText" format="boolean" />
     </declare-styleable>
 
-    <attr name="eTitle" format="string"/>
-    <attr name="eContent" format="string"/>
-    <attr name="eHint" format="string"/>
+    <attr name="eTitle" format="string" />
+    <attr name="eContent" format="string" />
+    <attr name="eHint" format="string" />
 
 
     <declare-styleable name="ExtendedEntryText">
-        <attr name="eTitle"/>
-        <attr name="eContent"/>
+        <attr name="eTitle" />
+        <attr name="eContent" />
         <attr name="eHint" />
-        <attr name="eIsEnable" format="boolean"/>
-        <attr name="eVerifyVisible" format="boolean"/>
-        <attr name="eStartFocus" format="boolean"/>
-        <attr name="eMaxCharNumber" format="integer"/>
+        <attr name="eIsEnable" format="boolean" />
+        <attr name="eVerifyVisible" format="boolean" />
+        <attr name="eStartFocus" format="boolean" />
+        <attr name="eMaxCharNumber" format="integer" />
         <attr name="eInputType" format="enum">
-            <enum name="text" value="0"/>
-            <enum name="integer" value="1"/>
-            <enum name="email" value="2"/>
-            <enum name="password" value="3"/>
-            <enum name="phone" value="4"/>
-            <enum name="suburb" value="5"/>
-            <enum name="calendar" value="6"/>
-            <enum name="budget" value="7"/>
-            <enum name="spinner" value="8"/>
-            <enum name="autoComplete" value="9"/>
-            <enum name="verify" value="10"/>
-            <enum name="calendarKeyboard" value="11"/>
+            <enum name="text" value="0" />
+            <enum name="integer" value="1" />
+            <enum name="email" value="2" />
+            <enum name="password" value="3" />
+            <enum name="phone" value="4" />
+            <enum name="suburb" value="5" />
+            <enum name="calendar" value="6" />
+            <enum name="budget" value="7" />
+            <enum name="spinner" value="8" />
+            <enum name="autoComplete" value="9" />
+            <enum name="verify" value="10" />
+            <enum name="calendarKeyboard" value="11" />
         </attr>
         <attr name="eImeOptions" format="enum">
-            <enum name="actionNext" value="0"/>
-            <enum name="actionDone" value="1"/>
-            <enum name="normal" value="2"/>
+            <enum name="actionNext" value="0" />
+            <enum name="actionDone" value="1" />
+            <enum name="normal" value="2" />
         </attr>
         <attr name="eBoxSize" format="enum">
-            <enum name="normal" value="0"/>
-            <enum name="small" value="1"/>
+            <enum name="normal" value="0" />
+            <enum name="small" value="1" />
         </attr>
     </declare-styleable>
 
     <declare-styleable name="ExtendedJobInfo">
-        <attr name="eJobTitle" format="string"/>
-        <attr name="eJobValue" format="string"/>
-        <attr name="eJobBottomColor" format="color"/>
+        <attr name="eJobTitle" format="string" />
+        <attr name="eJobValue" format="string" />
+        <attr name="eJobBottomColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="ExtendedSettingItem">
-        <attr name="eSettingTitle" format="string"/>
+        <attr name="eSettingTitle" format="string" />
         <attr name="colorText" format="color" />
     </declare-styleable>
 
     <declare-styleable name="ExtendedAlertBox">
-        <attr name="eAlertTitle" format="string"/>
-        <attr name="eAlertButtonText" format="string"/>
-        <attr name="eAlertType" format="string"/>
-        <attr name="eAlertHasButton" format="boolean"/>
-        <attr name="eAlertHasTopColor" format="boolean"/>
-        <attr name="eAlertIsTicker" format="boolean"/>
+        <attr name="eAlertTitle" format="string" />
+        <attr name="eAlertButtonText" format="string" />
+        <attr name="eAlertType" format="string" />
+        <attr name="eAlertHasButton" format="boolean" />
+        <attr name="eAlertHasTopColor" format="boolean" />
+        <attr name="eAlertIsTicker" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ExtendedCommentText">
-        <attr name="eTitle"/>
-        <attr name="eContent"/>
-        <attr name="eHint"/>
-        <attr name="eStartFocusComment" format="boolean"/>
-        <attr name="eSingleLine" format="boolean"/>
-        <attr name="isRequired" format="boolean"/>
-        <attr name="showCounter" format="boolean"/>
-        <attr name="isSuburb" format="boolean"/>
-        <attr name="eMinCharSize" format="integer"/>
-        <attr name="eMaxCharSize" format="integer"/>
-        <attr name="eIsMandatory" format="boolean"/>
+        <attr name="eTitle" />
+        <attr name="eContent" />
+        <attr name="eHint" />
+        <attr name="eStartFocusComment" format="boolean" />
+        <attr name="eSingleLine" format="boolean" />
+        <attr name="isRequired" format="boolean" />
+        <attr name="showCounter" format="boolean" />
+        <attr name="isSuburb" format="boolean" />
+        <attr name="eMinCharSize" format="integer" />
+        <attr name="eMaxCharSize" format="integer" />
+        <attr name="eIsMandatory" format="boolean" />
         <attr name="eImeOptionsComment" format="enum">
-            <enum name="actionNext" value="0"/>
-            <enum name="actionDone" value="1"/>
-            <enum name="normal" value="2"/>
+            <enum name="actionNext" value="0" />
+            <enum name="actionDone" value="1" />
+            <enum name="normal" value="2" />
         </attr>
     </declare-styleable>
 
     <declare-styleable name="StatusLayout">
-        <attr name="status" format="string"/>
+        <attr name="status" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="CircleProgressBar">
+        <attr name="outCircleColor" format="color"></attr>
+        <attr name="inCircleColor" format="color"></attr>
+        <attr name="progressColor" format="color"></attr>
+        <attr name="textColor" format="color"></attr>
+        <attr name="textBold" format="boolean"></attr>
+        <attr name="lineWidth" format="dimension"></attr>
+    </declare-styleable>
 
 </resources>

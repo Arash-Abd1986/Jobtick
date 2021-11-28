@@ -739,6 +739,11 @@
         <item name="android:fontFamily">@font/roboto_normal_500</item>
         <item name="android:textSize">16sp</item>
     </style>
+    <style name="materialText_W500_20" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/roboto_normal_500</item>
+        <item name="android:fontFamily">@font/roboto_normal_500</item>
+        <item name="android:textSize">20sp</item>
+    </style>
     <style name="materialText_W400_12" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/roboto_normal_400</item>
         <item name="android:fontFamily">@font/roboto_normal_400</item>
@@ -754,4 +759,16 @@
         <item name="android:fontFamily">@font/roboto_normal_400</item>
         <item name="android:textSize">16sp</item>
     </style>
+    <style name="materialText_400_24" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+    <style name="materialText_300_16" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
 </resources>

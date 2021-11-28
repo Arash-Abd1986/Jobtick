@@ -70,7 +70,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginBottom="@dimen/_8dp"
-                            android:text="General Info"
+                            android:text="General"
                             android:textColor="@color/colorAccent" />
 
                         <View
@@ -94,7 +94,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginBottom="@dimen/_8dp"
-                            android:text="Private Info"
+                            android:text="Private"
                             android:textColor="@color/N100" />
 
                         <View

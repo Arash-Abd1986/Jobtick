@@ -29,10 +29,7 @@ import com.jobtick.android.interfaces.onProfileUpdateListener
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.BadgesModel
 import com.jobtick.android.models.UserAccountModel
-import com.jobtick.android.utils.Constant
-import com.jobtick.android.utils.ImageUtil
-import com.jobtick.android.utils.SessionManager
-import com.jobtick.android.utils.Tools
+import com.jobtick.android.utils.*
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.mikhaellopez.circularimageview.CircularImageView
 import org.json.JSONException
@@ -43,7 +40,8 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
-class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.OnItemClickListener {
+class ProfileViewFragment : Fragment(), onProfileUpdateListener,
+    AttachmentAdapter.OnItemClickListener {
     var userId = -1
 
     var recyclerViewPortfolio: RecyclerView? = null
@@ -81,6 +79,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
     var rbSkills: RadioButton? = null
     var btnQuote: CardView? = null
     var llEnlarge: LinearLayout? = null
+    var lytBtnGetAQuote: LinearLayout? = null
     var ivMedalBoronz: ImageView? = null
     var ivMedalSilver: ImageView? = null
     var ivMedalGOld: ImageView? = null
@@ -106,20 +105,26 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
     private var txtNoReview: TextView? = null
     private var addSkill: TextView? = null
     private var addPortFilo: TextView? = null
+    private var linLevel: LinearLayout? = null
+    private var linFcc2: LinearLayout? = null
+    private var linFcc: LinearLayout? = null
     override fun onResume() {
         super.onResume()
         allProfileData
     }
 
     @SuppressLint("SetTextI18n", "RtlHardcoded")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_profile_view, container, false)
         onProfileupdatelistener = this
         val b = arguments
         userId = (b)!!.getInt("userId", -1)
         return view
     }
+
     private fun setIDs() {
         noPortfolio = requireView().findViewById(R.id.no_port_folio)
         lPort = requireView().findViewById(R.id.lyt_Port)
@@ -168,11 +173,18 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
         rbSkills = requireView().findViewById(R.id.rbSkills)
         btnQuote = requireView().findViewById(R.id.card_get_quote)
         llEnlarge = requireView().findViewById(R.id.llEnlarge)
+        lytBtnGetAQuote = requireView().findViewById(R.id.lyt_btn_get_a_quote)
         ivMedalBoronz = requireView().findViewById(R.id.ivMedalBoronz)
         ivMedalSilver = requireView().findViewById(R.id.ivMedalSilver)
         ivMedalGOld = requireView().findViewById(R.id.ivMedalGOld)
         ivMedalMax = requireView().findViewById(R.id.ivMedalMax)
         lytLanguage = requireView().findViewById(R.id.lyt_language)
+        linFcc = requireView().findViewById(R.id.lin_fcc)
+        linFcc2 = requireView().findViewById(R.id.lin_fcc2)
+        linLevel = requireView().findViewById(R.id.lin_level)
+        linLevel!!.visibility = View.VISIBLE
+        linFcc2!!.visibility = View.VISIBLE
+        linFcc!!.visibility = View.GONE
     }
 
     private fun initToolbar() {
@@ -193,6 +205,9 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
             val levelInfoBottomSheet = LevelInfoBottomSheet()
             levelInfoBottomSheet.show(parentFragmentManager, "")
         }
+        lytBtnGetAQuote!!.setOnClickListener {
+            startCategoryList()
+        }
         initToolbar()
         sessionManager = SessionManager(profileActivity)
         userAccountModel = UserAccountModel()
@@ -203,6 +218,11 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
         initComponent()
 
         //   initComponentScroll(view);
+    }
+
+    private fun startCategoryList() {
+        val infoBottomSheet = CategoryListBottomSheet(sessionManager)
+        infoBottomSheet.show(requireActivity().supportFragmentManager, null)
     }
 
     private fun initComponentScroll(view: View) {
@@ -222,7 +242,8 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
         if (isFabHide && hide || !isFabHide && !hide) return
         isFabHide = hide
         val moveY = if (hide) 2 * btnQuote!!.height else 0
-        btnQuote!!.animate().translationY(moveY.toFloat()).setStartDelay(100).setDuration(300).start()
+        btnQuote!!.animate().translationY(moveY.toFloat()).setStartDelay(100).setDuration(300)
+            .start()
     }
 
     private fun initComponent() {
@@ -233,7 +254,8 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
     @SuppressLint("SetTextI18n")
     private fun onChangeTabUser() {
         if (userAccountModel!!.postTaskStatistics != null && userAccountModel!!.postTaskStatistics.completionRate != null) {
-            tvTickerCompletionRate!!.text = userAccountModel!!.postTaskStatistics.completionRate.toString() + "%"
+            tvTickerCompletionRate!!.text =
+                userAccountModel!!.postTaskStatistics.completionRate.toString() + "%"
         }
     }
 
@@ -251,7 +273,10 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
                 lPort!!.visibility = View.GONE
             } else {
                 if (attachmentArrayList!!.size > 10) {
-                    (requireActivity() as ActivityBase).showToast("MAX 10 picture", requireContext())
+                    (requireActivity() as ActivityBase).showToast(
+                        "MAX 10 picture",
+                        requireContext()
+                    )
                 }
                 recyclerViewPortfolio!!.visibility = View.VISIBLE
                 noSkill!!.visibility = View.GONE
@@ -286,7 +311,13 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
 
     private fun init() {
         recyclerViewPortfolio!!.layoutManager = GridLayoutManager(profileActivity, 3)
-        recyclerViewPortfolio!!.addItemDecoration(SpacingItemDecoration(3, Tools.dpToPx(profileActivity, 3), true))
+        recyclerViewPortfolio!!.addItemDecoration(
+            SpacingItemDecoration(
+                3,
+                Tools.dpToPx(profileActivity, 3),
+                true
+            )
+        )
         recyclerViewPortfolio!!.setHasFixedSize(true)
         adapter = AttachmentAdapter(attachmentArrayList, false, activity)
         recyclerViewPortfolio!!.adapter = adapter
@@ -294,20 +325,21 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
         badgesAdapter = BadgesAdapter(badgesModelArrayList)
     }// map1.put("X-Requested-With", "XMLHttpRequest");
 
-    //                    btnQuote.setVisibility(View.VISIBLE);
     private val allProfileData: Unit
         private get() {
-            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + userId,
+            val stringRequest: StringRequest =
+                object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + userId,
                     Response.Listener { response: String? ->
                         Timber.e(response)
                         content!!.visibility = View.VISIBLE
                         pbLoading!!.visibility = View.GONE
-                        //                    btnQuote.setVisibility(View.VISIBLE);
+                        btnQuote!!.visibility = View.VISIBLE;
                         try {
                             val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                userAccountModel = UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
+                                userAccountModel =
+                                    UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
                                 setUpAllEditFields(userAccountModel)
                                 attachmentArrayList = userAccountModel!!.portfolio
                                 adapter!!.clear()
@@ -351,17 +383,20 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
                         profileActivity!!.errorHandle1(error.networkResponse)
                         profileActivity!!.hideProgressDialog()
                     }) {
-                override fun getHeaders(): Map<String, String> {
-                    val map1: MutableMap<String, String> = HashMap()
-                    map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
-                    map1["Content-Type"] = "application/x-www-form-urlencoded"
-                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                    // map1.put("X-Requested-With", "XMLHttpRequest");
-                    return map1
+                    override fun getHeaders(): Map<String, String> {
+                        val map1: MutableMap<String, String> = HashMap()
+                        map1["authorization"] =
+                            sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                        map1["Content-Type"] = "application/x-www-form-urlencoded"
+                        map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                        // map1.put("X-Requested-With", "XMLHttpRequest");
+                        return map1
+                    }
                 }
-            }
-            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
             val requestQueue = Volley.newRequestQueue(profileActivity)
             requestQueue.add(stringRequest)
             Timber.e(stringRequest.url)
@@ -381,7 +416,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
             txtAbout!!.visibility = View.GONE
         } else {
             txtAbout!!.visibility = View.VISIBLE
-            txtAbout!!.text = "" + userAccountModel.about
+            setMoreLess(txtAbout!!, userAccountModel.about, 5)
         }
         if (userAccountModel.tagline == null || userAccountModel.tagline == "") {
             tvAboutHeading!!.text = "\"Nothing to show\""
@@ -394,23 +429,29 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
             tickerReview!!.visibility = View.GONE
             noReview!!.visibility = View.VISIBLE
             txtNoReview!!.visibility = View.VISIBLE
+            tvViewAllReviews!!.visibility = View.GONE
         } else {
             noReview!!.visibility = View.GONE
             tickerReview!!.visibility = View.VISIBLE
             ratingbarAsTicker!!.rating = userAccountModel.workerRatings.avgRating
-            tvTickerReview!!.text = "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
-            if (userAccountModel.workTaskStatistics != null) tvTickerCompletionRate!!.text = userAccountModel.workTaskStatistics.completionRate.toString() + "%"
+            tvTickerReview!!.text =
+                "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
+            if (userAccountModel.workTaskStatistics != null) tvTickerCompletionRate!!.text =
+                userAccountModel.workTaskStatistics.completionRate.toString() + "%"
         }
         if (userAccountModel.posterRatings == null) {
             posterReview!!.visibility = View.GONE
             noReview!!.visibility = View.VISIBLE
             txtNoReview!!.visibility = View.VISIBLE
+            tvViewAllReviews!!.visibility = View.GONE
         } else {
             posterReview!!.visibility = View.VISIBLE
             noReview!!.visibility = View.GONE
             ratingbarAsPoster!!.rating = userAccountModel.posterRatings.avgRating
-            tvPosterReview!!.text = "(" + userAccountModel.posterRatings.receivedReviews.toString() + ")"
-            if (userAccountModel.postTaskStatistics != null) tvPosterCompletionRate!!.text = userAccountModel.postTaskStatistics.completionRate.toString() + "%"
+            tvPosterReview!!.text =
+                "(" + userAccountModel.posterRatings.receivedReviews.toString() + ")"
+            if (userAccountModel.postTaskStatistics != null) tvPosterCompletionRate!!.text =
+                userAccountModel.postTaskStatistics.completionRate.toString() + "%"
         }
         when (userAccountModel.workerTier.id) {
             1 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_boronz_selected)
@@ -492,8 +533,10 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener, AttachmentAdapt
             bundle.putInt(Constant.userID, userId)
             ReviewsActivity.userAccountModel = userAccountModel
             bundle.putString("WhoIs", Constant.AS_A_WORKER)
-            startActivity(Intent(profileActivity, ReviewsActivity::class.java)
-                    .putExtras(bundle))
+            startActivity(
+                Intent(profileActivity, ReviewsActivity::class.java)
+                    .putExtras(bundle)
+            )
         }
         onChangeTabBiography()
         onChangeTabUser()

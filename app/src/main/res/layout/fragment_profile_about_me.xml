@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:visibility="visible">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/_10sp"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_W500_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:text="@string/about_me"
+            android:id="@+id/tvAboutMeHeader"
+            android:textColor="@color/N900" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvAboutHeading"
+            style="@style/materialText_W400_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/_5_star_website_and_graphic_designer"
+            android:textColor="@color/N900"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_about"
+            style="@style/materialText_300_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sp"
+            android:textColor="@color/N900"
+            app:trimLines="5"
+            android:lineSpacingExtra="5dp"
+            app:trimMode="trimModeLine"
+            tools:text="Let me help you stand out!Whatever area you're pitching for Let me help you stand out! I have over" />
+
+        <LinearLayout
+            android:id="@+id/no_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="20dp"
+            tools:ignore="TooManyViews"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/_50dp"
+                android:layout_height="@dimen/_50dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_large"
+                android:contentDescription="@string/todo"
+                android:padding="@dimen/_8dp"
+                android:src="@drawable/ic_group_10749" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_600_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/no_portfolio_added_yet" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_400_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/increase_your_chance_to_get_a_job_by" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_400_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/adding_portf"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

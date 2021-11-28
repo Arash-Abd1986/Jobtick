@@ -1,21 +1,21 @@
 package com.jobtick.android.activities
 
-import com.jobtick.android.R
-import com.google.android.material.appbar.MaterialToolbar
-import androidx.recyclerview.widget.RecyclerView
-import com.jobtick.android.adapers.AddTagAdapter
-import android.widget.TextView
-import com.jobtick.android.edittext.EditTextRegular
-import android.os.Bundle
-import com.jobtick.android.utils.ConstantKey
 import android.content.Intent
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jobtick.android.widget.SpacingItemDecoration
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
+import com.jobtick.android.R
+import com.jobtick.android.adapers.AddTagAdapter
+import com.jobtick.android.edittext.EditTextRegular
+import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.Tools
-import java.util.ArrayList
+import com.jobtick.android.widget.SpacingItemDecoration
+import java.util.*
 
 class AddTagActivity : ActivityBase() {
     private var toolbar: MaterialToolbar? = null
@@ -74,7 +74,7 @@ class AddTagActivity : ActivityBase() {
     }
 
     private fun init() {
-        txtTitle!!.text = title
+        edtAddTag!!.hint = title
         recyclerView!!.layoutManager = LinearLayoutManager(this@AddTagActivity)
         recyclerView!!.addItemDecoration(SpacingItemDecoration(1, Tools.dpToPx(this@AddTagActivity, 5), true))
         recyclerView!!.setHasFixedSize(true)

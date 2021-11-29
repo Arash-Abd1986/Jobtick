@@ -10,6 +10,7 @@
     android:background="@drawable/bg_white"
     android:orientation="horizontal"
     android:padding="8dp"
+    android:id="@+id/rl_levels"
     android:visibility="visible">
 
     <com.google.android.material.textview.MaterialTextView

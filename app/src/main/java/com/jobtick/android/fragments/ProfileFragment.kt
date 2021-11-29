@@ -19,6 +19,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.*
@@ -29,6 +30,8 @@ import com.jobtick.android.models.AccountStatusModel
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.BadgesModel
 import com.jobtick.android.models.UserAccountModel
+import com.jobtick.android.network.model.response.Levels
+import com.jobtick.android.network.model.response.levelsItem
 import com.jobtick.android.utils.*
 import com.jobtick.android.widget.CircularProgressView
 import com.jobtick.android.widget.SpacingItemDecoration
@@ -37,6 +40,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -121,9 +125,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var imPaymentStatus: ImageView? = null
     private var imSkillsStatus: ImageView? = null
     private var imAlertStatus: ImageView? = null
+    private var rlLevels: RelativeLayout? = null
     private var line1: View? = null
     private var line2: View? = null
     private var line3: View? = null
+    private var levels: ArrayList<levelsItem>? = null
     override fun onResume() {
         super.onResume()
         allProfileData
@@ -148,6 +154,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         imPaymentStatus = requireView().findViewById(R.id.im_payment_status)
         imSkillsStatus = requireView().findViewById(R.id.im_skills_status)
         imAlertStatus = requireView().findViewById(R.id.im_alert_status)
+        rlLevels = requireView().findViewById(R.id.rl_levels)
         line1 = requireView().findViewById(R.id.line1)
         line2 = requireView().findViewById(R.id.line2)
         line3 = requireView().findViewById(R.id.line3)
@@ -282,6 +289,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             }
             false
         }
+        rlLevels!!.setOnClickListener {
+            val levelsInfoBottomSheet = LevelsBottomSheet(levels!!)
+            levelsInfoBottomSheet.show(parentFragmentManager, "")
+        }
         init()
         allProfileData
         initComponent()
@@ -386,6 +397,13 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             userAccountModel =
                                 UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
+                            val gson = Gson()
+                            val levels= gson.fromJson(
+                                jsonObject.getJSONObject("data").getJSONArray("levels").toString(),
+                                Levels::class.java
+                            )
+                            this.levels = ArrayList()
+                            this.levels!!.addAll(levels)
                             setUpAllEditFields(userAccountModel)
                             setJobStatus(userAccountModel!!.account_status)
                             attachmentArrayList = userAccountModel!!.portfolio

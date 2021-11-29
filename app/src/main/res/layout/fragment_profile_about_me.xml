@@ -36,11 +36,11 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/_5_star_website_and_graphic_designer"
-            android:textColor="@color/N900"/>
+            android:textColor="@color/N600"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_about"
-            style="@style/materialText_300_16"
+            style="@style/materialText_W400_16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sp"

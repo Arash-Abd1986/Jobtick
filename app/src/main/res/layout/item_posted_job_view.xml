@@ -28,7 +28,7 @@
                 android:layout_marginEnd="30dp"
                 android:gravity="center_vertical"
                 android:maxLines="2"
-                android:textAppearance="@style/materialText_400_14"
+                android:textAppearance="@style/materialText_400_16"
                 android:textColor="@color/N900"
                 tools:text="@string/clean_my_two_bedroom_apartment" />
             <androidx.appcompat.widget.AppCompatImageView

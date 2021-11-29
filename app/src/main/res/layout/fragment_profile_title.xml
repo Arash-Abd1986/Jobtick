@@ -61,7 +61,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_full_name"
-                style="@style/materialText_400_24"
+                style="@style/materialText_W400_24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
@@ -71,7 +71,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_suburb"
-                style="@style/materialText_300_16"
+                style="@style/materialText_W400_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -249,7 +249,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_level"
-            style="@style/materialText_400_14"
+            style="@style/materialText_W500_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

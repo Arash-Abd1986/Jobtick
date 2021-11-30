@@ -14,7 +14,7 @@ import com.jobtick.android.adapers.LevelsAdapter
 import com.jobtick.android.adapers.SuburbSearchAdapter
 import com.jobtick.android.network.model.response.levelsItem
 
-class LevelsBottomSheet(val levels : ArrayList<levelsItem>) : BottomSheetDialogFragment(),SuburbSearchAdapter.DismissListener {
+class LevelsBottomSheet(val levels: ArrayList<levelsItem>,val  lastMonthIncome: Float) : BottomSheetDialogFragment(),SuburbSearchAdapter.DismissListener {
     var recyclerView: RecyclerView? = null
     var input: TextInputEditText? = null
     private var adapter: LevelsAdapter? = null
@@ -42,7 +42,7 @@ class LevelsBottomSheet(val levels : ArrayList<levelsItem>) : BottomSheetDialogF
         val layoutManager = LinearLayoutManager(activity)
         recyclerView!!.layoutManager = layoutManager
         recyclerView!!.setHasFixedSize(true)
-        adapter = LevelsAdapter()
+        adapter = LevelsAdapter(lastMonthIncome)
         recyclerView!!.adapter = adapter
         adapter!!.addItems(levels)
     }

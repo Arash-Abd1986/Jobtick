@@ -83,8 +83,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var btnQuote: CardView? = null
     private var llEnlarge: LinearLayout? = null
     private var ivMedalBoronz: ImageView? = null
+    private var ivMedalTop: ImageView? = null
     private var ivMedalSilver: ImageView? = null
-    private var ivMedalGOld: ImageView? = null
+    private var ivMedalGold: ImageView? = null
     private var ivMedalMax: ImageView? = null
     private var progressLevel1: CircularProgressView? = null
     private var progressLevel2: CircularProgressView? = null
@@ -116,6 +117,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var txtNoReview: TextView? = null
     private var addSkill: TextView? = null
     private var addPortFilo: TextView? = null
+    private var txtLevel1: TextView? = null
+    private var txtLevel2: TextView? = null
+    private var txtLevel3: TextView? = null
+    private var txtLevel4: TextView? = null
 
     private var txtAccountStatus: TextView? = null
     private var txtPaymentStatus: TextView? = null
@@ -130,6 +135,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var line2: View? = null
     private var line3: View? = null
     private var levels: ArrayList<levelsItem>? = null
+    private var lastMonthIncome = 0F
     override fun onResume() {
         super.onResume()
         allProfileData
@@ -208,8 +214,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         btnQuote = requireView().findViewById(R.id.card_get_quote)
         llEnlarge = requireView().findViewById(R.id.llEnlarge)
         ivMedalBoronz = requireView().findViewById(R.id.ivMedalBoronz)
+        ivMedalTop = requireView().findViewById(R.id.ivMedalTop)
         ivMedalSilver = requireView().findViewById(R.id.ivMedalSilver)
-        ivMedalGOld = requireView().findViewById(R.id.ivMedalGOld)
+        ivMedalGold = requireView().findViewById(R.id.ivMedalGOld)
         ivMedalMax = requireView().findViewById(R.id.ivMedalMax)
         progressLevel1 = requireView().findViewById(R.id.progress_level1)
         progressLevel2 = requireView().findViewById(R.id.progress_level2)
@@ -218,10 +225,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         linFcc = requireView().findViewById(R.id.lin_fcc)
         linFcc2 = requireView().findViewById(R.id.lin_fcc2)
         linLevel = requireView().findViewById(R.id.lin_level)
-        progressLevel1!!.progress = 36
-        progressLevel2!!.progress = 55
-        progressLevel3!!.progress = 20
-        progressLevel4!!.progress = 87
+        txtLevel1 = requireView().findViewById(R.id.txt_level1)
+        txtLevel2 = requireView().findViewById(R.id.txt_level2)
+        txtLevel3 = requireView().findViewById(R.id.txt_level3)
+        txtLevel4 = requireView().findViewById(R.id.txt_level4)
+
         linLevel!!.visibility = View.GONE
         linFcc2!!.visibility = View.GONE
     }
@@ -290,7 +298,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             false
         }
         rlLevels!!.setOnClickListener {
-            val levelsInfoBottomSheet = LevelsBottomSheet(levels!!)
+            val levelsInfoBottomSheet = LevelsBottomSheet(levels!!, lastMonthIncome)
             levelsInfoBottomSheet.show(parentFragmentManager, "")
         }
         init()
@@ -398,12 +406,15 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             userAccountModel =
                                 UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
                             val gson = Gson()
-                            val levels= gson.fromJson(
+                            val levels = gson.fromJson(
                                 jsonObject.getJSONObject("data").getJSONArray("levels").toString(),
                                 Levels::class.java
                             )
                             this.levels = ArrayList()
                             this.levels!!.addAll(levels)
+                            if (userAccountModel!!.lastMonthIncome != null)
+                                this.lastMonthIncome = userAccountModel!!.lastMonthIncome.toFloat()
+                            setLevels(levels)
                             setUpAllEditFields(userAccountModel)
                             setJobStatus(userAccountModel!!.account_status)
                             attachmentArrayList = userAccountModel!!.portfolio
@@ -467,6 +478,150 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             requestQueue.add(stringRequest)
             Timber.e(stringRequest.url)
         }
+
+    private fun setLevels(levels: Levels?) {
+
+        for (position in 0 until levels!!.size) {
+            val item = levels[position]
+            when (position) {
+                0 -> {
+                    progressLevel1!!.progress =
+                        ((lastMonthIncome) / (item.threshold_amount.toFloat()) * 100).toInt()
+                    if (progressLevel1!!.progress >= 100) {
+                        txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
+                        ivMedalBoronz!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level1_active
+                            )
+                        )
+                        ivMedalSilver!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level2_deactive
+                            )
+                        )
+                        ivMedalGold!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level3_deactive
+                            )
+                        )
+                        ivMedalMax!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level4_deactive
+                            )
+                        )
+                    }
+                }
+                1 -> {
+                    progressLevel2!!.progress =
+                        ((lastMonthIncome-7000) / (item.threshold_amount.toFloat()) * 100).toInt()
+                    if (progressLevel2!!.progress >= 100) {
+                        txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
+                        txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
+
+                        ivMedalSilver!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level2_active
+                            )
+                        )
+                        ivMedalBoronz!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level1_active
+                            )
+                        )
+                        ivMedalGold!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level3_deactive
+                            )
+                        )
+                        ivMedalMax!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level4_deactive
+                            )
+                        )
+                    }
+                }
+                2 -> {
+                    progressLevel3!!.progress =
+                        ((lastMonthIncome) / (item.threshold_amount.toFloat()) * 100).toInt()
+                    if (progressLevel3!!.progress >= 100) {
+                        txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
+                        txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
+                        txtLevel3!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
+                        ivMedalGold!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level3_active
+                            )
+                        )
+                        ivMedalBoronz!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level1_active
+                            )
+                        )
+                        ivMedalSilver!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level2_active
+                            )
+                        )
+                        ivMedalMax!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level4_deactive
+                            )
+                        )
+                    }
+                }
+                3 -> {
+                    progressLevel4!!.progress =
+                        ((lastMonthIncome) / (item.threshold_amount.toFloat()) * 100).toInt()
+                    if (progressLevel4!!.progress >= 100) {
+
+                        txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
+                        txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
+                        txtLevel3!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
+                        txtLevel4!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
+                        ivMedalMax!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level4_active
+                            )
+                        )
+                        ivMedalBoronz!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level1_active
+                            )
+                        )
+                        ivMedalGold!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level3_active
+                            )
+                        )
+                        ivMedalSilver!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level2_active
+                            )
+                        )
+                    }
+                }
+
+            }
+
+        }
+
+    }
 
     private fun setJobStatus(accountStatus: AccountStatusModel) {
         if (accountStatus.isBank_account) {
@@ -600,12 +755,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             if (userAccountModel.postTaskStatistics != null) tvPosterCompletionRate!!.text =
                 userAccountModel.postTaskStatistics.completionRate.toString() + "%"
         }
-        when (userAccountModel.workerTier.id) {
-            1 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_boronz_selected)
-            2 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_silver_selected)
-            3 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_gold_selected)
-            4 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_max_selected)
-        }
+
         if (userAccountModel.isVerifiedAccount == 1) {
             imgVerified!!.visibility = View.VISIBLE
         } else {

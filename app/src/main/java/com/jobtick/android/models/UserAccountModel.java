@@ -140,6 +140,10 @@ public class UserAccountModel implements Parcelable {
     @Expose
     private String blockedUntil;
 
+    @SerializedName("last_month_income")
+    @Expose
+    private String lastMonthIncome;
+
     /**
      * No args constructor for use in serialization
      */
@@ -152,7 +156,7 @@ public class UserAccountModel implements Parcelable {
                             AttachmentModel avatar, RatingModel posterRatings, RatingModel workerRatings, PostedTaskStatistics postTaskStatistics,
                             WorkTaskStatistics workTaskStatistics, TierModel workerTier, TierModel posterTier, Integer workerRank,
                             Integer posterRank, String joinDate, String lastOnline, SkillsModel skills, ArrayList<AttachmentModel> portfolio,
-                            ArrayList<BadgesModel> badges, AccountStatusModel account_status, Integer isVerifiedAccount, Boolean blocked, String blockedUntil) {
+                            ArrayList<BadgesModel> badges, AccountStatusModel account_status, Integer isVerifiedAccount, Boolean blocked, String blockedUntil, String lastMonthIncome) {
         this.id = id;
         this.name = name;
         this.fname = fname;
@@ -186,6 +190,7 @@ public class UserAccountModel implements Parcelable {
         this.account_status = account_status;
         this.isVerifiedAccount = isVerifiedAccount;
         this.blocked = blocked;
+        this.lastMonthIncome = lastMonthIncome;
         this.blockedUntil = blockedUntil;
     }
 
@@ -247,6 +252,7 @@ public class UserAccountModel implements Parcelable {
         account_status = in.readParcelable(AccountStatusModel.class.getClassLoader());
         blocked = in.readByte() != 0;     //myBoolean == true if byte != 0
         blockedUntil = in.readString();
+        lastMonthIncome = in.readString();
     }
 
     @Override
@@ -322,6 +328,7 @@ public class UserAccountModel implements Parcelable {
 
 
         dest.writeString(blockedUntil);
+        dest.writeString(lastMonthIncome);
     }
 
     public AccountStatusModel getAccount_status() {
@@ -569,6 +576,14 @@ public class UserAccountModel implements Parcelable {
         this.blockedUntil = blockedUntil;
     }
 
+    public String getLastMonthIncome() {
+        return lastMonthIncome;
+    }
+
+    public void setLastMonthIncome(String lastMonthIncome) {
+        this.lastMonthIncome = lastMonthIncome;
+    }
+
 
 /*    public Integer getWorkerRank() {
         return workerRank;
@@ -768,6 +783,9 @@ public class UserAccountModel implements Parcelable {
             }
             if (jsonObject.has("blocked_until") && !jsonObject.isNull("blocked_until")) {
                 userAccountModel.setBlockedUntil(jsonObject.getString("blocked_until"));
+            }
+            if (jsonObject.has("last_month_income") && !jsonObject.isNull("last_month_income")) {
+                userAccountModel.setLastMonthIncome(jsonObject.getString("last_month_income"));
             }
 
           /*  if (jsonObject.has("poster_level") && !jsonObject.isNull("poster_level")) {

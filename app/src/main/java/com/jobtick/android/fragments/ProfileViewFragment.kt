@@ -20,6 +20,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.*
@@ -29,6 +30,8 @@ import com.jobtick.android.interfaces.onProfileUpdateListener
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.BadgesModel
 import com.jobtick.android.models.UserAccountModel
+import com.jobtick.android.network.model.response.Levels
+import com.jobtick.android.network.model.response.levelsItem
 import com.jobtick.android.utils.*
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -81,7 +84,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
     var llEnlarge: LinearLayout? = null
     var lytBtnGetAQuote: LinearLayout? = null
     var ivMedalBoronz: ImageView? = null
-    var ivMedalSilver: ImageView? = null
+    var ivMedalTop: ImageView? = null
     var ivMedalGOld: ImageView? = null
     var ivMedalMax: ImageView? = null
     private var profileActivity: ProfileActivity? = null
@@ -108,6 +111,8 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
     private var linLevel: LinearLayout? = null
     private var linFcc2: LinearLayout? = null
     private var linFcc: LinearLayout? = null
+    private var levels: ArrayList<levelsItem>? = null
+
     override fun onResume() {
         super.onResume()
         allProfileData
@@ -175,7 +180,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         llEnlarge = requireView().findViewById(R.id.llEnlarge)
         lytBtnGetAQuote = requireView().findViewById(R.id.lyt_btn_get_a_quote)
         ivMedalBoronz = requireView().findViewById(R.id.ivMedalBoronz)
-        ivMedalSilver = requireView().findViewById(R.id.ivMedalSilver)
+        ivMedalTop = requireView().findViewById(R.id.ivMedalTop)
         ivMedalGOld = requireView().findViewById(R.id.ivMedalGOld)
         ivMedalMax = requireView().findViewById(R.id.ivMedalMax)
         lytLanguage = requireView().findViewById(R.id.lyt_language)
@@ -340,6 +345,14 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                                 userAccountModel =
                                     UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
+                                val gson = Gson()
+                                val levels = gson.fromJson(
+                                    jsonObject.getJSONObject("data").getJSONArray("levels").toString(),
+                                    Levels::class.java
+                                )
+                                this.levels = ArrayList()
+                                this.levels!!.addAll(levels)
+                                checkLevel(levels)
                                 setUpAllEditFields(userAccountModel)
                                 attachmentArrayList = userAccountModel!!.portfolio
                                 adapter!!.clear()
@@ -401,6 +414,10 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
             requestQueue.add(stringRequest)
             Timber.e(stringRequest.url)
         }
+
+    private fun checkLevel(levels: Levels?) {
+        levels!!.forEach {  }
+    }
 
     @SuppressLint("SetTextI18n")
     private fun setUpAllEditFields(userAccountModel: UserAccountModel?) {

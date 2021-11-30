@@ -90,6 +90,7 @@
 
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_level1"
                 style="@style/materialText_W500_14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,6 +138,7 @@
             </RelativeLayout>
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_level2"
                 style="@style/materialText_W500_14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -184,6 +186,7 @@
             </RelativeLayout>
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_level3"
                 style="@style/materialText_W500_14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -231,6 +234,7 @@
             </RelativeLayout>
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_level4"
                 style="@style/materialText_W500_14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

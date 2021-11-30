@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/category_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="20dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:id="@+id/category_container">
-
+    android:orientation="horizontal">
 
 
     <LinearLayout
@@ -19,6 +18,7 @@
         android:padding="@dimen/_5sp">
 
         <RelativeLayout
+            android:id="@+id/rl_p1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -34,7 +34,7 @@
                 app:textColor="@color/N090" />
 
             <ImageView
-                android:id="@+id/ivMedalBoronz"
+                android:id="@+id/iv_level1"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_centerInParent="true"
@@ -44,10 +44,92 @@
                 android:src="@drawable/ic_level1_deactive" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/rl_p2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
+            <com.jobtick.android.widget.CircularProgressView
+                android:id="@+id/progress_level2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:inCircleColor="#FBECFB"
+                app:lineWidth="5dp"
+                app:outCircleColor="#F0F0F0"
+                app:progressColor="#DC7DDE"
+                app:textBold="true"
+                app:textColor="#DC7DDE" />
+
+            <ImageView
+                android:id="@+id/iv_level2"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_level2_deactive" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_p3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.jobtick.android.widget.CircularProgressView
+                android:id="@+id/progress_level3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:inCircleColor="#E3FCEF"
+                app:lineWidth="5dp"
+                app:outCircleColor="#F0F0F0"
+                app:progressColor="#36B37E"
+                app:textBold="true"
+                app:textColor="#36B37E" />
+
+            <ImageView
+                android:id="@+id/iv_level3"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_level3_deactive" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_p4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.jobtick.android.widget.CircularProgressView
+                android:id="@+id/progress_level4"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:inCircleColor="#E8EBFF"
+                app:lineWidth="5dp"
+                app:outCircleColor="#F0F0F0"
+                app:progressColor="#7988F7"
+                app:textBold="true"
+                app:textColor="#7988F7" />
+
+            <ImageView
+                android:id="@+id/iv_level4"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_level4_deactive" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -77,6 +159,7 @@
                     android:text="Level 1"
                     android:textColor="@color/P300" />
             </RelativeLayout>
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_description"
                 style="@style/materialText_W400_14"

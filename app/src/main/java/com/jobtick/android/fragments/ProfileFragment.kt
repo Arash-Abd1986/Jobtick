@@ -450,7 +450,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             dashboardActivity!!.showToast("Connection error", dashboardActivity)
                         }
                     } catch (e: JSONException) {
-                        dashboardActivity!!.showToast("JSONException", dashboardActivity)
+                        dashboardActivity!!.showToast("Something went wrong", dashboardActivity)
                         Timber.e(e.toString())
                         e.printStackTrace()
                     }

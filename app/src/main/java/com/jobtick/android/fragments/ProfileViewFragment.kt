@@ -387,7 +387,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                                 profileActivity!!.showToast("Something went wrong", profileActivity)
                             }
                         } catch (e: JSONException) {
-                            profileActivity!!.showToast("JSONException", profileActivity)
+                            profileActivity!!.showToast("Something went wrong", profileActivity)
                             Timber.e(e.toString())
                             e.printStackTrace()
                         }

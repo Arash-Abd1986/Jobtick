@@ -492,7 +492,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
                         dashboardActivity!!.showToast("Something went wrong", dashboardActivity)
                     }
                 } catch (e: JSONException) {
-                    dashboardActivity!!.showToast("JSONException", dashboardActivity)
+                    dashboardActivity!!.showToast("Something went wrong", dashboardActivity)
                     Timber.e(e.toString())
                     e.printStackTrace()
                 }

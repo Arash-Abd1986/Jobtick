@@ -508,7 +508,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
         params.gravity = Gravity.CENTER
         toolbarTitle.layoutParams = params
         ivNotification!!.visibility = View.VISIBLE
-        toolbar!!.setNavigationIcon(R.drawable.ic_setting)
+        toolbar!!.navigationIcon = null
 
     }
 

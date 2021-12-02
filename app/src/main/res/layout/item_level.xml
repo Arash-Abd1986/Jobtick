@@ -4,18 +4,27 @@
     android:id="@+id/category_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp"
     android:orientation="horizontal">
 
+    <ImageView
+        android:layout_below="@+id/ln_lin_main"
+        android:id="@+id/ic_arrow"
+        android:layout_width="10dp"
+        android:layout_height="15dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="35dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/ic_two_arrow_down" />
 
     <LinearLayout
+        android:id="@+id/ln_lin_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_5sp"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="@dimen/_5sp">
+        android:padding="10dp">
 
         <RelativeLayout
             android:id="@+id/rl_p1"

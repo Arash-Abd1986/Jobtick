@@ -137,6 +137,7 @@
     <declare-styleable name="ExtendedSettingItem">
         <attr name="eSettingTitle" format="string" />
         <attr name="colorText" format="color" />
+        <attr name="drawableID" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="ExtendedAlertBox">

@@ -25,6 +25,11 @@ class HelpActivity : AppCompatActivity() {
         btnPrivacy = findViewById(R.id.btn_privacy)
         btnGuidelinesPoster = findViewById(R.id.btn_guidelines_poster)
         btnGuidelinesTicker = findViewById(R.id.btn_guidelines_ticker)
+        btnSupport!!.setDrawableID(0)
+        btnTerms!!.setDrawableID(0)
+        btnPrivacy!!.setDrawableID(0)
+        btnGuidelinesPoster!!.setDrawableID(0)
+        btnGuidelinesTicker!!.setDrawableID(0)
 
         initToolbar()
         onClick()

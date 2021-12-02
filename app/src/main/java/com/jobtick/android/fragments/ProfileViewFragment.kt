@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -31,7 +32,7 @@ import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.BadgesModel
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.network.model.response.Levels
-import com.jobtick.android.network.model.response.levelsItem
+import com.jobtick.android.network.model.response.LevelsItem
 import com.jobtick.android.utils.*
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -111,7 +112,8 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
     private var linLevel: LinearLayout? = null
     private var linFcc2: LinearLayout? = null
     private var linFcc: LinearLayout? = null
-    private var levels: ArrayList<levelsItem>? = null
+    private var levels: ArrayList<LevelsItem>? = null
+    private var lastMonthIncome = 0F
 
     override fun onResume() {
         super.onResume()
@@ -350,6 +352,8 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                                     jsonObject.getJSONObject("data").getJSONArray("levels").toString(),
                                     Levels::class.java
                                 )
+                                if (userAccountModel!!.lastMonthIncome != null)
+                                    this.lastMonthIncome = userAccountModel!!.lastMonthIncome.toFloat()
                                 this.levels = ArrayList()
                                 this.levels!!.addAll(levels)
                                 checkLevel(levels)
@@ -416,7 +420,37 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         }
 
     private fun checkLevel(levels: Levels?) {
-        levels!!.forEach {  }
+        for (i in 0 until levels!!.size){
+            if (((lastMonthIncome) / (levels[i].max_amount.toFloat()) * 100).toInt() >= 100) {
+                when (i) {
+                    0 -> ivMedalBoronz!!.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_level1_active
+                        )
+                    )
+                    1 -> ivMedalBoronz!!.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_level2_active
+                        )
+                    )
+                    2 -> ivMedalBoronz!!.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_level3_active
+                        )
+                    )
+                    3 -> ivMedalBoronz!!.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_level4_active
+                        )
+                    )
+                }
+            }
+        }
+
     }
 
     @SuppressLint("SetTextI18n")

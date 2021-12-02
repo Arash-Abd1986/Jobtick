@@ -8,7 +8,7 @@
     android:layout_gravity="top"
     android:background="@drawable/bg_white_top_c"
     android:orientation="vertical"
-    android:paddingEnd="15dp">
+    android:paddingHorizontal="15dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,16 +16,28 @@
         android:layout_marginTop="12dp">
 
         <View
+            android:id="@+id/line"
             android:layout_width="48dp"
             android:layout_height="4dp"
             android:layout_centerInParent="true"
             android:background="@drawable/top_bottom_sheet_line" />
+
     </RelativeLayout>
 
-
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_level_title"
+        style="@style/materialText_W500_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:text="Levels Information"
+        android:textColor="@color/N600" />
 
     <FrameLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="72dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
@@ -34,7 +46,6 @@
             android:id="@+id/rl_levels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_suburb_search" />

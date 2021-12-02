@@ -12,9 +12,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.jobtick.android.R
 import com.jobtick.android.adapers.LevelsAdapter
 import com.jobtick.android.adapers.SuburbSearchAdapter
-import com.jobtick.android.network.model.response.levelsItem
+import com.jobtick.android.network.model.response.LevelsItem
 
-class LevelsBottomSheet(val levels: ArrayList<levelsItem>,val  lastMonthIncome: Float) : BottomSheetDialogFragment(),SuburbSearchAdapter.DismissListener {
+class LevelsBottomSheet(val levels: ArrayList<LevelsItem>, val  lastMonthIncome: Float) : BottomSheetDialogFragment(),SuburbSearchAdapter.DismissListener {
     var recyclerView: RecyclerView? = null
     var input: TextInputEditText? = null
     private var adapter: LevelsAdapter? = null

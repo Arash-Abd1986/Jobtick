@@ -1,21 +1,24 @@
 package com.jobtick.android.adapers
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jobtick.android.R
-import com.jobtick.android.network.model.response.levelsItem
+import com.jobtick.android.network.model.response.LevelsItem
+import com.jobtick.android.utils.setBackgroundShape
 import com.jobtick.android.widget.CircularProgressView
 import kotlin.math.roundToInt
 
 class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewHolder>() {
-    private var items: ArrayList<levelsItem> = ArrayList()
+    private var items: ArrayList<LevelsItem> = ArrayList()
     lateinit var dismissListener: DismissListener
 
 
@@ -23,11 +26,11 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
         fun dismiss()
     }
 
-    fun getItems(): List<levelsItem> {
+    fun getItems(): List<LevelsItem> {
         return items
     }
 
-    fun setItems(items: ArrayList<levelsItem>) {
+    fun setItems(items: ArrayList<LevelsItem>) {
         this.items = items
     }
 
@@ -43,6 +46,7 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
         var rlLevel2: RelativeLayout
         var rlLevel3: RelativeLayout
         var rlLevel4: RelativeLayout
+        var ln_lin_main: LinearLayout
         var ivLevel1: ImageView
         var ivLevel2: ImageView
         var ivLevel3: ImageView
@@ -59,16 +63,27 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
             if (position == 0)
                 description.text =
                     """Less than ${"$"}${
-                        item.threshold_amount.toFloat().roundToInt()
+                        item.max_amount.toFloat().roundToInt()
                     } in the last 30 days"""
             else
                 description.text =
-                    """${"$"}${item.threshold_amount.toFloat().roundToInt()}+ in the last 30 days"""
+                    """${"$"}${item.min_amount.toFloat().roundToInt()}+ in the last 30 days"""
+
+            if (((lastMonthIncome) / (item.max_amount.toFloat()) * 100).toInt() >= 100) {
+                ln_lin_main.setBackgroundShape(
+                    ContextCompat.getColor(context, R.color.N020),
+                    ContextCompat.getColor(context, R.color.N020),
+                    8,
+                    0,
+                    GradientDrawable.RECTANGLE
+                )
+            }
+
 
             when (position) {
                 0 -> {
                     progressLevel1.progress =
-                        ((lastMonthIncome) / (item.threshold_amount.toFloat()) * 100).toInt()
+                        ((lastMonthIncome) / (item.max_amount.toFloat()) * 100).toInt()
                     rlLevel1.visibility = View.VISIBLE
                     rlLevel4.visibility = View.GONE
                     rlLevel3.visibility = View.GONE
@@ -80,29 +95,12 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
                                 R.drawable.ic_level1_active
                             )
                         )
-                        ivLevel2.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_level2_deactive
-                            )
-                        )
-                        ivLevel3.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_level3_deactive
-                            )
-                        )
-                        ivLevel4.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_level4_deactive
-                            )
-                        )
+
                     }
                 }
                 1 -> {
                     progressLevel2.progress =
-                        ((lastMonthIncome) / (item.threshold_amount.toFloat()) * 100).toInt()
+                        ((lastMonthIncome) / (item.max_amount.toFloat()) * 100).toInt()
                     rlLevel4.visibility = View.GONE
                     rlLevel3.visibility = View.GONE
                     rlLevel2.visibility = View.VISIBLE
@@ -114,29 +112,11 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
                                 R.drawable.ic_level2_active
                             )
                         )
-                        ivLevel1.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_level1_deactive
-                            )
-                        )
-                        ivLevel3.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_level3_deactive
-                            )
-                        )
-                        ivLevel4.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_level4_deactive
-                            )
-                        )
                     }
                 }
                 2 -> {
                     progressLevel3.progress =
-                        ((lastMonthIncome) / (item.threshold_amount.toFloat()) * 100).toInt()
+                        ((lastMonthIncome) / (item.max_amount.toFloat()) * 100).toInt()
                     rlLevel4.visibility = View.GONE
                     rlLevel3.visibility = View.VISIBLE
                     rlLevel2.visibility = View.GONE
@@ -148,29 +128,11 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
                                 R.drawable.ic_level3_active
                             )
                         )
-                        ivLevel1.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_level1_deactive
-                            )
-                        )
-                        ivLevel2.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_level2_deactive
-                            )
-                        )
-                        ivLevel4.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_level4_deactive
-                            )
-                        )
                     }
                 }
                 3 -> {
                     progressLevel4.progress =
-                        ((lastMonthIncome) / (item.threshold_amount.toFloat()) * 100).toInt()
+                        ((lastMonthIncome) / (item.max_amount.toFloat()) * 100).toInt()
                     rlLevel4.visibility = View.VISIBLE
                     rlLevel3.visibility = View.GONE
                     rlLevel2.visibility = View.GONE
@@ -182,24 +144,6 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
                                 R.drawable.ic_level4_active
                             )
                         )
-                        ivLevel1.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_level1_deactive
-                            )
-                        )
-                        ivLevel3.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_level3_deactive
-                            )
-                        )
-                        ivLevel2.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_level2_deactive
-                            )
-                        )
                     }
                 }
 
@@ -209,6 +153,7 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
 
 
         init {
+            ln_lin_main = v.findViewById(R.id.ln_lin_main)
             txtName = v.findViewById(R.id.txt_level_title)
             description = v.findViewById(R.id.txt_description)
             info = v.findViewById(R.id.txt_info)
@@ -241,7 +186,7 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
         return items.size
     }
 
-    fun addItems(mItems: MutableList<levelsItem>) {
+    fun addItems(mItems: MutableList<LevelsItem>) {
         items.addAll(mItems)
         notifyDataSetChanged()
     }
@@ -251,7 +196,7 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
         notifyDataSetChanged()
     }
 
-    fun getItem(position: Int): levelsItem {
+    fun getItem(position: Int): LevelsItem {
         return items[position]
     }
 }

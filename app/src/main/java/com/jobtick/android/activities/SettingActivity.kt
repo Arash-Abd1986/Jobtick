@@ -39,18 +39,25 @@ class SettingActivity : AppCompatActivity() {
     private fun initIDs() {
         toolbar = findViewById(R.id.toolbar)
         btnEditAccount = findViewById(R.id.edit_account)
+        btnEditAccount!!.setDrawableID(R.drawable.ic_account_setting)
         btnPaymentSettings = findViewById(R.id.payment_settings)
+        btnPaymentSettings!!.setDrawableID(R.drawable.ic_payment_setting)
         btnNotificationSettings = findViewById(R.id.notification_settings)
+        btnNotificationSettings!!.setDrawableID(R.drawable.ic_notif_setting)
         btnChangePassword = findViewById(R.id.change_password)
+        btnChangePassword!!.setDrawableID(R.drawable.ic_change_pass_setting)
         editAccount = findViewById(R.id.edit_account)
+        editAccount!!.setDrawableID(R.drawable.ic_account_setting)
         paymentSettings = findViewById(R.id.payment_settings)
+        paymentSettings!!.setDrawableID(R.drawable.ic_payment_setting)
         notificationSettings = findViewById(R.id.notification_settings)
+        notificationSettings!!.setDrawableID(R.drawable.ic_notif_setting)
         changePassword = findViewById(R.id.change_password)
-
-
-
+        changePassword!!.setDrawableID(R.drawable.ic_change_pass_setting)
         jobAlertSettings = findViewById(R.id.job_alert_settings)
+        jobAlertSettings!!.setDrawableID(R.drawable.ic_job_alert_setting)
         helpTopicsSetting = findViewById(R.id.help_topics_setting)
+        helpTopicsSetting!!.setDrawableID(R.drawable.ic_help_setting)
         acknowledgment = findViewById(R.id.acknowledgment)
         logout = findViewById(R.id.logout)
 

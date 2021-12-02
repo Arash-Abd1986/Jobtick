@@ -15,7 +15,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="16dp">
-
+          <androidx.appcompat.widget.AppCompatImageView
+              android:id="@+id/icon"
+              android:layout_width="wrap_content"
+              card_view:srcCompat="@drawable/ic_log_out"
+              android:layout_marginRight="5dp"
+              android:layout_height="match_parent"/>
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
@@ -25,7 +30,7 @@
                 android:gravity="start"
                 android:text="@string/edit_account"
                 android:textAppearance="@style/materialText_400_15"
-                android:textColor="@color/P300" />
+                android:textColor="@color/N600" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

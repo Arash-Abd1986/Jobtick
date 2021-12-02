@@ -31,7 +31,7 @@ import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.BadgesModel
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.network.model.response.Levels
-import com.jobtick.android.network.model.response.levelsItem
+import com.jobtick.android.network.model.response.LevelsItem
 import com.jobtick.android.utils.*
 import com.jobtick.android.widget.CircularProgressView
 import com.jobtick.android.widget.SpacingItemDecoration
@@ -134,7 +134,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var line1: View? = null
     private var line2: View? = null
     private var line3: View? = null
-    private var levels: ArrayList<levelsItem>? = null
+    private var levels: ArrayList<LevelsItem>? = null
     private var lastMonthIncome = 0F
     override fun onResume() {
         super.onResume()
@@ -291,7 +291,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 R.id.action_edit -> startActivity(
                     Intent(
                         dashboardActivity,
-                        EditProfileActivity::class.java
+                        SettingActivity::class.java
                     )
                 )
             }
@@ -486,7 +486,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             when (position) {
                 0 -> {
                     progressLevel1!!.progress =
-                        ((lastMonthIncome) / (item.threshold_amount.toFloat()) * 100).toInt()
+                        ((lastMonthIncome / item.max_amount.toFloat()) * 100).toInt()
                     if (progressLevel1!!.progress >= 100) {
                         txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
                         ivMedalBoronz!!.setImageDrawable(
@@ -517,7 +517,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 }
                 1 -> {
                     progressLevel2!!.progress =
-                        ((lastMonthIncome-7000) / (item.threshold_amount.toFloat()) * 100).toInt()
+                        ((lastMonthIncome / item.max_amount.toFloat()) * 100).toInt()
                     if (progressLevel2!!.progress >= 100) {
                         txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
                         txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
@@ -550,7 +550,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 }
                 2 -> {
                     progressLevel3!!.progress =
-                        ((lastMonthIncome) / (item.threshold_amount.toFloat()) * 100).toInt()
+                        ((lastMonthIncome / item.max_amount.toFloat()) * 100).toInt()
                     if (progressLevel3!!.progress >= 100) {
                         txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
                         txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
@@ -583,7 +583,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 }
                 3 -> {
                     progressLevel4!!.progress =
-                        ((lastMonthIncome) / (item.threshold_amount.toFloat()) * 100).toInt()
+                        ((lastMonthIncome / item.max_amount.toFloat()) * 100).toInt()
                     if (progressLevel4!!.progress >= 100) {
 
                         txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))

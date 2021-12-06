@@ -77,7 +77,7 @@ class ProfileReqFragment : Fragment() {
         val call: Call<String?>?
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
-        call = ApiClient.getClient().uploadProfilePicture("XMLHttpRequest", sessionManager!!.tokenType + " " + sessionManager!!.accessToken, imageFile)
+        call = ApiClient.getClient().uploadProfilePicture("XMLHttpRequest",  imageFile)
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 val res = response.body()

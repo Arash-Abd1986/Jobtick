@@ -37,14 +37,12 @@ interface ApiInterface {
     @POST("profile/upload-avatar")
     fun uploadProfilePicture(
         @Header("X-Requested-With") XMLHttpRequest: String?,
-        @Header("authorization") auth: String?,
         @Part file: MultipartBody.Part?
     ): Call<String?>?
 
     @POST("profile/update")
     fun uploadProfile(
         @Header("X-Requested-With") XMLHttpRequest: String?,
-        @Header("authorization") auth: String?,
         @Body body: RequestBody
     ): Call<String?>?
 

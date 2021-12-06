@@ -889,8 +889,10 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         val call: Call<String?>?
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
-        call = ApiClient.getClientV2(sessionManager).uploadProfilePicture(
-            "XMLHttpRequest", imageFile
+        call = ApiClient.getClient().uploadProfilePicture(
+            "XMLHttpRequest",
+            sessionManager.tokenType + " " + sessionManager.accessToken,
+            imageFile
         )
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {

@@ -51,6 +51,7 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
         var ivLevel2: ImageView
         var ivLevel3: ImageView
         var ivLevel4: ImageView
+        var ic_arrow: ImageView
         val context = v.context
         override fun clear() {}
 
@@ -78,6 +79,10 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
                     GradientDrawable.RECTANGLE
                 )
             }
+            if (position == 3)
+                ic_arrow.visibility = View.INVISIBLE
+            else
+                ic_arrow.visibility = View.VISIBLE
 
 
             when (position) {
@@ -169,6 +174,7 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
             ivLevel2 = v.findViewById(R.id.iv_level2)
             ivLevel3 = v.findViewById(R.id.iv_level3)
             ivLevel4 = v.findViewById(R.id.iv_level4)
+            ic_arrow = v.findViewById(R.id.ic_arrow)
         }
     }
 

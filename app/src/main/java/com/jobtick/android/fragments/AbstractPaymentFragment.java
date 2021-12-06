@@ -228,7 +228,6 @@ public abstract class AbstractPaymentFragment extends Fragment {
         totalPayment.setText(StringUtils.getPriceTxt(total_amount));
         totalTransaction.setText(String.format(Locale.ENGLISH, "%d transactions", data.size()));
         paymentHistoryList.setLayoutManager(new LinearLayoutManager(getContext()));
-        Collections.reverse(data);
         onScrollListener = new EndlessRecyclerViewOnScrollListener() {
             @Override
             public void onLoadMore(int currentPage) {

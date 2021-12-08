@@ -240,8 +240,8 @@
 
         <ImageView
             android:id="@+id/ivMedalTop"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:contentDescription="@string/todo"
@@ -254,6 +254,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="3dp"
+            android:layout_marginStart="5dp"
             android:gravity="center_vertical"
             android:maxLines="2"
             android:textColor="@color/colorNavyBlue"

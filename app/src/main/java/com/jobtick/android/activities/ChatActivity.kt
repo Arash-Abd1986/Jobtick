@@ -477,7 +477,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
 //            imgAvatar.setImageDrawable(getResources().getDrawable(R.drawable.avatar));
             ImageUtil.displayImage(imgAvatar, conversationModel.receiver.avatar.thumbUrl, null)
         } else {
-            imgAvatar.setImageDrawable(resources.getDrawable(R.drawable.avatar))
+            imgAvatar.setImageDrawable(resources.getDrawable(R.drawable.pic))
         }
         txtJobTitle.text = conversationModel.name
         txtStatus.text = conversationModel.status

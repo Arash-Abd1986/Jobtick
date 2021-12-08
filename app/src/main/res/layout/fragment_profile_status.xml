@@ -68,7 +68,7 @@
 
 
             <ImageView
-                android:id="@+id/im_account_status"
+                android:id="@+id/im_payment_status"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerHorizontal="true"
@@ -89,13 +89,13 @@
                     android:id="@+id/line1"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/G300"
+                    android:background="@color/N040"
                     android:paddingHorizontal="10dp" />
             </RelativeLayout>
 
 
             <ImageView
-                android:id="@+id/im_payment_status"
+                android:id="@+id/im_account_status"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerHorizontal="true"
@@ -116,7 +116,7 @@
                     android:id="@+id/line2"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/G300"
+                    android:background="@color/N040"
                     android:paddingHorizontal="10dp" />
             </RelativeLayout>
 

@@ -142,7 +142,7 @@ class JobReceiptActivity : ActivityBase() {
         if (taskModel != null && taskModel.poster != null && taskModel.poster.location != null) {
             txtLocation.text = taskModel.poster.location
         } else {
-            txtLocation.setText(R.string.in_person)
+            txtLocation.setText(R.string.remote_task)
         }
         if (taskModel != null && taskModel.poster != null && taskModel.poster.avatar != null && taskModel.poster.avatar.thumbUrl != null) {
             Glide.with(imgAvatar).load(taskModel.poster.avatar.thumbUrl).into(imgAvatar)

@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -281,7 +282,9 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 if (!item.getReceiver().getId().equals(sessionManager.getUserAccount().getId())) {
                     if (item.getReceiver().getAvatar() != null && item.getReceiver().getAvatar().getThumbUrl() != null) {
                         ImageUtil.displayImage(imgAvatar, item.getReceiver().getAvatar().getThumbUrl(), null);
-                    }  //TODO DEFAULT IMAGE
+                    }else{
+                        imgAvatar.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.pic));
+                    }
 
                     txtUserName.setText(item.getReceiver().getName());
                     if (item.getReceiver().getIsOnline()) {
@@ -289,7 +292,12 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     } else {
                         txtStatus.setVisibility(View.GONE);
                     }
+                }else{
+                    imgAvatar.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.pic));
                 }
+            else{
+                imgAvatar.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.pic));
+            }
 
             txtTitle.setText(item.getName());
             if (item.getLastMessage() != null) {

@@ -109,6 +109,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
     private var txtNoReview: TextView? = null
     private var addSkill: TextView? = null
     private var addPortFilo: TextView? = null
+    private var txtLevel: TextView? = null
     private var linLevel: LinearLayout? = null
     private var linFcc2: LinearLayout? = null
     private var linFcc: LinearLayout? = null
@@ -139,6 +140,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         noAbout = requireView().findViewById(R.id.no_about)
         noSkill = requireView().findViewById(R.id.no_port_skill)
         addPortFilo = requireView().findViewById(R.id.txt_add_portfolio)
+        txtLevel = requireView().findViewById(R.id.txt_level)
         addSkill = requireView().findViewById(R.id.txt_add_skill)
         txtNoReview = requireView().findViewById(R.id.tv_no_review)
         noReview = requireView().findViewById(R.id.no_review)
@@ -291,8 +293,8 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                 lPort!!.visibility = View.VISIBLE
             }
             lSkill!!.visibility = View.GONE
-            rbPortfollio!!.setTextColor(resources.getColor(R.color.blue))
-            rbSkills!!.setTextColor(resources.getColor(R.color.textColor))
+            rbPortfollio!!.setTextColor(resources.getColor(R.color.N600))
+            rbSkills!!.setTextColor(resources.getColor(R.color.N100))
         } else if (rbSkills!!.isChecked) {
             if (tagEducation!!.size() <= 0 && tagExperience!!.size() <= 0 && tagLanguage!!.size() <= 0 && tagSpecialities!!.size() <= 0 && tagTransportation!!.size() <= 0) {
                 noPortfolio!!.visibility = View.GONE
@@ -311,8 +313,8 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
             }
             recyclerViewPortfolio!!.visibility = View.GONE
             lPort!!.visibility = View.GONE
-            rbPortfollio!!.setTextColor(resources.getColor(R.color.textColor))
-            rbSkills!!.setTextColor(resources.getColor(R.color.blue))
+            rbPortfollio!!.setTextColor(resources.getColor(R.color.N100))
+            rbSkills!!.setTextColor(resources.getColor(R.color.N600))
         }
     }
 
@@ -333,7 +335,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
     }// map1.put("X-Requested-With", "XMLHttpRequest");
 
     private val allProfileData: Unit
-        private get() {
+        get() {
             val stringRequest: StringRequest =
                 object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + userId,
                     Response.Listener { response: String? ->
@@ -349,11 +351,13 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                                     UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
                                 val gson = Gson()
                                 val levels = gson.fromJson(
-                                    jsonObject.getJSONObject("data").getJSONArray("levels").toString(),
+                                    jsonObject.getJSONObject("data").getJSONArray("levels")
+                                        .toString(),
                                     Levels::class.java
                                 )
                                 if (userAccountModel!!.lastMonthIncome != null)
-                                    this.lastMonthIncome = userAccountModel!!.lastMonthIncome.toFloat()
+                                    this.lastMonthIncome =
+                                        userAccountModel!!.lastMonthIncome.toFloat()
                                 this.levels = ArrayList()
                                 this.levels!!.addAll(levels)
                                 checkLevel(levels)
@@ -420,33 +424,45 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         }
 
     private fun checkLevel(levels: Levels?) {
-        for (i in 0 until levels!!.size){
-            if (((lastMonthIncome) / (levels[i].max_amount.toFloat()) * 100).toInt() >= 100) {
+        for (i in 0 until levels!!.size) {
+            if ((((lastMonthIncome - levels[i].min_amount.toFloat()) / (levels[i].max_amount.toFloat() - levels[i].min_amount.toFloat())) * 100).toInt() >= 0) {
                 when (i) {
-                    0 -> ivMedalBoronz!!.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_level1_active
+                    0 -> {
+                        ivMedalTop!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level1_active
+                            )
                         )
-                    )
-                    1 -> ivMedalBoronz!!.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_level2_active
+                        txtLevel!!.text = "Level 1"
+                    }
+                    1 -> {
+                        ivMedalTop!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level2_active
+                            )
                         )
-                    )
-                    2 -> ivMedalBoronz!!.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_level3_active
+                        txtLevel!!.text = "Level 2"
+                    }
+                    2 -> {
+                        ivMedalTop!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level3_active
+                            )
                         )
-                    )
-                    3 -> ivMedalBoronz!!.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_level4_active
+                        txtLevel!!.text = "Level 3"
+                    }
+                    3 -> {
+                        ivMedalTop!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level4_active
+                            )
                         )
-                    )
+                        txtLevel!!.text = "Level 4"
+                    }
                 }
             }
         }

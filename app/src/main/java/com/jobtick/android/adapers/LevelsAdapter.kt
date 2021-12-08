@@ -70,7 +70,7 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
                 description.text =
                     """${"$"}${item.min_amount.toFloat().roundToInt()}+ in the last 30 days"""
 
-            if (((lastMonthIncome) / (item.max_amount.toFloat()) * 100).toInt() >= 100) {
+            if ( (((lastMonthIncome - item.min_amount.toFloat()) / (item.max_amount.toFloat() - item.min_amount.toFloat())) * 100).toInt() >= 100) {
                 ln_lin_main.setBackgroundShape(
                     ContextCompat.getColor(context, R.color.N020),
                     ContextCompat.getColor(context, R.color.N020),
@@ -88,12 +88,12 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
             when (position) {
                 0 -> {
                     progressLevel1.progress =
-                        ((lastMonthIncome) / (item.max_amount.toFloat()) * 100).toInt()
+                        (((lastMonthIncome - item.min_amount.toFloat()) / (item.max_amount.toFloat() - item.min_amount.toFloat())) * 100).toInt()
                     rlLevel1.visibility = View.VISIBLE
                     rlLevel4.visibility = View.GONE
                     rlLevel3.visibility = View.GONE
                     rlLevel2.visibility = View.GONE
-                    if (progressLevel1.progress >= 100) {
+                    if (progressLevel1.progress > 0) {
                         ivLevel1.setImageDrawable(
                             ContextCompat.getDrawable(
                                 context,
@@ -104,13 +104,14 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
                     }
                 }
                 1 -> {
-                    progressLevel2.progress =
-                        ((lastMonthIncome) / (item.max_amount.toFloat()) * 100).toInt()
+                    if (lastMonthIncome > item.min_amount.toFloat())
+                        progressLevel2.progress =
+                            (((lastMonthIncome - item.min_amount.toFloat()) / (item.max_amount.toFloat() - item.min_amount.toFloat())) * 100).toInt()
                     rlLevel4.visibility = View.GONE
                     rlLevel3.visibility = View.GONE
                     rlLevel2.visibility = View.VISIBLE
                     rlLevel1.visibility = View.GONE
-                    if (progressLevel2.progress >= 100) {
+                    if (progressLevel2.progress > 0) {
                         ivLevel2.setImageDrawable(
                             ContextCompat.getDrawable(
                                 context,
@@ -120,13 +121,14 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
                     }
                 }
                 2 -> {
-                    progressLevel3.progress =
-                        ((lastMonthIncome) / (item.max_amount.toFloat()) * 100).toInt()
+                    if (lastMonthIncome > item.min_amount.toFloat())
+                        progressLevel3.progress =
+                            (((lastMonthIncome - item.min_amount.toFloat()) / (item.max_amount.toFloat() - item.min_amount.toFloat())) * 100).toInt()
                     rlLevel4.visibility = View.GONE
                     rlLevel3.visibility = View.VISIBLE
                     rlLevel2.visibility = View.GONE
                     rlLevel1.visibility = View.GONE
-                    if (progressLevel3.progress >= 100) {
+                    if (progressLevel3.progress > 0) {
                         ivLevel3.setImageDrawable(
                             ContextCompat.getDrawable(
                                 context,
@@ -136,13 +138,14 @@ class LevelsAdapter(var lastMonthIncome: Float) : RecyclerView.Adapter<BaseViewH
                     }
                 }
                 3 -> {
-                    progressLevel4.progress =
-                        ((lastMonthIncome) / (item.max_amount.toFloat()) * 100).toInt()
+                    if (lastMonthIncome > item.min_amount.toFloat())
+                        progressLevel4.progress =
+                            (((lastMonthIncome - item.min_amount.toFloat()) / (item.max_amount.toFloat() - item.min_amount.toFloat())) * 100).toInt()
                     rlLevel4.visibility = View.VISIBLE
                     rlLevel3.visibility = View.GONE
                     rlLevel2.visibility = View.GONE
                     rlLevel1.visibility = View.GONE
-                    if (progressLevel4.progress >= 100) {
+                    if (progressLevel4.progress > 0) {
                         ivLevel4.setImageDrawable(
                             ContextCompat.getDrawable(
                                 context,

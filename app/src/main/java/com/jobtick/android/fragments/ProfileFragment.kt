@@ -354,6 +354,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 noSkill!!.visibility = View.VISIBLE
                 addSkill!!.setOnClickListener { view13: View? ->
                     val intent = Intent(requireActivity(), EditProfileActivity::class.java)
+                    intent.putExtra(ConstantKey.TAB, ConstantKey.PORTFO_SKILLS)
                     startActivity(intent)
                 }
                 lSkill!!.visibility = View.GONE
@@ -481,185 +482,101 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
 
     private fun setLevels(levels: Levels?) {
 
-        for (position in 0 until levels!!.size) {
-            val item = levels[position]
-            when (position) {
-                0 -> {
-                    progressLevel1!!.progress =
-                        ((lastMonthIncome / item.max_amount.toFloat()) * 100).toInt()
-                    if (progressLevel1!!.progress >= 100) {
-                        txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
-                        ivMedalBoronz!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level1_active
-                            )
-                        )
-                        ivMedalSilver!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level2_deactive
-                            )
-                        )
-                        ivMedalGold!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level3_deactive
-                            )
-                        )
-                        ivMedalMax!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level4_deactive
-                            )
-                        )
-                    }
-                }
-                1 -> {
-                    progressLevel2!!.progress =
-                        ((lastMonthIncome / item.max_amount.toFloat()) * 100).toInt()
-                    if (progressLevel2!!.progress >= 100) {
-                        txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
-                        txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
-
-                        ivMedalSilver!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level2_active
-                            )
-                        )
-                        ivMedalBoronz!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level1_active
-                            )
-                        )
-                        ivMedalGold!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level3_deactive
-                            )
-                        )
-                        ivMedalMax!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level4_deactive
-                            )
-                        )
-                    }
-                }
-                2 -> {
-                    progressLevel3!!.progress =
-                        ((lastMonthIncome / item.max_amount.toFloat()) * 100).toInt()
-                    if (progressLevel3!!.progress >= 100) {
-                        txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
-                        txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
-                        txtLevel3!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
-                        ivMedalGold!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level3_active
-                            )
-                        )
-                        ivMedalBoronz!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level1_active
-                            )
-                        )
-                        ivMedalSilver!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level2_active
-                            )
-                        )
-                        ivMedalMax!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level4_deactive
-                            )
-                        )
-                    }
-                }
-                3 -> {
-                    progressLevel4!!.progress =
-                        ((lastMonthIncome / item.max_amount.toFloat()) * 100).toInt()
-                    if (progressLevel4!!.progress >= 100) {
-
-                        txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
-                        txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
-                        txtLevel3!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
-                        txtLevel4!!.setTextColor(ContextCompat.getColor(requireContext(),R.color.N900))
-                        ivMedalMax!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level4_active
-                            )
-                        )
-                        ivMedalBoronz!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level1_active
-                            )
-                        )
-                        ivMedalGold!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level3_active
-                            )
-                        )
-                        ivMedalSilver!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level2_active
-                            )
-                        )
-                    }
-                }
+        when (lastMonthIncome) {
+            in levels?.get(0)!!.min_amount.toFloat()..levels[0].max_amount.toFloat() -> {
+                progressLevel1!!.progress =
+                    (((lastMonthIncome - levels[0].min_amount.toFloat()) / (levels[0].max_amount.toFloat() - levels[0].min_amount.toFloat())) * 100).toInt()
+                txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+                ivMedalBoronz!!.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_level1_active
+                    )
+                )
 
             }
+            in levels[1].min_amount.toFloat()..levels[1].max_amount.toFloat() -> {
+                progressLevel2!!.progress =
+                    (((lastMonthIncome - levels[1].min_amount.toFloat()) / (levels[1].max_amount.toFloat() - levels[1].min_amount.toFloat())) * 100).toInt()
+                progressLevel1!!.progress = 100
+                txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+                txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+                ivMedalSilver!!.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_level2_active
+                    )
+                )
+                ivMedalBoronz!!.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_level1_active
+                    )
+                )
+            }
+            in levels[2].min_amount.toFloat()..levels[2].max_amount.toFloat() -> {
+                progressLevel1!!.progress = 100
+                progressLevel2!!.progress = 100
 
+                progressLevel3!!.progress =
+                    (((lastMonthIncome - levels[2].min_amount.toFloat()) / (levels[2].max_amount.toFloat() - levels[2].min_amount.toFloat())) * 100).toInt()
+                txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+                txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+                txtLevel3!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+                ivMedalGold!!.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_level3_active
+                    )
+                )
+                ivMedalBoronz!!.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_level1_active
+                    )
+                )
+            }
+            in levels[3].min_amount.toFloat()..levels[3].max_amount.toFloat() -> {
+                progressLevel1!!.progress = 100
+                progressLevel2!!.progress = 100
+                progressLevel3!!.progress = 100
+                progressLevel4!!.progress =
+                    (((lastMonthIncome - levels[3].min_amount.toFloat()) / (levels[3].max_amount.toFloat() - levels[3].min_amount.toFloat())) * 100).toInt()
+                txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+                txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+                txtLevel3!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+                txtLevel4!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+                ivMedalMax!!.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_level4_active
+                    )
+                )
+                ivMedalBoronz!!.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_level1_active
+                    )
+                )
+                ivMedalGold!!.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_level3_active
+                    )
+                )
+                ivMedalSilver!!.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_level2_active
+                    )
+                )
+
+            }
         }
 
     }
 
     private fun setJobStatus(accountStatus: AccountStatusModel) {
-        if (accountStatus.isBank_account) {
-            txtAccountStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
-            imAccountStatus!!.setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_completed_status
-                )
-            )
-        } else {
-            txtAccountStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
-            imAccountStatus!!.setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_not_completed_status
-                )
-            )
-        }
-        if (accountStatus.isSkills) {
-            txtSkillsStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
-            imSkillsStatus!!.setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_completed_status
-                )
-            )
-            line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
-        } else {
-            txtSkillsStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
-            imSkillsStatus!!.setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_not_completed_status
-                )
-            )
-            line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
-        }
         if (accountStatus.isBank_account) {
             txtPaymentStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
             imPaymentStatus!!.setImageDrawable(
@@ -668,7 +585,6 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     R.drawable.ic_completed_status
                 )
             )
-            line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
         } else {
             txtPaymentStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
             imPaymentStatus!!.setImageDrawable(
@@ -677,8 +593,56 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     R.drawable.ic_not_completed_status
                 )
             )
-            line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
         }
+
+    /*    if(accountStatus.isBasic_info && accountStatus.isBank_account)
+            line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+        if(accountStatus.isSkills && accountStatus.isBank_account)
+            line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+        if(accountStatus.isSkills && accountStatus.isJobalerts)
+            line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+        */
+        if (accountStatus.isBasic_info) {
+            txtAccountStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            imAccountStatus!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_completed_status
+                )
+            )
+           // line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+        } else {
+            txtAccountStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
+            imAccountStatus!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_not_completed_status
+                )
+            )
+           // line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
+        }
+
+        if (accountStatus.isSkills) {
+            txtSkillsStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+            imSkillsStatus!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_completed_status
+                )
+            )
+           // line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+        } else {
+            txtSkillsStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
+            imSkillsStatus!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_not_completed_status
+                )
+            )
+            //line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
+        }
+
+
         if (accountStatus.isJobalerts) {
             txtAlertStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
             imAlertStatus!!.setImageDrawable(
@@ -687,7 +651,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     R.drawable.ic_completed_status
                 )
             )
-            line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+           // line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
         } else {
             txtAlertStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
             imAlertStatus!!.setImageDrawable(
@@ -696,7 +660,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     R.drawable.ic_not_completed_status
                 )
             )
-            line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
+           // line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
         }
 
     }

@@ -416,7 +416,6 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             if (userAccountModel!!.lastMonthIncome != null)
                                 this.lastMonthIncome = userAccountModel!!.lastMonthIncome.toFloat()
                             setLevels(levels)
-                            setUpAllEditFields(userAccountModel)
                             setJobStatus(userAccountModel!!.account_status)
                             attachmentArrayList = userAccountModel!!.portfolio
                             adapter!!.clear()
@@ -447,6 +446,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                                 lSkill!!.visibility = View.GONE
                                 noSkill!!.visibility = View.GONE
                             }
+                            setUpAllEditFields(userAccountModel)
+
                         } else {
                             dashboardActivity!!.showToast("Connection error", dashboardActivity)
                         }

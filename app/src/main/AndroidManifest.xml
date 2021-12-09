@@ -84,7 +84,8 @@
         <activity
             android:name=".activities.NewSplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NewSplash.AppTheme">
+            android:theme="@style/NewSplash.AppTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

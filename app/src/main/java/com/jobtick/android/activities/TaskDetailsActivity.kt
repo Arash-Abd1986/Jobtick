@@ -47,7 +47,6 @@ import com.google.gson.reflect.TypeToken
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.new.IS_USER_THE_POSTER
-import com.jobtick.android.activities.new.OFFER_LIST
 import com.jobtick.android.activities.new.OfferListActivity
 import com.jobtick.android.adapers.*
 import com.jobtick.android.cancellations.*
@@ -274,7 +273,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     private fun showOfferList(offers: ArrayList<OfferModel>) {
         val i = Intent(this, OfferListActivity::class.java)
-        i.putParcelableArrayListExtra(OFFER_LIST, offers)
+        offersC = offers
         i.putExtra(IS_USER_THE_POSTER, isUserThePoster)
         startActivity(i)
     }
@@ -3016,6 +3015,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         var widthDrawListener: OnWidthDrawListener? = null
         private const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123
         private const val GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400
+
+        var offersC :ArrayList<OfferModel> = ArrayList()
     }
 
 

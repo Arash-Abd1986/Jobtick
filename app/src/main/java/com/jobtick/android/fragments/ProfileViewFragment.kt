@@ -52,7 +52,9 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
     var imgAvatar: CircularImageView? = null
     var txtAbout: TextView? = null
     var ivCall: ImageView? = null
+    var ivCall2: ImageView? = null
     var ivCard: ImageView? = null
+    var ivCard2: ImageView? = null
     var tvAboutHeading: TextView? = null
     var imgVerified: ImageView? = null
     var tagEducation: TagContainerLayout? = null
@@ -152,7 +154,9 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         imgAvatar = requireView().findViewById(R.id.img_avatar)
         txtAbout = requireView().findViewById(R.id.txt_about)
         ivCall = requireView().findViewById(R.id.ivCall)
+        ivCall2 = requireView().findViewById(R.id.ivCall2)
         ivCard = requireView().findViewById(R.id.ivCard)
+        ivCard2 = requireView().findViewById(R.id.ivCard2)
         tvAboutHeading = requireView().findViewById(R.id.tvAboutHeading)
         imgVerified = requireView().findViewById(R.id.img_verified)
         tagEducation = requireView().findViewById(R.id.tag_education)
@@ -474,9 +478,11 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         tvAboutHeading!!.setTypeface(txtAbout!!.typeface, Typeface.BOLD_ITALIC)
         if (userAccountModel!!.mobileVerifiedAt != null) {
             ivCall!!.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable)
+            ivCall2!!.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable)
         }
         if (userAccountModel.account_status != null && userAccountModel.account_status.isBadges) {
             ivCard!!.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable)
+            ivCard2!!.setBackgroundResource(R.drawable.bg_rounded_profile_badge_enable)
         }
         if (userAccountModel.about == null || userAccountModel.about == "") {
             txtAbout!!.text = "Nothing to show"

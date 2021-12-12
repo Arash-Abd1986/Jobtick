@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.adapers.OfferListAdapterV2
 import com.jobtick.android.fragments.OfferBottomSheet
 import com.jobtick.android.models.OfferModel
@@ -28,8 +29,8 @@ class OfferListActivity : ActivityBase(), OfferListAdapterV2.OnItemClickListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offer_list)
         val bundle = intent.extras
-        offerListF = bundle!!.getParcelableArrayList(OFFER_LIST)!!
-        isUserThePoster = bundle.getBoolean(IS_USER_THE_POSTER)
+        offerListF = TaskDetailsActivity.offersC
+        isUserThePoster = bundle!!.getBoolean(IS_USER_THE_POSTER)
         initIDS()
         initComponents()
         initOfferList()
@@ -58,7 +59,8 @@ class OfferListActivity : ActivityBase(), OfferListAdapterV2.OnItemClickListener
 
 
     override fun onItemOfferClick(offer: OfferModel?, action: String?) {
-        val questionsBottomSheet = OfferBottomSheet(offer!!, isUserThePoster, sessionManagerO!!, false, false)
+        val questionsBottomSheet =
+            OfferBottomSheet(offer!!, isUserThePoster, sessionManagerO!!, false, false)
         questionsBottomSheet.show(supportFragmentManager, null)
     }
 

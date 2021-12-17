@@ -46,18 +46,18 @@
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_marginRight="10dp"
-                        app:srcCompat="@drawable/ic_warning_new" />
+                        app:srcCompat="@drawable/ic_alert_gray" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_offer_count"
-                        style="@style/materialText_500_14"
+                        style="@style/materialText_W400_14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:singleLine="true"
                         android:text="You haven’t received any offers yet"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/N600" />
 
 
                 </LinearLayout>
@@ -110,7 +110,7 @@
                     android:visibility="visible">
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_500_12"
+                        style="@style/materialText_W400_14"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"

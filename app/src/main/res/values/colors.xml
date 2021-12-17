@@ -438,8 +438,9 @@
     <color name="colorRedOffline">#ff5630</color>
     <color name="colorGreen">#2ED174</color>
 
-    <color name="newOpen">#49C2AA</color>
-    <color name="newAssigned">#FFB64E</color>
-    <color name="newComplete">#576BF4</color>
-    <color name="newCanceled">#DC4437</color>
+    <color name="newOpen">@color/P300</color>
+    <color name="newAssigned">@color/Y400</color>
+    <color name="newComplete">@color/P300</color>
+    <color name="newCanceled">@color/R400</color>
+    <color name="newClose">#BDBDBD</color>
 </resources>

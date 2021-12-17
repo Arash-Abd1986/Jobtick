@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -20,6 +21,8 @@ public class ExtendedAlertBox extends FrameLayout {
 
     private final String title;
     private final TextView mTitle;
+    private final ImageView alert_image;
+    private final ImageView info_image;
 
     private final String buttonText;
     private final String alertType;
@@ -32,6 +35,7 @@ public class ExtendedAlertBox extends FrameLayout {
     public boolean getIsTicker() {
         return isTicker;
     }
+
     public void setIsTicker(Boolean isTicker) {
         this.isTicker = isTicker;
         if (isTicker) {
@@ -75,6 +79,8 @@ public class ExtendedAlertBox extends FrameLayout {
         mTitle = findViewById(R.id.title);
         mButton = findViewById(R.id.button_text);
         cnlMain = findViewById(R.id.cnl_main);
+        alert_image = findViewById(R.id.alert_image);
+        info_image = findViewById(R.id.info_image);
 
         mTitle.setText(title);
         mButton.setText(buttonText);
@@ -91,15 +97,13 @@ public class ExtendedAlertBox extends FrameLayout {
         mButton.setOnClickListener(v -> {
             onExtendedAlertButtonClickListener.onExtendedAlertButtonClick();
         });
-        if (alertType != null)
-            if (alertType.equals(TaskDetailsActivity.AlertType.REVIEW.name())) {
-                mButton.setBackgroundColor(context.getColor(R.color.blue));
-                mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
-                mButton.setTextColor(context.getColor(R.color.white));
-            }
+
         if (isTicker) {
             cnlMain.setBackgroundResource(R.drawable.shape_rounded_white_outline_s_back);
         }
+        if (alertType != null)
+            setAlertType(alertType, context);
+
 
     }
 
@@ -136,12 +140,85 @@ public class ExtendedAlertBox extends FrameLayout {
     }
 
 
-
     public void setAlertType(String alertType, Context context) {
         if (alertType.equals(TaskDetailsActivity.AlertType.REVIEW.name())) {
-            mButton.setBackgroundColor(context.getColor(R.color.blue));
-            mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
-            mButton.setTextColor(context.getColor(R.color.white));
+            if (isTicker) {
+                cnlMain.setBackgroundResource(R.drawable.shape_rounded_white_5dp);
+                mButton.setBackgroundColor(context.getColor(R.color.blue));
+                mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+                mButton.setTextColor(context.getColor(R.color.white));
+            } else {
+                cnlMain.setBackgroundResource(R.drawable.shape_rounded_white_5dp);
+                mButton.setBackgroundColor(context.getColor(R.color.blue));
+                mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+                mButton.setTextColor(context.getColor(R.color.white));
+                info_image.setImageResource(R.drawable.ic_bell_red);
+                alert_image.setVisibility(GONE);
+                info_image.setVisibility(VISIBLE);
+            }
+        } else if (alertType.equals(TaskDetailsActivity.AlertType.ASK_TO_RELEASE.name())) {
+            if (isTicker) {
+                cnlMain.setBackgroundResource(R.drawable.shape_rounded_white_5dp);
+                alert_image.setImageResource(R.drawable.ic_alert_orange);
+            } else {
+                mButton.setBackgroundColor(context.getColor(R.color.white));
+                mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+                mButton.setTextColor(context.getColor(R.color.P300));
+                info_image.setImageResource(R.drawable.ic_bell_red);
+                alert_image.setVisibility(GONE);
+                info_image.setVisibility(VISIBLE);
+            }
+        } else if (alertType.equals(TaskDetailsActivity.AlertType.INCREASE_BUDGET.name())) {
+            if (isTicker) {
+                cnlMain.setBackgroundResource(R.drawable.shape_rounded_white_5dp);
+                alert_image.setImageResource(R.drawable.ic_alert_orange);
+            } else {
+                mButton.setBackgroundColor(context.getColor(R.color.white));
+                mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+                mButton.setTextColor(context.getColor(R.color.P300));
+                info_image.setImageResource(R.drawable.ic_bell_red);
+                alert_image.setVisibility(GONE);
+                info_image.setVisibility(VISIBLE);
+            }
+        } else if (alertType.equals(TaskDetailsActivity.AlertType.RESCHEDULE.name())) {
+            if (isTicker) {
+                mButton.setBackgroundColor(context.getColor(R.color.white));
+                mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+                mButton.setTextColor(context.getColor(R.color.P300));
+            } else {
+                mButton.setBackgroundColor(context.getColor(R.color.white));
+                mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+                mButton.setTextColor(context.getColor(R.color.P300));
+                info_image.setImageResource(R.drawable.ic_bell_red);
+                alert_image.setVisibility(GONE);
+                info_image.setVisibility(VISIBLE);
+            }
+        } else if (alertType.equals(TaskDetailsActivity.AlertType.CONFIRM_RELEASE.name())) {
+            if (isTicker) {
+                mButton.setBackgroundColor(context.getColor(R.color.white));
+                mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+                mButton.setTextColor(context.getColor(R.color.P300));
+            } else {
+                mButton.setBackgroundColor(context.getColor(R.color.white));
+                mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+                mButton.setTextColor(context.getColor(R.color.P300));
+                info_image.setImageResource(R.drawable.ic_bell_red);
+                info_image.setVisibility(VISIBLE);
+                alert_image.setVisibility(GONE);
+            }
+        }else if (alertType.equals(TaskDetailsActivity.AlertType.CANCELLATION.name())) {
+            if (isTicker) {
+                mButton.setBackgroundColor(context.getColor(R.color.white));
+                mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+                mButton.setTextColor(context.getColor(R.color.P300));
+            } else {
+                mButton.setBackgroundColor(context.getColor(R.color.white));
+                mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+                mButton.setTextColor(context.getColor(R.color.P300));
+                info_image.setImageResource(R.drawable.ic_bell_red);
+                info_image.setVisibility(VISIBLE);
+                alert_image.setVisibility(GONE);
+            }
         }
     }
 

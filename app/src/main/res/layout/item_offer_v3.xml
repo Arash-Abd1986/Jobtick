@@ -39,7 +39,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_created_date"
-                style="@style/materialText_600_10"
+                style="@style/materialText_W500_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/GN300"
@@ -60,7 +60,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_name"
-                    style="@style/materialText_600_12"
+                    style="@style/materialText_W500_16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
@@ -78,7 +78,7 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_completion_rate"
-                            style="@style/materialText_500_12"
+                            style="@style/materialText_W400_14"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="2dp"
@@ -89,7 +89,7 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_job_success"
-                            style="@style/materialText_500_10"
+                            style="@style/materialText_W400_14"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="@string/job_success"
@@ -125,8 +125,8 @@
 
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="20dp"
-                    android:layout_height="25dp"
+                    android:layout_width="12dp"
+                    android:layout_height="match_parent"
                     android:layout_toStartOf="@+id/txt_budget"
                     app:layout_constraintBottom_toBottomOf="@+id/txt_budget"
                     app:layout_constraintEnd_toStartOf="@+id/txt_budget"
@@ -135,9 +135,9 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_budget"
-                    style="@style/materialText_700_20"
+                    style="@style/materialText_W500_20"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:text=""
                     android:textColor="@color/textColor"

@@ -99,10 +99,13 @@ class OfferBottomSheet(
         }
 
         if (isAssigned or isMyOffer) {
+            txtActionLeft.setTextColor( ContextCompat.getColor(requireContext(), R.color.P300))
             lnAction.setBackgroundShape(
-                    ContextCompat.getColor(requireContext(), R.color.newAssigned),
-                    8,
-                    GradientDrawable.RECTANGLE
+                ContextCompat.getColor(requireContext(), R.color.transparent),
+                ContextCompat.getColor(requireContext(), R.color.P300),
+                8,
+                1,
+                GradientDrawable.RECTANGLE
             )
         } else {
             lnAction.setBackgroundShape(

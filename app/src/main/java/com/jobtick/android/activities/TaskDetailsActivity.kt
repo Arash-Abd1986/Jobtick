@@ -489,12 +489,12 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             ContextCompat.getColor(this, R.color.N080)
         )
 
-        icClock.setColorFilter(
-            ContextCompat.getColor(
-                this@TaskDetailsActivity,
-                R.color.newComplete
-            )
-        )
+        /* icClock.setColorFilter(
+             ContextCompat.getColor(
+                 this@TaskDetailsActivity,
+                 R.color.newComplete
+             )
+         )*/
         lytStatus.setStatus(getString(R.string.completed))
         //txtOffersCount.visibility = View.GONE
         if (isUserThePoster) {
@@ -544,12 +544,12 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             getString(R.string.this_job_has_been_complete),
             ContextCompat.getColor(this, R.color.newComplete)
         )
-        icClock.setColorFilter(
-            ContextCompat.getColor(
-                this@TaskDetailsActivity,
-                R.color.newComplete
-            )
-        )
+        /* icClock.setColorFilter(
+             ContextCompat.getColor(
+                 this@TaskDetailsActivity,
+                 R.color.newComplete
+             )
+         )*/
         cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(
             this@TaskDetailsActivity,
             R.color.colorPrimary
@@ -613,12 +613,12 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             ContextCompat.getColor(this, R.color.newCanceled)
         )
 
-        icClock.setColorFilter(
+        /*icClock.setColorFilter(
             ContextCompat.getColor(
                 this@TaskDetailsActivity,
                 R.color.newCanceled
             )
-        )
+        )*/
         lytStatus.setStatus(getString(R.string.cancelled))
         cardMakeAnOffer.visibility = View.GONE
         cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(
@@ -648,12 +648,12 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun setStatusOpen() {
-        icClock.setColorFilter(
+        /*icClock.setColorFilter(
             ContextCompat.getColor(
                 this@TaskDetailsActivity,
                 R.color.newOpen
             )
-        )
+        )*/
         when {
             isUserThePoster and (taskModel!!.offerCount > 0) -> lytStatus.setStatus(getString(R.string.offered))
             isUserThePoster -> lytStatus.setStatus(getString(R.string.posted))
@@ -740,16 +740,16 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             ContextCompat.getColor(this, R.color.newAssigned)
         )
 
-        icClock.setColorFilter(
-            ContextCompat.getColor(
-                this@TaskDetailsActivity,
-                R.color.newAssigned
-            )
-        )
+        /* icClock.setColorFilter(
+             ContextCompat.getColor(
+                 this@TaskDetailsActivity,
+                 R.color.newAssigned
+             )
+         )*/
         lytStatus.setStatus(getString(R.string.assigned))
         cardMakeAnOffer.backgroundTintList = ContextCompat.getColorStateList(
             this@TaskDetailsActivity,
-            R.color.colorTaskAssigned
+            R.color.P300
         )
 
         if (isUserThePoster) {
@@ -1145,13 +1145,14 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                             showToast("Something went wrong", this@TaskDetailsActivity)
                             Handler().postDelayed({
                                 onBackPressed()
-                            },2000) }
+                            }, 2000)
+                        }
                         llLoading.visibility = View.GONE
                     } catch (e: Exception) {
                         showToast("Something went wrong", this@TaskDetailsActivity)
                         Handler().postDelayed({
                             onBackPressed()
-                        },2000)
+                        }, 2000)
                         Timber.e(e.toString())
                         e.printStackTrace()
                     }
@@ -1165,7 +1166,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     errorHandle1(error.networkResponse)
                     Handler().postDelayed({
                         onBackPressed()
-                    },2000)                }) {
+                    }, 2000)
+                }) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
                     map1["authorization"] =
@@ -1184,10 +1186,15 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun initRestConf(jsonObject_data: JSONObject) {
-        taskModel!!.questionCount = taskModel!!.questions.filter { it.user.id != sessionManager.userAccount.id }.size
+        taskModel!!.questionCount =
+            taskModel!!.questions.filter { it.user.id != sessionManager.userAccount.id }.size
         txtAskQuestion.text =
-            if (taskModel!!.questionCount == 0) getString(R.string.no_question_yet)
-            else
+            if (taskModel!!.questionCount == 0) {
+                if (isUserThePoster)
+                    getString(R.string.no_question_yet)
+                else
+                    getString(R.string.do_you_have_question)
+            } else
                 (if (!isUserThePoster) getString(R.string.do_you_have_question) else "You have ${taskModel!!.questionCount} new questions")
         if (isUserThePoster and (taskModel!!.questionCount != 0)) {
             txtAskQuestion.setSpanColor(
@@ -1633,9 +1640,13 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             if (taskModel!!.status!!.equals("completed", ignoreCase = true)) {
                 lnAssignTo.setBackgroundResource(R.drawable.rectangle_card_round_fill_blue_6dp_radius)
                 assignedTitle.text = "Completed by"
-            }else if(taskModel!!.status!!.equals("assigned", ignoreCase = true)){
+            } else if (taskModel!!.status!!.equals("assigned", ignoreCase = true)) {
                 lnAssignTo.setBackgroundResource(R.drawable.rectangle_round_corners_yellow_8dp)
-                assignedTitle.text = "Assigned to"
+                if (isUserTheTicker)
+                    assignedTitle.text = "My offer"
+                else
+                    assignedTitle.text = "Assigned to"
+
             }
 
             if (alertType == AlertType.CANCELLATION) {
@@ -1734,7 +1745,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         for (i in dots.indices) {
             dots[i] = ImageView(this)
 
-            val widthHeight = if (taskModel!!.attachments.size>5) (6).dpToPx() else (8).dpToPx()
+            val widthHeight = if (taskModel!!.attachments.size > 5) (6).dpToPx() else (8).dpToPx()
             val params =
                 LinearLayout.LayoutParams(ViewGroup.LayoutParams(widthHeight, widthHeight))
             params.setMargins(10, 10, (1).dpToPx(), 10)
@@ -2588,7 +2599,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private fun showCancelledCard() {
         showAlertBox(
             Html.fromHtml("This job has been canceled"),
-            ConstantKey.BTN_POST_NEW_JOB, AlertType.CANCELLED, true, hasTopColor = true
+            ConstantKey.BTN_POST_NEW_JOB, AlertType.CANCELLED, false, hasTopColor = true
         )
     }
 
@@ -2642,24 +2653,24 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         val requesterId = taskModel!!.rescheduleReqeust[pos].requester_id
         if (taskModel!!.worker != null) {
             if (taskModel!!.worker.id == requesterId) {
-                rescheduledByWho = "Ticker"
+                rescheduledByWho = "Ticker has"
             }
         }
         if (taskModel!!.poster != null) {
             if (taskModel!!.poster.id == requesterId) {
-                rescheduledByWho = taskModel!!.poster.name
+                rescheduledByWho = taskModel!!.poster.name + "has"
             }
         }
         if (sessionManager.userAccount.id == requesterId) {
             isRescheduledRequestForMine = true
-            rescheduledByWho = "You"
+            rescheduledByWho = "You have"
         } else {
             isRescheduledRequestForMine = false
         }
         showAlertBox(
             Html.fromHtml(
-                "<b>" + rescheduledByWho + "</b> " +
-                        " has requested to reschedule time on this job on <b>" +
+                 rescheduledByWho  +
+                        " requested to reschedule time on this job on <b>" +
                         TimeHelper.convertToShowTimeFormat(taskModel!!.rescheduleReqeust[pos].created_at) + ".</b>"
             ),
             ConstantKey.BTN_RESCHEDULE_REQUEST_SENT, AlertType.RESCHEDULE, true, hasTopColor = false
@@ -2673,24 +2684,27 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         val requesterId = taskModel!!.additionalFund.requesterId
         if (taskModel!!.worker != null) {
             if (taskModel!!.worker.id == requesterId) {
-                increaseRequestByWho = taskModel!!.worker.name
+                increaseRequestByWho = taskModel!!.worker.name + "has"
             }
         }
         if (taskModel!!.poster != null) {
             if (taskModel!!.poster.id == requesterId) {
-                increaseRequestByWho = taskModel!!.poster.name
+                increaseRequestByWho = taskModel!!.poster.name + "has"
             }
         }
         if (sessionManager.userAccount.id == requesterId) {
             isIncreaseBudgetRequestForMine = true
-            increaseRequestByWho = "You"
+            increaseRequestByWho = "You have"
         } else {
             isIncreaseBudgetRequestForMine = false
         }
+
+        cardMakeAnOffer.visibility = View.GONE
+
         showAlertBox(
             Html.fromHtml(
-                "<b>" + increaseRequestByWho + "</b> " +
-                        "has requested to increase price on this job on <b>" +
+                 increaseRequestByWho +
+                        " requested to increase price on this job on <b>" +
                         TimeHelper.convertToShowTimeFormat(taskModel!!.additionalFund.createdAt) + "</b>"
             ),
             ConstantKey.BTN_INCREASE_BUDGET_REQUEST_SENT,
@@ -2720,6 +2734,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             ),
             null, AlertType.ASK_TO_RELEASE, false, hasTopColor = false
         )
+
     }
 
     private fun showConfirmReleaseCard() {
@@ -2760,6 +2775,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     private fun hideAlertBox() {
         alertBox.visibility = View.GONE
+        btnAlert.visibility = View.GONE
         alertType = null
     }
 
@@ -3016,7 +3032,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         private const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123
         private const val GALLERY_PICKUP_IMAGE_REQUEST_CODE = 400
 
-        var offersC :ArrayList<OfferModel> = ArrayList()
+        var offersC: ArrayList<OfferModel> = ArrayList()
     }
 
 

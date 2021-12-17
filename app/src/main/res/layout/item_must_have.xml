@@ -10,19 +10,19 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/ic_warning_fill_red"
+        android:src="@drawable/ic_warning_fill_orange"
          />
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/materialText_500_14"
+        style="@style/materialText_W500_14"
         android:id="@+id/txt_btn_add_must_have"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="@dimen/_8dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="@string/this_is_a_requirement"
-        android:textColor="#DD4739"/>
+        android:textColor="@color/N600"/>
 
 </LinearLayout>

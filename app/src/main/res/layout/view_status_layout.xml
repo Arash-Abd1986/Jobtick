@@ -4,30 +4,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_weight="1"
-        android:minWidth="@dimen/_100dp"
-        android:layout_height="match_parent">
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="20dp"
-            android:id="@+id/im_dot"
-            android:layout_centerVertical="true"
-            app:srcCompat="@drawable/ic_white_cirlce"
-            android:layout_alignParentStart="true"
-            android:padding="6dp"
-            android:layout_marginStart="5dp"
-            android:layout_height="20dp"/>
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="20dp"
+                android:id="@+id/im_dot"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/ic_white_cirlce"
+                android:layout_alignParentStart="true"
+                android:padding="6dp"
+                android:layout_marginStart="5dp"
+                android:layout_height="20dp"/>
+        </RelativeLayout>
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_status"
-            style="@style/materialText_600_10"
+            style="@style/materialText_W400_14"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:singleLine="true"
             android:layout_centerInParent="true"
             android:text="@string/open"
             android:textColor="@color/white" />
-    </RelativeLayout>
+    </LinearLayout>
 </merge>

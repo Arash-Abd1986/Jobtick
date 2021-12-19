@@ -15,6 +15,9 @@ class ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Fac
             modelClass.isAssignableFrom(MapViewModel::class.java) -> {
                 MapViewModel(MainRepository(apiHelper)) as T
             }
+            modelClass.isAssignableFrom(EditAccountViewModel::class.java) -> {
+                EditAccountViewModel(MainRepository(apiHelper)) as T
+            }
             else -> throw IllegalArgumentException("Unknown class name")
         }
 

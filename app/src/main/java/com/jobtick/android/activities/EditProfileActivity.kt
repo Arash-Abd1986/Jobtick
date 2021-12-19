@@ -70,17 +70,14 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
     var edtEmailAddress: ExtendedEntryText? = null
     var txtBirthDate: ExtendedEntryText? = null
     var edtBusinessNumber: ExtendedEntryText? = null
-    var imgTransportationBack: ImageView? = null
     var recyclerView: RecyclerView? = null
-    var txtTransportation: TextView? = null
-    var rltBtnTransportation: RelativeLayout? = null
     var txtLanguages: TextView? = null
     var imgLanguagesBack: ImageView? = null
     var rltBtnLanguages: RelativeLayout? = null
     var txtEducation: TextView? = null
     var imgEducationBack: ImageView? = null
     var rltBtnEducation: RelativeLayout? = null
-    var txtExperience: TextView? = null
+    var txtSkills: TextView? = null
     var imgExperienceBack: ImageView? = null
     var txtGeneralInfo: TextView? = null
     var txtPrivateInfo: TextView? = null
@@ -91,9 +88,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
     var underTab3: View? = null
     var underTab2: View? = null
     var underTab1: View? = null
-    var rltBtnExperience: RelativeLayout? = null
-    var txtSpecialities: TextView? = null
-    var imgSpecialitiesBack: ImageView? = null
+    var rltBtnSkills: RelativeLayout? = null
     var rltBtnSpecialities: RelativeLayout? = null
     var bottomSheet: FrameLayout? = null
     var lytDeletePicture: RelativeLayout? = null
@@ -148,17 +143,14 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         edtEmailAddress = findViewById(R.id.edt_email_address)
         txtBirthDate = findViewById(R.id.txt_birth_date)
         edtBusinessNumber = findViewById(R.id.edt_business_number)
-        imgTransportationBack = findViewById(R.id.img_transportation_back)
         recyclerView = findViewById(R.id.recycler_view)
-        txtTransportation = findViewById(R.id.txt_transportation)
-        rltBtnTransportation = findViewById(R.id.rlt_btn_transportation)
         txtLanguages = findViewById(R.id.txt_languages)
         imgLanguagesBack = findViewById(R.id.img_languages_back)
         rltBtnLanguages = findViewById(R.id.rlt_btn_languages)
         txtEducation = findViewById(R.id.txt_education)
         imgEducationBack = findViewById(R.id.img_education_back)
         rltBtnEducation = findViewById(R.id.rlt_btn_education)
-        txtExperience = findViewById(R.id.txt_experience)
+        txtSkills = findViewById(R.id.txt_skills)
         imgExperienceBack = findViewById(R.id.img_experience_back)
         imgExperienceBack = findViewById(R.id.img_experience_back)
         txtGeneralInfo = findViewById(R.id.txt_general_info)
@@ -170,10 +162,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         underTab3 = findViewById(R.id.under_tab3)
         underTab2 = findViewById(R.id.under_tab2)
         underTab1 = findViewById(R.id.under_tab1)
-        rltBtnExperience = findViewById(R.id.rlt_btn_experience)
-        txtSpecialities = findViewById(R.id.txt_specialities)
-        imgSpecialitiesBack = findViewById(R.id.img_specialities_back)
-        rltBtnSpecialities = findViewById(R.id.rlt_btn_specialities)
+        rltBtnSkills = findViewById(R.id.rlt_btn_experience)
         bottomSheet = findViewById(R.id.bottom_sheet)
         lytDeletePicture = findViewById(R.id.lytDeletePicture)
         cardSaveProfile = findViewById(R.id.card_save_profile)
@@ -467,11 +456,9 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         }
 
     private fun setUpAllEditFields(userAccountModel: UserAccountModel?) {
-        transportationSetUp(userAccountModel)
         languagesSetUp(userAccountModel)
         educationSetUp(userAccountModel)
         experienceSetUp(userAccountModel)
-        specialitiesSetUp(userAccountModel)
         edtFirstName!!.seteContent(userAccountModel!!.fname)
         edtLastName!!.seteContent(userAccountModel.lname)
         edtLastName!!.seteContent(userAccountModel.lname)
@@ -513,32 +500,23 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun specialitiesSetUp(userAccountModel: UserAccountModel?) {
-        if (userAccountModel!!.skills.specialities != null && userAccountModel.skills.specialities.size != 0) {
-            txtSpecialities!!.text = "" + userAccountModel.skills.specialities.size
-            txtSpecialities!!.visibility = View.VISIBLE
-        } else {
-            txtSpecialities!!.visibility = View.VISIBLE
-            txtSpecialities!!.text = "0"
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     private fun experienceSetUp(userAccountModel: UserAccountModel?) {
         if (userAccountModel!!.skills.experience != null && userAccountModel.skills.experience.size != 0) {
-            txtExperience!!.text = "" + userAccountModel.skills.experience.size
-            txtExperience!!.visibility = View.VISIBLE
+            txtSkills!!.text = "" + userAccountModel.skills.experience.size
+            txtSkills!!.visibility = View.VISIBLE
         } else {
-            txtExperience!!.visibility = View.VISIBLE
-            txtExperience!!.text = "0"
+            txtSkills!!.visibility = View.VISIBLE
+            txtSkills!!.text = "0"
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun educationSetUp(userAccountModel: UserAccountModel?) {
-        if (userAccountModel!!.skills.education != null && userAccountModel.skills.education.size != 0) {
-            txtEducation!!.text = "" + userAccountModel.skills.education.size
+        if (userAccountModel!!.skills.education != null && (userAccountModel.skills.education.size + userAccountModel.skills.specialities.size) != 0) {
+            txtEducation!!.text =
+                "" + (userAccountModel.skills.education.size + userAccountModel.skills.specialities.size)
             txtEducation!!.visibility = View.VISIBLE
         } else {
             txtEducation!!.visibility = View.VISIBLE
@@ -557,16 +535,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun transportationSetUp(userAccountModel: UserAccountModel?) {
-        if (userAccountModel!!.skills.transportation != null && userAccountModel.skills.transportation.size != 0) {
-            txtTransportation!!.text = "" + userAccountModel.skills.transportation.size
-            txtTransportation!!.visibility = View.VISIBLE
-        } else {
-            txtTransportation!!.visibility = View.generateViewId()
-            txtTransportation!!.text = "0"
-        }
-    }
 
     private fun convertArrayToString(tag: ArrayList<String>): String {
         var str_tag = ""
@@ -655,14 +623,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
     private fun onViewClick() {
         var bundle = Bundle()
 
-        rltBtnTransportation!!.setOnClickListener {
-            val intent = Intent(this@EditProfileActivity, SkillsTagActivity::class.java)
-            bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel!!.skills.transportation)
-            bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.TRANSPORTATION)
-            bundle.putString(ConstantKey.TITLE, "Add your transportation")
-            intent.putExtras(bundle)
-            startActivityForResult(intent, 1)
-        }
         rltBtnLanguages!!.setOnClickListener {
             intent = Intent(this@EditProfileActivity, SkillsTagActivity::class.java)
             bundle = Bundle()
@@ -681,7 +641,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             intent.putExtras(bundle)
             startActivityForResult(intent, 3)
         }
-        rltBtnExperience!!.setOnClickListener {
+        rltBtnSkills!!.setOnClickListener {
             intent = Intent(this@EditProfileActivity, SkillsTagActivity::class.java)
             bundle = Bundle()
             bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel!!.skills.experience)
@@ -689,15 +649,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             bundle.putString(ConstantKey.TITLE, "Add your occupation")
             intent.putExtras(bundle)
             startActivityForResult(intent, 4)
-        }
-        rltBtnSpecialities!!.setOnClickListener {
-            intent = Intent(this@EditProfileActivity, SkillsTagActivity::class.java)
-            bundle = Bundle()
-            bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel!!.skills.specialities)
-            bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.SPECIALITIES)
-            bundle.putString(ConstantKey.TITLE, "Add your certificate")
-            intent.putExtras(bundle)
-            startActivityForResult(intent, 5)
         }
         imgAvatar!!.setOnClickListener {
             isImageProfile = true
@@ -829,11 +780,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
             val bundle = data.extras
             if (bundle != null) {
                 when (requestCode) {
-                    1 -> {
-                        userAccountModel!!.skills.transportation =
-                            bundle.getStringArrayList(ConstantKey.SKILLS)
-                        transportationSetUp(userAccountModel)
-                    }
                     2 -> {
                         userAccountModel!!.skills.language =
                             bundle.getStringArrayList(ConstantKey.SKILLS)
@@ -848,11 +794,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                         userAccountModel!!.skills.experience =
                             bundle.getStringArrayList(ConstantKey.SKILLS)
                         experienceSetUp(userAccountModel)
-                    }
-                    5 -> {
-                        userAccountModel!!.skills.specialities =
-                            bundle.getStringArrayList(ConstantKey.SKILLS)
-                        specialitiesSetUp(userAccountModel)
                     }
                     234 -> {
                         userAccountModel!!.portfolio =

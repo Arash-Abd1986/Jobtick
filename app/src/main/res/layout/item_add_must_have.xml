@@ -1,46 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical|start"
-    android:gravity="center_vertical|start"
-    android:layout_marginTop="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="36dp"
+    android:padding="5dp"
+    android:layout_margin="6dp"
+    android:id="@+id/top_cn"
+    android:background="@drawable/rectangle_card_round_corners_outlined"
     android:orientation="horizontal">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:layout_alignParentStart="true"
-        android:layout_gravity="top"
-        android:background="?attr/selectableItemBackground"
-        android:src="@drawable/ic_check_square"
-        tools:ignore="ContentDescription" />
 
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_btn_add_must_have"
-        style="@style/materialText_W400_16"
+        style="@style/materialText_W400_14"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_gravity="top"
-        android:layout_marginStart="36dp"
-        android:paddingEnd="@dimen/_40dp"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
+        android:layout_height="36dp"
+        android:ellipsize="end"
         android:inputType="textMultiLine"
-        android:minHeight="24dp"
+        android:maxLines="1"
+        android:gravity="center"
+        android:layout_marginHorizontal="10dp"
+        android:paddingHorizontal="10dp"
         android:textColor="@color/textColor"
-        tools:text="Hello" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/img_btn_remove"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="e" />
 
     <ImageView
         android:id="@+id/img_btn_remove"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        android:layout_width="16dp"
+        android:layout_height="20dp"
         android:layout_alignParentEnd="true"
         android:layout_gravity="top"
+        android:layout_weight="1"
         android:background="?attr/selectableItemBackground"
         android:src="@drawable/ic_close_v3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

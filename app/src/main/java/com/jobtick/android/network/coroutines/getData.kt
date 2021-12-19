@@ -3,8 +3,7 @@ package com.jobtick.android.network.coroutines
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import com.jobtick.android.network.coroutines.ServiceType.NEAR_JOBS
-import com.jobtick.android.network.coroutines.ServiceType.REVIEWS
+import com.jobtick.android.network.coroutines.ServiceType.*
 import com.jobtick.android.network.model.Response
 import com.jobtick.android.network.model.request.NearJobsRequest
 import com.jobtick.android.network.model.request.ReviewsRequest
@@ -40,6 +39,7 @@ suspend fun <T, G> getData(
         val response: Any? = when (service) {
             NEAR_JOBS -> mainRepository.getNearJobs((input as NearJobsRequest).latitude,(input as NearJobsRequest).longitude
                 ,(input as NearJobsRequest).radius,(input as NearJobsRequest).limit)
+            SKILLS -> mainRepository.skills(input as String)
             else -> null
         }
         liveData.postValue(Resource.success(response as G))

@@ -78,7 +78,7 @@ class AddTagActivity : ActivityBase() {
         recyclerView!!.layoutManager = LinearLayoutManager(this@AddTagActivity)
         recyclerView!!.addItemDecoration(SpacingItemDecoration(1, Tools.dpToPx(this@AddTagActivity, 5), true))
         recyclerView!!.setHasFixedSize(true)
-        adapter = AddTagAdapter(addTagList) { data: String? ->
+        adapter = AddTagAdapter(addTagList, true) { data: String? ->
             addTagList!!.remove(data)
             adapter!!.updateItem(addTagList)
             recyclerView!!.swapAdapter(adapter, true)

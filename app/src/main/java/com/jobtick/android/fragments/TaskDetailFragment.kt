@@ -209,7 +209,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             )
         )
         recyclerAddMustHave.setHasFixedSize(true)
-        tagAdapter = AddTagAdapter(addTagList) { data: String? ->
+        tagAdapter = AddTagAdapter(addTagList, true) { data: String? ->
             addTagList!!.remove(data)
             tagAdapter!!.updateItem(addTagList)
             tagAdapterBottomSheet!!.updateItem(addTagList)
@@ -549,7 +549,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             )
         )
         recyclerAddMustHaveBottomSheet.setHasFixedSize(true)
-        tagAdapterBottomSheet = AddTagAdapter(addTagList) { data: String? ->
+        tagAdapterBottomSheet = AddTagAdapter(addTagList, true) { data: String? ->
             addTagList!!.remove(data)
             tagAdapterBottomSheet!!.updateItem(addTagList)
             tagAdapter!!.updateItem(addTagList)

@@ -2,6 +2,7 @@ package com.jobtick.android.network.retrofit
 
 import com.jobtick.android.network.model.Response
 import com.jobtick.android.network.model.response.NearJobsResponse
+import com.jobtick.android.network.model.response.skills.SkillsResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -85,4 +86,9 @@ interface ApiInterface {
         @Query("radius") radius: Int,
         @Query("limit") limit: Int
     ): NearJobsResponse
+
+    @GET("skills")
+    suspend fun skills(
+        @Query("query") query: String
+    ): SkillsResponse
 }

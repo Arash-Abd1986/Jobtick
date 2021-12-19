@@ -217,15 +217,6 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                     addFormDataPart("portfolio[]", it)
                 }
 
-            if (userAccountModel!!.skills.specialities!!.size > 0)
-                userAccountModel!!.skills.specialities.forEach {
-                    addFormDataPart("specialities[]", it)
-                }
-            if (userAccountModel!!.skills.transportation!!.size > 0)
-                userAccountModel!!.skills.transportation!!.forEach {
-                    addFormDataPart("transportation[]", it)
-                }
-
             if (userAccountModel!!.skills.language!!.size > 0)
                 userAccountModel!!.skills.language!!.forEach {
                     addFormDataPart("language[]", it)
@@ -235,11 +226,10 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                 userAccountModel!!.skills.education!!.forEach {
                     addFormDataPart("education[]", it)
                 }
-            if (userAccountModel!!.skills.experience!!.size > 0)
-                userAccountModel!!.skills.experience!!.forEach {
-                    addFormDataPart("experience[]", it)
+            if (userAccountModel!!.skills.skills!!.size > 0)
+                userAccountModel!!.skills.skills!!.forEach {
+                    addFormDataPart("skills[]", it)
                 }
-
             //addFormDataPart("latitude", null)
             //addFormDataPart("longitude", null)
             if (sessionManager.userAccount.avatar != null)
@@ -503,8 +493,8 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
 
     @SuppressLint("SetTextI18n")
     private fun experienceSetUp(userAccountModel: UserAccountModel?) {
-        if (userAccountModel!!.skills.experience != null && userAccountModel.skills.experience.size != 0) {
-            txtSkills!!.text = "" + userAccountModel.skills.experience.size
+        if (userAccountModel!!.skills.skills != null && userAccountModel.skills.skills.size != 0) {
+            txtSkills!!.text = "" + userAccountModel.skills.skills.size
             txtSkills!!.visibility = View.VISIBLE
         } else {
             txtSkills!!.visibility = View.VISIBLE
@@ -514,9 +504,9 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
 
     @SuppressLint("SetTextI18n")
     private fun educationSetUp(userAccountModel: UserAccountModel?) {
-        if (userAccountModel!!.skills.education != null && (userAccountModel.skills.education.size + userAccountModel.skills.specialities.size) != 0) {
+        if (userAccountModel!!.skills.education != null && (userAccountModel.skills.education.size ) != 0) {
             txtEducation!!.text =
-                "" + (userAccountModel.skills.education.size + userAccountModel.skills.specialities.size)
+                "" + (userAccountModel.skills.education.size)
             txtEducation!!.visibility = View.VISIBLE
         } else {
             txtEducation!!.visibility = View.VISIBLE
@@ -644,7 +634,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         rltBtnSkills!!.setOnClickListener {
             intent = Intent(this@EditProfileActivity, SkillsTagActivity::class.java)
             bundle = Bundle()
-            bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel!!.skills.experience)
+            bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel!!.skills.skills)
             bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.EXPERIENCE)
             bundle.putString(ConstantKey.TITLE, "Add your occupation")
             intent.putExtras(bundle)
@@ -791,7 +781,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                         educationSetUp(userAccountModel)
                     }
                     4 -> {
-                        userAccountModel!!.skills.experience =
+                        userAccountModel!!.skills.skills =
                             bundle.getStringArrayList(ConstantKey.SKILLS)
                         experienceSetUp(userAccountModel)
                     }

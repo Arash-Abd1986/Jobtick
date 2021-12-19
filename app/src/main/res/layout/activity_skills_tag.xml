@@ -24,12 +24,11 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_10sp"
                 android:padding="@dimen/_8sp"
-                android:src="@drawable/ic_back"
-                 />
+                android:src="@drawable/ic_back" />
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_500_18"
                 android:id="@+id/toolbar_title"
+                style="@style/materialText_500_18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -54,17 +53,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingHorizontal="@dimen/spacing_large"
-                android:paddingVertical="25dp"
-                >
+                android:paddingVertical="25dp">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_700_12"
                     android:id="@+id/txt_title"
+                    style="@style/materialText_700_12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Tag"
-                    android:visibility="gone"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="gone" />
 
 
                 <RelativeLayout
@@ -97,22 +95,64 @@
             </LinearLayout>
         </FrameLayout>
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:overScrollMode="never" />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_suggest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:overScrollMode="never" />
+            android:layout_height="wrap_content">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/skills_title"
+                    style="@style/materialText_W400_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginStart="12dp"
+                    android:text="Your skills"
+                    android:textColor="@color/N300"
+                    android:textSize="@dimen/_18sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:overScrollMode="never" />
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#C1C7D0" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/suggests_title"
+                    style="@style/materialText_W400_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginStart="12dp"
+                    android:text="Select skills match you best"
+                    android:textColor="@color/N300"
+                    android:textSize="@dimen/_18sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_suggest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:overScrollMode="never" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 

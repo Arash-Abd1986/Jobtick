@@ -17,6 +17,7 @@ public class ApiClient {
 
     private static retrofit2.Retrofit retrofit = null;
     private static retrofit2.Retrofit retrofit2 = null;
+    private static retrofit2.Retrofit retrofitWithoutToken = null;
     private retrofit2.Retrofit retrofitVideoUpload;
 
     public static ApiInterface getClient() {
@@ -63,10 +64,10 @@ public class ApiClient {
     }
     public static ApiInterface getClientV1WithToken(SessionManager sessionManager) {
 
-        if (retrofit2 == null) {
+        if (retrofitWithoutToken == null) {
             HttpLoggingInterceptor logIn = new HttpLoggingInterceptor();
             logIn.setLevel(HttpLoggingInterceptor.Level.BODY);
-            retrofit2 = new retrofit2.Retrofit.Builder()
+            retrofitWithoutToken = new retrofit2.Retrofit.Builder()
                     .baseUrl(Constant.BASE_URL)
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
@@ -81,7 +82,7 @@ public class ApiClient {
                     .build();
 
         }
-        return retrofit2.create(ApiInterface.class);
+        return retrofitWithoutToken.create(ApiInterface.class);
     }
 
 

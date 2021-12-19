@@ -58,19 +58,14 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var imgVerified: ImageView? = null
     private var tagEducation: TagContainerLayout? = null
     private var lytEducation: LinearLayout? = null
-    private var tagSpecialities: TagContainerLayout? = null
-    private var lytSpecialities: LinearLayout? = null
     private var tagLanguage: TagContainerLayout? = null
     private var lytLanguage: LinearLayout? = null
-    private var tagExperience: TagContainerLayout? = null
-    private var lytExperience: LinearLayout? = null
-    private var tagTransportation: TagContainerLayout? = null
-    private var lytTransportation: LinearLayout? = null
+    private var tagSkills: TagContainerLayout? = null
+    private var lytSkills: LinearLayout? = null
     private var txtFullName: TextView? = null
     private var txtSuburb: TextView? = null
     private var txtLastSeen: TextView? = null
     private var tvViewAllReviews: TextView? = null
-    private var tvSkills: TextView? = null
     private var txtAccountLevel: TextView? = null
     private var ratingbarAsTicker: RatingBar? = null
     private var ratingbarAsPoster: RatingBar? = null
@@ -187,19 +182,14 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         imgVerified = requireView().findViewById(R.id.img_verified)
         tagEducation = requireView().findViewById(R.id.tag_education)
         lytEducation = requireView().findViewById(R.id.lyt_education)
-        tagSpecialities = requireView().findViewById(R.id.tag_specialities)
-        lytSpecialities = requireView().findViewById(R.id.lyt_specialities)
         tagLanguage = requireView().findViewById(R.id.tag_language)
         lytLanguage = requireView().findViewById(R.id.lyt_language)
-        tagExperience = requireView().findViewById(R.id.tag_experience)
-        lytExperience = requireView().findViewById(R.id.lyt_experience)
-        tagTransportation = requireView().findViewById(R.id.tag_transportation)
-        lytTransportation = requireView().findViewById(R.id.lyt_transportation)
+        tagSkills = requireView().findViewById(R.id.tag_experience)
+        lytSkills = requireView().findViewById(R.id.lyt_experience)
         txtFullName = requireView().findViewById(R.id.txt_full_name)
         txtSuburb = requireView().findViewById(R.id.txt_suburb)
         txtLastSeen = requireView().findViewById(R.id.txt_last_seen)
         tvViewAllReviews = requireView().findViewById(R.id.tvViewAllReviews)
-        tvSkills = requireView().findViewById(R.id.tvSkills)
         txtAccountLevel = requireView().findViewById(R.id.txt_account_level)
         ratingbarAsTicker = requireView().findViewById(R.id.ratingbarAsTicker)
         ratingbarAsPoster = requireView().findViewById(R.id.ratingbarAsPoster)
@@ -349,7 +339,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             rbPortfollio!!.setTextColor(resources.getColor(R.color.N600))
             rbSkills!!.setTextColor(resources.getColor(R.color.N100))
         } else if (rbSkills!!.isChecked) {
-            if (tagEducation!!.size() <= 0 && tagExperience!!.size() <= 0 && tagLanguage!!.size() <= 0 && tagSpecialities!!.size() <= 0 && tagTransportation!!.size() <= 0) {
+            if (tagEducation!!.size() <= 0 && tagSkills!!.size() <= 0 && tagLanguage!!.size() <= 0) {
                 noPortfolio!!.visibility = View.GONE
                 noSkill!!.visibility = View.VISIBLE
                 addSkill!!.setOnClickListener { view13: View? ->
@@ -358,12 +348,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     startActivity(intent)
                 }
                 lSkill!!.visibility = View.GONE
-                tvSkills!!.visibility = View.GONE
             } else {
                 noPortfolio!!.visibility = View.GONE
                 noSkill!!.visibility = View.GONE
                 lSkill!!.visibility = View.VISIBLE
-                tvSkills!!.visibility = View.VISIBLE
             }
             recyclerViewPortfolio!!.visibility = View.GONE
             lPort!!.visibility = View.GONE
@@ -596,13 +584,13 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             )
         }
 
-    /*    if(accountStatus.isBasic_info && accountStatus.isBank_account)
-            line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
-        if(accountStatus.isSkills && accountStatus.isBank_account)
-            line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
-        if(accountStatus.isSkills && accountStatus.isJobalerts)
-            line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
-        */
+        /*    if(accountStatus.isBasic_info && accountStatus.isBank_account)
+                line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+            if(accountStatus.isSkills && accountStatus.isBank_account)
+                line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+            if(accountStatus.isSkills && accountStatus.isJobalerts)
+                line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+            */
         if (accountStatus.isBasic_info) {
             txtAccountStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
             imAccountStatus!!.setImageDrawable(
@@ -611,7 +599,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     R.drawable.ic_completed_status
                 )
             )
-           // line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+            // line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
         } else {
             txtAccountStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
             imAccountStatus!!.setImageDrawable(
@@ -620,7 +608,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     R.drawable.ic_not_completed_status
                 )
             )
-           // line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
+            // line1!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
         }
 
         if (accountStatus.isSkills) {
@@ -631,7 +619,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     R.drawable.ic_completed_status
                 )
             )
-           // line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+            // line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
         } else {
             txtSkillsStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
             imSkillsStatus!!.setImageDrawable(
@@ -652,7 +640,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     R.drawable.ic_completed_status
                 )
             )
-           // line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
+            // line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.G300))
         } else {
             txtAlertStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N050))
             imAlertStatus!!.setImageDrawable(
@@ -661,7 +649,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     R.drawable.ic_not_completed_status
                 )
             )
-           // line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
+            // line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
         }
 
     }
@@ -731,14 +719,14 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         } else {
             noPortfolio!!.visibility = View.GONE
         }
-        if (userAccountModel.skills.experience == null && userAccountModel.skills.experience.size == 0 && userAccountModel.skills.language == null && userAccountModel.skills.language.size == 0 && userAccountModel.skills.specialities == null && userAccountModel.skills.specialities.size == 0 && userAccountModel.skills.transportation == null && userAccountModel.skills.transportation.size == 0 && userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0) {
+        if (userAccountModel.skills.skills == null && userAccountModel.skills.skills.size == 0 && userAccountModel.skills.language == null &&
+            userAccountModel.skills.language.size == 0
+            && userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0) {
             noPortfolio!!.visibility = View.GONE
             lSkill!!.visibility = View.GONE
             lytEducation!!.visibility = View.GONE
-            lytExperience!!.visibility = View.GONE
+            lytSkills!!.visibility = View.GONE
             lytLanguage!!.visibility = View.GONE
-            lytSpecialities!!.visibility = View.GONE
-            lytTransportation!!.visibility = View.GONE
             lPort!!.visibility = View.GONE
         } else {
             if (userAccountModel.skills.education != null && userAccountModel.skills.education.size != 0) {
@@ -749,12 +737,12 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 lytEducation!!.visibility = View.GONE
                 tagEducation!!.tags = ArrayList()
             }
-            if (userAccountModel.skills.experience != null && userAccountModel.skills.experience.size != 0) {
-                lytExperience!!.visibility = View.VISIBLE
-                tagExperience!!.tags = userAccountModel.skills.experience
+            if (userAccountModel.skills.skills != null && userAccountModel.skills.skills.size != 0) {
+                lytSkills!!.visibility = View.VISIBLE
+                tagSkills!!.tags = userAccountModel.skills.skills
             } else {
-                lytExperience!!.visibility = View.GONE
-                tagExperience!!.tags = ArrayList()
+                lytSkills!!.visibility = View.GONE
+                tagSkills!!.tags = ArrayList()
             }
             if (userAccountModel.skills.language != null && userAccountModel.skills.language.size != 0) {
                 lytLanguage!!.visibility = View.VISIBLE
@@ -763,26 +751,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 lytLanguage!!.visibility = View.GONE
                 tagLanguage!!.tags = ArrayList()
             }
-            if (userAccountModel.skills.specialities != null && userAccountModel.skills.specialities.size != 0) {
-                lytSpecialities!!.visibility = View.VISIBLE
-                tagSpecialities!!.tags = userAccountModel.skills.specialities
-            } else {
-                lytSpecialities!!.visibility = View.GONE
-                tagSpecialities!!.tags = ArrayList()
-            }
-            if (userAccountModel.skills.transportation != null && userAccountModel.skills.transportation.size != 0) {
-                lytTransportation!!.visibility = View.VISIBLE
-                tagTransportation!!.tags = userAccountModel.skills.transportation
-            } else {
-                lytTransportation!!.visibility = View.GONE
-                tagTransportation!!.tags = ArrayList()
-            }
+
         }
         tagEducation!!.tagTypeface = poppinsMedium
-        tagSpecialities!!.tagTypeface = poppinsMedium
         tagLanguage!!.tagTypeface = poppinsMedium
-        tagExperience!!.tagTypeface = poppinsMedium
-        tagTransportation!!.tagTypeface = poppinsMedium
+        tagSkills!!.tagTypeface = poppinsMedium
         if (userAccountModel.avatar != null) {
             ImageUtil.displayImage(imgAvatar, userAccountModel.avatar.url, null)
         }

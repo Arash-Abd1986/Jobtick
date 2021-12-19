@@ -59,19 +59,14 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
     var imgVerified: ImageView? = null
     var tagEducation: TagContainerLayout? = null
     var lytEducation: LinearLayout? = null
-    var tagSpecialities: TagContainerLayout? = null
-    var lytSpecialities: LinearLayout? = null
     var tagLanguage: TagContainerLayout? = null
+    var tagSkills: TagContainerLayout? = null
     var lytLanguage: LinearLayout? = null
-    var tagExperience: TagContainerLayout? = null
-    var lytExperience: LinearLayout? = null
-    var tagTransportation: TagContainerLayout? = null
-    var lytTransportation: LinearLayout? = null
+    var lytSkills: LinearLayout? = null
     var txtFullName: TextView? = null
     var txtSuburb: TextView? = null
     var txtLastSeen: TextView? = null
     var tvViewAllReviews: TextView? = null
-    var tvSkills: TextView? = null
     var txtAccountLevel: TextView? = null
     var ratingbarAsTicker: RatingBar? = null
     var ratingbarAsPoster: RatingBar? = null
@@ -161,18 +156,12 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         imgVerified = requireView().findViewById(R.id.img_verified)
         tagEducation = requireView().findViewById(R.id.tag_education)
         lytEducation = requireView().findViewById(R.id.lyt_education)
-        tagSpecialities = requireView().findViewById(R.id.tag_specialities)
-        lytSpecialities = requireView().findViewById(R.id.lyt_specialities)
         tagLanguage = requireView().findViewById(R.id.tag_language)
-        tagExperience = requireView().findViewById(R.id.tag_experience)
-        lytExperience = requireView().findViewById(R.id.lyt_experience)
-        tagTransportation = requireView().findViewById(R.id.tag_transportation)
-        lytTransportation = requireView().findViewById(R.id.lyt_transportation)
+        tagSkills = requireView().findViewById(R.id.tag_experience)
         txtFullName = requireView().findViewById(R.id.txt_full_name)
         txtSuburb = requireView().findViewById(R.id.txt_suburb)
         txtLastSeen = requireView().findViewById(R.id.txt_last_seen)
         tvViewAllReviews = requireView().findViewById(R.id.tvViewAllReviews)
-        tvSkills = requireView().findViewById(R.id.tvSkills)
         txtAccountLevel = requireView().findViewById(R.id.txt_account_level)
         ratingbarAsTicker = requireView().findViewById(R.id.ratingbarAsTicker)
         ratingbarAsPoster = requireView().findViewById(R.id.ratingbarAsPoster)
@@ -192,6 +181,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         ivMedalGOld = requireView().findViewById(R.id.ivMedalGOld)
         ivMedalMax = requireView().findViewById(R.id.ivMedalMax)
         lytLanguage = requireView().findViewById(R.id.lyt_language)
+        lytSkills = requireView().findViewById(R.id.lyt_experience)
         linFcc = requireView().findViewById(R.id.lin_fcc)
         linFcc2 = requireView().findViewById(R.id.lin_fcc2)
         linLevel = requireView().findViewById(R.id.lin_level)
@@ -300,7 +290,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
             rbPortfollio!!.setTextColor(resources.getColor(R.color.N600))
             rbSkills!!.setTextColor(resources.getColor(R.color.N100))
         } else if (rbSkills!!.isChecked) {
-            if (tagEducation!!.size() <= 0 && tagExperience!!.size() <= 0 && tagLanguage!!.size() <= 0 && tagSpecialities!!.size() <= 0 && tagTransportation!!.size() <= 0) {
+            if (tagEducation!!.size() <= 0 && tagSkills!!.size() <= 0 && tagLanguage!!.size() <= 0) {
                 noPortfolio!!.visibility = View.GONE
                 noSkill!!.visibility = View.VISIBLE
                 addSkill!!.setOnClickListener { view13: View? ->
@@ -308,12 +298,10 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                     startActivity(intent)
                 }
                 lSkill!!.visibility = View.GONE
-                tvSkills!!.visibility = View.GONE
             } else {
                 noPortfolio!!.visibility = View.GONE
                 noSkill!!.visibility = View.GONE
                 lSkill!!.visibility = View.VISIBLE
-                tvSkills!!.visibility = View.VISIBLE
             }
             recyclerViewPortfolio!!.visibility = View.GONE
             lPort!!.visibility = View.GONE
@@ -542,14 +530,13 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         } else {
             noPortfolio!!.visibility = View.GONE
         }
-        if (userAccountModel.skills.experience == null && userAccountModel.skills.experience.size == 0 && userAccountModel.skills.language == null && userAccountModel.skills.language.size == 0 && userAccountModel.skills.specialities == null && userAccountModel.skills.specialities.size == 0 && userAccountModel.skills.transportation == null && userAccountModel.skills.transportation.size == 0 && userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0) {
+        if (userAccountModel.skills.skills == null && userAccountModel.skills.skills.size == 0 && userAccountModel.skills.language == null && userAccountModel.skills.language.size == 0
+            && userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0) {
             noPortfolio!!.visibility = View.GONE
             lSkill!!.visibility = View.GONE
             lytEducation!!.visibility = View.GONE
-            lytExperience!!.visibility = View.GONE
             lytLanguage!!.visibility = View.GONE
-            lytSpecialities!!.visibility = View.GONE
-            lytTransportation!!.visibility = View.GONE
+
             recyclerViewPortfolio!!.visibility = View.GONE
             lPort!!.visibility = View.GONE
         } else {
@@ -561,13 +548,6 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                 lytEducation!!.visibility = View.GONE
                 tagEducation!!.tags = ArrayList()
             }
-            if (userAccountModel.skills.experience != null && userAccountModel.skills.experience.size != 0) {
-                lytExperience!!.visibility = View.VISIBLE
-                tagExperience!!.tags = userAccountModel.skills.experience
-            } else {
-                lytExperience!!.visibility = View.GONE
-                tagExperience!!.tags = ArrayList()
-            }
             if (userAccountModel.skills.language != null && userAccountModel.skills.language.size != 0) {
                 lytLanguage!!.visibility = View.VISIBLE
                 tagLanguage!!.tags = userAccountModel.skills.language
@@ -575,26 +555,18 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                 lytLanguage!!.visibility = View.GONE
                 tagLanguage!!.tags = ArrayList()
             }
-            if (userAccountModel.skills.specialities != null && userAccountModel.skills.specialities.size != 0) {
-                lytSpecialities!!.visibility = View.VISIBLE
-                tagSpecialities!!.tags = userAccountModel.skills.specialities
+            if (userAccountModel.skills.skills != null && userAccountModel.skills.skills.size != 0) {
+                lytSkills!!.visibility = View.VISIBLE
+                tagSkills!!.tags = userAccountModel.skills.skills
             } else {
-                lytSpecialities!!.visibility = View.GONE
-                tagSpecialities!!.tags = ArrayList()
+                lytSkills!!.visibility = View.GONE
+                tagSkills!!.tags = ArrayList()
             }
-            if (userAccountModel.skills.transportation != null && userAccountModel.skills.transportation.size != 0) {
-                lytTransportation!!.visibility = View.VISIBLE
-                tagTransportation!!.tags = userAccountModel.skills.transportation
-            } else {
-                lytTransportation!!.visibility = View.GONE
-                tagTransportation!!.tags = ArrayList()
-            }
+
         }
         tagEducation!!.tagTypeface = poppinsMedium
-        tagSpecialities!!.tagTypeface = poppinsMedium
+        tagSkills!!.tagTypeface = poppinsMedium
         tagLanguage!!.tagTypeface = poppinsMedium
-        tagExperience!!.tagTypeface = poppinsMedium
-        tagTransportation!!.tagTypeface = poppinsMedium
         if (userAccountModel.avatar != null) {
             ImageUtil.displayImage(imgAvatar, userAccountModel.avatar.thumbUrl, null)
         }

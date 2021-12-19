@@ -34,6 +34,9 @@ class SkillsTagActivity : ActivityBase() {
     private var edtAddTag: EditText? = null
     private var imgBtnAddTag: ImageView? = null
     private var toolbarTitle: TextView? = null
+    private var suggests_title: TextView? = null
+    private var skills_title: TextView? = null
+    private var line: View? = null
     private var ivBack: ImageView? = null
 
     private var actionBatTitle: String? = null
@@ -69,6 +72,9 @@ class SkillsTagActivity : ActivityBase() {
             }
         }else{
             recyclerViewSuggest!!.visibility = View.GONE
+            suggests_title!!.visibility = View.GONE
+            skills_title!!.visibility = View.GONE
+            line!!.visibility = View.GONE
         }
     }
 
@@ -104,6 +110,8 @@ class SkillsTagActivity : ActivityBase() {
                             hasUpdate = true
                             if (recyclerView!!.visibility != View.VISIBLE) {
                                 recyclerView!!.visibility = View.VISIBLE
+                                line!!.visibility = View.VISIBLE
+                                skills_title!!.visibility = View.VISIBLE
                             }
                             if (addTagList!!.size == 1) {
                                 recyclerView!!.adapter = adapter
@@ -134,6 +142,9 @@ class SkillsTagActivity : ActivityBase() {
         edtAddTag = findViewById(R.id.edt_add_tag)
         imgBtnAddTag = findViewById(R.id.img_btn_add_tag)
         toolbarTitle = findViewById(R.id.toolbar_title)
+        line = findViewById(R.id.line)
+        skills_title = findViewById(R.id.skills_title)
+        suggests_title = findViewById(R.id.suggests_title)
         ivBack = findViewById(R.id.ivBack)
         onViewClick()
     }
@@ -171,6 +182,8 @@ class SkillsTagActivity : ActivityBase() {
             recyclerView!!.swapAdapter(adapter, true)
             if (addTagList!!.size == 0) {
                 recyclerView!!.visibility = View.GONE
+                line!!.visibility = View.GONE
+                skills_title!!.visibility = View.GONE
             }
         }
         if (addTagList != null && addTagList!!.size != 0) {
@@ -189,6 +202,8 @@ class SkillsTagActivity : ActivityBase() {
                 hasUpdate = true
                 if (recyclerView!!.visibility != View.VISIBLE) {
                     recyclerView!!.visibility = View.VISIBLE
+                    line!!.visibility = View.VISIBLE
+                    skills_title!!.visibility = View.VISIBLE
                 }
                 if (addTagList!!.size == 1) {
                     recyclerView!!.adapter = adapter

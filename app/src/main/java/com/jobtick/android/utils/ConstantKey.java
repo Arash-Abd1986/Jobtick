@@ -67,7 +67,7 @@ public class ConstantKey {
     public static final String SPECIALITIES = "Specialities";
     public static final String TRANSPORTATION = "Transportation";
     public static final String LANGUAGE = "Language";
-    public static final String EXPERIENCE = "Experience";
+    public static final String EXPERIENCE = "Skills";
     public static final String EDUCATION = "Education";
     public static final String CREATE_TASK = "Create Job";
     public static final String DRAFT_JOB = "isDraftJob";

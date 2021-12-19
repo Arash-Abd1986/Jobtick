@@ -32,15 +32,20 @@ public class SkillsModel implements Parcelable {
     @Expose
     private ArrayList<String> language = new ArrayList<>();
 
+    @SerializedName("skills")
+    @Expose
+    private ArrayList<String> skills = new ArrayList<>();
+
     public SkillsModel() {
     }
 
-    public SkillsModel(ArrayList<String> specialities, ArrayList<String> experience, ArrayList<String> transportation, ArrayList<String> education, ArrayList<String> language) {
+    public SkillsModel(ArrayList<String> specialities, ArrayList<String> experience, ArrayList<String> transportation, ArrayList<String> education, ArrayList<String> language, ArrayList<String> skills) {
         this.specialities = specialities;
         this.experience = experience;
         this.transportation = transportation;
         this.education = education;
         this.language = language;
+        this.skills = skills;
     }
 
     protected SkillsModel(Parcel in) {
@@ -49,6 +54,7 @@ public class SkillsModel implements Parcelable {
         transportation = in.createStringArrayList();
         education = in.createStringArrayList();
         language = in.createStringArrayList();
+        skills = in.createStringArrayList();
     }
 
     @Override
@@ -58,6 +64,7 @@ public class SkillsModel implements Parcelable {
         dest.writeStringList(transportation);
         dest.writeStringList(education);
         dest.writeStringList(language);
+        dest.writeStringList(skills);
     }
 
     @Override
@@ -112,9 +119,15 @@ public class SkillsModel implements Parcelable {
     public ArrayList<String> getLanguage() {
         return language;
     }
+    public ArrayList<String> getSkills() {
+        return skills;
+    }
 
     public void setLanguage(ArrayList<String> language) {
         this.language = language;
+    }
+    public void setSkills(ArrayList<String> skills) {
+        this.skills = skills;
     }
 
     public SkillsModel getJsonToModel(JSONObject jsonObject) {
@@ -155,6 +168,15 @@ public class SkillsModel implements Parcelable {
                     stringArrayList.add(jsonObject_language.getString("name"));
                 }
                 skillsModel.setLanguage(stringArrayList);
+            }
+            if (jsonObject.has("skills") && !jsonObject.isNull("skills")) {
+                JSONArray jsonArray_skills = jsonObject.getJSONArray("skills");
+                ArrayList<String> stringArrayList = new ArrayList<>();
+                for (int i = 0; jsonArray_skills.length() > i; i++) {
+                    JSONObject skills = jsonArray_skills.getJSONObject(i);
+                    stringArrayList.add(skills.getString("name"));
+                }
+                skillsModel.setSkills(stringArrayList);
             }
             if (jsonObject.has("education") && !jsonObject.isNull("education")) {
                 JSONArray jsonArray_education = jsonObject.getJSONArray("education");

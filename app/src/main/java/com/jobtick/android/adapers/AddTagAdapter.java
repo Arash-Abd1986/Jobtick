@@ -68,7 +68,6 @@ public class AddTagAdapter extends RecyclerView.Adapter<AddTagAdapter.ViewHolder
         String data = items.get(position);
         holder.txtBtnAddMustHave.setText(data);
         holder.imgBtnRemove.setOnClickListener(v -> mOnItemClickListener.onItemClick(data));
-
         if (isAdded){
             MyExtensions.setBackgroundShape(holder.top_cn, ContextCompat.getColor(holder.itemView.getContext(), R.color.P075),
                     ContextCompat.getColor(holder.itemView.getContext(), R.color.P075),
@@ -77,6 +76,7 @@ public class AddTagAdapter extends RecyclerView.Adapter<AddTagAdapter.ViewHolder
                     GradientDrawable.RECTANGLE);
             holder.imgBtnRemove.setImageResource(R.drawable.ic_close_v4);
         }else{
+            holder.txtBtnAddMustHave.setOnClickListener(v -> mOnItemClickListener.onItemClick(data));
             holder.imgBtnRemove.setImageResource(R.drawable.ic_btn_plus_gray);
             MyExtensions.setBackgroundShape(holder.top_cn, ContextCompat.getColor(holder.itemView.getContext(), R.color.N30),
                     ContextCompat.getColor(holder.itemView.getContext(), R.color.N30),

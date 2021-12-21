@@ -48,10 +48,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="30dp"
+                android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:ellipsize="end"
-                android:textAppearance="@style/materialText_400_14"
+                android:textAppearance="@style/materialText_W400_16"
                 android:textColor="@color/N900"
                 tools:text="@string/clean_my_two_bedroom_apartment" />
 
@@ -101,7 +101,7 @@
                     android:gravity="center_vertical"
                     android:singleLine="true"
                     android:text=""
-                    android:textAppearance="@style/materialText_400_12"
+                    android:textAppearance="@style/materialText_W400_12"
                     android:textColor="@color/N300" />
             </LinearLayout>
 
@@ -122,7 +122,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:gravity="end|center_vertical"
-                android:textAppearance="@style/materialText_400_12"
+                android:textAppearance="@style/materialText_W400_12"
                 android:textColor="@color/N300"
                 tools:text="@string/_200" />
 

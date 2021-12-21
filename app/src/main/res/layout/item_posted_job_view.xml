@@ -28,7 +28,7 @@
                 android:layout_marginEnd="30dp"
                 android:gravity="center_vertical"
                 android:maxLines="2"
-                android:textAppearance="@style/materialText_400_16"
+                android:textAppearance="@style/materialText_W400_16"
                 android:textColor="@color/N900"
                 tools:text="@string/clean_my_two_bedroom_apartment" />
             <androidx.appcompat.widget.AppCompatImageView
@@ -133,16 +133,16 @@
                 android:id="@+id/txt_offer_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical|start"
+                android:layout_toRightOf="@+id/rl_images"
                 android:backgroundTint="@color/N030"
                 android:gravity="start"
                 android:lines="1"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/rl_images"
                 android:paddingTop="3dp"
                 android:paddingEnd="3dp"
                 android:paddingBottom="3dp"
-                android:textAppearance="@style/materialText_400_12"
+                android:textAppearance="@style/materialText_W400_12"
                 android:textColor="@color/N300"
                 tools:text="99" />
 
@@ -160,12 +160,12 @@
                     android:id="@+id/txt_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:gravity="top"
-                    android:layout_centerVertical="true"
                     android:paddingHorizontal="10dp"
                     android:paddingBottom="3dp"
-                    android:textAppearance="@style/materialText_400_12"
+                    android:textAppearance="@style/materialText_W400_12"
                     android:textColor="@color/P300"
                     tools:text="open" />
 
@@ -176,10 +176,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_gravity="center"
                 android:layout_centerVertical="true"
+                android:layout_gravity="center"
                 android:gravity="end|center_vertical"
-                android:textAppearance="@style/materialText_400_12"
+                android:textAppearance="@style/materialText_W400_12"
                 android:textColor="@color/N300"
                 tools:text="@string/_200" />
 

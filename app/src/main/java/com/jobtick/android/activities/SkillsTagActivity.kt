@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -34,8 +35,8 @@ class SkillsTagActivity : ActivityBase() {
     private var edtAddTag: EditText? = null
     private var imgBtnAddTag: ImageView? = null
     private var toolbarTitle: TextView? = null
-    private var suggests_title: TextView? = null
-    private var skills_title: TextView? = null
+    private var suggestsTitle: TextView? = null
+    private var skillsTitle: TextView? = null
     private var line: View? = null
     private var ivBack: ImageView? = null
 
@@ -45,6 +46,7 @@ class SkillsTagActivity : ActivityBase() {
     private lateinit var viewModel: EditAccountViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_skills_tag)
         setIDs()
@@ -72,8 +74,8 @@ class SkillsTagActivity : ActivityBase() {
             }
         }else{
             recyclerViewSuggest!!.visibility = View.GONE
-            suggests_title!!.visibility = View.GONE
-            skills_title!!.visibility = View.GONE
+            suggestsTitle!!.visibility = View.GONE
+            skillsTitle!!.visibility = View.GONE
             line!!.visibility = View.GONE
         }
     }
@@ -111,7 +113,7 @@ class SkillsTagActivity : ActivityBase() {
                             if (recyclerView!!.visibility != View.VISIBLE) {
                                 recyclerView!!.visibility = View.VISIBLE
                                 line!!.visibility = View.VISIBLE
-                                skills_title!!.visibility = View.VISIBLE
+                                skillsTitle!!.visibility = View.VISIBLE
                             }
                             if (addTagList!!.size == 1) {
                                 recyclerView!!.adapter = adapter
@@ -143,8 +145,8 @@ class SkillsTagActivity : ActivityBase() {
         imgBtnAddTag = findViewById(R.id.img_btn_add_tag)
         toolbarTitle = findViewById(R.id.toolbar_title)
         line = findViewById(R.id.line)
-        skills_title = findViewById(R.id.skills_title)
-        suggests_title = findViewById(R.id.suggests_title)
+        skillsTitle = findViewById(R.id.skills_title)
+        suggestsTitle = findViewById(R.id.suggests_title)
         ivBack = findViewById(R.id.ivBack)
         onViewClick()
     }
@@ -183,7 +185,7 @@ class SkillsTagActivity : ActivityBase() {
             if (addTagList!!.size == 0) {
                 recyclerView!!.visibility = View.GONE
                 line!!.visibility = View.GONE
-                skills_title!!.visibility = View.GONE
+                skillsTitle!!.visibility = View.GONE
             }
         }
         if (addTagList != null && addTagList!!.size != 0) {
@@ -203,12 +205,12 @@ class SkillsTagActivity : ActivityBase() {
                 if (recyclerView!!.visibility != View.VISIBLE) {
                     recyclerView!!.visibility = View.VISIBLE
                     line!!.visibility = View.VISIBLE
-                    skills_title!!.visibility = View.VISIBLE
+                    skillsTitle!!.visibility = View.VISIBLE
                 }
                 if (addTagList!!.size == 1) {
                     recyclerView!!.adapter = adapter
                 }
-                adapter!!.notifyItemInserted(adapter!!.itemCount)
+                adapter!!.notifyDataSetChanged()
                 edtAddTag!!.text = null
             }
         }

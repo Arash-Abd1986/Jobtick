@@ -110,7 +110,8 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
         toolbarTitle.visibility = View.VISIBLE
         linFilter.visibility = View.VISIBLE
         toolbarTitle.setText(R.string.my_jobs)
-        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_semi_bold)
+        toolbarTitle.textSize = 20f
+        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
         val params = Toolbar.LayoutParams(
             Toolbar.LayoutParams.WRAP_CONTENT,
             Toolbar.LayoutParams.WRAP_CONTENT

@@ -24,11 +24,11 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_10sp"
                 android:padding="@dimen/_8sp"
-                android:src="@drawable/ic_back" />
+                android:src="@drawable/ic_back_black" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/toolbar_title"
-                style="@style/materialText_500_18"
+                style="@style/materialText_W500_20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

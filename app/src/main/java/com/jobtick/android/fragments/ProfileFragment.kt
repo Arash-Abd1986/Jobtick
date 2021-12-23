@@ -237,8 +237,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             val toolbarTitle = dashboardActivity!!.findViewById<TextView>(R.id.toolbar_title)
             toolbarTitle.visibility = View.VISIBLE
             toolbarTitle.setText(R.string.profile)
+            toolbarTitle!!.textSize = 20f
             toolbarTitle.typeface =
-                ResourcesCompat.getFont(requireContext(), R.font.roboto_semi_bold)
+                ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
             toolbar!!.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey_100))
             val params = Toolbar.LayoutParams(
                 Toolbar.LayoutParams.WRAP_CONTENT,

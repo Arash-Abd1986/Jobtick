@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jobtick.android.R
-import com.jobtick.android.adapers.AddTagAdapter
+import com.jobtick.android.adapers.AddTagAdapterV2
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.coroutines.Status
 import com.jobtick.android.network.retrofit.ApiClient
@@ -27,8 +27,8 @@ import kotlin.collections.ArrayList
 class SkillsTagActivity : ActivityBase() {
     private var recyclerView: RecyclerView? = null
     private var recyclerViewSuggest: RecyclerView? = null
-    private var adapter: AddTagAdapter? = null
-    private var adapter2: AddTagAdapter? = null
+    private var adapter: AddTagAdapterV2? = null
+    private var adapter2: AddTagAdapterV2? = null
     private var addTagList: ArrayList<String>? = null
     private var addTagListSuggest: ArrayList<String>? = null
     private var txtTitle: TextView? = null
@@ -98,7 +98,7 @@ class SkillsTagActivity : ActivityBase() {
                         val mLayoutManager = GridLayoutManager(this, 2)
                         recyclerViewSuggest!!.layoutManager = mLayoutManager
                         recyclerViewSuggest!!.setHasFixedSize(true)
-                        adapter2 = AddTagAdapter(addTagListSuggest, false) { data: String? ->
+                        adapter2 = AddTagAdapterV2(addTagListSuggest, false) { data: String? ->
                             addTagListSuggest!!.remove(data)
                             adapter2!!.updateItem(addTagListSuggest)
                             hasUpdate = true
@@ -177,7 +177,7 @@ class SkillsTagActivity : ActivityBase() {
         recyclerView!!.setLayoutManager(mLayoutManager)
        // recyclerView!!.addItemDecoration(SpacingItemDecoration(1, Tools.dpToPx(this@SkillsTagActivity, 5), true))
         recyclerView!!.setHasFixedSize(true)
-        adapter = AddTagAdapter(addTagList, true) { data: String? ->
+        adapter = AddTagAdapterV2(addTagList, true) { data: String? ->
             addTagList!!.remove(data)
             adapter!!.updateItem(addTagList)
             hasUpdate = true

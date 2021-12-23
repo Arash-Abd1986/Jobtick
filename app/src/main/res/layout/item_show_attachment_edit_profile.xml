@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_65dp">
+    android:layout_height="@dimen/_54dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -17,8 +17,8 @@
 
             <com.rishabhharit.roundedimageview.RoundedImageView
                 android:id="@+id/img_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:scaleType="centerCrop"
                 android:visibility="visible"
                 app:cornerRadius="6dp" />

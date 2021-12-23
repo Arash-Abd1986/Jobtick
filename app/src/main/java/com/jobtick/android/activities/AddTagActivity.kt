@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.jobtick.android.R
-import com.jobtick.android.adapers.AddTagAdapter
+import com.jobtick.android.adapers.AddTagAdapterV2
 import com.jobtick.android.edittext.EditTextRegular
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.Tools
@@ -20,7 +20,7 @@ import java.util.*
 class AddTagActivity : ActivityBase() {
     private var toolbar: MaterialToolbar? = null
     private var recyclerView: RecyclerView? = null
-    private var adapter: AddTagAdapter? = null
+    private var adapter: AddTagAdapterV2? = null
     private var addTagList: ArrayList<String>? = null
     private var txtTitle: TextView? = null
     private var edtAddTag: EditTextRegular? = null
@@ -78,7 +78,7 @@ class AddTagActivity : ActivityBase() {
         recyclerView!!.layoutManager = LinearLayoutManager(this@AddTagActivity)
         recyclerView!!.addItemDecoration(SpacingItemDecoration(1, Tools.dpToPx(this@AddTagActivity, 5), true))
         recyclerView!!.setHasFixedSize(true)
-        adapter = AddTagAdapter(addTagList, true) { data: String? ->
+        adapter = AddTagAdapterV2(addTagList, true) { data: String? ->
             addTagList!!.remove(data)
             adapter!!.updateItem(addTagList)
             recyclerView!!.swapAdapter(adapter, true)

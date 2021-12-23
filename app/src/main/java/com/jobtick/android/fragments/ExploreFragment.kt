@@ -142,7 +142,7 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
                 R.color.backgroundLightGrey
             )
         )
-        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_semi_bold)
+        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
         toolbarTitle.textSize = 20f
         val params = Toolbar.LayoutParams(
             Toolbar.LayoutParams.WRAP_CONTENT,

@@ -1376,7 +1376,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     private fun setDescription() {
         txtDescription.text = taskModel!!.description
-        setMoreLess(txtDescription, taskModel!!.description, 3)
+        setMoreLess(txtDescription, taskModel!!.description, 5)
     }
 
     private fun convertObjectToString(time: DueTimeModel, dueTime: String): String {

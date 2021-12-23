@@ -17,10 +17,12 @@
         android:background="@color/backgroundLightGrey">
 
         <include
+            android:id="@+id/filter_list"
             layout="@layout/view_filter_list"
             android:visibility="gone" />
 
         <LinearLayout
+            android:layout_below="@+id/filter_list"
             android:id="@+id/lin_search"
             android:layout_width="match_parent"
             android:layout_height="48dp"

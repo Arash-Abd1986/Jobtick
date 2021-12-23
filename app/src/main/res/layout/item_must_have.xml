@@ -14,7 +14,7 @@
          />
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/materialText_W500_14"
+        style="@style/materialText_W400_14"
         android:id="@+id/txt_btn_add_must_have"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

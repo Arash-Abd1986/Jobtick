@@ -39,7 +39,6 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="-4dp"
                     android:layout_weight="5">
 
                     <com.google.android.material.textview.MaterialTextView
@@ -52,7 +51,6 @@
                         android:layout_marginTop="2dp"
                         android:text="@string/nathan_fox"
                         android:textColor="@color/textColor" />
-
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/is_poster"
                         style="@style/materialText_W400_12"
@@ -73,14 +71,14 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_created_date"
-                    style="@style/materialText_W400_14"
+                    style="@style/materialText_W500_16"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginTop="4dp"
                     android:layout_weight="5"
                     android:gravity="center"
                     android:text="21 min. ago"
-                    android:textColor="@color/grey_40"
+                    android:textColor="@color/N300"
                     tools:ignore="HardcodedText" />
             </LinearLayout>
 
@@ -267,7 +265,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="4dp"
                         android:gravity="center_vertical"
                         android:text="@string/reply"
                         android:textColor="@color/GN300" />

@@ -15,8 +15,8 @@
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/img_avatar"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/pic"
             app:civ_border="false" />
 
@@ -38,6 +38,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
+                        android:layout_marginTop="2dp"
                         android:singleLine="true"
                         android:text="@string/nathan_fox"
                         android:textColor="@color/textColor" />
@@ -68,7 +69,7 @@
                 android:layout_weight="5"
                 android:gravity="center"
                 android:text="21 min. ago"
-                android:textColor="@color/grey_40"
+                android:textColor="@color/N300"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 

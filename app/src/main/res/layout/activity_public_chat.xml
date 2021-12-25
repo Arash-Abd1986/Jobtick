@@ -511,8 +511,8 @@
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/img_avatar_question"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:src="@drawable/pic"
                         app:civ_border="false" />
 
@@ -526,7 +526,7 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_name_question"
-                            style="@style/materialText_700_12"
+                            style="@style/materialText_W500_16"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:singleLine="true"
@@ -537,14 +537,14 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_created_date_question"
-                            style="@style/materialText_500_12"
+                            style="@style/materialText_W400_14"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="5"
-                            android:layout_marginTop="@dimen/_8dp"
+                            android:layout_marginTop="4dp"
                             android:gravity="top"
                             android:text="21 min. ago"
-                            android:textColor="@color/grey_40"
+                            android:textColor="@color/N300"
                             tools:ignore="HardcodedText" />
                     </LinearLayout>
 
@@ -560,7 +560,7 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_message_question"
-                        style="@style/materialText_500_14"
+                        style="@style/materialText_W400_14"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColor"

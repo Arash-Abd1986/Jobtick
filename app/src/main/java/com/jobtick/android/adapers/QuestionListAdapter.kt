@@ -127,6 +127,7 @@ class QuestionListAdapter(
         var ivReport: ImageView = itemView!!.findViewById(R.id.ivReport)
         var linearUserProfile: LinearLayout = itemView!!.findViewById(R.id.linear_user_profile)
         var isPoster: TextView = itemView!!.findViewById(R.id.is_poster)
+        var line: View = itemView!!.findViewById(R.id.line)
 
 
         override fun clear() {}
@@ -135,6 +136,11 @@ class QuestionListAdapter(
         override fun onBind(position: Int) {
             super.onBind(position)
             val item = mItems!![position]
+            if (position == mItems.size - 1)
+                line.visibility = View.GONE
+            else
+                line.visibility = View.VISIBLE
+
             if (item.user.avatar != null) {
                 ImageUtil.displayImage(imgAvatar, item.user.avatar.thumbUrl, null)
             }
@@ -204,7 +210,7 @@ class QuestionListAdapter(
             imgAvatar.setOnClickListener { v: View? -> linearUserProfile.performClick() }
             txtName.setOnClickListener { v: View? -> linearUserProfile.performClick() }
             val publicChatListAdapter =
-                PublicChatListAdapter(context, ArrayList(), status, posterID,userId)
+                PublicChatListAdapter(context, ArrayList(), status, posterID, userId)
             recyclerViewQuestionsChat.setHasFixedSize(true)
             recyclerViewQuestionsChat.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

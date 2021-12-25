@@ -127,6 +127,9 @@ class SkillsTagActivity : ActivityBase() {
                         hideProgressDialog()
                     }
                     Status.ERROR -> {
+                        recyclerViewSuggest!!.visibility = View.GONE
+                        suggestsTitle!!.visibility = View.GONE
+                        line!!.visibility = View.GONE
                         hideProgressDialog()
                         this.showToast("Something went wrong", this)
                     }

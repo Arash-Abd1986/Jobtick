@@ -114,10 +114,10 @@
 
                 <ImageView
                     android:id="@+id/img_map_pin"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="17dp"
+                    android:layout_height="23dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="4dp"
                     android:src="@drawable/ic_map_location_blue" />
 
                 <com.google.android.material.textview.MaterialTextView

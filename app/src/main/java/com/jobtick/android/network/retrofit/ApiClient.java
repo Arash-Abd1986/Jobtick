@@ -3,6 +3,7 @@ package com.jobtick.android.network.retrofit;
 
 
 import com.jobtick.android.network.TokenInterceptor;
+import com.jobtick.android.network.VersionInterceptor;
 import com.jobtick.android.utils.Constant;
 import com.jobtick.android.utils.SessionManager;
 
@@ -33,6 +34,7 @@ public class ApiClient {
                             .callTimeout(15, TimeUnit.SECONDS)
                             .connectTimeout(15, TimeUnit.SECONDS)
                             .writeTimeout(15, TimeUnit.SECONDS)
+                            .addInterceptor(new VersionInterceptor())
                             .build())
                     .build();
 
@@ -55,6 +57,7 @@ public class ApiClient {
                             .connectTimeout(15, TimeUnit.SECONDS)
                             .writeTimeout(15, TimeUnit.SECONDS)
                             .addInterceptor(new TokenInterceptor(sessionManager))
+                            .addInterceptor(new VersionInterceptor())
                             .addInterceptor(logIn)
                             .build())
                     .build();
@@ -77,6 +80,7 @@ public class ApiClient {
                             .connectTimeout(15, TimeUnit.SECONDS)
                             .writeTimeout(15, TimeUnit.SECONDS)
                             .addInterceptor(new TokenInterceptor(sessionManager))
+                            .addInterceptor(new VersionInterceptor())
                             .addInterceptor(logIn)
                             .build())
                     .build();

@@ -2,8 +2,7 @@ package com.jobtick.android.fragments.others
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,7 +54,13 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
     }
 
     private fun verify() {
-        if (isVerified) listener!!.onVerifySubmit(etPromoCode.text.toString()) else listener!!.onClose()
+        if (etPromoCode.text.isNotEmpty()) {
+            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+            ivState.visibility = View.GONE
+            pbLoading.visibility = View.VISIBLE
+            checkPromoCode()
+        }
     }
 
     private fun setupPromotionCodeChecker() {
@@ -64,32 +69,6 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
         etPromoCode = requireView().findViewById(R.id.etPromoCode)
         ivState = requireView().findViewById(R.id.ivState)
         pbLoading = requireView().findViewById(R.id.pbLoading)
-        etPromoCode.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (etPromoCode.text.length == 8) {
-                    ivState.visibility = View.GONE
-                    pbLoading.visibility = View.VISIBLE
-                } else {
-                    ivState.visibility = View.VISIBLE
-                    pbLoading.visibility = View.GONE
-                }
-            }
-
-            private val timer = Timer()
-            override fun afterTextChanged(s: Editable) {
-                if (etPromoCode.text.length == 8) {
-                    val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(view!!.windowToken, 0)
-                    ivState.visibility = View.GONE
-                    pbLoading.visibility = View.VISIBLE
-                    checkPromoCode()
-                } else {
-                    ivState.visibility = View.VISIBLE
-                    pbLoading.visibility = View.GONE
-                }
-            }
-        })
     }
 
     private fun checkPromoCode() {
@@ -111,6 +90,10 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
                         ivState.setImageResource(R.drawable.ic_unverified_coupon)
                         ivState.visibility = View.VISIBLE
                     }
+                    if (isVerified)
+                        Handler().postDelayed({
+                            listener!!.onVerifySubmit(etPromoCode.text.toString())
+                        },2000)
                 },
                 Response.ErrorListener { error: VolleyError ->
                     pbLoading.visibility = View.GONE

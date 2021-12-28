@@ -47,6 +47,7 @@ import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.SuburbAutoComplete
 import com.jobtick.android.utils.Tools
 import com.jobtick.android.widget.ExtendedCommentTextNewDesign
+import com.jobtick.android.widget.ExtendedCommentTextNewDesignWithError
 import com.jobtick.android.widget.SpacingItemDecoration
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -70,8 +71,8 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
     private lateinit var addAttachSmall: FrameLayout
     private lateinit var lytBntDateTime: LinearLayout
     private lateinit var lytBtnBudget: LinearLayout
-    private lateinit var edtTitle: ExtendedCommentTextNewDesign
-    private lateinit var edtDescription: ExtendedCommentTextNewDesign
+    private lateinit var edtTitle: ExtendedCommentTextNewDesignWithError
+    private lateinit var edtDescription: ExtendedCommentTextNewDesignWithError
     private lateinit var recyclerAddMustHave: RecyclerView
     private lateinit var rltAddMustHave: FrameLayout
     private lateinit var relReqSmall: RelativeLayout
@@ -209,7 +210,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             )
         )
         recyclerAddMustHave.setHasFixedSize(true)
-        tagAdapter = AddTagAdapter(addTagList) { data: String? ->
+        tagAdapter = AddTagAdapter(addTagList, true) { data: String? ->
             addTagList!!.remove(data)
             tagAdapter!!.updateItem(addTagList)
             tagAdapterBottomSheet!!.updateItem(addTagList)
@@ -549,7 +550,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             )
         )
         recyclerAddMustHaveBottomSheet.setHasFixedSize(true)
-        tagAdapterBottomSheet = AddTagAdapter(addTagList) { data: String? ->
+        tagAdapterBottomSheet = AddTagAdapter(addTagList, true) { data: String? ->
             addTagList!!.remove(data)
             tagAdapterBottomSheet!!.updateItem(addTagList)
             tagAdapter!!.updateItem(addTagList)

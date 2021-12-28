@@ -27,7 +27,7 @@
 
             <include layout="@layout/view_post_job_tab" />
 
-            <com.jobtick.android.widget.ExtendedCommentTextNewDesign
+            <com.jobtick.android.widget.ExtendedCommentTextNewDesignWithError
                 android:id="@+id/edt_title"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -43,7 +43,7 @@
                 app:isRequired="true"
                 app:eTitle="@string/job_title" />
 
-            <com.jobtick.android.widget.ExtendedCommentTextNewDesign
+            <com.jobtick.android.widget.ExtendedCommentTextNewDesignWithError
                 android:id="@+id/edt_description"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
@@ -82,11 +82,11 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_attach_title"
-                            style="@style/materialText_400_13"
+                            style="@style/materialText_W400_14"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:text="@string/attachment"
+                            android:text="Attachment (Optional)"
                             android:textColor="@color/N100" />
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -161,32 +161,30 @@
                         android:id="@+id/ln_req"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
                         android:minHeight="@dimen/_54dp"
                         android:orientation="vertical">
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_require_title"
-                            style="@style/materialText_400_13"
+                            style="@style/materialText_W400_14"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="5dp"
-                            android:text="Requirements"
+                            android:text="Requirements (Optional)"
                             android:textColor="@color/N100" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recycler_add_must_have"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginTop="15dp"
+                            android:layout_marginStart="13dp"
                             android:layout_marginEnd="15dp"
                             android:nestedScrollingEnabled="false"
                             android:overScrollMode="never"
                             android:scrollbars="none"
                             tools:itemCount="3"
-                            tools:listitem="@layout/item_add_must_have" />
+                            tools:listitem="@layout/item_add_must_have_v2" />
 
                         <RelativeLayout
                             android:id="@+id/rel_req_small"
@@ -194,15 +192,17 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="16dp"
                             android:paddingEnd="9dp"
                             android:paddingBottom="4dp"
+                            android:layout_marginTop="16dp"
                             android:visibility="gone">
 
                             <FrameLayout
                                 android:id="@+id/add_req_small"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
+
                                 android:background="@drawable/add_blue_c_radius_4"
                                 android:visibility="visible">
 
@@ -214,7 +214,7 @@
                             </FrameLayout>
 
                             <com.google.android.material.textview.MaterialTextView
-                                style="@style/materialText_400_13"
+                                style="@style/materialText_W400_14"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
@@ -222,7 +222,7 @@
                                 android:layout_toRightOf="@+id/add_req_small"
                                 android:gravity="center_vertical"
                                 android:paddingBottom="4dp"
-                                android:text="Requirements"
+                                android:text="Add a Requirement"
                                 android:textColor="@color/N100" />
                         </RelativeLayout>
                     </LinearLayout>
@@ -266,7 +266,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/materialText_400_15"
+                        style="@style/materialText_W400_16"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -322,6 +322,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:textSize="@dimen/_14sp"
+        android:fontFamily="@font/roboto_medium"
         android:layout_marginBottom="@dimen/spacing_large"
         android:background="@drawable/shape_rounded_back_button_deactive"
         android:text="@string/next" />

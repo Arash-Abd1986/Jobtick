@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/details"
-                    android:textAppearance="@style/materialText_400_12"
+                    android:textAppearance="@style/materialText_W500_12"
                     android:textColor="@color/colorPrimary" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -113,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/date_time"
-                    android:textAppearance="@style/materialText_400_12"
+                    android:textAppearance="@style/materialText_W500_12"
                     android:textColor="@color/colorGrayC9C9C9" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -162,7 +162,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/budget"
-                    android:textAppearance="@style/materialText_400_12"
+                    android:textAppearance="@style/materialText_W500_12"
                     android:textColor="@color/colorGrayC9C9C9" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

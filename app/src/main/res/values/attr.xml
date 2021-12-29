@@ -102,6 +102,7 @@
         <attr name="eIsEnable" format="boolean" />
         <attr name="eVerifyVisible" format="boolean" />
         <attr name="eStartFocus" format="boolean" />
+        <attr name="eNeedHeader" format="boolean" />
         <attr name="eMaxCharNumber" format="integer" />
         <attr name="eInputType" format="enum">
             <enum name="text" value="0" />
@@ -160,6 +161,7 @@
         <attr name="isSuburb" format="boolean" />
         <attr name="eMinCharSize" format="integer" />
         <attr name="eMaxCharSize" format="integer" />
+        <attr name="eMinHeight" format="integer" />
         <attr name="eIsMandatory" format="boolean" />
         <attr name="eImeOptionsComment" format="enum">
             <enum name="actionNext" value="0" />

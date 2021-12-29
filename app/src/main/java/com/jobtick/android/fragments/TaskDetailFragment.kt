@@ -17,11 +17,13 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import android.widget.ScrollView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SwitchCompat
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -61,6 +63,7 @@ import java.io.File
 import java.util.*
 import kotlin.math.roundToInt
 
+
 class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, TextWatcher,
     SubClickListener {
     private lateinit var lytBtnDetails: LinearLayout
@@ -87,6 +90,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
     private lateinit var txtDateTime: TextView
     private lateinit var imgBudget: ImageView
     private lateinit var txtBudget: TextView
+    private lateinit var scrollBar: NestedScrollView
 
     private val requiredCount = -1
     private val TAG = TaskDetailFragment::class.java.name
@@ -142,6 +146,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         txtDateTime = requireView().findViewById(R.id.txt_date_time)
         imgBudget = requireView().findViewById(R.id.img_budget)
         txtBudget = requireView().findViewById(R.id.txt_budget)
+        scrollBar = requireView().findViewById(R.id.scroll_bar)
         onViewClick()
     }
 
@@ -196,6 +201,9 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             addTagList!!.addAll(task!!.musthave)
         }
         txtSuburb.text = task!!.location
+        if (task!!.location != null) {
+            txtSuburb.setPadding(0, 0, 0, 0)
+        }
     }
 
     private fun init() {
@@ -323,9 +331,18 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
                     )
                     operationsListener!!.onValidDataFilled()
                 }
-                1 -> edtTitle.setError("Please enter the title")
-                2 -> edtDescription.setError("Please enter the description")
-                3 -> txtSuburb.setError("Please select your location")
+                1 -> {
+                    edtTitle.setError("Please write a title for your job")
+                    scrollBar.post { scrollBar.fullScroll(ScrollView.FOCUS_UP) }
+                }
+                2 -> {
+                    edtDescription.setError("Please write a description for your job")
+                    edtDescription.requestFocus()
+                }
+                3 -> {
+                    txtSuburb.setError("Please enter job location")
+                    scrollBar.post { scrollBar.fullScroll(ScrollView.FOCUS_DOWN) }
+                }
             }
         }
 
@@ -440,6 +457,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
     }
 
     override fun clickOnSearchedLoc(location: Feature) {
+        txtSuburb.setPadding(0, 0, 0, 0)
         txtSuburb.text = location.place_name_en
         val positionModel = PositionModel()
         positionModel.longitude = location.geometry!!.coordinates!![0]

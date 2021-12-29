@@ -48,6 +48,7 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
     private int eBoxSize = 0;
     private boolean eIsPassword;
     private final boolean eStartFocus;
+    private final boolean eNeedHeader;
     private int eInputType;
     private boolean eVerifyVisible = true;
     private int eImeOptions;
@@ -82,6 +83,7 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
             eHint = sharedAttribute.getString(R.styleable.ExtendedEntryText_eHint);
             eMaxCharNumber = sharedAttribute.getInt(R.styleable.ExtendedEntryText_eMaxCharNumber, 0);
             eIsEnable = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eIsEnable, true);
+            eNeedHeader = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eNeedHeader, true);
             eVerifyVisible = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eVerifyVisible, true);
             eStartFocus = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eStartFocus, false);
             String inputType = sharedAttribute.getString(R.styleable.ExtendedEntryText_eInputType);
@@ -123,6 +125,9 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
         textView.setText(eTitle);
         editText.setText(eContent);
         editText.setHint(eTitle);
+        if (!eNeedHeader){
+            textView.setVisibility(GONE);
+        }
         if (eHint != null)
             if (eHint.length() > 0)
                 editText.setHint(eHint);

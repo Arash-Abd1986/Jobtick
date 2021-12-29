@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.jobtick.android.R;
+import com.jobtick.android.utils.MyExtensions;
 
 import java.util.Locale;
 
@@ -29,6 +30,7 @@ public class ExtendedCommentTextNewDesignWithError extends RelativeLayout implem
     private final boolean isMandatory;
     private int eMinSize;
     private int eMaxSize;
+    private int minHeight;
     private final boolean eStartFocus;
     private final boolean eSingleLine;
     private final boolean isRequired;
@@ -70,6 +72,7 @@ public class ExtendedCommentTextNewDesignWithError extends RelativeLayout implem
             eSingleLine = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eSingleLine, false);
             eMinSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMinCharSize, 10);
             eMaxSize = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMaxCharSize, 100);
+            minHeight = sharedAttribute.getInt(R.styleable.ExtendedCommentText_eMinHeight, 0);
             isMandatory = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_eIsMandatory, false);
             isRequired = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_isRequired, false);
             showCounter = sharedAttribute.getBoolean(R.styleable.ExtendedCommentText_showCounter, true);
@@ -98,6 +101,9 @@ public class ExtendedCommentTextNewDesignWithError extends RelativeLayout implem
         textView.setText(eTitle);
         editText.setText(eContent);
         editText.setHint(eHint);
+        if (minHeight!= 0){
+            editText.setMinHeight(MyExtensions.dpToPx(minHeight));
+        }
         if (eSingleLine)
             editText.setMaxLines(1);
         if (isSuburb) {
@@ -210,6 +216,7 @@ public class ExtendedCommentTextNewDesignWithError extends RelativeLayout implem
                 } else if (length <= eMaxSize) {
                     counter.setText(String.format(Locale.ENGLISH, "%d/%d", s.toString().trim().length(), eMaxSize));
                     counter.setTextColor(getResources().getColor(R.color.green));
+                    error.setVisibility(GONE);
                 } else {
                     editText.setText(s.subSequence(0, eMaxSize));
                     editText.setSelection(eMaxSize);
@@ -224,6 +231,7 @@ public class ExtendedCommentTextNewDesignWithError extends RelativeLayout implem
                 if (length <= eMaxSize) {
                     counter.setText(String.format(Locale.ENGLISH, "%d/%d", s.toString().trim().length(), eMaxSize));
                     counter.setTextColor(getResources().getColor(R.color.green));
+                    error.setVisibility(GONE);
                 } else {
                     editText.setText(s.subSequence(0, eMaxSize));
                     editText.setSelection(eMaxSize);

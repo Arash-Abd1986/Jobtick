@@ -59,12 +59,22 @@
             android:visibility="visible">
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_600_12"
+                style="@style/materialText_W400_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/as_ticker"
                 android:textColor="@color/N300" />
-
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_ticker_NoReview"
+                style="@style/materialText_W400_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="No Review"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:textColor="@color/N100" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,6 +104,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ln_ticker_jobSuccess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sp"
@@ -107,7 +118,7 @@
                     android:textColor="@color/green" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_12"
+                    style="@style/materialText_W400_14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sp"
@@ -116,32 +127,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/no_review"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_reviews"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/_10sp"
-            android:visibility="visible">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_no_review"
-                style="@style/materialText_400_12"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/no_review"
-                android:textColor="@color/grey_70"
-                android:visibility="visible" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/poster_review"
@@ -156,12 +142,22 @@
             android:visibility="visible">
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_600_12"
+                style="@style/materialText_W400_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/as_poster"
                 android:textColor="@color/N300" />
-
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_poster_NoReview"
+                style="@style/materialText_W400_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="No Review"
+                android:visibility="gone"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:textColor="@color/N100" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -190,6 +186,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ln_poster_jobSuccess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sp"
@@ -203,7 +200,7 @@
                     android:textColor="@color/green" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_500_12"
+                    style="@style/materialText_W400_14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sp"

@@ -66,6 +66,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var txtSuburb: TextView? = null
     private var txtLastSeen: TextView? = null
     private var tvViewAllReviews: TextView? = null
+    var tv_poster_NoReview: TextView? = null
+    var tv_ticker_NoReview: TextView? = null
+    var ln_ticker_jobSuccess: LinearLayout? = null
+    var ln_poster_jobSuccess: LinearLayout? = null
     private var txtAccountLevel: TextView? = null
     private var ratingbarAsTicker: RatingBar? = null
     private var ratingbarAsPoster: RatingBar? = null
@@ -99,17 +103,16 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var poppinsMedium: Typeface? = null
     private var lPort: LinearLayout? = null
     private var lSkill: LinearLayout? = null
+    private var flAddSkill: FrameLayout? = null
     private var noPortfolio: LinearLayout? = null
     private var ivLevelInfo: ImageView? = null
     private var ivProfileInfo: ImageView? = null
-    private var noReview: LinearLayout? = null
     private var tickerReview: LinearLayout? = null
     private var linLevel: LinearLayout? = null
     private var linFcc2: LinearLayout? = null
     private var linFcc: LinearLayout? = null
     private var posterReview: LinearLayout? = null
     private var noSkill: LinearLayout? = null
-    private var txtNoReview: TextView? = null
     private var addSkill: TextView? = null
     private var addPortFilo: TextView? = null
     private var txtLevel1: TextView? = null
@@ -162,11 +165,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         noPortfolio = requireView().findViewById(R.id.no_port_folio)
         lPort = requireView().findViewById(R.id.lyt_Port)
         lSkill = requireView().findViewById(R.id.lyt_skills)
+        flAddSkill = requireView().findViewById(R.id.fl_add_skill)
         noSkill = requireView().findViewById(R.id.no_port_skill)
         addPortFilo = requireView().findViewById(R.id.txt_add_portfolio)
         addSkill = requireView().findViewById(R.id.txt_add_skill)
-        txtNoReview = requireView().findViewById(R.id.tv_no_review)
-        noReview = requireView().findViewById(R.id.no_review)
         posterReview = requireView().findViewById(R.id.poster_review)
         tickerReview = requireView().findViewById(R.id.ticker_review)
         ivLevelInfo = requireView().findViewById(R.id.ivLevelInfo)
@@ -219,6 +221,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         txtLevel2 = requireView().findViewById(R.id.txt_level2)
         txtLevel3 = requireView().findViewById(R.id.txt_level3)
         txtLevel4 = requireView().findViewById(R.id.txt_level4)
+        tv_poster_NoReview = requireView().findViewById(R.id.tv_poster_NoReview)
+        tv_ticker_NoReview = requireView().findViewById(R.id.tv_ticker_NoReview)
+        ln_poster_jobSuccess = requireView().findViewById(R.id.ln_poster_jobSuccess)
+        ln_ticker_jobSuccess = requireView().findViewById(R.id.ln_ticker_jobSuccess)
 
         linLevel!!.visibility = View.GONE
         linFcc2!!.visibility = View.GONE
@@ -337,6 +343,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 lPort!!.visibility = View.VISIBLE
             }
             lSkill!!.visibility = View.GONE
+            flAddSkill!!.visibility = View.GONE
             rbPortfollio!!.setTextColor(resources.getColor(R.color.N600))
             rbSkills!!.setTextColor(resources.getColor(R.color.N100))
         } else if (rbSkills!!.isChecked) {
@@ -349,10 +356,17 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     startActivity(intent)
                 }
                 lSkill!!.visibility = View.GONE
+                flAddSkill!!.visibility = View.GONE
             } else {
+                flAddSkill!!.setOnClickListener {
+                    val intent = Intent(requireActivity(), EditProfileActivity::class.java)
+                    intent.putExtra(ConstantKey.TAB, ConstantKey.PORTFO_SKILLS)
+                    startActivity(intent)
+                }
                 noPortfolio!!.visibility = View.GONE
                 noSkill!!.visibility = View.GONE
                 lSkill!!.visibility = View.VISIBLE
+                flAddSkill!!.visibility = View.VISIBLE
             }
             recyclerViewPortfolio!!.visibility = View.GONE
             lPort!!.visibility = View.GONE
@@ -421,9 +435,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             if (badgesModelArrayList!!.size <= 0) {
                                 noPortfolio!!.visibility = View.VISIBLE
                                 lSkill!!.visibility = View.GONE
+                                flAddSkill!!.visibility = View.GONE
                             } else {
                                 noPortfolio!!.visibility = View.GONE
                                 lSkill!!.visibility = View.VISIBLE
+                                flAddSkill!!.visibility = View.VISIBLE
                             }
                             badgesAdapter!!.addItems(badgesModelArrayList)
                             if (userAccountModel!!.portfolio.size == 0) {
@@ -433,6 +449,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             }
                             if (rbPortfollio!!.isChecked) {
                                 lSkill!!.visibility = View.GONE
+                                flAddSkill!!.visibility = View.GONE
                                 noSkill!!.visibility = View.GONE
                             }
                             setUpAllEditFields(userAccountModel)
@@ -475,8 +492,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         when (lastMonthIncome) {
             in levels?.get(0)!!.min_amount.toFloat()..levels[0].max_amount.toFloat() -> {
                 progressLevel1!!.progress =
-                    (((lastMonthIncome - levels[0].min_amount.toFloat()) / (levels[0].max_amount.toFloat() - levels[0].min_amount.toFloat())) * 100).toInt()
+                    (((lastMonthIncome - levels[0].min_amount.toFloat()) / (levels[0].max_amount.toFloat() - levels[0].min_amount.toFloat())) * 100).toInt() + 1
                 txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
+                if (progressLevel1!!.progress < 4) {
+                    progressLevel1!!.progress = 3
+                }
                 ivMedalBoronz!!.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireContext(),
@@ -488,6 +508,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             in levels[1].min_amount.toFloat()..levels[1].max_amount.toFloat() -> {
                 progressLevel2!!.progress =
                     (((lastMonthIncome - levels[1].min_amount.toFloat()) / (levels[1].max_amount.toFloat() - levels[1].min_amount.toFloat())) * 100).toInt()
+                if (progressLevel2!!.progress < 4) {
+                    progressLevel2!!.progress = 3
+                }
                 progressLevel1!!.progress = 100
                 txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
                 txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
@@ -510,6 +533,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
 
                 progressLevel3!!.progress =
                     (((lastMonthIncome - levels[2].min_amount.toFloat()) / (levels[2].max_amount.toFloat() - levels[2].min_amount.toFloat())) * 100).toInt()
+                if (progressLevel3!!.progress < 4) {
+                    progressLevel3!!.progress = 3
+                }
                 txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
                 txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
                 txtLevel3!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
@@ -532,6 +558,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 progressLevel3!!.progress = 100
                 progressLevel4!!.progress =
                     (((lastMonthIncome - levels[3].min_amount.toFloat()) / (levels[3].max_amount.toFloat() - levels[3].min_amount.toFloat())) * 100).toInt()
+                if (progressLevel4!!.progress < 4) {
+                    progressLevel4!!.progress = 3
+                }
                 txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
                 txtLevel2!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
                 txtLevel3!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
@@ -681,14 +710,18 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             tvAboutHeading!!.visibility = View.VISIBLE
             tvAboutHeading!!.text = "\"" + userAccountModel.tagline + "\""
         }
+
+
         if (userAccountModel.workerRatings == null) {
-            tickerReview!!.visibility = View.GONE
-            noReview!!.visibility = View.VISIBLE
-            txtNoReview!!.visibility = View.VISIBLE
+            ratingbarAsTicker!!.visibility = View.GONE
             tvViewAllReviews!!.visibility = View.GONE
+            ln_ticker_jobSuccess!!.visibility = View.GONE
+            tv_ticker_NoReview!!.visibility = View.VISIBLE
         } else {
-            noReview!!.visibility = View.GONE
+            ratingbarAsTicker!!.visibility = View.VISIBLE
             tickerReview!!.visibility = View.VISIBLE
+            ln_ticker_jobSuccess!!.visibility = View.VISIBLE
+            tv_ticker_NoReview!!.visibility = View.GONE
             ratingbarAsTicker!!.rating = userAccountModel.workerRatings.avgRating
             tvTickerReview!!.text =
                 "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
@@ -696,19 +729,24 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 userAccountModel.workTaskStatistics.completionRate.toString() + "%"
         }
         if (userAccountModel.posterRatings == null) {
-            posterReview!!.visibility = View.GONE
-            noReview!!.visibility = View.VISIBLE
-            txtNoReview!!.visibility = View.VISIBLE
+            ratingbarAsPoster!!.visibility = View.GONE
             tvViewAllReviews!!.visibility = View.GONE
+            ln_poster_jobSuccess!!.visibility = View.GONE
+            tv_poster_NoReview!!.visibility = View.VISIBLE
         } else {
             posterReview!!.visibility = View.VISIBLE
-            noReview!!.visibility = View.GONE
+            ratingbarAsPoster!!.visibility = View.VISIBLE
+            ln_poster_jobSuccess!!.visibility = View.VISIBLE
+            tv_poster_NoReview!!.visibility = View.GONE
             ratingbarAsPoster!!.rating = userAccountModel.posterRatings.avgRating
             tvPosterReview!!.text =
                 "(" + userAccountModel.posterRatings.receivedReviews.toString() + ")"
             if (userAccountModel.postTaskStatistics != null) tvPosterCompletionRate!!.text =
                 userAccountModel.postTaskStatistics.completionRate.toString() + "%"
         }
+
+
+
 
         if (userAccountModel.isVerifiedAccount == 1) {
             imgVerified!!.visibility = View.VISIBLE
@@ -722,9 +760,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         }
         if (userAccountModel.skills.skills == null && userAccountModel.skills.skills.size == 0 && userAccountModel.skills.language == null &&
             userAccountModel.skills.language.size == 0
-            && userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0) {
+            && userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0
+        ) {
             noPortfolio!!.visibility = View.GONE
             lSkill!!.visibility = View.GONE
+            flAddSkill!!.visibility = View.GONE
             lytEducation!!.visibility = View.GONE
             lytSkills!!.visibility = View.GONE
             lytLanguage!!.visibility = View.GONE

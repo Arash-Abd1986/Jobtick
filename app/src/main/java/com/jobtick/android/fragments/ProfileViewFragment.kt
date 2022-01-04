@@ -68,6 +68,10 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
     var txtLastSeen: TextView? = null
     var tvViewAllReviews: TextView? = null
     var txtAccountLevel: TextView? = null
+    var tv_poster_NoReview: TextView? = null
+    var tv_ticker_NoReview: TextView? = null
+    var ln_ticker_jobSuccess: LinearLayout? = null
+    var ln_poster_jobSuccess: LinearLayout? = null
     var ratingbarAsTicker: RatingBar? = null
     var ratingbarAsPoster: RatingBar? = null
     var tvTickerReview: TextView? = null
@@ -99,11 +103,9 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
     private var noAbout: LinearLayout? = null
     private var ivLevelInfo: ImageView? = null
     private var ivProfileInfo: ImageView? = null
-    private var noReview: LinearLayout? = null
     private var tickerReview: LinearLayout? = null
     private var posterReview: LinearLayout? = null
     private var noSkill: LinearLayout? = null
-    private var txtNoReview: TextView? = null
     private var addSkill: TextView? = null
     private var addPortFilo: TextView? = null
     private var txtLevel: TextView? = null
@@ -139,8 +141,6 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         addPortFilo = requireView().findViewById(R.id.txt_add_portfolio)
         txtLevel = requireView().findViewById(R.id.txt_level)
         addSkill = requireView().findViewById(R.id.txt_add_skill)
-        txtNoReview = requireView().findViewById(R.id.tv_no_review)
-        noReview = requireView().findViewById(R.id.no_review)
         posterReview = requireView().findViewById(R.id.poster_review)
         tickerReview = requireView().findViewById(R.id.ticker_review)
         ivLevelInfo = requireView().findViewById(R.id.ivLevelInfo)
@@ -185,6 +185,10 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         linFcc = requireView().findViewById(R.id.lin_fcc)
         linFcc2 = requireView().findViewById(R.id.lin_fcc2)
         linLevel = requireView().findViewById(R.id.lin_level)
+        tv_poster_NoReview = requireView().findViewById(R.id.tv_poster_NoReview)
+        tv_ticker_NoReview = requireView().findViewById(R.id.tv_ticker_NoReview)
+        ln_poster_jobSuccess = requireView().findViewById(R.id.ln_poster_jobSuccess)
+        ln_ticker_jobSuccess = requireView().findViewById(R.id.ln_ticker_jobSuccess)
         linLevel!!.visibility = View.VISIBLE
         linFcc2!!.visibility = View.VISIBLE
         linFcc!!.visibility = View.GONE
@@ -295,6 +299,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                 noSkill!!.visibility = View.VISIBLE
                 addSkill!!.setOnClickListener { view13: View? ->
                     val intent = Intent(requireActivity(), EditProfileActivity::class.java)
+                    intent.putExtra(ConstantKey.TAB, ConstantKey.PORTFO_SKILLS)
                     startActivity(intent)
                 }
                 lSkill!!.visibility = View.GONE
@@ -302,6 +307,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                 noPortfolio!!.visibility = View.GONE
                 noSkill!!.visibility = View.GONE
                 lSkill!!.visibility = View.VISIBLE
+
             }
             recyclerViewPortfolio!!.visibility = View.GONE
             lPort!!.visibility = View.GONE
@@ -486,14 +492,18 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
             tvAboutHeading!!.visibility = View.VISIBLE
             tvAboutHeading!!.text = "\"" + userAccountModel.tagline + "\""
         }
+
+
         if (userAccountModel.workerRatings == null) {
-            tickerReview!!.visibility = View.GONE
-            noReview!!.visibility = View.VISIBLE
-            txtNoReview!!.visibility = View.VISIBLE
+            ratingbarAsTicker!!.visibility = View.GONE
             tvViewAllReviews!!.visibility = View.GONE
+            ln_ticker_jobSuccess!!.visibility = View.GONE
+            tv_ticker_NoReview!!.visibility = View.VISIBLE
         } else {
-            noReview!!.visibility = View.GONE
+            ratingbarAsTicker!!.visibility = View.VISIBLE
             tickerReview!!.visibility = View.VISIBLE
+            ln_ticker_jobSuccess!!.visibility = View.VISIBLE
+            tv_ticker_NoReview!!.visibility = View.GONE
             ratingbarAsTicker!!.rating = userAccountModel.workerRatings.avgRating
             tvTickerReview!!.text =
                 "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
@@ -501,19 +511,23 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                 userAccountModel.workTaskStatistics.completionRate.toString() + "%"
         }
         if (userAccountModel.posterRatings == null) {
-            posterReview!!.visibility = View.GONE
-            noReview!!.visibility = View.VISIBLE
-            txtNoReview!!.visibility = View.VISIBLE
+            ratingbarAsPoster!!.visibility = View.GONE
             tvViewAllReviews!!.visibility = View.GONE
+            ln_poster_jobSuccess!!.visibility = View.GONE
+            tv_poster_NoReview!!.visibility = View.VISIBLE
         } else {
             posterReview!!.visibility = View.VISIBLE
-            noReview!!.visibility = View.GONE
+            ratingbarAsPoster!!.visibility = View.VISIBLE
+            ln_poster_jobSuccess!!.visibility = View.VISIBLE
+            tv_poster_NoReview!!.visibility = View.GONE
             ratingbarAsPoster!!.rating = userAccountModel.posterRatings.avgRating
             tvPosterReview!!.text =
                 "(" + userAccountModel.posterRatings.receivedReviews.toString() + ")"
             if (userAccountModel.postTaskStatistics != null) tvPosterCompletionRate!!.text =
                 userAccountModel.postTaskStatistics.completionRate.toString() + "%"
         }
+
+
         when (userAccountModel.workerTier.id) {
             1 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_boronz_selected)
             2 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_silver_selected)

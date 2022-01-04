@@ -4,42 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="36dp"
-    android:padding="5dp"
     android:layout_margin="6dp"
+    android:paddingStart="16dp"
     android:id="@+id/top_cn"
     android:background="@drawable/rectangle_card_round_corners_outlined"
     android:orientation="horizontal">
 
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_btn_add_must_have"
-        style="@style/materialText_W400_14"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:ellipsize="end"
-        android:inputType="textMultiLine"
-        android:maxLines="1"
-        android:layout_marginBottom="3dp"
-        android:gravity="center"
-        android:layout_marginHorizontal="10dp"
-        android:paddingHorizontal="10dp"
-        android:textColor="@color/textColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/img_btn_remove"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="e" />
-
-    <ImageView
-        android:id="@+id/img_btn_remove"
-        android:layout_width="16dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_weight="1"
-        android:background="?attr/selectableItemBackground"
-        android:src="@drawable/ic_close_v3"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_btn_add_must_have"
+            style="@style/materialText_W400_14"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginBottom="3dp"
+            android:layout_weight="9"
+            android:ellipsize="end"
+            android:layout_marginEnd="5dp"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/textColor"
+            tools:text="vxvzxghhghghhgghghhhhghghhhgghghhghghghghhghghghghhhghghghvcdf" />
+
+        <ImageView
+            android:id="@+id/img_btn_remove"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_close_v3"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

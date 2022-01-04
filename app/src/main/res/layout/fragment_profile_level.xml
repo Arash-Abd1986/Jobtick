@@ -19,9 +19,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         android:gravity="center"
-        android:text="Level"
+        android:text="Ticker level"
         android:textColor="@color/N300" />
     <LinearLayout
         android:layout_below="@+id/txt_title"

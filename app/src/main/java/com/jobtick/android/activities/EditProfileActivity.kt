@@ -88,6 +88,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
     var underTab3: View? = null
     var underTab2: View? = null
     var underTab1: View? = null
+    var lytSkills: View? = null
     var rltBtnSkills: RelativeLayout? = null
     var rltBtnSpecialities: RelativeLayout? = null
     var bottomSheet: FrameLayout? = null
@@ -162,6 +163,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         underTab3 = findViewById(R.id.under_tab3)
         underTab2 = findViewById(R.id.under_tab2)
         underTab1 = findViewById(R.id.under_tab1)
+        lytSkills = findViewById(R.id.lyt_skills)
         rltBtnSkills = findViewById(R.id.rlt_btn_experience)
         bottomSheet = findViewById(R.id.bottom_sheet)
         lytDeletePicture = findViewById(R.id.lytDeletePicture)
@@ -314,6 +316,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         llGeneral!!.visibility = View.VISIBLE
         llPinfo!!.visibility = View.GONE
         llPS!!.visibility = View.GONE
+        lytSkills!!.visibility = View.GONE
         txtGeneralInfo!!.setOnClickListener {
             setTab1()
         }
@@ -329,6 +332,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         llGeneral!!.visibility = View.VISIBLE
         llPinfo!!.visibility = View.GONE
         llPS!!.visibility = View.GONE
+        lytSkills!!.visibility = View.GONE
         txtGeneralInfo!!.setTextColor(getColor(R.color.colorAccent))
         txtPrivateInfo!!.setTextColor(getColor(R.color.N100))
         txtPortfolioSkills!!.setTextColor(getColor(R.color.N100))
@@ -341,6 +345,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         llGeneral!!.visibility = View.GONE
         llPinfo!!.visibility = View.VISIBLE
         llPS!!.visibility = View.GONE
+        lytSkills!!.visibility = View.GONE
         txtGeneralInfo!!.setTextColor(getColor(R.color.N100))
         txtPrivateInfo!!.setTextColor(getColor(R.color.colorAccent))
         txtPortfolioSkills!!.setTextColor(getColor(R.color.N100))
@@ -353,6 +358,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
         llGeneral!!.visibility = View.GONE
         llPinfo!!.visibility = View.GONE
         llPS!!.visibility = View.VISIBLE
+        lytSkills!!.visibility = View.VISIBLE
         txtGeneralInfo!!.setTextColor(getColor(R.color.N100))
         txtPrivateInfo!!.setTextColor(getColor(R.color.N100))
         txtPortfolioSkills!!.setTextColor(getColor(R.color.colorAccent))

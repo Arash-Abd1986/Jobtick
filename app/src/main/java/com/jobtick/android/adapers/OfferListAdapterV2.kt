@@ -129,6 +129,17 @@ class OfferListAdapterV2(
                 mOnItemClickListener!!.onItemOfferClick(item, "")
             }
 
+            imgAvatar.setOnClickListener { v: View? ->
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener!!.onItemOfferClick( item, "profile")
+                }
+            }
+            txtName.setOnClickListener { v: View? ->
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener!!.onItemOfferClick( item, "profile")
+                }
+            }
+
         }
 
     }

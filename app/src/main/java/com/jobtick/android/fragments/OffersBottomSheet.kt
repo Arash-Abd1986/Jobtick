@@ -29,8 +29,9 @@ import timber.log.Timber
 import java.util.*
 
 class OffersBottomSheet(
-        private val offerListF : ArrayList<OfferModel>, private val isUserThePoster: Boolean,
-        private val sessionManager: SessionManager) : BottomSheetDialogFragment(),OfferListAdapter.OnItemClickListener {
+    private val offerListF: ArrayList<OfferModel>, private val isUserThePoster: Boolean,
+    private val sessionManager: SessionManager
+) : BottomSheetDialogFragment(), OfferListAdapter.OnItemClickListener {
     private lateinit var recyclerViewOffers: RecyclerView
     private lateinit var offerListAdapter: OfferListAdapter
 
@@ -40,8 +41,10 @@ class OffersBottomSheet(
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.bottom_sheet_offers, container, false)
     }
 
@@ -51,6 +54,7 @@ class OffersBottomSheet(
         initOfferList()
 
     }
+
     private fun initOfferList() {
         recyclerViewOffers.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(requireContext())
@@ -67,15 +71,14 @@ class OffersBottomSheet(
     }
 
 
-
-
     fun showToast(content: String?, context: Context?) {
         Alerter.create(activity)
-                .setTitle("")
-                .setText(content!!)
-                .setBackgroundResource(R.color.colorRedError)
-                .show()
+            .setTitle("")
+            .setText(content!!)
+            .setBackgroundResource(R.color.colorRedError)
+            .show()
     }
+
     //Adapter override method
     override fun onItemOfferClick(v: View?, obj: OfferModel, position: Int, action: String) {
         when {
@@ -107,53 +110,63 @@ class OffersBottomSheet(
             action.equals("message", ignoreCase = true) -> {
                 getConversationId(TaskDetailsActivity.taskModel!!.slug, obj.worker.id.toString())
             }
+            action.equals("profile", ignoreCase = true) -> {
+                val intent = Intent(requireActivity(), ProfileActivity::class.java)
+                intent.putExtra("id", obj.worker.id.toString())
+                startActivity(intent)
+            }
         }
     }
 
     private fun getConversationId(slug: String, targetId: String) {
-        val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL_v2 + "jobs/" + slug + "/start_chat/" + targetId,
-                com.android.volley.Response.Listener { response: String? ->
-                    Timber.e(response)
-                    try {
-                        val jsonObject = JSONObject(response!!)
-                        val gson = Gson()
-                        val chatModel = ChatModel()
-                        val sender = UserAccountModel()
-                        val reciver = UserAccountModel()
-                        val senderA = AttachmentModel()
-                        val reciverA = AttachmentModel()
-                        val attachment = AttachmentModel()
-                        val (data, _, success) = gson.fromJson(jsonObject.toString(), GetConversationInfoResponse::class.java)
-                        if (success!!) {
-                            if (data!!.last_message != null) {
-                                chatModel.id = data.last_message!!.id
-                                chatModel.conversationId = data.last_message.conversation_id
-                                chatModel.createdAt = data.last_message.created_at
-                                chatModel.message = data.last_message.message
-                                chatModel.senderId = data.last_message.sender_id
-                                chatModel.isSeen = data.last_message.is_seen
-                                if (data.last_message.attachment != null) {
-                                    attachment.url = data.last_message.attachment.url
-                                    attachment.id = data.last_message.attachment.id
-                                    attachment.thumbUrl = data.last_message.attachment.thumb_url
-                                    attachment.name = data.last_message.attachment.name
-                                    attachment.modalUrl = data.last_message.attachment.modal_url
-                                    attachment.mime = data.last_message.attachment.mime
-                                    attachment.createdAt = data.last_message.attachment.created_at
-                                    chatModel.attachment = attachment
-                                }
+        val stringRequest: StringRequest = object : StringRequest(Method.GET,
+            Constant.BASE_URL_v2 + "jobs/" + slug + "/start_chat/" + targetId,
+            com.android.volley.Response.Listener { response: String? ->
+                Timber.e(response)
+                try {
+                    val jsonObject = JSONObject(response!!)
+                    val gson = Gson()
+                    val chatModel = ChatModel()
+                    val sender = UserAccountModel()
+                    val reciver = UserAccountModel()
+                    val senderA = AttachmentModel()
+                    val reciverA = AttachmentModel()
+                    val attachment = AttachmentModel()
+                    val (data, _, success) = gson.fromJson(
+                        jsonObject.toString(),
+                        GetConversationInfoResponse::class.java
+                    )
+                    if (success!!) {
+                        if (data!!.last_message != null) {
+                            chatModel.id = data.last_message!!.id
+                            chatModel.conversationId = data.last_message.conversation_id
+                            chatModel.createdAt = data.last_message.created_at
+                            chatModel.message = data.last_message.message
+                            chatModel.senderId = data.last_message.sender_id
+                            chatModel.isSeen = data.last_message.is_seen
+                            if (data.last_message.attachment != null) {
+                                attachment.url = data.last_message.attachment.url
+                                attachment.id = data.last_message.attachment.id
+                                attachment.thumbUrl = data.last_message.attachment.thumb_url
+                                attachment.name = data.last_message.attachment.name
+                                attachment.modalUrl = data.last_message.attachment.modal_url
+                                attachment.mime = data.last_message.attachment.mime
+                                attachment.createdAt = data.last_message.attachment.created_at
+                                chatModel.attachment = attachment
                             }
-                            if (data.users!!.size == 2) {
-                                var senderId = 0
-                                var reciverId = 0
-                                for (i in 0..1) {
-                                    if (data.users[i].id === sessionManager.userAccount.id) {
-                                        senderId = i
-                                        if (senderId == 0) {
-                                            reciverId = 1
-                                        }
+                        }
+                        if (data.users!!.size == 2) {
+                            var senderId = 0
+                            var reciverId = 0
+                            for (i in 0..1) {
+                                if (data.users[i].id === sessionManager.userAccount.id) {
+                                    senderId = i
+                                    if (senderId == 0) {
+                                        reciverId = 1
                                     }
                                 }
+                            }
+                            if (data.users[senderId].avatar != null) {
                                 senderA.createdAt = data.users[senderId].avatar!!.created_at
                                 senderA.fileName = data.users[senderId].avatar!!.file_name
                                 senderA.id = data.users[senderId].avatar!!.id
@@ -162,14 +175,19 @@ class OffersBottomSheet(
                                 senderA.name = data.users[senderId].avatar!!.name
                                 senderA.thumbUrl = data.users[senderId].avatar!!.thumb_url
                                 senderA.url = data.users[senderId].avatar!!.url
-                                sender.avatar = senderA
-                                if (data.users[senderId].position != null) {
-                                    if (data.users[senderId].position!!.latitude != null) sender.latitude = data.users[senderId].position!!.latitude
-                                    if (data.users[senderId].position!!.longitude != null) sender.longitude = data.users[senderId].position!!.longitude
-                                }
-                                if (data.users[senderId].last_online != null) sender.lastOnline = data.users[senderId].last_online
-                                sender.name = data.users[senderId].name
-                                sender.id = data.users[senderId].id
+                            }
+                            sender.avatar = senderA
+                            if (data.users[senderId].position != null) {
+                                if (data.users[senderId].position!!.latitude != null) sender.latitude =
+                                    data.users[senderId].position!!.latitude
+                                if (data.users[senderId].position!!.longitude != null) sender.longitude =
+                                    data.users[senderId].position!!.longitude
+                            }
+                            if (data.users[senderId].last_online != null) sender.lastOnline =
+                                data.users[senderId].last_online
+                            sender.name = data.users[senderId].name
+                            sender.id = data.users[senderId].id
+                            if (data.users[reciverId].avatar != null) {
                                 reciverA.createdAt = data.users[reciverId].avatar!!.created_at
                                 reciverA.fileName = data.users[reciverId].avatar!!.file_name
                                 reciverA.id = data.users[reciverId].avatar!!.id
@@ -178,40 +196,45 @@ class OffersBottomSheet(
                                 reciverA.name = data.users[reciverId].avatar!!.name
                                 reciverA.thumbUrl = data.users[reciverId].avatar!!.thumb_url
                                 reciverA.url = data.users[reciverId].avatar!!.url
-                                reciver.avatar = reciverA
-                                if (data.users[reciverId].position != null) {
-                                    if (data.users[reciverId].position!!.longitude != null) reciver.longitude = data.users[reciverId].position!!.longitude
-                                    if (data.users[reciverId].position!!.latitude != null) reciver.latitude = data.users[reciverId].position!!.latitude
-                                }
-                                reciver.lastOnline = data.users[reciverId].last_online
-                                reciver.name = data.users[reciverId].name
-                                reciver.id = data.users[reciverId].id
                             }
-                            val conversationModel = ConversationModel(data.id, data.name, data.task!!.id,
-                                    chatModel,
-                                    data.unseen_count, data.created_at,
-                                    sender,
-                                    reciver,
-                                    data.task.slug, data.task.status, data.chat_closed)
-                            val intent = Intent(requireContext(), ChatActivity::class.java)
-                            val bundle = Bundle()
-                            bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel)
-                            intent.putExtras(bundle)
-                            startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT)
-                        } else {
-                            showToast("Something Went Wrong", requireContext())
+                            reciver.avatar = reciverA
+                            if (data.users[reciverId].position != null) {
+                                if (data.users[reciverId].position!!.longitude != null) reciver.longitude =
+                                    data.users[reciverId].position!!.longitude
+                                if (data.users[reciverId].position!!.latitude != null) reciver.latitude =
+                                    data.users[reciverId].position!!.latitude
+                            }
+                            reciver.lastOnline = data.users[reciverId].last_online
+                            reciver.name = data.users[reciverId].name
+                            reciver.id = data.users[reciverId].id
                         }
-                    } catch (e: Exception) {
-                        Timber.e(e.toString())
-                        e.printStackTrace()
+                        val conversationModel = ConversationModel(
+                            data.id, data.name, data.task!!.id,
+                            chatModel,
+                            data.unseen_count, data.created_at,
+                            sender,
+                            reciver,
+                            data.task.slug, data.task.status, data.chat_closed
+                        )
+                        val intent = Intent(requireContext(), ChatActivity::class.java)
+                        val bundle = Bundle()
+                        bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel)
+                        intent.putExtras(bundle)
+                        startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT)
+                    } else {
                         showToast("Something Went Wrong", requireContext())
                     }
-                },
-                com.android.volley.Response.ErrorListener { error: VolleyError ->
+                } catch (e: Exception) {
+                    Timber.e(e.toString())
+                    e.printStackTrace()
                     showToast("Something Went Wrong", requireContext())
-                    Timber.e(error.toString())
-                    //hideProgressDialog()
-                }) {
+                }
+            },
+            com.android.volley.Response.ErrorListener { error: VolleyError ->
+                showToast("Something Went Wrong", requireContext())
+                Timber.e(error.toString())
+                //hideProgressDialog()
+            }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
@@ -221,8 +244,10 @@ class OffersBottomSheet(
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
     }

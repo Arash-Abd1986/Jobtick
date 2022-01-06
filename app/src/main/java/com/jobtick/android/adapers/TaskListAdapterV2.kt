@@ -358,9 +358,9 @@ class TaskListAdapterV2(
                     txtStatusDraft!!.visibility = View.GONE
                     tvDelete!!.visibility = View.GONE
                     cardTaskBackground!!.background = ContextCompat.getDrawable(
-                        context!!, R.drawable.shape_rounded_completed
+                        context!!, R.drawable.shape_rounded_offered
                     )
-                    txtStatus!!.setTextColor(ContextCompat.getColor(context!!, R.color.G400))
+                    txtStatus!!.setTextColor(ContextCompat.getColor(context!!, R.color.myJobsColorTaskOfferTrans))
                 }
                 "closed" -> {
                     txtStatus!!.visibility = View.VISIBLE

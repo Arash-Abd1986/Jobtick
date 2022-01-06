@@ -1,12 +1,14 @@
 package com.jobtick.android.activities.new
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.activities.ProfileActivity
 import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.adapers.OfferListAdapterV2
 import com.jobtick.android.fragments.OfferBottomSheet
@@ -59,9 +61,15 @@ class OfferListActivity : ActivityBase(), OfferListAdapterV2.OnItemClickListener
 
 
     override fun onItemOfferClick(offer: OfferModel?, action: String?) {
-        val questionsBottomSheet =
-            OfferBottomSheet(offer!!, isUserThePoster, sessionManagerO!!, false, false)
-        questionsBottomSheet.show(supportFragmentManager, null)
+        if (action=="profile"){
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("id", offer!!.worker.id.toInt())
+            startActivity(intent)
+        }else {
+            val questionsBottomSheet =
+                OfferBottomSheet(offer!!, isUserThePoster, sessionManagerO!!, false, false)
+            questionsBottomSheet.show(supportFragmentManager, null)
+        }
     }
 
 }

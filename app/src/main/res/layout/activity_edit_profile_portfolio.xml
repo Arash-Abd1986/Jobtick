@@ -62,13 +62,12 @@
 
                 <FrameLayout
                     android:id="@+id/small_plus"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginBottom="@dimen/_8dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="23dp"
                     android:background="@drawable/add_blue_c">
 
                     <androidx.appcompat.widget.AppCompatImageView

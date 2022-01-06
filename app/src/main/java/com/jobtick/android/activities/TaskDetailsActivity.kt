@@ -2648,6 +2648,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun showRescheduleTimeCard(pos: Int) {
+        cardMakeAnOffer.visibility = View.GONE
         if (taskModel!!.rescheduleReqeust[pos] == null) return
         var rescheduledByWho = ""
         val requesterId = taskModel!!.rescheduleReqeust[pos].requester_id
@@ -2875,14 +2876,16 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                                     }
                                 }
                             }
-                            senderA.createdAt = data.users[senderId].avatar!!.created_at
-                            senderA.fileName = data.users[senderId].avatar!!.file_name
-                            senderA.id = data.users[senderId].avatar!!.id
-                            senderA.mime = data.users[senderId].avatar!!.mime
-                            senderA.modalUrl = data.users[senderId].avatar!!.modal_url
-                            senderA.name = data.users[senderId].avatar!!.name
-                            senderA.thumbUrl = data.users[senderId].avatar!!.thumb_url
-                            senderA.url = data.users[senderId].avatar!!.url
+                            if (data.users[senderId].avatar != null) {
+                                senderA.createdAt = data.users[senderId].avatar!!.created_at
+                                senderA.fileName = data.users[senderId].avatar!!.file_name
+                                senderA.id = data.users[senderId].avatar!!.id
+                                senderA.mime = data.users[senderId].avatar!!.mime
+                                senderA.modalUrl = data.users[senderId].avatar!!.modal_url
+                                senderA.name = data.users[senderId].avatar!!.name
+                                senderA.thumbUrl = data.users[senderId].avatar!!.thumb_url
+                                senderA.url = data.users[senderId].avatar!!.url
+                            }
                             sender.avatar = senderA
                             if (data.users[senderId].position != null) {
                                 if (data.users[senderId].position!!.latitude != null) sender.latitude =
@@ -2894,14 +2897,16 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                                 data.users[senderId].last_online
                             sender.name = data.users[senderId].name
                             sender.id = data.users[senderId].id
-                            reciverA.createdAt = data.users[reciverId].avatar!!.created_at
-                            reciverA.fileName = data.users[reciverId].avatar!!.file_name
-                            reciverA.id = data.users[reciverId].avatar!!.id
-                            reciverA.mime = data.users[reciverId].avatar!!.mime
-                            reciverA.modalUrl = data.users[reciverId].avatar!!.modal_url
-                            reciverA.name = data.users[reciverId].avatar!!.name
-                            reciverA.thumbUrl = data.users[reciverId].avatar!!.thumb_url
-                            reciverA.url = data.users[reciverId].avatar!!.url
+                            if (data.users[reciverId].avatar != null) {
+                                reciverA.createdAt = data.users[reciverId].avatar!!.created_at
+                                reciverA.fileName = data.users[reciverId].avatar!!.file_name
+                                reciverA.id = data.users[reciverId].avatar!!.id
+                                reciverA.mime = data.users[reciverId].avatar!!.mime
+                                reciverA.modalUrl = data.users[reciverId].avatar!!.modal_url
+                                reciverA.name = data.users[reciverId].avatar!!.name
+                                reciverA.thumbUrl = data.users[reciverId].avatar!!.thumb_url
+                                reciverA.url = data.users[reciverId].avatar!!.url
+                            }
                             reciver.avatar = reciverA
                             if (data.users[reciverId].position != null) {
                                 if (data.users[reciverId].position!!.longitude != null) reciver.longitude =

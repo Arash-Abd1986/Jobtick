@@ -38,8 +38,12 @@ import timber.log.Timber
 import java.util.*
 
 class OfferBottomSheet(
-        private val item: OfferModel, private val isUserThePoster: Boolean,
-        private val sessionManager: SessionManager, private val isAssigned: Boolean, private val isMyOffer: Boolean) : BottomSheetDialogFragment() {
+    private val item: OfferModel,
+    private val isUserThePoster: Boolean,
+    private val sessionManager: SessionManager,
+    private val isAssigned: Boolean,
+    private val isMyOffer: Boolean
+) : BottomSheetDialogFragment() {
     lateinit var cardLiveVideo: CardView
     lateinit var txtMessage: TextView
     lateinit var txtName: TextView
@@ -62,8 +66,10 @@ class OfferBottomSheet(
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.bottom_sheet_offer, container, false)
     }
 
@@ -99,7 +105,7 @@ class OfferBottomSheet(
         }
 
         if (isAssigned or isMyOffer) {
-            txtActionLeft.setTextColor( ContextCompat.getColor(requireContext(), R.color.P300))
+            txtActionLeft.setTextColor(ContextCompat.getColor(requireContext(), R.color.P300))
             lnAction.setBackgroundShape(
                 ContextCompat.getColor(requireContext(), R.color.transparent),
                 ContextCompat.getColor(requireContext(), R.color.P300),
@@ -109,9 +115,9 @@ class OfferBottomSheet(
             )
         } else {
             lnAction.setBackgroundShape(
-                    ContextCompat.getColor(requireContext(), R.color.colorPrimary),
-                    8,
-                    GradientDrawable.RECTANGLE
+                ContextCompat.getColor(requireContext(), R.color.colorPrimary),
+                8,
+                GradientDrawable.RECTANGLE
             )
         }
         lnOfferMessage.setOnClickListener {
@@ -127,15 +133,22 @@ class OfferBottomSheet(
         if (isMyOffer) {
             lnOfferMessage.visibility = View.GONE
             val param = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    (50).dpToPx(),
-                    10.0f
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                (50).dpToPx(),
+                10.0f
             )
             lnAction.layoutParams = param
         }
 
         ivFlag.setOnClickListener {
             onItemOfferClick("report")
+        }
+        imgAvatar.setOnClickListener {
+            onItemOfferClick("profile")
+        }
+
+        txtName.setOnClickListener {
+            onItemOfferClick("profile")
         }
 
         txtCompletionRate.text = item.worker.workTaskStatistics.completionRate.toString() + "%"
@@ -157,7 +170,10 @@ class OfferBottomSheet(
 
             imgBtnPlay.setOnClickListener {
                 if (item.attachments[0] == null || item.attachments[0].url == null) {
-                    (requireActivity() as ActivityBase).showToast("Sorry, there is no video to play.", requireContext())
+                    (requireActivity() as ActivityBase).showToast(
+                        "Sorry, there is no video to play.",
+                        requireContext()
+                    )
                     return@setOnClickListener
                 }
                 val intent = Intent(requireActivity(), VideoPlayerActivity::class.java)
@@ -175,10 +191,21 @@ class OfferBottomSheet(
                 val lineCount = txtMessage.lineCount
                 if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_4) {
                     spanF = SpannableString(txtMessage.text.toString() + "  Less")
-                    spanF!!.setSpan(ForegroundColorSpan(Color.BLUE), txtMessage.text.toString().length, txtMessage.text.toString().length + 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    spanF!!.setSpan(
+                        ForegroundColorSpan(Color.BLUE),
+                        txtMessage.text.toString().length,
+                        txtMessage.text.toString().length + 6,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
                     val end = txtMessage.layout.getLineStart(4)
-                    spanS = SpannableString(txtMessage.text.toString().substring(0, end - 1) + "  More")
-                    spanS!!.setSpan(ForegroundColorSpan(Color.BLUE), txtMessage.text.toString().substring(0, end).length, txtMessage.text.toString().substring(0, end - 1).length + 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    spanS =
+                        SpannableString(txtMessage.text.toString().substring(0, end - 1) + "  More")
+                    spanS!!.setSpan(
+                        ForegroundColorSpan(Color.BLUE),
+                        txtMessage.text.toString().substring(0, end).length,
+                        txtMessage.text.toString().substring(0, end - 1).length + 6,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
                     txtMessage.text = spanS
                     item.isUserPrefrenceToMore = true
                     if (item.isUserPrefrenceToMore) {
@@ -194,10 +221,10 @@ class OfferBottomSheet(
 
     fun showToast(content: String?, context: Context?) {
         Alerter.create(activity)
-                .setTitle("")
-                .setText(content!!)
-                .setBackgroundResource(R.color.colorRedError)
-                .show()
+            .setTitle("")
+            .setText(content!!)
+            .setBackgroundResource(R.color.colorRedError)
+            .show()
     }
 
     //Adapter override method
@@ -232,7 +259,16 @@ class OfferBottomSheet(
                 getConversationId(TaskDetailsActivity.taskModel!!.slug, item.worker.id.toString())
             }
 
-            action.equals("reschedule", ignoreCase = true) or action.equals("withdraw", ignoreCase = true) -> {
+            action.equals("profile", ignoreCase = true) -> {
+                val intent = Intent(requireActivity(), ProfileActivity::class.java)
+                intent.putExtra("id", item.worker.id.toInt())
+                startActivity(intent)
+            }
+
+            action.equals("reschedule", ignoreCase = true) or action.equals(
+                "withdraw",
+                ignoreCase = true
+            ) -> {
                 this.dismiss()
                 offerBottomSheetClick.onClickOnOffer(item, action)
             }
@@ -240,49 +276,54 @@ class OfferBottomSheet(
     }
 
     private fun getConversationId(slug: String, targetId: String) {
-        val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL_v2 + "jobs/" + slug + "/start_chat/" + targetId,
-                com.android.volley.Response.Listener { response: String? ->
-                    Timber.e(response)
-                    try {
-                        val jsonObject = JSONObject(response!!)
-                        val gson = Gson()
-                        val chatModel = ChatModel()
-                        val sender = UserAccountModel()
-                        val reciver = UserAccountModel()
-                        val senderA = AttachmentModel()
-                        val reciverA = AttachmentModel()
-                        val attachment = AttachmentModel()
-                        val (data, _, success) = gson.fromJson(jsonObject.toString(), GetConversationInfoResponse::class.java)
-                        if (success!!) {
-                            if (data!!.last_message != null) {
-                                chatModel.id = data.last_message!!.id
-                                chatModel.conversationId = data.last_message.conversation_id
-                                chatModel.createdAt = data.last_message.created_at
-                                chatModel.message = data.last_message.message
-                                chatModel.senderId = data.last_message.sender_id
-                                chatModel.isSeen = data.last_message.is_seen
-                                if (data.last_message.attachment != null) {
-                                    attachment.url = data.last_message.attachment.url
-                                    attachment.id = data.last_message.attachment.id
-                                    attachment.thumbUrl = data.last_message.attachment.thumb_url
-                                    attachment.name = data.last_message.attachment.name
-                                    attachment.modalUrl = data.last_message.attachment.modal_url
-                                    attachment.mime = data.last_message.attachment.mime
-                                    attachment.createdAt = data.last_message.attachment.created_at
-                                    chatModel.attachment = attachment
-                                }
+        val stringRequest: StringRequest = object : StringRequest(Method.GET,
+            Constant.BASE_URL_v2 + "jobs/" + slug + "/start_chat/" + targetId,
+            com.android.volley.Response.Listener { response: String? ->
+                Timber.e(response)
+                try {
+                    val jsonObject = JSONObject(response!!)
+                    val gson = Gson()
+                    val chatModel = ChatModel()
+                    val sender = UserAccountModel()
+                    val reciver = UserAccountModel()
+                    val senderA = AttachmentModel()
+                    val reciverA = AttachmentModel()
+                    val attachment = AttachmentModel()
+                    val (data, _, success) = gson.fromJson(
+                        jsonObject.toString(),
+                        GetConversationInfoResponse::class.java
+                    )
+                    if (success!!) {
+                        if (data!!.last_message != null) {
+                            chatModel.id = data.last_message!!.id
+                            chatModel.conversationId = data.last_message.conversation_id
+                            chatModel.createdAt = data.last_message.created_at
+                            chatModel.message = data.last_message.message
+                            chatModel.senderId = data.last_message.sender_id
+                            chatModel.isSeen = data.last_message.is_seen
+                            if (data.last_message.attachment != null) {
+                                attachment.url = data.last_message.attachment.url
+                                attachment.id = data.last_message.attachment.id
+                                attachment.thumbUrl = data.last_message.attachment.thumb_url
+                                attachment.name = data.last_message.attachment.name
+                                attachment.modalUrl = data.last_message.attachment.modal_url
+                                attachment.mime = data.last_message.attachment.mime
+                                attachment.createdAt = data.last_message.attachment.created_at
+                                chatModel.attachment = attachment
                             }
-                            if (data.users!!.size == 2) {
-                                var senderId = 0
-                                var reciverId = 0
-                                for (i in 0..1) {
-                                    if (data.users[i].id === sessionManager.userAccount.id) {
-                                        senderId = i
-                                        if (senderId == 0) {
-                                            reciverId = 1
-                                        }
+                        }
+                        if (data.users!!.size == 2) {
+                            var senderId = 0
+                            var reciverId = 0
+                            for (i in 0..1) {
+                                if (data.users[i].id === sessionManager.userAccount.id) {
+                                    senderId = i
+                                    if (senderId == 0) {
+                                        reciverId = 1
                                     }
                                 }
+                            }
+                            if (data.users[senderId].avatar != null) {
                                 senderA.createdAt = data.users[senderId].avatar!!.created_at
                                 senderA.fileName = data.users[senderId].avatar!!.file_name
                                 senderA.id = data.users[senderId].avatar!!.id
@@ -291,14 +332,19 @@ class OfferBottomSheet(
                                 senderA.name = data.users[senderId].avatar!!.name
                                 senderA.thumbUrl = data.users[senderId].avatar!!.thumb_url
                                 senderA.url = data.users[senderId].avatar!!.url
-                                sender.avatar = senderA
-                                if (data.users[senderId].position != null) {
-                                    if (data.users[senderId].position!!.latitude != null) sender.latitude = data.users[senderId].position!!.latitude
-                                    if (data.users[senderId].position!!.longitude != null) sender.longitude = data.users[senderId].position!!.longitude
-                                }
-                                if (data.users[senderId].last_online != null) sender.lastOnline = data.users[senderId].last_online
-                                sender.name = data.users[senderId].name
-                                sender.id = data.users[senderId].id
+                            }
+                            sender.avatar = senderA
+                            if (data.users[senderId].position != null) {
+                                if (data.users[senderId].position!!.latitude != null) sender.latitude =
+                                    data.users[senderId].position!!.latitude
+                                if (data.users[senderId].position!!.longitude != null) sender.longitude =
+                                    data.users[senderId].position!!.longitude
+                            }
+                            if (data.users[senderId].last_online != null) sender.lastOnline =
+                                data.users[senderId].last_online
+                            sender.name = data.users[senderId].name
+                            sender.id = data.users[senderId].id
+                            if (data.users[reciverId].avatar != null) {
                                 reciverA.createdAt = data.users[reciverId].avatar!!.created_at
                                 reciverA.fileName = data.users[reciverId].avatar!!.file_name
                                 reciverA.id = data.users[reciverId].avatar!!.id
@@ -307,40 +353,45 @@ class OfferBottomSheet(
                                 reciverA.name = data.users[reciverId].avatar!!.name
                                 reciverA.thumbUrl = data.users[reciverId].avatar!!.thumb_url
                                 reciverA.url = data.users[reciverId].avatar!!.url
-                                reciver.avatar = reciverA
-                                if (data.users[reciverId].position != null) {
-                                    if (data.users[reciverId].position!!.longitude != null) reciver.longitude = data.users[reciverId].position!!.longitude
-                                    if (data.users[reciverId].position!!.latitude != null) reciver.latitude = data.users[reciverId].position!!.latitude
-                                }
-                                reciver.lastOnline = data.users[reciverId].last_online
-                                reciver.name = data.users[reciverId].name
-                                reciver.id = data.users[reciverId].id
                             }
-                            val conversationModel = ConversationModel(data.id, data.name, data.task!!.id,
-                                    chatModel,
-                                    data.unseen_count, data.created_at,
-                                    sender,
-                                    reciver,
-                                    data.task.slug, data.task.status, data.chat_closed)
-                            val intent = Intent(requireContext(), ChatActivity::class.java)
-                            val bundle = Bundle()
-                            bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel)
-                            intent.putExtras(bundle)
-                            startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT)
-                        } else {
-                            showToast("Something Went Wrong", requireContext())
+                            reciver.avatar = reciverA
+                            if (data.users[reciverId].position != null) {
+                                if (data.users[reciverId].position!!.longitude != null) reciver.longitude =
+                                    data.users[reciverId].position!!.longitude
+                                if (data.users[reciverId].position!!.latitude != null) reciver.latitude =
+                                    data.users[reciverId].position!!.latitude
+                            }
+                            reciver.lastOnline = data.users[reciverId].last_online
+                            reciver.name = data.users[reciverId].name
+                            reciver.id = data.users[reciverId].id
                         }
-                    } catch (e: Exception) {
-                        Timber.e(e.toString())
-                        e.printStackTrace()
+                        val conversationModel = ConversationModel(
+                            data.id, data.name, data.task!!.id,
+                            chatModel,
+                            data.unseen_count, data.created_at,
+                            sender,
+                            reciver,
+                            data.task.slug, data.task.status, data.chat_closed
+                        )
+                        val intent = Intent(requireContext(), ChatActivity::class.java)
+                        val bundle = Bundle()
+                        bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel)
+                        intent.putExtras(bundle)
+                        startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT)
+                    } else {
                         showToast("Something Went Wrong", requireContext())
                     }
-                },
-                com.android.volley.Response.ErrorListener { error: VolleyError ->
+                } catch (e: Exception) {
+                    Timber.e(e.toString())
+                    e.printStackTrace()
                     showToast("Something Went Wrong", requireContext())
-                    Timber.e(error.toString())
-                    //hideProgressDialog()
-                }) {
+                }
+            },
+            com.android.volley.Response.ErrorListener { error: VolleyError ->
+                showToast("Something Went Wrong", requireContext())
+                Timber.e(error.toString())
+                //hideProgressDialog()
+            }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
@@ -350,8 +401,10 @@ class OfferBottomSheet(
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
     }

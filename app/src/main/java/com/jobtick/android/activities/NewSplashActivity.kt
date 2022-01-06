@@ -20,7 +20,6 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.facebook.appevents.AppEventsLogger
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
@@ -46,8 +45,6 @@ class NewSplashActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         ButterKnife.bind(this)
         val handler = Handler()
-        val logger = AppEventsLogger.newLogger(this)
-        logger.logEvent("test by jalil");
         handler.postDelayed({
             sessionManager = SessionManager(this@NewSplashActivity)
             checkForUpdate()

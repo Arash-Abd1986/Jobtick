@@ -3,14 +3,12 @@ package com.jobtick.android.activities
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
-import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
@@ -22,6 +20,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.facebook.appevents.AppEventsLogger
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
@@ -34,6 +33,9 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
+
+
+
 class NewSplashActivity : AppCompatActivity() {
     var sessionManager: SessionManager? = null
 
@@ -44,6 +46,8 @@ class NewSplashActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         ButterKnife.bind(this)
         val handler = Handler()
+        val logger = AppEventsLogger.newLogger(this)
+        logger.logEvent("test by jalil");
         handler.postDelayed({
             sessionManager = SessionManager(this@NewSplashActivity)
             checkForUpdate()

@@ -3,12 +3,9 @@ package com.jobtick.android.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -183,37 +180,7 @@ class OfferBottomSheet(
         } else {
             cardLiveVideo.visibility = View.GONE
             txtMessage.visibility = View.VISIBLE
-
             txtMessage.text = item.message
-            spanS = null
-            spanF = null
-            txtMessage.post {
-                val lineCount = txtMessage.lineCount
-                if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE_4) {
-                    spanF = SpannableString(txtMessage.text.toString() + "  Less")
-                    spanF!!.setSpan(
-                        ForegroundColorSpan(Color.BLUE),
-                        txtMessage.text.toString().length,
-                        txtMessage.text.toString().length + 6,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                    val end = txtMessage.layout.getLineStart(4)
-                    spanS =
-                        SpannableString(txtMessage.text.toString().substring(0, end - 1) + "  More")
-                    spanS!!.setSpan(
-                        ForegroundColorSpan(Color.BLUE),
-                        txtMessage.text.toString().substring(0, end).length,
-                        txtMessage.text.toString().substring(0, end - 1).length + 6,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                    txtMessage.text = spanS
-                    item.isUserPrefrenceToMore = true
-                    if (item.isUserPrefrenceToMore) {
-                        txtMessage.maxLines = Constant.MAX_LINE_TEXTVIEW_MORE_4
-                    }
-                }
-
-            }
         }
 
     }

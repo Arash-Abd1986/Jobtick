@@ -109,6 +109,8 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
     private var addSkill: TextView? = null
     private var addPortFilo: TextView? = null
     private var txtLevel: TextView? = null
+    private var txt_increase_chance: TextView? = null
+    private var txt_increase_chance2: TextView? = null
     private var linLevel: LinearLayout? = null
     private var linFcc2: LinearLayout? = null
     private var linFcc: LinearLayout? = null
@@ -189,9 +191,16 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         tv_ticker_NoReview = requireView().findViewById(R.id.tv_ticker_NoReview)
         ln_poster_jobSuccess = requireView().findViewById(R.id.ln_poster_jobSuccess)
         ln_ticker_jobSuccess = requireView().findViewById(R.id.ln_ticker_jobSuccess)
+        txt_increase_chance = requireView().findViewById(R.id.txt_increase_chance)
+        txt_increase_chance2 = requireView().findViewById(R.id.txt_increase_chance2)
+        txt_increase_chance!!.visibility = View.GONE
+        txt_increase_chance2!!.visibility = View.GONE
         linLevel!!.visibility = View.VISIBLE
         linFcc2!!.visibility = View.VISIBLE
         linFcc!!.visibility = View.GONE
+        addPortFilo!!.visibility = View.GONE
+        addSkill!!.visibility = View.GONE
+
     }
 
     private fun initToolbar() {

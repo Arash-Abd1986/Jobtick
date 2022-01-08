@@ -44,7 +44,7 @@
                         android:id="@+id/profile_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentStart="true"
                         android:background="@color/white">
 
 

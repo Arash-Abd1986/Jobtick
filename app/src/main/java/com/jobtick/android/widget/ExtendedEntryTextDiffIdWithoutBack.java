@@ -1,5 +1,7 @@
 package com.jobtick.android.widget;
 
+import static android.text.InputType.TYPE_CLASS_TEXT;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -29,10 +31,8 @@ import androidx.core.content.ContextCompat;
 
 import com.jobtick.android.R;
 
-import static android.text.InputType.TYPE_CLASS_TEXT;
 
-
-public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, TextWatcher {
+public class ExtendedEntryTextDiffIdWithoutBack extends RelativeLayout implements View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener, TextWatcher {
 
     private String eTitle;
     private final String eContent;
@@ -48,28 +48,27 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
     private int eBoxSize = 0;
     private boolean eIsPassword;
     private final boolean eStartFocus;
-    private final boolean eNeedHeader;
     private int eInputType;
     private boolean eVerifyVisible = true;
     private int eImeOptions;
     private boolean password_hide = true;
     private boolean eIsEnable = true;
-    private final int tHigh = 0;
+    private int tHigh = 0;
     private ExtendedViewOnClickListener extendedViewOnClickListener;
     private TextWatcher textWatcher;
 
     private int eMaxCharNumber = 0;
 
 
-    public ExtendedEntryTextNewDesign(Context context) {
+    public ExtendedEntryTextDiffIdWithoutBack(Context context) {
         this(context, null);
     }
 
-    public ExtendedEntryTextNewDesign(Context context, AttributeSet attrs) {
+    public ExtendedEntryTextDiffIdWithoutBack(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ExtendedEntryTextNewDesign(Context context, AttributeSet attrs, int defStyle) {
+    public ExtendedEntryTextDiffIdWithoutBack(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         TypedArray sharedAttribute = context.getTheme().obtainStyledAttributes(
@@ -83,7 +82,6 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
             eHint = sharedAttribute.getString(R.styleable.ExtendedEntryText_eHint);
             eMaxCharNumber = sharedAttribute.getInt(R.styleable.ExtendedEntryText_eMaxCharNumber, 0);
             eIsEnable = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eIsEnable, true);
-            eNeedHeader = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eNeedHeader, true);
             eVerifyVisible = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eVerifyVisible, true);
             eStartFocus = sharedAttribute.getBoolean(R.styleable.ExtendedEntryText_eStartFocus, false);
             String inputType = sharedAttribute.getString(R.styleable.ExtendedEntryText_eInputType);
@@ -104,30 +102,30 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
 
         //Inflate and attach the content
         if (eBoxSize == EBoxSize.NORMAL)
-            LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text, this);
+            LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text_diff_id, this);
         else if (eBoxSize == EBoxSize.SMALL)
-            LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text_small, this);
+            LayoutInflater.from(context).inflate(R.layout.view_extended_entry_text_small_diff_id, this);
 
-        setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
 
         autoCompleteTextView = findViewById(R.id.content_auto_complete);
         if (eInputType == EInputType.AUTOCOMPLETE) {
             editText = autoCompleteTextView;
-            secondEditText = findViewById(R.id.content);
+            secondEditText = findViewById(R.id.content_diff_id);
         } else
-            editText = findViewById(R.id.content);
+            editText = findViewById(R.id.content_diff_id);
 
         textView = findViewById(R.id.title);
         errorView = findViewById(R.id.error);
         imageView = findViewById(R.id.img_btn_password_toggle);
         dollar = findViewById(R.id.dollar);
         verify = findViewById(R.id.verifyButton);
+        LayoutParams params = (LayoutParams) textView.getLayoutParams();
+        tHigh = params.height;
+        params.height = 0;
+        textView.setLayoutParams(params);
         textView.setText(eTitle);
         editText.setText(eContent);
         editText.setHint(eTitle);
-        if (!eNeedHeader){
-            textView.setVisibility(GONE);
-        }
         if (eHint != null)
             if (eHint.length() > 0)
                 editText.setHint(eHint);
@@ -166,7 +164,7 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
 
     private void setInputType() {
         imageView.setVisibility(GONE);
-        textView.setTextColor(getResources().getColor(R.color.N100));
+
         if (eInputType == EInputType.INTEGER) {
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         } else if (eInputType == EInputType.EMAIL)
@@ -205,6 +203,8 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
             editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.inset_chevron_down), null);
         }
         if (eInputType == EInputType.BUDGET) {
+            dollar.setText("$ ");
+            dollar.setVisibility(View.VISIBLE);
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
         if (eInputType == EInputType.AUTOCOMPLETE) {
@@ -309,14 +309,10 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
     @Override
     public void onFocusChange(View view, boolean focused) {
         errorView.setVisibility(View.GONE);
-        if (focused) {
-            textView.setTextColor(getResources().getColor(R.color.P300));
+        if (focused)
             setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_primary);
-        } else {
-            if (editText.getText().length() == 0)
-                textView.setTextColor(getResources().getColor(R.color.N100));
+        else
             setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
-        }
     }
 
     public void setSelection(int i) {
@@ -432,16 +428,14 @@ public class ExtendedEntryTextNewDesign extends RelativeLayout implements View.O
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        if (charSequence.length() != 0) {
-            if (eInputType == EInputType.BUDGET) {
-                dollar.setText("$");
-                dollar.setVisibility(View.VISIBLE);
-            }
+        if (charSequence.length() == 0) {
+            LayoutParams params = (LayoutParams) textView.getLayoutParams();
+            params.height = 0;
+            textView.setLayoutParams(params);
         } else {
-            if (eInputType == EInputType.BUDGET) {
-                dollar.setText("$");
-                dollar.setVisibility(View.INVISIBLE);
-            }
+            LayoutParams params = (LayoutParams) textView.getLayoutParams();
+            params.height = tHigh;
+            textView.setLayoutParams(params);
         }
         if (eMaxCharNumber != 0 && charSequence.length() > eMaxCharNumber) {
             editText.setText(charSequence.subSequence(0, eMaxCharNumber).toString());

@@ -9,11 +9,11 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_questions"
+        android:layout_alignParentTop="true"
         android:animateLayoutChanges="true"
         android:background="@color/white"
         android:fitsSystemWindows="false"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/ln_questions"
         android:focusableInTouchMode="true"
         tools:context=".activities.TaskDetailsActivity">
 
@@ -37,8 +37,7 @@
                 android:layout_height="wrap_content"
                 android:clipChildren="false"
                 android:clipToPadding="false"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/content"
@@ -92,24 +91,33 @@
             android:layout_marginTop="50dp" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/ln_questions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rl_questions"
+        android:layout_width="wrap_content"
+        android:layout_height="82dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bg_white_top_c"
-        android:orientation="vertical">
+        android:background="@drawable/bg_white_top_c">
 
-        <include layout="@layout/view_bottom_sheet_top_handler" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_ask_question"
-            style="@style/materialText_600_14"
+        <LinearLayout
+            android:id="@+id/ln_questions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:textColor="#AFB6C4" />
-    </LinearLayout>
+            android:layout_height="82dp"
+
+            android:orientation="vertical">
+
+            <include layout="@layout/view_bottom_sheet_top_handler" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_ask_question"
+                style="@style/materialText_600_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:textColor="#AFB6C4"
+                android:visibility="visible" />
+        </LinearLayout>
+    </RelativeLayout>
+
 </RelativeLayout>

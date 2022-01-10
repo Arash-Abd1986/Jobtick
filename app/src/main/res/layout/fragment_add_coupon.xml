@@ -39,12 +39,13 @@
 
         <EditText
             android:id="@+id/etPromoCode"
+            style="@style/materialText_500_14"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:maxLength="20"
+            android:layout_toStartOf="@id/actionFrame"
             android:background="@drawable/bg_dark_border"
             android:hint="@string/enter_your_promo_code"
-            android:layout_width="match_parent"
-            style="@style/materialText_500_14"
-            android:layout_height="50dp"
-            android:layout_toStartOf="@id/actionFrame"
             android:importantForAutofill="no" />
 
         <com.google.android.material.textview.MaterialTextView

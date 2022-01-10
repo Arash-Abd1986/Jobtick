@@ -22,8 +22,8 @@
         android:visibility="visible">
 
         <RelativeLayout
-            android:layout_width="@dimen/_70dp"
-            android:layout_height="@dimen/_70dp"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
             android:layout_gravity="center"
             android:gravity="center">
 

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import java.util.List;
@@ -19,15 +20,17 @@ import butterknife.ButterKnife;
 public class AddTagAdapter extends RecyclerView.Adapter<AddTagAdapter.ViewHolder> {
 
     private List<String> items;
+    private Boolean isV3;
     private final OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
         void onItemClick(String data);
     }
 
-    public AddTagAdapter(List<String> items, OnItemClickListener mItemClickListener) {
+    public AddTagAdapter(List<String> items, Boolean isV3, OnItemClickListener mItemClickListener) {
         this.items = items;
         this.mOnItemClickListener = mItemClickListener;
+        this.isV3 = isV3;
     }
 
     public void updateItem(List<String> items) {
@@ -51,7 +54,10 @@ public class AddTagAdapter extends RecyclerView.Adapter<AddTagAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_must_have_v1, parent, false));
+        if (isV3)
+            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_must_have_v2, parent, false));
+        else
+            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_must_have_v1, parent, false));
     }
 
     @Override

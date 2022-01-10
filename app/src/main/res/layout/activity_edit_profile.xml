@@ -65,7 +65,7 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_general_info"
-                            style="@style/materialText_W400_16"
+                            style="@style/materialText_W400_14"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -89,7 +89,7 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_private_info"
-                            style="@style/materialText_W400_16"
+                            style="@style/materialText_W400_14"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -113,7 +113,7 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_portfolio_skills"
-                            style="@style/materialText_W400_16"
+                            style="@style/materialText_W400_14"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -336,6 +336,7 @@
                  layout="@layout/activity_edit_profile_portfolio"
                  />
              <include
+                 android:id="@+id/lyt_skills"
                  layout="@layout/activity_edit_profile_skills"
                  />
                 </LinearLayout>

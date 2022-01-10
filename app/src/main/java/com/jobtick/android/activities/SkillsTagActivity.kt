@@ -175,7 +175,9 @@ class SkillsTagActivity : ActivityBase() {
 
     private fun init() {
         edtAddTag!!.hint = title
-
+        if (addTagList.isNullOrEmpty()){
+            skillsTitle!!.visibility = View.GONE
+        }
         val mLayoutManager = GridLayoutManager(this, 2)
         recyclerView!!.setLayoutManager(mLayoutManager)
        // recyclerView!!.addItemDecoration(SpacingItemDecoration(1, Tools.dpToPx(this@SkillsTagActivity, 5), true))

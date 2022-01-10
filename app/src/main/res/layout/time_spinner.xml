@@ -17,13 +17,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/edt_time_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textColor"
+                android:text="Select a certain time"
                 android:textAppearance="@style/materialText_400_15"
-                android:text="Select a certain time" />
+                android:textColor="@color/textColor" />
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/spinner_arrow"
                 android:layout_width="12dp"

@@ -66,24 +66,21 @@
             android:padding="@dimen/_5sp"
             android:weightSum="4">
 
-
             <ImageView
-                android:id="@+id/im_payment_status"
+                android:id="@+id/im_account_status"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/todo"
                 android:src="@drawable/ic_completed_status" />
 
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:paddingHorizontal="10dp"
                 android:layout_weight="1"
-                >
+                android:paddingHorizontal="10dp">
 
                 <View
                     android:id="@+id/line1"
@@ -93,24 +90,21 @@
                     android:paddingHorizontal="10dp" />
             </RelativeLayout>
 
-
             <ImageView
-                android:id="@+id/im_account_status"
+                android:id="@+id/im_payment_status"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/todo"
                 android:src="@drawable/ic_completed_status" />
 
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:paddingHorizontal="10dp"
                 android:layout_weight="1"
-                >
+                android:paddingHorizontal="10dp">
 
                 <View
                     android:id="@+id/line2"
@@ -124,8 +118,6 @@
                 android:id="@+id/im_skills_status"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/todo"
@@ -134,9 +126,8 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:paddingHorizontal="10dp"
                 android:layout_weight="1"
-                >
+                android:paddingHorizontal="10dp">
 
                 <View
                     android:id="@+id/line3"
@@ -151,8 +142,6 @@
                 android:id="@+id/im_alert_status"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/todo"
@@ -162,22 +151,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:orientation="horizontal"
             android:weightSum="4">
 
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_payment_status"
-                style="@style/materialText_W500_14"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Payment"
-                android:textColor="@color/N050" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_account_status"
@@ -188,6 +166,17 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Account"
+                android:textColor="@color/N050" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_payment_status"
+                style="@style/materialText_W500_14"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Payment"
                 android:textColor="@color/N050" />
 
 

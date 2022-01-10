@@ -71,7 +71,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_created_date"
-                    style="@style/materialText_W500_16"
+                    style="@style/materialText_W400_14"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginTop="4dp"
@@ -96,10 +96,10 @@
                     android:id="@+id/ivReport"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
-                    android:layout_gravity="center"
+                    android:layout_gravity="top"
                     android:layout_marginEnd="@dimen/_8dp"
-                    android:contentDescription="@string/todo"
-                    android:padding="@dimen/spacing_small"
+                    android:paddingHorizontal="@dimen/spacing_small"
+                    android:paddingBottom="@dimen/spacing_small"
                     app:srcCompat="@drawable/ic_black_flag" />
             </LinearLayout>
 

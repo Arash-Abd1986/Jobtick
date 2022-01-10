@@ -3,14 +3,12 @@ package com.jobtick.android.activities
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
-import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
@@ -33,6 +31,9 @@ import com.jobtick.android.utils.SessionManager
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
+
+
+
 
 class NewSplashActivity : AppCompatActivity() {
     var sessionManager: SessionManager? = null

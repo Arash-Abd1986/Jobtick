@@ -72,7 +72,10 @@
             </LinearLayout>
 
         </RelativeLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/grey_100"
+            android:layout_height="1dp"/>
         <RelativeLayout
             android:id="@+id/rlt_btn_languages"
             android:layout_width="match_parent"
@@ -126,7 +129,10 @@
             </LinearLayout>
 
         </RelativeLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/grey_100"
+            android:layout_height="1dp"/>
         <RelativeLayout
             android:id="@+id/rlt_btn_education"
             android:layout_width="match_parent"

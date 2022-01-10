@@ -343,27 +343,6 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 //  txtType.setText("Message");
                 txtMessage.setText(item.getMessage());
 
-               /*
-                txtMessage.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        txtMessage.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        int lineCount = txtMessage.getLineCount();
-                        Log.e("valueline", "Number of lines is " + lineCount);
-                        if (lineCount > Constant.MAX_LINE_TEXTVIEW_MORE) {
-                            txtMessage.setMaxLines(Constant.MAX_LINE_TEXTVIEW_MORE);
-                            lytBtnMore.setVisibility(View.VISIBLE);
-                            txtMoreLess.setText(item.getStrMore());
-                            mItems.get(getAdapterPosition()).setMore(true);
-                        } else {
-                            lytBtnMore.setVisibility(View.GONE);
-                        }
-                    }
-                });
-
-*/
-
-
                 imgBtnPlay.setOnClickListener(v -> {
                     if (mOnItemClickListener != null) {
                         mOnItemClickListener.onItemOfferClick(v, item, getAdapterPosition(), "play_video");
@@ -389,11 +368,6 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             });
 
-//            lytBtnReply.setOnClickListener(v -> {
-//                if (mOnItemClickListener != null) {
-//                    mOnItemClickListener.onItemOfferClick(v, item, getAdapterPosition(), "reply");
-//                }
-//            });
 
             txtBtnAccept.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
@@ -416,6 +390,12 @@ public class OfferListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             linOfferMessage.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemOfferClick(v, item, getAdapterPosition(), "message");
+                }
+            });
+
+            imgAvatar.setOnClickListener(v -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemOfferClick(v, item, getAdapterPosition(), "profile");
                 }
             });
 

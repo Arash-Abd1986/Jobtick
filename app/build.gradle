@@ -21,8 +21,8 @@ android {
         applicationId "com.jobtick.android"
         minSdkVersion 24
         targetSdkVersion 31
-        versionCode 1000063
-        versionName "2.3.0"
+        versionCode 1000065
+        versionName "2.4.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 onesignal_app_id : 'dd77e2db-8358-4c20-95b9-e4943e401d4b',
@@ -108,6 +108,7 @@ dependencies {
 
     //facebook/crash on update
     implementation 'com.facebook.android:facebook-login:11.1.0'
+    implementation 'com.facebook.android:facebook-android-sdk:11.1.0'
 
     //google auth
     implementation 'com.google.android.gms:play-services-auth:19.2.0'

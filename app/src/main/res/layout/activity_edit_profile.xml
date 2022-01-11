@@ -31,7 +31,7 @@
 
                     <ImageView
                         android:id="@+id/ivBack"
-                        android:layout_width="@dimen/_32sp"
+                        android:layout_width="26dp"
                         android:layout_height="@dimen/_32sp"
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_10sp"
@@ -41,7 +41,7 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/toolbar_title"
-                        style="@style/materialText_W500_20"
+                        style="@style/materialText_W500_18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

@@ -11,14 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.ActivityBase;
 import com.jobtick.android.models.UserAccountModel;
 import com.jobtick.android.payment.VerifyPhoneNumber;
 import com.jobtick.android.payment.VerifyPhoneNumberImpl;
+import com.jobtick.android.utils.MyExtensions;
 import com.jobtick.android.utils.SessionManager;
 import com.jobtick.android.widget.ExtendedEntryText;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -28,12 +32,16 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
     private SessionManager sessionManager;
     MaterialButton btnNext;
     private ExtendedEntryText phone, verify;
+    private BottomSheetDialogFragment bottomSheet;
 
     private boolean otpSent;
 
     private VerifyPhoneNumber verifyPhoneNumber;
 
     public PhoneReqFragment() {
+    }
+    public void setBottomSheet(@NotNull BottomSheetDialogFragment tickerRequirementsBottomSheet) {
+        this.bottomSheet = tickerRequirementsBottomSheet;
     }
 
     public static PhoneReqFragment newInstance() {
@@ -58,6 +66,8 @@ public class PhoneReqFragment extends Fragment implements TextWatcher {
         phone = view.findViewById(R.id.edt_phone_number);
         verify = view.findViewById(R.id.edt_sms);
         btnNext = view.findViewById(R.id.btn_submit);
+        MyExtensions.onFocus(phone.editText, bottomSheet);
+        MyExtensions.onFocus(verify.editText, bottomSheet);
 
         verify.addTextChangedListener(this);
         phone.addTextChangedListener(this);

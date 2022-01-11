@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.ActivityBase;
@@ -24,6 +25,7 @@ import com.jobtick.android.models.response.searchsuburb.Feature;
 import com.jobtick.android.payment.AddBillingAddress;
 import com.jobtick.android.payment.AddBillingAddressImpl;
 import com.jobtick.android.utils.Helper;
+import com.jobtick.android.utils.MyExtensions;
 import com.jobtick.android.utils.SessionManager;
 import com.jobtick.android.utils.SuburbAutoComplete;
 import com.jobtick.android.widget.ExtendedEntryText;
@@ -46,12 +48,16 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher, Subu
     ExtendedEntryText edtPostcode;
     ExtendedEntryText edtCountry;
     SessionManager sessionManager;
+    private BottomSheetDialogFragment bottomSheet;
 
     private AddBillingAddress addBillingAddress;
 
     private final int PLACE_SELECTION_REQUEST_CODE = 10002;
 
     public AddBillingReqFragment() {
+    }
+    public void setBottomSheet(@NotNull BottomSheetDialogFragment tickerRequirementsBottomSheet) {
+        this.bottomSheet = tickerRequirementsBottomSheet;
     }
 
     public static AddBillingReqFragment newInstance() {
@@ -78,6 +84,12 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher, Subu
         edtPostcode.addTextChangedListener(this);
         edtAddressLine1.addTextChangedListener(this);
         edtCountry.addTextChangedListener(this);
+        MyExtensions.onFocus(edtState.editText, bottomSheet);
+        MyExtensions.onFocus(edtSuburs.editText, bottomSheet);
+        MyExtensions.onFocus(edtPostcode.editText, bottomSheet);
+        MyExtensions.onFocus(edtAddressLine1.editText, bottomSheet);
+        MyExtensions.onFocus(edtCountry.editText, bottomSheet);
+
 
         btnNext = view.findViewById(R.id.btn_add_card);
         btnNext.setOnClickListener(v -> {

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jobtick.android.R
 import com.jobtick.android.activities.MakeAnOfferActivity
 import com.jobtick.android.activities.TaskDetailsActivity
@@ -19,7 +20,7 @@ import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.SessionManager
 import java.util.*
 
-class TickerRequirementsBottomSheet : AbstractStateExpandedBottomSheet() {
+class TickerRequirementsBottomSheet : BottomSheetDialogFragment() {
     private var pDialog: ProgressDialog? = null
     private var profileBtn: ImageView? = null
     private var bankAccountBtn: ImageView? = null
@@ -95,6 +96,7 @@ class TickerRequirementsBottomSheet : AbstractStateExpandedBottomSheet() {
         phoneNumberBtn!!.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_phone_grey))
         billingAddressBtn!!.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_map_pin_grey_24dp))
         val fragment = AddBankAccountReqFragment.newInstance()
+        fragment.setBottomSheet(this)
         childFragmentManager.beginTransaction().replace(R.id.requirements_layout, fragment).commitAllowingStateLoss()
     }
 
@@ -110,6 +112,7 @@ class TickerRequirementsBottomSheet : AbstractStateExpandedBottomSheet() {
         phoneNumberBtn!!.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_phone_grey))
         billingAddressBtn!!.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_map_pin_primary))
         val fragment = AddBillingReqFragment.newInstance()
+        fragment.setBottomSheet(this)
         childFragmentManager.beginTransaction().replace(R.id.requirements_layout, fragment).commitAllowingStateLoss()
     }
 
@@ -140,6 +143,7 @@ class TickerRequirementsBottomSheet : AbstractStateExpandedBottomSheet() {
         phoneNumberBtn!!.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_phone_primary))
         billingAddressBtn!!.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_map_pin_cinereous))
         val fragment = PhoneReqFragment.newInstance()
+        fragment.setBottomSheet(this)
         childFragmentManager.beginTransaction().replace(R.id.requirements_layout, fragment).commitAllowingStateLoss()
     }
 

@@ -41,9 +41,9 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     private final AutoCompleteTextView autoCompleteTextView;
     private final TextView errorView;
     private final TextView dollar;
-    private final EditText editText;
+    public EditText editText;
     private final Button verify;
-    private EditText secondEditText;
+    public EditText secondEditText;
     private final ImageView imageView;
     private int eBoxSize = 0;
     private boolean eIsPassword;

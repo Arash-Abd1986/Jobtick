@@ -340,15 +340,18 @@ class TaskDateTimeFragment : Fragment(), TextWatcher {
             dueTimeModel.afternoon = cbAfternoon
             dueTimeModel.evening = cbEvening
             dueTimeModel.anytime = cbAnyTime
+            if (!cbMorning && !cbEvening && !cbAfternoon && !cbAnyTime){
+                dueTimeModel.anytime = true
+            }
             return dueTimeModel
         }
     private val validationCode: Int
         get() {
             if (TextUtils.isEmpty(txtDate!!.trim { it <= ' ' })) {
                 return 1
-            } else if (!cbMorning && !cbEvening && !cbAfternoon && !cbAnyTime) {
+            } /*else if (!cbMorning && !cbEvening && !cbAfternoon && !cbAnyTime) {
                 return 2
-            } else if (checkDateTodayOrOnwords()) {
+            }*/ else if (checkDateTodayOrOnwords()) {
                 return 3
             }
             return 0

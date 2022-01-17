@@ -22,7 +22,7 @@
                 android:id="@+id/edt_time_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select a certain time"
+                android:text="Select a certain time (Optional)"
                 android:textAppearance="@style/materialText_400_15"
                 android:textColor="@color/textColor" />
             <androidx.appcompat.widget.AppCompatImageView

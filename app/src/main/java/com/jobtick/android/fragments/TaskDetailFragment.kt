@@ -278,7 +278,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             edtTitle.clearFocus()
             //            Intent intent = new SuburbAutoComplete(requireActivity()).getIntent();
 //            startActivityForResult(intent, PLACE_SELECTION_REQUEST_CODE);
-            val infoBottomSheet = SearchSuburbBottomSheet(this)
+            val infoBottomSheet = SearchSuburbBottomSheet(this, false)
             infoBottomSheet.show(parentFragmentManager, null)
         }
         rltAddMustHave.setOnClickListener {

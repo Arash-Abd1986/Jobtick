@@ -105,7 +105,7 @@ public abstract class AbstractFilterFragment extends Fragment implements SuburbS
     }
 
     public void startFindLocation() {
-        SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this);
+        SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this, true);
         infoBottomSheet.show(getParentFragmentManager(), null);
     }
 

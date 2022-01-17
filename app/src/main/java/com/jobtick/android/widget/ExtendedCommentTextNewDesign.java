@@ -11,12 +11,14 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.jobtick.android.R;
+import com.jobtick.android.utils.MyExtensions;
 
 import java.util.Locale;
 
@@ -193,8 +195,22 @@ public class ExtendedCommentTextNewDesign extends RelativeLayout implements View
     @Override
     public void afterTextChanged(Editable s) {
         if (s.length() > 0) {
+            try {
+                LayoutParams lp = (LayoutParams) editText.getLayoutParams();
+                lp.setMargins(MyExtensions.dpToPx(16), MyExtensions.dpToPx(4), MyExtensions.dpToPx(12), MyExtensions.dpToPx(12));
+                editText.setLayoutParams(lp);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             textView.setTextColor(getResources().getColor(R.color.P300));
         } else {
+            try {
+                LayoutParams lp = (LayoutParams) editText.getLayoutParams();
+                lp.setMargins(MyExtensions.dpToPx(16), MyExtensions.dpToPx(4), MyExtensions.dpToPx(12), MyExtensions.dpToPx(0));
+                editText.setLayoutParams(lp);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             textView.setTextColor(getResources().getColor(R.color.N100));
         }
         if (isMandatory) {

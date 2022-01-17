@@ -7,11 +7,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
 import com.jobtick.android.activities.ActivityBase;
@@ -19,8 +21,11 @@ import com.jobtick.android.activities.TaskDetailsActivity;
 import com.jobtick.android.models.BankAccountModel;
 import com.jobtick.android.payment.AddBankAccount;
 import com.jobtick.android.payment.AddBankAccountImpl;
+import com.jobtick.android.utils.MyExtensions;
 import com.jobtick.android.utils.SessionManager;
 import com.jobtick.android.widget.ExtendedEntryText;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -31,6 +36,7 @@ public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
     private ExtendedEntryText edtBsb;
     private ExtendedEntryText edtAccountNumber;
     private SessionManager sessionManager;
+    private BottomSheetDialogFragment bottomSheet;
 
     private AddBankAccount addBankAccount;
 
@@ -41,8 +47,13 @@ public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
         return new AddBankAccountReqFragment();
     }
 
+    public void setBottomSheet(@NotNull BottomSheetDialogFragment tickerRequirementsBottomSheet) {
+        this.bottomSheet = tickerRequirementsBottomSheet;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED);
         super.onCreate(savedInstanceState);
     }
 
@@ -59,6 +70,9 @@ public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
         edtAccountName = view.findViewById(R.id.edt_account_name);
         edtBsb = view.findViewById(R.id.edt_bsb);
         edtAccountNumber = view.findViewById(R.id.edt_account_number);
+        MyExtensions.onFocus(edtAccountName.editText, bottomSheet);
+        MyExtensions.onFocus(edtAccountNumber.editText, bottomSheet);
+        MyExtensions.onFocus(edtBsb.editText, bottomSheet);
 
         edtBsb.addTextChangedListener(this);
         edtAccountNumber.addTextChangedListener(this);

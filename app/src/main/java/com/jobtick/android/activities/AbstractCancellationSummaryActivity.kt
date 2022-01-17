@@ -90,7 +90,7 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
             Glide.with(imgAvatar!!).load(taskModel!!.poster.avatar.thumbUrl).into(imgAvatar!!)
         }
         taskTitle!!.text = taskModel!!.title
-        taskFee!!.text = String.format(Locale.ENGLISH, "$ %d", taskModel!!.amount)
+        taskFee!!.text = String.format(Locale.ENGLISH, "$%d", taskModel!!.amount)
         posterName!!.text = taskModel!!.poster.name
         strComment = bundle.getString(AbstractCancellationReasonsActivity.CANCELLATION_COMMENT, null)
         strReason = bundle.getString(AbstractCancellationReasonsActivity.CANCELLATION_REASON, null)

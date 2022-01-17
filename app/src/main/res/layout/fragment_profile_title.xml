@@ -33,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_circle_logo"
+                android:src="@drawable/pic"
                 app:civ_border="false" />
 
             <RelativeLayout

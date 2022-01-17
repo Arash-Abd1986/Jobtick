@@ -748,6 +748,11 @@
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">16sp</item>
     </style>
+    <style name="materialText_W500_18" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">18sp</item>
+    </style>
     <style name="materialText_W500_20" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>

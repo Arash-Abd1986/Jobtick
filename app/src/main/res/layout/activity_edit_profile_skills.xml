@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/spacing_middle"
         android:background="@drawable/shape_rounded_white"
@@ -65,8 +65,7 @@
                     android:layout_marginStart="@dimen/_10sp"
                     android:layout_marginEnd="@dimen/_10sp"
                     android:contentDescription="@string/todo"
-                    android:rotation="180"
-                    android:src="@drawable/ic_back"
+                    android:src="@drawable/ic_forward_v2"
                     app:tint="@color/grey_40" />
 
             </LinearLayout>
@@ -122,8 +121,7 @@
                     android:layout_marginStart="@dimen/_10sp"
                     android:layout_marginEnd="@dimen/_10sp"
                     android:contentDescription="@string/todo"
-                    android:rotation="180"
-                    android:src="@drawable/ic_back"
+                    android:src="@drawable/ic_forward_v2"
                     app:tint="@color/grey_40" />
 
             </LinearLayout>
@@ -180,8 +178,7 @@
                     android:layout_marginStart="@dimen/_10sp"
                     android:layout_marginEnd="@dimen/_10sp"
                     android:contentDescription="@string/todo"
-                    android:rotation="180"
-                    android:src="@drawable/ic_back"
+                    android:src="@drawable/ic_forward_v2"
                     app:tint="@color/grey_40" />
 
             </LinearLayout>

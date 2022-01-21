@@ -1,22 +1,18 @@
 package com.jobtick.android.activities
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
@@ -32,7 +28,7 @@ import java.util.*
 
 class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener {
     var toolbar: MaterialToolbar? = null
-    var cbReceiveAlerts: CheckBox? = null
+    var cbReceiveAlerts: SwitchMaterial? = null
     var txtBtnAddCustomAlert: TextView? = null
     var recyclerView: RecyclerView? = null
     var adapter: TaskAlertAdapter? = null
@@ -192,12 +188,11 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
                             showToast("Something went Wrong", this@TaskAlertsActivity)
                         }
                         checkList()
-                        checkList()
                     },
             Response.ErrorListener { error: VolleyError ->
                 checkList()
                 val networkResponse = error.networkResponse
-                if (networkResponse != null && networkResponse.data != null) {
+                if (networkResponse?.data != null) {
                     val jsonError = String(networkResponse.data)
                     // Print Error!
                     Timber.e(jsonError)
@@ -209,9 +204,9 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
                     try {
                         hideProgressDialog()
                         val jsonObject = JSONObject(jsonError)
-                        val jsonObject_error = jsonObject.getJSONObject("error")
-                        if (jsonObject_error.has("message")) {
-                            showToast(jsonObject_error.getString("message"), this)
+                        val jsonObjectError = jsonObject.getJSONObject("error")
+                        if (jsonObjectError.has("message")) {
+                            showToast(jsonObjectError.getString("message"), this)
                         }
                     } catch (e: JSONException) {
                         e.printStackTrace()

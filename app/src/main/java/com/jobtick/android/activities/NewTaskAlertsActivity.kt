@@ -148,8 +148,8 @@ class NewTaskAlertsActivity : ActivityBase(), OperationInPersonListener {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["keyword"] = taskAlert!!.ketword
                 map1["type"] = taskAlert.alert_type
-                map1["minprice"] = minPrice
-                map1["maxprice"] = maxPrice
+                map1["min_price"] = minPrice
+                map1["max_price"] = maxPrice
                 if (taskAlert.alert_type == "physical") {
                     map1["location"] = taskAlert.suburb
                     map1["latitude"] = taskAlert.lattitude.toString()

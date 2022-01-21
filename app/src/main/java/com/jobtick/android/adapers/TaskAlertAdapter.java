@@ -81,7 +81,7 @@ public class TaskAlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             OriginalViewHolder view = (OriginalViewHolder) holder;
             Data taskAlert = items.get(position);
 
-            view.txtKeyword.setText(taskAlert.getKeyword());
+            view.txtKeyword.setText(taskAlert.getText());
 
             if (taskAlert.getType().equalsIgnoreCase("remote")) {
                 view.txtTypeDetail.setText(R.string.remote_task);

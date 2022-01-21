@@ -6,12 +6,12 @@
     android:id="@+id/item_keyword">
 
     <ImageView
-        android:id="@+id/img_minus"
+        android:id="@+id/check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/spacing_medium"
-        android:src="@drawable/ic_minus_primary"
+        android:src="@drawable/ic_check_square"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
          />
@@ -20,14 +20,14 @@
         android:id="@+id/txt_keyword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:layout_marginStart="12dp"
-        android:text="Keyword"
-        android:textColor="@color/textColor"
-        android:textAppearance="@style/materialText_500_16"
-        android:layout_toEndOf="@id/img_minus"
         android:layout_alignParentTop="true"
-        />
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="40dp"
+        android:layout_toEndOf="@id/check"
+        android:singleLine="true"
+        android:text="Keyword"
+        android:textAppearance="@style/materialText_W500_16"
+        android:textColor="@color/textColor" />
 
 
     <com.google.android.material.textview.MaterialTextView
@@ -38,9 +38,18 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="4dp"
         android:text="type"
-        android:textColor="@color/grey_70"
+        android:layout_marginEnd="40dp"
+        android:textColor="@color/N600"
         android:layout_below="@id/txt_keyword"
-        android:layout_toEndOf="@id/img_minus"
-        android:textAppearance="@style/materialText_400_12" />
+        android:layout_toEndOf="@id/check"
+        android:textAppearance="@style/materialText_W400_12" />
 
+    <ImageView
+        android:id="@+id/img_minus"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/spacing_medium"
+        android:src="@drawable/ic_close_v3" />
 </RelativeLayout>

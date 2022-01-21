@@ -17,6 +17,7 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
+            android:paddingHorizontal="16dp"
             android:layout_height="match_parent"
             android:overScrollMode="never">
 
@@ -24,50 +25,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="@dimen/_5sp">
+               >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:visibility="gone"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_large"
                     android:orientation="vertical">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:text="Turn on job alerts to receive notification about any jobs meeting your skills."
-                        android:textAppearance="@style/materialText_500_14"
-                        android:textColor="@color/N500" />
+                        android:textAppearance="@style/materialText_W400_16"
+                        android:textColor="@color/N600" />
 
 
-                        <com.google.android.material.checkbox.MaterialCheckBox
+                        <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/cb_receive_alerts"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_marginTop="@dimen/spacing_middle"
-                            android:background="@drawable/radio_button_background"
-                            android:button="@drawable/inset_radio_button"
+                            android:background="@drawable/bg_white"
                             android:checked="true"
-                            android:elevation="2dp"
-                            android:layoutDirection="rtl"
+                            android:layoutDirection="ltr"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:text="@string/receive_alerts"
-                            android:textAppearance="@style/materialText_400_14" />
+                            android:textColor="@color/N900"
+                            android:textAppearance="@style/materialText_W400_16" />
 
                 </LinearLayout>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginTop="16dp"
                     android:layout_marginBottom="@dimen/spacing_middle"
                     app:cardCornerRadius="@dimen/spacing_middle"
                     app:cardElevation="0dp">
@@ -91,7 +86,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Set Custom Job Alerts"
-                                android:textAppearance="@style/materialText_400_16"
+                                android:textAppearance="@style/materialText_W400_16"
                                 android:textColor="@color/N300" />
 
                             <View
@@ -102,8 +97,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Set a custom job alert to get notified when a match pop-ups."
-                                android:textAppearance="@style/materialText_400_14"
-                                android:textColor="@color/textColor" />
+                                android:textAppearance="@style/materialText_W400_16"
+                                android:textColor="@color/N500" />
 
                         </LinearLayout>
 
@@ -122,7 +117,7 @@
                             android:paddingEnd="@dimen/spacing_mlarge"
                             android:paddingBottom="@dimen/spacing_large"
                             android:text="Add Custom Alert"
-                            android:textAppearance="@style/materialText_500_14"
+                            android:textAppearance="@style/materialText_W500_14"
                             android:textColor="@color/colorPrimary" />
 
                         <LinearLayout
@@ -135,6 +130,7 @@
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
+                                android:layout_marginHorizontal="16dp"
                                 android:layout_marginTop="@dimen/_5sp"
                                 android:background="#F0F0F0" />
 
@@ -158,16 +154,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:orientation="vertical"
+                    android:layout_marginHorizontal="80dp"
                     android:visibility="gone">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="40dp"
-                        android:background="@drawable/rectangle_button_round_corners_outlined_primary"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_bell_white"
+                        android:src="@drawable/ic_no_job_alert"
                          />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -177,8 +172,17 @@
                         android:layout_marginTop="16dp"
                         android:gravity="center_horizontal"
                         android:text="@string/no_job_alert_set"
-                        android:textAppearance="@style/materialText_600_14"
-                        android:textColor="@color/textColor" />
+                        android:textAppearance="@style/materialText_W400_16"
+                        android:textColor="@color/N100" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_horizontal"
+                        android:text="You can be the first one notified when your desired job being posted "
+                        android:textAppearance="@style/materialText_W400_16"
+                        android:textColor="@color/N100" />
 
                 </LinearLayout>
 

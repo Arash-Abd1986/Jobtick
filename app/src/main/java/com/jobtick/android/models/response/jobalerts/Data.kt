@@ -4,10 +4,10 @@ data class Data(
     val created_at: String?,
     val distance: Int?,
     val id: Int?,
-    val keyword: String?,
+    val text: String?,
     val location: String?,
-    val maxprice: Any?,
-    val minprice: Any?,
+    val max_price: Any?,
+    val min_price: Any?,
     val position: Position?,
     val type: String?
 )

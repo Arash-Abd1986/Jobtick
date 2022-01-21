@@ -64,6 +64,7 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
         adapter = TaskAlertAdapter(this, ArrayList())
         adapter!!.setOnItemClickListener(this)
         recyclerView!!.adapter = adapter
+        showProgressDialog()
         listOfTaskAlert
     }
 
@@ -71,7 +72,7 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
         toolbar!!.setNavigationIcon(R.drawable.ic_back)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = "Job Alerts"
+        supportActionBar!!.title = "Job alert Setting"
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -84,15 +85,14 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
 
     override fun onItemClick(view: View, obj: Data, position: Int, action: String) {
         if (action.equals("delete", ignoreCase = true)) {
-            adapter!!.removeItems(position)
             removeTaskAlert(obj.id!!)
-            checkList()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
+            showProgressDialog()
             listOfTaskAlert
         }
     }
@@ -100,60 +100,66 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
     fun removeTaskAlert(taskAlertId: Int) {
         //{{baseurl}}/taskalerts/:taskalert_id
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.DELETE, Constant.URL_TASK_ALERT_V2 + "/" + taskAlertId,
+        val stringRequest: StringRequest =
+            object : StringRequest(Method.DELETE, Constant.URL_TASK_ALERT_V2 + "/" + taskAlertId,
                 Response.Listener { response: String? ->
                     Timber.e(response)
-                    hideProgressDialog()
                     try {
                         val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                            } else {
+                            if (!jsonObject.getBoolean("success")) {
+                                hideProgressDialog()
                                 showToast("Something went Wrong", this@TaskAlertsActivity)
+                            } else {
+                                listOfTaskAlert
                             }
                         }
                     } catch (e: JSONException) {
                         Timber.e(e.toString())
                         e.printStackTrace()
+                        hideProgressDialog()
                     }
                 },
-        Response.ErrorListener { error: VolleyError ->
-            val networkResponse = error.networkResponse
-            if (networkResponse != null && networkResponse.data != null) {
-                val jsonError = String(networkResponse.data)
-                // Print Error!
-                Timber.e(jsonError)
-                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                    unauthorizedUser()
+                Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
+                    if (networkResponse != null && networkResponse.data != null) {
+                        val jsonError = String(networkResponse.data)
+                        // Print Error!
+                        Timber.e(jsonError)
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            unauthorizedUser()
+                            hideProgressDialog()
+                            return@ErrorListener
+                        }
+                        try {
+                            hideProgressDialog()
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObject_error = jsonObject.getJSONObject("error")
+                            showToast(jsonObject_error.getString("message"), this)
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        showToast("Something Went Wrong", this@TaskAlertsActivity)
+                    }
+                    Timber.e(error.toString())
                     hideProgressDialog()
-                    return@ErrorListener
+                }) {
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["X-Requested-With"] = "XMLHttpRequest"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
                 }
-                try {
-                    hideProgressDialog()
-                    val jsonObject = JSONObject(jsonError)
-                    val jsonObject_error = jsonObject.getJSONObject("error")
-                    showToast(jsonObject_error.getString("message"), this)
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            } else {
-                showToast("Something Went Wrong", this@TaskAlertsActivity)
             }
-            Timber.e(error.toString())
-            hideProgressDialog()
-        }) {
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                return map1
-            }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@TaskAlertsActivity)
         requestQueue.add(stringRequest)
     }
@@ -162,8 +168,8 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
     val listOfTaskAlert: Unit
         get() {
             taskAlertArrayList!!.clear()
-            showProgressDialog()
-            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_TASK_ALERT_V2,
+            val stringRequest: StringRequest =
+                object : StringRequest(Method.GET, Constant.URL_TASK_ALERT_V2,
                     Response.Listener { response: String? ->
                         Timber.e(response)
                         hideProgressDialog()
@@ -171,7 +177,10 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
                             val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
                             val gson = Gson()
-                            val (data, _, success) = gson.fromJson(jsonObject.toString(), JobAlertsResponse::class.java)
+                            val (data, _, success) = gson.fromJson(
+                                jsonObject.toString(),
+                                JobAlertsResponse::class.java
+                            )
                             if (success != null) {
                                 if (success) {
                                     if (data != null) {
@@ -189,45 +198,48 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
                         }
                         checkList()
                     },
-            Response.ErrorListener { error: VolleyError ->
-                checkList()
-                val networkResponse = error.networkResponse
-                if (networkResponse?.data != null) {
-                    val jsonError = String(networkResponse.data)
-                    // Print Error!
-                    Timber.e(jsonError)
-                    if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                        unauthorizedUser()
-                        hideProgressDialog()
-                        return@ErrorListener
-                    }
-                    try {
-                        hideProgressDialog()
-                        val jsonObject = JSONObject(jsonError)
-                        val jsonObjectError = jsonObject.getJSONObject("error")
-                        if (jsonObjectError.has("message")) {
-                            showToast(jsonObjectError.getString("message"), this)
+                    Response.ErrorListener { error: VolleyError ->
+                        checkList()
+                        val networkResponse = error.networkResponse
+                        if (networkResponse?.data != null) {
+                            val jsonError = String(networkResponse.data)
+                            // Print Error!
+                            Timber.e(jsonError)
+                            if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                                unauthorizedUser()
+                                hideProgressDialog()
+                                return@ErrorListener
+                            }
+                            try {
+                                hideProgressDialog()
+                                val jsonObject = JSONObject(jsonError)
+                                val jsonObjectError = jsonObject.getJSONObject("error")
+                                if (jsonObjectError.has("message")) {
+                                    showToast(jsonObjectError.getString("message"), this)
+                                }
+                            } catch (e: JSONException) {
+                                e.printStackTrace()
+                            }
+                        } else {
+                            showToast("Something Went Wrong", this@TaskAlertsActivity)
                         }
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
+                        Timber.e(error.toString())
+                        hideProgressDialog()
+                    }) {
+                    override fun getHeaders(): Map<String, String> {
+                        val map1: MutableMap<String, String> = HashMap()
+                        map1["authorization"] =
+                            sessionManager.tokenType + " " + sessionManager.accessToken
+                        map1["Content-Type"] = "application/x-www-form-urlencoded"
+                        map1["X-Requested-With"] = "XMLHttpRequest"
+                        map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                        return map1
                     }
-                } else {
-                    showToast("Something Went Wrong", this@TaskAlertsActivity)
                 }
-                Timber.e(error.toString())
-                hideProgressDialog()
-            }) {
-                override fun getHeaders(): Map<String, String> {
-                    val map1: MutableMap<String, String> = HashMap()
-                    map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                    map1["Content-Type"] = "application/x-www-form-urlencoded"
-                    map1["X-Requested-With"] = "XMLHttpRequest"
-                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                    return map1
-                }
-            }
-            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
             val requestQueue = Volley.newRequestQueue(this@TaskAlertsActivity)
             requestQueue.add(stringRequest)
         }

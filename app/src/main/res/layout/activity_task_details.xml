@@ -47,6 +47,15 @@
                     android:visibility="visible">
 
                     <include layout="@layout/job_details_details_of_job" />
+                    <com.jobtick.android.widget.ExtendedAlertBox
+                        android:id="@+id/alert_box_closed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp"
+                        android:visibility="gone"
+                        app:eAlertButtonText="@string/view_cancellation_request"
+                        app:eAlertTitle="You have requested to cancel this job on 9th Dec. 2020 9:45 PM" />
 
                     <include layout="@layout/job_details_card_assign" />
 

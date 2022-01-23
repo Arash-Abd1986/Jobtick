@@ -484,19 +484,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun setStatusClosed() {
-        showStatusWarn(
-            getString(R.string.this_job_has_been_closed),
-            ContextCompat.getColor(this, R.color.N080)
-        )
-
-        /* icClock.setColorFilter(
-             ContextCompat.getColor(
-                 this@TaskDetailsActivity,
-                 R.color.newComplete
-             )
-         )*/
-        lytStatus.setStatus(getString(R.string.completed))
-        //txtOffersCount.visibility = View.GONE
+        showClosedCard()
+        lytStatus.setStatus(getString(R.string.closed))
         if (isUserThePoster) {
             cardMakeAnOffer.visibility = View.GONE
             txtBtnText.text = ConstantKey.BTN_WRITE_A_REVIEW
@@ -535,7 +524,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             R.id.grp_reschedule,
             false
         )
-        cardAssigneeLayout.visibility = View.VISIBLE
+        cardAssigneeLayout.visibility = View.GONE
         setPrice()
     }
 
@@ -817,7 +806,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun showStatusWarn(message: String, color: Int) {
-        if (!isUserThePoster and !isUserTheTicker) {
+        if ((!isUserThePoster and !isUserTheTicker)) {
             lnAssignMessage.visibility = View.VISIBLE
             txtAssignMessage.text = message
             txtAssignMessage.setTextColor(color)
@@ -1317,11 +1306,13 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 noActionAvailable = false
             }
         }
-
-        alertBox = if (isUserThePoster)
-            findViewById(R.id.alert_box)
+        alertBox = if (taskModel!!.status.toLowerCase() != "closed")
+            if (isUserThePoster)
+                findViewById(R.id.alert_box)
+            else
+                findViewById(R.id.alert_box_ticker)
         else
-            findViewById(R.id.alert_box_ticker)
+            findViewById(R.id.alert_box_closed)
         alertBox.onExtendedAlertButtonClickListener = this
 
     }
@@ -2417,10 +2408,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun initReview() {
+        if (taskModel!!.status.toLowerCase() != "closed") return
         if (alertType == AlertType.REVIEW) {
             hideAlertBox()
         }
-        if (taskModel!!.status.toLowerCase() != "closed") return
         if (taskModel!!.reviewModels == null) {
             if (isUserThePoster || isUserTheTicker) showReviewCard()
             return
@@ -2599,7 +2590,14 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private fun showCancelledCard() {
         showAlertBox(
             Html.fromHtml("This job has been canceled"),
-            ConstantKey.BTN_POST_NEW_JOB, AlertType.CANCELLED, false, hasTopColor = true
+            ConstantKey.BTN_POST_NEW_JOB_PLUS, AlertType.CANCELLED, false, hasTopColor = true
+        )
+    }
+
+    private fun showClosedCard() {
+        showAlertBox(
+            Html.fromHtml("This job has been closed"),
+            ConstantKey.BTN_POST_NEW_JOB_PLUS, AlertType.CLOSED, isUserThePoster, hasTopColor = true
         )
     }
 
@@ -2670,7 +2668,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         }
         showAlertBox(
             Html.fromHtml(
-                 rescheduledByWho  +
+                rescheduledByWho +
                         " requested to reschedule time on this job on <b>" +
                         TimeHelper.convertToShowTimeFormat(taskModel!!.rescheduleReqeust[pos].created_at) + ".</b>"
             ),
@@ -2704,7 +2702,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
         showAlertBox(
             Html.fromHtml(
-                 increaseRequestByWho +
+                increaseRequestByWho +
                         " requested to increase price on this job on <b>" +
                         TimeHelper.convertToShowTimeFormat(taskModel!!.additionalFund.createdAt) + "</b>"
             ),
@@ -2824,6 +2822,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             }
             AlertType.CONFIRM_RELEASE -> {
                 showCustomDialogReleaseMoney()
+            }
+            AlertType.CLOSED -> {
+                val infoBottomSheet = CategoryListBottomSheet(sessionManager)
+                infoBottomSheet.show(supportFragmentManager, null)
             }
         }
     }
@@ -3021,7 +3023,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     enum class AlertType {
-        CANCELLATION, RESCHEDULE, INCREASE_BUDGET, ASK_TO_RELEASE, CONFIRM_RELEASE, REVIEW, CANCELLED //more we add later
+        CANCELLATION, RESCHEDULE, INCREASE_BUDGET, ASK_TO_RELEASE, CONFIRM_RELEASE, REVIEW, CANCELLED, CLOSED //more we add later
     }
 
     companion object {

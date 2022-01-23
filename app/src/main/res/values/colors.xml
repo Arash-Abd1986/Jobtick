@@ -442,5 +442,5 @@
     <color name="newAssigned">@color/Y400</color>
     <color name="newComplete">@color/P300</color>
     <color name="newCanceled">@color/R400</color>
-    <color name="newClose">#BDBDBD</color>
+    <color name="newClose">@color/N100</color>
 </resources>

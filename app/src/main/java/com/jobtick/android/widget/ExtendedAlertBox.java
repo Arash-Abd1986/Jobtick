@@ -206,7 +206,7 @@ public class ExtendedAlertBox extends FrameLayout {
                 info_image.setVisibility(VISIBLE);
                 alert_image.setVisibility(GONE);
             }
-        }else if (alertType.equals(TaskDetailsActivity.AlertType.CANCELLATION.name())) {
+        } else if (alertType.equals(TaskDetailsActivity.AlertType.CANCELLATION.name())) {
             if (isTicker) {
                 mButton.setBackgroundColor(context.getColor(R.color.white));
                 mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
@@ -219,6 +219,14 @@ public class ExtendedAlertBox extends FrameLayout {
                 info_image.setVisibility(VISIBLE);
                 alert_image.setVisibility(GONE);
             }
+        } else if (alertType.equals(TaskDetailsActivity.AlertType.CLOSED.name())) {
+            cnlMain.setBackgroundResource(R.drawable.shape_rounded_white_5dp);
+            setBackgroundResource(R.drawable.rectangle_round_corners_gary_8dp);
+            mButton.setBackgroundColor(context.getColor(R.color.white));
+            mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
+            mButton.setTextColor(context.getColor(R.color.P300));
+            info_image.setVisibility(VISIBLE);
+            alert_image.setVisibility(GONE);
         }
     }
 

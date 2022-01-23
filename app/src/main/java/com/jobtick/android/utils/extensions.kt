@@ -22,6 +22,7 @@ import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
+import com.jobtick.android.R
 import java.lang.reflect.Type
 import java.util.regex.Pattern
 import kotlin.math.floor
@@ -35,6 +36,17 @@ const val TRILLION = 1000000000000L
 
 fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
+
+fun String.removeClearRound(): String {
+    try {
+        if (this.split(".")[1] == "00") {
+            return this.split(".")[0]
+        }
+    } catch (e: Exception) {
+    }
+    return this
+}
+
 fun Double.round(): String {
     return if (this % 1.0 != 0.0)
         String.format("%s", this)
@@ -64,7 +76,7 @@ fun EditText.onFocus(bottomSheet: BottomSheetDialogFragment) {
     this.setOnFocusChangeListener { v, hasFocus ->
         if (hasFocus) {
             val bottomSheetInternal =
-                bottomSheet.dialog!!.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+                bottomSheet.dialog!!.findViewById<View>(R.id.design_bottom_sheet)
             val height = Resources.getSystem().displayMetrics.heightPixels
             BottomSheetBehavior.from(bottomSheetInternal).peekHeight = (height * 6) / 7
         }

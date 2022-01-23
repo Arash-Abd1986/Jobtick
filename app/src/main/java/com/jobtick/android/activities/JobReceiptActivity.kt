@@ -22,10 +22,7 @@ import com.jobtick.android.models.receipt.Invoice
 import com.jobtick.android.models.receipt.Item
 import com.jobtick.android.models.receipt.JobReceiptModel
 import com.jobtick.android.models.receipt.Receipt
-import com.jobtick.android.utils.Constant
-import com.jobtick.android.utils.ConstantKey
-import com.jobtick.android.utils.SessionManager
-import com.jobtick.android.utils.TimeHelper
+import com.jobtick.android.utils.*
 import com.mikhaellopez.circularimageview.CircularImageView
 import org.json.JSONException
 import org.json.JSONObject
@@ -155,15 +152,15 @@ class JobReceiptActivity : ActivityBase() {
             imgVerifiedAccount.visibility = View.GONE
         }
         if (taskModel != null && taskModel.poster != null && taskModel.poster.name != null) txtFullName.text = taskModel.poster.name
-        if (receipt != null && receipt.taskCost != null) jobCostValue.text = String.format(Locale.ENGLISH, "$%.2f", receipt.taskCost)
-        if (receipt != null && receipt.fee != null) serviceFee.text = String.format(Locale.ENGLISH, "$%s", receipt.fee)
-        if (receipt != null && receipt.netAmount != null) totalCost.text = String.format(Locale.ENGLISH, "$%.2f", receipt.netAmount)
+        if (receipt != null && receipt.taskCost != null) jobCostValue.text = String.format(Locale.ENGLISH, "$%.2f", receipt.taskCost).removeClearRound()
+        if (receipt != null && receipt.fee != null) serviceFee.text = String.format(Locale.ENGLISH, "$%s", receipt.fee).removeClearRound()
+        if (receipt != null && receipt.netAmount != null) totalCost.text = String.format(Locale.ENGLISH, "$%.2f", receipt.netAmount).removeClearRound()
         if (invoice != null && invoice.invoiceNumber != null) invoiceNumber.text = invoice.invoiceNumber
         if (invoice != null && invoice.abn != null) abnNumber.text = String.format(Locale.ENGLISH, "ABN: %s", invoice.abn)
         if (item != null && item.itemName != null) jobTickServiceTitle.text = item.itemName
-        if (item != null && item.amount != null) jobTickServiceValue.text = String.format(Locale.ENGLISH, "$%s", item.amount)
-        if (item != null && item.taxAmount != null) jobTickGtsValue.text = String.format(Locale.ENGLISH, "$%s", item.taxAmount)
-        if (item != null && item.finalAmount != null) jobTickTotalValue.text = String.format(Locale.ENGLISH, "$%s", item.finalAmount)
+        if (item != null && item.amount != null) jobTickServiceValue.text = String.format(Locale.ENGLISH, "$%s", item.amount).removeClearRound()
+        if (item != null && item.taxAmount != null) jobTickGtsValue.text = String.format(Locale.ENGLISH, "$%s", item.taxAmount).removeClearRound()
+        if (item != null && item.finalAmount != null) jobTickTotalValue.text = String.format(Locale.ENGLISH, "$%s", item.finalAmount).removeClearRound()
         if (isMyTask) {
             if (invoice != null && invoice.createdAt != null) paidOn.text = String.format(Locale.ENGLISH, "Paid On %s",
                     TimeHelper.convertToShowTimeFormat(invoice.createdAt))

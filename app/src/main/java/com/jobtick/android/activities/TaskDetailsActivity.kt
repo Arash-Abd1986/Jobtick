@@ -2685,12 +2685,12 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         val requesterId = taskModel!!.additionalFund.requesterId
         if (taskModel!!.worker != null) {
             if (taskModel!!.worker.id == requesterId) {
-                increaseRequestByWho = taskModel!!.worker.name + "has"
+                increaseRequestByWho = taskModel!!.worker.name + " has"
             }
         }
         if (taskModel!!.poster != null) {
             if (taskModel!!.poster.id == requesterId) {
-                increaseRequestByWho = taskModel!!.poster.name + "has"
+                increaseRequestByWho = taskModel!!.poster.name + " has"
             }
         }
         if (sessionManager.userAccount.id == requesterId) {

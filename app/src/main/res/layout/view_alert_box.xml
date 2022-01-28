@@ -52,7 +52,7 @@
             android:textColor="@color/N300"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="You have requested to cancel this job on 9th Dec. 2020 9:45 PM" />
+            tools:text="You have requested toec. 2020 9:45 PM" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_text"

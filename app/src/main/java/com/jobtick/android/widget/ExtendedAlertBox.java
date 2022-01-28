@@ -225,8 +225,8 @@ public class ExtendedAlertBox extends FrameLayout {
             mButton.setBackgroundColor(context.getColor(R.color.white));
             mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
             mButton.setTextColor(context.getColor(R.color.P300));
-            info_image.setVisibility(VISIBLE);
-            alert_image.setVisibility(GONE);
+            info_image.setVisibility(GONE);
+            alert_image.setVisibility(VISIBLE);
         }
     }
 

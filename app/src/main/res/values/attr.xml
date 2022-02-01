@@ -163,6 +163,7 @@
         <attr name="eMaxCharSize" format="integer" />
         <attr name="eMinHeight" format="integer" />
         <attr name="eIsMandatory" format="boolean" />
+        <attr name="isTitleBlue" format="boolean" />
         <attr name="eImeOptionsComment" format="enum">
             <enum name="actionNext" value="0" />
             <enum name="actionDone" value="1" />

@@ -24,7 +24,6 @@
                 android:id="@+id/cancellation_specs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/toolbar"
                 android:layout_margin="16dp"
                 android:elevation="0dp"
                 app:cardBackgroundColor="@color/white"
@@ -63,7 +62,7 @@
                         android:layout_height="60dp"
                         android:layout_below="@id/secured_payment"
                         android:layout_marginTop="16dp"
-                        android:src="@drawable/ic_user_avatar" />
+                        android:src="@drawable/pic" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/task_title"
@@ -76,9 +75,9 @@
                         android:layout_toStartOf="@id/task_fee"
                         android:layout_toEndOf="@id/ivAvatar"
                         android:lineHeight="18dp"
-                        android:textAppearance="@style/materialText_700_14"
-                        android:textColor="@color/textColor"
-                        tools:text="Clean my two bedroom apartment" />
+                        android:textAppearance="@style/materialText_W500_16"
+                        android:textColor="@color/P500"
+                        tools:text="Clean my tpartment" />
 
 
                     <com.google.android.material.textview.MaterialTextView
@@ -90,8 +89,8 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="2dp"
                         android:layout_toEndOf="@id/ivAvatar"
-                        android:textAppearance="@style/materialText_400_12"
-                        android:textColor="@color/grey_70"
+                        android:textAppearance="@style/materialText_W400_14"
+                        android:textColor="@color/N600"
                         tools:text="Nathan Fox" />
 
 
@@ -103,7 +102,7 @@
                         android:layout_alignBottom="@id/ivAvatar"
                         android:layout_alignParentEnd="true"
                         android:gravity="center"
-                        android:textAppearance="@style/materialText_600_20"
+                        android:textAppearance="@style/materialText_W500_20"
                         android:textColor="@color/colorPrimary"
                         tools:text="$200" />
 
@@ -116,7 +115,7 @@
                         android:layout_marginTop="16dp"
                         android:text="Reason For Cancellation"
                         android:textAppearance="@style/materialText_600_14"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/N300" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/cancellation_reason"
@@ -124,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/header_reason"
                         android:layout_marginTop="8dp"
-                        android:textAppearance="@style/materialText_700_14"
+                        android:textAppearance="@style/materialText_W500_14"
                         android:textColor="@color/textColor"
                         tools:text="“I no longer need the job to be done”" />
 
@@ -142,7 +141,7 @@
                             android:layout_height="wrap_content"
                             android:text="Comment"
                             android:textAppearance="@style/materialText_600_14"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/N300" />
 
 
                         <com.google.android.material.textview.MaterialTextView
@@ -151,7 +150,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:lineHeight="20dp"
-                            android:textAppearance="@style/materialText_500_14"
+                            android:textAppearance="@style/materialText_W500_14"
                             android:textColor="@color/textColor"
                             tools:text="officia aliqua tempor fugiat elit non Lorem cillu et proident nulla incididunt officia incididunt veniam occaecat in esse elit" />
                     </LinearLayout>
@@ -168,8 +167,8 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
                 android:lineHeight="20dp"
-                android:textAppearance="@style/materialText_500_14"
-                android:textColor="@color/textColor"
+                android:textAppearance="@style/materialText_W400_14"
+                android:textColor="@color/N300"
                 tools:text="@string/cancellation_respond_ticker" />
 
             <RelativeLayout
@@ -177,7 +176,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cancellation_respond_header"
-                android:padding="8dp"
+                android:padding="16dp"
                 android:visibility="gone">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -189,7 +188,7 @@
                     android:layout_toStartOf="@id/cancellation_fee_amount"
                     android:gravity="center_vertical"
                     android:text="Cancellation Fee"
-                    android:textAppearance="@style/materialText_400_14"
+                    android:textAppearance="@style/materialText_W500_20"
                     android:textColor="@color/black" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -200,7 +199,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="16dp"
                     android:gravity="end|center_vertical"
-                    android:textAppearance="@style/materialText_600_22"
+                    android:textAppearance="@style/materialText_W500_20"
                     android:textColor="@color/strokeRed"
                     tools:text="-$20" />
 
@@ -212,7 +211,7 @@
                     android:layout_marginTop="12dp"
                     android:gravity="center_vertical"
                     android:text="Learn more about our Policy and Fees"
-                    android:textAppearance="@style/materialText_400_14"
+                    android:textAppearance="@style/materialText_W400_12"
                     android:textColor="@color/colorPrimary" />
 
             </RelativeLayout>
@@ -276,7 +275,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
         android:text="@string/submit"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/withdraw_container"
@@ -303,7 +302,7 @@
             android:layout_marginBottom="32dp"
             android:paddingStart="24dp"
             android:text="@string/withdraw_the_request"
-            style="@style/materialButton"
+            style="@style/materialButtonAccept"
             android:backgroundTint="@color/strokeRed"
             android:paddingEnd="24dp"/>
 

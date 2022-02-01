@@ -14,8 +14,8 @@
         android:layout_alignParentTop="true"
         android:background="@color/backgroundLightGrey"
         app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="@drawable/ic_cancel"
-        app:title="Report"
+        app:navigationIcon="@drawable/ic_back_black"
+        app:title="Report Job"
         app:titleTextColor="@color/textColor" />
 
     <com.jobtick.android.widget.ExtendedEntryText
@@ -101,12 +101,13 @@
         app:eIsMandatory="true"
         app:eMaxCharSize="300"
         app:eMinCharSize="25"
-        app:eTitle="Comment" />
+        app:eTitle="Comment"
+        app:isTitleBlue="false" />
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/submit"
-        style="@style/materialButton"
+        style="@style/materialButtonAccept"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"

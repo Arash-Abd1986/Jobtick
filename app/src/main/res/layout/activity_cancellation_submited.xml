@@ -5,9 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/backgroundLightGrey"
-    tools:context=".cancellations.cancellationSubmittedActivity">
+    tools:context=".cancellations.CancellationSubmittedActivity">
 
-    <include layout="@layout/toolbar" />
+    <include
+        android:visibility="gone"
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +35,7 @@
             android:text="Cancellation Submited Succesfully"
             android:gravity="center"
             android:textColor="@color/textColor"
-            style="@style/materialText_600_14"/>
+            style="@style/materialText_W400_16"/>
 
 
 
@@ -44,13 +46,13 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_done"
+        style="@style/materialButtonAccept"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        style="@style/materialButton"
-        android:text="@string/done"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"/>
+        android:layout_marginBottom="32dp"
+        android:text="@string/done" />
 
 </RelativeLayout>

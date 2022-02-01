@@ -6,7 +6,9 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import com.android.volley.*
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.appbar.MaterialToolbar
@@ -20,7 +22,6 @@ import com.jobtick.android.widget.ExtendedEntryText
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.*
 
 class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickListener {
     private lateinit var toolbar: MaterialToolbar
@@ -91,11 +92,11 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
     }
 
     private fun initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back)
+        toolbar.setNavigationIcon(R.drawable.ic_back_black)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = "Report"
-        toolbar.setNavigationOnClickListener { view: View? -> onBackPressed() }
+        supportActionBar!!.title = "Report Job"
+        toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
    private fun onViewClick() {

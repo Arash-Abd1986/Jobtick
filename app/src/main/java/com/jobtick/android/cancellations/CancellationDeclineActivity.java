@@ -118,7 +118,7 @@ public class CancellationDeclineActivity extends ActivityBase {
 
                                 Bundle bundle = new Bundle();
                                 bundle.putString(ConstantKey.CANCELLATION_SUBMITTED, "Cancellation request declined.");
-                                Intent intent = new Intent(this, cancellationSubmittedActivity.class);
+                                Intent intent = new Intent(this, CancellationSubmittedActivity.class);
                                 intent.putExtras(bundle);
                                 startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION);
 

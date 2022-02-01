@@ -140,7 +140,7 @@
             android:name=".cancellations.CancellationDeclinedActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".cancellations.cancellationSubmittedActivity"
+            android:name=".cancellations.CancellationSubmittedActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.LeaveReviewActivity"

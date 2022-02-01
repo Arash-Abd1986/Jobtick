@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="0dp"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="25dp"
+    android:background="@color/transparent"
     app:cardElevation="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background">
+        android:background="@drawable/bg_white_top_c">
 
         <include layout="@layout/view_bottom_sheet_top_handler" />
 
@@ -23,7 +24,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:text="Increase price request"
-            android:textAppearance="@style/materialText_500_14"
+            android:textAppearance="@style/materialText_W400_16"
             android:textColor="@color/textColor" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -34,7 +35,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:text="From"
-            android:textAppearance="@style/materialText_600_16"
+            android:textAppearance="@style/materialText_W500_16"
             android:textColor="@color/textColor" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -45,7 +46,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="24dp"
             android:layout_toEndOf="@id/from"
-            android:textAppearance="@style/materialText_600_16"
+            android:textAppearance="@style/materialText_W500_16"
             android:textColor="@color/colorPrimary"
             tools:text="Sajad B." />
 
@@ -60,8 +61,8 @@
             android:layout_marginTop="24dp"
             android:layout_toEndOf="@id/from"
             android:text="Job title"
-            android:textAppearance="@style/materialText_600_14"
-            android:textColor="@color/colorPrimary" />
+            android:textAppearance="@style/materialText_W500_16"
+            android:textColor="@color/N300" />
 
 
         <com.google.android.material.textview.MaterialTextView
@@ -74,7 +75,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_toEndOf="@id/from"
-            android:textAppearance="@style/materialText_700_14"
+            android:textAppearance="@style/materialText_W400_14"
             android:textColor="@color/textColor"
             tools:text="Clean my two bedroom witnin 6 hours in my apartment" />
 
@@ -86,7 +87,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/rectangle_round_corners_light_blue_8dp"
+            android:background="@drawable/rectangle_card_round_gray_cards"
             android:orientation="horizontal"
             android:paddingStart="16dp"
             android:paddingTop="10dp"
@@ -98,17 +99,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="start|center_vertical"
-                android:text="@string/old_price"
-                android:textAppearance="@style/materialText_500_14"
-                android:textColor="@color/textColor" />
+                android:text="Current price"
+                android:textAppearance="@style/materialText_W500_16"
+                android:textColor="@color/N600" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/old_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|center_vertical"
-                android:text="$ 0.0"
-                android:textAppearance="@style/materialText_700_18"
+                android:text="$0.0"
+                android:textAppearance="@style/materialText_500_16"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
@@ -120,7 +121,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/rectangle_round_corners_light_blue_8dp"
+            android:background="@drawable/rectangle_card_round_gray_cards"
             android:orientation="horizontal"
             android:paddingStart="16dp"
             android:paddingTop="10dp"
@@ -133,17 +134,16 @@
                 android:layout_weight="1"
                 android:gravity="start|center_vertical"
                 android:text="@string/new_price"
-                android:maxLength="4"
-                android:textAppearance="@style/materialText_500_14"
-                android:textColor="@color/textColor" />
+                android:textAppearance="@style/materialText_W500_16"
+                android:textColor="@color/N600" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/new_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|center_vertical"
-                android:text="$ 0.0"
-                android:textAppearance="@style/materialText_700_18"
+                android:text="$0.0"
+                android:textAppearance="@style/materialText_500_16"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
@@ -158,8 +158,8 @@
             android:layout_marginTop="24dp"
             android:layout_toEndOf="@id/from"
             android:text="@string/reason"
-            android:textAppearance="@style/materialText_600_14"
-            android:textColor="@color/colorPrimary" />
+            android:textAppearance="@style/materialText_W500_16"
+            android:textColor="@color/N300" />
 
 
         <com.google.android.material.textview.MaterialTextView
@@ -172,8 +172,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_toEndOf="@id/from"
-            android:textAppearance="@style/materialText_600_14"
-            android:textColor="@color/textColor"
+            android:textAppearance="@style/materialText_W400_14"
+            android:textColor="@color/N600"
             tools:text="Reason here in publishing and graphic design, Lorem ipsum" />
 
         <LinearLayout
@@ -190,17 +190,16 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_decline"
-                style="@style/materialButton"
+                style="@style/materialButtonDecline"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="4dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/strokeRed"
                 android:text="@string/decline" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_accept"
-                style="@style/materialButton"
+                style="@style/materialButtonAccept"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="4dp"
@@ -223,12 +222,11 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnWithdraw"
-                style="@style/materialButton"
+                style="@style/materialButtonAccept"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="4dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/strokeRed"
                 android:text="@string/withdrawal_the_request" />
 
 

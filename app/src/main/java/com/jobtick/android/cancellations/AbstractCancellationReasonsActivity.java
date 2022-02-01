@@ -92,7 +92,7 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
     }
 
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationIcon(R.drawable.ic_back_black);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Cancellation Request");
@@ -173,7 +173,7 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
@@ -261,7 +261,7 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
                 map1.put("Content-Type", "application/x-www-form-urlencoded");
@@ -284,9 +284,9 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
 
 
     protected String generateTitle(){
-        return "You have requested to cancel this job on " +
+        return "You have requested to cancel this job on <b>" +
                 TimeHelper.getCurrentDateTimeInShowTimeFormat() +
-                ".";
+                "</b>.";
     }
 
     public abstract void setReasons(CancellationReasonModel cancellationReasonModel);

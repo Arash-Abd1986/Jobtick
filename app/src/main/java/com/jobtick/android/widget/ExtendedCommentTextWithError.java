@@ -21,7 +21,7 @@ import com.jobtick.android.R;
 import java.util.Locale;
 
 
-public class ExtendedCommentText extends RelativeLayout implements View.OnClickListener, View.OnFocusChangeListener, TextWatcher {
+public class ExtendedCommentTextWithError extends RelativeLayout implements View.OnClickListener, View.OnFocusChangeListener, TextWatcher {
 
     private String eTitle;
     private final String eContent;
@@ -36,24 +36,25 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     private final boolean isSuburb;
     private final boolean showCounter;
     private int eImeOptions;
-
+    private final TextView error;
     private final TextView textView;
     private final TextView counter;
     private final EditText editText;
     private final AppCompatImageView suburbIcon;
+    private final RelativeLayout rlMain;
 
     private TextWatcher textWatcher;
 
 
-    public ExtendedCommentText(Context context) {
+    public ExtendedCommentTextWithError(Context context) {
         this(context, null);
     }
 
-    public ExtendedCommentText(Context context, AttributeSet attrs) {
+    public ExtendedCommentTextWithError(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ExtendedCommentText(Context context, AttributeSet attrs, int defStyle) {
+    public ExtendedCommentTextWithError(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         TypedArray sharedAttribute = context.getTheme().obtainStyledAttributes(
@@ -83,14 +84,16 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
         }
 
         //Inflate and attach the content
-        LayoutInflater.from(context).inflate(R.layout.view_extended_comment_text, this);
+        LayoutInflater.from(context).inflate(R.layout.view_extended_comment_text_with_error, this);
 
-        setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
 
         editText = findViewById(R.id.content);
         textView = findViewById(R.id.title);
         counter = findViewById(R.id.counter);
+        rlMain = findViewById(R.id.rl_main);
         suburbIcon = findViewById(R.id.suburb_icon);
+        error = findViewById(R.id.error);
+        rlMain.setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
         if (!showCounter)
             counter.setVisibility(INVISIBLE);
         textView.setText(eTitle);
@@ -165,22 +168,20 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     }
 
     private void showKeyboard(EditText editText) {
-        editText.post(new Runnable() {
-            @Override
-            public void run() {
-                InputMethodManager imm = (InputMethodManager) getContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(editText, 0);
-            }
+        editText.post(() -> {
+            InputMethodManager imm = (InputMethodManager) getContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editText, 0);
         });
     }
 
     @Override
     public void onFocusChange(View view, boolean focused) {
         if (focused)
-            setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_primary);
+            rlMain.setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_primary);
         else
-            setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
+            rlMain.setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined);
+
     }
 
     @Override
@@ -238,8 +239,9 @@ public class ExtendedCommentText extends RelativeLayout implements View.OnClickL
     }
 
     public void setError(CharSequence error) {
-        setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_red);
-        //editText.setError(error);
+        rlMain.setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_red);
+        this.error.setVisibility(VISIBLE);
+        this.error.setText(error);
     }
 
     public String geteTitle() {

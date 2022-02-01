@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.android.volley.*
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.jobtick.android.BuildConfig
@@ -20,7 +22,6 @@ import com.jobtick.android.utils.*
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.*
 
 class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
     var name: TextView? = null
@@ -40,7 +41,7 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
     private var listener: NoticeListener? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.ThemeOverlay_BottomSheetDialog)
+        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

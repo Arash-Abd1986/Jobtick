@@ -14,10 +14,12 @@ import android.annotation.SuppressLint;
 
 import com.jobtick.android.utils.ConstantKey;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class cancellationSubmittedActivity extends AppCompatActivity {
+public class CancellationSubmittedActivity extends AppCompatActivity {
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
@@ -44,25 +46,15 @@ public class cancellationSubmittedActivity extends AppCompatActivity {
         if(desc != null && !desc.equals(""))
             txtTitle.setText(desc);
 
-        btnDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finishActivity();
-            }
-        });
+        btnDone.setOnClickListener(v -> finishActivity());
     }
 
     private void initToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_cancel);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Cancellation Request");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finishActivity();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finishActivity());
     }
 
     private void finishActivity(){

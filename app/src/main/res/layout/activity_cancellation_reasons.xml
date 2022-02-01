@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/select_one_reason_for_your_request"
                 android:textAppearance="@style/materialText_500_14"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/N300" />
 
 
             <RadioGroup
@@ -46,40 +46,53 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:button="@drawable/radio_button_selector_size_16"
+                    android:drawableStart="@drawable/radio_button_selector_size_16"
+                    android:button="@null"
+                    android:background="@drawable/rectangle_button_round_corners_outlined_padding12"
                     android:paddingStart="@dimen/spacing_large"
                     android:text=""
-                    android:textAppearance="@style/materialText_400_14" />
+                    android:drawablePadding="12dp"
+                    android:layoutDirection="rtl"
+                    android:textAppearance="@style/materialText_W400_14" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_reason_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:button="@drawable/radio_button_selector_size_16"
+                    android:drawableStart="@drawable/radio_button_selector_size_16"
+                    android:button="@null"
+                    android:background="@drawable/rectangle_button_round_corners_outlined_padding12"
                     android:paddingStart="@dimen/spacing_large"
+                    android:layoutDirection="rtl"
                     android:text=""
-                    android:textAppearance="@style/materialText_400_14" />
+                    android:textAppearance="@style/materialText_W400_14" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_reason_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:button="@drawable/radio_button_selector_size_16"
+                    android:drawableStart="@drawable/radio_button_selector_size_16"
+                    android:button="@null"
+                    android:background="@drawable/rectangle_button_round_corners_outlined_padding12"
                     android:paddingStart="@dimen/spacing_large"
+                    android:layoutDirection="rtl"
                     android:text=""
-                    android:textAppearance="@style/materialText_400_14" />
+                    android:textAppearance="@style/materialText_W400_14" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_reason_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:button="@drawable/radio_button_selector_size_16"
+                    android:drawableStart="@drawable/radio_button_selector_size_16"
+                    android:button="@null"
+                    android:background="@drawable/rectangle_button_round_corners_outlined_padding12"
                     android:paddingStart="@dimen/spacing_large"
+                    android:layoutDirection="rtl"
                     android:text=""
-                    android:textAppearance="@style/materialText_400_14" />
+                    android:textAppearance="@style/materialText_W400_14" />
 
             </RadioGroup>
 
@@ -90,6 +103,7 @@
                 android:layout_height="120dp"
                 android:layout_marginTop="24dp"
                 app:eIsMandatory="false"
+                app:isTitleBlue="false"
                 app:eMaxCharSize="100"
                 app:eTitle="@string/comments_optional" />
 
@@ -101,45 +115,45 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/fee_main_title"
-                    style="@style/materialText_500_12"
+                    style="@style/materialText_W400_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="16dp"
                     android:text="You will be charged a Cancellation Fee once the request has been accepted."
-                    android:textColor="@color/grey_70" />
+                    android:textColor="@color/N300" />
 
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/fee_title"
-                    style="@style/materialText_400_14"
+                    style="@style/materialText_W500_20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/fee_main_title"
-                    android:layout_alignParentStart="true"
-                    android:gravity="center_vertical"
                     android:layout_alignTop="@id/txt_cancellation_fee"
                     android:layout_alignBottom="@id/txt_cancellation_fee"
+                    android:layout_alignParentStart="true"
                     android:layout_toStartOf="@+id/txt_cancellation_fee"
+                    android:gravity="center_vertical"
                     android:text="Cancellation Fee"
                     android:textColor="@color/textColor" />
 
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_cancellation_fee"
-                    style="@style/materialText_600_22"
+                    style="@style/materialText_W500_20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="16dp"
                     android:layout_below="@id/fee_main_title"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:text="-$ 20"
+                    android:layout_marginTop="16dp"
+                    android:text="-$20"
                     android:textColor="@color/colorTaskOverDue" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/learn_more"
-                    style="@style/materialText_400_12"
+                    style="@style/materialText_W400_12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txt_cancellation_fee"
@@ -160,7 +174,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_submit"
-        style="@style/materialButton"
+        style="@style/materialButtonAccept"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"

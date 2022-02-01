@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="0dp"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="25dp"
+    android:background="@color/transparent"
     app:cardElevation="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background">
+        android:background="@drawable/bg_white_top_c">
 
         <include layout="@layout/view_bottom_sheet_top_handler" />
 
@@ -29,23 +30,24 @@
             android:id="@+id/reason"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            app:eTitle="@string/reason"
-            app:eIsMandatory="true"
-            app:eMinCharSize="25"
-            android:layout_marginTop="24dp"
-            app:eMaxCharSize="300"
+            android:layout_below="@id/title"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:layout_below="@id/title"/>
+            app:eIsMandatory="true"
+            app:isTitleBlue="false"
+            app:eMaxCharSize="300"
+            app:eMinCharSize="25"
+            app:eTitle="@string/reason" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/submit"
-            style="@style/materialButton"
+            style="@style/materialButtonAccept"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_below="@id/reason"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:layout_below="@id/reason"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="32dp"
             android:text="@string/submit" />

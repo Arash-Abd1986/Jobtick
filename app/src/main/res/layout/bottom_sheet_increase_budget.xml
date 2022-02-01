@@ -7,6 +7,11 @@
     android:layout_gravity="bottom"
     android:background="@android:color/transparent"
     android:orientation="vertical">
+<LinearLayout
+    android:background="@drawable/bg_white_top_c"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <include layout="@layout/view_bottom_sheet_top_handler"/>
 
@@ -16,7 +21,7 @@
         android:gravity="center"
         android:text="@string/increase_price"
         android:layout_marginTop="16dp"
-        android:textAppearance="@style/materialText_500_14"
+        android:textAppearance="@style/materialText_W400_16"
         android:textColor="@color/textColor" />
 
     <LinearLayout
@@ -25,7 +30,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/rectangle_round_corners_light_blue_8dp"
+        android:background="@drawable/rectangle_card_round_gray_cards"
         android:orientation="horizontal"
         android:paddingStart="16dp"
         android:paddingTop="10dp"
@@ -38,7 +43,7 @@
             android:layout_weight="1"
             android:gravity="start|center_vertical"
             android:text="Current price"
-            android:textAppearance="@style/materialText_500_17"
+            android:textAppearance="@style/materialText_W500_16"
             android:textColor="@color/textColor" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -47,7 +52,7 @@
             android:layout_height="wrap_content"
             android:gravity="end|center_vertical"
             android:text="@string/old_price"
-            android:textAppearance="@style/materialText_700_18"
+            android:textAppearance="@style/materialText_W500_20"
             android:textColor="@color/colorPrimary"
             tools:text="$2000" />
     </LinearLayout>
@@ -81,7 +86,7 @@
             android:layout_toStartOf="@id/new_price"
             android:gravity="start|center_vertical"
             android:text="New price"
-            android:textAppearance="@style/materialText_500_14"
+            android:textAppearance="@style/materialText_W400_16"
             android:textColor="@color/N500" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -93,33 +98,34 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="end|center_vertical"
-            android:text="$ 0.0"
+            android:text="$0.0"
             android:textAppearance="@style/materialText_600_18"
             android:textColor="@color/textColor" />
+
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/new_price"
+            android:layout_alignParentStart="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_toStartOf="@id/service_fee"
             android:gravity="start|center_vertical"
-            android:text="Fee"
-            android:textAppearance="@style/materialText_500_14"
+            android:text="Service fee"
+            android:textAppearance="@style/materialText_W400_16"
             android:textColor="@color/N500" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/service_fee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@+id/new_price"
+            android:layout_alignParentEnd="true"
 
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="end|center_vertical"
-            android:text="$ 0.0"
+            android:text="$0.0"
             android:textAppearance="@style/materialText_600_18"
             android:textColor="@color/textColor" />
 
@@ -133,7 +139,7 @@
             android:layout_toStartOf="@id/receive_money"
             android:gravity="start|center_vertical"
             android:text="You’ll receive"
-            android:textAppearance="@style/materialText_500_17"
+            android:textAppearance="@style/materialText_W500_16"
             android:textColor="@color/N900" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -145,7 +151,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:gravity="end|center_vertical"
-            android:text="$ 0.0"
+            android:text="$0.0"
             android:textAppearance="@style/materialText_700_22"
             android:textColor="@color/colorPrimary" />
     </RelativeLayout>
@@ -159,12 +165,13 @@
         android:layout_marginEnd="16dp"
         app:eIsMandatory="true"
         app:eMaxCharSize="300"
+        app:isTitleBlue="false"
         app:eMinCharSize="25"
         app:eTitle="Reason" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/submit"
-        style="@style/materialButton"
+        style="@style/materialButtonAccept"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
@@ -173,4 +180,5 @@
         android:layout_marginBottom="32dp"
         android:text="@string/submit" />
 
+</LinearLayout>
 </LinearLayout>

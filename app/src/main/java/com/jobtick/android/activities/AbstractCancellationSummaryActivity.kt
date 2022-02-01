@@ -11,7 +11,10 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
-import com.android.volley.*
+import com.android.volley.AuthFailureError
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
@@ -21,7 +24,7 @@ import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.cancellations.AbstractCancellationReasonsActivity
 import com.jobtick.android.cancellations.CancellationDeclineActivity
-import com.jobtick.android.cancellations.cancellationSubmittedActivity
+import com.jobtick.android.cancellations.CancellationSubmittedActivity
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.models.cancellation.notice.CancellationNoticeModel
 import com.jobtick.android.utils.*
@@ -103,7 +106,7 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
             if (strComment == null || strComment!!.trim { it <= ' ' }.isEmpty()) commentBox!!.visibility = View.GONE else commentContent!!.text = strComment!!.trim { it <= ' ' }
             val feeValue = bundle.getFloat(AbstractCancellationReasonsActivity.CANCELLATION_VALUE, 0f)
             if (feeValue != 0f) {
-                feeAmount!!.text = String.format(Locale.ENGLISH, "-$ %.1f", feeValue)
+                feeAmount!!.text = String.format(Locale.ENGLISH, "-$%.1f", feeValue)
                 feeContainer!!.visibility = View.VISIBLE
             }
 
@@ -120,10 +123,10 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
     }
 
     private fun initToolbar() {
-        toolbar!!.setNavigationIcon(R.drawable.ic_back)
+        toolbar!!.setNavigationIcon(R.drawable.ic_back_black)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = "Cancellation Request Summary"
+        supportActionBar!!.title = "Cancellation Request"
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -238,7 +241,7 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
                             if (jsonObject.getBoolean("success")) {
                                 val bundle = Bundle()
                                 bundle.putString(ConstantKey.CANCELLATION_SUBMITTED, "The job is cancelled successfully.")
-                                val intent = Intent(this, cancellationSubmittedActivity::class.java)
+                                val intent = Intent(this, CancellationSubmittedActivity::class.java)
                                 intent.putExtras(bundle)
                                 startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION)
                             } else {
@@ -388,7 +391,7 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
                                 }
                                 val bundle = Bundle()
                                 bundle.putString(ConstantKey.CANCELLATION_SUBMITTED, "Cancellation submitted successfully.")
-                                val intent = Intent(this, cancellationSubmittedActivity::class.java)
+                                val intent = Intent(this, CancellationSubmittedActivity::class.java)
                                 intent.putExtras(bundle)
                                 startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION)
                             } else {

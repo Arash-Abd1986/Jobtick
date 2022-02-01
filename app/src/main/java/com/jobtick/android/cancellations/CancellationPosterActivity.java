@@ -66,6 +66,9 @@ public class CancellationPosterActivity extends
         super.onCreate(savedInstanceState);
 
         rgReasonMessage.setOnCheckedChangeListener(this);
+        btnSubmit.setOnClickListener(v -> {
+            onViewClicked();
+        });
     }
 
     @Override
@@ -122,7 +125,6 @@ public class CancellationPosterActivity extends
         }
     }
 
-    @OnClick(R.id.btn_submit)
     public void onViewClicked() {
         String str_comment = null;
         if (!TextUtils.isEmpty(commentText.getText().trim())) {

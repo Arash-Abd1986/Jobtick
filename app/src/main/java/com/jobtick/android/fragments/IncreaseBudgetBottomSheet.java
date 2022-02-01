@@ -68,7 +68,6 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
 
     public static IncreaseBudgetBottomSheet newInstance(TaskModel taskModel, int pos){
         Bundle bundle = new Bundle();
-    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
         bundle.putInt(ConstantKey.POSITION, pos);
         IncreaseBudgetBottomSheet fragment = new IncreaseBudgetBottomSheet();
         fragment.setArguments(bundle);
@@ -79,7 +78,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.ThemeOverlay_BottomSheetDialog);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
     }
 
 
@@ -88,8 +87,6 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_increase_budget, container, false);
         sessionManager = new SessionManager(getContext());
-     //   assert getArguments() != null;
-     //   taskModel = getArguments().getParcelable(ConstantKey.TASK);
         taskModel = TaskDetailsActivity.taskModel;
 
         oldPrice = view.findViewById(R.id.old_price);
@@ -103,9 +100,6 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
 
         submit.setOnClickListener(v -> {
             if(!validation()) return;
-
-            //TODO: API is giving increased price, but it should get all new price, so
-            //we calculate new increased price, after API updating, we bring back it.
             int increasedPrice = Integer.parseInt(addPrice.getText());
             submitIncreaseBudget(Integer.toString(increasedPrice), reason.getText().trim());
         });
@@ -140,10 +134,10 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
     private void setupBudget(int budget) {
         float worker_service_fee = taskModel.getWorker().getWorkerTier().getServiceFee();
         float service_fee = ((budget * worker_service_fee) / 100);
-        serviceFee.setText(String.format("$ %s", service_fee));
-        newPrice.setText(String.format("$ %s", budget));
+        serviceFee.setText(String.format("$%s", service_fee));
+        newPrice.setText(String.format("$%s", budget));
         total_budget = (int) (budget - ((budget * worker_service_fee) / 100));
-        receiveMoney.setText(String.format(Locale.ENGLISH, "$ %d", total_budget));
+        receiveMoney.setText(String.format(Locale.ENGLISH, "$%d", total_budget));
     }
 
     public void initProgressDialog() {
@@ -235,7 +229,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
 
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> map1 = new HashMap<String, String>();
 
                 map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
@@ -246,7 +240,7 @@ public class IncreaseBudgetBottomSheet extends AbstractStateExpandedBottomSheet 
             }
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("amount", increase_budget);
                 map1.put("creation_reason", increase_budget_reason);

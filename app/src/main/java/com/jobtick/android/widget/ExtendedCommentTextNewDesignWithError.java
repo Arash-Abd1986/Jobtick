@@ -142,7 +142,7 @@ public class ExtendedCommentTextNewDesignWithError extends RelativeLayout implem
             counter.setTextColor(getResources().getColor(R.color.strokeRed));
         } else {
             counter.setText(String.format(Locale.ENGLISH, "0/%d", eMaxSize));
-            counter.setTextColor(getResources().getColor(R.color.N050));
+            counter.setTextColor(getResources().getColor(R.color.N100));
         }
 
         if (eStartFocus) {
@@ -238,7 +238,7 @@ public class ExtendedCommentTextNewDesignWithError extends RelativeLayout implem
                 }
             } else {
                 counter.setText(String.format(Locale.ENGLISH, "0/%d", eMaxSize));
-                counter.setTextColor(getResources().getColor(R.color.N050));
+                counter.setTextColor(getResources().getColor(R.color.N100));
             }
         }
 

@@ -15,7 +15,7 @@
         android:layout_toStartOf="@id/counter"
         android:focusable="false"
         android:text="First Name"
-        android:textAppearance="@style/materialText_400_13"
+        android:textAppearance="@style/materialText_W400_14"
         android:textColor="@color/colorPrimary" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -63,7 +63,7 @@
         android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
         android:minLines="1"
         android:maxLines="10"
-        android:textAppearance="@style/materialText_400_15"
+        android:textAppearance="@style/materialText_W400_16"
         android:textColor="@color/textColor"
         tools:text="sedighi.66@gmail.com" />
 

@@ -10,12 +10,17 @@ import android.widget.CalendarView
 import android.widget.DatePicker
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.android.volley.*
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.models.TaskModel
@@ -30,17 +35,30 @@ import org.json.JSONObject
 import timber.log.Timber
 import java.util.*
 
-class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickListener {
+class RescheduleTimeRequestActivity : ActivityBase(),
+    ExtendedEntryText.ExtendedViewOnClickListener {
     private lateinit var toolbar: MaterialToolbar
     private lateinit var txtDate: ExtendedEntryText
     private lateinit var txtPreviousDate: TextView
     private lateinit var getTxtPreviousTime: TextView
     private lateinit var lytBtnDecline: MaterialButton
     private lateinit var lytBtnVerify: MaterialButton
-    private  var year = 0
-    private  var month = 0
-    private  var day = 0
-    private  var dueDate: Long = 0
+    private var isSpinnerOpen = false
+    private lateinit var spinnerItems: LinearLayout
+    private lateinit var spinnerArrow: AppCompatImageView
+    private lateinit var edtTimeSpinner: MaterialTextView
+    private lateinit var spinnerMorning: MaterialTextView
+    private lateinit var spinnerAfternoon: MaterialTextView
+    private lateinit var spinnerEvening: MaterialTextView
+    private lateinit var spinnerAnytime: MaterialTextView
+    private var year = 0
+    private var month = 0
+    private var day = 0
+    private var dueDate: Long = 0
+    private var cbMorning = false
+    private var cbAnyTime = false
+    private var cbAfternoon = false
+    private var cbEvening = false
     private lateinit var mDateSetListener: DatePickerDialog.OnDateSetListener
     private lateinit var strDueDate: String
     private var taskModel: TaskModel? = null
@@ -63,6 +81,13 @@ class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.Extended
         getTxtPreviousTime = findViewById(R.id.txt_previous_time)
         lytBtnVerify = findViewById(R.id.lyt_btn_verify)
         lytBtnDecline = findViewById(R.id.lyt_btn_decline)
+        edtTimeSpinner = findViewById(R.id.edt_time_spinner)
+        spinnerItems = findViewById(R.id.spinner_items)
+        spinnerArrow = findViewById(R.id.spinner_arrow)
+        spinnerMorning = findViewById(R.id.spinner_morning)
+        spinnerAfternoon = findViewById(R.id.spinner_afternoon)
+        spinnerEvening = findViewById(R.id.spinner_evening)
+        spinnerAnytime = findViewById(R.id.spinner_anytime)
     }
 
     private fun init() {
@@ -79,16 +104,17 @@ class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.Extended
             if (taskModel!!.dueTime.morning) getTxtPreviousTime.setText(R.string.morning)
             if (taskModel!!.dueTime.anytime) getTxtPreviousTime.setText(R.string.anyTime)
         }
-        mDateSetListener = DatePickerDialog.OnDateSetListener { _: DatePicker?, year: Int, month: Int, dayOfMonth: Int ->
-            val monthL = month + 1
-            strDueDate = Tools.getDayMonthDateTimeFormat("$year-$monthL-$dayOfMonth")
-            txtDate.text = strDueDate
-        }
+        mDateSetListener =
+            DatePickerDialog.OnDateSetListener { _: DatePicker?, year: Int, month: Int, dayOfMonth: Int ->
+                val monthL = month + 1
+                strDueDate = Tools.getDayMonthDateTimeFormat("$year-$monthL-$dayOfMonth")
+                txtDate.text = strDueDate
+            }
         txtDate.setExtendedViewOnClickListener(this)
     }
 
     private fun initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_cancel)
+        toolbar.setNavigationIcon(R.drawable.ic_back_black)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = "Reschedule time"
@@ -109,15 +135,79 @@ class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.Extended
         lytBtnVerify.setOnClickListener {
             if (validation()) createRequest()
         }
+        edtTimeSpinner.setOnClickListener { v: View? ->
+            if (isSpinnerOpen) {
+                hideSpinner()
+            } else {
+                showSpinner()
+            }
+        }
+        spinnerMorning.setOnClickListener { v: View? ->
+            cbMorning = true
+            cbAfternoon = false
+            cbEvening = false
+            cbAnyTime = false
+            edtTimeSpinner.setText(R.string.morning_s)
+            hideSpinner()
+        }
+        spinnerAfternoon.setOnClickListener { v: View? ->
+            cbAfternoon = true
+            cbMorning = false
+            cbEvening = false
+            cbAnyTime = false
+            edtTimeSpinner.setText(R.string.afternoon_s)
+            hideSpinner()
+        }
+        spinnerEvening.setOnClickListener { v: View? ->
+            cbEvening = true
+            cbAfternoon = false
+            cbMorning = false
+            cbAnyTime = false
+            edtTimeSpinner.setText(R.string.evening_s)
+            hideSpinner()
+        }
+        spinnerAnytime.setOnClickListener { v: View? ->
+            cbAnyTime = true
+            cbAfternoon = false
+            cbEvening = false
+            cbMorning = false
+            edtTimeSpinner.setText(R.string.anytime_s)
+            hideSpinner()
+        }
+    }
+
+    private fun showSpinner() {
+        edtTimeSpinner.setTextColor(ContextCompat.getColor(this, R.color.P300))
+        spinnerArrow.setImageDrawable(
+            ContextCompat.getDrawable(
+                this,
+                R.drawable.ic_up_arrow_g
+            )
+        )
+        isSpinnerOpen = true
+        spinnerItems.visibility = View.VISIBLE
+    }
+
+    private fun hideSpinner() {
+        isSpinnerOpen = false
+        spinnerArrow.setImageDrawable(
+            ContextCompat.getDrawable(
+                this,
+                R.drawable.ic_d_arrow_g
+            )
+        )
+        edtTimeSpinner.setTextColor(ContextCompat.getColor(this, R.color.N9001))
+        spinnerItems.visibility = View.GONE
     }
 
     private fun validation(): Boolean {
-        if (txtDate.text.isEmpty()) {
-            txtDate.setError("Please enter new date.")
-            return false
-        }
+
         if (edtNote.text.length < edtNote.geteMinSize()) {
             edtNote.setError("")
+            return false
+        }
+        if (txtDate.text.isEmpty()) {
+            txtDate.setError("Please enter new date.")
             return false
         }
         return true
@@ -126,52 +216,53 @@ class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.Extended
     private fun createRequest() {
 
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/" + Constant.URL_CREATE_RESCHEDULE,
-                Response.Listener { response: String? ->
-                    Timber.e(response)
-                    hideProgressDialog()
-                    try {
-                        val jsonObject = JSONObject(response!!)
-                        Timber.e(jsonObject.toString())
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                finish()
-                            } else {
-                                showToast("Something went Wrong", this@RescheduleTimeRequestActivity)
-                            }
-                        }
-                    } catch (e: JSONException) {
-                        Timber.e(e.toString())
-                        e.printStackTrace()
-                    }
-                },
-        Response.ErrorListener { error: VolleyError ->
-            val networkResponse = error.networkResponse
-            if (networkResponse?.data != null) {
-                val jsonError = String(networkResponse.data)
-                // Print Error!
-                Timber.e(jsonError)
-                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                    unauthorizedUser()
-                    hideProgressDialog()
-                    return@ErrorListener
-                }
+        val stringRequest: StringRequest = object : StringRequest(Method.POST,
+            Constant.URL_TASKS + "/" + taskModel!!.slug + "/" + Constant.URL_CREATE_RESCHEDULE,
+            Response.Listener { response: String? ->
+                Timber.e(response)
+                hideProgressDialog()
                 try {
-                    hideProgressDialog()
-                    val jsonObject = JSONObject(jsonError)
-                    val jsonObjectError = jsonObject.getJSONObject("error")
-                    if (jsonObjectError.has("message")) {
-                        showToast(jsonObjectError.getString("message"), this)
+                    val jsonObject = JSONObject(response!!)
+                    Timber.e(jsonObject.toString())
+                    if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                        if (jsonObject.getBoolean("success")) {
+                            finish()
+                        } else {
+                            showToast("Something went Wrong", this@RescheduleTimeRequestActivity)
+                        }
                     }
                 } catch (e: JSONException) {
+                    Timber.e(e.toString())
                     e.printStackTrace()
                 }
-            } else {
-                showToast("Something Went Wrong", this@RescheduleTimeRequestActivity)
-            }
-            Timber.e(error.toString())
-            hideProgressDialog()
-        }) {
+            },
+            Response.ErrorListener { error: VolleyError ->
+                val networkResponse = error.networkResponse
+                if (networkResponse?.data != null) {
+                    val jsonError = String(networkResponse.data)
+                    // Print Error!
+                    Timber.e(jsonError)
+                    if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                        unauthorizedUser()
+                        hideProgressDialog()
+                        return@ErrorListener
+                    }
+                    try {
+                        hideProgressDialog()
+                        val jsonObject = JSONObject(jsonError)
+                        val jsonObjectError = jsonObject.getJSONObject("error")
+                        if (jsonObjectError.has("message")) {
+                            showToast(jsonObjectError.getString("message"), this)
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    showToast("Something Went Wrong", this@RescheduleTimeRequestActivity)
+                }
+                Timber.e(error.toString())
+                hideProgressDialog()
+            }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
@@ -185,11 +276,27 @@ class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.Extended
                 val map1: MutableMap<String, String> = HashMap()
                 map1["reason"] = edtNote.text
                 map1["new_duedate"] = Tools.getApplicationFromatToServerFormat(txtDate.text)
+                when {
+                    cbMorning -> {
+                        map1["new_duetime"] = "morning"
+                    }
+                    cbAfternoon -> {
+                        map1["new_duetime"] = "afternoon"
+                    }
+                    cbEvening -> {
+                        map1["new_duetime"] = "evening"
+                    }
+                    else -> {
+                        map1["new_duetime"] = "anytime"
+                    }
+                }
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@RescheduleTimeRequestActivity)
         requestQueue.add(stringRequest)
     }
@@ -232,6 +339,8 @@ class RescheduleTimeRequestActivity : ActivityBase(), ExtendedEntryText.Extended
         // set background transparent
         (view.parent as View).setBackgroundColor(resources.getColor(android.R.color.transparent))
         mBottomSheetDialog!!.show()
-        mBottomSheetDialog!!.setOnDismissListener { dialog: DialogInterface? -> mBottomSheetDialog = null }
+        mBottomSheetDialog!!.setOnDismissListener { dialog: DialogInterface? ->
+            mBottomSheetDialog = null
+        }
     }
 }

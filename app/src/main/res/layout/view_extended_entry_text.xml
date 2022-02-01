@@ -13,7 +13,7 @@
         android:layout_toStartOf="@id/error"
         android:focusable="false"
         android:text="First Name"
-        android:textAppearance="@style/materialText_400_13"
+        android:textAppearance="@style/materialText_W400_14"
         android:textColor="@color/colorPrimary" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -60,7 +60,7 @@
         android:inputType="text"
         android:maxLines="1"
         android:minHeight="24dp"
-        android:textAppearance="@style/materialText_400_15"
+        android:textAppearance="@style/materialText_W400_16"
         android:textColor="@color/textColor"
         android:visibility="visible"
         tools:text="sedighi.66@gmail.com" />

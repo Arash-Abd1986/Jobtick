@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundLightGrey"
     tools:context=".cancellations.AbstractDoneMessageActivity">
+    <include layout="@layout/toolbar" />
 
-    <include layout="@layout/toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,20 +32,20 @@
             tools:text="Decline Submitted Successfully"
             android:textSize="14sp"
             android:gravity="center"
-            android:textAppearance="@style/materialText_600_16"
+            android:textAppearance="@style/materialText_W400_16"
             android:textColor="@color/textColor"/>
 
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/done"
+        style="@style/materialButtonAccept"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="@string/done"
-        style="@style/materialButton"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
-        android:layout_alignParentBottom="true"/>
+        android:text="@string/done" />
 
 </RelativeLayout>

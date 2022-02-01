@@ -37,8 +37,8 @@
             android:layout_marginEnd="16dp"
             android:layout_toEndOf="@id/from"
             android:text="description"
-            android:textAppearance="@style/materialText_500_14"
-            android:textColor="@color/textColor" />
+            android:textAppearance="@style/materialText_W400_16"
+            android:textColor="@color/N600" />
 
         <LinearLayout
             android:id="@+id/lyt_button"
@@ -54,18 +54,16 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_decline"
-                style="@style/materialButton"
+                style="@style/materialButtonDecline"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="4dp"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_card_round_corners_outlined_blue"
-                android:textColor="@color/colorAccent"
                 android:text="@string/decline" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_accept"
-                style="@style/materialButton"
+                style="@style/materialButtonAccept"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="4dp"

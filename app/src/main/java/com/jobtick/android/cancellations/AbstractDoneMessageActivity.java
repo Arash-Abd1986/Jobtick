@@ -2,6 +2,7 @@ package com.jobtick.android.cancellations;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public abstract class AbstractDoneMessageActivity extends AppCompatActivity {
 
         txtTitle = findViewById(R.id.txt_title);
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.GONE);
         done = findViewById(R.id.done);
 
         txtTitle.setText(getTextTitle());

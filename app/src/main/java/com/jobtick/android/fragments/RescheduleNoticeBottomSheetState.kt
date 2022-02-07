@@ -44,8 +44,10 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.bottom_sheet_reschedule_notice, container, false)
     }
 
@@ -79,19 +81,28 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
     }
 
     private fun init() {
-        name!!.text = taskModel!!.poster.name
+
         description!!.text = taskModel!!.title
         reason!!.text = taskModel!!.rescheduleReqeust[pos].reason
-        newTime!!.text = TimeHelper.convertToJustDateFormat(taskModel!!.rescheduleReqeust[pos].new_duedate)
+        newTime!!.text =
+            TimeHelper.convertToJustDateFormat(taskModel!!.rescheduleReqeust[pos].new_duedate)
         previousDate!!.text = taskModel!!.dueDate
         if (taskModel!!.dueTime.anytime) previousTime!!.setText(R.string.anytime)
         if (taskModel!!.dueTime.morning) previousTime!!.setText(R.string.morning)
         if (taskModel!!.dueTime.evening) previousTime!!.setText(R.string.evening)
         if (taskModel!!.dueTime.afternoon) previousTime!!.setText(R.string.afternoon)
-        if (isMine) {
-            name!!.text = "You"
-            llAcceptDecline!!.visibility = View.GONE
-            llWithDraw!!.visibility = View.VISIBLE
+        when {
+            isMine -> {
+                name!!.text = "You"
+                llAcceptDecline!!.visibility = View.GONE
+                llWithDraw!!.visibility = View.VISIBLE
+            }
+            taskModel!!.poster.id == sessionManager!!.userAccount.id -> {
+                name!!.text = taskModel!!.worker.name
+            }
+            else -> {
+                name!!.text = taskModel!!.poster.name
+            }
         }
     }
 
@@ -100,88 +111,114 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
         listener = try {
             context as NoticeListener
         } catch (e: ClassCastException) {
-            throw ClassCastException(this.toString()
-                    + " must implement NoticeListener")
+            throw ClassCastException(
+                this.toString()
+                        + " must implement NoticeListener"
+            )
         }
     }
 
     private fun withdrawRequest() {
         (requireActivity() as ActivityBase).showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.DELETE, Constant.BASE_URL + Constant.URL_CREATE_RESCHEDULE + "/" + taskModel!!.rescheduleReqeust[pos].id,
-                Response.Listener { response: String? ->
-                    Timber.e(response)
-                    (requireActivity() as ActivityBase).hideProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(Method.DELETE,
+            Constant.BASE_URL + Constant.URL_CREATE_RESCHEDULE + "/" + taskModel!!.rescheduleReqeust[pos].id,
+            Response.Listener { response: String? ->
+                Timber.e(response)
+                (requireActivity() as ActivityBase).hideProgressDialog()
+                try {
+                    val jsonObject = JSONObject(response!!)
+                    if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                        if (jsonObject.getBoolean("success")) {
+                            listener!!.onRescheduleWithDraw()
+                            dismiss()
+                        } else {
+                            (requireActivity() as ActivityBase).showToast(
+                                "Something went Wrong",
+                                context
+                            )
+                        }
+                    }
+                } catch (e: JSONException) {
+                    Timber.e(e.toString())
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error: VolleyError ->
+                val networkResponse = error.networkResponse
+                if (networkResponse?.data != null) {
+                    val jsonError = String(networkResponse.data)
+                    // Print Error!
+                    Timber.e(jsonError)
+                    if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                        (requireActivity() as ActivityBase).unauthorizedUser()
+                        (requireActivity() as ActivityBase).hideProgressDialog()
+                        return@ErrorListener
+                    }
                     try {
-                        val jsonObject = JSONObject(response!!)
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                listener!!.onRescheduleWithDraw()
-                                dismiss()
-                            } else {
-                                (requireActivity() as ActivityBase).showToast("Something went Wrong", context)
+                        val jsonObject = JSONObject(jsonError)
+                        val jsonObjectError = jsonObject.getJSONObject("error")
+                        if (jsonObjectError.has("errors")) {
+                            val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
+                            if (jsonObjectErrors.has("amount") && !jsonObjectErrors.isNull("amount")) {
+                                val jsonArrayAmount = jsonObjectErrors.getJSONArray("amount")
+                                (requireActivity() as ActivityBase).showToast(
+                                    jsonArrayAmount.getString(
+                                        0
+                                    ), requireContext()
+                                )
+                            } else if (jsonObjectErrors.has("creation_reason") && !jsonObjectErrors.isNull(
+                                    "creation_reason"
+                                )
+                            ) {
+                                val jsonArrayAmount =
+                                    jsonObjectErrors.getJSONArray("creation_reason")
+                                (requireActivity() as ActivityBase).showToast(
+                                    jsonArrayAmount.getString(
+                                        0
+                                    ), requireContext()
+                                )
+                            }
+                        } else {
+                            if (jsonObjectError.has("message")) {
+                                (requireActivity() as ActivityBase).showToast(
+                                    jsonObjectError.getString(
+                                        "message"
+                                    ), requireContext()
+                                )
                             }
                         }
                     } catch (e: JSONException) {
-                        Timber.e(e.toString())
                         e.printStackTrace()
                     }
-                },
-                Response.ErrorListener { error: VolleyError ->
-                    val networkResponse = error.networkResponse
-                    if (networkResponse?.data != null) {
-                        val jsonError = String(networkResponse.data)
-                        // Print Error!
-                        Timber.e(jsonError)
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            (requireActivity() as ActivityBase).unauthorizedUser()
-                            (requireActivity() as ActivityBase).hideProgressDialog()
-                            return@ErrorListener
-                        }
-                        try {
-                            val jsonObject = JSONObject(jsonError)
-                            val jsonObjectError = jsonObject.getJSONObject("error")
-                            if (jsonObjectError.has("errors")) {
-                                val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
-                                if (jsonObjectErrors.has("amount") && !jsonObjectErrors.isNull("amount")) {
-                                    val jsonArrayAmount = jsonObjectErrors.getJSONArray("amount")
-                                    (requireActivity() as ActivityBase).showToast(jsonArrayAmount.getString(0), requireContext())
-                                } else if (jsonObjectErrors.has("creation_reason") && !jsonObjectErrors.isNull("creation_reason")) {
-                                    val jsonArrayAmount = jsonObjectErrors.getJSONArray("creation_reason")
-                                    (requireActivity() as ActivityBase).showToast(jsonArrayAmount.getString(0), requireContext())
-                                }
-                            } else {
-                                if (jsonObjectError.has("message")) {
-                                    (requireActivity() as ActivityBase).showToast(jsonObjectError.getString("message"), requireContext())
-                                }
-                            }
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                        }
-                    } else {
-                        (requireActivity() as ActivityBase).showToast("Something Went Wrong", context)
-                    }
-                    Timber.e(error.toString())
-                    (requireActivity() as ActivityBase).hideProgressDialog()
-                }) {
+                } else {
+                    (requireActivity() as ActivityBase).showToast("Something Went Wrong", context)
+                }
+                Timber.e(error.toString())
+                (requireActivity() as ActivityBase).hideProgressDialog()
+            }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                map1["authorization"] =
+                    sessionManager!!.tokenType + " " + sessionManager!!.accessToken
                 map1["Content-Type"] = "application/x-www-form-urlencoded"
                 map1["Version"] = BuildConfig.VERSION_CODE.toString()
                 //   map1.put("X-Requested-With", "XMLHttpRequest");
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
     }
 
     fun acceptRequest() {
         (requireActivity() as ActivityBase).showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL + Constant.URL_CREATE_RESCHEDULE + "/" +
-                taskModel!!.rescheduleReqeust[pos].id + "/accept",
+        val stringRequest: StringRequest = object :
+            StringRequest(Method.GET, Constant.BASE_URL + Constant.URL_CREATE_RESCHEDULE + "/" +
+                    taskModel!!.rescheduleReqeust[pos].id + "/accept",
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -191,10 +228,16 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
                                 listener!!.onRescheduleTimeAcceptDeclineClick()
                                 dismiss()
                             } else {
-                                (requireActivity() as ActivityBase).showToast("Something went wrong", requireContext())
+                                (requireActivity() as ActivityBase).showToast(
+                                    "Something went wrong",
+                                    requireContext()
+                                )
                             }
                         } else {
-                            (requireActivity() as ActivityBase).showToast("Something went wrong", requireContext())
+                            (requireActivity() as ActivityBase).showToast(
+                                "Something went wrong",
+                                requireContext()
+                            )
                         }
                         (requireActivity() as ActivityBase).hideProgressDialog()
                     } catch (e: JSONException) {
@@ -218,37 +261,51 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
                             val jsonObject = JSONObject(jsonError)
                             val jsonObjectError = jsonObject.getJSONObject("error")
                             if (jsonObjectError.has("message")) {
-                                (requireActivity() as ActivityBase).showToast(jsonObjectError.getString("message"), requireContext())
+                                (requireActivity() as ActivityBase).showToast(
+                                    jsonObjectError.getString(
+                                        "message"
+                                    ), requireContext()
+                                )
                             }
                         } catch (e: JSONException) {
-                            (requireActivity() as ActivityBase).showToast("Something Went Wrong", requireContext())
+                            (requireActivity() as ActivityBase).showToast(
+                                "Something Went Wrong",
+                                requireContext()
+                            )
                             e.printStackTrace()
                         }
                     } else {
-                        (requireActivity() as ActivityBase).showToast("Something Went Wrong", requireContext())
+                        (requireActivity() as ActivityBase).showToast(
+                            "Something Went Wrong",
+                            requireContext()
+                        )
                     }
                     Timber.e(error.toString())
                     (requireActivity() as ActivityBase).hideProgressDialog()
                 }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                map1["authorization"] =
+                    sessionManager!!.tokenType + " " + sessionManager!!.accessToken
                 map1["Accept"] = "application/json"
                 map1["X-Requested-With"] = "XMLHttpRequest"
                 map1["Version"] = BuildConfig.VERSION_CODE.toString()
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
     }
 
     fun declineRequest() {
         (requireActivity() as ActivityBase).showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.BASE_URL + Constant.URL_CREATE_RESCHEDULE + "/" +
-                taskModel!!.rescheduleReqeust[pos].id + "/reject",
+        val stringRequest: StringRequest = object :
+            StringRequest(Method.POST, Constant.BASE_URL + Constant.URL_CREATE_RESCHEDULE + "/" +
+                    taskModel!!.rescheduleReqeust[pos].id + "/reject",
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -258,10 +315,16 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
                                 listener!!.onRescheduleTimeAcceptDeclineClick()
                                 dismiss()
                             } else {
-                                (requireActivity() as ActivityBase).showToast("Something went wrong", requireContext())
+                                (requireActivity() as ActivityBase).showToast(
+                                    "Something went wrong",
+                                    requireContext()
+                                )
                             }
                         } else {
-                            (requireActivity() as ActivityBase).showToast("Something went wrong", requireContext())
+                            (requireActivity() as ActivityBase).showToast(
+                                "Something went wrong",
+                                requireContext()
+                            )
                         }
                         (requireActivity() as ActivityBase).hideProgressDialog()
                     } catch (e: JSONException) {
@@ -285,21 +348,32 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
                             val jsonObject = JSONObject(jsonError)
                             val jsonObject_error = jsonObject.getJSONObject("error")
                             if (jsonObject_error.has("message")) {
-                                (requireActivity() as ActivityBase).showToast(jsonObject_error.getString("message"), requireContext())
+                                (requireActivity() as ActivityBase).showToast(
+                                    jsonObject_error.getString(
+                                        "message"
+                                    ), requireContext()
+                                )
                             }
                         } catch (e: JSONException) {
-                            (requireActivity() as ActivityBase).showToast("Something Went Wrong", requireContext())
+                            (requireActivity() as ActivityBase).showToast(
+                                "Something Went Wrong",
+                                requireContext()
+                            )
                             e.printStackTrace()
                         }
                     } else {
-                        (requireActivity() as ActivityBase).showToast("Something Went Wrong", requireContext())
+                        (requireActivity() as ActivityBase).showToast(
+                            "Something Went Wrong",
+                            requireContext()
+                        )
                     }
                     Timber.e(error.toString())
                     (requireActivity() as ActivityBase).hideProgressDialog()
                 }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                map1["authorization"] =
+                    sessionManager!!.tokenType + " " + sessionManager!!.accessToken
                 map1["Accept"] = "application/json"
                 map1["X-Requested-With"] = "XMLHttpRequest"
                 map1["Version"] = BuildConfig.VERSION_CODE.toString()
@@ -313,8 +387,10 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
     }
@@ -328,7 +404,11 @@ class RescheduleNoticeBottomSheetState : AbstractStateExpandedBottomSheet() {
         var isMine = false
 
         @JvmStatic
-        fun newInstance(taskModel: TaskModel?, pos: Int, isMineRequest: Boolean): RescheduleNoticeBottomSheetState {
+        fun newInstance(
+            taskModel: TaskModel?,
+            pos: Int,
+            isMineRequest: Boolean
+        ): RescheduleNoticeBottomSheetState {
             isMine = isMineRequest
             val bundle = Bundle()
             //    bundle.putParcelable(ConstantKey.TASK, taskModel);

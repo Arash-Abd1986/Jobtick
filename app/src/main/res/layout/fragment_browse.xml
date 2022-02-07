@@ -19,7 +19,7 @@
         <include
             android:id="@+id/filter_list"
             layout="@layout/view_filter_list"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_below="@+id/filter_list"

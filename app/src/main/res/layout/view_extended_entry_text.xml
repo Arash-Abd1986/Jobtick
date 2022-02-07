@@ -60,7 +60,7 @@
         android:inputType="text"
         android:maxLines="1"
         android:minHeight="24dp"
-        android:textAppearance="@style/materialText_W400_16"
+        android:textAppearance="@style/materialText_W400_14"
         android:textColor="@color/textColor"
         android:visibility="visible"
         tools:text="sedighi.66@gmail.com" />

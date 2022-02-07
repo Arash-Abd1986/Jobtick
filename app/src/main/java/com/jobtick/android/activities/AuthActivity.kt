@@ -9,7 +9,10 @@ import android.provider.Settings
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.android.volley.*
+import com.android.volley.AuthFailureError
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.facebook.*
@@ -27,7 +30,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.installations.InstallationTokenResult
-import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.fragments.*
 import com.jobtick.android.models.UserAccountModel
@@ -40,7 +42,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 import java.io.IOException
-import java.util.*
 
 open class AuthActivity : ActivityBase() {
     val DEVICE = "Android"
@@ -680,7 +681,7 @@ open class AuthActivity : ActivityBase() {
                             //TODO: We ignore this and set it to no name due to getting these data in complete profile
                             map1["fname"] = "Jobtick"
                             map1["lname"] = "User"
-                            map1["email"] = strEmail
+                            map1["email"] = strEmail!!
                             map1["device_token"] = strDeviceId
                             map1["device_type"] = strDevice
                             if (strFcmToken != null && !strFcmToken.isEmpty()) map1["fcm_token"] = strFcmToken

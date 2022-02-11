@@ -21,8 +21,8 @@ android {
         applicationId "com.jobtick.android"
         minSdkVersion 24
         targetSdkVersion 31
-        versionCode 1000065
-        versionName "2.4.0"
+        versionCode 1000066
+        versionName "2.4.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 onesignal_app_id : 'dd77e2db-8358-4c20-95b9-e4943e401d4b',

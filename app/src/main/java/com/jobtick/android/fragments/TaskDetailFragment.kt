@@ -17,12 +17,12 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import android.widget.ScrollView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SwitchCompat
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.bundleOf
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -45,9 +45,7 @@ import com.jobtick.android.models.TaskModel
 import com.jobtick.android.models.response.searchsuburb.Feature
 import com.jobtick.android.models.task.AttachmentModels
 import com.jobtick.android.network.retrofit.ApiClient
-import com.jobtick.android.utils.SessionManager
-import com.jobtick.android.utils.SuburbAutoComplete
-import com.jobtick.android.utils.Tools
+import com.jobtick.android.utils.*
 import com.jobtick.android.widget.ExtendedCommentTextNewDesign
 import com.jobtick.android.widget.ExtendedCommentTextNewDesignWithError
 import com.jobtick.android.widget.SpacingItemDecoration
@@ -60,7 +58,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import java.util.*
 import kotlin.math.roundToInt
 
 
@@ -154,6 +151,14 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initVars()
+        pushEvent(EventTitles.N_PAGE_VIEW_PJ_DETAILS.key, bundleOf(
+            "usr_name" to sessionManager!!.userAccount.name,
+            "usr_id" to sessionManager!!.userAccount.id,
+            "email" to sessionManager!!.userAccount.email,
+            "phone_number" to sessionManager!!.userAccount.mobile,
+            "title" to "post a job, details",
+            "description" to ""
+        ))
         setIDS()
         selectDetailsBtn()
         setComponent()
@@ -164,6 +169,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
     private fun initVars() {
         taskCreateActivity = requireActivity() as TaskCreateActivity
         sessionManager = SessionManager(taskCreateActivity)
+
         task = TaskModel()
         addTagList = ArrayList()
         task!!.title = requireArguments().getString("TITLE")
@@ -320,6 +326,16 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             when (validationCode) {
                 0 -> {
                     //success
+                    pushEvent(EventTitles.N_CLICK_PJ_DETAILS_NEXT.key, bundleOf(
+                        "usr_name" to sessionManager!!.userAccount.name,
+                        "usr_id" to sessionManager!!.userAccount.id,
+                        "email" to sessionManager!!.userAccount.email,
+                        "phone_number" to sessionManager!!.userAccount.mobile,
+                        "task_type" to if (checkboxOnline.isChecked) "remote" else "physical",
+                        "suburb" to txtSuburb.text.trim { it <= ' ' },
+                        "title" to eventCleaner(edtTitle.text.trim { it <= ' ' }),
+                        "description" to eventCleaner(edtDescription.text.trim { it <= ' ' })
+                    ))
                     operationsListener!!.onNextClick(
                         edtTitle.text.trim { it <= ' ' },
                         edtDescription.text.trim { it <= ' ' },
@@ -623,6 +639,13 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
     }
 
     private fun uploadDataInTempApi(pictureFile: File) {
+        pushEvent(EventTitles.N_API_TEMP_ATTACHMENT.key, bundleOf(
+            "usr_name" to sessionManager!!.userAccount.name,
+            "usr_id" to sessionManager!!.userAccount.id,
+            "email" to sessionManager!!.userAccount.email,
+            "phone_number" to sessionManager!!.userAccount.mobile,
+            "file_name" to pictureFile.name
+        ))
         taskCreateActivity!!.showProgressDialog()
         val call: Call<String?>?
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)

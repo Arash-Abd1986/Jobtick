@@ -16,6 +16,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
@@ -24,7 +25,10 @@ import com.jobtick.android.activities.TaskCreateActivity
 import com.jobtick.android.activities.TaskCreateActivity.ActionDraftDateTime
 import com.jobtick.android.models.DueTimeModel
 import com.jobtick.android.models.TaskModel
+import com.jobtick.android.utils.EventTitles
+import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.Tools
+import com.jobtick.android.utils.pushEvent
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -67,6 +71,7 @@ class TaskDateTimeFragment : Fragment(), TextWatcher {
     private lateinit var rltBtnMorning: RelativeLayout
     private lateinit var rltBtnAnytime: RelativeLayout
     private lateinit var rltBtnEvening: RelativeLayout
+    private var sessionManager: SessionManager? = null
 
 
     private var isSpinnerOpen = false
@@ -96,6 +101,17 @@ class TaskDateTimeFragment : Fragment(), TextWatcher {
         super.onViewCreated(view, savedInstanceState)
         setIDS()
         onViewClick()
+        sessionManager = SessionManager(taskCreateActivity)
+        pushEvent(
+            EventTitles.N_PAGE_VIEW_PJ_DATE.key, bundleOf(
+                "usr_name" to sessionManager!!.userAccount.name,
+                "usr_id" to sessionManager!!.userAccount.id,
+                "email" to sessionManager!!.userAccount.email,
+                "phone_number" to sessionManager!!.userAccount.mobile,
+                "title" to "post a job, time",
+                "description" to ""
+            )
+        )
         cardDateTime.outlineProvider = ViewOutlineProvider.BACKGROUND
         cardDetails.setOnClickListener { v: View? ->
             when (validationCode) {
@@ -319,6 +335,14 @@ class TaskDateTimeFragment : Fragment(), TextWatcher {
             when (validationCode) {
                 0 -> {
                     //success
+                    pushEvent(EventTitles.N_CLICK_PJ_DATE_NEXT.key, bundleOf(
+                        "usr_name" to sessionManager!!.userAccount.name,
+                        "usr_id" to sessionManager!!.userAccount.id,
+                        "email" to sessionManager!!.userAccount.email,
+                        "phone_number" to sessionManager!!.userAccount.mobile,
+                        "job_date" to txtDate!!.trim { it <= ' ' },
+                        "job_time" to dueTimeModel.toString()
+                    ))
                     operationsListener.onNextClickDateTime(
                         txtDate!!.trim { it <= ' ' },
                         dueTimeModel

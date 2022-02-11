@@ -13,6 +13,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
@@ -20,6 +21,9 @@ import com.jobtick.android.activities.TaskCreateActivity
 import com.jobtick.android.activities.TaskCreateActivity.ActionDraftTaskBudget
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.EventTitles
+import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.pushEvent
 import com.jobtick.android.widget.ExtendedEntryTextNewDesign
 
 /**
@@ -53,7 +57,7 @@ class TaskBudgetFragment : Fragment() {
     private lateinit var txtDateTime: TextView
     private lateinit var imgBudget: ImageView
     private lateinit var txtBudget: TextView
-
+    private var sessionManager: SessionManager? = null
 
     private lateinit var estimatedH: LinearLayout
     private lateinit var estimatedT: LinearLayout
@@ -75,6 +79,15 @@ class TaskBudgetFragment : Fragment() {
         setIDS()
         onViewClick()
         taskCreateActivity = requireActivity() as TaskCreateActivity
+        sessionManager = SessionManager(taskCreateActivity)
+        pushEvent(EventTitles.N_PAGE_VIEW_PJ_BUDGET.key, bundleOf(
+            "usr_name" to sessionManager!!.userAccount.name,
+            "usr_id" to sessionManager!!.userAccount.id,
+            "email" to sessionManager!!.userAccount.email,
+            "phone_number" to sessionManager!!.userAccount.mobile,
+            "title" to "post a job, budget",
+            "description" to ""
+        ))
         task = TaskModel()
         lytBtnBack.setOnClickListener { view1: View? ->
             operationsListener!!.onBackClickBudget(budgetT, budgetH, hours, if (rbHourly.isChecked) "hourly " else "fixed")
@@ -261,6 +274,13 @@ class TaskBudgetFragment : Fragment() {
             if (!getValidationCode(true)) return@setOnClickListener
             operationsListener!!.onNextClickBudget(budgetT, budgetH, hours, if (rbHourly.isChecked) "hourly " else "fixed")
             operationsListener!!.onValidDataFilledBudgetNext()
+            pushEvent(EventTitles.N_CLICK_PJ_BUDGET_NEXT.key, bundleOf(
+                "usr_name" to sessionManager!!.userAccount.name,
+                "usr_id" to sessionManager!!.userAccount.id,
+                "email" to sessionManager!!.userAccount.email,
+                "phone_number" to sessionManager!!.userAccount.mobile,
+                "budget" to budgetT,
+            ))
         }
     }
 

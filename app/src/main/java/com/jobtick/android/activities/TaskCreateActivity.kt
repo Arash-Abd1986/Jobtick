@@ -5,14 +5,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.view.*
+import android.view.ContextMenu
 import android.view.ContextMenu.ContextMenuInfo
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
+import androidx.core.os.bundleOf
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
-import com.android.volley.*
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.appbar.MaterialToolbar
@@ -32,9 +39,10 @@ import com.jobtick.android.utils.*
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.*
 
-class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener, TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener, ConfirmDeleteTaskBottomSheet.NoticeListener {
+class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener,
+    TaskDateTimeFragment.OperationsListener, TaskBudgetFragment.OperationsListener,
+    ConfirmDeleteTaskBottomSheet.NoticeListener {
 
     private lateinit var creatingTaskLayout: FrameLayout
     private lateinit var toolbar: MaterialToolbar
@@ -87,7 +95,8 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
         if (bundle != null && bundle.getBoolean(ConstantKey.COPY, false)) {
             taskModel = TaskDetailsActivity.taskModel!!
             if (taskModel.poster != null &&
-                    taskModel.poster.id != sessionManager.userAccount.id) {
+                taskModel.poster.id != sessionManager.userAccount.id
+            ) {
                 val taskModelTemp = TaskModel()
                 taskModelTemp.poster = sessionManager.userAccount
                 taskModelTemp.category_id = taskModel.category_id
@@ -154,9 +163,37 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
     }
 
     private fun setupViewPager(viewPager: ViewPager?) {
-        adapter.addFragment(TaskDetailFragment.newInstance(taskModel.title, taskModel.description, taskModel.musthave, taskModel.taskType, taskModel.location, taskModel.position, AttachmentModels(taskModel.attachments), this, isEditTask, taskModel.slug), resources.getString(R.string.details))
-        adapter.addFragment(TaskDateTimeFragment.newInstance(if (taskModel.dueDate == null) null else taskModel.dueDate.substring(0, 10), taskModel.dueTime, this), resources.getString(R.string.date_time))
-        adapter.addFragment(TaskBudgetFragment.newInstance(taskModel.budget, taskModel.hourlyRate, taskModel.totalHours, taskModel.paymentType, this), resources.getString(R.string.budget))
+        adapter.addFragment(
+            TaskDetailFragment.newInstance(
+                taskModel.title,
+                taskModel.description,
+                taskModel.musthave,
+                taskModel.taskType,
+                taskModel.location,
+                taskModel.position,
+                AttachmentModels(taskModel.attachments),
+                this,
+                isEditTask,
+                taskModel.slug
+            ), resources.getString(R.string.details)
+        )
+        adapter.addFragment(
+            TaskDateTimeFragment.newInstance(
+                if (taskModel.dueDate == null) null else taskModel.dueDate.substring(
+                    0,
+                    10
+                ), taskModel.dueTime, this
+            ), resources.getString(R.string.date_time)
+        )
+        adapter.addFragment(
+            TaskBudgetFragment.newInstance(
+                taskModel.budget,
+                taskModel.hourlyRate,
+                taskModel.totalHours,
+                taskModel.paymentType,
+                this
+            ), resources.getString(R.string.budget)
+        )
         viewPager!!.adapter = adapter
     }
 
@@ -212,7 +249,9 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
             if (isEditTask) {
                 super.onBackPressed()
             } else {
-                if (isJobDraftedYet) super.onBackPressed() else actionDraftTaskDetails!!.callDraftTaskDetails(taskModel)
+                if (isJobDraftedYet) super.onBackPressed() else actionDraftTaskDetails!!.callDraftTaskDetails(
+                    taskModel
+                )
             }
         }
     }
@@ -258,7 +297,7 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
     }
 
     private fun selectDetailsBtn() {
-        imgDetails.imageTintList =  AppCompatResources.getColorStateList(this, R.color.colorPrimary)
+        imgDetails.imageTintList = AppCompatResources.getColorStateList(this, R.color.colorPrimary)
         txtDetails.setTextColor(resources.getColor(R.color.colorPrimary))
         val cslGrey = AppCompatResources.getColorStateList(this, R.color.greyC4C4C4)
         imgDateTime.imageTintList = cslGrey
@@ -288,7 +327,16 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
             selectBudgetBtn()
         }
     }
-    override fun onNextClick(title: String?, description: String?, musthave: ArrayList<String>?, task_type: String?, location: String?, positionModel: PositionModel?, attachmentArrayList: ArrayList<AttachmentModel>?) {
+
+    override fun onNextClick(
+        title: String?,
+        description: String?,
+        musthave: ArrayList<String>?,
+        task_type: String?,
+        location: String?,
+        positionModel: PositionModel?,
+        attachmentArrayList: ArrayList<AttachmentModel>?
+    ) {
         taskModel.title = title
         taskModel.description = description
         taskModel.musthave = musthave
@@ -297,8 +345,8 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
         taskModel.taskType = task_type
         taskModel.attachments = attachmentArrayList
         viewPager.currentItem = 1
-        selectDateTimeBtn()    }
-
+        selectDateTimeBtn()
+    }
 
 
     override fun onNextClickDateTime(due_date: String?, dueTimeModel: DueTimeModel?) {
@@ -340,7 +388,11 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
             actionDraftDateTime!!.callDraftTaskDateTime(this.taskModel)
         } else {
             this.taskModel = taskModel!!
-            if (taskModel.title != null && taskModel.title.trim { it <= ' ' }.length >= 10 && !bundle!!.getBoolean(ConstantKey.COPY, false)) {
+            if (taskModel.title != null && taskModel.title.trim { it <= ' ' }.length >= 10 && !bundle!!.getBoolean(
+                    ConstantKey.COPY,
+                    false
+                )
+            ) {
                 uploadDataToServer(true)
             } else {
                 val intent = Intent()
@@ -367,7 +419,12 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
         uploadDataToServer(true)
     }
 
-    override fun onNextClickBudget(budget: Int, hour_budget: Int, total_hours: Int, payment_type: String?) {
+    override fun onNextClickBudget(
+        budget: Int,
+        hour_budget: Int,
+        total_hours: Int,
+        payment_type: String?
+    ) {
         taskModel.budget = budget
         taskModel.hourlyRate = hour_budget
         taskModel.totalHours = total_hours
@@ -386,7 +443,8 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
             METHOD = Request.Method.POST
         }
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(METHOD, Constant.URL_TASKS + queryParameter,
+        val stringRequest: StringRequest =
+            object : StringRequest(METHOD, Constant.URL_TASKS + queryParameter,
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     hideProgressDialog()
@@ -405,7 +463,11 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
                                     setResult(ConstantKey.RESULTCODE_UPDATE_TASK, intent)
                                     isDraftWorkDone = true
                                     //                                    Toasty.info(TaskCreateActivity.this,"Draft saved", Toast.LENGTH_LONG).show();
-                                    Toast.makeText(this@TaskCreateActivity, "Draft saved", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(
+                                        this@TaskCreateActivity,
+                                        "Draft saved",
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                     onBackPressed()
                                     return@Listener
                                 } else {
@@ -421,14 +483,22 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
                                     return@Listener
                                 }
                                 FireBaseEvent.getInstance(applicationContext)
-                                        .sendEvent(FireBaseEvent.Event.POST_A_JOB,
-                                                FireBaseEvent.EventType.API_RESPOND_SUCCESS,
-                                                FireBaseEvent.EventValue.POST_A_JOB_SUBMIT)
+                                    .sendEvent(
+                                        FireBaseEvent.Event.POST_A_JOB,
+                                        FireBaseEvent.EventType.API_RESPOND_SUCCESS,
+                                        FireBaseEvent.EventValue.POST_A_JOB_SUBMIT
+                                    )
                                 if (isEditTask) {
                                     intent = Intent(this, CompleteMessageActivity::class.java)
                                     val bundle1 = Bundle()
-                                    bundle1.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Job Edited Successfully")
-                                    bundle1.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_CREATE_TASK)
+                                    bundle1.putString(
+                                        ConstantKey.COMPLETES_MESSAGE_TITLE,
+                                        "Job Edited Successfully"
+                                    )
+                                    bundle1.putInt(
+                                        ConstantKey.COMPLETES_MESSAGE_FROM,
+                                        ConstantKey.RESULTCODE_CREATE_TASK
+                                    )
                                     bundle1.putString(ConstantKey.SLUG, taskModel.slug)
                                     intent.putExtras(bundle1)
                                     startActivity(intent)
@@ -444,9 +514,15 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
                                     } catch (e: Exception) {
                                         taskSlug = null
                                     }
-                                    intent = Intent(this@TaskCreateActivity, CompleteMessageActivity::class.java)
+                                    intent = Intent(
+                                        this@TaskCreateActivity,
+                                        CompleteMessageActivity::class.java
+                                    )
                                     val bundle2 = Bundle()
-                                    bundle2.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_CREATE_TASK)
+                                    bundle2.putInt(
+                                        ConstantKey.COMPLETES_MESSAGE_FROM,
+                                        ConstantKey.RESULTCODE_CREATE_TASK
+                                    )
                                     bundle2.putString(ConstantKey.SLUG, taskSlug)
                                     intent.putExtras(bundle2)
                                     startActivity(intent)
@@ -485,88 +561,112 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
                     println(error.toString())
                     hideProgressDialog()
                 }) {
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Accept"] = "application/json"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                return map1
-            }
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Accept"] = "application/json"
+                    map1["X-Requested-With"] = "XMLHttpRequest"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
 
-            override fun getParams(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["category_id"] = Integer.toString(taskModel.category_id)
-                map1["title"] = taskModel.title
-                if (taskModel.description != null) map1["description"] = taskModel.description
-                if (taskModel.location != null && taskModel.location != "") map1["location"] = taskModel.location
-                if (taskModel.position != null) {
-                    map1["latitude"] = taskModel.position.latitude.toString()
-                    map1["longitude"] = taskModel.position.longitude.toString()
-                }
-                if (taskModel.taskType != null) map1["task_type"] = taskModel.taskType
-                if (taskModel.paymentType != null) map1["payment_type"] = taskModel.paymentType
-                if (taskModel.paymentType != null) {
-                    if (taskModel.paymentType.equals("fixed", ignoreCase = true)) {
-                        if (taskModel.budget >= 5) map1["budget"] = taskModel.budget.toString()
-                    } else {
-                        if (taskModel.totalHours * taskModel.hourlyRate >= 5) {
-                            map1["budget"] = (taskModel.hourlyRate * taskModel.totalHours).toString()
-                            map1["total_hours"] = taskModel.totalHours.toString()
-                            map1["hourly_rate"] = taskModel.hourlyRate.toString()
+                override fun getParams(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["category_id"] = Integer.toString(taskModel.category_id)
+                    map1["title"] = taskModel.title
+                    if (taskModel.description != null) map1["description"] = taskModel.description
+                    if (taskModel.location != null && taskModel.location != "") map1["location"] =
+                        taskModel.location
+                    if (taskModel.position != null) {
+                        map1["latitude"] = taskModel.position.latitude.toString()
+                        map1["longitude"] = taskModel.position.longitude.toString()
+                    }
+                    if (taskModel.taskType != null) map1["task_type"] = taskModel.taskType
+                    if (taskModel.paymentType != null) map1["payment_type"] = taskModel.paymentType
+                    if (taskModel.paymentType != null) {
+                        if (taskModel.paymentType.equals("fixed", ignoreCase = true)) {
+                            if (taskModel.budget >= 5) map1["budget"] = taskModel.budget.toString()
+                        } else {
+                            if (taskModel.totalHours * taskModel.hourlyRate >= 5) {
+                                map1["budget"] =
+                                    (taskModel.hourlyRate * taskModel.totalHours).toString()
+                                map1["total_hours"] = taskModel.totalHours.toString()
+                                map1["hourly_rate"] = taskModel.hourlyRate.toString()
+                            }
                         }
                     }
-                }
-                if (taskModel.dueDate != null) map1["due_date"] = Tools.getApplicationFromatToServerFormat(taskModel.dueDate)
-                if (taskModel.attachments != null && taskModel.attachments.size != 0) {
-                    var i = 0
-                    while (taskModel.attachments.size > i) {
-                        if (taskModel.attachments[i].id != null) {
-                            map1["attachments[$i]"] = taskModel.attachments[i].id.toString()
+                    if (taskModel.dueDate != null) map1["due_date"] =
+                        Tools.getApplicationFromatToServerFormat(taskModel.dueDate)
+                    if (taskModel.attachments != null && taskModel.attachments.size != 0) {
+                        var i = 0
+                        while (taskModel.attachments.size > i) {
+                            if (taskModel.attachments[i].id != null) {
+                                map1["attachments[$i]"] = taskModel.attachments[i].id.toString()
+                            }
+                            i++
                         }
-                        i++
                     }
+                    if (taskModel.musthave != null && taskModel.musthave.size != 0) {
+                        var i = 0
+                        while (taskModel.musthave.size > i) {
+                            map1["musthave[$i]"] = taskModel.musthave[i]
+                            i++
+                        }
+                    }
+                    if (taskModel.dueTime != null) {
+                        var count = 0
+                        if (taskModel.dueTime.morning) {
+                            map1["due_time[$count]"] = "morning"
+                            count += 1
+                        }
+                        if (taskModel.dueTime.afternoon) {
+                            map1["due_time[$count]"] = "afternoon"
+                            count += 1
+                        }
+                        if (taskModel.dueTime.evening) {
+                            map1["due_time[$count]"] = "evening"
+                            count += 1
+                        }
+                        if (taskModel.dueTime.anytime) {
+                            map1["due_time[$count]"] = "anytime"
+                        }
+                    }
+                    if (draft) {
+                        map1["draft"] = "1"
+                    }
+                    println(map1.size)
+                    println(map1.toString())
+                    pushEvent(
+                        EventTitles.N_API_CREATE_TASK.key, bundleOf(
+                            "usr_name" to sessionManager!!.userAccount.name,
+                            "usr_id" to sessionManager!!.userAccount.id,
+                            "email" to sessionManager!!.userAccount.email,
+                            "phone_number" to sessionManager!!.userAccount.mobile,
+                            "category_id" to taskModel.category_id.toString(),
+                            "title" to eventCleaner(taskModel.title),
+                            "budget" to taskModel.budget.toString(),
+                            "location" to if (taskModel.location != null && taskModel.location != "") taskModel.location else "",
+                            "description" to eventCleaner(taskModel.description)
+                        )
+                    )
+                    return map1
                 }
-                if (taskModel.musthave != null && taskModel.musthave.size != 0) {
-                    var i = 0
-                    while (taskModel.musthave.size > i) {
-                        map1["musthave[$i]"] = taskModel.musthave[i]
-                        i++
-                    }
-                }
-                if (taskModel.dueTime != null) {
-                    var count = 0
-                    if (taskModel.dueTime.morning) {
-                        map1["due_time[$count]"] = "morning"
-                        count += 1
-                    }
-                    if (taskModel.dueTime.afternoon) {
-                        map1["due_time[$count]"] = "afternoon"
-                        count += 1
-                    }
-                    if (taskModel.dueTime.evening) {
-                        map1["due_time[$count]"] = "evening"
-                        count += 1
-                    }
-                    if (taskModel.dueTime.anytime) {
-                        map1["due_time[$count]"] = "anytime"
-                    }
-                }
-                if (draft) {
-                    map1["draft"] = "1"
-                }
-                println(map1.size)
-                println(map1.toString())
-                return map1
             }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@TaskCreateActivity)
         requestQueue.add(stringRequest)
     }
 
-    override fun onBackClickBudget(budget: Int, hour_budget: Int, total_hours: Int, payment_type: String?) {
+    override fun onBackClickBudget(
+        budget: Int,
+        hour_budget: Int,
+        total_hours: Int,
+        payment_type: String?
+    ) {
         taskModel.budget = budget
         taskModel.hourlyRate = hour_budget
         taskModel.totalHours = total_hours
@@ -583,14 +683,18 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
     }
 
 
-
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        for (fragment in supportFragmentManager.fragments) (fragment as? TaskDetailFragment)?.onActivityResult(requestCode, resultCode, data)
+        for (fragment in supportFragmentManager.fragments) (fragment as? TaskDetailFragment)?.onActivityResult(
+            requestCode,
+            resultCode,
+            data
+        )
         if (requestCode == ConstantKey.RESULTCODE_ATTACHMENT) {
             if (data != null) {
                 if (data.getParcelableArrayListExtra<Parcelable>(ConstantKey.ATTACHMENT) != null) {
-                    val attachmentArrayList: ArrayList<AttachmentModel> = data.getParcelableArrayListExtra(ConstantKey.ATTACHMENT)!!
+                    val attachmentArrayList: ArrayList<AttachmentModel> =
+                        data.getParcelableArrayListExtra(ConstantKey.ATTACHMENT)!!
                     taskModel.attachments = attachmentArrayList
                 }
             }
@@ -603,7 +707,8 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
 
     protected fun deleteTask(slug: String?) {
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.DELETE, Constant.URL_TASKS + "/" + slug,
+        val stringRequest: StringRequest =
+            object : StringRequest(Method.DELETE, Constant.URL_TASKS + "/" + slug,
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     hideProgressDialog()
@@ -652,17 +757,20 @@ class TaskCreateActivity : ActivityBase(), TaskDetailFragment.OperationsListener
                     }
                     Timber.e(error.toString())
                 }) {
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                return map1
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["X-Requested-With"] = "XMLHttpRequest"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
             }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this)
         requestQueue.add(stringRequest)
     }

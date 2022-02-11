@@ -8,13 +8,16 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
 import com.jobtick.android.fragments.CategoryListBottomSheet
 import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.EventTitles
 import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.pushEvent
 
 class CompleteMessageActivity : AppCompatActivity() {
     var toolbar: MaterialToolbar? = null
@@ -37,6 +40,16 @@ class CompleteMessageActivity : AppCompatActivity() {
         onViewClick()
         initToolbar()
         sessionManager = SessionManager(this)
+        pushEvent(
+            EventTitles.N_PAGE_VIEW_PJ_COMPLETE.key, bundleOf(
+            "usr_name" to sessionManager!!.userAccount.name,
+            "usr_id" to sessionManager!!.userAccount.id,
+            "email" to sessionManager!!.userAccount.email,
+            "phone_number" to sessionManager!!.userAccount.mobile,
+            "title" to "post a job, complete",
+            "description" to ""
+        )
+        )
         val bundle = intent.extras
         if (bundle != null) {
             if (bundle.getString(ConstantKey.COMPLETES_MESSAGE_TITLE) != null) {
@@ -104,6 +117,16 @@ class CompleteMessageActivity : AppCompatActivity() {
             }
         }
         lytBtnViewYourJob!!.setOnClickListener {
+            pushEvent(
+                EventTitles.N_CLICK_PJ_VIEW_YOUR_JOB.key, bundleOf(
+                    "usr_name" to sessionManager!!.userAccount.name,
+                    "usr_id" to sessionManager!!.userAccount.id,
+                    "email" to sessionManager!!.userAccount.email,
+                    "phone_number" to sessionManager!!.userAccount.mobile,
+                    "title" to "view your job",
+                    "description" to "complete page of post a job"
+                )
+            )
             val intent = Intent(this, DashboardActivity::class.java)
             if (taskSlug == null) {
                 intent.putExtra(ConstantKey.GO_TO_MY_JOBS, true)
@@ -119,6 +142,16 @@ class CompleteMessageActivity : AppCompatActivity() {
             }
         }
         lytBtnNewJob!!.setOnClickListener {
+            pushEvent(
+                EventTitles.N_CLICK_PJ_POST_NEW_JOB.key, bundleOf(
+                    "usr_name" to sessionManager!!.userAccount.name,
+                    "usr_id" to sessionManager!!.userAccount.id,
+                    "email" to sessionManager!!.userAccount.email,
+                    "phone_number" to sessionManager!!.userAccount.mobile,
+                    "title" to "post a new job",
+                    "description" to "complete page of post a job"
+                )
+            )
             val infoBottomSheet = CategoryListBottomSheet(sessionManager)
             infoBottomSheet.show(supportFragmentManager, null)
         }

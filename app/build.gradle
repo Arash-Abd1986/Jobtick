@@ -21,7 +21,7 @@ android {
         applicationId "com.jobtick.android"
         minSdkVersion 24
         targetSdkVersion 31
-        versionCode 1000066
+        versionCode 1000067
         versionName "2.4.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [

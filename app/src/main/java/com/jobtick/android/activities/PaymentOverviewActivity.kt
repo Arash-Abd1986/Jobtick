@@ -6,7 +6,10 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.cardview.widget.CardView
-import com.android.volley.*
+import com.android.volley.AuthFailureError
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.appbar.MaterialToolbar
@@ -26,14 +29,18 @@ import com.jobtick.android.models.response.getbalance.CreditCardModel
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.FireBaseEvent
+import com.jobtick.android.utils.HttpStatus
 import com.jobtick.android.utils.ImageUtil
 import com.mikhaellopez.circularimageview.CircularImageView
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 
-class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.NoticeListener, SubmitListener {
+class PaymentOverviewActivity :
+    ActivityBase(),
+    PosterRequirementsBottomSheet.NoticeListener,
+    SubmitListener {
 
     private lateinit var toolbar: MaterialToolbar
     private lateinit var imgAvatar: CircularImageView
@@ -65,12 +72,16 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
     private var gson: Gson? = null
     private val stateRequirement = HashMap<PosterRequirementsBottomSheet.Requirement, Boolean>()
     private var wallet = 0.0
+    var found: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_overview)
         setIDs()
         initToolbar()
+        val bundle = intent.extras
+        found = bundle!!.getString("found")
+
         userAccountModel = sessionManager.userAccount
         offerModel = OfferModel()
         taskModel = TaskDetailsActivity.taskModel!!
@@ -139,18 +150,20 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
         if (taskModel!!.poster.avatar != null && taskModel!!.poster.avatar.thumbUrl != null) {
             ImageUtil.displayImage(imgAvatar, taskModel!!.poster.avatar.thumbUrl, null)
         } else {
-            //TODO set default image
+            // TODO set default image
         }
         stateRequirement[PosterRequirementsBottomSheet.Requirement.CreditCard] = false
         setupCoupon(offerModel!!.offerPrice)
         calculate(offerModel!!.offerPrice.toFloat().toString())
-    }// map1.put("X-Requested-With", "XMLHttpRequest");// Print Error!
+    } // map1.put("X-Requested-With", "XMLHttpRequest");// Print Error!
 
-    //http request
+    // http request
     private val paymentMethod: Unit
         get() {
             showProgressDialog()
-            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_PAYMENTS_METHOD,
+            val stringRequest: StringRequest =
+                object : StringRequest(
+                    Method.GET, Constant.URL_PAYMENTS_METHOD,
                     Response.Listener { response: String? ->
                         Timber.e(response)
                         try {
@@ -159,9 +172,10 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
                             if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                                 if (jsonObject.getBoolean("success")) {
                                     if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                        val jsonString = jsonObject.toString() //http request
+                                        val jsonString = jsonObject.toString() // http request
                                         val gson = Gson()
-                                        val creditCardModel = gson.fromJson(jsonString, CreditCardModel::class.java)
+                                        val creditCardModel =
+                                            gson.fromJson(jsonString, CreditCardModel::class.java)
                                         if (creditCardModel != null && creditCardModel.data!![0].card != null) {
                                             setUpLayout(creditCardModel)
                                         } else {
@@ -179,40 +193,44 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
                             setUpAddPaymentLayout()
                         }
                     },
-            Response.ErrorListener { error: VolleyError ->
-                setUpAddPaymentLayout()
-                val networkResponse = error.networkResponse
-                if (networkResponse?.data != null) {
-                    val jsonError = String(networkResponse.data)
-                    // Print Error!
-                    Timber.e(jsonError)
-                    try {
-                        val jsonObject = JSONObject(jsonError)
-                        val jsonObjectError = jsonObject.getJSONObject("error")
-                        if (jsonObjectError.has("error_code") && !jsonObjectError.isNull("error_code")) {
-                            if (ConstantKey.NO_PAYMENT_METHOD == jsonObjectError.getString("error_code")) {
-                                return@ErrorListener
+                    Response.ErrorListener { error: VolleyError ->
+                        setUpAddPaymentLayout()
+                        val networkResponse = error.networkResponse
+                        if (networkResponse?.data != null) {
+                            val jsonError = String(networkResponse.data)
+                            // Print Error!
+                            Timber.e(jsonError)
+                            try {
+                                val jsonObject = JSONObject(jsonError)
+                                val jsonObjectError = jsonObject.getJSONObject("error")
+                                if (jsonObjectError.has("error_code") && !jsonObjectError.isNull("error_code")) {
+                                    if (ConstantKey.NO_PAYMENT_METHOD == jsonObjectError.getString("error_code")) {
+                                        return@ErrorListener
+                                    }
+                                }
+                            } catch (e: JSONException) {
+                                e.printStackTrace()
                             }
                         }
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
+                        Timber.e(error.toString())
+                        errorHandle1(error.networkResponse)
+                    }
+                ) {
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val map1: MutableMap<String, String> = HashMap()
+                        map1["authorization"] =
+                            sessionManager.tokenType + " " + sessionManager.accessToken
+                        map1["Content-Type"] = "application/x-www-form-urlencoded"
+                        map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                        // map1.put("X-Requested-With", "XMLHttpRequest");
+                        return map1
                     }
                 }
-                Timber.e(error.toString())
-                errorHandle1(error.networkResponse)
-            }) {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val map1: MutableMap<String, String> = HashMap()
-                    map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                    map1["Content-Type"] = "application/x-www-form-urlencoded"
-                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                    // map1.put("X-Requested-With", "XMLHttpRequest");
-                    return map1
-                }
-            }
-            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
             val requestQueue = Volley.newRequestQueue(this)
             requestQueue.add(stringRequest)
         }
@@ -231,8 +249,14 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
         btnPay.isEnabled = true
         btnPay.alpha = 1.0f
         lytAddCreditCard.visibility = View.GONE
-        txtAccountNumber.text = String.format("**** **** **** %s", creditCardModel.data!![0].card!!.last4)
-        txtExpiresDate.text = String.format(Locale.ENGLISH, "Expiry Date: %d/%d", creditCardModel.data!![0].card!!.exp_month, creditCardModel.data!![0].card!!.exp_year)
+        txtAccountNumber.text =
+            String.format("**** **** **** %s", creditCardModel.data!![0].card!!.last4)
+        txtExpiresDate.text = String.format(
+            Locale.ENGLISH,
+            "Expiry Date: %d/%d",
+            creditCardModel.data!![0].card!!.exp_month,
+            creditCardModel.data!![0].card!!.exp_year
+        )
         rltPaymentMethod.visibility = View.VISIBLE
         if (creditCardModel.data!![1].wallet != null) {
             txtWallet.visibility = View.VISIBLE
@@ -248,7 +272,11 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
 
     private fun onViewClick() {
         btnPay.setOnClickListener {
-            payAcceptOffer(coupon)
+            if (found == null) {
+                payAcceptOffer(coupon)
+            } else {
+                acceptRequest(found!!)
+            }
         }
         btnNew.setOnClickListener {
             showCreditCardRequirementBottomSheet()
@@ -260,79 +288,96 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
     }
 
     private fun showCreditCardRequirementBottomSheet() {
-        val posterRequirementsBottomSheet = PosterRequirementsBottomSheet.newInstance(stateRequirement)
+        val posterRequirementsBottomSheet =
+            PosterRequirementsBottomSheet.newInstance(stateRequirement)
         posterRequirementsBottomSheet.show(supportFragmentManager, "")
     }
 
     private fun payAcceptOffer(coupon: String?) {
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/accept-offer",
-                Response.Listener { response ->
-                    Timber.e(response)
-                    //   hidepDialog();
-                    try {
-                        val jsonObject = JSONObject(response!!)
-                        Timber.e(jsonObject.toString())
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                    val jsonObjectData = jsonObject.getJSONObject("data")
-                                    if (jsonObjectData.has("status") && !jsonObjectData.isNull("status")) {
-                                        if (jsonObjectData.getString("status").equals("assigned", ignoreCase = true)) {
-                                            hideProgressDialog()
-                                            FireBaseEvent.getInstance(applicationContext)
-                                                    .sendEvent(FireBaseEvent.Event.PAYMENT_OVERVIEW,
-                                                            FireBaseEvent.EventType.API_RESPOND_SUCCESS,
-                                                            FireBaseEvent.EventValue.PAYMENT_OVERVIEW_SUBMIT)
-                                            var intent = Intent()
-                                            var bundle = Bundle()
-                                            bundle.putBoolean(ConstantKey.PAYMENT_OVERVIEW, true)
-                                            intent.putExtras(bundle)
-                                            setResult(ConstantKey.RESULTCODE_PAYMENTOVERVIEW, intent)
-                                            intent = Intent(this@PaymentOverviewActivity, CompleteMessageActivity::class.java)
-                                            bundle = Bundle()
-                                            bundle.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Your payment is secured, and you will be requested to release it after completion!")
-                                            bundle.putString(ConstantKey.COMPLETES_MESSAGE_SUBTITLE, "Wait for an answer or continue looking for more tasks!")
-                                            intent.putExtras(bundle)
-                                            startActivity(intent)
-                                            finish()
-                                            return@Listener
-                                        }
+        val stringRequest: StringRequest = object : StringRequest(
+            Method.POST,
+            Constant.URL_TASKS + "/" + taskModel!!.slug + "/accept-offer",
+            Response.Listener { response ->
+                Timber.e(response)
+                //   hidepDialog();
+                try {
+                    val jsonObject = JSONObject(response!!)
+                    Timber.e(jsonObject.toString())
+                    if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                        if (jsonObject.getBoolean("success")) {
+                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                val jsonObjectData = jsonObject.getJSONObject("data")
+                                if (jsonObjectData.has("status") && !jsonObjectData.isNull("status")) {
+                                    if (jsonObjectData.getString("status")
+                                        .equals("assigned", ignoreCase = true)
+                                    ) {
+                                        hideProgressDialog()
+                                        FireBaseEvent.getInstance(applicationContext)
+                                            .sendEvent(
+                                                FireBaseEvent.Event.PAYMENT_OVERVIEW,
+                                                FireBaseEvent.EventType.API_RESPOND_SUCCESS,
+                                                FireBaseEvent.EventValue.PAYMENT_OVERVIEW_SUBMIT
+                                            )
+                                        var intent = Intent()
+                                        var bundle = Bundle()
+                                        bundle.putBoolean(ConstantKey.PAYMENT_OVERVIEW, true)
+                                        intent.putExtras(bundle)
+                                        setResult(ConstantKey.RESULTCODE_PAYMENTOVERVIEW, intent)
+                                        intent = Intent(
+                                            this@PaymentOverviewActivity,
+                                            CompleteMessageActivity::class.java
+                                        )
+                                        bundle = Bundle()
+                                        bundle.putString(
+                                            ConstantKey.COMPLETES_MESSAGE_TITLE,
+                                            "Your payment is secured, and you will be requested to release it after completion!"
+                                        )
+                                        bundle.putString(
+                                            ConstantKey.COMPLETES_MESSAGE_SUBTITLE,
+                                            "Wait for an answer or continue looking for more tasks!"
+                                        )
+                                        intent.putExtras(bundle)
+                                        startActivity(intent)
+                                        finish()
+                                        return@Listener
                                     }
                                 }
-                                hideProgressDialog()
-                            } else {
-                                hideProgressDialog()
-                                showToast("Something went Wrong", this@PaymentOverviewActivity)
                             }
+                            hideProgressDialog()
                         } else {
-                            showToast("Payment failed", this@PaymentOverviewActivity)
-                        }
-                    } catch (e: JSONException) {
-                        Timber.e(e.toString())
-                        e.printStackTrace()
-                        hideProgressDialog()
-                        showToast("Something went wrong", this@PaymentOverviewActivity)
-                    }
-                },
-                Response.ErrorListener { error: VolleyError ->
-                    hideProgressDialog()
-                    val networkResponse = error.networkResponse
-                    if (networkResponse?.data != null) {
-                        val jsonError = String(networkResponse.data)
-                        try {
-                            val jsonObject = JSONObject(jsonError)
-                            val jsonObjectError = jsonObject.getJSONObject("error")
-                            val message = jsonObjectError.getString("message")
-                            showToast(message, this@PaymentOverviewActivity)
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                            showToast("Something went wrong", this@PaymentOverviewActivity)
+                            hideProgressDialog()
+                            showToast("Something went Wrong", this@PaymentOverviewActivity)
                         }
                     } else {
+                        showToast("Payment failed", this@PaymentOverviewActivity)
+                    }
+                } catch (e: JSONException) {
+                    Timber.e(e.toString())
+                    e.printStackTrace()
+                    hideProgressDialog()
+                    showToast("Something went wrong", this@PaymentOverviewActivity)
+                }
+            },
+            Response.ErrorListener { error: VolleyError ->
+                hideProgressDialog()
+                val networkResponse = error.networkResponse
+                if (networkResponse?.data != null) {
+                    val jsonError = String(networkResponse.data)
+                    try {
+                        val jsonObject = JSONObject(jsonError)
+                        val jsonObjectError = jsonObject.getJSONObject("error")
+                        val message = jsonObjectError.getString("message")
+                        showToast(message, this@PaymentOverviewActivity)
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                         showToast("Something went wrong", this@PaymentOverviewActivity)
                     }
-                }) {
+                } else {
+                    showToast("Something went wrong", this@PaymentOverviewActivity)
+                }
+            }
+        ) {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
@@ -353,29 +398,149 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@PaymentOverviewActivity)
         requestQueue.add(stringRequest)
         Timber.e(stringRequest.url)
     }
 
+    private fun acceptRequest(id: String) {
+        showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(
+            Method.GET,
+            Constant.BASE_URL + Constant.URL_ADDITIONAL_FUND + "/" + id + "/accept",
+            Response.Listener { response: String? ->
+                Timber.e(response)
+                hideProgressDialog()
+                try {
+                    val jsonObject = JSONObject(response)
+                    if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                        if (jsonObject.getBoolean("success")) {
+                            found = null
+                            onBackPressed()
+                        } else {
+                            showToast(
+                                "Something went Wrong",
+                                this
+                            )
+                        }
+                    }
+                } catch (e: JSONException) {
+                    Timber.e(e.toString())
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error: VolleyError ->
+                val networkResponse = error.networkResponse
+                if (networkResponse != null && networkResponse.data != null) {
+                    val jsonError = String(networkResponse.data)
+                    // Print Error!
+                    Timber.e(jsonError)
+                    if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                        unauthorizedUser()
+                        hideProgressDialog()
+                        return@ErrorListener
+                    }
+                    try {
+                        val jsonObject = JSONObject(jsonError)
+                        val jsonObject_error = jsonObject.getJSONObject("error")
+                        if (jsonObject_error.has("errors")) {
+                            val jsonObject_errors =
+                                jsonObject_error.getJSONObject("errors")
+                            if (jsonObject_errors.has("amount") && !jsonObject_errors.isNull("amount")) {
+                                val jsonArray_amount =
+                                    jsonObject_errors.getJSONArray("amount")
+                                showToast(
+                                    jsonArray_amount.getString(
+                                        0
+                                    ),
+                                    this
+                                )
+                            } else if (jsonObject_errors.has("creation_reason") && !jsonObject_errors.isNull(
+                                    "creation_reason"
+                                )
+                            ) {
+                                val jsonArray_amount =
+                                    jsonObject_errors.getJSONArray("creation_reason")
+                                showToast(
+                                    jsonArray_amount.getString(
+                                        0
+                                    ),
+                                    this
+                                )
+                            }
+                        } else {
+                            if (jsonObject_error.has("message")) {
+                                showToast(
+                                    jsonObject_error.getString(
+                                        "message"
+                                    ),
+                                    this
+                                )
+                            }
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    showToast(
+                        "Something Went Wrong",
+                        this
+                    )
+                }
+                Timber.e(error.toString())
+                hideProgressDialog()
+            }
+        ) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = java.util.HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                //   map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1
+            }
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        val requestQueue = Volley.newRequestQueue(this)
+        requestQueue.add(stringRequest)
+    }
+
     fun calculate(amount: String) {
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_OFFERS_PAYING_CALCULATION,
+        val stringRequest: StringRequest =
+            object : StringRequest(
+                Method.POST, Constant.URL_OFFERS_PAYING_CALCULATION,
                 Response.Listener { response: String? ->
                     hideProgressDialog()
                     try {
                         val jsonObject = JSONObject(response!!)
                         val data = jsonObject.getString("data")
                         val model = gson!!.fromJson(data, PayingCalculationModel::class.java)
-                        txtServiceFee.text = String.format(Locale.ENGLISH, "$%.1f", model.serviceFee)
+                        txtServiceFee.text =
+                            String.format(Locale.ENGLISH, "$%.1f", model.serviceFee)
                         txtDiscountFee.text = String.format(Locale.ENGLISH, "$%.1f", model.discount)
                         if (model.netPayingAmount - wallet >= 0) {
-                            if (wallet > 0) txtWallet.text = String.format(Locale.ENGLISH, "-$%.1f", wallet) else txtWallet.text = String.format(Locale.ENGLISH, "$%.1f", Math.abs(wallet))
-                            txtTotalCost.text = String.format(Locale.ENGLISH, "$%.1f", model.netPayingAmount - wallet)
+                            if (wallet > 0) txtWallet.text = String.format(
+                                Locale.ENGLISH,
+                                "-$%.1f",
+                                wallet
+                            ) else txtWallet.text =
+                                String.format(Locale.ENGLISH, "$%.1f", Math.abs(wallet))
+                            txtTotalCost.text = String.format(
+                                Locale.ENGLISH,
+                                "$%.1f",
+                                model.netPayingAmount - wallet
+                            )
                         } else {
                             txtTotalCost.text = String.format(Locale.ENGLISH, "$%.1f", 0f)
-                            txtWallet.text = String.format(Locale.ENGLISH, "-$%.1f", model.netPayingAmount)
+                            txtWallet.text =
+                                String.format(Locale.ENGLISH, "-$%.1f", model.netPayingAmount)
                         }
                     } catch (e: JSONException) {
                         e.printStackTrace()
@@ -398,26 +563,30 @@ class PaymentOverviewActivity : ActivityBase(), PosterRequirementsBottomSheet.No
                     } else {
                         showToast("Something went wrong", this@PaymentOverviewActivity)
                     }
-                }) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                return map1
-            }
+                }
+            ) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["X-Requested-With"] = "XMLHttpRequest"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
 
-            override fun getParams(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["amount"] = amount
-                if (coupon != null) map1["discount_code"] = coupon!!
-                return map1
+                override fun getParams(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["amount"] = amount
+                    if (coupon != null) map1["discount_code"] = coupon!!
+                    return map1
+                }
             }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@PaymentOverviewActivity)
         requestQueue.add(stringRequest)
     }

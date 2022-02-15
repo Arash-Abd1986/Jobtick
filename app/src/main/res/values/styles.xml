@@ -822,4 +822,14 @@
         <item name="android:stateListAnimator">@null</item>
     </style>
 
+    <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
+        <item name="android:colorAccent">@color/P300</item>
+    </style>
+
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@color/P300</item>
+        <item name="android:datePickerMode">calendar</item>
+    </style>
+
 </resources>

@@ -182,6 +182,7 @@ public class ExtendedAlertBox extends FrameLayout {
             }
         } else if (alertType.equals(TaskDetailsActivity.AlertType.RESCHEDULE.name())) {
             if (isTicker) {
+                cnlMain.setBackgroundResource(R.drawable.shape_rounded_white_5dp);
                 mButton.setBackgroundColor(context.getColor(R.color.white));
                 mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
                 mButton.setTextColor(context.getColor(R.color.P300));
@@ -208,6 +209,7 @@ public class ExtendedAlertBox extends FrameLayout {
             }
         } else if (alertType.equals(TaskDetailsActivity.AlertType.CANCELLATION.name())) {
             if (isTicker) {
+                cnlMain.setBackgroundResource(R.drawable.shape_rounded_white_5dp);
                 mButton.setBackgroundColor(context.getColor(R.color.white));
                 mButton.setStrokeColor(ColorStateList.valueOf(context.getColor(R.color.blue)));
                 mButton.setTextColor(context.getColor(R.color.P300));

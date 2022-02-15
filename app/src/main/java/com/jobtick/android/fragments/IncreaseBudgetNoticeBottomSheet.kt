@@ -1,430 +1,268 @@
-package com.jobtick.android.fragments;
+package com.jobtick.android.fragments
 
+import android.app.ProgressDialog
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.jobtick.android.BuildConfig
+import com.jobtick.android.R
+import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.activities.PaymentOverviewActivity
+import com.jobtick.android.activities.TaskDetailsActivity
+import com.jobtick.android.models.TaskModel
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.HttpStatus
+import com.jobtick.android.utils.SessionManager
+import org.json.JSONException
+import org.json.JSONObject
+import timber.log.Timber
+import java.util.Locale
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.jobtick.android.BuildConfig;
-import com.jobtick.android.R;
-import com.jobtick.android.activities.TaskDetailsActivity;
-import com.jobtick.android.activities.ActivityBase;
-import com.jobtick.android.models.TaskModel;
-import com.jobtick.android.utils.Constant;
-import com.jobtick.android.utils.HttpStatus;
-import com.jobtick.android.utils.SessionManager;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import timber.log.Timber;
-
-import static com.jobtick.android.utils.Constant.URL_ADDITIONAL_FUND;
-
-public class IncreaseBudgetNoticeBottomSheet extends AbstractStateExpandedBottomSheet {
-
-    TextView name;
-    TextView description;
-    TextView oldPrice;
-    TextView newPrice;
-    TextView reason;
-    Button decline;
-    Button accept;
-    Button btnWithdraw;
-    LinearLayout llAcceptDecline;
-    LinearLayout llWithDraw;
-
-    protected ProgressDialog pDialog;
-    static boolean isMine=false;
-
-    private TaskModel taskModel;
-    private SessionManager sessionManager;
-
-    private NoticeListener listener;
-
-    public static IncreaseBudgetNoticeBottomSheet newInstance(TaskModel taskModel){
-        isMine=false;
-        Bundle bundle = new Bundle();
-    //    bundle.putParcelable(ConstantKey.TASK, taskModel);
-        IncreaseBudgetNoticeBottomSheet fragment = new IncreaseBudgetNoticeBottomSheet();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-    public static IncreaseBudgetNoticeBottomSheet newInstance(TaskModel taskModel,boolean isMineRequest){
-        isMine = isMineRequest;
-        Bundle bundle = new Bundle();
-        //    bundle.putParcelable(ConstantKey.TASK, taskModel);
-        IncreaseBudgetNoticeBottomSheet fragment = new IncreaseBudgetNoticeBottomSheet();
-        fragment.setArguments(bundle);
-        return fragment;
+class IncreaseBudgetNoticeBottomSheet : AbstractStateExpandedBottomSheet() {
+    var name: TextView? = null
+    var description: TextView? = null
+    var oldPrice: TextView? = null
+    var newPrice: TextView? = null
+    var reason: TextView? = null
+    var decline: Button? = null
+    var accept: Button? = null
+    var btnWithdraw: Button? = null
+    var llAcceptDecline: LinearLayout? = null
+    var llWithDraw: LinearLayout? = null
+    protected var pDialog: ProgressDialog? = null
+    private var taskModel: TaskModel? = null
+    private var sessionManager: SessionManager? = null
+    private var listener: NoticeListener? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.bottom_sheet_increase_budget_notice, container, false);
-        sessionManager = new SessionManager(getContext());
-
-        assert getArguments() != null;
-        taskModel = TaskDetailsActivity.taskModel;
-
-
-        name = view.findViewById(R.id.name);
-        llAcceptDecline = view.findViewById(R.id.lyt_button);
-        llWithDraw = view.findViewById(R.id.lytWithDraw);
-        description = view.findViewById(R.id.description);
-        newPrice = view.findViewById(R.id.new_price);
-        oldPrice = view.findViewById(R.id.old_price);
-        reason = view.findViewById(R.id.reason_description);
-        decline = view.findViewById(R.id.btn_decline);
-        accept = view.findViewById(R.id.btn_accept);
-        btnWithdraw = view.findViewById(R.id.btnWithdraw);
-
-        decline.setOnClickListener(v -> {
-            listener.onIncreaseBudgetRejectClick();
-            dismiss();
-        });
-
-        accept.setOnClickListener(v -> {
-            acceptRequest(taskModel.getAdditionalFund().getId().toString());
-        });
-
-        btnWithdraw.setOnClickListener(v -> {
-            withdrawRequest(taskModel.getAdditionalFund().getId().toString());
-        });
-        init();
-        initProgressDialog();
-        return view;
-    }
-
-    private void withdrawRequest(String id) {
-        ((ActivityBase)requireActivity()).showProgressDialog();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, Constant.BASE_URL + URL_ADDITIONAL_FUND + "/" + id,
-                response -> {
-                    Timber.e(response);
-                    ((ActivityBase)requireActivity()).hideProgressDialog();
-                    try {
-
-                        JSONObject jsonObject = new JSONObject(response);
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                listener.onIncreaseBudgetWithDrawClick();
-                                dismiss();
-                            } else {
-                                ((ActivityBase)requireActivity()).showToast("Something went Wrong", getContext());
-                            }
-                        }
-
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-
-                    }
-
-
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            ((ActivityBase)requireActivity()).unauthorizedUser();
-                            ((ActivityBase)requireActivity()).hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-
-
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                                if (jsonObject_errors.has("amount") && !jsonObject_errors.isNull("amount")) {
-                                    JSONArray jsonArray_amount = jsonObject_errors.getJSONArray("amount");
-                                    ((ActivityBase)requireActivity()).showToast(jsonArray_amount.getString(0), requireContext());
-                                } else if (jsonObject_errors.has("creation_reason") && !jsonObject_errors.isNull("creation_reason")) {
-                                    JSONArray jsonArray_amount = jsonObject_errors.getJSONArray("creation_reason");
-                                    ((ActivityBase)requireActivity()).showToast(jsonArray_amount.getString(0), requireContext());
-                                }
-                            } else {
-                                if (jsonObject_error.has("message")) {
-                                    ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
-                                }
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        ((ActivityBase)requireActivity()).showToast("Something Went Wrong", getContext());
-                    }
-                    Timber.e(error.toString());
-                    ((ActivityBase)requireActivity()).hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
-
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                //   map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
-        requestQueue.add(stringRequest);
-    }
-
-    private void init() {
-        //TODO: API is giving increased price, but it should get all new price, so
-        //we calculate new increased price, after API updating, we bring back it.
-        int oldP = Integer.parseInt(taskModel.getAmount().toString());
-        int newP = Integer.parseInt(taskModel.getAdditionalFund().getAmount().toString()) + oldP;
-        name.setText(taskModel.getPoster().getName());
-
-        description.setText(taskModel.getTitle());
-        reason.setText(taskModel.getAdditionalFund().getCreationReason());
-        newPrice.setText(String.format(Locale.ENGLISH, "%d", newP));
-        oldPrice.setText(String.format(Locale.ENGLISH, "%d", oldP));
-        if(isMine){
-                name.setText("You");
-                llAcceptDecline.setVisibility(View.GONE);
-                llWithDraw.setVisibility(View.VISIBLE);
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.bottom_sheet_increase_budget_notice, container, false)
+        sessionManager = SessionManager(context)
+        assert(arguments != null)
+        taskModel = TaskDetailsActivity.taskModel
+        name = view.findViewById(R.id.name)
+        llAcceptDecline = view.findViewById(R.id.lyt_button)
+        llWithDraw = view.findViewById(R.id.lytWithDraw)
+        description = view.findViewById(R.id.description)
+        newPrice = view.findViewById(R.id.new_price)
+        oldPrice = view.findViewById(R.id.old_price)
+        reason = view.findViewById(R.id.reason_description)
+        decline = view.findViewById(R.id.btn_decline)
+        accept = view.findViewById(R.id.btn_accept)
+        btnWithdraw = view.findViewById(R.id.btnWithdraw)
+        decline!!.setOnClickListener {
+            listener!!.onIncreaseBudgetRejectClick()
+            dismiss()
         }
+        accept!!.setOnClickListener {
+            dismiss()
+            val intent = Intent(requireContext(), PaymentOverviewActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("found", taskModel!!.additionalFund.id.toString())
+            TaskDetailsActivity.offerModel =
+                taskModel!!.offers.filter { it.worker.id == taskModel!!.worker.id }[0]
+            intent.putExtras(bundle)
+            startActivityForResult(intent, ConstantKey.RESULTCODE_PAYMENTOVERVIEW)
+        }
+        btnWithdraw!!.setOnClickListener {
+            withdrawRequest(
+                taskModel!!.additionalFund.id.toString()
+            )
+        }
+        init()
+        initProgressDialog()
+        return view
     }
-    private void acceptRequest(String id) {
-        ((ActivityBase)requireActivity()).showProgressDialog();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, Constant.BASE_URL + URL_ADDITIONAL_FUND + "/" + id + "/accept",
-                response -> {
-                    Timber.e(response);
-                    ((ActivityBase)requireActivity()).hideProgressDialog();
+
+    private fun withdrawRequest(id: String) {
+        (requireActivity() as ActivityBase).showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(
+            Method.DELETE,
+            Constant.BASE_URL + Constant.URL_ADDITIONAL_FUND + "/" + id,
+            Response.Listener { response: String? ->
+                Timber.e(response)
+                (requireActivity() as ActivityBase).hideProgressDialog()
+                try {
+                    val jsonObject = JSONObject(response)
+                    if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                        if (jsonObject.getBoolean("success")) {
+                            listener!!.onIncreaseBudgetWithDrawClick()
+                            dismiss()
+                        } else {
+                            (requireActivity() as ActivityBase).showToast(
+                                "Something went Wrong",
+                                context
+                            )
+                        }
+                    }
+                } catch (e: JSONException) {
+                    Timber.e(e.toString())
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error: VolleyError ->
+                val networkResponse = error.networkResponse
+                if (networkResponse != null && networkResponse.data != null) {
+                    val jsonError = String(networkResponse.data)
+                    // Print Error!
+                    Timber.e(jsonError)
+                    if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                        (requireActivity() as ActivityBase).unauthorizedUser()
+                        (requireActivity() as ActivityBase).hideProgressDialog()
+                        return@ErrorListener
+                    }
                     try {
-
-                        JSONObject jsonObject = new JSONObject(response);
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                listener.onIncreaseBudgetAcceptClick();
-                                dismiss();
-                            } else {
-                                ((ActivityBase)requireActivity()).showToast("Something went Wrong", getContext());
+                        val jsonObject = JSONObject(jsonError)
+                        val jsonObject_error = jsonObject.getJSONObject("error")
+                        if (jsonObject_error.has("errors")) {
+                            val jsonObject_errors = jsonObject_error.getJSONObject("errors")
+                            if (jsonObject_errors.has("amount") && !jsonObject_errors.isNull("amount")) {
+                                val jsonArray_amount = jsonObject_errors.getJSONArray("amount")
+                                (requireActivity() as ActivityBase).showToast(
+                                    jsonArray_amount.getString(
+                                        0
+                                    ),
+                                    requireContext()
+                                )
+                            } else if (jsonObject_errors.has("creation_reason") && !jsonObject_errors.isNull(
+                                    "creation_reason"
+                                )
+                            ) {
+                                val jsonArray_amount =
+                                    jsonObject_errors.getJSONArray("creation_reason")
+                                (requireActivity() as ActivityBase).showToast(
+                                    jsonArray_amount.getString(
+                                        0
+                                    ),
+                                    requireContext()
+                                )
+                            }
+                        } else {
+                            if (jsonObject_error.has("message")) {
+                                (requireActivity() as ActivityBase).showToast(
+                                    jsonObject_error.getString(
+                                        "message"
+                                    ),
+                                    requireContext()
+                                )
                             }
                         }
-
-                    } catch (JSONException e) {
-                        Timber.e(String.valueOf(e));
-                        e.printStackTrace();
-
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
-
-
-                },
-                error -> {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    if (networkResponse != null && networkResponse.data != null) {
-                        String jsonError = new String(networkResponse.data);
-                        // Print Error!
-                        Timber.e(jsonError);
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            ((ActivityBase)requireActivity()).unauthorizedUser();
-                            ((ActivityBase)requireActivity()).hideProgressDialog();
-                            return;
-                        }
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonError);
-
-
-                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-
-
-                            if (jsonObject_error.has("errors")) {
-                                JSONObject jsonObject_errors = jsonObject_error.getJSONObject("errors");
-                                if (jsonObject_errors.has("amount") && !jsonObject_errors.isNull("amount")) {
-                                    JSONArray jsonArray_amount = jsonObject_errors.getJSONArray("amount");
-                                    ((ActivityBase)requireActivity()).showToast(jsonArray_amount.getString(0), requireContext());
-                                } else if (jsonObject_errors.has("creation_reason") && !jsonObject_errors.isNull("creation_reason")) {
-                                    JSONArray jsonArray_amount = jsonObject_errors.getJSONArray("creation_reason");
-                                    ((ActivityBase)requireActivity()).showToast(jsonArray_amount.getString(0), requireContext());
-                                }
-                            } else {
-                                if (jsonObject_error.has("message")) {
-                                    ((ActivityBase)requireActivity()).showToast(jsonObject_error.getString("message"), requireContext());
-                                }
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        ((ActivityBase)requireActivity()).showToast("Something Went Wrong", getContext());
-                    }
-                    Timber.e(error.toString());
-                    ((ActivityBase)requireActivity()).hideProgressDialog();
-                }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> map1 = new HashMap<String, String>();
-
-                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-                map1.put("Content-Type", "application/x-www-form-urlencoded");
-                map1.put("Version", String.valueOf(BuildConfig.VERSION_CODE));
-                //   map1.put("X-Requested-With", "XMLHttpRequest");
-                return map1;
+                } else {
+                    (requireActivity() as ActivityBase).showToast("Something Went Wrong", context)
+                }
+                Timber.e(error.toString())
+                (requireActivity() as ActivityBase).hideProgressDialog()
             }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
-        requestQueue.add(stringRequest);
+        ) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] =
+                    sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                //   map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1
+            }
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
     }
 
-
-    public void initProgressDialog() {
-        pDialog = new ProgressDialog(requireContext());
-        pDialog.setTitle(getString(R.string.processing));
-        pDialog.setMessage(getString(R.string.please_wait));
-        pDialog.setCancelable(false);
-    }
-
-
-    public void showProgressDialog() {
-
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    public void hideProgressDialog() {
-
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
-
-//    private void getPaymentMethod() {
-//        showProgressDialog();
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.URL_PAYMENTS_METHOD,
-//                response -> {
-//                    Timber.e(response);
-//                    hideProgressDialog();
-//                    try {
-//                        JSONObject jsonObject = new JSONObject(response);
-//                        Timber.e(jsonObject.toString());
-//                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-//                            if (jsonObject.getBoolean("success")) {
-//                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-//                                    JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-//                                    if (jsonObject_data.has("card") && !jsonObject_data.isNull("card")) {
-//                                        JSONObject jsonObject_card = jsonObject_data.getJSONObject("card");
-//                                        PaymentMethodModel paymentMethodModel = new PaymentMethodModel().getJsonToModel(jsonObject_card);
-//                                        setUpLayout(paymentMethodModel);
-//                                    } else {
-//                                        showToast("card not Available", IncrementBudgetRequestViewActivity.this);
-//                                    }
-//
-//                                }
-//                            } else {
-//                                showToast("Something went Wrong", IncrementBudgetRequestViewActivity.this);
-//                            }
-//                        }
-//                    } catch (JSONException e) {
-//                        Timber.e(String.valueOf(e));
-//                        e.printStackTrace();
-//                    }
-//                },
-//                error -> {
-//                    NetworkResponse networkResponse = error.networkResponse;
-//                    if (networkResponse != null && networkResponse.data != null) {
-//                        String jsonError = new String(networkResponse.data);
-//                        // Print Error!
-//                        Timber.e(jsonError);
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(jsonError);
-//                            JSONObject jsonObject_error = jsonObject.getJSONObject("error");
-//                            if (jsonObject_error.has("error_text") && !jsonObject_error.isNull("error_text")) {
-//                                if (ConstantKey.NO_PAYMENT_METHOD.equalsIgnoreCase(jsonObject_error.getString("error_text"))) {
-//                                    setUpAddPaymentLayout();
-//                                }
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                    Timber.e(error.toString());
-//                    errorHandle1(error.networkResponse);
-//                    hideProgressDialog();
-//                }) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> map1 = new HashMap<String, String>();
-//                map1.put("authorization", sessionManager.getTokenType() + " " + sessionManager.getAccessToken());
-//                map1.put("Content-Type", "application/x-www-form-urlencoded");
-//                // map1.put("X-Requested-With", "XMLHttpRequest");
-//                return map1;
-//            }
-//        };
-//
-//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1,
-//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//        RequestQueue requestQueue = Volley.newRequestQueue(IncrementBudgetRequestViewActivity.this);
-//        requestQueue.add(stringRequest);
-//        Log.e(TAG, stringRequest.getUrl());
-//    }
-
-
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            listener = (NoticeListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(this.toString()
-                    + " must implement NoticeListener");
+    private fun init() {
+        val oldP = taskModel!!.amount.toString().toInt()
+        val newP = taskModel!!.additionalFund.amount.toString().toInt() + oldP
+        name!!.text = taskModel!!.poster.name
+        description!!.text = taskModel!!.title
+        reason!!.text = taskModel!!.additionalFund.creationReason
+        newPrice!!.text = String.format(Locale.ENGLISH, "%d", newP)
+        oldPrice!!.text = String.format(Locale.ENGLISH, "%d", oldP)
+        if (isMine) {
+            name!!.text = "You"
+            llAcceptDecline!!.visibility = View.GONE
+            llWithDraw!!.visibility = View.VISIBLE
         }
     }
 
+    fun initProgressDialog() {
+        pDialog = ProgressDialog(requireContext())
+        pDialog!!.setTitle(getString(R.string.processing))
+        pDialog!!.setMessage(getString(R.string.please_wait))
+        pDialog!!.setCancelable(false)
+    }
 
-    public interface NoticeListener {
-        void onIncreaseBudgetAcceptClick();
-        void onIncreaseBudgetRejectClick();
-        void onIncreaseBudgetWithDrawClick();
+    fun showProgressDialog() {
+        if (!pDialog!!.isShowing) pDialog!!.show()
+    }
+
+    fun hideProgressDialog() {
+        if (pDialog!!.isShowing) pDialog!!.dismiss()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = try {
+            context as NoticeListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException(
+                this.toString() +
+                    " must implement NoticeListener"
+            )
+        }
+    }
+
+    interface NoticeListener {
+        fun onIncreaseBudgetAcceptClick()
+        fun onIncreaseBudgetRejectClick()
+        fun onIncreaseBudgetWithDrawClick()
+    }
+
+    companion object {
+        var isMine = false
+        fun newInstance(taskModel: TaskModel?): IncreaseBudgetNoticeBottomSheet {
+            isMine = false
+            val bundle = Bundle()
+            //    bundle.putParcelable(ConstantKey.TASK, taskModel);
+            val fragment = IncreaseBudgetNoticeBottomSheet()
+            fragment.arguments = bundle
+            return fragment
+        }
+
+        fun newInstance(
+            taskModel: TaskModel?,
+            isMineRequest: Boolean
+        ): IncreaseBudgetNoticeBottomSheet {
+            isMine = isMineRequest
+            val bundle = Bundle()
+            //    bundle.putParcelable(ConstantKey.TASK, taskModel);
+            val fragment = IncreaseBudgetNoticeBottomSheet()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

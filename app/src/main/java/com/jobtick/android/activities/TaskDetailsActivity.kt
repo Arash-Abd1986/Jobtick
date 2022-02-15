@@ -15,8 +15,17 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Html
 import android.text.Spanned
-import android.view.*
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RatingBar
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
@@ -48,22 +57,65 @@ import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.new.IS_USER_THE_POSTER
 import com.jobtick.android.activities.new.OfferListActivity
-import com.jobtick.android.adapers.*
-import com.jobtick.android.cancellations.*
-import com.jobtick.android.fragments.*
+import com.jobtick.android.adapers.MustHaveListAdapter
+import com.jobtick.android.adapers.QuestionAttachmentAdapter
+import com.jobtick.android.adapers.QuestionListAdapter
+import com.jobtick.android.adapers.ShowMustHaveListAdapter
+import com.jobtick.android.cancellations.CancellationPosterActivity
+import com.jobtick.android.cancellations.CancellationWorkerActivity
+import com.jobtick.android.cancellations.PPCancellationSummaryActivity
+import com.jobtick.android.cancellations.PTCancellationSummaryActivity
+import com.jobtick.android.cancellations.TPCancellationSummaryActivity
+import com.jobtick.android.cancellations.TTCancellationSummaryActivity
+import com.jobtick.android.fragments.CategoryListBottomSheet
+import com.jobtick.android.fragments.ConfirmAskToReleaseBottomSheet
+import com.jobtick.android.fragments.ConfirmReleaseBottomSheet
+import com.jobtick.android.fragments.IncreaseBudgetBottomSheet
+import com.jobtick.android.fragments.IncreaseBudgetDeclineBottomSheet
+import com.jobtick.android.fragments.IncreaseBudgetNoticeBottomSheet
+import com.jobtick.android.fragments.OfferBottomSheet
+import com.jobtick.android.fragments.QuestionsBottomSheet
+import com.jobtick.android.fragments.RescheduleNoticeBottomSheetState
 import com.jobtick.android.fragments.RescheduleNoticeBottomSheetState.Companion.newInstance
+import com.jobtick.android.fragments.TickerRequirementsBottomSheet
 import com.jobtick.android.fragments.TickerRequirementsBottomSheet.Companion.newInstance
+import com.jobtick.android.fragments.WithdrawBottomSheet
 import com.jobtick.android.fragments.WithdrawBottomSheet.Withdraw
 import com.jobtick.android.interfaces.OnRequestAcceptListener
 import com.jobtick.android.interfaces.OnWidthDrawListener
-import com.jobtick.android.models.*
+import com.jobtick.android.models.AttachmentModel
+import com.jobtick.android.models.BankAccountModel
+import com.jobtick.android.models.BillingAdreessModel
+import com.jobtick.android.models.ChatModel
+import com.jobtick.android.models.ConversationModel
+import com.jobtick.android.models.DueTimeModel
+import com.jobtick.android.models.MustHaveModel
+import com.jobtick.android.models.OfferDeleteModel
+import com.jobtick.android.models.OfferModel
+import com.jobtick.android.models.QuestionModel
+import com.jobtick.android.models.TaskModel
+import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.models.response.conversationinfo.GetConversationInfoResponse
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.coroutines.Status
 import com.jobtick.android.network.model.request.ReviewsRequest
 import com.jobtick.android.network.model.response.ReviewItem
 import com.jobtick.android.network.retrofit.ApiClient
-import com.jobtick.android.utils.*
+import com.jobtick.android.utils.CameraUtils
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.Helper
+import com.jobtick.android.utils.HttpStatus
+import com.jobtick.android.utils.ImageUtil
+import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.TimeHelper
+import com.jobtick.android.utils.Tools
+import com.jobtick.android.utils.dpToPx
+import com.jobtick.android.utils.myFromJson
+import com.jobtick.android.utils.setBackgroundShape
+import com.jobtick.android.utils.setMoreLess
+import com.jobtick.android.utils.setSpanColor
+import com.jobtick.android.utils.setSpanFont
 import com.jobtick.android.viewmodel.JobDetailsViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 import com.jobtick.android.widget.ExtendedAlertBox
@@ -77,18 +129,26 @@ import timber.log.Timber
 import java.io.File
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import java.util.function.Consumer
-import kotlin.collections.ArrayList
 
-class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItemClickListener,
-    QuestionAttachmentAdapter.OnItemClickListener, OnRequestAcceptListener, OnWidthDrawListener,
+class TaskDetailsActivity :
+    ActivityBase(),
+    Withdraw,
+    QuestionListAdapter.OnItemClickListener,
+    QuestionAttachmentAdapter.OnItemClickListener,
+    OnRequestAcceptListener,
+    OnWidthDrawListener,
     OnExtendedAlertButtonClickListener,
-    RescheduleNoticeBottomSheetState.NoticeListener, IncreaseBudgetBottomSheet.NoticeListener,
+    RescheduleNoticeBottomSheetState.NoticeListener,
+    IncreaseBudgetBottomSheet.NoticeListener,
     IncreaseBudgetNoticeBottomSheet.NoticeListener,
-    IncreaseBudgetDeclineBottomSheet.NoticeListener, ConfirmAskToReleaseBottomSheet.NoticeListener,
+    IncreaseBudgetDeclineBottomSheet.NoticeListener,
+    ConfirmAskToReleaseBottomSheet.NoticeListener,
     ConfirmReleaseBottomSheet.NoticeListener,
-    TickerRequirementsBottomSheet.NoticeListener, OfferBottomSheet.OfferBottomSheetClick,
+    TickerRequirementsBottomSheet.NoticeListener,
+    OfferBottomSheet.OfferBottomSheetClick,
     QuestionsBottomSheet.NoticeListener {
     private lateinit var alertBox: ExtendedAlertBox
     private lateinit var toolbar: Toolbar
@@ -217,7 +277,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             this,
             ViewModelFactory(ApiHelper(ApiClient.getClient()))
         ).get(JobDetailsViewModel::class.java)
-
     }
 
     private fun getReview() {
@@ -244,7 +303,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     Status.ERROR -> {
                     }
                     Status.LOADING -> {
-
                     }
                 }
             }
@@ -380,7 +438,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         initToolbar()
         getData
     }
-
 
     @SuppressLint("SetTextI18n", "NonConstantResourceId")
     private fun initStatusTask(status: String) {
@@ -548,7 +605,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 lytStatus.setStatus(getString(R.string.overdue))
             else lytStatus.setStatus(getString(R.string.completed))
 
-
             // poster task
             if (noActionAvailable) {
                 cardMakeAnOffer.visibility = View.GONE
@@ -654,7 +710,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             R.color.colorPrimary
         )
         if (isUserThePoster) {
-            //poster task
+            // poster task
             toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
                 R.id.grp_edit,
                 taskModel!!.offers.size == 0
@@ -669,7 +725,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             )
             cardMakeAnOffer.visibility = View.GONE
         } else {
-            //worker task
+            // worker task
             toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
             toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
                 R.id.grp_delete,
@@ -760,7 +816,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 R.id.grp_reschedule,
                 true
             )
-
         } else {
 
             if (noActionAvailable) {
@@ -796,7 +851,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     R.id.grp_increase_budget,
                     true
                 )
-
             }
         }
         toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(R.id.grp_edit, false)
@@ -886,13 +940,14 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             billingAddress
             initPage()
         }
-    private var isGetBankAccountLoaded = false// Print Error!
+    private var isGetBankAccountLoaded = false // Print Error!
 
-    //http request
+    // http request
     val bankAccountAddress: Unit
         get() {
             val stringRequest: StringRequest =
-                object : StringRequest(Method.GET, Constant.BASE_URL + Constant.ADD_ACCOUNT_DETAILS,
+                object : StringRequest(
+                    Method.GET, Constant.BASE_URL + Constant.ADD_ACCOUNT_DETAILS,
                     com.android.volley.Response.Listener { response: String? ->
                         Timber.e(response)
                         try {
@@ -900,7 +955,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                             Timber.e(jsonObject.toString())
                             if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                                 if (jsonObject.getBoolean("success")) {
-                                    val jsonString = jsonObject.toString() //http request
+                                    val jsonString = jsonObject.toString() // http request
                                     var data = BankAccountModel()
                                     val gson = Gson()
                                     data = gson.fromJson(jsonString, BankAccountModel::class.java)
@@ -950,7 +1005,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                         hideProgressDialog()
                         isGetBankAccountLoaded = true
                         onLoadingFinished()
-                    }) {
+                    }
+                ) {
                     override fun getHeaders(): Map<String, String> {
                         val map1: MutableMap<String, String> = HashMap()
                         map1["authorization"] =
@@ -968,13 +1024,14 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             val requestQueue = Volley.newRequestQueue(this)
             requestQueue.add(stringRequest)
         }
-    private var isGetBillingAddressLoaded = false// Print Error!
+    private var isGetBillingAddressLoaded = false // Print Error!
 
-    //http request
+    // http request
     val billingAddress: Unit
         get() {
             val stringRequest: StringRequest =
-                object : StringRequest(Method.GET, Constant.BASE_URL + Constant.ADD_BILLING,
+                object : StringRequest(
+                    Method.GET, Constant.BASE_URL + Constant.ADD_BILLING,
                     com.android.volley.Response.Listener { response: String? ->
                         Timber.e(response)
                         try {
@@ -983,7 +1040,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                             Timber.e(jsonObject.toString())
                             if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                                 if (jsonObject.getBoolean("success")) {
-                                    val jsonString = jsonObject.toString() //http request
+                                    val jsonString = jsonObject.toString() // http request
                                     var data = BillingAdreessModel()
                                     val gson = Gson()
                                     data =
@@ -1031,7 +1088,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                         Timber.e(error.toString())
                         isGetBillingAddressLoaded = true
                         onLoadingFinished()
-                    }) {
+                    }
+                ) {
                     override fun getHeaders(): Map<String, String> {
                         val map1: MutableMap<String, String> = HashMap()
                         map1["authorization"] =
@@ -1053,7 +1111,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     // map1.put("X-Requested-With", "XMLHttpRequest");
     val allUserProfileDetails: Unit
         get() {
-            val stringRequest: StringRequest = object : StringRequest(Method.GET,
+            val stringRequest: StringRequest = object : StringRequest(
+                Method.GET,
                 Constant.URL_PROFILE + "/" + sessionManager.userAccount.id,
                 com.android.volley.Response.Listener { response: String? ->
                     try {
@@ -1075,7 +1134,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     errorHandle1(error.networkResponse)
                     isUserProfileLoaded = true
                     onLoadingFinished()
-                }) {
+                }
+            ) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
                     map1["authorization"] =
@@ -1095,7 +1155,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private var isInitPageLoaded = false
     private fun initPage() {
         val stringRequest: StringRequest =
-            object : StringRequest(Method.GET, Constant.URL_TASKS + "/" + strSlug,
+            object : StringRequest(
+                Method.GET, Constant.URL_TASKS + "/" + strSlug,
                 com.android.volley.Response.Listener { response: String? ->
                     try {
                         content.visibility = View.VISIBLE
@@ -1113,10 +1174,11 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                                     this@TaskDetailsActivity
                                 )
                                 taskModel!!.offerSent = false
-                                taskModel!!.offers.forEach(Consumer { offerModel1: OfferModel ->
-                                    if (offerModel1.worker.id == sessionManager.userAccount.id) taskModel!!.offerSent =
-                                        true
-                                }
+                                taskModel!!.offers.forEach(
+                                    Consumer { offerModel1: OfferModel ->
+                                        if (offerModel1.worker.id == sessionManager.userAccount.id) taskModel!!.offerSent =
+                                            true
+                                    }
                                 )
                                 setOwnerTask()
                                 dismissStatusAlert()
@@ -1128,7 +1190,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                                     jsonObjectData
                                 )
                                 initRestConf(jsonObjectData)
-
                             }
                         } else {
                             showToast("Something went wrong", this@TaskDetailsActivity)
@@ -1150,13 +1211,14 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 },
                 com.android.volley.Response.ErrorListener { error: VolleyError ->
                     isInitPageLoaded = true
-                    //llLoading.visibility = View.GONE
+                    // llLoading.visibility = View.GONE
                     onLoadingFinished()
                     errorHandle1(error.networkResponse)
                     Handler().postDelayed({
                         onBackPressed()
                     }, 2000)
-                }) {
+                }
+            ) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
                     map1["authorization"] =
@@ -1234,14 +1296,24 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private fun setClickOnQuestion() {
         if ((taskModel!!.questionCount > 0)
             or (isUserThePoster and (taskModel!!.status.equals("open", ignoreCase = true))) or
-            (((!isUserTheTicker and !isUserThePoster)
-                    or isUserTheTicker) and (taskModel!!.questionCount != 0) and !(taskModel!!.status.equals(
-                "open",
-                ignoreCase = true
-            )))
+            (
+                (
+                    (!isUserTheTicker and !isUserThePoster)
+                        or isUserTheTicker
+                    ) and (taskModel!!.questionCount != 0) and !(
+                    taskModel!!.status.equals(
+                            "open",
+                            ignoreCase = true
+                        )
+                    )
+                )
             or
-            (((!isUserTheTicker and !isUserThePoster)
-                    or isUserTheTicker) and (taskModel!!.status.equals("open", ignoreCase = true)))
+            (
+                (
+                    (!isUserTheTicker and !isUserThePoster)
+                        or isUserTheTicker
+                    ) and (taskModel!!.status.equals("open", ignoreCase = true))
+                )
         ) {
             txtAskQuestion.setOnClickListener {
                 showQuestions()
@@ -1251,7 +1323,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             }
         }
     }
-
 
     private fun setPosterChatButton(state: String, jsonObject: JSONObject) {
         if (taskModel!!.worker == null) return
@@ -1314,7 +1385,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         else
             findViewById(R.id.alert_box_closed)
         alertBox.onExtendedAlertButtonClickListener = this
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -1327,7 +1397,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         setDescription()
         if (taskModel.poster.avatar != null && taskModel.poster.avatar.thumbUrl != null) {
             ImageUtil.displayImage(imgAvtarPoster, taskModel.poster.avatar.thumbUrl, null)
-        } //TODO DUMMY IMAGE
+        } // TODO DUMMY IMAGE
         imgAvtarPoster.setOnClickListener { v: View? ->
             if (taskModel.poster.id != null) {
                 val intent = Intent(this@TaskDetailsActivity, ProfileActivity::class.java)
@@ -1363,7 +1433,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             mustHaveLyt.visibility = View.GONE
         }
     }
-
 
     private fun setDescription() {
         txtDescription.text = taskModel!!.description
@@ -1450,7 +1519,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private fun deleteTaskPermanent(slug: String) {
         showProgressDialog()
         val stringRequest: StringRequest =
-            object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + slug + "/cancellation",
+            object : StringRequest(
+                Method.POST, Constant.URL_TASKS + "/" + slug + "/cancellation",
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -1477,7 +1547,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                         e.printStackTrace()
                     }
                 },
-                com.android.volley.Response.ErrorListener { error: VolleyError? -> hideProgressDialog() }) {
+                com.android.volley.Response.ErrorListener { error: VolleyError? -> hideProgressDialog() }
+            ) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
                     map1["authorization"] =
@@ -1494,7 +1565,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         val requestQueue = Volley.newRequestQueue(this@TaskDetailsActivity)
         requestQueue.add(stringRequest)
     }
-
 
     @SuppressLint("SetTextI18n")
     private fun initComponent() {
@@ -1540,8 +1610,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         if (taskModel!!.status != null && !taskModel!!.status.equals(
                 Constant.TASK_OPEN,
                 ignoreCase = true
-            )
-            && (isUserThePoster || isUserTheTicker)
+            ) &&
+            (isUserThePoster || isUserTheTicker)
         ) {
             budget.text = String.format(Locale.ENGLISH, "%d", taskModel!!.amount)
         } else {
@@ -1592,7 +1662,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                         taskModel!!.worker.workTaskStatistics.completionRate.toString() + "%"
                     if (taskModel!!.worker.workTaskStatistics != null) txtCompletionRateObserver.text =
                         taskModel!!.worker.workTaskStatistics.completionRate.toString() + "%"
-
                 }
             } else {
                 if (isUserTheTicker or isUserThePoster) {
@@ -1627,7 +1696,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 }
             }
 
-
             if (taskModel!!.status!!.equals("completed", ignoreCase = true)) {
                 lnAssignTo.setBackgroundResource(R.drawable.rectangle_card_round_fill_blue_6dp_radius)
                 assignedTitle.text = "Completed by"
@@ -1637,15 +1705,12 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     assignedTitle.text = "My offer"
                 else
                     assignedTitle.text = "Assigned to"
-
             }
 
             if (alertType == AlertType.CANCELLATION) {
                 lnAssignTo.setBackgroundResource(R.drawable.rectangle_card_round_red_6dp_radius)
             }
-
         }
-
     }
 
     private fun showOffer(offer: OfferModel?, isAssigned: Boolean, isMyOffer: Boolean) {
@@ -1659,7 +1724,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         offerBottomSheet.show(supportFragmentManager, null)
         offerBottomSheet.offerBottomSheetClick = this
     }
-
 
     private fun getOfferPrice(workerID: Int?): String {
         taskModel!!.offers.forEach { if (it.worker.id == workerID) return it.offerPrice.toString() }
@@ -1698,9 +1762,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
             override fun onPageScrollStateChanged(state: Int) {}
         })
-
     }
-
 
     @SuppressLint("SetTextI18n")
     private fun setOfferView(offerCount: Int) {
@@ -1727,7 +1789,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             )
             txtOfferCount.setSpanFont(18, offerCount.toString().length + 18, 1.2f)
         }
-
     }
 
     private fun addBottomDots(layout_dots: LinearLayout?, size: Int, current: Int) {
@@ -1748,7 +1809,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             dots[current]!!.setImageResource(R.drawable.shape_circle)
         }
     }
-
 
     private fun onViewClick() {
         var intent: Intent
@@ -1814,12 +1874,12 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             if (userAccountModel.avatar != null && userAccountModel.avatar.url != null && userAccountModel.avatar.url != "") {
                 requirementState[TickerRequirementsBottomSheet.Requirement.Profile] = true
             }
-        //checking one field is enough
+        // checking one field is enough
         if (::bankAccountModel.isInitialized)
             if (bankAccountModel.data != null && bankAccountModel.data.account_number != null && bankAccountModel.data.account_number != "") {
                 requirementState[TickerRequirementsBottomSheet.Requirement.BankAccount] = true
             }
-        //checking one filed is enough
+        // checking one filed is enough
         if (::billingAdressModel.isInitialized)
             if (billingAdressModel.data != null && billingAdressModel.data.post_code != null && billingAdressModel.data.post_code != "") {
                 requirementState[TickerRequirementsBottomSheet.Requirement.BillingAddress] = true
@@ -1836,17 +1896,20 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     private fun needRequirementSheet(): Boolean {
         handleState()
-        return !(requirementState[TickerRequirementsBottomSheet.Requirement.Profile]!! &&
+        return !(
+            requirementState[TickerRequirementsBottomSheet.Requirement.Profile]!! &&
                 requirementState[TickerRequirementsBottomSheet.Requirement.BankAccount]!! &&
                 requirementState[TickerRequirementsBottomSheet.Requirement.BillingAddress]!! &&
                 requirementState[TickerRequirementsBottomSheet.Requirement.BirthDate]!! &&
-                requirementState[TickerRequirementsBottomSheet.Requirement.PhoneNumber]!!)
+                requirementState[TickerRequirementsBottomSheet.Requirement.PhoneNumber]!!
+            )
     }
 
     private fun submitAskToReleaseMoney() {
         showProgressDialog()
         val stringRequest: StringRequest = object :
-            StringRequest(Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/complete",
+            StringRequest(
+                Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/complete",
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -1892,7 +1955,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     }
                     Timber.e(error.toString())
                     hideProgressDialog()
-                }) {
+                }
+            ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
@@ -1911,7 +1975,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     private fun submitReleaseMoney() {
         showProgressDialog()
         val stringRequest: StringRequest = object :
-            StringRequest(Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/close",
+            StringRequest(
+                Method.POST, Constant.URL_TASKS + "/" + taskModel!!.slug + "/close",
                 com.android.volley.Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -1959,7 +2024,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     }
                     Timber.e(error.toString())
                     hideProgressDialog()
-                }) {
+                }
+            ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
@@ -1992,13 +2058,12 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         initialStage()
     }
 
-
     override fun startWithdraw(id: Int) {
         doApiCall(Constant.URL_OFFERS + "/" + id)
     }
 
-    private class AdapterImageSlider  // constructor
-        (private val act: Activity, private var items: ArrayList<AttachmentModel>) :
+    private class AdapterImageSlider // constructor
+    (private val act: Activity, private var items: ArrayList<AttachmentModel>) :
         PagerAdapter() {
         fun setOnItemClickListener() {}
         override fun getCount(): Int {
@@ -2117,7 +2182,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             }
         }
         if (requestCode == 21 || requestCode == 20) {
-            //dataOnlyQuestions
+            // dataOnlyQuestions
         }
         if (requestCode == GALLERY_PICKUP_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -2151,7 +2216,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         }
     }
 
-
     override fun onItemQuestionClick(
         view: View?,
         obj: QuestionModel?,
@@ -2163,7 +2227,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
             val bundle = Bundle()
             questionModel = obj
             isOfferQuestion = "question"
-            //bundle.putParcelable(ConstantKey.QUESTION_LIST_MODEL, obj);
+            // bundle.putParcelable(ConstantKey.QUESTION_LIST_MODEL, obj);
             intent.putExtras(bundle)
             startActivityForResult(intent, 21)
         } else if (action.equals("report", ignoreCase = true)) {
@@ -2187,7 +2251,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     GALLERY_PICKUP_IMAGE_REQUEST_CODE
                 )
             } else if (action.equals("delete", ignoreCase = true)) {
-                //recyclerViewQuestionAttachment.removeViewAt(position)
+                // recyclerViewQuestionAttachment.removeViewAt(position)
                 attachmentArrayListQuestion.removeAt(position)
                 adapter.notifyItemRemoved(position)
                 adapter.notifyItemRangeRemoved(position, attachmentArrayListQuestion.size)
@@ -2200,7 +2264,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
     private fun doApiCall(url: String) {
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.DELETE, url,
+        val stringRequest: StringRequest = object : StringRequest(
+            Method.DELETE, url,
             com.android.volley.Response.Listener { response: String? ->
                 hideProgressDialog()
                 Timber.e(response)
@@ -2222,7 +2287,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 //  swipeRefresh.setRefreshing(false);
                 hideProgressDialog()
                 errorHandle1(error.networkResponse)
-            }) {
+            }
+        ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
@@ -2239,7 +2305,6 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         requestQueue.add(stringRequest)
         Timber.e(stringRequest.url)
     }
-
 
     fun showRequirementDialog() {
         if (mBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED) {
@@ -2418,7 +2483,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         }
         var showReview = true
         val reviewModels = taskModel!!.reviewModels
-        //for poster
+        // for poster
         if (isUserThePoster) {
             for (reviewModel in reviewModels) {
                 if (reviewModel.rateeType == "worker") {
@@ -2426,7 +2491,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                     break
                 }
             }
-        } //for worker
+        } // for worker
         else {
             for (reviewModel in reviewModels) {
                 if (reviewModel.rateeType == "poster") {
@@ -2510,7 +2575,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 )
             } else if (isUserTheTicker) {
                 showIncreaseBudgetCard()
-                //TODO: updated design of mahan should be applied here
+                // TODO: updated design of mahan should be applied here
                 toolbar.menu.findItem(R.id.item_three_dot).subMenu.setGroupVisible(
                     R.id.grp_cancellation,
                     false
@@ -2609,7 +2674,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         this.tickerCancels = tickerCancels
         if (isTicker && tickerCancels) {
             cancellationTitle = "<b>You</b> have requested to cancel this job on <b>" +
-                    TimeHelper.convertToShowTimeFormat(taskModel!!.cancellation.createdAt) + "</b>"
+                TimeHelper.convertToShowTimeFormat(taskModel!!.cancellation.createdAt) + "</b>"
             showAlertBox(
                 Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
                 AlertType.CANCELLATION, true, hasTopColor = false
@@ -2617,7 +2682,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         }
         if (!isTicker && !tickerCancels) {
             cancellationTitle = "<b>You</b> have requested to cancel this job on <b>" +
-                    TimeHelper.convertToShowTimeFormat(taskModel!!.cancellation.createdAt) + "</b>"
+                TimeHelper.convertToShowTimeFormat(taskModel!!.cancellation.createdAt) + "</b>"
             showAlertBox(
                 Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
                 AlertType.CANCELLATION, true, hasTopColor = false
@@ -2626,8 +2691,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         if (isTicker && !tickerCancels) {
             val cancelledByWho = taskModel!!.poster.name
             cancellationTitle = "<b>" + cancelledByWho + "</b> " +
-                    "has requested to cancel this job on <b>" +
-                    TimeHelper.convertToShowTimeFormat(taskModel!!.cancellation.createdAt) + "</b>"
+                "has requested to cancel this job on <b>" +
+                TimeHelper.convertToShowTimeFormat(taskModel!!.cancellation.createdAt) + "</b>"
             showAlertBox(
                 Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
                 AlertType.CANCELLATION, true, hasTopColor = false
@@ -2636,8 +2701,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         if (!isTicker && tickerCancels) {
             val cancelledByWho = taskModel!!.worker.name
             cancellationTitle = "<b>" + cancelledByWho + "</b> " +
-                    "has requested to cancel this job on <b>" +
-                    TimeHelper.convertToShowTimeFormat(taskModel!!.cancellation.createdAt) + "</b>"
+                "has requested to cancel this job on <b>" +
+                TimeHelper.convertToShowTimeFormat(taskModel!!.cancellation.createdAt) + "</b>"
             showAlertBox(
                 Html.fromHtml(cancellationTitle), ConstantKey.BTN_VIEW_CANCELLATION_REQUEST,
                 AlertType.CANCELLATION, true, hasTopColor = false
@@ -2669,8 +2734,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         showAlertBox(
             Html.fromHtml(
                 rescheduledByWho +
-                        " requested to reschedule time on this job on <b>" +
-                        TimeHelper.convertToShowTimeFormat(taskModel!!.rescheduleReqeust[pos].created_at) + ".</b>"
+                    " requested to reschedule time on this job on <b>" +
+                    TimeHelper.convertToShowTimeFormat(taskModel!!.rescheduleReqeust[pos].created_at) + ".</b>"
             ),
             ConstantKey.BTN_RESCHEDULE_REQUEST_SENT, AlertType.RESCHEDULE, true, hasTopColor = false
         )
@@ -2703,8 +2768,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         showAlertBox(
             Html.fromHtml(
                 increaseRequestByWho +
-                        " requested to increase price on this job on <b>" +
-                        TimeHelper.convertToShowTimeFormat(taskModel!!.additionalFund.createdAt) + "</b>"
+                    " requested to increase price on this job on <b>" +
+                    TimeHelper.convertToShowTimeFormat(taskModel!!.additionalFund.createdAt) + "</b>"
             ),
             ConstantKey.BTN_INCREASE_BUDGET_REQUEST_SENT,
             AlertType.INCREASE_BUDGET,
@@ -2729,11 +2794,10 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         showAlertBox(
             Html.fromHtml(
                 "You have requested to release money this job on <b>" +
-                        TimeHelper.convertToShowTimeFormat(taskModel!!.conversation.task.completedAt) + "</b>"
+                    TimeHelper.convertToShowTimeFormat(taskModel!!.conversation.task.completedAt) + "</b>"
             ),
             null, AlertType.ASK_TO_RELEASE, false, hasTopColor = false
         )
-
     }
 
     private fun showConfirmReleaseCard() {
@@ -2741,8 +2805,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         showAlertBox(
             Html.fromHtml(
                 "<b>" + whoRequestToReleaseMoney + "</b> " +
-                        " have requested to release money this job on <b>" +
-                        TimeHelper.convertToShowTimeFormat(taskModel!!.conversation.task.completedAt) + "</b>"
+                    " have requested to release money this job on <b>" +
+                    TimeHelper.convertToShowTimeFormat(taskModel!!.conversation.task.completedAt) + "</b>"
             ),
             ConstantKey.BTN_CONFIRM_RELEASE_MONEY,
             AlertType.CONFIRM_RELEASE,
@@ -2751,10 +2815,13 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
         )
     }
 
-    //we use spanned to support middle bolds
+    // we use spanned to support middle bolds
     private fun showAlertBox(
-        title: Spanned, buttonText: String?, alertType: AlertType,
-        hasButton: Boolean, hasTopColor: Boolean
+        title: Spanned,
+        buttonText: String?,
+        alertType: AlertType,
+        hasButton: Boolean,
+        hasTopColor: Boolean
     ) {
         alertBox.visibility = View.VISIBLE
         this.alertType = alertType
@@ -2831,7 +2898,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     private fun getConversationId(slug: String, targetId: String) {
-        val stringRequest: StringRequest = object : StringRequest(Method.GET,
+        val stringRequest: StringRequest = object : StringRequest(
+            Method.GET,
             Constant.BASE_URL_v2 + "jobs/" + slug + "/start_chat/" + targetId,
             com.android.volley.Response.Listener { response: String? ->
                 Timber.e(response)
@@ -2949,7 +3017,8 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
                 Timber.e(error.toString())
                 hideProgressDialog()
                 onLoadingFinished()
-            }) {
+            }
+        ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
@@ -3023,7 +3092,7 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
     }
 
     enum class AlertType {
-        CANCELLATION, RESCHEDULE, INCREASE_BUDGET, ASK_TO_RELEASE, CONFIRM_RELEASE, REVIEW, CANCELLED, CLOSED //more we add later
+        CANCELLATION, RESCHEDULE, INCREASE_BUDGET, ASK_TO_RELEASE, CONFIRM_RELEASE, REVIEW, CANCELLED, CLOSED // more we add later
     }
 
     companion object {
@@ -3041,6 +3110,4 @@ class TaskDetailsActivity : ActivityBase(), Withdraw, QuestionListAdapter.OnItem
 
         var offersC: ArrayList<OfferModel> = ArrayList()
     }
-
-
 }

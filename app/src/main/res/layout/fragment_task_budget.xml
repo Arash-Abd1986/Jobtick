@@ -24,6 +24,17 @@
 
             <include layout="@layout/view_post_job_tab" />
 
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_W400_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set your preferred budget"
+                android:textColor="@color/N600"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                 />
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -154,19 +165,19 @@
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
                 android:clipToPadding="false"
-                app:cardCornerRadius="5dp"
                 android:visibility="gone"
                 app:cardBackgroundColor="@color/P300"
+                app:cardCornerRadius="5dp"
                 app:cardElevation="0dp">
 
                 <RadioGroup
-                    android:layout_gravity="center"
                     android:id="@+id/rg_hourly_total"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:layout_marginRight="3dp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:orientation="horizontal"
                     android:weightSum="2">
 
                     <RadioButton
@@ -208,10 +219,10 @@
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                app:eMaxCharNumber="3"
+                app:eHint="2 hours"
                 app:eImeOptions="actionNext"
                 app:eInputType="integer"
-                app:eHint="2 hours"
+                app:eMaxCharNumber="3"
                 app:eTitle="Hours" />
 
             <com.jobtick.android.widget.ExtendedEntryTextNewDesign
@@ -222,10 +233,10 @@
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                app:eImeOptions="actionDone"
-                app:eMaxCharNumber="4"
-                app:eInputType="budget"
                 app:eHint="$"
+                app:eImeOptions="actionDone"
+                app:eInputType="budget"
+                app:eMaxCharNumber="4"
                 app:eTitle="@string/budget" />
 
             <com.jobtick.android.widget.ExtendedEntryTextNewDesign
@@ -236,15 +247,14 @@
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                app:eImeOptions="actionDone"
-                app:eMaxCharNumber="4"
-                app:eInputType="budget"
+                android:paddingStart="16dp"
                 android:paddingTop="14dp"
                 android:paddingBottom="6dp"
-                android:paddingStart="16dp"
-                app:eNeedHeader="false"
                 app:eHint="Enter your preferred budget"
-                 />
+                app:eImeOptions="actionDone"
+                app:eInputType="budget"
+                app:eMaxCharNumber="4"
+                app:eNeedHeader="false" />
 
         </LinearLayout>
     </ScrollView>
@@ -258,7 +268,6 @@
         android:paddingTop="@dimen/spacing_middle">
 
         <LinearLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_large"
@@ -266,7 +275,8 @@
             android:layout_marginEnd="@dimen/spacing_large"
             android:layout_marginBottom="@dimen/spacing_middle"
             android:background="@drawable/linear_rounded_white_fill_without_border"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/card_estimated_t"

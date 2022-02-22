@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.text.Editable
+import android.text.Html
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import com.jobtick.android.R
 import com.jobtick.android.adapers.SuburbSearchAdapter
@@ -37,6 +39,7 @@ class SearchSuburbBottomSheet(
 ) : BottomSheetDialogFragment(), SuburbSearchAdapter.DismissListener {
     var recyclerViewCategories: RecyclerView? = null
     var input: TextInputEditText? = null
+    var txtDescription: MaterialTextView? = null
     private var adapter: SuburbSearchAdapter? = null
     private val close: FrameLayout? = null
     private val query = ""
@@ -58,7 +61,12 @@ class SearchSuburbBottomSheet(
         super.onViewCreated(view, savedInstanceState)
         recyclerViewCategories = view.findViewById(R.id.sub_list)
         input = view.findViewById(R.id.edt_search_categoreis)
-
+        txtDescription = view.findViewById(R.id.txt_description)
+        if (message.isNotEmpty()) {
+            txtDescription!!.text = Html.fromHtml(message)
+        } else {
+            txtDescription!!.visibility = View.GONE
+        }
         input!!.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
                 val bottomSheetInternal =

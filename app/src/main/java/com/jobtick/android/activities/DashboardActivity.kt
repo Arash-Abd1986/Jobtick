@@ -9,7 +9,10 @@ import android.os.Handler
 import android.os.Parcelable
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -20,7 +23,9 @@ import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import com.android.volley.*
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
@@ -35,12 +40,14 @@ import com.jobtick.android.models.PushNotificationModel
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.models.response.AccountResponse
 import com.jobtick.android.models.response.getbalance.CreditCardModel
-import com.jobtick.android.utils.*
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.Navigator
+import com.jobtick.android.utils.SessionManager
 import com.onesignal.OneSignal
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.*
 
 class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     var drawerLayout: DrawerLayout? = null
@@ -95,41 +102,65 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         drawerLayout = findViewById(R.id.drawer_layout)
 
         appBarConfiguration = AppBarConfiguration.Builder(
-                R.id.navigation_new_task, R.id.navigation_my_tasks, R.id.navigation_browse, R.id.navigation_inbox, R.id.navigation_profile)
-                .setDrawerLayout(drawerLayout)
-                .build()
+            R.id.navigation_new_task,
+            R.id.navigation_my_tasks,
+            R.id.navigation_browse,
+            R.id.navigation_inbox,
+            R.id.navigation_profile
+        )
+            .setDrawerLayout(drawerLayout)
+            .build()
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(toolbar!!, navController!!, appBarConfiguration!!)
         val bundle = intent.extras
         if (bundle != null) {
             if (bundle.getParcelable<Parcelable?>(ConstantKey.PUSH_NOTIFICATION_MODEL) != null) {
-                val pushNotificationModel: PushNotificationModel? = bundle.getParcelable(ConstantKey.PUSH_NOTIFICATION_MODEL)
+                val pushNotificationModel: PushNotificationModel? =
+                    bundle.getParcelable(ConstantKey.PUSH_NOTIFICATION_MODEL)
                 if (pushNotificationModel != null)
                     if (pushNotificationModel.getTrigger() != null) {
                         val intent = Intent(this@DashboardActivity, TaskDetailsActivity::class.java)
                         val bundleintent = Bundle()
                         if (pushNotificationModel.getTrigger() == ConstantKey.PUSH_TASK) {
-                            bundleintent.putString(ConstantKey.SLUG, pushNotificationModel.getModel_slug())
+                            bundleintent.putString(
+                                ConstantKey.SLUG,
+                                pushNotificationModel.getModel_slug()
+                            )
                             intent.putExtras(bundleintent)
                             startActivity(intent)
                         }
                         if (pushNotificationModel.getTrigger() == ConstantKey.PUSH_COMMENT) {
                             if (pushNotificationModel.getOffer_id() != 0) {
-                                bundleintent.putString(ConstantKey.SLUG, pushNotificationModel.getModel_slug())
-                                bundleintent.putInt(ConstantKey.PUSH_OFFER_ID, pushNotificationModel.getOffer_id())
+                                bundleintent.putString(
+                                    ConstantKey.SLUG,
+                                    pushNotificationModel.getModel_slug()
+                                )
+                                bundleintent.putInt(
+                                    ConstantKey.PUSH_OFFER_ID,
+                                    pushNotificationModel.getOffer_id()
+                                )
                                 intent.putExtras(bundleintent)
                                 startActivity(intent)
                             }
                             if (pushNotificationModel.getQuestion_id() != 0) {
-                                bundleintent.putString(ConstantKey.SLUG, pushNotificationModel.getModel_slug())
-                                bundleintent.putInt(ConstantKey.PUSH_QUESTION_ID, pushNotificationModel.getQuestion_id())
+                                bundleintent.putString(
+                                    ConstantKey.SLUG,
+                                    pushNotificationModel.getModel_slug()
+                                )
+                                bundleintent.putInt(
+                                    ConstantKey.PUSH_QUESTION_ID,
+                                    pushNotificationModel.getQuestion_id()
+                                )
                                 intent.putExtras(bundleintent)
                                 startActivity(intent)
                             }
                         }
                         if (pushNotificationModel.getTrigger() == ConstantKey.PUSH_CONVERSATION) {
                             val bundle1 = Bundle()
-                            bundle1.putInt(ConstantKey.PUSH_CONVERSATION_ID, pushNotificationModel.getConversation_id())
+                            bundle1.putInt(
+                                ConstantKey.PUSH_CONVERSATION_ID,
+                                pushNotificationModel.getConversation_id()
+                            )
                             val graph = navController!!.graph
                             graph.startDestination = R.id.navigation_inbox
                             navController!!.setGraph(graph, bundle1)
@@ -140,7 +171,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         setNavClick()
         accountDetails
         goToFragment()
-        //balance
+        // balance
         onNavClick()
     }
 
@@ -233,38 +264,78 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         if (status == "LARGE") {
             when (itemId) {
                 0 -> {
-                    item!!.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_home_medium))
+                    item!!.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_home_medium
+                        )
+                    )
                     navT1!!.visibility = View.VISIBLE
                 }
                 1 -> {
-                    item!!.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_explore_medium))
+                    item!!.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_explore_medium
+                        )
+                    )
                     navT2!!.visibility = View.VISIBLE
                 }
                 3 -> {
-                    item!!.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_chats_medium))
+                    item!!.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_chats_medium
+                        )
+                    )
                     navT4!!.visibility = View.VISIBLE
                 }
                 4 -> {
-                    item!!.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_profile_medium))
+                    item!!.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_profile_medium
+                        )
+                    )
                     navT5!!.visibility = View.VISIBLE
                 }
             }
         } else {
             when (itemId) {
                 0 -> {
-                    item!!.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_home_small))
+                    item!!.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_home_small
+                        )
+                    )
                     navT1!!.visibility = View.INVISIBLE
                 }
                 1 -> {
-                    item!!.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_explore_small))
+                    item!!.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_explore_small
+                        )
+                    )
                     navT2!!.visibility = View.INVISIBLE
                 }
                 3 -> {
-                    item!!.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_chats_small))
+                    item!!.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_chats_small
+                        )
+                    )
                     navT4!!.visibility = View.INVISIBLE
                 }
                 4 -> {
-                    item!!.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_profile_small))
+                    item!!.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_profile_small
+                        )
+                    )
                     navT5!!.visibility = View.INVISIBLE
                 }
             }
@@ -272,10 +343,31 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     }
 
     private fun goToFragment() {
-        if (intent.getBooleanExtra(ConstantKey.GO_TO_MY_JOBS, false)) navController!!.navigate(R.id.navigation_my_tasks) else if (intent.getBooleanExtra(ConstantKey.GO_TO_HOME, false)) navController!!.navigate(R.id.navigation_new_task) else if (intent.getBooleanExtra(ConstantKey.GO_TO_EXPLORE, false)) navController!!.navigate(R.id.navigation_browse) else if (intent.getBooleanExtra(ConstantKey.GO_TO_CHAT, false)) navController!!.navigate(R.id.navigation_inbox) else if (intent.getBooleanExtra(ConstantKey.GO_TO_PROFILE, false)) navController!!.navigate(R.id.navigation_profile)
+        when {
+            intent.getBooleanExtra(
+                ConstantKey.GO_TO_MY_JOBS,
+                false
+            ) -> navController!!.navigate(R.id.navigation_my_tasks)
+            intent.getBooleanExtra(
+                ConstantKey.GO_TO_HOME,
+                false
+            ) -> navController!!.navigate(R.id.navigation_new_task)
+            intent.getBooleanExtra(
+                ConstantKey.GO_TO_EXPLORE,
+                false
+            ) -> navController!!.navigate(R.id.navigation_browse)
+            intent.getBooleanExtra(
+                ConstantKey.GO_TO_CHAT,
+                false
+            ) -> navController!!.navigate(R.id.navigation_inbox)
+            intent.getBooleanExtra(
+                ConstantKey.GO_TO_PROFILE,
+                false
+            ) -> navController!!.navigate(R.id.navigation_profile)
+        }
 
-        //TODO: when this activity is opening again, (for second time) tool bar background becomes white.
-        //the workaround is here but need to fix it in true way.
+        // TODO: when this activity is opening again, (for second time) tool bar background becomes white.
+        // the workaround is here but need to fix it in true way.
         toolbar!!.setBackgroundResource(R.color.backgroundLightGrey)
     }
 
@@ -294,15 +386,26 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         OneSignal.setExternalUserId(sessionManager!!.userAccount.id.toString())
         OneSignal.setEmail(sessionManager!!.userAccount.email)
         OneSignal.sendTag("Email", sessionManager!!.userAccount.email)
-        OneSignal.sendTag("Name", sessionManager!!.userAccount.fname +" " + sessionManager!!.userAccount.lname)
-        OneSignal.sendTag("Mobile", sessionManager!!.userAccount.fname + sessionManager!!.userAccount.mobile)
-        OneSignal.sendTag("Location", sessionManager!!.userAccount.fname + sessionManager!!.userAccount.location)
+        OneSignal.sendTag(
+            "Name",
+            sessionManager!!.userAccount.fname + " " + sessionManager!!.userAccount.lname
+        )
+        OneSignal.sendTag(
+            "Mobile",
+            sessionManager!!.userAccount.fname + sessionManager!!.userAccount.mobile
+        )
+        OneSignal.sendTag(
+            "Location",
+            sessionManager!!.userAccount.fname + sessionManager!!.userAccount.location
+        )
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        return (NavigationUI.navigateUp(navController, appBarConfiguration!!)
-                || super.onSupportNavigateUp())
+        return (
+            NavigationUI.navigateUp(navController, appBarConfiguration!!) ||
+                super.onSupportNavigateUp()
+            )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -348,21 +451,22 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         try {
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
-            sendIntent.putExtra(Intent.EXTRA_TEXT,
-                    """
+            sendIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                """
 
 https://play.google.com/store/apps/details?id=$packageName
  Sponsor code : ${sessionManager1!!.userAccount.fname}
 
 ThankYou
-Team ${resources.getString(R.string.app_name)}""")
+Team ${resources.getString(R.string.app_name)}"""
+            )
             sendIntent.type = "text/plain"
             startActivity(sendIntent)
         } catch (e: Exception) {
             Timber.d(e.message)
         }
     }
-
 
     override fun onBackPressed() {
         linFilterExplore!!.visibility = View.GONE
@@ -380,9 +484,8 @@ Team ${resources.getString(R.string.app_name)}""")
         }
     }
 
-
     override fun updatedSuccesfully(path: String) {
-        //ImageUtil.displayImage(imgUserAvatar, path, null)
+        // ImageUtil.displayImage(imgUserAvatar, path, null)
     }
 
     override fun updateProfile() {}
@@ -394,10 +497,11 @@ Team ${resources.getString(R.string.app_name)}""")
         HOME, MY_JOBS, EXPLORE, CHAT, PROFILE, INVITE
     }
 
-
     private val accountDetails: Unit
         get() {
-            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_GET_ACCOUNT,
+            val stringRequest: StringRequest =
+                object : StringRequest(
+                    Method.GET, Constant.URL_GET_ACCOUNT,
                     Response.Listener { response: String? ->
                         try {
                             val jsonObject = JSONObject(response!!)
@@ -409,24 +513,32 @@ Team ${resources.getString(R.string.app_name)}""")
                                 val gson = Gson()
                                 val filterModel = FilterModel()
                                 val data = gson.fromJson(response, AccountResponse::class.java)
-                                filterModel.distance = data.data!!.browsejobs_default_filters!!.distance
+                                filterModel.distance =
+                                    data.data!!.browsejobs_default_filters!!.distance
                                 filterModel.latitude = data.data.position!!.latitude.toString()
                                 filterModel.logitude = data.data.position.longitude.toString()
                                 filterModel.location = data.data.location
-                                filterModel.price = (data.data.browsejobs_default_filters!!.min_price
-                                        + "$-" + data.data.browsejobs_default_filters.max_price + "$")
+                                filterModel.price =
+                                    (
+                                        data.data.browsejobs_default_filters!!.min_price +
+                                            "$-" + data.data.browsejobs_default_filters.max_price + "$"
+                                        )
                                 filterModel.section = Constant.FILTER_ALL
                                 sessionManager1!!.filter = filterModel
                             } else if (!sessionManager1!!.filter.location.contains(",")) {
                                 val gson = Gson()
                                 val filterModel = FilterModel()
                                 val data = gson.fromJson(response, AccountResponse::class.java)
-                                filterModel.distance = data.data!!.browsejobs_default_filters!!.distance
+                                filterModel.distance =
+                                    data.data!!.browsejobs_default_filters!!.distance
                                 filterModel.latitude = data.data.position!!.latitude.toString()
                                 filterModel.logitude = data.data.position.longitude.toString()
                                 filterModel.location = data.data.location
-                                filterModel.price = (data.data.browsejobs_default_filters!!.min_price
-                                        + "$-" + data.data.browsejobs_default_filters.max_price + "$")
+                                filterModel.price =
+                                    (
+                                        data.data.browsejobs_default_filters!!.min_price +
+                                            "$-" + data.data.browsejobs_default_filters.max_price + "$"
+                                        )
                                 filterModel.section = Constant.FILTER_ALL
                                 sessionManager1!!.filter = filterModel
                             }
@@ -438,18 +550,22 @@ Team ${resources.getString(R.string.app_name)}""")
                             e.printStackTrace()
                         }
                     },
-                    Response.ErrorListener { error: VolleyError? -> }) {
-                override fun getHeaders(): Map<String, String> {
-                    val map1: MutableMap<String, String> = HashMap()
-                    map1["authorization"] = sessionManager1!!.tokenType + " " + sessionManager1!!.accessToken
-                    map1["Content-Type"] = "application/x-www-form-urlencoded"
-                    map1["X-Requested-With"] = "XMLHttpRequest"
-                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                    return map1
+                    Response.ErrorListener { error: VolleyError? -> }
+                ) {
+                    override fun getHeaders(): Map<String, String> {
+                        val map1: MutableMap<String, String> = HashMap()
+                        map1["authorization"] =
+                            sessionManager1!!.tokenType + " " + sessionManager1!!.accessToken
+                        map1["Content-Type"] = "application/x-www-form-urlencoded"
+                        map1["X-Requested-With"] = "XMLHttpRequest"
+                        map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                        return map1
+                    }
                 }
-            }
-            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
             val requestQueue = Volley.newRequestQueue(this@DashboardActivity)
             requestQueue.add(stringRequest)
         }
@@ -457,12 +573,14 @@ Team ${resources.getString(R.string.app_name)}""")
     private fun launchMarket() {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(
-                "https://play.google.com/store/apps/details?id=com.jobtick.android")
+            "https://play.google.com/store/apps/details?id=com.jobtick.android"
+        )
         intent.setPackage("com.android.vending")
         try {
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(this@DashboardActivity, " unable to find market app", Toast.LENGTH_LONG).show()
+            Toast.makeText(this@DashboardActivity, " unable to find market app", Toast.LENGTH_LONG)
+                .show()
         }
     }
 

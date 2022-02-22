@@ -132,7 +132,7 @@ public class AddBillingReqFragment extends Fragment implements TextWatcher, Subu
         }
 
         edtSuburs.setExtendedViewOnClickListener(() -> {
-            SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this, true);
+            SearchSuburbBottomSheet infoBottomSheet = new SearchSuburbBottomSheet(this, true,"");
             infoBottomSheet.show(getParentFragmentManager(), null);
         });
     }

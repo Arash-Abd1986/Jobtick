@@ -30,14 +30,24 @@
         android:gravity="start"
         android:paddingTop="@dimen/_40dp"
         android:text="Job location"
-        android:textAppearance="@style/materialText_400_16"
+        android:textAppearance="@style/materialText_W500_14"
         android:textColor="@color/colorAccent" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:gravity="start"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/txt_title"
+        android:textAppearance="@style/materialText_W500_14"
+        android:textColor="@color/N600" />
     <LinearLayout
         android:id="@+id/lin_search"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_below="@+id/txt_title"
+        android:layout_below="@+id/txt_description"
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_marginEnd="@dimen/spacing_large"

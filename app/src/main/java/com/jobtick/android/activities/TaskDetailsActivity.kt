@@ -2655,7 +2655,7 @@ class TaskDetailsActivity :
     private fun showCancelledCard() {
         showAlertBox(
             Html.fromHtml("This job has been canceled"),
-            ConstantKey.BTN_POST_NEW_JOB_PLUS, AlertType.CANCELLED, false, hasTopColor = true
+            ConstantKey.BTN_EXPLORE_MORE_JOBS, AlertType.CANCELLED, true, hasTopColor = true
         )
     }
 
@@ -2884,8 +2884,11 @@ class TaskDetailsActivity :
                 startActivityForResult(intent, ConstantKey.RESULTCODE_WRITE_REVIEW)
             }
             AlertType.CANCELLED -> {
-                val infoBottomSheet = CategoryListBottomSheet(sessionManager)
-                infoBottomSheet.show(supportFragmentManager, null)
+                val intent = Intent(this@TaskDetailsActivity, DashboardActivity::class.java)
+                val bundle = Bundle()
+                bundle.putBoolean(ConstantKey.GO_TO_EXPLORE, true)
+                intent.putExtras(bundle)
+                startActivity(intent)
             }
             AlertType.CONFIRM_RELEASE -> {
                 showCustomDialogReleaseMoney()

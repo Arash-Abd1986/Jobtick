@@ -131,7 +131,7 @@
                         android:layout_gravity="center"
                         android:adjustViewBounds="true"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_boronz_selected" />
+                        android:src="@drawable/ic_level1_active" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -173,7 +173,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:background="@drawable/radio_portfolio"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/N600"
 
                         android:button="@null"
                         android:checked="true"
@@ -758,7 +758,7 @@
         android:layout_marginBottom="@dimen/_10sp"
         android:singleLine="true"
         android:text="@string/review"
-        android:textColor="@color/colorPrimary" />
+        android:textColor="@color/N600" />
 
     <LinearLayout
         android:layout_width="match_parent"

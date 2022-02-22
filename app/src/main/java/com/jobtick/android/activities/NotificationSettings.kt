@@ -1,20 +1,11 @@
 package com.jobtick.android.activities
 
-import com.jobtick.android.activities.ActivityBase
-import android.annotation.SuppressLint
-import butterknife.BindView
-import com.jobtick.android.R
-import com.google.android.material.appbar.MaterialToolbar
-import com.jobtick.android.widget.ExtendedSettingItem
-import android.os.Bundle
-import butterknife.ButterKnife
-import butterknife.OnClick
 import android.content.Intent
+import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import com.jobtick.android.activities.EmailNotificationsSettingsActivity
-import com.jobtick.android.activities.PushNotificationsSettingsActivity
-import com.jobtick.android.activities.SMSNotificationsSettingsActivity
+import com.google.android.material.appbar.MaterialToolbar
+import com.jobtick.android.R
+import com.jobtick.android.widget.ExtendedSettingItem
 
 class NotificationSettings : ActivityBase() {
     private lateinit var toolbar: MaterialToolbar
@@ -33,8 +24,11 @@ class NotificationSettings : ActivityBase() {
     private fun initIDS() {
         toolbar = findViewById(R.id.toolbar)
         rtlBtnEmailNotification = findViewById(R.id.email_notifications)
+        rtlBtnEmailNotification.setDrawableID(R.drawable.ic_mail_v2)
         rtlBtnPushNotifications = findViewById(R.id.push_notifications)
+        rtlBtnPushNotifications.setDrawableID(R.drawable.ic_bell_v2)
         rtlBtnSMSNotifications = findViewById(R.id.sms_notifications)
+        rtlBtnSMSNotifications.setDrawableID(R.drawable.ic_sms)
     }
 
     private fun initToolbar() {

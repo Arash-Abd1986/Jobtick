@@ -26,12 +26,13 @@
             android:text="Date of birth"
             android:textAppearance="@style/materialText_500_14"
             android:textColor="@color/textColor" />
+
         <CalendarView
-            android:layout_below="@+id/title"
             android:id="@+id/calenderView"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="10dp" />
     <LinearLayout
 
         android:id="@+id/lyt_button"
@@ -47,18 +48,17 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_decline"
-            style="@style/materialButton"
+            style="@style/materialButtonDecline"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
-            android:background="@drawable/rectangle_card_round_corners_outlined_blue"
             android:textColor="@color/colorAccent"
             android:text="Cancel" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_accept"
-            style="@style/materialButton"
+            style="@style/materialButtonAccept"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginStart="4dp"

@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
+<LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:orientation="horizontal">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/delete_bank_account"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="8dp"
+            app:srcCompat="@drawable/ic_trash_v3"
+            />
+        <com.jobtick.android.text_view.TextViewMedium
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:inputType="number"
+            android:text="My account"
+            android:textColor="@color/N100"
+            android:textSize="@dimen/_14sp" />
+
+
+    </LinearLayout>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="135dp"
@@ -78,17 +107,6 @@
         android:layout_marginTop="@dimen/spacing_large"
         android:orientation="horizontal">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/delete_bank_account"
-            style="@style/materialButton.outlined"
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:text="@string/delete"
-            android:textColor="@color/strokeRed"
-            app:strokeColor="@color/strokeRed" />
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_bank_account"
@@ -101,4 +119,4 @@
             android:text="@string/edit" />
 
     </LinearLayout>
-</merge>
+</LinearLayout>

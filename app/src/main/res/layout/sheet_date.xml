@@ -23,6 +23,7 @@
         android:visibility="gone"/>
 
     <CalendarView
+        android:theme="@style/MyDatePickerDialogTheme"
         android:id="@+id/calenderView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

@@ -29,11 +29,11 @@ import com.jobtick.android.models.response.searchsuburb.SearchSuburbResponse
 import com.jobtick.android.utils.Constant
 import com.tapadoo.alerter.Alerter
 import org.json.JSONObject
-import java.util.*
 
 class SearchSuburbBottomSheet(
     private val subClickListener: SubClickListener,
-    val justLocality: Boolean = true
+    val justLocality: Boolean = true,
+    val message: String = ""
 ) : BottomSheetDialogFragment(), SuburbSearchAdapter.DismissListener {
     var recyclerViewCategories: RecyclerView? = null
     var input: TextInputEditText? = null
@@ -47,12 +47,12 @@ class SearchSuburbBottomSheet(
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.bottomsheet_search_suburb, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,18 +88,18 @@ class SearchSuburbBottomSheet(
         recyclerViewCategories!!.adapter = adapter
     }
 
-
     fun getTaskCategoryData(searchTxt: String) {
         val qParams =
             if (justLocality) "&cachebuster=1609011136601&autocomplete=true&country=au&types=locality&language=en&languageMode=strict"
             else
                 "&cachebuster=1609011136601&autocomplete=true&country=au&language=en&fuzzyMatch=false&routing=false&languageMode=strict"
-        val stringRequest: StringRequest = object : StringRequest(Method.GET,
+        val stringRequest: StringRequest = object : StringRequest(
+            Method.GET,
             Constant.MAP_BOX_BASE_URL + searchTxt.replace(
                 " ",
                 "%20"
             ) + ".json" + "?" + "access_token=" + Constant.MAPBOX_API_KEY +
-                    qParams,
+                qParams,
             Response.Listener { response: String? ->
                 try {
                     val jsonObject = JSONObject(response!!)
@@ -114,7 +114,8 @@ class SearchSuburbBottomSheet(
                     e.printStackTrace()
                 }
             },
-            Response.ErrorListener { error: VolleyError? -> }) {
+            Response.ErrorListener { error: VolleyError? -> }
+        ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["Content-Type"] = "application/x-www-form-urlencoded"
@@ -136,6 +137,4 @@ class SearchSuburbBottomSheet(
             .setBackgroundResource(R.color.colorRedError)
             .show()
     }
-
-
 }

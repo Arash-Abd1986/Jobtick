@@ -4,11 +4,20 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.CompoundButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.RadioButton
+import android.widget.RatingBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatRatingBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.*
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.appbar.MaterialToolbar
@@ -19,12 +28,16 @@ import com.jobtick.android.adapers.ReviewAdapter
 import com.jobtick.android.models.ReviewModel
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.pagination.PaginationListener
-import com.jobtick.android.utils.*
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.CustomToast
+import com.jobtick.android.utils.HttpStatus
+import com.jobtick.android.utils.ImageUtil
+import com.jobtick.android.utils.SessionManager
 import com.mikhaellopez.circularimageview.CircularImageView
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 
 class ReviewsActivity : ActivityBase() {
     private val currentPage = PaginationListener.PAGE_START
@@ -156,23 +169,23 @@ class ReviewsActivity : ActivityBase() {
         if (poster.isChecked) {
             lytTicker.visibility = View.GONE
             lytPoster.visibility = View.VISIBLE
-            poster.setTextColor(resources.getColor(R.color.blue))
+            poster.setTextColor(resources.getColor(R.color.N100))
             ticker.setTextColor(resources.getColor(R.color.textColor))
             whoIs = "poster"
         } else {
             poster.setTextColor(resources.getColor(R.color.textColor))
-            ticker.setTextColor(resources.getColor(R.color.blue))
+            ticker.setTextColor(resources.getColor(R.color.N100))
             whoIs = "worker"
         }
         if (ticker.isChecked) {
-            ticker.setTextColor(resources.getColor(R.color.blue))
+            ticker.setTextColor(resources.getColor(R.color.N100))
             poster.setTextColor(resources.getColor(R.color.textColor))
             lytTicker.visibility = View.VISIBLE
             lytPoster.visibility = View.GONE
             whoIs = "worker"
         } else {
-            ticker.setTextColor(resources.getColor(R.color.textColor))
-            poster.setTextColor(resources.getColor(R.color.blue))
+            ticker.setTextColor(resources.getColor(R.color.N100))
+            poster.setTextColor(resources.getColor(R.color.N600))
             whoIs = "poster"
         }
         reviewList
@@ -186,10 +199,10 @@ class ReviewsActivity : ActivityBase() {
             imgVerifiedAccount.visibility = View.GONE
         }
         when (userAccountModel!!.posterTier.id) {
-            1 -> ivMedal.setImageResource(R.drawable.ic_boronz_selected)
-            2 -> ivMedal.setImageResource(R.drawable.ic_silver_selected)
-            3 -> ivMedal.setImageResource(R.drawable.ic_gold_selected)
-            4 -> ivMedal.setImageResource(R.drawable.ic_max_selected)
+            1 -> ivMedal.setImageResource(R.drawable.ic_level1_active)
+            2 -> ivMedal.setImageResource(R.drawable.ic_level2_active)
+            3 -> ivMedal.setImageResource(R.drawable.ic_level3_active)
+            4 -> ivMedal.setImageResource(R.drawable.ic_level4_active)
         }
         if (userAccountModel!!.avatar != null) {
             ImageUtil.displayImage(imgAvatar, userAccountModel!!.avatar.thumbUrl, null)

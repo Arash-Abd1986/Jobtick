@@ -326,7 +326,7 @@
     <string name="estimated_budget">Estimated budget:</string>
     <string name="job_title">Job title</string>
     <string name="writeTitleForJob">Write a title for you job</string>
-    <string name="job_description">Job description</string>
+    <string name="job_description">Describe your job</string>
     <string name="can_the_job_be_done_remotely">Can the job be done remotely?</string>
     <string name="write_maximum_three_things_you_expect">Write maximum 3 things you expect from Ticker before he/she makes offer. \nFor example:
 </string>

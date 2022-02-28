@@ -1701,9 +1701,10 @@ class TaskDetailsActivity :
                 assignedTitle.text = "Completed by"
             } else if (taskModel!!.status!!.equals("assigned", ignoreCase = true)) {
                 lnAssignTo.setBackgroundResource(R.drawable.rectangle_round_corners_yellow_8dp)
-                if (isUserTheTicker)
+                if (isUserTheTicker) {
                     assignedTitle.text = "My offer"
-                else
+                    // offerMessage()
+                } else
                     assignedTitle.text = "Assigned to"
             }
 
@@ -1711,6 +1712,16 @@ class TaskDetailsActivity :
                 lnAssignTo.setBackgroundResource(R.drawable.rectangle_card_round_red_6dp_radius)
             }
         }
+    }
+
+    private fun offerMessage() {
+        showAlertBox(
+            Html.fromHtml(
+                "You have sent an offer to this job on <b>" +
+                    "" + "</b>"
+            ),
+            null, AlertType.ASK_TO_RELEASE, false, hasTopColor = false
+        )
     }
 
     private fun showOffer(offer: OfferModel?, isAssigned: Boolean, isMyOffer: Boolean) {

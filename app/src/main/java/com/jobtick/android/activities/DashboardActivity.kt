@@ -45,7 +45,6 @@ import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.Navigator
 import com.jobtick.android.utils.SessionManager
 import com.onesignal.OneSignal
-import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 
@@ -546,7 +545,7 @@ Team ${resources.getString(R.string.app_name)}"""
                                 sessionManager1!!.latitude = userAccountModel.latitude.toString()
                                 sessionManager1!!.longitude = userAccountModel.longitude.toString()
                             }
-                        } catch (e: JSONException) {
+                        } catch (e: Exception) {
                             e.printStackTrace()
                         }
                     },

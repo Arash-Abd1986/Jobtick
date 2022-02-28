@@ -32,7 +32,11 @@ import com.google.gson.Gson
 import com.jobtick.android.AppController
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
-import com.jobtick.android.activities.*
+import com.jobtick.android.activities.DashboardActivity
+import com.jobtick.android.activities.FiltersActivity
+import com.jobtick.android.activities.MapViewActivity
+import com.jobtick.android.activities.SearchTaskActivity
+import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.adapers.FilterAdapter
 import com.jobtick.android.adapers.TaskListAdapterV2
 import com.jobtick.android.models.FilterModel
@@ -52,8 +56,12 @@ import timber.log.Timber
 /**
  * A simple [Fragment] subclass.
  */
-class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemClickListener,
-    SearchView.OnQueryTextListener, SearchView.OnCloseListener {
+class ExploreFragment :
+    Fragment(),
+    OnRefreshListener,
+    TaskListAdapterV2.OnItemClickListener,
+    SearchView.OnQueryTextListener,
+    SearchView.OnCloseListener {
     private var recyclerViewFilters: RecyclerView? = null
     private var recyclerViewBrowse: RecyclerView? = null
     private var lytBtnFilters: LinearLayout? = null
@@ -89,7 +97,8 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
 
     private val TAG = "explore"
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
@@ -112,14 +121,13 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         emptyFilter = requireView().findViewById(R.id.empty_filter)
         txtNewJob = requireView().findViewById(R.id.txt_new_job)
         linNewMessage = requireView().findViewById(R.id.linNewMessage)
-
     }
 
     private fun initToolbar() {
         if (dashboardActivity == null) return
         toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
         toolbar!!.menu.clear()
-        //toolbar.inflateMenu(R.menu.menu_browse_task);
+        // toolbar.inflateMenu(R.menu.menu_browse_task);
         val ivNotification = dashboardActivity!!.findViewById<ImageView>(R.id.ivNotification)
         linFilterExplore = dashboardActivity!!.findViewById(R.id.lin_filter_explore)
         txtFilter = dashboardActivity!!.findViewById(R.id.txt_filter)
@@ -151,9 +159,7 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         toolbarTitle.layoutParams = params
         setHasOptionsMenu(true)
         toolbar!!.navigationIcon = null
-
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -193,11 +199,15 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
 
     @SuppressLint("LogNotTimber")
     private val onDisconnect = Emitter.Listener { args: Array<Any?>? ->
-        requireActivity().runOnUiThread {
-            Log.i(
-                TAG,
-                "diconnected"
-            )
+        try {
+            requireActivity().runOnUiThread {
+                Log.i(
+                    TAG,
+                    "diconnected"
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -323,7 +333,6 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
                 get() = isLastPageItems
             override val isLoading: Boolean
                 get() = isLoadingItems
-
         })
     }
 
@@ -391,7 +400,7 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
                 onRefresh()
             }
         } else if (requestCode == 202) {
-            //TODO: Do something to show user that he offered on the job.
+            // TODO: Do something to show user that he offered on the job.
         }
     }
 
@@ -436,7 +445,8 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         }
         //        queryParameter = queryParameter + "&hide_assigned=true";
         Helper.closeKeyboard(dashboardActivity)
-        val stringRequest: StringRequest = object : StringRequest(Method.GET,
+        val stringRequest: StringRequest = object : StringRequest(
+            Method.GET,
             Constant.URL_TASKS_v2 + "?page=" + currentPage + queryParameter,
             Response.Listener { response: String? ->
                 Timber.e(response)
@@ -481,7 +491,8 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
                 swipeRefresh!!.isRefreshing = false
                 dashboardActivity!!.hideProgressDialog()
                 dashboardActivity!!.errorHandle1(error.networkResponse)
-            }) {
+            }
+        ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["Content-Type"] = "application/x-www-form-urlencoded"
@@ -506,7 +517,6 @@ class ExploreFragment : Fragment(), OnRefreshListener, TaskListAdapterV2.OnItemC
         taskListAdapter!!.clear()
         doApiCall()
     }
-
 
     override fun onQueryTextSubmit(query: String): Boolean {
         filterModel!!.query = query

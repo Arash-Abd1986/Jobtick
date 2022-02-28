@@ -73,6 +73,8 @@ class PaymentOverviewActivity :
     private val stateRequirement = HashMap<PosterRequirementsBottomSheet.Requirement, Boolean>()
     private var wallet = 0.0
     var found: String? = null
+    var id: String? = null
+    private var amount = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,13 +82,18 @@ class PaymentOverviewActivity :
         setIDs()
         initToolbar()
         val bundle = intent.extras
-        found = bundle!!.getString("found")
-
         userAccountModel = sessionManager.userAccount
         offerModel = OfferModel()
         taskModel = TaskDetailsActivity.taskModel!!
         offerModel = TaskDetailsActivity.offerModel
         gson = Gson()
+        found = bundle!!.getString("found")
+        id = bundle.getString("id")
+        amount = offerModel!!.offerPrice
+        if (found != null) {
+            llCoupon.visibility = View.GONE
+            amount = found!!.toInt()
+        }
         setUpData()
         paymentMethod
         onViewClick()
@@ -119,7 +126,7 @@ class PaymentOverviewActivity :
 
     var addCouponFragment: AddCouponFragment? = null
     private fun setupCoupon(netPayingAmount: Int) {
-        llCoupon.setOnClickListener { v: View? ->
+        llCoupon.setOnClickListener {
             addCouponFragment = AddCouponFragment.newInstance(netPayingAmount)
             addCouponFragment!!.show(supportFragmentManager, "")
         }
@@ -127,11 +134,11 @@ class PaymentOverviewActivity :
             tvCoupon.text = coupon
             relCouponDetails.visibility = View.VISIBLE
         }
-        btnDeleteCoupon.setOnClickListener { v: View? ->
+        btnDeleteCoupon.setOnClickListener {
             coupon = null
             relCouponDetails.visibility = View.GONE
             llCoupon.visibility = View.VISIBLE
-            calculate(offerModel!!.offerPrice.toString() + "")
+            calculate(amount.toString() + "")
         }
     }
 
@@ -146,15 +153,15 @@ class PaymentOverviewActivity :
     private fun setUpData() {
         txtPostTitle.text = taskModel!!.title
         txtUserName.text = taskModel!!.poster.name
-        txtTaskCost.text = String.format(Locale.ENGLISH, "$%d", offerModel!!.offerPrice)
+        txtTaskCost.text = String.format(Locale.ENGLISH, "$%d", amount)
         if (taskModel!!.poster.avatar != null && taskModel!!.poster.avatar.thumbUrl != null) {
             ImageUtil.displayImage(imgAvatar, taskModel!!.poster.avatar.thumbUrl, null)
         } else {
             // TODO set default image
         }
         stateRequirement[PosterRequirementsBottomSheet.Requirement.CreditCard] = false
-        setupCoupon(offerModel!!.offerPrice)
-        calculate(offerModel!!.offerPrice.toFloat().toString())
+        setupCoupon(amount)
+        calculate(amount.toFloat().toString())
     } // map1.put("X-Requested-With", "XMLHttpRequest");// Print Error!
 
     // http request
@@ -267,7 +274,7 @@ class PaymentOverviewActivity :
         } else {
             throw IllegalStateException("There is no wallet value in api using provided format of object.")
         }
-        calculate(offerModel!!.offerPrice.toFloat().toString())
+        calculate(amount.toFloat().toString())
     }
 
     private fun onViewClick() {
@@ -275,7 +282,7 @@ class PaymentOverviewActivity :
             if (found == null) {
                 payAcceptOffer(coupon)
             } else {
-                acceptRequest(found!!)
+                acceptRequest(id!!)
             }
         }
         btnNew.setOnClickListener {
@@ -596,7 +603,7 @@ class PaymentOverviewActivity :
     }
 
     override fun onVerifySubmit(coupon: String?) {
-        calculate(offerModel!!.offerPrice.toString() + "")
+        calculate(amount.toString() + "")
         this.coupon = coupon
         tvCoupon.text = coupon
         llCoupon.visibility = View.GONE

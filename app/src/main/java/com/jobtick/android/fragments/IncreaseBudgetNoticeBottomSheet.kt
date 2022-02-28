@@ -41,7 +41,7 @@ class IncreaseBudgetNoticeBottomSheet : AbstractStateExpandedBottomSheet() {
     var btnWithdraw: Button? = null
     var llAcceptDecline: LinearLayout? = null
     var llWithDraw: LinearLayout? = null
-    protected var pDialog: ProgressDialog? = null
+    private var pDialog: ProgressDialog? = null
     private var taskModel: TaskModel? = null
     private var sessionManager: SessionManager? = null
     private var listener: NoticeListener? = null
@@ -77,7 +77,8 @@ class IncreaseBudgetNoticeBottomSheet : AbstractStateExpandedBottomSheet() {
             dismiss()
             val intent = Intent(requireContext(), PaymentOverviewActivity::class.java)
             val bundle = Bundle()
-            bundle.putString("found", taskModel!!.additionalFund.id.toString())
+            bundle.putString("found", taskModel!!.additionalFund.amount.toString())
+            bundle.putString("id", taskModel!!.additionalFund.id.toString())
             TaskDetailsActivity.offerModel =
                 taskModel!!.offers.filter { it.worker.id == taskModel!!.worker.id }[0]
             intent.putExtras(bundle)
@@ -121,7 +122,7 @@ class IncreaseBudgetNoticeBottomSheet : AbstractStateExpandedBottomSheet() {
             },
             Response.ErrorListener { error: VolleyError ->
                 val networkResponse = error.networkResponse
-                if (networkResponse != null && networkResponse.data != null) {
+                if (networkResponse?.data != null) {
                     val jsonError = String(networkResponse.data)
                     // Print Error!
                     Timber.e(jsonError)
@@ -132,23 +133,23 @@ class IncreaseBudgetNoticeBottomSheet : AbstractStateExpandedBottomSheet() {
                     }
                     try {
                         val jsonObject = JSONObject(jsonError)
-                        val jsonObject_error = jsonObject.getJSONObject("error")
-                        if (jsonObject_error.has("errors")) {
-                            val jsonObject_errors = jsonObject_error.getJSONObject("errors")
-                            if (jsonObject_errors.has("amount") && !jsonObject_errors.isNull("amount")) {
-                                val jsonArray_amount = jsonObject_errors.getJSONArray("amount")
+                        val jsonObjectError = jsonObject.getJSONObject("error")
+                        if (jsonObjectError.has("errors")) {
+                            val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
+                            if (jsonObjectErrors.has("amount") && !jsonObjectErrors.isNull("amount")) {
+                                val jsonArrayAmount = jsonObjectErrors.getJSONArray("amount")
                                 (requireActivity() as ActivityBase).showToast(
-                                    jsonArray_amount.getString(
+                                    jsonArrayAmount.getString(
                                         0
                                     ),
                                     requireContext()
                                 )
-                            } else if (jsonObject_errors.has("creation_reason") && !jsonObject_errors.isNull(
+                            } else if (jsonObjectErrors.has("creation_reason") && !jsonObjectErrors.isNull(
                                     "creation_reason"
                                 )
                             ) {
                                 val jsonArray_amount =
-                                    jsonObject_errors.getJSONArray("creation_reason")
+                                    jsonObjectErrors.getJSONArray("creation_reason")
                                 (requireActivity() as ActivityBase).showToast(
                                     jsonArray_amount.getString(
                                         0
@@ -157,9 +158,9 @@ class IncreaseBudgetNoticeBottomSheet : AbstractStateExpandedBottomSheet() {
                                 )
                             }
                         } else {
-                            if (jsonObject_error.has("message")) {
+                            if (jsonObjectError.has("message")) {
                                 (requireActivity() as ActivityBase).showToast(
-                                    jsonObject_error.getString(
+                                    jsonObjectError.getString(
                                         "message"
                                     ),
                                     requireContext()

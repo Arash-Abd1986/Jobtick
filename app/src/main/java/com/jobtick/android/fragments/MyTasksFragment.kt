@@ -446,7 +446,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
         }
 
     private fun resetTaskListAdapter() {
-        taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id, false)
+        taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount, false)
         taskListAdapter!!.setOnItemClickListener(this)
         taskListAdapter!!.onDraftDeleteListener = this
         recyclerViewStatus!!.adapter = taskListAdapter

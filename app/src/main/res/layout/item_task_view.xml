@@ -1,245 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="6dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="6dp"
-    android:background="@drawable/shape_rounded_back_white_button_active_r8">
-
-    <View
-        android:id="@+id/card_task_background"
-        android:layout_width="26dp"
-        android:layout_height="2dp"
-        android:layout_marginStart="16dp"
-        android:background="@color/red" />
-
+    android:orientation="vertical"
+    >
+<include
+    android:id="@+id/job_alert_card"
+    layout="@layout/card_job_allert"/>
+<include
+    android:id="@+id/job_skills_card"
+    layout="@layout/card_skills"/>
     <RelativeLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="12dp">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/shape_rounded_back_white_button_active_r8">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="8dp"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:textAppearance="@style/materialText_400_12"
-            android:textColor="@color/P300"
-            tools:text="Open" />
+        <View
+            android:id="@+id/card_task_background"
+            android:layout_width="26dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="16dp"
+            android:background="@color/red" />
 
         <RelativeLayout
-            android:id="@+id/rl_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_status">
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="12dp">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_title"
+                android:id="@+id/txt_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginEnd="30dp"
-                android:layout_toLeftOf="@+id/txt_budget"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="2"
-                android:textAppearance="@style/materialText_W400_16"
-                android:textColor="@color/N900"
-                tools:text="@string/clean_my_two_bedroom_apartment" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_budget"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="bottom"
-                android:layout_marginEnd="4dp"
-                android:gravity="end|center_vertical"
-                android:textAppearance="@style/materialText_W500_16"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textAppearance="@style/materialText_400_12"
                 android:textColor="@color/P300"
-                tools:text="@string/_200" />
-        </RelativeLayout>
-
-
-        <LinearLayout
-            android:id="@+id/location_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/rl_title"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="6.5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="13dp"
-                android:layout_height="16dp"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_map_pin" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_location"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="4dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:text="@string/no_location_set"
-                android:textAppearance="@style/materialText_W400_14"
-                android:textColor="@color/N300" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/price_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/location_container"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="4dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="13dp"
-                android:layout_height="16dp"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_calendar" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_due_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_marginStart="5dp"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:text="No time set"
-                android:textAppearance="@style/materialText_W400_14"
-                android:textColor="@color/N300" />
+                tools:text="Open" />
 
             <RelativeLayout
-                android:layout_width="75dp"
-                android:layout_height="25dp">
+                android:id="@+id/rl_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_status">
 
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/img_avatar3"
-                    android:layout_width="25dp"
-                    android:layout_height="match_parent"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginEnd="30dp"
+                    android:layout_toLeftOf="@+id/txt_budget"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:textAppearance="@style/materialText_W400_16"
+                    android:textColor="@color/N900"
+                    tools:text="@string/clean_my_two_bedroom_apartment" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_budget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_gravity="center"
-                    android:src="@drawable/pic"
-                    card_view:civ_border="false" />
-
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/img_avatar2"
-                    android:layout_width="25dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="12.5dp"
-                    android:src="@drawable/pic"
-                    card_view:civ_border="false" />
-
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/img_avatar1"
-                    android:layout_width="25dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="25dp"
-                    android:src="@drawable/pic"
-                    card_view:civ_border="false" />
-
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/img_avatar0"
-                    android:layout_width="25dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="40dp"
-                    android:src="@drawable/pic"
-                    card_view:civ_border="false" />
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="4dp"
+                    android:gravity="end|center_vertical"
+                    android:textAppearance="@style/materialText_W500_16"
+                    android:textColor="@color/P300"
+                    tools:text="@string/_200" />
             </RelativeLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_offer_count"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:id="@+id/location_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|start"
-                android:layout_marginStart="4dp"
-                android:backgroundTint="@color/N030"
-                android:gravity="start"
-                android:lines="1"
-                android:paddingStart="4dp"
-                android:paddingTop="3dp"
-                android:paddingEnd="3dp"
-                android:paddingBottom="3dp"
-                android:textAppearance="@style/materialText_400_12"
-                android:textColor="@color/N900"
-                tools:text="99" />
+                android:layout_below="@id/rl_title"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="6.5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_delete"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_map_pin" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/no_location_set"
+                    android:textAppearance="@style/materialText_W400_14"
+                    android:textColor="@color/N300" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/price_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/rectangle_card_round_corners_outlined_red_button"
-                android:drawableStart="@drawable/ic_trash_hollow_red_16dp"
-                android:paddingStart="8dp"
-                android:paddingTop="2dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="2dp"
-                android:text=" Delete"
-                android:textAppearance="@style/materialText_400_12"
-                android:textColor="@color/R300"
-                android:visibility="gone" />
+                android:layout_below="@id/location_container"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_status_draft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|start"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/shape_rounded_gray_light"
-                android:gravity="start"
-                android:lines="1"
-                android:paddingStart="8dp"
-                android:paddingTop="2dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="2dp"
-                android:textAppearance="@style/materialText_400_12"
-                android:textColor="@color/grey_70"
-                android:visibility="gone"
-                tools:text="@string/drafted" />
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_calendar" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_due_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="No time set"
+                    android:textAppearance="@style/materialText_W400_14"
+                    android:textColor="@color/N300" />
+
+                <RelativeLayout
+                    android:layout_width="75dp"
+                    android:layout_height="25dp">
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/img_avatar3"
+                        android:layout_width="25dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/pic"
+                        card_view:civ_border="false" />
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/img_avatar2"
+                        android:layout_width="25dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="12.5dp"
+                        android:src="@drawable/pic"
+                        card_view:civ_border="false" />
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/img_avatar1"
+                        android:layout_width="25dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="25dp"
+                        android:src="@drawable/pic"
+                        card_view:civ_border="false" />
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/img_avatar0"
+                        android:layout_width="25dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="40dp"
+                        android:src="@drawable/pic"
+                        card_view:civ_border="false" />
+                </RelativeLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_offer_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginStart="4dp"
+                    android:backgroundTint="@color/N030"
+                    android:gravity="start"
+                    android:lines="1"
+                    android:paddingStart="4dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="3dp"
+                    android:paddingBottom="3dp"
+                    android:textAppearance="@style/materialText_400_12"
+                    android:textColor="@color/N900"
+                    tools:text="99" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/rectangle_card_round_corners_outlined_red_button"
+                    android:drawableStart="@drawable/ic_trash_hollow_red_16dp"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="2dp"
+                    android:text=" Delete"
+                    android:textAppearance="@style/materialText_400_12"
+                    android:textColor="@color/R300"
+                    android:visibility="gone" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_status_draft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/shape_rounded_gray_light"
+                    android:gravity="start"
+                    android:lines="1"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="2dp"
+                    android:textAppearance="@style/materialText_400_12"
+                    android:textColor="@color/grey_70"
+                    android:visibility="gone"
+                    tools:text="@string/drafted" />
 
 
-        </LinearLayout>
+            </LinearLayout>
 
 
+        </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
 
+</LinearLayout>

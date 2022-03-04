@@ -15,9 +15,17 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.*
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.appbar.MaterialToolbar
 import com.jobtick.android.R
 import com.jobtick.android.adapers.FilterAdapter
@@ -30,11 +38,16 @@ import com.jobtick.android.network.coroutines.Status
 import com.jobtick.android.network.model.request.NearJobsRequest
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.pagination.PaginationListener
-import com.jobtick.android.utils.*
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.CustomInfoWindowForGoogleMap
+import com.jobtick.android.utils.Helper
+import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.Tools
+import com.jobtick.android.utils.dpToPx
 import com.jobtick.android.viewmodel.MapViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Random
 
 
 class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
@@ -95,7 +108,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         // use a linear layout manager
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewTask!!.layoutManager = layoutManager
-        taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id,true)
+        taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount,true)
         recyclerViewTask!!.adapter = taskListAdapter
         taskListAdapter!!.setOnItemClickListener(this)
         doApiCall()

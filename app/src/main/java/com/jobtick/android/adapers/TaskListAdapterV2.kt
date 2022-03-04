@@ -2,15 +2,24 @@ package com.jobtick.android.adapers
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.ButterKnife
+import com.google.android.material.button.MaterialButton
 import com.jobtick.android.R
+import com.jobtick.android.activities.SkillsTagActivity
+import com.jobtick.android.activities.TaskAlertsActivity
+import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.models.response.myjobs.Data
+import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.ImageUtil
 import com.jobtick.android.utils.TimeHelper
 import com.jobtick.android.utils.Tools
@@ -19,13 +28,15 @@ import java.text.ParseException
 
 class TaskListAdapterV2(
     private val mItems: ArrayList<Data> = ArrayList(),
-    private val userId: Int?,
+    private val userAccountModel: UserAccountModel,
     private val isSingleLineBody: Boolean
 ) :
     RecyclerView.Adapter<BaseViewHolder>() {
     private var context: Context? = null
     private var mOnItemClickListener: OnItemClickListener? = null
     var onDraftDeleteListener: OnDraftDeleteListener? = null
+    var showSkills = true
+    var showAlert = true
 
     interface OnItemClickListener {
         fun onItemClick(view: View?, obj: Data?, position: Int, action: String?)
@@ -147,6 +158,12 @@ class TaskListAdapterV2(
         var tvDelete: TextView? = null
         var cardTaskBackground: View? = null
         var content: View? = null
+        var jobAlertCard: View? = null
+        var btnAddAlert: MaterialButton? = null
+        var btnCloseAlert: AppCompatImageView? = null
+        var jobSkillsCard: View? = null
+        var btnAddSkills: MaterialButton? = null
+        var btnCloseSkills: AppCompatImageView? = null
         override fun clear() {}
 
         init {
@@ -164,12 +181,52 @@ class TaskListAdapterV2(
             tvDelete = itemView.findViewById(R.id.tv_delete)
             cardTaskBackground = itemView.findViewById(R.id.card_task_background)
             content = itemView.findViewById(R.id.content)
+            jobAlertCard = itemView.findViewById(R.id.job_alert_card)
+            btnAddAlert = itemView.findViewById(R.id.btn_add_alert)
+            btnCloseAlert = itemView.findViewById(R.id.btn_close_alert)
+            jobSkillsCard = itemView.findViewById(R.id.job_skills_card)
+            btnAddSkills = itemView.findViewById(R.id.btn_add_skills)
+            btnCloseSkills = itemView.findViewById(R.id.btn_close_skills)
         }
 
         @SuppressLint("SetTextI18n")
         override fun onBind(position: Int) {
             super.onBind(position)
             val item = mItems[position]
+
+            if (position == 5 && !userAccountModel.account_status.isJobalerts && showAlert)
+                jobAlertCard!!.visibility = View.VISIBLE
+            else
+                jobAlertCard!!.visibility = View.GONE
+            if (position == 5 && !userAccountModel.account_status.isSkills && showSkills)
+                jobSkillsCard!!.visibility = View.VISIBLE
+            else
+                jobSkillsCard!!.visibility = View.GONE
+
+            btnAddAlert!!.setOnClickListener {
+                val taskAlerts = Intent(context, TaskAlertsActivity::class.java)
+                taskAlerts.addFlags(FLAG_ACTIVITY_NEW_TASK)
+                context!!.startActivity(taskAlerts)
+            }
+            btnAddSkills!!.setOnClickListener {
+                val intent = Intent(context, SkillsTagActivity::class.java)
+                val bundle = Bundle()
+                intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
+                bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel.skills.skills)
+                bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.EXPERIENCE)
+                bundle.putString(ConstantKey.TITLE, "Add your occupation")
+                intent.putExtras(bundle)
+                context!!.startActivity(intent)
+            }
+
+            btnCloseAlert!!.setOnClickListener {
+                jobSkillsCard!!.visibility = View.GONE
+                showSkills = false
+            }
+            btnCloseAlert!!.setOnClickListener {
+                jobAlertCard!!.visibility = View.GONE
+                showAlert = false
+            }
             if (isSingleLineBody)
                 txtTitle!!.maxLines = 1
             else
@@ -258,7 +315,7 @@ class TaskListAdapterV2(
                 imgAvatar2!!.visibility = View.GONE
                 imgAvatar1!!.visibility = View.GONE
                 imgAvatar0!!.visibility = View.GONE
-                //imgAvatar3.setImageResource(R.drawable.pic);
+                // imgAvatar3.setImageResource(R.drawable.pic);
                 txtOfferCount!!.text = ""
             } else {
                 imgAvatar3!!.visibility = View.GONE
@@ -267,7 +324,7 @@ class TaskListAdapterV2(
                 imgAvatar0!!.visibility = View.GONE
                 txtOfferCount!!.text = ""
                 txtOfferCount!!.setTextColor(ContextCompat.getColor(context!!, R.color.N300))
-                //imgAvatar3.setImageResource(R.drawable.pic);
+                // imgAvatar3.setImageResource(R.drawable.pic);
             }
             txtTitle!!.text = item.title
             txtDueDate!!.text = TimeHelper.convertToWeekDateFormatV2(item.due_date)
@@ -360,7 +417,12 @@ class TaskListAdapterV2(
                     cardTaskBackground!!.background = ContextCompat.getDrawable(
                         context!!, R.drawable.shape_rounded_offered
                     )
-                    txtStatus!!.setTextColor(ContextCompat.getColor(context!!, R.color.myJobsColorTaskOfferTrans))
+                    txtStatus!!.setTextColor(
+                        ContextCompat.getColor(
+                            context!!,
+                            R.color.myJobsColorTaskOfferTrans
+                        )
+                    )
                 }
                 "closed" -> {
                     txtStatus!!.visibility = View.VISIBLE
@@ -395,10 +457,10 @@ class TaskListAdapterV2(
 //                txtStatus.setText("Posted");
 //            } else
             when {
-                userId != null && userId == item.poster_id && item.status == "open" && item.offers!!.isNotEmpty() -> {
+                userAccountModel.id == item.poster_id && item.status == "open" && item.offers!!.isNotEmpty() -> {
                     txtStatus!!.text = "Offered"
                 }
-                userId != null && userId == item.poster_id && item.status == "open" -> {
+                userAccountModel.id == item.poster_id && item.status == "open" -> {
                     txtStatus!!.text = "Posted"
                 }
                 item.status.equals("open", ignoreCase = true) -> {

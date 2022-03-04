@@ -17,12 +17,9 @@ import com.jobtick.android.adapers.AddTagAdapterV2
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.coroutines.Status
 import com.jobtick.android.network.retrofit.ApiClient
-import com.jobtick.android.utils.*
+import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.viewmodel.EditAccountViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
-import java.util.*
-import kotlin.collections.ArrayList
-
 
 class SkillsTagActivity : ActivityBase() {
     private var recyclerView: RecyclerView? = null
@@ -46,7 +43,7 @@ class SkillsTagActivity : ActivityBase() {
     private lateinit var viewModel: EditAccountViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_skills_tag)
         setIDs()
@@ -72,7 +69,7 @@ class SkillsTagActivity : ActivityBase() {
             edtAddTag!!.doOnTextChanged { text, start, before, count ->
                 viewModel.getSkills(text.toString())
             }
-        }else{
+        } else {
             recyclerViewSuggest!!.visibility = View.GONE
             suggestsTitle!!.visibility = View.GONE
             skillsTitle!!.visibility = View.GONE
@@ -85,7 +82,6 @@ class SkillsTagActivity : ActivityBase() {
             this,
             ViewModelFactory(ApiHelper(ApiClient.getClientV1WithToken(sessionManager)))
         ).get(EditAccountViewModel::class.java)
-
 
         viewModel.response.observe(this, {
             it?.let {
@@ -157,7 +153,10 @@ class SkillsTagActivity : ActivityBase() {
     private fun updateSkillsTag() {
         val intent = Intent()
         intent.putExtra(ConstantKey.SKILLS, addTagList)
-        if (actionBatTitle.equals(ConstantKey.TRANSPORTATION, ignoreCase = true)) setResult(1, intent)
+        if (actionBatTitle.equals(ConstantKey.TRANSPORTATION, ignoreCase = true)) setResult(
+            1,
+            intent
+        )
         if (actionBatTitle.equals(ConstantKey.LANGUAGE, ignoreCase = true)) setResult(2, intent)
         if (actionBatTitle.equals(ConstantKey.EDUCATION, ignoreCase = true)) setResult(3, intent)
         if (actionBatTitle.equals(ConstantKey.EXPERIENCE, ignoreCase = true)) setResult(4, intent)
@@ -175,12 +174,12 @@ class SkillsTagActivity : ActivityBase() {
 
     private fun init() {
         edtAddTag!!.hint = title
-        if (addTagList.isNullOrEmpty()){
+        if (addTagList.isNullOrEmpty()) {
             skillsTitle!!.visibility = View.GONE
         }
         val mLayoutManager = GridLayoutManager(this, 2)
         recyclerView!!.setLayoutManager(mLayoutManager)
-       // recyclerView!!.addItemDecoration(SpacingItemDecoration(1, Tools.dpToPx(this@SkillsTagActivity, 5), true))
+        // recyclerView!!.addItemDecoration(SpacingItemDecoration(1, Tools.dpToPx(this@SkillsTagActivity, 5), true))
         recyclerView!!.setHasFixedSize(true)
         adapter = AddTagAdapterV2(addTagList, true) { data: String? ->
             addTagList!!.remove(data)

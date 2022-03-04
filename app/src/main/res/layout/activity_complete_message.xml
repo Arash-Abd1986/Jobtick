@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginHorizontal="16dp"
             android:text="Job Posted Successfully"
             android:textColor="@color/textColor"
             android:textSize="14sp" />
@@ -45,6 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginHorizontal="16dp"
             android:lineSpacingExtra="@dimen/spacing_medium"
             android:text="Uploaded photos requires our team’s approval.\nProcess may take up to 2 hours."
             android:textColor="@color/grey_40"

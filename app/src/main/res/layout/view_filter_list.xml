@@ -5,6 +5,7 @@
     android:layout_height="32dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="10dp"
+    android:layout_marginStart="@dimen/_8dp"
     android:orientation="horizontal"
     android:background="@color/transparent"
     android:id="@+id/filter_container"
@@ -13,7 +14,6 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:backgroundTint="@color/colorPrimary"
         android:elevation="3dp"
         app:cardCornerRadius="6dp">
@@ -25,6 +25,7 @@
             android:background="?attr/selectableItemBackground"
             android:orientation="horizontal"
             android:paddingStart="@dimen/spacing_middle"
+            android:visibility="gone"
             android:paddingTop="@dimen/spacing_xmedium"
             android:paddingEnd="@dimen/spacing_middle"
             android:paddingBottom="@dimen/spacing_xmedium">

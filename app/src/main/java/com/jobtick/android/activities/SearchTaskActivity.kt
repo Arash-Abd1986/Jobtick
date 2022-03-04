@@ -33,15 +33,20 @@ import com.jobtick.android.models.PreviewTaskSetModel
 import com.jobtick.android.models.response.myjobs.Data
 import com.jobtick.android.models.response.myjobs.MyJobsResponse
 import com.jobtick.android.pagination.PaginationListener
-import com.jobtick.android.utils.*
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.Helper
+import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.voicerecorder.RippleView
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.*
 
-class SearchTaskActivity : ActivityBase(), OnEditorActionListener,
-    VoiceSearchBottomSheet.VoiceRecorderInterface, TaskListAdapterV2.OnItemClickListener,
+class SearchTaskActivity :
+    ActivityBase(),
+    OnEditorActionListener,
+    VoiceSearchBottomSheet.VoiceRecorderInterface,
+    TaskListAdapterV2.OnItemClickListener,
     PreviewTaskAdapter.OnItemClickListener<PreviewTaskModel?> {
     var ivBack: ImageView? = null
     var recyclerView: RecyclerView? = null
@@ -97,10 +102,9 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,
         }
     }
 
-
     override fun onEditorAction(textView: TextView?, actionId: Int, keyEvent: KeyEvent?): Boolean {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            //set adapter to online mode (previewMode will be false)
+            // set adapter to online mode (previewMode will be false)
             setOnlineAdapter()
             setLoadMoreListener()
             doApiCall()
@@ -116,7 +120,8 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,
         var url = Constant.URL_TASKS_v2 + "?search_query=" + queryParameter + "&page=" + currentPage
         if (isFromMyJobs) url =
             Constant.URL_TASKS_v2 + "&search_query=" + queryParameter + "&page=" + currentPage
-        val stringRequest: StringRequest = object : StringRequest(Method.GET, url,
+        val stringRequest: StringRequest = object : StringRequest(
+            Method.GET, url,
             Response.Listener { response: String? ->
                 Timber.e(response)
                 try {
@@ -148,7 +153,8 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,
                     e.printStackTrace()
                 }
             },
-            Response.ErrorListener { error: VolleyError -> errorHandle1(error.networkResponse) }) {
+            Response.ErrorListener { error: VolleyError -> errorHandle1(error.networkResponse) }
+        ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["Content-Type"] = "application/x-www-form-urlencoded"
@@ -177,7 +183,7 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,
     }
 
     private fun setOnlineAdapter() {
-        adapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount.id, false)
+        adapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount, false)
         recyclerView!!.adapter = adapter
         adapter!!.setOnItemClickListener(this)
     }
@@ -186,18 +192,18 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,
     private fun setLoadMoreListener() {
         if (!previewMode) return
         recyclerView!!.addOnScrollListener(object :
-            PaginationListener((recyclerView!!.layoutManager as LinearLayoutManager?)!!) {
-            override fun loadMoreItems() {
-                isLoadingItem = true
-                currentPage++
-                doApiCall()
-            }
+                PaginationListener((recyclerView!!.layoutManager as LinearLayoutManager?)!!) {
+                override fun loadMoreItems() {
+                    isLoadingItem = true
+                    currentPage++
+                    doApiCall()
+                }
 
-            override val isLastPage: Boolean
-                get() = isLastPageItem
-            override val isLoading: Boolean
-                get() = isLoadingItem
-        })
+                override val isLastPage: Boolean
+                    get() = isLastPageItem
+                override val isLoading: Boolean
+                    get() = isLoadingItem
+            })
         previewMode = false
     }
 
@@ -229,7 +235,6 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,
             isFromMyJobs
         )
     }
-
 
     private fun searchWithVoice() {
         btnVoice!!.setOnClickListener { view: View? ->
@@ -263,8 +268,6 @@ class SearchTaskActivity : ActivityBase(), OnEditorActionListener,
             btnVoice!!.clearAnimation()
         } else {
             btnVoice!!.clearAnimation()
-
         }
-
     }
 }

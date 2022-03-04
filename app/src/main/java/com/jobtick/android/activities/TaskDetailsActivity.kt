@@ -285,8 +285,8 @@ class TaskDetailsActivity :
                 if (isUserTheTicker) "worker" else "poster",
                 if (isUserTheTicker) taskModel!!.worker.id else taskModel!!.poster.id
             )
-        ).observe(this, {
-            it?.let {
+        ).observe(this) {
+            it?.let { it ->
                 when (it.status) {
                     Status.SUCCESS -> {
                         val turnsType = object : TypeToken<List<ReviewItem>>() {}.type
@@ -296,7 +296,7 @@ class TaskDetailsActivity :
                         )
 
                         turns.forEach {
-                            if (it.rater.id == (if (isUserThePoster) taskModel!!.worker.id else taskModel!!.poster.id))
+                            if (it.rater.id != sessionManager.userAccount.id)
                                 showRating(it)
                         }
                     }
@@ -306,11 +306,11 @@ class TaskDetailsActivity :
                     }
                 }
             }
-        })
+        }
     }
 
     private fun showRating(reviewItem: ReviewItem) {
-        reviewTitle.text = if (isUserTheTicker) "Worker review" else "Ticker review"
+        reviewTitle.text = if (!isUserTheTicker) "Worker review" else "Ticker review"
         cardReviewLayout.visibility = View.VISIBLE
         rbBigratingReview.rating = reviewItem.rating.toFloat()
         txtReview.text = reviewItem.message
@@ -2837,7 +2837,7 @@ class TaskDetailsActivity :
         alertBox.visibility = View.VISIBLE
         this.alertType = alertType
         alertBox.setTitle(title)
-        alertBox.isHasButton = hasButton && isUserThePoster
+        alertBox.isHasButton = hasButton && (isUserThePoster || alertType == AlertType.REVIEW)
         alertBox.setHasTopColor(hasTopColor)
         alertBox.buttonText = buttonText
         alertBox.isTicker = isUserTheTicker

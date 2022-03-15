@@ -41,6 +41,7 @@ public class AppController extends Application {
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
+        //FLAG_IMMUTABLE
         Mapbox.getInstance(getApplicationContext(), Constant.MAPBOX_API_KEY);
 
         OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);

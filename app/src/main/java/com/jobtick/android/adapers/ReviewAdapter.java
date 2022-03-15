@@ -1,9 +1,9 @@
 package com.jobtick.android.adapers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +14,6 @@ import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.android.R;
-import android.annotation.SuppressLint;
-
 import com.jobtick.android.activities.ProfileActivity;
 import com.jobtick.android.activities.TaskDetailsActivity;
 import com.jobtick.android.models.ReviewModel;
@@ -152,6 +150,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
         protected void clear() {
         }
 
@@ -171,7 +170,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             txtUserName.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, ProfileActivity.class);
-                intent.putExtra("id",item.getRater().getId());
+                intent.putExtra("id", item.getRater().getId());
                 mContext.startActivity(intent);
             });
 
@@ -181,7 +180,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             txtPostTitle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(item.getTask()==null)return;
+                    if (item.getTask() == null) return;
 
                     Intent intent = new Intent(mContext, TaskDetailsActivity.class);
                     Bundle bundle = new Bundle();

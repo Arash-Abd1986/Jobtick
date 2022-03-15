@@ -35,7 +35,7 @@
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/img_avatar"
                         android:layout_width="@dimen/_50dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="@dimen/_70dp"
                         android:paddingBottom="@dimen/_10sp"
 
                         android:src="@drawable/pic" />

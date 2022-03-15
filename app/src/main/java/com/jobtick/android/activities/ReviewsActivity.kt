@@ -150,7 +150,7 @@ class ReviewsActivity : ActivityBase() {
     }
 
     fun init() {
-        toolbar.setNavigationOnClickListener { view: View? -> onBackPressed() }
+        toolbar.setNavigationOnClickListener { onBackPressed() }
         val layoutManager = LinearLayoutManager(this@ReviewsActivity)
         recyclerReview.layoutManager = layoutManager
         reviewAdapter = ReviewAdapter(this@ReviewsActivity, ArrayList())
@@ -210,84 +210,98 @@ class ReviewsActivity : ActivityBase() {
         txtName.text = userAccountModel!!.name
         txtSub.text = userAccountModel!!.location
 
-        //worker
+        // worker
         if (userAccountModel!!.workerRatings != null) {
             ratingBar.rating = userAccountModel!!.workerRatings.avgRating
-            txtRatingValue.text = String.format(Locale.US, "%.1f", userAccountModel!!.workerRatings.avgRating)
-            txtReviewCounts.text = userAccountModel!!.workerRatings.receivedReviews.toString() + " Review"
+            txtRatingValue.text =
+                String.format(Locale.US, "%.1f", userAccountModel!!.workerRatings.avgRating)
+            txtReviewCounts.text =
+                userAccountModel!!.workerRatings.receivedReviews.toString() + " Review"
             if (userAccountModel!!.workerRatings != null && userAccountModel!!.workerRatings.breakdownModel.get1() != null) {
                 progressBar1Star.progress = userAccountModel!!.workerRatings.breakdownModel.get1()
-                txtReviewCount1Star.text = "(" + userAccountModel!!.workerRatings.breakdownModel.get1().toString() + ")"
+                txtReviewCount1Star.text =
+                    "(" + userAccountModel!!.workerRatings.breakdownModel.get1().toString() + ")"
             } else {
                 progressBar1Star.progress = 0
                 txtReviewCount1Star.text = "(0)"
             }
             if (userAccountModel!!.workerRatings != null && userAccountModel!!.workerRatings.breakdownModel.get2() != null) {
                 progressBar2Star.progress = userAccountModel!!.workerRatings.breakdownModel.get2()
-                txtReviewCount2Star.text = "(" + userAccountModel!!.workerRatings.breakdownModel.get2().toString() + ")"
+                txtReviewCount2Star.text =
+                    "(" + userAccountModel!!.workerRatings.breakdownModel.get2().toString() + ")"
             } else {
                 progressBar2Star.progress = 0
                 txtReviewCount2Star.text = "(0)"
             }
             if (userAccountModel!!.workerRatings != null && userAccountModel!!.workerRatings.breakdownModel.get3() != null) {
                 progressBar3Star.progress = userAccountModel!!.workerRatings.breakdownModel.get3()
-                txtReviewCount3Star.text = "(" + userAccountModel!!.workerRatings.breakdownModel.get3().toString() + ")"
+                txtReviewCount3Star.text =
+                    "(" + userAccountModel!!.workerRatings.breakdownModel.get3().toString() + ")"
             } else {
                 progressBar3Star.progress = 0
                 txtReviewCount3Star.text = "(0)"
             }
             if (userAccountModel!!.workerRatings != null && userAccountModel!!.workerRatings.breakdownModel.get4() != null) {
                 progressBar4Star.progress = userAccountModel!!.workerRatings.breakdownModel.get4()
-                txtReviewCount4Star.text = "(" + userAccountModel!!.workerRatings.breakdownModel.get4().toString() + ")"
+                txtReviewCount4Star.text =
+                    "(" + userAccountModel!!.workerRatings.breakdownModel.get4().toString() + ")"
             } else {
                 progressBar4Star.progress = 0
                 txtReviewCount4Star.text = "(0)"
             }
             if (userAccountModel!!.workerRatings != null && userAccountModel!!.workerRatings.breakdownModel.get5() != null) {
                 progressBar5Star.progress = userAccountModel!!.workerRatings.breakdownModel.get5()
-                txtReviewCount5Star.text = "(" + userAccountModel!!.workerRatings.breakdownModel.get5().toString() + ")"
+                txtReviewCount5Star.text =
+                    "(" + userAccountModel!!.workerRatings.breakdownModel.get5().toString() + ")"
             } else {
                 progressBar5Star.progress = 0
                 txtReviewCount5Star.text = "(0)"
             }
         }
 
-        //poster
+        // poster
         if (userAccountModel!!.posterRatings != null) {
             ratingbar.rating = userAccountModel!!.posterRatings.avgRating
-            txtRatingValueP.text = String.format(Locale.US, "%.1f", userAccountModel!!.posterRatings.avgRating)
-            txtReviewCountsP.text = userAccountModel!!.posterRatings.receivedReviews.toString() + " Review"
+            txtRatingValueP.text =
+                String.format(Locale.US, "%.1f", userAccountModel!!.posterRatings.avgRating)
+            txtReviewCountsP.text =
+                userAccountModel!!.posterRatings.receivedReviews.toString() + " Review"
             if (userAccountModel!!.posterRatings != null && userAccountModel!!.posterRatings.breakdownModel.get1() != null) {
                 progressBar1Starp.progress = userAccountModel!!.posterRatings.breakdownModel.get1()
-                txtReviewCount1Starp.text = "(" + userAccountModel!!.posterRatings.breakdownModel.get1().toString() + ")"
+                txtReviewCount1Starp.text =
+                    "(" + userAccountModel!!.posterRatings.breakdownModel.get1().toString() + ")"
             } else {
                 progressBar1Starp.progress = 0
                 txtReviewCount1Starp.text = "(0)"
             }
             if (userAccountModel!!.posterRatings != null && userAccountModel!!.posterRatings.breakdownModel.get2() != null) {
                 progressBar2Starp.progress = userAccountModel!!.posterRatings.breakdownModel.get2()
-                txtReviewCount2Starp.text = "(" + userAccountModel!!.posterRatings.breakdownModel.get2().toString() + ")"
+                txtReviewCount2Starp.text =
+                    "(" + userAccountModel!!.posterRatings.breakdownModel.get2().toString() + ")"
             } else {
                 progressBar2Starp.progress = 0
                 txtReviewCount2Starp.text = "(0)"
             }
             if (userAccountModel!!.posterRatings != null && userAccountModel!!.posterRatings.breakdownModel.get3() != null) {
                 progressBar3Starp.progress = userAccountModel!!.posterRatings.breakdownModel.get3()
-                txtReviewCount3Starp.text = "(" + userAccountModel!!.posterRatings.breakdownModel.get3().toString() + ")"
+                txtReviewCount3Starp.text =
+                    "(" + userAccountModel!!.posterRatings.breakdownModel.get3().toString() + ")"
             } else {
                 progressBar3Starp.progress = 0
                 txtReviewCount3Starp.text = "(0)"
             }
             if (userAccountModel!!.posterRatings != null && userAccountModel!!.posterRatings.breakdownModel.get4() != null) {
                 progressBar4Starp.progress = userAccountModel!!.posterRatings.breakdownModel.get4()
-                txtReviewCount4Starp.text = "(" + userAccountModel!!.posterRatings.breakdownModel.get4().toString() + ")"
+                txtReviewCount4Starp.text =
+                    "(" + userAccountModel!!.posterRatings.breakdownModel.get4().toString() + ")"
             } else {
                 progressBar4Starp.progress = 0
                 txtReviewCount4Starp.text = "(0)"
             }
             if (userAccountModel!!.posterRatings != null && userAccountModel!!.posterRatings.breakdownModel != null && userAccountModel!!.posterRatings.breakdownModel.get5() != null) {
                 progressBar5Starp.progress = userAccountModel!!.posterRatings.breakdownModel.get5()
-                txtReviewCount5Starp.text = "(" + userAccountModel!!.posterRatings.breakdownModel.get5().toString() + ")"
+                txtReviewCount5Starp.text =
+                    "(" + userAccountModel!!.posterRatings.breakdownModel.get5().toString() + ")"
             } else {
                 progressBar5Starp.progress = 0
                 txtReviewCount5Starp.text = "(0)"
@@ -298,15 +312,17 @@ class ReviewsActivity : ActivityBase() {
     val reviewList: Unit
         get() {
             showProgressDialog()
-            //profile/:user_id/reviews/:ratee_type
-            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + userId + "/reviews/" + whoIs,
+            // profile/:user_id/reviews/:ratee_type
+            val stringRequest: StringRequest = object :
+                StringRequest(
+                    Method.GET, Constant.URL_PROFILE + "/" + userId + "/reviews/" + whoIs,
                     Response.Listener { response: String? ->
                         // categoryArrayList.clear();
                         try {
                             reviewModelList.clear()
                             val jsonObject = JSONObject(response!!)
                             if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                val jsonString = jsonObject.toString() //http request
+                                val jsonString = jsonObject.toString() // http request
                                 var data = ReviewModel()
                                 val gson = Gson()
                                 data = gson.fromJson(jsonString, ReviewModel::class.java)
@@ -335,7 +351,7 @@ class ReviewsActivity : ActivityBase() {
                                 reviewAdapter.addLoading()
                             }
                             hideProgressDialog()
-                        } catch (e: JSONException) {
+                        } catch (e: Exception) {
                             Timber.e(e.toString())
                             e.printStackTrace()
                         }
@@ -364,7 +380,8 @@ class ReviewsActivity : ActivityBase() {
                         }
                         Timber.e(error.toString())
                         hideProgressDialog()
-                    }) {
+                    }
+                ) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
                     map1["Content-Type"] = "application/x-www-form-urlencoded"
@@ -373,8 +390,10 @@ class ReviewsActivity : ActivityBase() {
                     return map1
                 }
             }
-            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
             val requestQueue = Volley.newRequestQueue(this@ReviewsActivity)
             requestQueue.add(stringRequest)
             Timber.e(stringRequest.url)

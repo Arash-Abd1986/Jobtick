@@ -184,6 +184,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                 linFilterExplore!!.visibility = View.VISIBLE
             }, 50)
             navController!!.navigate(R.id.navigation_browse)
+            accountDetails
         }
         chat!!.setOnClickListener { v: View? ->
             linFilterExplore!!.visibility = View.GONE

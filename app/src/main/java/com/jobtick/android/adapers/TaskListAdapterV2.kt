@@ -207,6 +207,7 @@ class TaskListAdapterV2(
                 val taskAlerts = Intent(context, TaskAlertsActivity::class.java)
                 taskAlerts.addFlags(FLAG_ACTIVITY_NEW_TASK)
                 context!!.startActivity(taskAlerts)
+                showAlert = false
             }
             btnAddSkills!!.setOnClickListener {
                 val intent = Intent(context, SkillsTagActivity::class.java)
@@ -217,6 +218,7 @@ class TaskListAdapterV2(
                 bundle.putString(ConstantKey.TITLE, "Add your occupation")
                 intent.putExtras(bundle)
                 context!!.startActivity(intent)
+                showSkills = false
             }
 
             btnCloseAlert!!.setOnClickListener {

@@ -87,6 +87,7 @@ class ReviewsActivity : ActivityBase() {
     private lateinit var progressBar4Starp: ProgressBar
     private lateinit var progressBar5Starp: ProgressBar
     private lateinit var ratingbar: RatingBar
+    private var level = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reviews)
@@ -96,6 +97,9 @@ class ReviewsActivity : ActivityBase() {
         if (bundle != null) {
             if (bundle.containsKey(Constant.userID)) {
                 userId = bundle.getInt(Constant.userID)
+            }
+            if (bundle.containsKey(Constant.Level)) {
+                level = bundle.getInt(Constant.Level)
             }
             whoIs = "poster"
         }
@@ -198,7 +202,7 @@ class ReviewsActivity : ActivityBase() {
         } else {
             imgVerifiedAccount.visibility = View.GONE
         }
-        when (userAccountModel!!.posterTier.id) {
+        when (level) {
             1 -> ivMedal.setImageResource(R.drawable.ic_level1_active)
             2 -> ivMedal.setImageResource(R.drawable.ic_level2_active)
             3 -> ivMedal.setImageResource(R.drawable.ic_level3_active)

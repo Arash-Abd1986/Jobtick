@@ -155,6 +155,7 @@ public class Constant {
     public static final String URL_VIDEO_GUIDELINE = "https://jobtick-ap.s3-ap-southeast-2.amazonaws.com/videos/video-offer-guidlines.mp4";
 
     public static final String userID = "userID";
+    public static final String Level = "Level";
     public static final String userAccount = "userAccount";
 
     public static final int MAX_RESCHEDULE_DAY = 14;

@@ -4,8 +4,20 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
-import android.view.*
-import android.widget.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.CompoundButton
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.RadioButton
+import android.widget.RatingBar
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -22,7 +34,13 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
-import com.jobtick.android.activities.*
+import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.activities.CategoryListActivity
+import com.jobtick.android.activities.DashboardActivity
+import com.jobtick.android.activities.EditProfileActivity
+import com.jobtick.android.activities.ReviewsActivity
+import com.jobtick.android.activities.SettingActivity
+import com.jobtick.android.activities.ZoomImageActivity
 import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.adapers.BadgesAdapter
 import com.jobtick.android.interfaces.onProfileUpdateListener
@@ -32,15 +50,18 @@ import com.jobtick.android.models.BadgesModel
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.network.model.response.Levels
 import com.jobtick.android.network.model.response.LevelsItem
-import com.jobtick.android.utils.*
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.ImageUtil
+import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.Tools
+import com.jobtick.android.utils.setMoreLess
 import com.jobtick.android.widget.CircularProgressView
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.mikhaellopez.circularimageview.CircularImageView
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -134,6 +155,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var line3: View? = null
     private var levels: ArrayList<LevelsItem>? = null
     private var lastMonthIncome = 0F
+    private var level = 1
     override fun onResume() {
         super.onResume()
         allProfileData
@@ -141,7 +163,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
 
     @SuppressLint("SetTextI18n", "RtlHardcoded")
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
@@ -319,7 +342,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private fun onChangeTabBiography() {
         if (context == null) return
         if (rbPortfollio!!.isChecked) {
-            //lytAbout.setVisibility(View.VISIBLE);
+            // lytAbout.setVisibility(View.VISIBLE);
             if (attachmentArrayList!!.size <= 0) {
                 noPortfolio!!.visibility = View.VISIBLE
                 noSkill!!.visibility = View.GONE
@@ -396,7 +419,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         get() {
             pbLoading!!.visibility = View.VISIBLE
             content!!.visibility = View.GONE
-            val stringRequest: StringRequest = object : StringRequest(Method.GET,
+            val stringRequest: StringRequest = object : StringRequest(
+                Method.GET,
                 Constant.URL_PROFILE + "/" + sessionManager!!.userAccount.id,
                 Response.Listener { response: String? ->
                     Timber.e(response)
@@ -453,7 +477,6 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                                 noSkill!!.visibility = View.GONE
                             }
                             setUpAllEditFields(userAccountModel)
-
                         } else {
                             dashboardActivity!!.showToast("Connection error", dashboardActivity)
                         }
@@ -467,7 +490,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     dashboardActivity!!.errorHandle1(
                         error.networkResponse
                     )
-                }) {
+                }
+            ) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
                     map1["authorization"] =
@@ -491,6 +515,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
 
         when (lastMonthIncome) {
             in levels?.get(0)!!.min_amount.toFloat()..levels[0].max_amount.toFloat() -> {
+                level = 1
                 progressLevel1!!.progress =
                     (((lastMonthIncome - levels[0].min_amount.toFloat()) / (levels[0].max_amount.toFloat() - levels[0].min_amount.toFloat())) * 100).toInt() + 1
                 txtLevel1!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
@@ -503,9 +528,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         R.drawable.ic_level1_active
                     )
                 )
-
             }
             in levels[1].min_amount.toFloat()..levels[1].max_amount.toFloat() -> {
+                level = 2
                 progressLevel2!!.progress =
                     (((lastMonthIncome - levels[1].min_amount.toFloat()) / (levels[1].max_amount.toFloat() - levels[1].min_amount.toFloat())) * 100).toInt()
                 if (progressLevel2!!.progress < 4) {
@@ -528,6 +553,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 )
             }
             in levels[2].min_amount.toFloat()..levels[2].max_amount.toFloat() -> {
+                level = 3
                 progressLevel1!!.progress = 100
                 progressLevel2!!.progress = 100
 
@@ -552,7 +578,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     )
                 )
             }
-            in levels[3].min_amount.toFloat()..levels[3].max_amount.toFloat() -> {
+            else -> {
+                level = 4
                 progressLevel1!!.progress = 100
                 progressLevel2!!.progress = 100
                 progressLevel3!!.progress = 100
@@ -589,10 +616,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         R.drawable.ic_level2_active
                     )
                 )
-
             }
         }
-
     }
 
     private fun setJobStatus(accountStatus: AccountStatusModel) {
@@ -658,9 +683,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     R.drawable.ic_not_completed_status
                 )
             )
-            //line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
+            // line2!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
         }
-
 
         if (accountStatus.isJobalerts) {
             txtAlertStatus!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
@@ -681,7 +705,6 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             )
             // line3!!.background = (ContextCompat.getDrawable(requireContext(), R.color.N040))
         }
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -710,7 +733,6 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             tvAboutHeading!!.visibility = View.VISIBLE
             tvAboutHeading!!.text = "\"" + userAccountModel.tagline + "\""
         }
-
 
         if (userAccountModel.workerRatings == null) {
             ratingbarAsTicker!!.visibility = View.GONE
@@ -745,9 +767,6 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 userAccountModel.postTaskStatistics.completionRate.toString() + "%"
         }
 
-
-
-
         if (userAccountModel.isVerifiedAccount == 1) {
             imgVerified!!.visibility = View.VISIBLE
         } else {
@@ -759,8 +778,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             noPortfolio!!.visibility = View.GONE
         }
         if (userAccountModel.skills.skills == null && userAccountModel.skills.skills.size == 0 && userAccountModel.skills.language == null &&
-            userAccountModel.skills.language.size == 0
-            && userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0
+            userAccountModel.skills.language.size == 0 &&
+            userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0
         ) {
             noPortfolio!!.visibility = View.GONE
             lSkill!!.visibility = View.GONE
@@ -772,7 +791,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         } else {
             if (userAccountModel.skills.education != null && userAccountModel.skills.education.size != 0) {
                 lytEducation!!.visibility = View.VISIBLE
-                //tagEducation.setText(userAccountModel.getSkills().getEducation());
+                // tagEducation.setText(userAccountModel.getSkills().getEducation());
                 tagEducation!!.tags = userAccountModel.skills.education
             } else {
                 lytEducation!!.visibility = View.GONE
@@ -792,7 +811,6 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 lytLanguage!!.visibility = View.GONE
                 tagLanguage!!.tags = ArrayList()
             }
-
         }
         tagEducation!!.tagTypeface = poppinsMedium
         tagLanguage!!.tagTypeface = poppinsMedium
@@ -802,12 +820,13 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         }
         txtFullName!!.text = userAccountModel.name
         txtSuburb!!.text = userAccountModel.location
-        //txtAccountLevel.setText(""+userAccountModel.getWorkerTier().getName());
+        // txtAccountLevel.setText(""+userAccountModel.getWorkerTier().getName());
         txtLastSeen!!.text = "Last Seen " + userAccountModel.lastOnline
         tvViewAllReviews!!.setOnClickListener { v: View? ->
             val bundle = Bundle()
             bundle.putInt(Constant.userID, userAccountModel.id)
             bundle.putString("WhoIs", Constant.AS_A_WORKER)
+            bundle.putInt(Constant.Level, level)
             ReviewsActivity.userAccountModel = null
             //      bundle.putParcelable(Constant.userAccount, userAccountModel);
             startActivity(
@@ -818,7 +837,6 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         onChangeTabBiography()
         onChangeTabUser()
     }
-
 
     override fun updatedSuccesfully(path: String) {
         if (path != null) {

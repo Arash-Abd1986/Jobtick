@@ -7,7 +7,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.CompoundButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.RadioButton
+import android.widget.RatingBar
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -24,7 +30,11 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
-import com.jobtick.android.activities.*
+import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.activities.EditProfileActivity
+import com.jobtick.android.activities.ProfileActivity
+import com.jobtick.android.activities.ReviewsActivity
+import com.jobtick.android.activities.ZoomImageActivity
 import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.adapers.BadgesAdapter
 import com.jobtick.android.interfaces.onProfileUpdateListener
@@ -33,18 +43,24 @@ import com.jobtick.android.models.BadgesModel
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.network.model.response.Levels
 import com.jobtick.android.network.model.response.LevelsItem
-import com.jobtick.android.utils.*
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.ImageUtil
+import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.Tools
+import com.jobtick.android.utils.setMoreLess
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.mikhaellopez.circularimageview.CircularImageView
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class ProfileViewFragment : Fragment(), onProfileUpdateListener,
+class ProfileViewFragment :
+    Fragment(),
+    onProfileUpdateListener,
     AttachmentAdapter.OnItemClickListener {
     var userId = -1
 
@@ -124,7 +140,8 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
 
     @SuppressLint("SetTextI18n", "RtlHardcoded")
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile_view, container, false)
@@ -200,7 +217,6 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         linFcc!!.visibility = View.GONE
         addPortFilo!!.visibility = View.GONE
         addSkill!!.visibility = View.GONE
-
     }
 
     private fun initToolbar() {
@@ -277,7 +293,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
 
     private fun onChangeTabBiography() {
         if (rbPortfollio!!.isChecked) {
-            //lytAbout.setVisibility(View.VISIBLE);
+            // lytAbout.setVisibility(View.VISIBLE);
             if (attachmentArrayList!!.size <= 0) {
                 noPortfolio!!.visibility = View.VISIBLE
                 noSkill!!.visibility = View.GONE
@@ -316,7 +332,6 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                 noPortfolio!!.visibility = View.GONE
                 noSkill!!.visibility = View.GONE
                 lSkill!!.visibility = View.VISIBLE
-
             }
             recyclerViewPortfolio!!.visibility = View.GONE
             lPort!!.visibility = View.GONE
@@ -339,17 +354,18 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         recyclerViewPortfolio!!.adapter = adapter
         adapter!!.setOnItemClickListener(this)
         badgesAdapter = BadgesAdapter(badgesModelArrayList)
-    }// map1.put("X-Requested-With", "XMLHttpRequest");
+    } // map1.put("X-Requested-With", "XMLHttpRequest");
 
     private val allProfileData: Unit
         get() {
             val stringRequest: StringRequest =
-                object : StringRequest(Method.GET, Constant.URL_PROFILE + "/" + userId,
+                object : StringRequest(
+                    Method.GET, Constant.URL_PROFILE + "/" + userId,
                     Response.Listener { response: String? ->
                         Timber.e(response)
                         content!!.visibility = View.VISIBLE
                         pbLoading!!.visibility = View.GONE
-                        btnQuote!!.visibility = View.VISIBLE;
+                        btnQuote!!.visibility = View.VISIBLE
                         try {
                             val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
@@ -410,7 +426,8 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                     Response.ErrorListener { error: VolleyError ->
                         profileActivity!!.errorHandle1(error.networkResponse)
                         profileActivity!!.hideProgressDialog()
-                    }) {
+                    }
+                ) {
                     override fun getHeaders(): Map<String, String> {
                         val map1: MutableMap<String, String> = HashMap()
                         map1["authorization"] =
@@ -473,7 +490,6 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                 }
             }
         }
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -501,7 +517,6 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
             tvAboutHeading!!.visibility = View.VISIBLE
             tvAboutHeading!!.text = "\"" + userAccountModel.tagline + "\""
         }
-
 
         if (userAccountModel.workerRatings == null) {
             ratingbarAsTicker!!.visibility = View.GONE
@@ -536,7 +551,6 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                 userAccountModel.postTaskStatistics.completionRate.toString() + "%"
         }
 
-
         when (userAccountModel.workerTier.id) {
             1 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_boronz_selected)
             2 -> ivMedalBoronz!!.setImageResource(R.drawable.ic_silver_selected)
@@ -553,8 +567,9 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         } else {
             noPortfolio!!.visibility = View.GONE
         }
-        if (userAccountModel.skills.skills == null && userAccountModel.skills.skills.size == 0 && userAccountModel.skills.language == null && userAccountModel.skills.language.size == 0
-            && userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0) {
+        if (userAccountModel.skills.skills == null && userAccountModel.skills.skills.size == 0 && userAccountModel.skills.language == null && userAccountModel.skills.language.size == 0 &&
+            userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0
+        ) {
             noPortfolio!!.visibility = View.GONE
             lSkill!!.visibility = View.GONE
             lytEducation!!.visibility = View.GONE
@@ -565,7 +580,7 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         } else {
             if (userAccountModel.skills.education != null && userAccountModel.skills.education.size != 0) {
                 lytEducation!!.visibility = View.VISIBLE
-                //tagEducation.setText(userAccountModel.getSkills().getEducation());
+                // tagEducation.setText(userAccountModel.getSkills().getEducation());
                 tagEducation!!.tags = userAccountModel.skills.education
             } else {
                 lytEducation!!.visibility = View.GONE
@@ -585,7 +600,6 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
                 lytSkills!!.visibility = View.GONE
                 tagSkills!!.tags = ArrayList()
             }
-
         }
         tagEducation!!.tagTypeface = poppinsMedium
         tagSkills!!.tagTypeface = poppinsMedium
@@ -609,7 +623,6 @@ class ProfileViewFragment : Fragment(), onProfileUpdateListener,
         onChangeTabBiography()
         onChangeTabUser()
     }
-
 
     override fun updatedSuccesfully(path: String?) {
         if (path != null) {

@@ -435,6 +435,11 @@ class TaskDetailsActivity :
     }
 
     private fun initialStage() {
+        try {
+            hideAlertBox()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         initToolbar()
         getData
     }

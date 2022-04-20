@@ -8,12 +8,8 @@ import com.jobtick.android.network.coroutines.Resource
 import com.jobtick.android.network.coroutines.ServiceType
 import com.jobtick.android.network.coroutines.getData
 import com.jobtick.android.network.model.Response
-import com.jobtick.android.network.model.request.ReviewsRequest
 
-class JobDetailsViewModel(private val mainRepository: MainRepository) : ViewModel() {
-    fun getReviews(request: ReviewsRequest): LiveData<Resource<Response>> {
-        return getData(ServiceType.REVIEWS, mainRepository, request)
-    }
+class EventsViewModel(private val mainRepository: MainRepository) : ViewModel() {
     fun sendEvent(request: EventRequest): LiveData<Resource<Response>> {
         return getData(ServiceType.EVENT, mainRepository, request)
     }

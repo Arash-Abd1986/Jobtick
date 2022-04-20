@@ -49,8 +49,10 @@ import com.jobtick.android.viewmodel.MapViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 import java.util.Random
 
-
-class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
+class MapViewActivity :
+    ActivityBase(),
+    OnMapReadyCallback,
+    GoogleMap.OnMarkerClickListener,
     TaskListAdapterV2.OnItemClickListener {
     private var toolbar: MaterialToolbar? = null
     private var mapView: MapView? = null
@@ -83,7 +85,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         setContentView(R.layout.activity_map_view)
         initIDS()
         initVM()
-        initUI(savedInstanceState) //Initialize UI
+        initUI(savedInstanceState) // Initialize UI
         filters = ArrayList()
         filterModel = FilterModel()
         recyclerViewFilters!!.layoutManager =
@@ -108,11 +110,10 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         // use a linear layout manager
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewTask!!.layoutManager = layoutManager
-        taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount,true)
+        taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount, true)
         recyclerViewTask!!.adapter = taskListAdapter
         taskListAdapter!!.setOnItemClickListener(this)
         doApiCall()
-
 
         txtSearch!!.setOnClickListener {
             viewModel.getNearJobs(
@@ -129,7 +130,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
             this,
             ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
         ).get(MapViewModel::class.java)
-        viewModel.response.observe(this, {
+        viewModel.response.observe(this) {
             it?.let {
                 when (it.status) {
                     Status.SUCCESS -> {
@@ -183,8 +184,7 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
                     }
                 }
             }
-        })
-
+        }
     }
 
     private fun initIDS() {
@@ -207,7 +207,6 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
             intent.putExtras(bundle)
             startActivityForResult(intent, 101)
         }
-
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -307,7 +306,6 @@ class MapViewActivity : ActivityBase(), OnMapReadyCallback, GoogleMap.OnMarkerCl
                 sessionManagerM.longitude.toFloat(), 50, 100
             )
         )
-
     }
 
     override fun onItemClick(view: View?, obj: Data?, position: Int, action: String?) {

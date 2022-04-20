@@ -1,19 +1,28 @@
 package com.jobtick.android.network.retrofit
 
+import com.jobtick.android.models.event.Data
 import com.jobtick.android.network.model.Response
 import com.jobtick.android.network.model.response.NearJobsResponse
 import com.jobtick.android.network.model.response.skills.SkillsResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiInterface {
     @Multipart
     @POST("media/temp-attachment")
-    fun getTaskTempAttachmentMediaData( //@Header("Content-Type") String content,
+    fun getTaskTempAttachmentMediaData( // @Header("Content-Type") String content,
         @Header("X-Requested-With") XMLHttpRequest: String?,
-        @Header("authorization") auth: String?,  // @Part("file\"; filename=\"pp.png\" ") RequestBody file);
+        @Header("authorization") auth: String?, // @Part("file\"; filename=\"pp.png\" ") RequestBody file);
         @Part file: MultipartBody.Part?
     ): Call<String?>?
 
@@ -22,7 +31,7 @@ interface ApiInterface {
     fun getTasKAttachmentMediaUpload(
         @Path("task-slug") task_slug: String?,
         @Header("X-Requested-With") XMLHttpRequest: String?,
-        @Header("authorization") auth: String?,  // @Part("file\"; filename=\"pp.png\" ") RequestBody file);
+        @Header("authorization") auth: String?, // @Part("file\"; filename=\"pp.png\" ") RequestBody file);
         @Part file: MultipartBody.Part?
     ): Call<String?>?
 
@@ -66,18 +75,23 @@ interface ApiInterface {
         @Query("message") message: String
     ): Call<String>
 
-    //when you want to delete attachment from edit job
+    // when you want to delete attachment from edit job
     @DELETE("tasks/{task-slug}/attachment")
     fun deleteEditTaskAttachment(
         @Path("task-slug") task_slug: String?,
         @Header("X-Requested-With") XMLHttpRequest: String?,
-        @Header("authorization") auth: String?,  // @Part("file\"; filename=\"pp.png\" ") RequestBody file);
+        @Header("authorization") auth: String?, // @Part("file\"; filename=\"pp.png\" ") RequestBody file);
         @Query("media") attachmentId: Int
     ): Call<String?>?
 
-
     @GET("profile/{userId}/reviews/{whoIs}")
     suspend fun reviews(@Path("userId") userId: Int?, @Path("whoIs") whoIs: String?): Response
+
+    @POST("event")
+    suspend fun event(
+        @Query("action") action: String,
+        @Query("data") data: Data
+    ): Response
 
     @GET("jobs/map-based")
     suspend fun getNearJobs(

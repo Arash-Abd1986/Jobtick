@@ -83,7 +83,7 @@ class SkillsTagActivity : ActivityBase() {
             ViewModelFactory(ApiHelper(ApiClient.getClientV1WithToken(sessionManager)))
         ).get(EditAccountViewModel::class.java)
 
-        viewModel.response.observe(this, {
+        viewModel.response.observe(this) {
             it?.let {
                 when (it.status) {
                     Status.SUCCESS -> {
@@ -133,7 +133,7 @@ class SkillsTagActivity : ActivityBase() {
                     }
                 }
             }
-        })
+        }
     }
 
     private fun setIDs() {

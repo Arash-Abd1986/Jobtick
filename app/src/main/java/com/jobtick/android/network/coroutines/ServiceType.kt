@@ -1,6 +1,7 @@
 package com.jobtick.android.network.coroutines
 
 enum class ServiceType {
+    EVENT,
     REVIEWS,
     TASK_DETAILS,
     NEAR_JOBS,

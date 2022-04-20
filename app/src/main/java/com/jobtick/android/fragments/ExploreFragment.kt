@@ -369,7 +369,12 @@ class ExploreFragment :
             }
         }
         if (filterModel!!.price != null) {
-            filters.add(filterModel!!.price)
+            try {
+                val prices = filterModel!!.price.replace("$", "").split("-")
+                filters.add("$" + prices[0] + "-$" + prices[1])
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
         if (filterModel!!.task_open != null) {
             filters.add(filterModel!!.task_open)

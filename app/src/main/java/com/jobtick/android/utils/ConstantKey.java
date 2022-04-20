@@ -10,6 +10,7 @@ public class ConstantKey {
 
     public static final String ATTACHMENT = "ATTACHMENT";
     public static final String SLUG = "SLUG";
+    public static final String IS_FROM_SEARCH = "IS FROM SEARCH";
     public static final String TAB = "TAB";
     public static final String PORTFO_SKILLS = "portfolio_skills";
     public static final String TASK_STATUS = "task_status";

@@ -226,6 +226,7 @@ class SearchTaskActivity :
         val intent = Intent(this, TaskDetailsActivity::class.java)
         val bundle = Bundle()
         bundle.putString(ConstantKey.SLUG, obj!!.slug)
+        bundle.putBoolean(ConstantKey.IS_FROM_SEARCH, true)
         //   bundle.putInt(ConstantKey.USER_ID, obj.getUserId());
         intent.putExtras(bundle)
         startActivity(intent)

@@ -1,4 +1,5 @@
 package com.jobtick.android.viewmodel
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.jobtick.android.network.coroutines.ApiHelper
@@ -18,9 +19,10 @@ class ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Fac
             modelClass.isAssignableFrom(EditAccountViewModel::class.java) -> {
                 EditAccountViewModel(MainRepository(apiHelper)) as T
             }
+            modelClass.isAssignableFrom(EventsViewModel::class.java) -> {
+                EventsViewModel(MainRepository(apiHelper)) as T
+            }
             else -> throw IllegalArgumentException("Unknown class name")
         }
-
     }
-
 }

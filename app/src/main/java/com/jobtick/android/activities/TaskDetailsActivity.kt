@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Html
 import android.text.Spanned
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -95,6 +96,8 @@ import com.jobtick.android.models.OfferModel
 import com.jobtick.android.models.QuestionModel
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.models.UserAccountModel
+import com.jobtick.android.models.event.Data
+import com.jobtick.android.models.event.EventRequest
 import com.jobtick.android.models.response.conversationinfo.GetConversationInfoResponse
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.coroutines.Status
@@ -116,6 +119,7 @@ import com.jobtick.android.utils.setBackgroundShape
 import com.jobtick.android.utils.setMoreLess
 import com.jobtick.android.utils.setSpanColor
 import com.jobtick.android.utils.setSpanFont
+import com.jobtick.android.viewmodel.EventsViewModel
 import com.jobtick.android.viewmodel.JobDetailsViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 import com.jobtick.android.widget.ExtendedAlertBox
@@ -237,6 +241,7 @@ class TaskDetailsActivity :
     private val dataList = ArrayList<AttachmentModel>()
     private val attachmentArrayListQuestion = ArrayList<AttachmentModel>()
     private var strSlug: String? = ""
+    private var isFromSearch = false
     private var isUserThePoster = false
     private var isUserTheTicker = false
     var isToolbarCollapsed = false
@@ -249,6 +254,7 @@ class TaskDetailsActivity :
     private val requirementState = HashMap<TickerRequirementsBottomSheet.Requirement?, Boolean?>()
     private var alertType: AlertType? = null
     private lateinit var viewModel: JobDetailsViewModel
+    private lateinit var eventsViewModel: EventsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val w = window
@@ -277,6 +283,10 @@ class TaskDetailsActivity :
             this,
             ViewModelFactory(ApiHelper(ApiClient.getClient()))
         ).get(JobDetailsViewModel::class.java)
+        eventsViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
+        ).get(EventsViewModel::class.java)
     }
 
     private fun getReview() {
@@ -426,6 +436,7 @@ class TaskDetailsActivity :
         if (bundle!!.getString(ConstantKey.SLUG) != null) {
             strSlug = bundle.getString(ConstantKey.SLUG)
         }
+        isFromSearch = bundle.getBoolean(ConstantKey.IS_FROM_SEARCH)
         if (bundle.getInt(ConstantKey.PUSH_OFFER_ID) != 0) {
             pushOfferID = bundle.getInt(ConstantKey.PUSH_OFFER_ID)
         }
@@ -1185,6 +1196,7 @@ class TaskDetailsActivity :
                                             true
                                     }
                                 )
+                                sendEvent()
                                 setOwnerTask()
                                 dismissStatusAlert()
                                 initStatusTask(taskModel!!.status.toLowerCase())
@@ -1239,6 +1251,25 @@ class TaskDetailsActivity :
         )
         val requestQueue = Volley.newRequestQueue(this@TaskDetailsActivity)
         requestQueue.add(stringRequest)
+    }
+
+    private fun sendEvent() {
+        eventsViewModel.sendEvent(
+            EventRequest(if (isFromSearch) "SEARCH" else "SEEN", Data(taskModel!!.id))
+        ).observe(this) {
+            it?.let { it ->
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        Log.d("send event","send event success")
+                    }
+                    Status.ERROR -> {
+                        Log.d("send event","send event failed")
+                    }
+                    Status.LOADING -> {
+                    }
+                }
+            }
+        }
     }
 
     private fun initRestConf(jsonObject_data: JSONObject) {
@@ -2795,8 +2826,7 @@ class TaskDetailsActivity :
     }
 
     private fun showReviewCard() {
-        val writeAReviewForWho: String
-        writeAReviewForWho =
+        val writeAReviewForWho: String =
             if (isUserThePoster) taskModel!!.worker.name else taskModel!!.poster.name
         showAlertBox(
             Html.fromHtml(

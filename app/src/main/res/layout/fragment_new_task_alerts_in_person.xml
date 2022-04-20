@@ -237,19 +237,19 @@
                     app:values="@array/initial_slider_values_select_price" />
 
             </LinearLayout>
-            <com.jobtick.android.widget.ExtendedEntryText
+            <AutoCompleteTextView
                 style="@style/materialText_W400_16"
-                android:id="@+id/edt_keyword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/alerts"
+                android:padding="@dimen/_8dp"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_medium"
-                app:eImeOptions="actionDone"
-                app:eInputType="text"
-                app:eStartFocus="true"
-                app:eTitle="Add a keyword or phrase" />
+                android:minHeight="@dimen/_54dp"
+                android:background="@drawable/rectangle_card_round_corners_outlined"
+                android:layout_width="fill_parent"
+                android:hint="Add a category you prefer receive jobs on"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

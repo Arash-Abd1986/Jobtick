@@ -1,6 +1,6 @@
 package com.jobtick.android.network.retrofit
 
-import com.jobtick.android.models.event.Data
+import com.jobtick.android.models.event.EventRequest
 import com.jobtick.android.network.model.Response
 import com.jobtick.android.network.model.response.NearJobsResponse
 import com.jobtick.android.network.model.response.skills.SkillsResponse
@@ -89,8 +89,7 @@ interface ApiInterface {
 
     @POST("event")
     suspend fun event(
-        @Query("action") action: String,
-        @Query("data") data: Data
+        @Body eventRequest: EventRequest
     ): Response
 
     @GET("jobs/map-based")

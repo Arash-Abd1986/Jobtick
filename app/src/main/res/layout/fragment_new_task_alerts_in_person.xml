@@ -90,14 +90,15 @@
                             android:textAppearance="@style/materialText_500_14"
                             android:textColor="@color/radio_btn" />
                     </LinearLayout>
+
                     <com.jobtick.android.widget.ExtendedEntryText
                         android:id="@+id/txt_suburb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/lin_in_person"
                         android:layout_marginBottom="16dp"
-                        app:eInputType="suburb"
                         android:background="@drawable/shape_rounded_back_white_button_active_r8"
+                        app:eInputType="suburb"
                         app:eTitle="@string/suburb" />
                 </RelativeLayout>
 
@@ -242,7 +243,7 @@
                 android:id="@+id/alerts"
                 android:padding="@dimen/_8dp"
                 android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_medium"
                 android:minHeight="@dimen/_54dp"

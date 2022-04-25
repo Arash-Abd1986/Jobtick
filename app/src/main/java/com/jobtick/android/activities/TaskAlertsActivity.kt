@@ -8,7 +8,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.*
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.appbar.MaterialToolbar
@@ -24,7 +26,6 @@ import com.jobtick.android.utils.HttpStatus
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.*
 
 class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener {
     var toolbar: MaterialToolbar? = null
@@ -54,6 +55,7 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
         txtBtnAddCustomAlert!!.setOnClickListener {
             val newTaskAlerts = Intent(this@TaskAlertsActivity, NewTaskAlertsActivity::class.java)
             startActivityForResult(newTaskAlerts, 1)
+            taskAlertArrayList = ArrayList()
         }
     }
 
@@ -82,7 +84,6 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
         return super.onOptionsItemSelected(item)
     }
 
-
     override fun onItemClick(view: View, obj: Data, position: Int, action: String) {
         if (action.equals("delete", ignoreCase = true)) {
             removeTaskAlert(obj.id!!)
@@ -98,10 +99,11 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
     }
 
     fun removeTaskAlert(taskAlertId: Int) {
-        //{{baseurl}}/taskalerts/:taskalert_id
+        // {{baseurl}}/taskalerts/:taskalert_id
         showProgressDialog()
         val stringRequest: StringRequest =
-            object : StringRequest(Method.DELETE, Constant.URL_TASK_ALERT_V2 + "/" + taskAlertId,
+            object : StringRequest(
+                Method.DELETE, Constant.URL_TASK_ALERT_V2 + "/" + taskAlertId,
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -145,7 +147,8 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
                     }
                     Timber.e(error.toString())
                     hideProgressDialog()
-                }) {
+                }
+            ) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
                     map1["authorization"] =
@@ -167,9 +170,10 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
     // Print Error!
     val listOfTaskAlert: Unit
         get() {
-            taskAlertArrayList!!.clear()
+            taskAlertArrayList = ArrayList()
             val stringRequest: StringRequest =
-                object : StringRequest(Method.GET, Constant.URL_TASK_ALERT_V2,
+                object : StringRequest(
+                    Method.GET, Constant.URL_TASK_ALERT_V2,
                     Response.Listener { response: String? ->
                         Timber.e(response)
                         hideProgressDialog()
@@ -225,7 +229,8 @@ class TaskAlertsActivity : ActivityBase(), TaskAlertAdapter.OnItemClickListener 
                         }
                         Timber.e(error.toString())
                         hideProgressDialog()
-                    }) {
+                    }
+                ) {
                     override fun getHeaders(): Map<String, String> {
                         val map1: MutableMap<String, String> = HashMap()
                         map1["authorization"] =

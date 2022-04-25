@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,9 +14,9 @@ public class TaskAlert implements Parcelable {
     private String ketword;
     private String suburb;
     private int distance = -1;
-
-
+    @Nullable
     private Double lattitude;
+    @Nullable
     private Double longitude;
 
 
@@ -41,8 +42,13 @@ public class TaskAlert implements Parcelable {
         dest.writeString(ketword);
         dest.writeString(suburb);
         dest.writeInt(distance);
-        dest.writeDouble(lattitude);
-        dest.writeDouble(longitude);
+        try {
+            dest.writeDouble(lattitude);
+            dest.writeDouble(longitude);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -147,10 +153,10 @@ public class TaskAlert implements Parcelable {
                 }
                 if (jsonObject.has("position")) {
                     JSONObject jPosition = jsonObject.getJSONObject("position");
-                    if(jPosition.has("latitude") && !jsonObject.isNull("latitude")){
+                    if (jPosition.has("latitude") && !jsonObject.isNull("latitude")) {
                         taskAlert.setLattitude(jPosition.getDouble("latitude"));
                     }
-                    if(jPosition.has("longitude") && !jsonObject.isNull("longitude")){
+                    if (jPosition.has("longitude") && !jsonObject.isNull("longitude")) {
                         taskAlert.setLattitude(jPosition.getDouble("longitude"));
                     }
                 }

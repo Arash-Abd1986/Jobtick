@@ -139,7 +139,7 @@ abstract class AbstractCancellationSummaryActivity : ActivityBase(), OnTouchList
     private fun reasonRectify(reasonIn: String): String {
         var reason = reasonIn
         if (reason.contains("{worker}")) reason = reason.replace("{worker}", taskModel!!.worker.name)
-        if (reason.contains("{poster}")) reason = reason.replace("{poster}", taskModel!!.worker.name)
+        if (reason.contains("{poster}")) reason = reason.replace("{poster}", taskModel!!.poster.name)
         reason = String.format("\"%s\"", reason)
         return reason
     }

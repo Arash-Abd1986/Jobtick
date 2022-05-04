@@ -198,7 +198,7 @@ class IncreaseBudgetNoticeBottomSheet : AbstractStateExpandedBottomSheet() {
     private fun init() {
         val oldP = taskModel!!.amount.toString().toInt()
         val newP = taskModel!!.additionalFund.amount.toString().toInt() + oldP
-        name!!.text = taskModel!!.poster.name
+        name!!.text = taskModel!!.worker.name
         description!!.text = taskModel!!.title
         reason!!.text = taskModel!!.additionalFund.creationReason
         newPrice!!.text = String.format(Locale.ENGLISH, "%d", newP)

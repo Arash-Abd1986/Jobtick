@@ -882,7 +882,7 @@ open class AuthActivity : ActivityBase() {
             val requestQueue = Volley.newRequestQueue(this)
             requestQueue.add(stringRequest)
         } else {
-            showToast("You must accept Jobtick’s terms of services", this@AuthActivity)
+            showToast("Before you can sign up, you must accept the Jobtick Terms of Services.", this@AuthActivity)
         }
     }
 

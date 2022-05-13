@@ -76,6 +76,16 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+        initVars()
+        initNavigation()
+        handleBundle()
+        setNavClick()
+        accountDetails
+        goToFragment()
+        onNavClick()
+    }
+
+    private fun initVars() {
         toolbar = findViewById(R.id.toolbar)
         // Tools.clearSystemBarLight(this);
         toolbar!!.elevation = 0f
@@ -110,8 +120,22 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         )
             .setDrawerLayout(drawerLayout)
             .build()
+    }
+
+    private fun initNavigation() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        val graphInflater = navController!!.navInflater
+        val navGraph = graphInflater.inflate(R.navigation.mobile_navigation)
+        navGraph.startDestination = if (sessionManager!!.roleLocal == "poster") {
+            R.id.navigation_new_task
+        } else {
+            R.id.navigation_browse
+        }
+        navController!!.graph = navGraph
         NavigationUI.setupWithNavController(toolbar!!, navController!!, appBarConfiguration!!)
+    }
+
+    private fun handleBundle() {
         val bundle = intent.extras
         if (bundle != null) {
             if (bundle.getParcelable<Parcelable?>(ConstantKey.PUSH_NOTIFICATION_MODEL) != null) {
@@ -168,11 +192,6 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                     }
             }
         }
-        setNavClick()
-        accountDetails
-        goToFragment()
-        // balance
-        onNavClick()
     }
 
     private fun setNavClick() {
@@ -236,7 +255,8 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
             navigationID = destination.id
         }
     }
-    fun resetBottomBar(){
+
+    fun resetBottomBar() {
         when (navigationID) {
             R.id.navigation_new_task -> {
                 setMenuItemProperties(0)
@@ -255,6 +275,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
             }
         }
     }
+
     fun setMenuItemProperties(index: Int) {
         for (i in 0..4) {
             if (i == index) {

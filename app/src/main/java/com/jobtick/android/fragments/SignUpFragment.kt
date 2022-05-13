@@ -1,26 +1,21 @@
 package com.jobtick.android.fragments
 
-import com.jobtick.android.activities.AuthActivity.EditTextError
-import android.annotation.SuppressLint
-import butterknife.BindView
-import com.jobtick.android.R
-import com.jobtick.android.widget.ExtendedEntryTextDiffId
-import com.jobtick.android.widget.ExtendedEntryText
-import com.google.android.material.button.MaterialButton
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.jobtick.android.activities.AuthActivity
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.os.Bundle
-import android.text.TextUtils
-import android.view.View
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.fragment.app.Fragment
-import butterknife.ButterKnife
-import butterknife.OnClick
-import com.jobtick.android.fragments.SignInFragment
+import com.google.android.material.button.MaterialButton
+import com.jobtick.android.R
+import com.jobtick.android.activities.AuthActivity
+import com.jobtick.android.activities.AuthActivity.EditTextError
 import com.jobtick.android.utils.ExternalIntentHelper
 import com.jobtick.android.utils.Helper
+import com.jobtick.android.widget.ExtendedEntryText
+import com.jobtick.android.widget.ExtendedEntryTextDiffId
 
 /**
  * A simple [Fragment] subclass.
@@ -35,10 +30,12 @@ class SignUpFragment : Fragment(), EditTextError {
     private var lytBtnFacebook: LinearLayout? = null
     private var txtBtnSignIn: TextView? = null
     private var txtBtnTerms: TextView? = null
+    private var cbTerms: AppCompatCheckBox? = null
     private var authActivity: AuthActivity? = null
     private var fragmentView: View? = null
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         if (fragmentView != null) {
@@ -68,13 +65,16 @@ class SignUpFragment : Fragment(), EditTextError {
         txtBtnTerms = requireView().findViewById(R.id.txt_btn_terms)
         lytBtnGoogle = requireView().findViewById(R.id.lyt_btn_google)
         lytBtnFacebook = requireView().findViewById(R.id.lyt_btn_facebook)
+        cbTerms = requireView().findViewById(R.id.cb_terms)
     }
 
     private fun onViewClick() {
         lytBtnSignUp!!.setOnClickListener {
             authActivity!!.Signup(
                 edtEmailAddress!!.text.trim { it <= ' ' },
-                edtPassword!!.text.trim { it <= ' ' })
+                edtPassword!!.text.trim { it <= ' ' },
+                cbTerms!!.isChecked
+            )
         }
         lytBtnFacebook!!.setOnClickListener { authActivity!!.facebookLogin(true) }
         lytBtnGoogle!!.setOnClickListener { authActivity!!.signInWithGoogle(true) }
@@ -92,7 +92,6 @@ class SignUpFragment : Fragment(), EditTextError {
                 "https://www.jobtick.com/terms"
             )
         }
-
     }
 
     override fun onEmailError(emailError: String?) {

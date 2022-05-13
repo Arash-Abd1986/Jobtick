@@ -42,7 +42,7 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
     private var strKey: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super
-                .onCreate(savedInstanceState)
+            .onCreate(savedInstanceState)
         setContentView(R.layout.activity_report)
         setIDs()
         initToolbar()
@@ -62,6 +62,7 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
             if (bundle.containsKey(Constant.userID)) {
                 strKey = bundle.getString("key")
                 strUserid = bundle.getInt(Constant.userID)
+                supportActionBar!!.title = "Report User"
             }
             if (bundle.containsKey(ConstantKey.offerId)) {
                 strKey = bundle.getString("key")
@@ -99,7 +100,7 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
         toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
-   private fun onViewClick() {
+    private fun onViewClick() {
         submit.setOnClickListener {
             when (strKey) {
                 ConstantKey.KEY_USER_REPORT -> {
@@ -131,7 +132,6 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
         spinnerOthers.setOnClickListener {
             selectSpinnerItem(spinnerOthers.text.toString())
         }
-
     }
 
     private fun selectSpinnerItem(title: String) {
@@ -142,7 +142,9 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
     private fun reportTaskSpam() {
         //  {{baseurl}}/tasks/:slug/report
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + strSlug + "/report",
+        val stringRequest: StringRequest =
+            object : StringRequest(
+                Method.POST, Constant.URL_TASKS + "/" + strSlug + "/report",
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -167,32 +169,38 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
 
                     //  swipeRefresh.setRefreshing(false);
                     errorHandle1(error.networkResponse)
-                }) {
-            override fun getParams(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["subject"] = edtSubject.text
-                map1["description"] = edtDescription.text
-                return map1
-            }
+                }
+            ) {
+                override fun getParams(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["subject"] = edtSubject.text
+                    map1["description"] = edtDescription.text
+                    return map1
+                }
 
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                return map1
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["X-Requested-With"] = "XMLHttpRequest"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
             }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@ReportActivity)
         requestQueue.add(stringRequest)
     }
 
     private fun reportUserSpam() {
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + strUserid + "/report",
+        val stringRequest: StringRequest =
+            object : StringRequest(
+                Method.POST, Constant.URL_TASKS + "/" + strUserid + "/report",
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -217,32 +225,38 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
 
                     //  swipeRefresh.setRefreshing(false);
                     errorHandle1(error.networkResponse)
-                }) {
-            override fun getParams(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["subject"] = edtSubject.text
-                map1["description"] = edtDescription.text
-                return map1
-            }
+                }
+            ) {
+                override fun getParams(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["subject"] = edtSubject.text
+                    map1["description"] = edtDescription.text
+                    return map1
+                }
 
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                return map1
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["X-Requested-With"] = "XMLHttpRequest"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
             }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@ReportActivity)
         requestQueue.add(stringRequest)
     }
 
     private fun reportQuestionSpam() {
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + strQuestionid + "/report",
+        val stringRequest: StringRequest = object :
+            StringRequest(
+                Method.POST, Constant.URL_TASKS + "/" + strQuestionid + "/report",
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -265,7 +279,8 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 Response.ErrorListener { error: VolleyError ->
                     hideProgressDialog()
                     errorHandle1(error.networkResponse)
-                }) {
+                }
+            ) {
             override fun getParams(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["subject"] = edtSubject.text
@@ -282,15 +297,19 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@ReportActivity)
         requestQueue.add(stringRequest)
     }
 
     private fun reportCommentSpam() {
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + strCommentid + "/report",
+        val stringRequest: StringRequest =
+            object : StringRequest(
+                Method.POST, Constant.URL_TASKS + "/" + strCommentid + "/report",
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -313,33 +332,39 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 Response.ErrorListener { error: VolleyError ->
                     hideProgressDialog()
                     errorHandle1(error.networkResponse)
-                }) {
-            override fun getParams(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["subject"] = edtSubject.text
-                map1["description"] = edtDescription.text
-                return map1
-            }
+                }
+            ) {
+                override fun getParams(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["subject"] = edtSubject.text
+                    map1["description"] = edtDescription.text
+                    return map1
+                }
 
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                return map1
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["X-Requested-With"] = "XMLHttpRequest"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
             }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@ReportActivity)
         requestQueue.add(stringRequest)
     }
 
     private fun reportOfferSpam() {
-        //{{baseurl}}/offers/:id/report
+        // {{baseurl}}/offers/:id/report
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_OFFERS + "/" + strOfferid + "/report",
+        val stringRequest: StringRequest =
+            object : StringRequest(
+                Method.POST, Constant.URL_OFFERS + "/" + strOfferid + "/report",
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -362,24 +387,29 @@ class ReportActivity : ActivityBase(), ExtendedEntryText.ExtendedViewOnClickList
                 Response.ErrorListener { error: VolleyError ->
                     hideProgressDialog()
                     errorHandle1(error.networkResponse)
-                }) {
-            override fun getParams(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["subject"] = edtSubject.text
-                map1["description"] = edtDescription.text
-                return map1
+                }
+            ) {
+                override fun getParams(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["subject"] = edtSubject.text
+                    map1["description"] = edtDescription.text
+                    return map1
+                }
+
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["X-Requested-With"] = "XMLHttpRequest"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
             }
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                return map1
-            }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@ReportActivity)
         requestQueue.add(stringRequest)
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +8,37 @@
     android:orientation="vertical"
     tools:context=".activities.ProfileActivity">
 
-    <include layout="@layout/toolbar" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="start"
+        android:backgroundTint="@color/backgroundLightGrey"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:theme="@style/ThemeOverlay_Toolbar"
+        app:contentInsetStartWithNavigation="0dp"
+        app:navigationIcon="@drawable/ic_back"
+        app:titleMargin="0dp"
+        app:titleMarginBottom="0dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:gravity="end"
+            android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/setting_icon"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                app:srcCompat="@drawable/ic_baseline_more_vert" />
+        </LinearLayout>
+
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <FrameLayout
         android:id="@+id/profile"

@@ -788,98 +788,102 @@ open class AuthActivity : ActivityBase() {
         }
     }
 
-    fun Signup(email: String, password: String) {
-        showProgressDialog()
-        val strFcmToken = token
-        val strDeviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
-        val strDevice = DEVICE
-        Helper.closeKeyboard(this)
-        val stringRequest: StringRequest = object : StringRequest(
-            Method.POST, Constant.URL_SIGNUP,
-            Response.Listener { response: String? ->
-                Timber.tag("responce_url").e(response)
-                hideProgressDialog()
-                //  showToast("Check your inbox", AuthActivity.this);
-                fireBaseEvent!!.sendEvent(
-                    FireBaseEvent.Event.SIGN_UP,
-                    FireBaseEvent.EventType.API_RESPOND_SUCCESS, EventValue.SIGN_UP_NORMAL
-                )
-                val bundle = Bundle()
-                val fragment: Fragment = VerifyAccountFragment()
-                val ft = supportFragmentManager.beginTransaction()
-                ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString())
-                bundle.putString("email", email)
-                bundle.putString("password", password)
-                fragment.arguments = bundle
-                ft.commit()
-            },
-            Response.ErrorListener { error: VolleyError ->
-                val networkResponse = error.networkResponse
-                if (networkResponse?.data != null) {
-                    val jsonError = String(networkResponse.data)
-                    // Print Error!
-                    Timber.tag("intent22").e(jsonError)
-                    try {
-                        val jsonObject = JSONObject(jsonError)
-                        val jsonObjectError = jsonObject.getJSONObject("error")
-                        if (jsonObjectError.has("errors")) {
-                            val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
-                            var errorEmail = ""
-                            var errorPassword = ""
-                            if (jsonObjectErrors.has("email")) {
-                                val jsonArrayMobile = jsonObjectErrors.getJSONArray("email")
-                                errorEmail = jsonArrayMobile.getString(0)
-                                showToast(errorEmail, this@AuthActivity)
-                                editTextError.onEmailError(errorEmail)
-                            } else if (jsonObjectErrors.has("password")) {
-                                val jsonArrayMobile = jsonObjectErrors.getJSONArray("password")
-                                errorPassword = jsonArrayMobile.getString(0)
-                                showToast(errorPassword, this@AuthActivity)
-                                editTextError.onPasswordError(errorPassword)
+    fun Signup(email: String, password: String, checked: Boolean) {
+        if (checked) {
+            showProgressDialog()
+            val strFcmToken = token
+            val strDeviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+            val strDevice = DEVICE
+            Helper.closeKeyboard(this)
+            val stringRequest: StringRequest = object : StringRequest(
+                Method.POST, Constant.URL_SIGNUP,
+                Response.Listener { response: String? ->
+                    Timber.tag("responce_url").e(response)
+                    hideProgressDialog()
+                    //  showToast("Check your inbox", AuthActivity.this);
+                    fireBaseEvent!!.sendEvent(
+                        FireBaseEvent.Event.SIGN_UP,
+                        FireBaseEvent.EventType.API_RESPOND_SUCCESS, EventValue.SIGN_UP_NORMAL
+                    )
+                    val bundle = Bundle()
+                    val fragment: Fragment = VerifyAccountFragment()
+                    val ft = supportFragmentManager.beginTransaction()
+                    ft.replace(R.id.auth_layout, fragment).addToBackStack(fragment.toString())
+                    bundle.putString("email", email)
+                    bundle.putString("password", password)
+                    fragment.arguments = bundle
+                    ft.commit()
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
+                    if (networkResponse?.data != null) {
+                        val jsonError = String(networkResponse.data)
+                        // Print Error!
+                        Timber.tag("intent22").e(jsonError)
+                        try {
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObjectError = jsonObject.getJSONObject("error")
+                            if (jsonObjectError.has("errors")) {
+                                val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
+                                var errorEmail = ""
+                                var errorPassword = ""
+                                if (jsonObjectErrors.has("email")) {
+                                    val jsonArrayMobile = jsonObjectErrors.getJSONArray("email")
+                                    errorEmail = jsonArrayMobile.getString(0)
+                                    showToast(errorEmail, this@AuthActivity)
+                                    editTextError.onEmailError(errorEmail)
+                                } else if (jsonObjectErrors.has("password")) {
+                                    val jsonArrayMobile = jsonObjectErrors.getJSONArray("password")
+                                    errorPassword = jsonArrayMobile.getString(0)
+                                    showToast(errorPassword, this@AuthActivity)
+                                    editTextError.onPasswordError(errorPassword)
+                                }
+                                // signUpFragment.error(error_email,error_password);
+                            } else if (jsonObjectError.has("message")) {
+                                showToast(jsonObjectError.getString("message"), this@AuthActivity)
                             }
-                            // signUpFragment.error(error_email,error_password);
-                        } else if (jsonObjectError.has("message")) {
-                            showToast(jsonObjectError.getString("message"), this@AuthActivity)
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
                         }
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
+                    } else {
+                        showToast("Something Went Wrong", this@AuthActivity)
                     }
-                } else {
-                    showToast("Something Went Wrong", this@AuthActivity)
+                    Timber.tag("error").e(error.toString())
+                    hideProgressDialog()
                 }
-                Timber.tag("error").e(error.toString())
-                hideProgressDialog()
-            }
-        ) {
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                return map1
-            }
+            ) {
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["X-Requested-With"] = "XMLHttpRequest"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
 
-            override fun getParams(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["email"] = email
-                map1["password"] = password
-                map1["device_token"] = strDeviceId
-                map1["device_type"] = strDevice
-                map1["fcm_token"] = strFcmToken
-                map1["latitude"] = "0"
-                map1["longitude"] = "0"
-                map1["fname"] = "Jobtick"
-                // map1.put("lname", "User");
-                map1["location"] = "no location"
-                return map1
+                override fun getParams(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["email"] = email
+                    map1["password"] = password
+                    map1["device_token"] = strDeviceId
+                    map1["device_type"] = strDevice
+                    map1["fcm_token"] = strFcmToken
+                    map1["latitude"] = "0"
+                    map1["longitude"] = "0"
+                    map1["fname"] = "Jobtick"
+                    // map1.put("lname", "User");
+                    map1["location"] = "no location"
+                    return map1
+                }
             }
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+            val requestQueue = Volley.newRequestQueue(this)
+            requestQueue.add(stringRequest)
+        } else {
+            showToast("You must accept Jobtick’s term of services", this@AuthActivity)
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(
-            0, -1,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
-        val requestQueue = Volley.newRequestQueue(this)
-        requestQueue.add(stringRequest)
     }
 
     fun verification(email: String, password: String, otp: String) {

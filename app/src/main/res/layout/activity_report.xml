@@ -27,7 +27,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         app:eInputType="spinner"
-        app:eTitle="Why are you reporting this job?" />
+        app:eTitle="What is your reason for reporting?" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/spinner_container"

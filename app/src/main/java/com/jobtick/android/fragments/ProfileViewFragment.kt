@@ -1,8 +1,11 @@
 package com.jobtick.android.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +13,13 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.RatingBar
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -32,6 +38,7 @@ import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
 import com.jobtick.android.activities.EditProfileActivity
 import com.jobtick.android.activities.ProfileActivity
+import com.jobtick.android.activities.ReportActivity
 import com.jobtick.android.activities.ReviewsActivity
 import com.jobtick.android.activities.ZoomImageActivity
 import com.jobtick.android.adapers.AttachmentAdapter
@@ -61,7 +68,7 @@ import timber.log.Timber
 class ProfileViewFragment :
     Fragment(),
     onProfileUpdateListener,
-    AttachmentAdapter.OnItemClickListener {
+    AttachmentAdapter.OnItemClickListener, ConfirmBlockTaskBottomSheet.NoticeListener {
     var userId = -1
 
     var recyclerViewPortfolio: RecyclerView? = null
@@ -115,6 +122,7 @@ class ProfileViewFragment :
     private var adapter: AttachmentAdapter? = null
     private var badgesAdapter: BadgesAdapter? = null
     private var poppinsMedium: Typeface? = null
+    var popupWindow: PopupWindow? = null
     private var lPort: LinearLayout? = null
     private var lSkill: LinearLayout? = null
     private var noPortfolio: LinearLayout? = null
@@ -280,6 +288,41 @@ class ProfileViewFragment :
         profileActivity = requireActivity() as ProfileActivity
         poppinsMedium = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
         onProfileupdatelistener = this
+        val setting = profileActivity!!.findViewById<AppCompatImageView>(R.id.setting_icon)
+        setting.setOnClickListener {
+            setPopUpWindow()
+            popupWindow!!.showAsDropDown(setting, 0, Tools.px2dip(requireContext(), -20f))
+        }
+    }
+
+    private fun setPopUpWindow() {
+        val inflater =
+            requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.profile_view_menu, null)
+        popupWindow = PopupWindow(
+            view,
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            true
+        )
+        popupWindow!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val report = view.findViewById<View>(R.id.report) as TextView
+        val block = view.findViewById<View>(R.id.block) as TextView
+        report.setOnClickListener {
+            popupWindow!!.dismiss()
+            val intent = Intent(requireContext(), ReportActivity::class.java)
+            val bundle = Bundle()
+            bundle.putInt(Constant.userID, userId)
+            bundle.putString("key", ConstantKey.KEY_USER_REPORT)
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+        block.setOnClickListener {
+            popupWindow!!.dismiss()
+            val confirmBottomSheet = ConfirmBlockTaskBottomSheet(requireContext(), userAccountModel!!.name)
+            confirmBottomSheet.listener = this
+            confirmBottomSheet.show(childFragmentManager, "")
+        }
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -818,5 +861,8 @@ class ProfileViewFragment :
 
     companion object {
         var onProfileupdatelistener: onProfileUpdateListener? = null
+    }
+
+    override fun onBlockConfirmClick() {
     }
 }

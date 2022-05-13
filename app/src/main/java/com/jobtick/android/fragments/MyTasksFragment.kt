@@ -148,8 +148,6 @@ class MyTasksFragment :
         statusList
     }
 
-
-
     private fun setPopUpWindow() {
         val inflater =
             requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

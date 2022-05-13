@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -36,6 +37,7 @@ import com.jobtick.android.activities.DashboardActivity
 import com.jobtick.android.activities.FiltersActivity
 import com.jobtick.android.activities.MapViewActivity
 import com.jobtick.android.activities.SearchTaskActivity
+import com.jobtick.android.activities.TaskAlertsActivity
 import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.adapers.FilterAdapter
 import com.jobtick.android.adapers.TaskListAdapterV2
@@ -70,6 +72,9 @@ class ExploreFragment :
     private var swipeRefresh: SwipeRefreshLayout? = null
     private var txtFilters: TextView? = null
     private var edtSearch: TextView? = null
+    private var txtJobAlert: TextView? = null
+    private var icJobAlert: AppCompatImageView? = null
+    private var lin_job_alert: LinearLayout? = null
     private var btnVoice: ImageView? = null
     private var ivSearch: ImageView? = null
     private var appbar: RelativeLayout? = null
@@ -114,6 +119,9 @@ class ExploreFragment :
         swipeRefresh = requireView().findViewById(R.id.swipeRefresh)
         txtFilters = requireView().findViewById(R.id.txt_filters)
         edtSearch = requireView().findViewById(R.id.edt_search_categoreis)
+        txtJobAlert = requireView().findViewById(R.id.txt_job_alert)
+        icJobAlert = requireView().findViewById(R.id.ic_job_alert)
+        lin_job_alert = requireView().findViewById(R.id.lin_job_alert)
         btnVoice = requireView().findViewById(R.id.btnVoice)
         ivSearch = requireView().findViewById(R.id.iv_search)
         appbar = requireView().findViewById(R.id.appbar)
@@ -132,8 +140,8 @@ class ExploreFragment :
         linFilterExplore = dashboardActivity!!.findViewById(R.id.lin_filter_explore)
         txtFilter = dashboardActivity!!.findViewById(R.id.txt_filter)
         ivNotification.visibility = View.GONE
-        linFilterExplore!!.visibility = View.VISIBLE
-        linFilterExplore!!.setOnClickListener { v: View? ->
+        linFilterExplore!!.visibility = View.GONE
+        lytBtnFilters!!.setOnClickListener {
             val bundle = Bundle()
             val intent = Intent(dashboardActivity, FiltersActivity::class.java)
             bundle.putParcelable(Constant.FILTER, filterModel)
@@ -159,6 +167,7 @@ class ExploreFragment :
         toolbarTitle.layoutParams = params
         setHasOptionsMenu(true)
         toolbar!!.navigationIcon = null
+        toolbar!!.visibility = View.GONE
     }
 
     override fun onResume() {
@@ -237,7 +246,7 @@ class ExploreFragment :
             requireActivity().runOnUiThread {
                 try {
                     mSocket!!.emit("auth", sessionManager!!.accessToken)
-                    Log.e(TAG, "who are you response")
+                    Log.d(TAG, "who are you response")
                 } catch (e: Exception) {
                     Log.e(TAG, e.message!!)
                     return@runOnUiThread
@@ -250,9 +259,9 @@ class ExploreFragment :
         if (isAdded)
             requireActivity().runOnUiThread {
                 try {
-                    Log.e(TAG, "Aut Response")
+                    Log.d(TAG, "Aut Response")
                     if (args[0] as Boolean) {
-                        Log.e(TAG, "Success autResponse")
+                        Log.d(TAG, "Success autResponse")
                         mSocket!!.emit("subscribe", "explore")
                     }
 
@@ -288,6 +297,21 @@ class ExploreFragment :
         initFilter()
         initBrowse()
         setCTAListener()
+        initJobAlert()
+    }
+
+    private fun initJobAlert() {
+        lin_job_alert!!.setOnClickListener {
+            val taskAlerts = Intent(requireContext(), TaskAlertsActivity::class.java)
+            startActivity(taskAlerts)
+        }
+        if (sessionManager!!.userAccount.account_status.isJobalerts) {
+            txtJobAlert!!.text = getString(R.string.edit_job_alert)
+            icJobAlert!!.setImageResource(R.drawable.ic_edit_job_alert)
+        } else {
+            txtJobAlert!!.text = getString(R.string.add_job_alert)
+            icJobAlert!!.setImageResource(R.drawable.ic_add_job_alert)
+        }
     }
 
     private fun setCTAListener() {

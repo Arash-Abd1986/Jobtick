@@ -12,61 +12,62 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@android:color/white"
-        android:weightSum="15">
+        android:weightSum="8">
 
         <LinearLayout
             android:id="@+id/home"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/nav_i1"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="32dp"
                 app:srcCompat="@drawable/ic_home_small" />
 
-            <com.jobtick.android.text_view.TextViewBold
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/nav_t1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_20sp"
-                android:layout_marginTop="-10dp"
+                style="@style/materialText_400_12"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/N900"
                 android:gravity="center"
-                android:textColor="@color/blueButtons"
-                android:text="•" />
+                android:text="Home" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/search"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/nav_i2"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="32dp"
                 app:srcCompat="@drawable/ic_explore_small" />
 
-            <com.jobtick.android.text_view.TextViewBold
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/nav_t2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="-10dp"
-                android:textSize="@dimen/_20sp"
-                android:textColor="@color/blueButtons"
-                android:text="•" />
+                style="@style/materialText_400_12"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/N900"
+                android:text="My Jobs" />
         </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/add_job"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="2"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <FrameLayout
@@ -90,48 +91,48 @@
             android:id="@+id/chat"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/nav_i4"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="32dp"
                 app:srcCompat="@drawable/ic_chats_small" />
 
-            <com.jobtick.android.text_view.TextViewBold
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/nav_t4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="-10dp"
-                android:textSize="@dimen/_20sp"
-                android:textColor="@color/blueButtons"
-                android:text="•" />
+                style="@style/materialText_400_12"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/N900"
+                android:text="Chats" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/profile"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/nav_i5"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="32dp"
                 app:srcCompat="@drawable/ic_profile_small" />
 
-            <com.jobtick.android.text_view.TextViewBold
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/nav_t5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="-10dp"
-                android:textSize="@dimen/_20sp"
-                android:textColor="@color/blueButtons"
-                android:text="•" />
+                style="@style/materialText_400_12"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/N900"
+                android:text="Profile" />
         </LinearLayout>
 
     </LinearLayout>

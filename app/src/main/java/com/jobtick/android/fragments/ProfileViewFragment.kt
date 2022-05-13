@@ -17,7 +17,6 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,6 +47,7 @@ import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.ImageUtil
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.Tools
+import com.jobtick.android.utils.cleanRound
 import com.jobtick.android.utils.setMoreLess
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -101,10 +101,12 @@ class ProfileViewFragment :
     var btnQuote: CardView? = null
     var llEnlarge: LinearLayout? = null
     var lytBtnGetAQuote: LinearLayout? = null
-    var ivMedalBoronz: ImageView? = null
+    var lnTickerReview: LinearLayout? = null
     var ivMedalTop: ImageView? = null
     var ivMedalGOld: ImageView? = null
     var ivMedalMax: ImageView? = null
+    var lnPosterReview: LinearLayout? = null
+    var ivMedalBoronz: ImageView? = null
     private var profileActivity: ProfileActivity? = null
     private var sessionManager: SessionManager? = null
     private var userAccountModel: UserAccountModel? = null
@@ -132,7 +134,33 @@ class ProfileViewFragment :
     private var linFcc: LinearLayout? = null
     private var levels: ArrayList<LevelsItem>? = null
     private var lastMonthIncome = 0F
-
+    private lateinit var poster: RadioButton
+    private lateinit var ticker: RadioButton
+    private lateinit var lytTicker: LinearLayout
+    private lateinit var lytPoster: LinearLayout
+    private lateinit var txtReviewCount1Starp: TextView
+    private lateinit var tickerReviewNum: TextView
+    private lateinit var posterReviewNum: TextView
+    private lateinit var txtReviewCount2Starp: TextView
+    private lateinit var txtReviewCount3Starp: TextView
+    private lateinit var txtReviewCount4Starp: TextView
+    private lateinit var txtReviewCount5Starp: TextView
+    private lateinit var progressBar1Starp: ProgressBar
+    private lateinit var progressBar2Starp: ProgressBar
+    private lateinit var progressBar3Starp: ProgressBar
+    private lateinit var progressBar4Starp: ProgressBar
+    private lateinit var progressBar5Starp: ProgressBar
+    private lateinit var progressBar5Star: ProgressBar
+    private lateinit var progressBar4Star: ProgressBar
+    private lateinit var progressBar3Star: ProgressBar
+    private lateinit var progressBar2Star: ProgressBar
+    private lateinit var progressBar1Star: ProgressBar
+    private lateinit var txtReviewCount5Star: TextView
+    private lateinit var txtReviewCount4Star: TextView
+    private lateinit var txtReviewCount3Star: TextView
+    private lateinit var txtReviewCount2Star: TextView
+    private lateinit var txtReviewCount1Star: TextView
+    private lateinit var imgVerifiedAccount: ImageView
     override fun onResume() {
         super.onResume()
         allProfileData
@@ -217,6 +245,35 @@ class ProfileViewFragment :
         linFcc!!.visibility = View.GONE
         addPortFilo!!.visibility = View.GONE
         addSkill!!.visibility = View.GONE
+        lytTicker = requireView().findViewById(R.id.ticker)
+        lytPoster = requireView().findViewById(R.id.Poster)
+        progressBar1Starp = requireView().findViewById(R.id.progress_bar_1_starP)
+        txtReviewCount1Starp = requireView().findViewById(R.id.txt_review_count_1_starP)
+        progressBar2Starp = requireView().findViewById(R.id.progress_bar_2_starP)
+        txtReviewCount2Starp = requireView().findViewById(R.id.txt_review_count_2_starP)
+        progressBar3Starp = requireView().findViewById(R.id.progress_bar_3_starP)
+        txtReviewCount3Starp = requireView().findViewById(R.id.txt_review_count_3_starP)
+        progressBar4Starp = requireView().findViewById(R.id.progress_bar_4_starP)
+        txtReviewCount4Starp = requireView().findViewById(R.id.txt_review_count_4_starP)
+        progressBar5Starp = requireView().findViewById(R.id.progress_bar_5_starP)
+        txtReviewCount5Starp = requireView().findViewById(R.id.txt_review_count_5_starP)
+        poster = requireView().findViewById(R.id.rbPoster)
+        ticker = requireView().findViewById(R.id.rbTicker)
+        progressBar5Star = requireView().findViewById(R.id.progress_bar_5_star)
+        progressBar4Star = requireView().findViewById(R.id.progress_bar_4_star)
+        progressBar3Star = requireView().findViewById(R.id.progress_bar_3_star)
+        progressBar2Star = requireView().findViewById(R.id.progress_bar_2_star)
+        progressBar1Star = requireView().findViewById(R.id.progress_bar_1_star)
+        txtReviewCount5Star = requireView().findViewById(R.id.txt_review_count_5_star)
+        txtReviewCount4Star = requireView().findViewById(R.id.txt_review_count_4_star)
+        txtReviewCount3Star = requireView().findViewById(R.id.txt_review_count_3_star)
+        txtReviewCount2Star = requireView().findViewById(R.id.txt_review_count_2_star)
+        txtReviewCount1Star = requireView().findViewById(R.id.txt_review_count_1_star)
+        imgVerifiedAccount = requireView().findViewById(R.id.img_verified)
+        lnPosterReview = requireView().findViewById(R.id.ln_poster_review)
+        lnTickerReview = requireView().findViewById(R.id.ln_ticker_review)
+        posterReviewNum = requireView().findViewById(R.id.poster_review_num)
+        tickerReviewNum = requireView().findViewById(R.id.ticker_review_num)
     }
 
     private fun initToolbar() {
@@ -248,8 +305,6 @@ class ProfileViewFragment :
         init()
         allProfileData
         initComponent()
-
-        //   initComponentScroll(view);
     }
 
     private fun startCategoryList() {
@@ -257,30 +312,37 @@ class ProfileViewFragment :
         infoBottomSheet.show(requireActivity().supportFragmentManager, null)
     }
 
-    private fun initComponentScroll(view: View) {
-        val nestedContent: NestedScrollView = view.findViewById(R.id.nested_scroll_view)
-        nestedContent.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-            if (scrollY < oldScrollY) { // up
-                animateFab(true)
-            }
-            if (scrollY > oldScrollY) { // down
-                animateFab(true)
-            }
-        }
-    }
-
-    var isFabHide = false
-    private fun animateFab(hide: Boolean) {
-        if (isFabHide && hide || !isFabHide && !hide) return
-        isFabHide = hide
-        val moveY = if (hide) 2 * btnQuote!!.height else 0
-        btnQuote!!.animate().translationY(moveY.toFloat()).setStartDelay(100).setDuration(300)
-            .start()
-    }
-
     private fun initComponent() {
-        rbPortfollio!!.setOnCheckedChangeListener { group: CompoundButton?, checkedId: Boolean -> onChangeTabBiography() }
-        rbSkills!!.setOnCheckedChangeListener { group: CompoundButton?, checkedId: Boolean -> onChangeTabBiography() }
+        rbPortfollio!!.setOnCheckedChangeListener { _: CompoundButton?, _: Boolean -> onChangeTabBiography() }
+        rbSkills!!.setOnCheckedChangeListener { _: CompoundButton?, _: Boolean -> onChangeTabBiography() }
+        poster.setOnCheckedChangeListener { _: CompoundButton?, _: Boolean -> onChangeTabReview() }
+        ticker.setOnCheckedChangeListener { _: CompoundButton?, _: Boolean -> onChangeTabReview() }
+        onChangeTabReview()
+    }
+
+    private fun onChangeTabReview() {
+        if (poster.isChecked) {
+            lnPosterReview!!.visibility = View.VISIBLE
+            lnTickerReview!!.visibility = View.GONE
+            poster.setTextColor(ContextCompat.getColor(requireContext(), R.color.N600))
+            ticker.setTextColor(ContextCompat.getColor(requireContext(), R.color.N100))
+        } else {
+            lnPosterReview!!.visibility = View.GONE
+            lnTickerReview!!.visibility = View.VISIBLE
+            ticker.setTextColor(ContextCompat.getColor(requireContext(), R.color.N600))
+            poster.setTextColor(ContextCompat.getColor(requireContext(), R.color.N100))
+        }
+        if (ticker.isChecked) {
+            lnPosterReview!!.visibility = View.GONE
+            lnTickerReview!!.visibility = View.VISIBLE
+            ticker.setTextColor(ContextCompat.getColor(requireContext(), R.color.N600))
+            poster.setTextColor(ContextCompat.getColor(requireContext(), R.color.N100))
+        } else {
+            lnPosterReview!!.visibility = View.VISIBLE
+            lnTickerReview!!.visibility = View.GONE
+            poster.setTextColor(ContextCompat.getColor(requireContext(), R.color.N600))
+            ticker.setTextColor(ContextCompat.getColor(requireContext(), R.color.N100))
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -533,6 +595,61 @@ class ProfileViewFragment :
                 "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
             if (userAccountModel.workTaskStatistics != null) tvTickerCompletionRate!!.text =
                 userAccountModel.workTaskStatistics.completionRate.toString() + "%"
+            // worker
+            if (userAccountModel.workerRatings != null) {
+                tickerReviewNum.text =
+                    userAccountModel.workerRatings.avgRating.toString().cleanRound()
+                if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get1() != null) {
+                    progressBar1Star.progress =
+                        userAccountModel.workerRatings.breakdownModel.get1()
+                    txtReviewCount1Star.text =
+                        "(" + userAccountModel.workerRatings.breakdownModel.get1()
+                        .toString() + ")"
+                } else {
+                    progressBar1Star.progress = 0
+                    txtReviewCount1Star.text = "(0)"
+                }
+                if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get2() != null) {
+                    progressBar2Star.progress =
+                        userAccountModel.workerRatings.breakdownModel.get2()
+                    txtReviewCount2Star.text =
+                        "(" + userAccountModel.workerRatings.breakdownModel.get2()
+                        .toString() + ")"
+                } else {
+                    progressBar2Star.progress = 0
+                    txtReviewCount2Star.text = "(0)"
+                }
+                if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get3() != null) {
+                    progressBar3Star.progress =
+                        userAccountModel.workerRatings.breakdownModel.get3()
+                    txtReviewCount3Star.text =
+                        "(" + userAccountModel.workerRatings.breakdownModel.get3()
+                        .toString() + ")"
+                } else {
+                    progressBar3Star.progress = 0
+                    txtReviewCount3Star.text = "(0)"
+                }
+                if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get4() != null) {
+                    progressBar4Star.progress =
+                        userAccountModel.workerRatings.breakdownModel.get4()
+                    txtReviewCount4Star.text =
+                        "(" + userAccountModel.workerRatings.breakdownModel.get4()
+                        .toString() + ")"
+                } else {
+                    progressBar4Star.progress = 0
+                    txtReviewCount4Star.text = "(0)"
+                }
+                if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get5() != null) {
+                    progressBar5Star.progress =
+                        userAccountModel.workerRatings.breakdownModel.get5()
+                    txtReviewCount5Star.text =
+                        "(" + userAccountModel.workerRatings.breakdownModel.get5()
+                        .toString() + ")"
+                } else {
+                    progressBar5Star.progress = 0
+                    txtReviewCount5Star.text = "(0)"
+                }
+            }
         }
         if (userAccountModel.posterRatings == null) {
             ratingbarAsPoster!!.visibility = View.GONE
@@ -549,6 +666,62 @@ class ProfileViewFragment :
                 "(" + userAccountModel.posterRatings.receivedReviews.toString() + ")"
             if (userAccountModel.postTaskStatistics != null) tvPosterCompletionRate!!.text =
                 userAccountModel.postTaskStatistics.completionRate.toString() + "%"
+
+            // poster
+            if (userAccountModel.posterRatings != null) {
+                posterReviewNum.text =
+                    userAccountModel.posterRatings.avgRating.toString().cleanRound()
+                if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel.get1() != null) {
+                    progressBar1Starp.progress =
+                        userAccountModel.posterRatings.breakdownModel.get1()
+                    txtReviewCount1Starp.text =
+                        "(" + userAccountModel.posterRatings.breakdownModel.get1()
+                        .toString() + ")"
+                } else {
+                    progressBar1Starp.progress = 0
+                    txtReviewCount1Starp.text = "(0)"
+                }
+                if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel.get2() != null) {
+                    progressBar2Starp.progress =
+                        userAccountModel.posterRatings.breakdownModel.get2()
+                    txtReviewCount2Starp.text =
+                        "(" + userAccountModel.posterRatings.breakdownModel.get2()
+                        .toString() + ")"
+                } else {
+                    progressBar2Starp.progress = 0
+                    txtReviewCount2Starp.text = "(0)"
+                }
+                if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel.get3() != null) {
+                    progressBar3Starp.progress =
+                        userAccountModel.posterRatings.breakdownModel.get3()
+                    txtReviewCount3Starp.text =
+                        "(" + userAccountModel.posterRatings.breakdownModel.get3()
+                        .toString() + ")"
+                } else {
+                    progressBar3Starp.progress = 0
+                    txtReviewCount3Starp.text = "(0)"
+                }
+                if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel.get4() != null) {
+                    progressBar4Starp.progress =
+                        userAccountModel.posterRatings.breakdownModel.get4()
+                    txtReviewCount4Starp.text =
+                        "(" + userAccountModel.posterRatings.breakdownModel.get4()
+                        .toString() + ")"
+                } else {
+                    progressBar4Starp.progress = 0
+                    txtReviewCount4Starp.text = "(0)"
+                }
+                if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel != null && userAccountModel.posterRatings.breakdownModel.get5() != null) {
+                    progressBar5Starp.progress =
+                        userAccountModel.posterRatings.breakdownModel.get5()
+                    txtReviewCount5Starp.text =
+                        "(" + userAccountModel.posterRatings.breakdownModel.get5()
+                        .toString() + ")"
+                } else {
+                    progressBar5Starp.progress = 0
+                    txtReviewCount5Starp.text = "(0)"
+                }
+            }
         }
 
         when (userAccountModel.workerTier.id) {

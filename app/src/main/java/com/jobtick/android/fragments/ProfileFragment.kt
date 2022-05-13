@@ -15,9 +15,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.RatingBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -55,6 +57,7 @@ import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.ImageUtil
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.Tools
+import com.jobtick.android.utils.cleanRound
 import com.jobtick.android.utils.setMoreLess
 import com.jobtick.android.widget.CircularProgressView
 import com.jobtick.android.widget.SpacingItemDecoration
@@ -104,6 +107,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var llEnlarge: LinearLayout? = null
     private var ivMedalBoronz: ImageView? = null
     private var ivMedalTop: ImageView? = null
+    private var txtLevel: TextView? = null
     private var ivMedalSilver: ImageView? = null
     private var ivMedalGold: ImageView? = null
     private var ivMedalMax: ImageView? = null
@@ -156,6 +160,41 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var levels: ArrayList<LevelsItem>? = null
     private var lastMonthIncome = 0F
     private var level = 1
+    private lateinit var poster: RadioButton
+    private lateinit var ticker: RadioButton
+    private lateinit var lytTicker: LinearLayout
+    private lateinit var lytPoster: LinearLayout
+    private lateinit var txtReviewCount1Starp: TextView
+    private lateinit var tickerReviewNum: TextView
+    private lateinit var posterReviewNum: TextView
+    private lateinit var txtReviewCount2Starp: TextView
+    private lateinit var txtReviewCount3Starp: TextView
+    private lateinit var txtReviewCount4Starp: TextView
+    private lateinit var txtReviewCount5Starp: TextView
+    private lateinit var progressBar1Starp: ProgressBar
+    private lateinit var progressBar2Starp: ProgressBar
+    private lateinit var progressBar3Starp: ProgressBar
+    private lateinit var progressBar4Starp: ProgressBar
+    private lateinit var progressBar5Starp: ProgressBar
+    private lateinit var progressBar5Star: ProgressBar
+    private lateinit var progressBar4Star: ProgressBar
+    private lateinit var progressBar3Star: ProgressBar
+    private lateinit var progressBar2Star: ProgressBar
+    private lateinit var progressBar1Star: ProgressBar
+    private lateinit var txtReviewCount5Star: TextView
+    private lateinit var txtReviewCount4Star: TextView
+    private lateinit var txtReviewCount3Star: TextView
+    private lateinit var txtReviewCount2Star: TextView
+    private lateinit var txtReviewCount1Star: TextView
+    private lateinit var txtRole: TextView
+    private lateinit var linMode: LinearLayout
+    private lateinit var reviewTabs: RadioGroup
+    private lateinit var swTickerMode: SwitchCompat
+    private lateinit var lnAboutMe: LinearLayout
+    private lateinit var rlStatus: RelativeLayout
+    private lateinit var fmPSkills: FrameLayout
+    var lnPosterReview: LinearLayout? = null
+    var lnTickerReview: LinearLayout? = null
     override fun onResume() {
         super.onResume()
         allProfileData
@@ -230,6 +269,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         llEnlarge = requireView().findViewById(R.id.llEnlarge)
         ivMedalBoronz = requireView().findViewById(R.id.ivMedalBoronz)
         ivMedalTop = requireView().findViewById(R.id.ivMedalTop)
+        txtLevel = requireView().findViewById(R.id.txt_level)
         ivMedalSilver = requireView().findViewById(R.id.ivMedalSilver)
         ivMedalGold = requireView().findViewById(R.id.ivMedalGOld)
         ivMedalMax = requireView().findViewById(R.id.ivMedalMax)
@@ -248,9 +288,46 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         tv_ticker_NoReview = requireView().findViewById(R.id.tv_ticker_NoReview)
         ln_poster_jobSuccess = requireView().findViewById(R.id.ln_poster_jobSuccess)
         ln_ticker_jobSuccess = requireView().findViewById(R.id.ln_ticker_jobSuccess)
-
-        linLevel!!.visibility = View.GONE
-        linFcc2!!.visibility = View.GONE
+        lytTicker = requireView().findViewById(R.id.ticker)
+        lytPoster = requireView().findViewById(R.id.Poster)
+        progressBar1Starp = requireView().findViewById(R.id.progress_bar_1_starP)
+        txtReviewCount1Starp = requireView().findViewById(R.id.txt_review_count_1_starP)
+        progressBar2Starp = requireView().findViewById(R.id.progress_bar_2_starP)
+        txtReviewCount2Starp = requireView().findViewById(R.id.txt_review_count_2_starP)
+        progressBar3Starp = requireView().findViewById(R.id.progress_bar_3_starP)
+        txtReviewCount3Starp = requireView().findViewById(R.id.txt_review_count_3_starP)
+        progressBar4Starp = requireView().findViewById(R.id.progress_bar_4_starP)
+        txtReviewCount4Starp = requireView().findViewById(R.id.txt_review_count_4_starP)
+        progressBar5Starp = requireView().findViewById(R.id.progress_bar_5_starP)
+        txtReviewCount5Starp = requireView().findViewById(R.id.txt_review_count_5_starP)
+        poster = requireView().findViewById(R.id.rbPoster)
+        ticker = requireView().findViewById(R.id.rbTicker)
+        progressBar5Star = requireView().findViewById(R.id.progress_bar_5_star)
+        progressBar4Star = requireView().findViewById(R.id.progress_bar_4_star)
+        progressBar3Star = requireView().findViewById(R.id.progress_bar_3_star)
+        progressBar2Star = requireView().findViewById(R.id.progress_bar_2_star)
+        progressBar1Star = requireView().findViewById(R.id.progress_bar_1_star)
+        txtReviewCount5Star = requireView().findViewById(R.id.txt_review_count_5_star)
+        txtReviewCount4Star = requireView().findViewById(R.id.txt_review_count_4_star)
+        txtReviewCount3Star = requireView().findViewById(R.id.txt_review_count_3_star)
+        txtReviewCount2Star = requireView().findViewById(R.id.txt_review_count_2_star)
+        txtReviewCount1Star = requireView().findViewById(R.id.txt_review_count_1_star)
+        lnPosterReview = requireView().findViewById(R.id.ln_poster_review)
+        lnTickerReview = requireView().findViewById(R.id.ln_ticker_review)
+        posterReviewNum = requireView().findViewById(R.id.poster_review_num)
+        tickerReviewNum = requireView().findViewById(R.id.ticker_review_num)
+        reviewTabs = requireView().findViewById(R.id.reviewTabs)
+        linMode = requireView().findViewById(R.id.lin_mode)
+        swTickerMode = requireView().findViewById(R.id.sw_ticker_mode)
+        txtRole = requireView().findViewById(R.id.txt_role)
+        lnAboutMe = requireView().findViewById(R.id.ln_about_me)
+        rlStatus = requireView().findViewById(R.id.rl_status)
+        fmPSkills = requireView().findViewById(R.id.fm_p_skills)
+        linFcc!!.visibility = View.GONE
+        reviewTabs.visibility = View.GONE
+        linFcc2!!.visibility = View.VISIBLE
+        linMode.visibility = View.VISIBLE
+        txtRole.visibility = View.VISIBLE
     }
 
     private fun initToolbar() {
@@ -327,8 +404,35 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     }
 
     private fun initComponent() {
-        rbPortfollio!!.setOnCheckedChangeListener { group: CompoundButton?, checkedId: Boolean -> onChangeTabBiography() }
-        rbSkills!!.setOnCheckedChangeListener { group: CompoundButton?, checkedId: Boolean -> onChangeTabBiography() }
+        if (sessionManager!!.roleLocal == "poster") {
+            lnPosterReview!!.visibility = View.VISIBLE
+            lnTickerReview!!.visibility = View.GONE
+            fmPSkills.visibility = View.GONE
+            rlStatus.visibility = View.GONE
+            lnAboutMe.visibility = View.GONE
+            linLevel!!.visibility = View.GONE
+            swTickerMode.isChecked = false
+            txtRole.text = "As a Poster"
+        } else {
+            lnPosterReview!!.visibility = View.GONE
+            lnTickerReview!!.visibility = View.VISIBLE
+            fmPSkills.visibility = View.VISIBLE
+            rlStatus.visibility = View.VISIBLE
+            lnAboutMe.visibility = View.VISIBLE
+            linLevel!!.visibility = View.VISIBLE
+            swTickerMode.isChecked = true
+            txtRole.text = "As a Ticker"
+        }
+        swTickerMode.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked)
+                sessionManager!!.roleLocal = "ticker"
+            else
+                sessionManager!!.roleLocal = "poster"
+            initComponent()
+            (requireActivity() as DashboardActivity).resetBottomBar()
+        }
+        rbPortfollio!!.setOnCheckedChangeListener { _: CompoundButton?, _: Boolean -> onChangeTabBiography() }
+        rbSkills!!.setOnCheckedChangeListener { _: CompoundButton?, _: Boolean -> onChangeTabBiography() }
     }
 
     @SuppressLint("SetTextI18n")
@@ -414,6 +518,51 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         badgesAdapter = BadgesAdapter(badgesModelArrayList)
     }
 
+    private fun checkLevel(levels: Levels?) {
+        for (i in 0 until levels!!.size) {
+            if ((((lastMonthIncome - levels[i].min_amount.toFloat()) / (levels[i].max_amount.toFloat() - levels[i].min_amount.toFloat())) * 100).toInt() >= 0) {
+                when (i) {
+                    0 -> {
+                        ivMedalTop!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level1_active
+                            )
+                        )
+                        txtLevel!!.text = "Level 1"
+                    }
+                    1 -> {
+                        ivMedalTop!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level2_active
+                            )
+                        )
+                        txtLevel!!.text = "Level 2"
+                    }
+                    2 -> {
+                        ivMedalTop!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level3_active
+                            )
+                        )
+                        txtLevel!!.text = "Level 3"
+                    }
+                    3 -> {
+                        ivMedalTop!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_level4_active
+                            )
+                        )
+                        txtLevel!!.text = "Level 4"
+                    }
+                }
+            }
+        }
+    }
+
     // map1.put("X-Requested-With", "XMLHttpRequest");
     private val allProfileData: Unit
         get() {
@@ -440,9 +589,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             )
                             this.levels = ArrayList()
                             this.levels!!.addAll(levels)
+                            checkLevel(levels)
                             if (userAccountModel!!.lastMonthIncome != null)
                                 this.lastMonthIncome = userAccountModel!!.lastMonthIncome.toFloat()
-                            setLevels(levels)
+                            // setLevels(levels)
                             setJobStatus(userAccountModel!!.account_status)
                             attachmentArrayList = userAccountModel!!.portfolio
                             adapter!!.clear()
@@ -749,6 +899,61 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
             if (userAccountModel.workTaskStatistics != null) tvTickerCompletionRate!!.text =
                 userAccountModel.workTaskStatistics.completionRate.toString() + "%"
+            // worker
+            if (userAccountModel.workerRatings != null) {
+                tickerReviewNum.text =
+                    userAccountModel.workerRatings.avgRating.toString().cleanRound()
+                if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get1() != null) {
+                    progressBar1Star.progress =
+                        userAccountModel.workerRatings.breakdownModel.get1()
+                    txtReviewCount1Star.text =
+                        "(" + userAccountModel.workerRatings.breakdownModel.get1()
+                        .toString() + ")"
+                } else {
+                    progressBar1Star.progress = 0
+                    txtReviewCount1Star.text = "(0)"
+                }
+                if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get2() != null) {
+                    progressBar2Star.progress =
+                        userAccountModel.workerRatings.breakdownModel.get2()
+                    txtReviewCount2Star.text =
+                        "(" + userAccountModel.workerRatings.breakdownModel.get2()
+                        .toString() + ")"
+                } else {
+                    progressBar2Star.progress = 0
+                    txtReviewCount2Star.text = "(0)"
+                }
+                if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get3() != null) {
+                    progressBar3Star.progress =
+                        userAccountModel.workerRatings.breakdownModel.get3()
+                    txtReviewCount3Star.text =
+                        "(" + userAccountModel.workerRatings.breakdownModel.get3()
+                        .toString() + ")"
+                } else {
+                    progressBar3Star.progress = 0
+                    txtReviewCount3Star.text = "(0)"
+                }
+                if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get4() != null) {
+                    progressBar4Star.progress =
+                        userAccountModel.workerRatings.breakdownModel.get4()
+                    txtReviewCount4Star.text =
+                        "(" + userAccountModel.workerRatings.breakdownModel.get4()
+                        .toString() + ")"
+                } else {
+                    progressBar4Star.progress = 0
+                    txtReviewCount4Star.text = "(0)"
+                }
+                if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get5() != null) {
+                    progressBar5Star.progress =
+                        userAccountModel.workerRatings.breakdownModel.get5()
+                    txtReviewCount5Star.text =
+                        "(" + userAccountModel.workerRatings.breakdownModel.get5()
+                        .toString() + ")"
+                } else {
+                    progressBar5Star.progress = 0
+                    txtReviewCount5Star.text = "(0)"
+                }
+            }
         }
         if (userAccountModel.posterRatings == null) {
             ratingbarAsPoster!!.visibility = View.GONE
@@ -765,6 +970,61 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 "(" + userAccountModel.posterRatings.receivedReviews.toString() + ")"
             if (userAccountModel.postTaskStatistics != null) tvPosterCompletionRate!!.text =
                 userAccountModel.postTaskStatistics.completionRate.toString() + "%"
+            // poster
+            if (userAccountModel.posterRatings != null) {
+                posterReviewNum.text =
+                    userAccountModel.posterRatings.avgRating.toString().cleanRound()
+                if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel.get1() != null) {
+                    progressBar1Starp.progress =
+                        userAccountModel.posterRatings.breakdownModel.get1()
+                    txtReviewCount1Starp.text =
+                        "(" + userAccountModel.posterRatings.breakdownModel.get1()
+                        .toString() + ")"
+                } else {
+                    progressBar1Starp.progress = 0
+                    txtReviewCount1Starp.text = "(0)"
+                }
+                if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel.get2() != null) {
+                    progressBar2Starp.progress =
+                        userAccountModel.posterRatings.breakdownModel.get2()
+                    txtReviewCount2Starp.text =
+                        "(" + userAccountModel.posterRatings.breakdownModel.get2()
+                        .toString() + ")"
+                } else {
+                    progressBar2Starp.progress = 0
+                    txtReviewCount2Starp.text = "(0)"
+                }
+                if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel.get3() != null) {
+                    progressBar3Starp.progress =
+                        userAccountModel.posterRatings.breakdownModel.get3()
+                    txtReviewCount3Starp.text =
+                        "(" + userAccountModel.posterRatings.breakdownModel.get3()
+                        .toString() + ")"
+                } else {
+                    progressBar3Starp.progress = 0
+                    txtReviewCount3Starp.text = "(0)"
+                }
+                if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel.get4() != null) {
+                    progressBar4Starp.progress =
+                        userAccountModel.posterRatings.breakdownModel.get4()
+                    txtReviewCount4Starp.text =
+                        "(" + userAccountModel.posterRatings.breakdownModel.get4()
+                        .toString() + ")"
+                } else {
+                    progressBar4Starp.progress = 0
+                    txtReviewCount4Starp.text = "(0)"
+                }
+                if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel != null && userAccountModel.posterRatings.breakdownModel.get5() != null) {
+                    progressBar5Starp.progress =
+                        userAccountModel.posterRatings.breakdownModel.get5()
+                    txtReviewCount5Starp.text =
+                        "(" + userAccountModel.posterRatings.breakdownModel.get5()
+                        .toString() + ")"
+                } else {
+                    progressBar5Starp.progress = 0
+                    txtReviewCount5Starp.text = "(0)"
+                }
+            }
         }
 
         if (userAccountModel.isVerifiedAccount == 1) {

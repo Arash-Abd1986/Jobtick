@@ -253,12 +253,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="3dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="3dp"
             android:gravity="center_vertical"
             android:maxLines="2"
             android:textColor="@color/colorNavyBlue"
             tools:text="level1" />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/lin_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/lin_fcc2"
+        android:visibility="gone"
+        >
 
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/materialText_400_14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="Ticker mode"
+            android:textColor="@color/textColor" />
+
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sw_ticker_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:button="@null"
+            android:gravity="center" />
+
+    </LinearLayout>
 </RelativeLayout>

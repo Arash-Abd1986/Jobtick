@@ -125,6 +125,14 @@ public class SessionManager {
     public String getRole() {
         return pref.getString("role", "worker");
     }
+    public void setRoleLocal(String role) {
+        editor.putString("role_local", role);
+        editor.commit();
+    }
+
+    public String getRoleLocal() {
+        return pref.getString("role_local", "poster");
+    }
 
     public void setQuickOffer(String offer, int id) {
         editor.putString("quickOfferPref" + id, offer);

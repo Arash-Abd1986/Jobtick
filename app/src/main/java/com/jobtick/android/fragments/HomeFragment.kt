@@ -6,34 +6,65 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.text.Html
-import android.view.*
-import android.widget.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.Space
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
-import com.jobtick.android.activities.*
+import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.activities.DashboardActivity
+import com.jobtick.android.activities.NotificationActivity
+import com.jobtick.android.activities.PaymentHistoryActivity
+import com.jobtick.android.activities.TaskCreateActivity
+import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.adapers.OfferedJobsAdapter
 import com.jobtick.android.adapers.PostedJobsAdapter
 import com.jobtick.android.adapers.RecommendedJobsAdapter
+import com.jobtick.android.adapers.TaskCategoryAdapter
+import com.jobtick.android.models.TaskCategory
 import com.jobtick.android.models.response.home.Banner
 import com.jobtick.android.models.response.home.OfferedJob
 import com.jobtick.android.models.response.home.Payment
 import com.jobtick.android.models.response.home.PostedJob
-import com.jobtick.android.utils.*
+import com.jobtick.android.utils.AutoResizeTextView
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.Navigator
+import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.round
 import com.jobtick.android.viewmodel.home.HomeFragmentViewModel
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 
-class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJobsAdapter.OnItemClickListener, RecommendedJobsAdapter.OnItemClickListener {
+class HomeFragment :
+    Fragment(),
+    PostedJobsAdapter.OnItemClickListener,
+    OfferedJobsAdapter.OnItemClickListener,
+    RecommendedJobsAdapter.OnItemClickListener,
+    TaskCategoryAdapter.OnItemClickListener {
     private var name: TextView? = null
     private var bannerTXT: TextView? = null
     private var txtIncomeAmount: AutoResizeTextView? = null
@@ -91,10 +122,14 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     private var offeredJobs: ArrayList<OfferedJob> = ArrayList()
     private var postedJobs: ArrayList<PostedJob> = ArrayList()
     private var recommendedJobs: ArrayList<PostedJob> = ArrayList()
+    var recyclerViewCategories: RecyclerView? = null
+    private var adapter: TaskCategoryAdapter? = null
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         root = inflater.inflate(R.layout.fragment_home, container, false)
         return root
     }
@@ -106,13 +141,24 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
         initVars()
         initToolbar()
         initVM()
+        initCategories()
+    }
+
+    private fun initCategories() {
+        val layoutManager = GridLayoutManager(activity, 3)
+        recyclerViewCategories!!.layoutManager = layoutManager
+        recyclerViewCategories!!.setHasFixedSize(true)
+        adapter = TaskCategoryAdapter(activity, java.util.ArrayList())
+        recyclerViewCategories!!.adapter = adapter
+        adapter!!.setOnItemClickListener(this)
+        getTaskCategoryData()
     }
 
     private fun initVM() {
         val dashboardActivity = requireActivity() as DashboardActivity
         viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
         llLoading!!.visibility = View.VISIBLE
-        viewModel.getNotifResponse().observe(viewLifecycleOwner, { jsonObject ->
+        viewModel.getNotifResponse().observe(viewLifecycleOwner) { jsonObject ->
             try {
                 if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                     val jsonObjectD = jsonObject.getJSONObject("data")
@@ -125,7 +171,10 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                         }
                     }
                 } else {
-                    (requireActivity() as ActivityBase).showToast("something went wrong.", requireContext())
+                    (requireActivity() as ActivityBase).showToast(
+                        "something went wrong.",
+                        requireContext()
+                    )
                     ivNotification!!.setImageResource(R.drawable.ic_notification_bel_24_28dp)
                 }
             } catch (e: JSONException) {
@@ -133,12 +182,12 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 e.printStackTrace()
                 ivNotification!!.setImageResource(R.drawable.ic_notification_bel_24_28dp)
             }
-        })
+        }
 
-        viewModel.getHomeResponse().observe(viewLifecycleOwner, {
+        viewModel.getHomeResponse().observe(viewLifecycleOwner) {
             Handler().postDelayed({
                 llLoading!!.visibility = View.GONE
-            },1500)
+            }, 1500)
 
             recentJobs = ArrayList()
             offeredJobs = ArrayList()
@@ -188,7 +237,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 e.printStackTrace()
                 Handler().postDelayed({
                     llLoading!!.visibility = View.GONE
-                },1500)
+                }, 1500)
             }
 
             if ((sessionManager!!.role == "worker") && hasRecommendedJobs) {
@@ -196,43 +245,119 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
             } else {
                 rlRecommendedJobs!!.visibility = View.GONE
             }
-        })
-        viewModel.getError().observe(viewLifecycleOwner, {
+        }
+        viewModel.getError().observe(viewLifecycleOwner) {
             dashboardActivity.showToast("Something went wrong", dashboardActivity)
             Handler().postDelayed({
                 llLoading!!.visibility = View.GONE
-            },1500)
-        })
-        viewModel.getError2().observe(viewLifecycleOwner, {
+            }, 1500)
+        }
+        viewModel.getError2().observe(viewLifecycleOwner) {
             ivNotification!!.setImageResource(R.drawable.ic_notification_bel_24_28dp)
-        })
+        }
 
-        viewModel.notificationList(sessionManager!!.accessToken, Volley.newRequestQueue(requireContext()))
+        viewModel.notificationList(
+            sessionManager!!.accessToken,
+            Volley.newRequestQueue(requireContext())
+        )
         viewModel.home(sessionManager!!.accessToken, Volley.newRequestQueue(requireContext()))
+    }
 
+    fun getTaskCategoryData(): List<TaskCategory>? {
+        val items: MutableList<TaskCategory> = java.util.ArrayList()
+        val stringRequest: StringRequest = object : StringRequest(
+            Method.GET, Constant.TASK_CATEGORY_V2 + "?query=" + "",
+            Response.Listener { response: String? ->
+                try {
+                    val jsonObject = JSONObject(response)
+                    if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                        val jsonArray_data = jsonObject.getJSONArray("data")
+                        if (jsonArray_data.length() > 0) {
+                            var i = 0
+                            while (jsonArray_data.length() > i) {
+                                val jsonObject_taskModel_list =
+                                    jsonArray_data.getJSONObject(i)
+                                val taskModel = TaskCategory().getJsonToModel(
+                                    jsonObject_taskModel_list,
+                                    activity
+                                )
+                                items.add(taskModel)
+                                i++
+                            }
+                        }
+                    } else {
+                        return@Listener
+                    }
+                    if (jsonObject.has("meta") && !jsonObject.isNull("meta")) {
+                        val jsonObject_meta = jsonObject.getJSONObject("meta")
+                        Constant.PAGE_SIZE = jsonObject_meta.getInt("per_page")
+                    }
+                    if (items.size <= 0) {
+                        recyclerViewCategories!!.visibility = View.GONE
+                    } else {
+                        recyclerViewCategories!!.visibility = View.VISIBLE
+                        try {
+                            linMain!!.addView(recyclerViewCategories)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                    adapter!!.addItems(items)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error: VolleyError? ->
+            } /*errorHandle1(error.networkResponse)*/
+        ) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["Authorization"] = "Bearer " + sessionManager!!.accessToken
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
+            }
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        val requestQueue = Volley.newRequestQueue(activity)
+        requestQueue.add(stringRequest)
+        return items
     }
 
     private fun setView(item: JSONObject) {
         when {
-            item.getString("type") == "banner" -> {
-                setBanner(Gson().fromJson(item.getJSONObject("data").toString(), Banner::class.java))
-                hasBanner = true
-                try {
-                    linMain!!.addView(rlBanner)
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                }
-            }
-            item.getString("type") == "payment" -> {
-                setPayment(Gson().fromJson(item.getJSONObject("data").toString(), Payment::class.java))
-                hasPayment = true
-                try {
-                    linMain!!.addView(rlPayment)
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                }
-            }
-            item.getString("type") == "posted-jobs" -> {
+            /* item.getString("type") == "banner" -> {
+                 setBanner(
+                     Gson().fromJson(
+                         item.getJSONObject("data").toString(),
+                         Banner::class.java
+                     )
+                 )
+                 hasBanner = true
+                 try {
+                     linMain!!.addView(rlBanner)
+                 } catch (e: java.lang.Exception) {
+                     e.printStackTrace()
+                 }
+             }
+             item.getString("type") == "payment" -> {
+                 setPayment(
+                     Gson().fromJson(
+                         item.getJSONObject("data").toString(),
+                         Payment::class.java
+                     )
+                 )
+                 hasPayment = true
+                 try {
+                     linMain!!.addView(rlPayment)
+                 } catch (e: java.lang.Exception) {
+                     e.printStackTrace()
+                 }
+             }*/
+            /*item.getString("type") == "posted-jobs" -> {
                 val jsonArrayData = item.getJSONArray("data")
                 for (j in 0 until jsonArrayData.length()) {
                     val itemData = jsonArrayData.getJSONObject(j)
@@ -276,7 +401,7 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                         e.printStackTrace()
                     }
                 }
-            }
+            }*/
             item.getString("type") == "recent-jobs" -> {
                 val jsonArrayData = item.getJSONArray("data")
                 for (j in 0 until jsonArrayData.length()) {
@@ -293,7 +418,6 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 }
             }
         }
-
     }
 
     override fun onPause() {
@@ -323,7 +447,8 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                     startCategoryList()
                 }
             } else {
-                txtLastTransaction!!.text = "You haven’t made any transaction yet, explore jobs and make an offer to complete your first job."
+                txtLastTransaction!!.text =
+                    "You haven’t made any transaction yet, explore jobs and make an offer to complete your first job."
                 txtPaymentsAction!!.text = "Explore"
                 imgExplore!!.visibility = View.VISIBLE
                 txtTargetName!!.visibility = View.GONE
@@ -339,7 +464,8 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 imgExplore!!.visibility = View.GONE
                 txtTargetName!!.text = payment.last_trx.username
                 txtLastTransactionDate!!.text = payment.last_trx.created_at
-                txtLastTransactionAmount!!.text = "$" + payment.last_trx.amount!!.toDouble().round(2).round()
+                txtLastTransactionAmount!!.text =
+                    "$" + payment.last_trx.amount!!.toDouble().round(2).round()
                 linAction!!.setOnClickListener {
                     startActivity(Intent(requireContext(), PaymentHistoryActivity::class.java))
                 }
@@ -354,8 +480,6 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
                 }
             }
         }
-
-
     }
 
     private fun startCategoryList() {
@@ -443,14 +567,13 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
             if (banner.action.type == "invite") {
                 (requireActivity() as DashboardActivity).goToFragment(DashboardActivity.Fragment.INVITE)
             } else {
-
             }
         }
-
     }
 
     private fun setIDs() {
         val dashboardActivity = requireActivity() as DashboardActivity
+        recyclerViewCategories = requireView().findViewById(R.id.recyclerView_categories)
         ivNotification = dashboardActivity.findViewById(R.id.ivNotification)
         toolbar = dashboardActivity.findViewById(R.id.toolbar)
         llLoading = requireView().findViewById(R.id.loading_view)
@@ -503,17 +626,25 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
         filterText.text = "All jobs"
         toolbarTitle.visibility = View.VISIBLE
         toolbarTitle.setText(R.string.jobTick)
-        toolbar!!.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.backgroundLightGrey))
-        val params = Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT)
+        toolbar!!.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.backgroundLightGrey
+            )
+        )
+        val params = Toolbar.LayoutParams(
+            Toolbar.LayoutParams.WRAP_CONTENT,
+            Toolbar.LayoutParams.WRAP_CONTENT
+        )
         params.gravity = Gravity.CENTER
         toolbarTitle.layoutParams = params
         ivNotification!!.visibility = View.VISIBLE
         toolbar!!.navigationIcon = null
-
+        toolbar!!.visibility = View.GONE
     }
 
     private fun initVars() {
-        linMain!!.removeAllViews()
+        //linMain!!.removeAllViews()
         try {
             linMain!!.addView(rlTop)
         } catch (e: java.lang.Exception) {
@@ -528,10 +659,26 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
     }
 
     private fun onClick() {
-        myJobs!!.setOnClickListener { v: View? -> (requireActivity() as DashboardActivity).goToFragment(DashboardActivity.Fragment.MY_JOBS) }
-        seeAllPostedJobs!!.setOnClickListener { v: View? -> (requireActivity() as DashboardActivity).goToFragment(DashboardActivity.Fragment.MY_JOBS) }
-        seeAllOfferedJobs!!.setOnClickListener { v: View? -> (requireActivity() as DashboardActivity).goToFragment(DashboardActivity.Fragment.MY_JOBS) }
-        seeAllRecentJobs!!.setOnClickListener { v: View? -> (requireActivity() as DashboardActivity).goToFragment(DashboardActivity.Fragment.EXPLORE) }
+        myJobs!!.setOnClickListener { v: View? ->
+            (requireActivity() as DashboardActivity).goToFragment(
+                DashboardActivity.Fragment.MY_JOBS
+            )
+        }
+        seeAllPostedJobs!!.setOnClickListener { v: View? ->
+            (requireActivity() as DashboardActivity).goToFragment(
+                DashboardActivity.Fragment.MY_JOBS
+            )
+        }
+        seeAllOfferedJobs!!.setOnClickListener { v: View? ->
+            (requireActivity() as DashboardActivity).goToFragment(
+                DashboardActivity.Fragment.MY_JOBS
+            )
+        }
+        seeAllRecentJobs!!.setOnClickListener { v: View? ->
+            (requireActivity() as DashboardActivity).goToFragment(
+                DashboardActivity.Fragment.EXPLORE
+            )
+        }
         toolbar!!.setOnMenuItemClickListener { item: MenuItem? -> false }
         updateProfile!!.setOnClickListener { v: View? -> navigator!!.navigate(R.id.navigation_profile) }
         ivNotification!!.setOnClickListener { v: View? ->
@@ -542,11 +689,13 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == ConstantKey.RESULTCODE_NOTIFICATION_READ) {
-            viewModel.notificationList(sessionManager!!.accessToken, Volley.newRequestQueue(requireContext()))
+            viewModel.notificationList(
+                sessionManager!!.accessToken,
+                Volley.newRequestQueue(requireContext())
+            )
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -572,5 +721,11 @@ class HomeFragment : Fragment(), PostedJobsAdapter.OnItemClickListener, OfferedJ
         Timber.i("MyTasksFragment Starting Task with slug: %s", slug)
     }
 
-
+    override fun onItemClick(view: View?, obj: TaskCategory?, position: Int) {
+        val creating_task = Intent(activity, TaskCreateActivity::class.java)
+        val bundle = Bundle()
+        bundle.putInt(ConstantKey.CATEGORY_ID, obj!!.id)
+        creating_task.putExtras(bundle)
+        requireActivity().startActivityForResult(creating_task, ConstantKey.RESULTCODE_CATEGORY)
+    }
 }

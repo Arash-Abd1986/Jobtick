@@ -16,13 +16,7 @@
         android:layout_height="wrap_content"
         android:background="@color/backgroundLightGrey">
 
-        <include
-            android:id="@+id/filter_list"
-            layout="@layout/view_filter_list"
-            android:visibility="visible" />
-
         <LinearLayout
-            android:layout_below="@+id/filter_list"
             android:id="@+id/lin_search"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -77,10 +71,64 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_job_alert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lin_search"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp">
+
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/recent_jobs_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Explore Jobs"
+                android:textAppearance="@style/materialText_W500_20"
+                android:textColor="@color/textColor" />
+
+            <LinearLayout
+                android:id="@+id/lin_job_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ic_job_alert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_add_job_alert" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_job_alert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="@style/materialText_400_15"
+                    android:textColor="@color/P300" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/filter_list"
+            layout="@layout/view_filter_list"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_below="@+id/rl_job_alert"
+            android:layout_marginHorizontal="@dimen/_8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible" />
+
+
+        <RelativeLayout
             android:id="@+id/linNewMessage"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30dp"
-            android:layout_below="@+id/lin_search"
+            android:layout_below="@+id/filter_list"
             android:layout_marginTop="@dimen/_8dp"
             android:gravity="center_horizontal"
             android:visibility="gone">

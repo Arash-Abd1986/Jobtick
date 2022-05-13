@@ -32,16 +32,6 @@
             android:textColor="@color/textColor"
             android:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/ivNotification"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="end"
-            android:contentDescription="@string/todo"
-            android:padding="5dp"
-            android:src="@drawable/ic_notification_bel_24_28dp"
-            android:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/lin_filter"
@@ -51,8 +41,17 @@
             android:layout_gravity="end"
             android:orientation="horizontal"
             android:paddingEnd="16dp"
-            android:visibility="gone">
-
+            android:visibility="visible">
+            <ImageView
+                android:id="@+id/ivNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:contentDescription="@string/todo"
+                android:padding="5dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_bell_v2"
+                android:visibility="visible" />
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/filter_text"
                 android:layout_width="wrap_content"

@@ -16,7 +16,7 @@
         android:layout_height="36dp"
         android:layout_centerInParent="true" />
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -149,7 +149,6 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <include layout="@layout/fragment_profile_review" />
                 <include layout="@layout/fragment_profile_about_me" />
 
 
@@ -217,6 +216,8 @@
                             layout="@layout/fragment_profile_skills"/>
                     </LinearLayout>
                 </FrameLayout>
+                <include layout="@layout/fragment_profile_review" />
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

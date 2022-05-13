@@ -29,7 +29,6 @@ import kotlin.math.floor
 import kotlin.math.round
 import kotlin.math.roundToInt
 
-
 const val MILLION = 1000000L
 const val BILLION = 1000000000L
 const val TRILLION = 1000000000000L
@@ -41,6 +40,16 @@ fun String.removeClearRound(): String {
     try {
         if (this.split(".")[1] == "00") {
             return this.split(".")[0]
+        }
+    } catch (e: Exception) {
+    }
+    return this
+}
+
+fun String.cleanRound(): String {
+    try {
+        if (this.split(".")[1].length > 1) {
+            return this.split(".")[0] + "." + this.split(".")[1].substring(0, 1)
         }
     } catch (e: Exception) {
     }
@@ -151,7 +160,6 @@ fun TextView.setSpanColor(start: Int, end: Int, color: Int) {
     this.text = wordToSpan
 }
 
-
 fun <T : Any> String.toClass(clazz: Class<T>): T {
     val gson = Gson()
     return gson.fromJson(this, clazz)
@@ -169,7 +177,6 @@ fun TextView.setSpanFont(start: Int, end: Int, textSize: Float) {
         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
     )
     this.text = ssBuilder
-
 }
 
 fun Context.isNetworkAvailable(): Boolean {
@@ -178,16 +185,17 @@ fun Context.isNetworkAvailable(): Boolean {
     val activeNetworkInfo = connectivityManager.activeNetworkInfo
 
     return activeNetworkInfo?.isConnected ?: false
-
 }
 
 fun String.isMailValid(): Boolean {
-    val regExpn = ("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
-            + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-            + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
-            + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-            + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
-            + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$")
+    val regExpn = (
+        "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@" +
+            "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?" +
+            "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\." +
+            "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?" +
+            "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|" +
+            "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$"
+        )
 
     val inputStr: CharSequence = this
 
@@ -196,9 +204,7 @@ fun String.isMailValid(): Boolean {
     val matcher = pattern.matcher(inputStr)
 
     return matcher.matches()
-
 }
-
 
 fun String.normalPhoneNumber(): String {
     var number = this
@@ -210,7 +216,6 @@ fun String.normalPhoneNumber(): String {
         number = number.replace("+98", "0")
 
     return number
-
 }
 
 fun String.getState(): String {
@@ -260,8 +265,6 @@ fun String.getShortAddress(): String {
         }
         else -> return this.replace(", Australia", "")
     }
-
-
 }
 
 fun Double.appendMBT(): String {
@@ -271,9 +274,7 @@ fun Double.appendMBT(): String {
         this < TRILLION -> "${floor(this.times(100).div(BILLION).times(0.01) * 100) / 100}B"
         else -> "${floor(this.times(100).div(TRILLION).times(0.01) * 100) / 100}T"
     }
-
 }
-
 
 fun String.insertComma(): String {
     var amount = this
@@ -321,9 +322,7 @@ fun String.insertComma(): String {
     }
 
     return retStr
-
 }
-
 
 fun String.cardFormat(): String {
     val str = this
@@ -333,9 +332,7 @@ fun String.cardFormat(): String {
         8,
         12
     ) + "-" + str.substring(12)
-
 }
-
 
 fun String.convertToEnglishDigits(): String {
     return try {
@@ -351,11 +348,9 @@ fun String.convertToEnglishDigits(): String {
         e.printStackTrace()
         this
     }
-
 }
 
 fun String.removeDash(): String = this.replace("-".toRegex(), "")
-
 
 fun String.removeComma(): String = this.replace(",".toRegex(), "").replace("٫", "")
 
@@ -371,10 +366,9 @@ fun TextView.changeToRequired() {
         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
     )
     this.text = wordToSpan
-
 }
 
-//fun AppCompatImageView.setShowHide(editText: EditText) {
+// fun AppCompatImageView.setShowHide(editText: EditText) {
 //    this.setOnClickListener {
 //        if (editText.inputType == InputType.TYPE_CLASS_TEXT) {
 //            editText.inputType = 129
@@ -385,7 +379,7 @@ fun TextView.changeToRequired() {
 //        }
 //    }
 //
-//}
+// }
 
 fun String.isPhoneNumber(): Boolean {
     val number = this
@@ -393,10 +387,7 @@ fun String.isPhoneNumber(): Boolean {
         (number.length < 11) or (number.length > 13) or (number.length == 12) -> false
         !((number.startsWith("+98")) or (number.startsWith("09"))) -> false
         else -> true
-
-
     }
-
 }
 
 fun Char.isPersian(): Boolean {

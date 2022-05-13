@@ -192,10 +192,10 @@
 
 
     <style name="CustomProgressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">
-        <item name="android:minHeight">20dip</item>
-        <item name="android:maxHeight">20dip</item>
+        <item name="android:minHeight">8dip</item>
+        <item name="android:maxHeight">8dip</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
-        <item name="colorControlNormal">@color/grey_40</item>
+        <item name="colorControlNormal">@color/N020</item>
     </style>
 
 

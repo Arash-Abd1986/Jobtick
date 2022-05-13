@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.os.Parcelable
 import android.view.MenuItem
 import android.view.View
@@ -63,6 +62,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     var navI4: AppCompatImageView? = null
     var navI5: AppCompatImageView? = null
     private var linFilterExplore: LinearLayout? = null
+    private var linFilter: LinearLayout? = null
     var home: LinearLayout? = null
     var search: LinearLayout? = null
     var chat: LinearLayout? = null
@@ -84,6 +84,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         sessionManager1 = SessionManager(this)
         onProfileupdatelistenerSideMenu = this
         linFilterExplore = findViewById(R.id.lin_filter_explore)
+        linFilter = findViewById(R.id.lin_filter)
         home = findViewById(R.id.home)
         search = findViewById(R.id.search)
         chat = findViewById(R.id.chat)
@@ -176,27 +177,32 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
 
     private fun setNavClick() {
         home!!.setOnClickListener { v: View? ->
-            linFilterExplore!!.visibility = View.GONE
-            navController!!.navigate(R.id.navigation_new_task)
+            linFilter!!.visibility = View.GONE
+            if (sessionManager!!.roleLocal == "poster") {
+                navController!!.navigate(R.id.navigation_new_task)
+            } else {
+                navController!!.navigate(R.id.navigation_browse)
+                accountDetails
+            }
         }
         search!!.setOnClickListener { v: View? ->
-            Handler().postDelayed({
-                linFilterExplore!!.visibility = View.VISIBLE
-            }, 50)
-            navController!!.navigate(R.id.navigation_browse)
-            accountDetails
+            navController!!.navigate(R.id.navigation_my_tasks)
+            linFilter!!.visibility = View.VISIBLE
         }
         chat!!.setOnClickListener { v: View? ->
             linFilterExplore!!.visibility = View.GONE
+            linFilter!!.visibility = View.GONE
             navController!!.navigate(R.id.navigation_inbox)
         }
         profile!!.setOnClickListener { v: View? ->
             linFilterExplore!!.visibility = View.GONE
+            linFilter!!.visibility = View.GONE
             navController!!.navigate(R.id.navigation_profile)
         }
         toolbar!!.setNavigationIcon(R.drawable.ic_setting)
         toolbar!!.setNavigationOnClickListener {
             linFilterExplore!!.visibility = View.GONE
+            linFilter!!.visibility = View.GONE
             if (navigationID == R.id.navigation_my_tasks) {
                 onBackPressed()
             } else {
@@ -215,6 +221,9 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                     setMenuItemProperties(0)
                 }
                 R.id.navigation_browse -> {
+                    setMenuItemProperties(0)
+                }
+                R.id.navigation_my_tasks -> {
                     setMenuItemProperties(1)
                 }
                 R.id.navigation_inbox -> {
@@ -227,7 +236,25 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
             navigationID = destination.id
         }
     }
-
+    fun resetBottomBar(){
+        when (navigationID) {
+            R.id.navigation_new_task -> {
+                setMenuItemProperties(0)
+            }
+            R.id.navigation_browse -> {
+                setMenuItemProperties(0)
+            }
+            R.id.navigation_my_tasks -> {
+                setMenuItemProperties(1)
+            }
+            R.id.navigation_inbox -> {
+                setMenuItemProperties(3)
+            }
+            R.id.navigation_profile -> {
+                setMenuItemProperties(4)
+            }
+        }
+    }
     fun setMenuItemProperties(index: Int) {
         for (i in 0..4) {
             if (i == index) {
@@ -264,22 +291,33 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         if (status == "LARGE") {
             when (itemId) {
                 0 -> {
-                    item!!.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_home_medium
+                    if (sessionManager!!.roleLocal == "poster") {
+                        item!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.ic_home_medium
+                            )
                         )
-                    )
-                    navT1!!.visibility = View.VISIBLE
+                        navT1!!.text = getString(R.string.title_home)
+                    } else {
+                        item!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.ic_explore_medium
+                            )
+                        )
+                        navT1!!.text = getString(R.string.explore)
+                    }
+                    navT1!!.setTextColor(getColor(R.color.P300))
                 }
                 1 -> {
                     item!!.setImageDrawable(
                         ContextCompat.getDrawable(
                             this,
-                            R.drawable.ic_explore_medium
+                            R.drawable.ic_myjobs_medium
                         )
                     )
-                    navT2!!.visibility = View.VISIBLE
+                    navT2!!.setTextColor(getColor(R.color.P300))
                 }
                 3 -> {
                     item!!.setImageDrawable(
@@ -288,7 +326,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                             R.drawable.ic_chats_medium
                         )
                     )
-                    navT4!!.visibility = View.VISIBLE
+                    navT4!!.setTextColor(getColor(R.color.P300))
                 }
                 4 -> {
                     item!!.setImageDrawable(
@@ -297,28 +335,39 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                             R.drawable.ic_profile_medium
                         )
                     )
-                    navT5!!.visibility = View.VISIBLE
+                    navT5!!.setTextColor(getColor(R.color.P300))
                 }
             }
         } else {
             when (itemId) {
                 0 -> {
-                    item!!.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_home_small
+                    if (sessionManager!!.roleLocal == "poster") {
+                        item!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.ic_home_small
+                            )
                         )
-                    )
-                    navT1!!.visibility = View.INVISIBLE
+                        navT1!!.text = getString(R.string.title_home)
+                    } else {
+                        item!!.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.ic_explore_small
+                            )
+                        )
+                        navT1!!.text = getString(R.string.explore)
+                    }
+                    navT1!!.setTextColor(getColor(R.color.N900))
                 }
                 1 -> {
                     item!!.setImageDrawable(
                         ContextCompat.getDrawable(
                             this,
-                            R.drawable.ic_explore_small
+                            R.drawable.ic_my_jobs_small
                         )
                     )
-                    navT2!!.visibility = View.INVISIBLE
+                    navT2!!.setTextColor(getColor(R.color.N900))
                 }
                 3 -> {
                     item!!.setImageDrawable(
@@ -327,7 +376,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                             R.drawable.ic_chats_small
                         )
                     )
-                    navT4!!.visibility = View.INVISIBLE
+                    navT4!!.setTextColor(getColor(R.color.N900))
                 }
                 4 -> {
                     item!!.setImageDrawable(
@@ -336,7 +385,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                             R.drawable.ic_profile_small
                         )
                     )
-                    navT5!!.visibility = View.INVISIBLE
+                    navT5!!.setTextColor(getColor(R.color.N900))
                 }
             }
         }

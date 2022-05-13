@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/content"
-        android:visibility="gone"
+        android:visibility="visible"
         android:background="@color/backgroundLightGrey"
         android:orientation="vertical">
 
@@ -38,10 +38,10 @@
                 <include layout="@layout/fragment_profile_title" />
                 <include layout="@layout/fragment_profile_status" />
                 <include layout="@layout/fragment_profile_level" />
-                <include layout="@layout/fragment_profile_review" />
                 <include layout="@layout/fragment_profile_about_me" />
 
                 <FrameLayout
+                    android:id="@+id/fm_p_skills"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8dp"
@@ -122,6 +122,7 @@
                         android:text="+ add your skills"
                         android:textColor="@color/P300" />
                 </FrameLayout>
+                <include layout="@layout/fragment_profile_review" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

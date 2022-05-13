@@ -5,8 +5,17 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.*
-import android.widget.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -15,31 +24,44 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.android.volley.*
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
-import com.jobtick.android.activities.*
+import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.activities.DashboardActivity
+import com.jobtick.android.activities.SearchTaskActivity
+import com.jobtick.android.activities.TaskCreateActivity
+import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.adapers.TaskListAdapterV2
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.models.response.myjobs.Data
 import com.jobtick.android.models.response.myjobs.MyJobsResponse
-import com.jobtick.android.utils.*
+import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.Helper
+import com.jobtick.android.utils.HttpStatus
+import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.widget.EndlessRecyclerViewOnScrollListener
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 
 /**
  * A simple [Fragment] subclass.
  */
-class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRefreshListener,
-    TaskListAdapterV2.OnDraftDeleteListener, ConfirmDeleteTaskBottomSheet.NoticeListener {
+class MyTasksFragment :
+    Fragment(),
+    TaskListAdapterV2.OnItemClickListener,
+    OnRefreshListener,
+    TaskListAdapterV2.OnDraftDeleteListener,
+    ConfirmDeleteTaskBottomSheet.NoticeListener {
 
     private var recyclerViewStatus: RecyclerView? = null
     private var swipeRefresh: SwipeRefreshLayout? = null
@@ -57,17 +79,16 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
     private lateinit var filterIcon: ImageView
     private lateinit var linFilter: LinearLayout
     private var mBehavior: BottomSheetBehavior<*>? = null
-    private val mBottomSheetDialog: BottomSheetDialog? = null
     var bottomSheet: FrameLayout? = null
-    private var single_choice_selected: String? = null
-    private var temp_single_choice_selected: String? = null
-    private var str_search: String? = null
-    private val temp_str_search: String? = null
+    private var singleChoiceSelected: String? = null
+    private var tempSingleChoiceSelected: String? = null
+    private var strSearch: String? = null
     private lateinit var toolbar: Toolbar
     private var noJobs: LinearLayout? = null
     var mypopupWindow: PopupWindow? = null
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
@@ -85,15 +106,15 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
         if (dashboardActivity == null) return
         toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
         toolbar.menu.clear()
-        //toolbar.inflateMenu(R.menu.menu_my_task_black);
+        // toolbar.inflateMenu(R.menu.menu_my_task_black);
         toolbar.visibility = View.VISIBLE
         ivNotification = dashboardActivity!!.findViewById(R.id.ivNotification)
-        ivNotification.visibility = View.GONE
+        ivNotification.visibility = View.VISIBLE
         toolbarTitle = dashboardActivity!!.findViewById(R.id.toolbar_title)
         linFilter = dashboardActivity!!.findViewById(R.id.lin_filter)
         filterText = dashboardActivity!!.findViewById(R.id.filter_text)
         filterIcon = dashboardActivity!!.findViewById(R.id.filter_icon)
-        linFilter.setOnClickListener(View.OnClickListener { v: View? ->
+        linFilter.setOnClickListener {
             filterText.setTextColor(
                 ContextCompat.getColor(
                     requireContext(), R.color.P300
@@ -106,7 +127,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
                 )
             )
             mypopupWindow!!.showAsDropDown(toolbar.findViewById(R.id.lin_filter), 0, 0)
-        })
+        }
         toolbarTitle.visibility = View.VISIBLE
         linFilter.visibility = View.VISIBLE
         toolbarTitle.setText(R.string.my_jobs)
@@ -121,17 +142,13 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
         toolbar.setNavigationIcon(R.drawable.ic_back)
     }
 
-    override fun onStop() {
-        super.onStop()
-        linFilter.visibility = View.GONE
-    }
-
     override fun onResume() {
         super.onResume()
-        linFilter.visibility = View.VISIBLE
         sessionManager!!.needRefresh = false
         statusList
     }
+
+
 
     private fun setPopUpWindow() {
         val inflater =
@@ -153,6 +170,26 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
         val overdue = view.findViewById<View>(R.id.overdue) as TextView
         val closed = view.findViewById<View>(R.id.closed) as TextView
         val cancelled = view.findViewById<View>(R.id.cancelled) as TextView
+        if (sessionManager!!.roleLocal == "poster") {
+            allJobs.visibility = View.VISIBLE
+            posted.visibility = View.VISIBLE
+            assigned.visibility = View.VISIBLE
+            draft.visibility = View.VISIBLE
+            completed.visibility = View.VISIBLE
+            closed.visibility = View.VISIBLE
+            cancelled.visibility = View.VISIBLE
+            overdue.visibility = View.GONE
+        } else {
+            allJobs.visibility = View.VISIBLE
+            offered.visibility = View.VISIBLE
+            assigned.visibility = View.VISIBLE
+            completed.visibility = View.VISIBLE
+            closed.visibility = View.VISIBLE
+            cancelled.visibility = View.VISIBLE
+            draft.visibility = View.GONE
+            overdue.visibility = View.GONE
+            posted.visibility = View.GONE
+        }
         mypopupWindow!!.setOnDismissListener {
             filterText.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
             filterIcon.setImageDrawable(
@@ -342,7 +379,7 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
         resetTaskListAdapter()
         recyclerViewStatus!!.adapter = taskListAdapter
         swipeRefresh!!.isRefreshing = true
-        single_choice_selected = Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE
+        singleChoiceSelected = Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE
         statusList
         onScrollListener = object : EndlessRecyclerViewOnScrollListener() {
             override fun onLoadMore(currentPage: Int) {
@@ -366,20 +403,20 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
             }
             false
         }
-    }//  swipeRefresh.setRefreshing(false);
+    } //  swipeRefresh.setRefreshing(false);
 
     // categoryArrayList.clear();
     private val statusList: Unit
         private get() {
             var query_parameter = ""
-            if (str_search != null) {
-                query_parameter += "&search_query=$str_search"
+            if (strSearch != null) {
+                query_parameter += "&search_query=$strSearch"
             }
-            query_parameter += if (single_choice_selected.equals(
+            query_parameter += if (singleChoiceSelected.equals(
                     Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE,
                     ignoreCase = true
                 )
-            ) "" else "&status=" + single_choice_selected!!.toLowerCase()
+            ) "" else "&status=" + singleChoiceSelected!!.lowercase(Locale.getDefault())
             if (currentPage == 1) swipeRefresh!!.isRefreshing = true
             Helper.closeKeyboard(dashboardActivity)
             val stringRequest: StringRequest = object : StringRequest(
@@ -414,9 +451,9 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
                             recyclerViewStatus!!.visibility = View.VISIBLE
                         }
                         swipeRefresh!!.isRefreshing = false
-                        str_search = null
+                        strSearch = null
                     } catch (e: JSONException) {
-                        str_search = null
+                        strSearch = null
                         dashboardActivity!!.hideProgressDialog()
                         Timber.e(e.toString())
                         e.printStackTrace()
@@ -424,10 +461,11 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
                 },
                 Response.ErrorListener { error: VolleyError ->
                     //  swipeRefresh.setRefreshing(false);
-                    str_search = null
+                    strSearch = null
                     swipeRefresh!!.isRefreshing = false
                     dashboardActivity!!.errorHandle1(error.networkResponse)
-                }) {
+                }
+            ) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
                     map1["Content-Type"] = "application/x-www-form-urlencoded"
@@ -453,8 +491,8 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
     }
 
     override fun onItemClick(view: View?, obj: Data?, position: Int, action: String?) {
-        if (obj!!.status!!.toLowerCase()
-                .equals(Constant.TASK_DRAFT.toLowerCase(), ignoreCase = true)
+        if (obj!!.status!!.lowercase(Locale.getDefault())
+            .equals(Constant.TASK_DRAFT.lowercase(Locale.getDefault()), ignoreCase = true)
         ) {
             getDataFromServer(obj.slug)
         } else {
@@ -501,7 +539,8 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
             Response.ErrorListener { error: VolleyError ->
                 dashboardActivity!!.errorHandle1(error.networkResponse)
                 dashboardActivity!!.hideProgressDialog()
-            }) {
+            }
+        ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] =
@@ -532,23 +571,23 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
     }
 
     fun refreshSort(rbText: String) {
-        temp_single_choice_selected = rbText.toLowerCase()
-        if (temp_single_choice_selected.equals(
+        tempSingleChoiceSelected = rbText.lowercase(Locale.getDefault())
+        if (tempSingleChoiceSelected.equals(
                 Constant.TASK_DRAFT_CASE_ALL_JOB_KEY,
                 ignoreCase = true
             )
         ) {
-            temp_single_choice_selected = Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE
+            tempSingleChoiceSelected = Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE
         }
-        if (temp_single_choice_selected.equals(
+        if (tempSingleChoiceSelected.equals(
                 Constant.TASK_ASSIGNED_CASE_UPPER_FIRST,
                 ignoreCase = true
             )
         ) {
-            temp_single_choice_selected = Constant.TASK_ASSIGNED_CASE_RELATED_JOB_VALUE
+            tempSingleChoiceSelected = Constant.TASK_ASSIGNED_CASE_RELATED_JOB_VALUE
         }
-        single_choice_selected = temp_single_choice_selected
-        temp_single_choice_selected = null
+        singleChoiceSelected = tempSingleChoiceSelected
+        tempSingleChoiceSelected = null
         onScrollListener!!.reset()
         totalItemT = 0
         currentPage = 1
@@ -585,7 +624,8 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
     protected fun deleteTask(taskModel: Data?) {
         swipeRefresh!!.isRefreshing = true
         val stringRequest: StringRequest = object :
-            StringRequest(Method.DELETE, Constant.URL_TASKS + "/" + taskModel!!.slug,
+            StringRequest(
+                Method.DELETE, Constant.URL_TASKS + "/" + taskModel!!.slug,
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     try {
@@ -623,7 +663,8 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
                                 (requireActivity() as ActivityBase).showToast(
                                     jsonObject_error.getString(
                                         "message"
-                                    ), requireContext()
+                                    ),
+                                    requireContext()
                                 )
                             }
                         } catch (e: JSONException) {
@@ -636,7 +677,8 @@ class MyTasksFragment : Fragment(), TaskListAdapterV2.OnItemClickListener, OnRef
                         )
                     }
                     Timber.e(error.toString())
-                }) {
+                }
+            ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] =

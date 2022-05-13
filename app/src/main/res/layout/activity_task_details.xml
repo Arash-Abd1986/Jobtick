@@ -9,8 +9,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/rl_questions"
         android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:animateLayoutChanges="true"
         android:background="@color/white"
         android:fitsSystemWindows="false"
@@ -47,6 +47,7 @@
                     android:visibility="visible">
 
                     <include layout="@layout/job_details_details_of_job" />
+
                     <com.jobtick.android.widget.ExtendedAlertBox
                         android:id="@+id/alert_box_closed"
                         android:layout_width="match_parent"
@@ -90,7 +91,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ProgressBar
             android:layout_width="@dimen/_46dp"
@@ -104,6 +105,7 @@
         android:id="@+id/rl_questions"
         android:layout_width="wrap_content"
         android:layout_height="82dp"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_white_top_c">
 

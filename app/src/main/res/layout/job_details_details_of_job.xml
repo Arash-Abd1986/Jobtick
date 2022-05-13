@@ -296,10 +296,10 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/img_pChat"
-                        android:layout_width="63dp"
+                        android:layout_width="32dp"
                         android:layout_height="63dp"
                         android:layout_gravity="center"
-                        app:srcCompat="@drawable/ic_message_v3" />
+                        app:srcCompat="@drawable/ic_chat_v3" />
                 </LinearLayout>
 
             </LinearLayout>

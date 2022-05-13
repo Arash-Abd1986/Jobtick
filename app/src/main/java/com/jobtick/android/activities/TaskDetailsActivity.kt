@@ -1273,7 +1273,7 @@ class TaskDetailsActivity :
     }
 
     private fun initRestConf(jsonObject_data: JSONObject) {
-        taskModel!!.questionCount =
+        /*taskModel!!.questionCount =
             taskModel!!.questions.filter { it.user.id != sessionManager.userAccount.id }.size
         txtAskQuestion.text =
             if (taskModel!!.questionCount == 0) {
@@ -1294,8 +1294,8 @@ class TaskDetailsActivity :
                 )
             )
             txtAskQuestion.setSpanFont(8, taskModel!!.questionCount.toString().length + 9, 1.1f)
-        }
-        setClickOnQuestion()
+        }*/
+       /* setClickOnQuestion()
         if (jsonObject_data.has("conversations") && !jsonObject_data.isNull("conversations")) {
             for (i in 0 until jsonObject_data.getJSONArray("conversations").length()) {
                 val first = jsonObject_data.getJSONArray("conversations").getJSONObject(i)
@@ -1317,6 +1317,12 @@ class TaskDetailsActivity :
                     }
                 }
             }
+        }*/
+        lytBtnMessage.setOnClickListener {
+            getConversationId(
+                taskModel!!.slug,
+                taskModel!!.poster.id.toString()
+            )
         }
         if (taskModel!!.taskType == "physical") {
             llLocation.setOnClickListener { v: View? ->

@@ -11,7 +11,7 @@
     android:orientation="horizontal"
     android:padding="8dp"
     android:id="@+id/rl_levels"
-    android:visibility="visible">
+    android:visibility="gone">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_title"

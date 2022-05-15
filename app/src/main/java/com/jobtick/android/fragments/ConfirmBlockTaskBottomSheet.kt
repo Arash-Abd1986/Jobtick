@@ -1,46 +1,32 @@
-package com.jobtick.android.fragments;
+package com.jobtick.android.fragments
 
+import android.content.Context
+import com.jobtick.android.R
 
-import android.content.Context;
-
-import com.jobtick.android.R;
-
-
-public class ConfirmBlockTaskBottomSheet extends AbstractConfirmBottomSheetv2 {
-
-    private NoticeListener listener;
-
-    public ConfirmBlockTaskBottomSheet(Context context, String name) {
-
-        super(
-                context.getString(R.string.confirm_block),
-                context.getString(R.string.are_you_sure_block, name),
-                context.getString(R.string.block),
-                context.getString(R.string.cancel));
+class ConfirmBlockTaskBottomSheet(
+    context: Context,
+    name: String?,
+    title: Int = R.string.confirm_block,
+    description: Int = R.string.are_you_sure_block,
+    pButton: Int = R.string.block
+) : AbstractConfirmBottomSheetv2(
+    context.getString(title),
+    context.getString(description, name),
+    context.getString(pButton),
+    context.getString(R.string.cancel)
+) {
+    var listener: NoticeListener? = null
+    public override fun onBlueButtonClick() {
+        listener!!.onBlockConfirmClick()
+        dismiss()
     }
 
-    @Override
-    void onBlueButtonClick() {
-        listener.onBlockConfirmClick();
-        dismiss();
+    public override fun onRedButtonClick() {
+        checkNotNull(listener) { "NoticeListener interface must be set." }
+        dismiss()
     }
 
-    @Override
-    void onRedButtonClick() {
-        if (listener == null)
-            throw new IllegalStateException("NoticeListener interface must be set.");
-        dismiss();
-    }
-
-    public NoticeListener getListener() {
-        return listener;
-    }
-
-    public void setListener(NoticeListener listener) {
-        this.listener = listener;
-    }
-
-    public interface NoticeListener {
-        void onBlockConfirmClick();
+    interface NoticeListener {
+        fun onBlockConfirmClick()
     }
 }

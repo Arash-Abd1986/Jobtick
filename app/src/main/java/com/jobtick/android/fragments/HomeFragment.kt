@@ -8,7 +8,6 @@ import android.os.Handler
 import android.text.Html
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -644,7 +643,7 @@ class HomeFragment :
     }
 
     private fun initVars() {
-        //linMain!!.removeAllViews()
+        // linMain!!.removeAllViews()
         try {
             linMain!!.addView(rlTop)
         } catch (e: java.lang.Exception) {
@@ -679,9 +678,9 @@ class HomeFragment :
                 DashboardActivity.Fragment.EXPLORE
             )
         }
-        toolbar!!.setOnMenuItemClickListener { item: MenuItem? -> false }
-        updateProfile!!.setOnClickListener { v: View? -> navigator!!.navigate(R.id.navigation_profile) }
-        ivNotification!!.setOnClickListener { v: View? ->
+        toolbar!!.setOnMenuItemClickListener { false }
+        updateProfile!!.setOnClickListener { navigator!!.navigate(R.id.navigation_profile) }
+        ivNotification!!.setOnClickListener {
             val intent = Intent(requireContext(), NotificationActivity::class.java)
             startActivityForResult(intent, ConstantKey.RESULTCODE_NOTIFICATION_READ)
         }

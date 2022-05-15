@@ -22,6 +22,9 @@ class ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Fac
             modelClass.isAssignableFrom(EventsViewModel::class.java) -> {
                 EventsViewModel(MainRepository(apiHelper)) as T
             }
+            modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
+                ProfileViewModel(MainRepository(apiHelper)) as T
+            }
             else -> throw IllegalArgumentException("Unknown class name")
         }
     }

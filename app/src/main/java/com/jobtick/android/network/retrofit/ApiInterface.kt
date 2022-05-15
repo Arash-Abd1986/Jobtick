@@ -2,6 +2,7 @@ package com.jobtick.android.network.retrofit
 
 import com.jobtick.android.models.event.EventRequest
 import com.jobtick.android.network.model.Response
+import com.jobtick.android.network.model.request.BlockUserRequest
 import com.jobtick.android.network.model.response.NearJobsResponse
 import com.jobtick.android.network.model.response.skills.SkillsResponse
 import okhttp3.MultipartBody
@@ -90,6 +91,11 @@ interface ApiInterface {
     @POST("event")
     suspend fun event(
         @Body eventRequest: EventRequest
+    ): Response
+
+    @POST("user/block")
+    suspend fun blockUser(
+        @Body blockUserRequest: BlockUserRequest
     ): Response
 
     @GET("jobs/map-based")

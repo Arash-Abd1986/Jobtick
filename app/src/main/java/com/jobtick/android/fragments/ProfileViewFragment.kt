@@ -24,6 +24,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.lujun.androidtagview.TagContainerLayout
@@ -47,8 +48,12 @@ import com.jobtick.android.interfaces.onProfileUpdateListener
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.BadgesModel
 import com.jobtick.android.models.UserAccountModel
+import com.jobtick.android.network.coroutines.ApiHelper
+import com.jobtick.android.network.coroutines.Status
+import com.jobtick.android.network.model.request.BlockUserRequest
 import com.jobtick.android.network.model.response.Levels
 import com.jobtick.android.network.model.response.LevelsItem
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.ImageUtil
@@ -56,6 +61,8 @@ import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.Tools
 import com.jobtick.android.utils.cleanRound
 import com.jobtick.android.utils.setMoreLess
+import com.jobtick.android.viewmodel.ProfileViewModel
+import com.jobtick.android.viewmodel.ViewModelFactory
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.mikhaellopez.circularimageview.CircularImageView
 import org.json.JSONException
@@ -68,7 +75,8 @@ import timber.log.Timber
 class ProfileViewFragment :
     Fragment(),
     onProfileUpdateListener,
-    AttachmentAdapter.OnItemClickListener, ConfirmBlockTaskBottomSheet.NoticeListener {
+    AttachmentAdapter.OnItemClickListener,
+    ConfirmBlockTaskBottomSheet.NoticeListener {
     var userId = -1
 
     var recyclerViewPortfolio: RecyclerView? = null
@@ -169,6 +177,7 @@ class ProfileViewFragment :
     private lateinit var txtReviewCount2Star: TextView
     private lateinit var txtReviewCount1Star: TextView
     private lateinit var imgVerifiedAccount: ImageView
+    lateinit var profileViewModel: ProfileViewModel
     override fun onResume() {
         super.onResume()
         allProfileData
@@ -308,6 +317,9 @@ class ProfileViewFragment :
         popupWindow!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val report = view.findViewById<View>(R.id.report) as TextView
         val block = view.findViewById<View>(R.id.block) as TextView
+        userAccountModel?.let {
+            block.text = if (it.isBlockedByYou) "Unblock" else "Block"
+        }
         report.setOnClickListener {
             popupWindow!!.dismiss()
             val intent = Intent(requireContext(), ReportActivity::class.java)
@@ -319,9 +331,18 @@ class ProfileViewFragment :
         }
         block.setOnClickListener {
             popupWindow!!.dismiss()
-            val confirmBottomSheet = ConfirmBlockTaskBottomSheet(requireContext(), userAccountModel!!.name)
-            confirmBottomSheet.listener = this
-            confirmBottomSheet.show(childFragmentManager, "")
+            userAccountModel?.let {
+                val confirmBottomSheet =
+                    ConfirmBlockTaskBottomSheet(
+                        requireContext(),
+                        userAccountModel!!.name,
+                        title = if (it.isBlockedByYou) R.string.confirm_unblock else R.string.confirm_block,
+                        description = if (it.isBlockedByYou) R.string.are_you_sure_unblock else R.string.are_you_sure_block,
+                        pButton = if (it.isBlockedByYou) R.string.unblock else R.string.block,
+                    )
+                confirmBottomSheet.listener = this
+                confirmBottomSheet.show(childFragmentManager, "")
+            }
         }
     }
 
@@ -348,6 +369,30 @@ class ProfileViewFragment :
         init()
         allProfileData
         initComponent()
+        initVM()
+    }
+
+    private fun initVM() {
+        // TODO: move other services to viewmodel
+        profileViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
+        ).get(ProfileViewModel::class.java)
+        profileViewModel.response.observe(viewLifecycleOwner) {
+            it?.let {
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        allProfileData
+                    }
+                    Status.ERROR -> {
+                        profileActivity!!.hideProgressDialog()
+                    }
+                    Status.LOADING -> {
+                        profileActivity!!.showProgressDialog()
+                    }
+                }
+            }
+        }
     }
 
     private fun startCategoryList() {
@@ -471,6 +516,7 @@ class ProfileViewFragment :
                         content!!.visibility = View.VISIBLE
                         pbLoading!!.visibility = View.GONE
                         btnQuote!!.visibility = View.VISIBLE
+                        profileActivity!!.hideProgressDialog()
                         try {
                             val jsonObject = JSONObject(response!!)
                             Timber.e(jsonObject.toString())
@@ -864,5 +910,17 @@ class ProfileViewFragment :
     }
 
     override fun onBlockConfirmClick() {
+        blockUser()
+    }
+
+    private fun blockUser() {
+        userAccountModel?.let {
+            profileViewModel.blockUser(
+                BlockUserRequest(
+                    !it.isBlockedByYou,
+                    user_id = userId.toString()
+                )
+            )
+        }
     }
 }

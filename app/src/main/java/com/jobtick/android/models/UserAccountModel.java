@@ -65,6 +65,9 @@ public class UserAccountModel implements Parcelable {
     @SerializedName("is_online")
     @Expose
     private boolean isOnline = false;
+    @SerializedName("blocked_by_you")
+    @Expose
+    private boolean blockedByYou = false;
 
 
     @SerializedName("is_verified_account")
@@ -152,7 +155,7 @@ public class UserAccountModel implements Parcelable {
 
     public UserAccountModel(Integer id, String name, String fname, String location, Double latitude, Double longitude,
                             String lname, String email, String emailVerifiedAt, String mobile, String mobileVerifiedAt,
-                            String tagline, String about, String dob, String business_number, boolean isOnline,
+                            String tagline, String about, String dob, String business_number, boolean isOnline, boolean blockedByYou,
                             AttachmentModel avatar, RatingModel posterRatings, RatingModel workerRatings, PostedTaskStatistics postTaskStatistics,
                             WorkTaskStatistics workTaskStatistics, TierModel workerTier, TierModel posterTier, Integer workerRank,
                             Integer posterRank, String joinDate, String lastOnline, SkillsModel skills, ArrayList<AttachmentModel> portfolio,
@@ -187,6 +190,7 @@ public class UserAccountModel implements Parcelable {
         this.skills = skills;
         this.portfolio = portfolio;
         this.badges = badges;
+        this.blockedByYou = blockedByYou;
         this.account_status = account_status;
         this.isVerifiedAccount = isVerifiedAccount;
         this.blocked = blocked;
@@ -224,6 +228,7 @@ public class UserAccountModel implements Parcelable {
         dob = in.readString();
         business_number = in.readString();
         isOnline = in.readByte() != 0;
+        blockedByYou = in.readByte() != 0;
         isVerifiedAccount = in.readInt();
         avatar = in.readParcelable(AttachmentModel.class.getClassLoader());
         posterRatings = in.readParcelable(RatingModel.class.getClassLoader());
@@ -288,6 +293,7 @@ public class UserAccountModel implements Parcelable {
         dest.writeString(dob);
         dest.writeString(business_number);
         dest.writeByte((byte) (isOnline ? 1 : 0));
+        dest.writeByte((byte) (blockedByYou ? 1 : 0));
         dest.writeInt(isVerifiedAccount);
         dest.writeParcelable(avatar, flags);
         dest.writeParcelable(posterRatings, flags);
@@ -503,9 +509,15 @@ public class UserAccountModel implements Parcelable {
     public boolean getIsOnline() {
         return isOnline;
     }
+    public boolean getIsBlockedByYou() {
+        return blockedByYou;
+    }
 
     public void setIsOnline(boolean isOnline) {
         this.isOnline = isOnline;
+    }
+    public void setIsBlockedByYou(boolean blockedByYou) {
+        this.blockedByYou = blockedByYou;
     }
 
     public AttachmentModel getAvatar() {
@@ -703,6 +715,10 @@ public class UserAccountModel implements Parcelable {
             }*/
             if (jsonObject.has("is_online") && !jsonObject.isNull("is_online"))
                 userAccountModel.setIsOnline(jsonObject.getBoolean("is_online"));
+
+
+            if (jsonObject.has("blocked_by_you") && !jsonObject.isNull("blocked_by_you"))
+                userAccountModel.setIsBlockedByYou(jsonObject.getBoolean("blocked_by_you"));
 
 
             if (jsonObject.has("is_verified_account") && !jsonObject.isNull("is_verified_account"))

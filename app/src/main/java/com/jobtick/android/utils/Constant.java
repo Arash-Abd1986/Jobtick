@@ -89,6 +89,7 @@ public class Constant {
     public static final String URL_QUESTIONS = BASE_URL + "questions";
     public static final String URL_CANCELLATION = BASE_URL + "cancellation";
     public static final String URL_TASK_ALERT_V2 = BASE_URL_v2 + "jobalerts";
+    public static final String URL_BLOCK_USER = BASE_URL_v2 + "user/block";
     public static final String URI = "URI";
     public static final String EDIT_MODE = "edit_mode";
 

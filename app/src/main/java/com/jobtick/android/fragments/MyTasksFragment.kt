@@ -35,6 +35,7 @@ import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
 import com.jobtick.android.activities.DashboardActivity
+import com.jobtick.android.activities.NotificationActivity
 import com.jobtick.android.activities.SearchTaskActivity
 import com.jobtick.android.activities.TaskCreateActivity
 import com.jobtick.android.activities.TaskDetailsActivity
@@ -114,7 +115,7 @@ class MyTasksFragment :
         linFilter = dashboardActivity!!.findViewById(R.id.lin_filter)
         filterText = dashboardActivity!!.findViewById(R.id.filter_text)
         filterIcon = dashboardActivity!!.findViewById(R.id.filter_icon)
-        linFilter.setOnClickListener {
+        filterText.setOnClickListener {
             filterText.setTextColor(
                 ContextCompat.getColor(
                     requireContext(), R.color.P300
@@ -127,6 +128,10 @@ class MyTasksFragment :
                 )
             )
             mypopupWindow!!.showAsDropDown(toolbar.findViewById(R.id.lin_filter), 0, 0)
+        }
+        ivNotification.setOnClickListener {
+            val intent = Intent(requireContext(), NotificationActivity::class.java)
+            startActivityForResult(intent, ConstantKey.RESULTCODE_NOTIFICATION_READ)
         }
         toolbarTitle.visibility = View.VISIBLE
         linFilter.visibility = View.VISIBLE

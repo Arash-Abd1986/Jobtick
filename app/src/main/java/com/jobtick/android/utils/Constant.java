@@ -52,7 +52,7 @@ public class Constant {
     public static final String SOCKET_PROD = "https://api.jobtick.com:2096";
     public static final String BASE_URL_SERVER = (BuildConfig.DEBUG) ? SOCKET_DEV : SOCKET_PROD;
     public static final String BASE_URL = (BuildConfig.DEBUG) ? BASE_URL_DEBUG : BASE_URL_PRODUCT;
-    public static final String BASE_URL_v2 = (BuildConfig.DEBUG) ? BASE_URL_DEBUG_V2 : BASE_URL_PRODUCT_V2;
+    public static final String BASE_URL_V2 = (BuildConfig.DEBUG) ? BASE_URL_DEBUG_V2 : BASE_URL_PRODUCT_V2;
     public static final String MAP_BOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
     public static final String PROD = "";
     public static final String DEV = "dev.";
@@ -60,19 +60,19 @@ public class Constant {
 
     public static final String URL_CHANGE_PASSWORD = BASE_URL + "account/change-password";
     public static final String URL_TASKS = BASE_URL + "tasks";
-    public static final String URL_TASKS_v2 = BASE_URL_v2 + "jobs";
-    public static final String URL_MY_JOBS = BASE_URL_v2 + "my-jobs";
+    public static final String URL_TASKS_v2 = BASE_URL_V2 + "jobs";
+    public static final String URL_MY_JOBS = BASE_URL_V2 + "my-jobs";
     public static final String URL_BLOCK_CHAT = BASE_URL + "chat/blocking";
     public static final String URL_BOOKMARK = BASE_URL + "bookmarks";
 
     public static final String URL_NOTIFICATION_LIST = BASE_URL + "notifications";
     public static final String URL_NOTIFICATION_UNREAD = BASE_URL + "notifications/unread-count";
-    public static final String HOME = BASE_URL_v2 + "home";
+    public static final String HOME = BASE_URL_V2 + "home";
     public static final String URL_NOTIFICATION_MARK_ALL_READ = BASE_URL + "notifications/mark-all-read";
 
     public static final String TASK_PAYMENT_TYPE_HOURLY = "hourly";
     public static final String TASK_CATEGORY = "category";
-    public static final String TASK_CATEGORY_V2 =  BASE_URL_v2 + "category";
+    public static final String TASK_CATEGORY_V2 =  BASE_URL_V2 + "category";
     public static final String CHECK_UPDATE = "init-info";
     public static final String ADD_BILLING = "account/billingaddress";
     public static final String ADD_ACCOUNT_DETAILS = "account/bankaccount";
@@ -88,8 +88,8 @@ public class Constant {
     public static final String URL_CHAT = BASE_URL + "chat";
     public static final String URL_QUESTIONS = BASE_URL + "questions";
     public static final String URL_CANCELLATION = BASE_URL + "cancellation";
-    public static final String URL_TASK_ALERT_V2 = BASE_URL_v2 + "jobalerts";
-    public static final String URL_BLOCK_USER = BASE_URL_v2 + "user/block";
+    public static final String URL_TASK_ALERT_V2 = BASE_URL_V2 + "jobalerts";
+    public static final String URL_BLOCK_USER = BASE_URL_V2 + "user/block";
     public static final String URI = "URI";
     public static final String EDIT_MODE = "edit_mode";
 

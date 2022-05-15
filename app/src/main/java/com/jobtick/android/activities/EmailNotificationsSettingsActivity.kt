@@ -83,7 +83,7 @@ class EmailNotificationsSettingsActivity : ActivityBase() {
     private fun getSetting() {
         showProgressDialog()
         Helper.closeKeyboard(this@EmailNotificationsSettingsActivity)
-        val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL_v2 + "notifications/settings?type=" + TYPE,
+        val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL_V2 + "notifications/settings?type=" + TYPE,
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     hideProgressDialog()
@@ -127,7 +127,7 @@ class EmailNotificationsSettingsActivity : ActivityBase() {
     private fun setSetting(type: String, item: String, value: String) {
         showProgressDialog()
         Helper.closeKeyboard(this@EmailNotificationsSettingsActivity)
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.BASE_URL_v2 + "notifications/settings",
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.BASE_URL_V2 + "notifications/settings",
                 Response.Listener { response: String? ->
                     hideProgressDialog()
                     Timber.e(response)

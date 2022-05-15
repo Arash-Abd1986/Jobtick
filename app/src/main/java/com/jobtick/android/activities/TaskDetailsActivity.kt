@@ -2955,7 +2955,7 @@ class TaskDetailsActivity :
     private fun getConversationId(slug: String, targetId: String) {
         val stringRequest: StringRequest = object : StringRequest(
             Method.GET,
-            Constant.BASE_URL_v2 + "jobs/" + slug + "/start_chat/" + targetId,
+            Constant.BASE_URL_V2 + "jobs/" + slug + "/start_chat/" + targetId,
             com.android.volley.Response.Listener { response: String? ->
                 Timber.e(response)
                 try {

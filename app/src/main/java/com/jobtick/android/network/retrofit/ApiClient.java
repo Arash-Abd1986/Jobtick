@@ -48,7 +48,7 @@ public class ApiClient {
             HttpLoggingInterceptor logIn = new HttpLoggingInterceptor();
             logIn.setLevel(HttpLoggingInterceptor.Level.BODY);
             retrofit2 = new retrofit2.Retrofit.Builder()
-                    .baseUrl(Constant.BASE_URL_v2)
+                    .baseUrl(Constant.BASE_URL_V2)
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(new OkHttpClient().newBuilder()

@@ -3,7 +3,6 @@ package com.jobtick.android.activities
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.CheckBox
-import android.widget.CompoundButton
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -13,11 +12,9 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
-import com.jobtick.android.models.response.chat.ChatResponse
 import com.jobtick.android.models.response.mailnotifsetting.NotifSettingResponse
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.Helper
-import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 import java.lang.Exception

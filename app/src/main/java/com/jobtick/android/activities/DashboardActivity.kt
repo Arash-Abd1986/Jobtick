@@ -233,8 +233,9 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
 
     @SuppressLint("NonConstantResourceId")
     private fun onNavClick() {
-        smallPlus!!.setOnClickListener { v: View? -> startCategoryList() }
-        navController!!.addOnDestinationChangedListener { controller: NavController?, destination: NavDestination, arguments: Bundle? ->
+        smallPlus!!.setOnClickListener { startCategoryList() }
+        navController!!.addOnDestinationChangedListener { _: NavController?, destination: NavDestination, _: Bundle? ->
+            toolbar!!.visibility = View.VISIBLE
             when (destination.id) {
                 R.id.navigation_new_task -> {
                     setMenuItemProperties(0)

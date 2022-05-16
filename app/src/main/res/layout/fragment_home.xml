@@ -134,7 +134,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@drawable/shape_rounded_back_card_white"
-                android:padding="8dp"
+                android:paddingTop="8dp"
+                android:paddingHorizontal="8dp"
+                android:paddingBottom="16dp"
                 tools:listitem="@layout/item_task_category" />
 
             <include

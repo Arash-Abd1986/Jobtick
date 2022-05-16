@@ -1260,10 +1260,10 @@ class TaskDetailsActivity :
             it?.let { it ->
                 when (it.status) {
                     Status.SUCCESS -> {
-                        Log.d("send event","send event success")
+                        Log.d("send event", "send event success")
                     }
                     Status.ERROR -> {
-                        Log.d("send event","send event failed")
+                        Log.d("send event", "send event failed")
                     }
                     Status.LOADING -> {
                     }
@@ -1295,29 +1295,29 @@ class TaskDetailsActivity :
             )
             txtAskQuestion.setSpanFont(8, taskModel!!.questionCount.toString().length + 9, 1.1f)
         }*/
-       /* setClickOnQuestion()
-        if (jsonObject_data.has("conversations") && !jsonObject_data.isNull("conversations")) {
-            for (i in 0 until jsonObject_data.getJSONArray("conversations").length()) {
-                val first = jsonObject_data.getJSONArray("conversations").getJSONObject(i)
-                    .getJSONArray("users").getJSONObject(0).getInt("id")
-                val sec = jsonObject_data.getJSONArray("conversations").getJSONObject(i)
-                    .getJSONArray("users").getJSONObject(1).getInt("id")
-                if (first == sessionManager.userAccount.id || sec == sessionManager.userAccount.id) {
-                    imgPChat.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_p_chat_enable_v2
-                        )
-                    )
-                    lytBtnMessage.setOnClickListener {
-                        getConversationId(
-                            taskModel!!.slug,
-                            taskModel!!.poster.id.toString()
-                        )
-                    }
-                }
-            }
-        }*/
+        /* setClickOnQuestion()
+         if (jsonObject_data.has("conversations") && !jsonObject_data.isNull("conversations")) {
+             for (i in 0 until jsonObject_data.getJSONArray("conversations").length()) {
+                 val first = jsonObject_data.getJSONArray("conversations").getJSONObject(i)
+                     .getJSONArray("users").getJSONObject(0).getInt("id")
+                 val sec = jsonObject_data.getJSONArray("conversations").getJSONObject(i)
+                     .getJSONArray("users").getJSONObject(1).getInt("id")
+                 if (first == sessionManager.userAccount.id || sec == sessionManager.userAccount.id) {
+                     imgPChat.setImageDrawable(
+                         ContextCompat.getDrawable(
+                             this,
+                             R.drawable.ic_p_chat_enable_v2
+                         )
+                     )
+                     lytBtnMessage.setOnClickListener {
+                         getConversationId(
+                             taskModel!!.slug,
+                             taskModel!!.poster.id.toString()
+                         )
+                     }
+                 }
+             }
+         }*/
         lytBtnMessage.setOnClickListener {
             getConversationId(
                 taskModel!!.slug,
@@ -2960,6 +2960,7 @@ class TaskDetailsActivity :
                 Timber.e(response)
                 try {
                     val jsonObject = JSONObject(response!!)
+                    Log.d("start chat", jsonObject.toString())
                     val gson = Gson()
                     val chatModel = ChatModel()
                     val sender = UserAccountModel()
@@ -2991,10 +2992,11 @@ class TaskDetailsActivity :
                             }
                         }
                         if (data.users!!.size == 2) {
+                            val userID = sessionManager.userAccount.id
                             var senderId = 0
                             var reciverId = 0
                             for (i in 0..1) {
-                                if (data.users[i].id === sessionManager.userAccount.id) {
+                                if (data.users[i].id == userID) {
                                     senderId = i
                                     if (senderId == 0) {
                                         reciverId = 1

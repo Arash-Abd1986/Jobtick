@@ -247,7 +247,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:text="Recent jobs in Jobtick"
+                    android:text="Recent jobs"
                     android:textAppearance="@style/materialText_W500_20"
                     android:textColor="@color/textColor" />
 

@@ -5,14 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
-<include
-    android:id="@+id/job_alert_card"
-    layout="@layout/card_job_allert"/>
-<include
-    android:id="@+id/job_skills_card"
-    layout="@layout/card_skills"/>
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/job_alert_card"
+        layout="@layout/card_job_allert"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/job_skills_card"
+        layout="@layout/card_skills"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:id="@+id/content"
         android:layout_width="match_parent"

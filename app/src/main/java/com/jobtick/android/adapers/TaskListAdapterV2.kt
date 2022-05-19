@@ -29,7 +29,8 @@ import java.text.ParseException
 class TaskListAdapterV2(
     private val mItems: ArrayList<Data> = ArrayList(),
     private val userAccountModel: UserAccountModel,
-    private val isSingleLineBody: Boolean
+    private val isSingleLineBody: Boolean,
+    private val isFromExplore: Boolean = false
 ) :
     RecyclerView.Adapter<BaseViewHolder>() {
     private var context: Context? = null
@@ -194,14 +195,14 @@ class TaskListAdapterV2(
             super.onBind(position)
             val item = mItems[position]
 
-            if (position == 5 && !userAccountModel.account_status.isJobalerts && showAlert)
+            /*if (position == 5 && !userAccountModel.account_status.isJobalerts && showAlert)
                 jobAlertCard!!.visibility = View.VISIBLE
             else
                 jobAlertCard!!.visibility = View.GONE
             if (position == 5 && !userAccountModel.account_status.isSkills && showSkills)
                 jobSkillsCard!!.visibility = View.VISIBLE
             else
-                jobSkillsCard!!.visibility = View.GONE
+                jobSkillsCard!!.visibility = View.GONE*/
 
             btnAddAlert!!.setOnClickListener {
                 val taskAlerts = Intent(context, TaskAlertsActivity::class.java)
@@ -233,100 +234,119 @@ class TaskListAdapterV2(
                 txtTitle!!.maxLines = 1
             else
                 txtTitle!!.maxLines = 2
-            if (item.offers != null) if (item.offers.isNotEmpty()) {
-                txtOfferCount!!.setTextColor(ContextCompat.getColor(context!!, R.color.N900))
-                when {
-                    item.offers.size >= 4 -> {
-                        imgAvatar3!!.visibility = View.VISIBLE
-                        imgAvatar2!!.visibility = View.VISIBLE
-                        imgAvatar1!!.visibility = View.VISIBLE
-                        imgAvatar0!!.visibility = View.VISIBLE
-                        if (item.offers[3].avatar != null) ImageUtil.displayImage(
-                            imgAvatar3,
-                            item.offers[3].avatar,
-                            null
-                        ) else imgAvatar3!!.setImageResource(R.drawable.pic)
-                        if (item.offers[2].avatar != null) ImageUtil.displayImage(
-                            imgAvatar2,
-                            item.offers[2].avatar,
-                            null
-                        ) else imgAvatar2!!.setImageResource(R.drawable.pic)
-                        if (item.offers[1].avatar != null) ImageUtil.displayImage(
-                            imgAvatar1,
-                            item.offers[1].avatar,
-                            null
-                        ) else imgAvatar1!!.setImageResource(R.drawable.pic)
-                        if (item.offers[0].avatar != null) ImageUtil.displayImage(
-                            imgAvatar0,
-                            item.offers[0].avatar,
-                            null
-                        ) else imgAvatar0!!.setImageResource(R.drawable.pic)
-                    }
-                    item.offers.size == 3 -> {
-                        imgAvatar0!!.visibility = View.GONE
-                        imgAvatar1!!.visibility = View.VISIBLE
-                        imgAvatar2!!.visibility = View.VISIBLE
-                        imgAvatar3!!.visibility = View.VISIBLE
-                        if (item.offers[2].avatar != null) ImageUtil.displayImage(
-                            imgAvatar1,
-                            item.offers[2].avatar,
-                            null
-                        ) else imgAvatar1!!.setImageResource(R.drawable.pic)
-                        if (item.offers[1].avatar != null) ImageUtil.displayImage(
-                            imgAvatar2,
-                            item.offers[1].avatar,
-                            null
-                        ) else imgAvatar2!!.setImageResource(R.drawable.pic)
-                        if (item.offers[0].avatar != null) ImageUtil.displayImage(
-                            imgAvatar3,
-                            item.offers[0].avatar,
-                            null
-                        ) else imgAvatar3!!.setImageResource(R.drawable.pic)
-                    }
-                    item.offers.size == 2 -> {
-                        imgAvatar0!!.visibility = View.GONE
-                        imgAvatar1!!.visibility = View.GONE
-                        imgAvatar2!!.visibility = View.VISIBLE
-                        imgAvatar3!!.visibility = View.VISIBLE
-                        if (item.offers[1].avatar != null) ImageUtil.displayImage(
-                            imgAvatar2,
-                            item.offers[1].avatar,
-                            null
-                        ) else imgAvatar2!!.setImageResource(R.drawable.pic)
-                        if (item.offers[0].avatar != null) ImageUtil.displayImage(
-                            imgAvatar3,
-                            item.offers[0].avatar,
-                            null
-                        ) else imgAvatar3!!.setImageResource(R.drawable.pic)
-                    }
-                    item.offers.size == 1 -> {
-                        imgAvatar0!!.visibility = View.GONE
-                        imgAvatar1!!.visibility = View.GONE
+            if (!isFromExplore)
+                if (item.offers != null)
+                    if (item.offers.isNotEmpty()) {
+                        txtOfferCount!!.setTextColor(
+                            ContextCompat.getColor(
+                                context!!,
+                                R.color.N900
+                            )
+                        )
+                        when {
+                            item.offers.size >= 4 -> {
+                                imgAvatar3!!.visibility = View.VISIBLE
+                                imgAvatar2!!.visibility = View.VISIBLE
+                                imgAvatar1!!.visibility = View.VISIBLE
+                                imgAvatar0!!.visibility = View.VISIBLE
+                                if (item.offers[3].avatar != null) ImageUtil.displayImage(
+                                    imgAvatar3,
+                                    item.offers[3].avatar,
+                                    null
+                                ) else imgAvatar3!!.setImageResource(R.drawable.pic)
+                                if (item.offers[2].avatar != null) ImageUtil.displayImage(
+                                    imgAvatar2,
+                                    item.offers[2].avatar,
+                                    null
+                                ) else imgAvatar2!!.setImageResource(R.drawable.pic)
+                                if (item.offers[1].avatar != null) ImageUtil.displayImage(
+                                    imgAvatar1,
+                                    item.offers[1].avatar,
+                                    null
+                                ) else imgAvatar1!!.setImageResource(R.drawable.pic)
+                                if (item.offers[0].avatar != null) ImageUtil.displayImage(
+                                    imgAvatar0,
+                                    item.offers[0].avatar,
+                                    null
+                                ) else imgAvatar0!!.setImageResource(R.drawable.pic)
+                            }
+                            item.offers.size == 3 -> {
+                                imgAvatar0!!.visibility = View.GONE
+                                imgAvatar1!!.visibility = View.VISIBLE
+                                imgAvatar2!!.visibility = View.VISIBLE
+                                imgAvatar3!!.visibility = View.VISIBLE
+                                if (item.offers[2].avatar != null) ImageUtil.displayImage(
+                                    imgAvatar1,
+                                    item.offers[2].avatar,
+                                    null
+                                ) else imgAvatar1!!.setImageResource(R.drawable.pic)
+                                if (item.offers[1].avatar != null) ImageUtil.displayImage(
+                                    imgAvatar2,
+                                    item.offers[1].avatar,
+                                    null
+                                ) else imgAvatar2!!.setImageResource(R.drawable.pic)
+                                if (item.offers[0].avatar != null) ImageUtil.displayImage(
+                                    imgAvatar3,
+                                    item.offers[0].avatar,
+                                    null
+                                ) else imgAvatar3!!.setImageResource(R.drawable.pic)
+                            }
+                            item.offers.size == 2 -> {
+                                imgAvatar0!!.visibility = View.GONE
+                                imgAvatar1!!.visibility = View.GONE
+                                imgAvatar2!!.visibility = View.VISIBLE
+                                imgAvatar3!!.visibility = View.VISIBLE
+                                if (item.offers[1].avatar != null) ImageUtil.displayImage(
+                                    imgAvatar2,
+                                    item.offers[1].avatar,
+                                    null
+                                ) else imgAvatar2!!.setImageResource(R.drawable.pic)
+                                if (item.offers[0].avatar != null) ImageUtil.displayImage(
+                                    imgAvatar3,
+                                    item.offers[0].avatar,
+                                    null
+                                ) else imgAvatar3!!.setImageResource(R.drawable.pic)
+                            }
+                            item.offers.size == 1 -> {
+                                imgAvatar0!!.visibility = View.GONE
+                                imgAvatar1!!.visibility = View.GONE
+                                imgAvatar2!!.visibility = View.GONE
+                                imgAvatar3!!.visibility = View.VISIBLE
+                                if (item.offers[0].avatar != null) ImageUtil.displayImage(
+                                    imgAvatar3,
+                                    item.offers[0].avatar,
+                                    null
+                                ) else imgAvatar3!!.setImageResource(R.drawable.pic)
+                            }
+                        }
+                    } else {
+                        txtOfferCount!!.setTextColor(
+                            ContextCompat.getColor(
+                                context!!,
+                                R.color.N300
+                            )
+                        )
+                        imgAvatar3!!.visibility = View.GONE
                         imgAvatar2!!.visibility = View.GONE
-                        imgAvatar3!!.visibility = View.VISIBLE
-                        if (item.offers[0].avatar != null) ImageUtil.displayImage(
-                            imgAvatar3,
-                            item.offers[0].avatar,
-                            null
-                        ) else imgAvatar3!!.setImageResource(R.drawable.pic)
-                    }
+                        imgAvatar1!!.visibility = View.GONE
+                        imgAvatar0!!.visibility = View.GONE
+                        // imgAvatar3.setImageResource(R.drawable.pic);
+                        txtOfferCount!!.text = ""
+                    } else {
+                    imgAvatar3!!.visibility = View.GONE
+                    imgAvatar2!!.visibility = View.GONE
+                    imgAvatar1!!.visibility = View.GONE
+                    imgAvatar0!!.visibility = View.GONE
+                    txtOfferCount!!.text = ""
+                    txtOfferCount!!.setTextColor(ContextCompat.getColor(context!!, R.color.N300))
+                    // imgAvatar3.setImageResource(R.drawable.pic);
                 }
-            } else {
-                txtOfferCount!!.setTextColor(ContextCompat.getColor(context!!, R.color.N300))
-                imgAvatar3!!.visibility = View.GONE
-                imgAvatar2!!.visibility = View.GONE
-                imgAvatar1!!.visibility = View.GONE
-                imgAvatar0!!.visibility = View.GONE
-                // imgAvatar3.setImageResource(R.drawable.pic);
-                txtOfferCount!!.text = ""
-            } else {
+            else {
                 imgAvatar3!!.visibility = View.GONE
                 imgAvatar2!!.visibility = View.GONE
                 imgAvatar1!!.visibility = View.GONE
                 imgAvatar0!!.visibility = View.GONE
                 txtOfferCount!!.text = ""
-                txtOfferCount!!.setTextColor(ContextCompat.getColor(context!!, R.color.N300))
-                // imgAvatar3.setImageResource(R.drawable.pic);
             }
             txtTitle!!.text = item.title
             txtDueDate!!.text = TimeHelper.convertToWeekDateFormatV2(item.due_date)

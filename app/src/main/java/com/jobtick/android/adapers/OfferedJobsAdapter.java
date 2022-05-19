@@ -15,13 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jobtick.android.R;
 import com.jobtick.android.models.response.home.OfferedJob;
+import com.jobtick.android.models.response.home.PostedJob;
 import com.jobtick.android.utils.ImageUtil;
-import com.jobtick.android.utils.Tools;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.ParseException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,13 +36,13 @@ public class OfferedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private final Integer userId;
 
     public interface OnItemClickListener {
-        void onItemClick(View view, OfferedJob obj, int position, String action);
+        void onItemClick(View view, PostedJob obj, int position, String action);
 
     }
 
     public interface OnDraftDeleteListener {
 
-        void onDraftDeleteButtonClick(View view, OfferedJob taskModel, int position);
+        void onDraftDeleteButtonClick(View view, PostedJob taskModel, int position);
     }
 
     public OnDraftDeleteListener getOnDraftDeleteListener() {
@@ -59,9 +58,9 @@ public class OfferedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     private boolean isLoaderVisible = false;
-    private final List<OfferedJob> mItems;
+    private final List<PostedJob> mItems;
 
-    public OfferedJobsAdapter(List<OfferedJob> mItems, @Nullable Integer userId) {
+    public OfferedJobsAdapter(List<PostedJob> mItems, @Nullable Integer userId) {
         this.mItems = mItems;
         this.userId = userId;
     }
@@ -97,7 +96,7 @@ public class OfferedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return mItems == null ? 0 : mItems.size();
     }
 
-    public void addItems(List<OfferedJob> mItems, int allItems) {
+    public void addItems(List<PostedJob> mItems, int allItems) {
         removeLoading();
         this.mItems.addAll(mItems);
         notifyDataSetChanged();
@@ -110,7 +109,7 @@ public class OfferedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         if (isLoaderVisible) return;
         isLoaderVisible = true;
         int position = mItems.size() - 1;
-        this.mItems.add(new OfferedJob(null, null, null, null,null,null,null));
+        this.mItems.add(new PostedJob(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         notifyItemInserted(position);
     }
 
@@ -120,7 +119,7 @@ public class OfferedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         int position = mItems.size() - 1;
         if (position == -1)
             return;
-        OfferedJob item = getItem(position);
+        PostedJob item = getItem(position);
         if (item != null) {
             mItems.remove(position);
             notifyItemRemoved(position);
@@ -132,7 +131,7 @@ public class OfferedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyDataSetChanged();
     }
 
-    OfferedJob getItem(int position) {
+    PostedJob getItem(int position) {
         return mItems.get(position);
     }
 
@@ -161,6 +160,7 @@ public class OfferedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_budget)
         TextView txtBudget;
+
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -172,14 +172,14 @@ public class OfferedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("SetTextI18n")
         public void onBind(int position) {
             super.onBind(position);
-            OfferedJob item = mItems.get(position);
-            if (position == mItems.size() -1){
+            PostedJob item = mItems.get(position);
+            if (position == mItems.size() - 1) {
                 sepLine.setVisibility(View.GONE);
-            }else{
+            } else {
                 sepLine.setVisibility(View.VISIBLE);
             }
 
-            ImageUtil.displayImage(imgAvatar, item.getAvatar(), null);
+            ImageUtil.displayImage(imgAvatar, item.getPoster_avatar(), null);
             txtTitle.setText(item.getTitle());
 
             if (item.getStatus() != null) {
@@ -205,7 +205,7 @@ public class OfferedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
 
-        private void setColors(OfferedJob item) {
+        private void setColors(PostedJob item) {
             switch (item.getStatus()) {
                 case "draft":
                     txtStatus.setVisibility(View.VISIBLE);
@@ -243,14 +243,14 @@ public class OfferedJobsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
         }
 
-        private void setStatusText(OfferedJob item) {
+        private void setStatusText(PostedJob item) {
 //            if (userId != null && item.getPoster() != null && item.getPoster().getId() != null &&
 //                    item.getPoster().getId().equals(userId) && item.getStatus().equals("open")) {
 //                txtStatus.setText("Posted");
 //            } else
 
 
-           if (userId != null && item.getStatus().equals("open")) {
+            if (userId != null && item.getStatus().equals("open")) {
                 txtStatus.setText("Posted");
             } else if (item.getStatus().equalsIgnoreCase("Offered")) {
                 txtStatus.setText("Offered");

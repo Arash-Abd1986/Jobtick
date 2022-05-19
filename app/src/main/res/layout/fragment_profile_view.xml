@@ -184,7 +184,7 @@
 
                                 <com.google.android.material.radiobutton.MaterialRadioButton
                                     android:id="@+id/rbPortfollio"
-                                    style="@style/materialText_600_14"
+                                    style="@style/materialText_W500_14"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/_60dp"
                                     android:layout_gravity="center"
@@ -199,7 +199,7 @@
 
                                 <com.google.android.material.radiobutton.MaterialRadioButton
                                     android:id="@+id/rbSkills"
-                                    style="@style/materialText_600_14"
+                                    style="@style/materialText_W500_14"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/_60dp"
                                     android:layout_gravity="center"

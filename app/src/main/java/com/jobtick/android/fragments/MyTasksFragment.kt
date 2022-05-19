@@ -182,6 +182,7 @@ class MyTasksFragment :
             closed.visibility = View.VISIBLE
             cancelled.visibility = View.VISIBLE
             overdue.visibility = View.GONE
+            offered.visibility = View.GONE
         } else {
             allJobs.visibility = View.VISIBLE
             offered.visibility = View.VISIBLE

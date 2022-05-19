@@ -90,10 +90,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var txtSuburb: TextView? = null
     private var txtLastSeen: TextView? = null
     private var tvViewAllReviews: TextView? = null
-    var tv_poster_NoReview: TextView? = null
-    var tv_ticker_NoReview: TextView? = null
-    var ln_ticker_jobSuccess: LinearLayout? = null
-    var ln_poster_jobSuccess: LinearLayout? = null
+    var tvPosterNoreview: TextView? = null
+    var tvTickerNoreview: TextView? = null
+    var lnTickerJobsuccess: LinearLayout? = null
+    var lnPosterJobsuccess: LinearLayout? = null
     private var txtAccountLevel: TextView? = null
     private var ratingbarAsTicker: RatingBar? = null
     private var ratingbarAsPoster: RatingBar? = null
@@ -193,8 +193,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private lateinit var lnAboutMe: LinearLayout
     private lateinit var rlStatus: RelativeLayout
     private lateinit var fmPSkills: FrameLayout
-    var lnPosterReview: LinearLayout? = null
-    var lnTickerReview: LinearLayout? = null
+    private var lnPosterReview: RelativeLayout? = null
+    private var lnTickerReview: RelativeLayout? = null
     override fun onResume() {
         super.onResume()
         allProfileData
@@ -284,10 +284,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         txtLevel2 = requireView().findViewById(R.id.txt_level2)
         txtLevel3 = requireView().findViewById(R.id.txt_level3)
         txtLevel4 = requireView().findViewById(R.id.txt_level4)
-        tv_poster_NoReview = requireView().findViewById(R.id.tv_poster_NoReview)
-        tv_ticker_NoReview = requireView().findViewById(R.id.tv_ticker_NoReview)
-        ln_poster_jobSuccess = requireView().findViewById(R.id.ln_poster_jobSuccess)
-        ln_ticker_jobSuccess = requireView().findViewById(R.id.ln_ticker_jobSuccess)
+        tvPosterNoreview = requireView().findViewById(R.id.tv_poster_NoReview)
+        tvTickerNoreview = requireView().findViewById(R.id.tv_ticker_NoReview)
+        lnPosterJobsuccess = requireView().findViewById(R.id.ln_poster_jobSuccess)
+        lnTickerJobsuccess = requireView().findViewById(R.id.ln_ticker_jobSuccess)
         lytTicker = requireView().findViewById(R.id.ticker)
         lytPoster = requireView().findViewById(R.id.Poster)
         progressBar1Starp = requireView().findViewById(R.id.progress_bar_1_starP)
@@ -887,13 +887,14 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         if (userAccountModel.workerRatings == null) {
             ratingbarAsTicker!!.visibility = View.GONE
             tvViewAllReviews!!.visibility = View.GONE
-            ln_ticker_jobSuccess!!.visibility = View.GONE
-            tv_ticker_NoReview!!.visibility = View.VISIBLE
+            lnTickerJobsuccess!!.visibility = View.GONE
+            lytTicker.visibility = View.GONE
+            tvTickerNoreview!!.visibility = View.VISIBLE
         } else {
             ratingbarAsTicker!!.visibility = View.VISIBLE
             tickerReview!!.visibility = View.VISIBLE
-            ln_ticker_jobSuccess!!.visibility = View.VISIBLE
-            tv_ticker_NoReview!!.visibility = View.GONE
+            lnTickerJobsuccess!!.visibility = View.VISIBLE
+            tvTickerNoreview!!.visibility = View.GONE
             ratingbarAsTicker!!.rating = userAccountModel.workerRatings.avgRating
             tvTickerReview!!.text =
                 "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
@@ -958,13 +959,14 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         if (userAccountModel.posterRatings == null) {
             ratingbarAsPoster!!.visibility = View.GONE
             tvViewAllReviews!!.visibility = View.GONE
-            ln_poster_jobSuccess!!.visibility = View.GONE
-            tv_poster_NoReview!!.visibility = View.VISIBLE
+            lnPosterJobsuccess!!.visibility = View.GONE
+            tvPosterNoreview!!.visibility = View.VISIBLE
+            lytPoster.visibility = View.GONE
         } else {
             posterReview!!.visibility = View.VISIBLE
             ratingbarAsPoster!!.visibility = View.VISIBLE
-            ln_poster_jobSuccess!!.visibility = View.VISIBLE
-            tv_poster_NoReview!!.visibility = View.GONE
+            lnPosterJobsuccess!!.visibility = View.VISIBLE
+            tvPosterNoreview!!.visibility = View.GONE
             ratingbarAsPoster!!.rating = userAccountModel.posterRatings.avgRating
             tvPosterReview!!.text =
                 "(" + userAccountModel.posterRatings.receivedReviews.toString() + ")"

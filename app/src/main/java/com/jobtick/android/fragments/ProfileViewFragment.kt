@@ -100,8 +100,8 @@ class ProfileViewFragment :
     var tvViewAllReviews: TextView? = null
     var txtAccountLevel: TextView? = null
     var tv_poster_NoReview: TextView? = null
-    var tv_ticker_NoReview: TextView? = null
-    var ln_ticker_jobSuccess: LinearLayout? = null
+    var tvTickerNoreview: TextView? = null
+    var lnTickerJobsuccess: LinearLayout? = null
     var ln_poster_jobSuccess: LinearLayout? = null
     var ratingbarAsTicker: RatingBar? = null
     var ratingbarAsPoster: RatingBar? = null
@@ -116,11 +116,11 @@ class ProfileViewFragment :
     var btnQuote: CardView? = null
     var llEnlarge: LinearLayout? = null
     var lytBtnGetAQuote: LinearLayout? = null
-    var lnTickerReview: LinearLayout? = null
+    var lnTickerReview: RelativeLayout? = null
     var ivMedalTop: ImageView? = null
     var ivMedalGOld: ImageView? = null
     var ivMedalMax: ImageView? = null
-    var lnPosterReview: LinearLayout? = null
+    var lnPosterReview: RelativeLayout? = null
     var ivMedalBoronz: ImageView? = null
     private var profileActivity: ProfileActivity? = null
     private var sessionManager: SessionManager? = null
@@ -250,9 +250,9 @@ class ProfileViewFragment :
         linFcc2 = requireView().findViewById(R.id.lin_fcc2)
         linLevel = requireView().findViewById(R.id.lin_level)
         tv_poster_NoReview = requireView().findViewById(R.id.tv_poster_NoReview)
-        tv_ticker_NoReview = requireView().findViewById(R.id.tv_ticker_NoReview)
+        tvTickerNoreview = requireView().findViewById(R.id.tv_ticker_NoReview)
         ln_poster_jobSuccess = requireView().findViewById(R.id.ln_poster_jobSuccess)
-        ln_ticker_jobSuccess = requireView().findViewById(R.id.ln_ticker_jobSuccess)
+        lnTickerJobsuccess = requireView().findViewById(R.id.ln_ticker_jobSuccess)
         txt_increase_chance = requireView().findViewById(R.id.txt_increase_chance)
         txt_increase_chance2 = requireView().findViewById(R.id.txt_increase_chance2)
         txt_increase_chance!!.visibility = View.GONE
@@ -672,13 +672,14 @@ class ProfileViewFragment :
         if (userAccountModel.workerRatings == null) {
             ratingbarAsTicker!!.visibility = View.GONE
             tvViewAllReviews!!.visibility = View.GONE
-            ln_ticker_jobSuccess!!.visibility = View.GONE
-            tv_ticker_NoReview!!.visibility = View.VISIBLE
+            lnTickerJobsuccess!!.visibility = View.GONE
+            tvTickerNoreview!!.visibility = View.VISIBLE
+            lytTicker.visibility = View.GONE
         } else {
             ratingbarAsTicker!!.visibility = View.VISIBLE
             tickerReview!!.visibility = View.VISIBLE
-            ln_ticker_jobSuccess!!.visibility = View.VISIBLE
-            tv_ticker_NoReview!!.visibility = View.GONE
+            lnTickerJobsuccess!!.visibility = View.VISIBLE
+            tvTickerNoreview!!.visibility = View.GONE
             ratingbarAsTicker!!.rating = userAccountModel.workerRatings.avgRating
             tvTickerReview!!.text =
                 "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
@@ -745,6 +746,7 @@ class ProfileViewFragment :
             tvViewAllReviews!!.visibility = View.GONE
             ln_poster_jobSuccess!!.visibility = View.GONE
             tv_poster_NoReview!!.visibility = View.VISIBLE
+            lytPoster.visibility = View.GONE
         } else {
             posterReview!!.visibility = View.VISIBLE
             ratingbarAsPoster!!.visibility = View.VISIBLE

@@ -26,25 +26,27 @@
             android:layout_centerHorizontal="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
+            android:padding="4dp"
             android:background="@drawable/circle_gray">
 
             <ImageView
                 android:id="@+id/img_view"
-                android:layout_width="@dimen/_55dp"
-                android:layout_height="@dimen/_55dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:scaleType="fitCenter" />
         </RelativeLayout>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_name"
+            style="@style/materialText_W400_12"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:minHeight="36dp"
             android:layout_below="@+id/rl_image"
             android:layout_centerHorizontal="true"
             android:ellipsize="end"
             android:gravity="center|top"
             android:maxLines="2"
+            android:minHeight="36dp"
             android:textColor="@color/N900" />
     </RelativeLayout>
 

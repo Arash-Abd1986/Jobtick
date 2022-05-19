@@ -9,10 +9,10 @@
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/img_avatar"
-        android:layout_width="@dimen/_60dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/_40dp"
+        android:layout_height="@dimen/_40dp"
+        android:layout_marginTop="10dp"
         android:layout_alignParentStart="true"
-        android:layout_gravity="center"
         android:layout_marginEnd="8dp"
         android:src="@drawable/pic"
         card_view:civ_border="false" />
@@ -38,7 +38,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:textAppearance="@style/materialText_W400_16"
+                android:textAppearance="@style/materialText_W400_14"
                 android:textColor="@color/N900"
                 tools:text="@string/clean_my_two_bedroom_apartment" />
 
@@ -137,8 +137,9 @@
         android:layout_width="match_parent"
         android:layout_height=".5dp"
         android:layout_below="@+id/img_avatar"
-        android:layout_marginTop="9dp"
-        android:layout_marginBottom="9dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginHorizontal="48dp"
         android:background="#DFE1E6" />
 </RelativeLayout>
 

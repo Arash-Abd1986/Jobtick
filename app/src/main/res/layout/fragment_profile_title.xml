@@ -7,12 +7,12 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/spacing_large"
     android:layout_marginTop="@dimen/spacing_medium"
-    android:layout_marginBottom="@dimen/spacing_middle"
     android:layout_marginEnd="@dimen/spacing_large"
+    android:layout_marginBottom="@dimen/spacing_middle"
     android:background="@drawable/bg_white"
     android:descendantFocusability="blocksDescendants"
-    android:padding="8dp"
-    android:overScrollMode="never">
+    android:overScrollMode="never"
+    android:padding="8dp">
 
     <LinearLayout
         android:id="@+id/lin_main"
@@ -85,9 +85,9 @@
                 style="@style/materialText_500_12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginTop="3dp"
                 android:textColor="@color/grey_70"
+                android:visibility="gone"
                 tools:text="@string/last_seen_4_36_pm" />
 
             <LinearLayout
@@ -137,12 +137,12 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_gravity="center"
-                    android:visibility="gone"
                     android:layout_marginStart="2dp"
                     android:layout_marginEnd="2dp"
                     android:background="@drawable/bg_rounded_profile_badge_disable"
                     android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_id_profile" />
+                    android:src="@drawable/ic_id_profile"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/ivProfileInfo"
@@ -158,14 +158,15 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/lin_fcc2"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/lin_main"
         android:layout_width="wrap_content"
         android:layout_height="29dp"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/lin_main"
+        android:layout_alignParentEnd="true"
         android:layout_gravity="start"
+        android:layout_marginTop="10dp"
         android:gravity="start"
         android:orientation="horizontal">
 
@@ -207,15 +208,14 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_gravity="center"
-            android:visibility="gone"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="2dp"
             android:background="@drawable/bg_rounded_profile_badge_disable"
             android:contentDescription="@string/todo"
-            android:src="@drawable/ic_id_profile" />
+            android:src="@drawable/ic_id_profile"
+            android:visibility="gone" />
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/ivProfileInfo2"
             android:layout_width="28dp"
             android:layout_height="28dp"
@@ -224,7 +224,8 @@
             android:layout_marginEnd="2dp"
             android:contentDescription="@string/todo"
             android:padding="8dp"
-            android:src="@drawable/ic_info" />
+            android:src="@drawable/ic_info"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
@@ -260,35 +261,48 @@
             android:textColor="@color/colorNavyBlue"
             tools:text="level1" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/lin_mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal"
         android:layout_below="@+id/lin_fcc2"
-        android:visibility="gone"
-        >
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        android:visibility="gone">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/N020" />
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/materialText_400_14"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Ticker mode"
-            android:textColor="@color/textColor" />
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_400_14"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Ticker mode"
+                android:textColor="@color/textColor" />
 
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sw_ticker_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:button="@null"
-            android:gravity="center" />
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/sw_ticker_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:button="@null"
+                android:gravity="center" />
 
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

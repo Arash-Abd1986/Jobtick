@@ -108,7 +108,7 @@ class HomeFragment :
     private var ivNotification: ImageView? = null
     private var navigator: Navigator? = null
     private lateinit var viewModel: HomeFragmentViewModel
-    private lateinit var postedJobsAdapter: PostedJobsAdapter
+    private lateinit var postedJobsAdapter: OfferedJobsAdapter
     private lateinit var recommendedJobsAdapter: RecommendedJobsAdapter
     private lateinit var offeredJobsAdapter: OfferedJobsAdapter
     private var hasPostedJob = false
@@ -204,18 +204,18 @@ class HomeFragment :
             } else
                 rlRecentJobs!!.visibility = View.GONE
 
-            if (hasOfferedJob) {
+/*            if (hasOfferedJob) {
                 setOfferedJobs(offeredJobs)
                 rlOfferedJobs!!.visibility = View.VISIBLE
             } else
-                rlOfferedJobs!!.visibility = View.GONE
+                rlOfferedJobs!!.visibility = View.GONE*/
 
-            if (hasPostedJob) {
+/*            if (hasPostedJob) {
                 setPostedJobs(postedJobs)
                 rlPostedJobs!!.visibility = View.VISIBLE
             } else
-                rlPostedJobs!!.visibility = View.GONE
-            if (hasRecommendedJobs) {
+                rlPostedJobs!!.visibility = View.GONE*/
+/*            if (hasRecommendedJobs) {
                 setRecommendedJobs(recommendedJobs)
                 rlRecommendedJobs!!.visibility = View.VISIBLE
             } else
@@ -229,7 +229,7 @@ class HomeFragment :
             if (hasPayment)
                 rlPayment!!.visibility = View.VISIBLE
             else
-                rlPayment!!.visibility = View.GONE
+                rlPayment!!.visibility = View.GONE*/
             try {
                 linMain!!.addView(space)
             } catch (e: java.lang.Exception) {
@@ -486,7 +486,7 @@ class HomeFragment :
         infoBottomSheet.show(requireActivity().supportFragmentManager, null)
     }
 
-    private fun setPostedJobs(postedJobs: List<PostedJob>?) {
+/*    private fun setPostedJobs(postedJobs: List<PostedJob>?) {
         val layoutManager = LinearLayoutManager(context)
         recyclerPostedJobs!!.layoutManager = layoutManager
         postedJobsAdapter = if (postedJobs!!.size > 2)
@@ -498,7 +498,7 @@ class HomeFragment :
             PostedJobsAdapter(postedJobs, null)
         recyclerPostedJobs!!.adapter = postedJobsAdapter
         postedJobsAdapter.setOnItemClickListener(this)
-    }
+    }*/
 
     private fun setRecommendedJobs(recommendedJobs: List<PostedJob>?) {
         val layoutManager = LinearLayoutManager(context)
@@ -515,14 +515,14 @@ class HomeFragment :
         val layoutManager = LinearLayoutManager(context)
         recyclerRecentJobs!!.layoutManager = layoutManager
         postedJobsAdapter = if (recentJobs!!.size > 2)
-            PostedJobsAdapter(recentJobs.subList(0, 3), null)
+            OfferedJobsAdapter(recentJobs.subList(0, 3), null)
         else
-            PostedJobsAdapter(recentJobs, null)
+            OfferedJobsAdapter(recentJobs, null)
         recyclerRecentJobs!!.adapter = postedJobsAdapter
         postedJobsAdapter.setOnItemClickListener(this)
     }
 
-    private fun setOfferedJobs(offeredJobs: List<OfferedJob>?) {
+/*    private fun setOfferedJobs(offeredJobs: List<OfferedJob>?) {
 
         val layoutManager = LinearLayoutManager(context)
         recyclerOfferedJobs!!.layoutManager = layoutManager
@@ -535,7 +535,7 @@ class HomeFragment :
             OfferedJobsAdapter(offeredJobs, null)
         recyclerOfferedJobs!!.adapter = offeredJobsAdapter
         offeredJobsAdapter.setOnItemClickListener(this)
-    }
+    }*/
 
     private fun setBanner(banner: Banner?) {
         if (banner!!.leftImage != null) {
@@ -703,10 +703,6 @@ class HomeFragment :
     }
 
     override fun onItemClick(view: View?, obj: PostedJob?, position: Int, action: String?) {
-        goToJob(obj!!.slug)
-    }
-
-    override fun onItemClick(view: View?, obj: OfferedJob?, position: Int, action: String?) {
         goToJob(obj!!.slug)
     }
 

@@ -24,7 +24,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/nav_i1"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="28dp"
                 app:srcCompat="@drawable/ic_home_small" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -48,7 +48,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/nav_i2"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="28dp"
                 app:srcCompat="@drawable/ic_explore_small" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -97,7 +97,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/nav_i4"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="28dp"
                 app:srcCompat="@drawable/ic_chats_small" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -121,7 +121,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/nav_i5"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="28dp"
                 app:srcCompat="@drawable/ic_profile_small" />
 
             <androidx.appcompat.widget.AppCompatTextView

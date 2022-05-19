@@ -5,11 +5,11 @@
     android:id="@+id/txt_data"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_marginStart="@dimen/spacing_middle"
+    android:layout_marginStart="8dp"
     android:background="@drawable/shape_tab_white_rev2"
     android:paddingStart="@dimen/spacing_middle"
     android:paddingEnd="@dimen/spacing_middle"
     android:gravity="center"
     android:text="Remote"
     android:textColor="@color/textColor"
-    android:textAppearance="@style/materialText_600_10" />
+    android:textAppearance="@style/materialText_W400_12" />

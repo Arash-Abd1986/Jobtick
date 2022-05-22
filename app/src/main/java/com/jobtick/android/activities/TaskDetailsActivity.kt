@@ -3053,11 +3053,15 @@ class TaskDetailsActivity :
                             reciver,
                             data.task.slug, data.task.status, data.chat_closed
                         )
-                        val intent = Intent(this@TaskDetailsActivity, ChatActivity::class.java)
-                        val bundle = Bundle()
-                        bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel)
-                        intent.putExtras(bundle)
-                        startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT)
+                        if (sender.id == reciver.id) {
+                            showToast("Something Went Wrong", this)
+                        } else {
+                            val intent = Intent(this@TaskDetailsActivity, ChatActivity::class.java)
+                            val bundle = Bundle()
+                            bundle.putParcelable(ConstantKey.CONVERSATION, conversationModel)
+                            intent.putExtras(bundle)
+                            startActivityForResult(intent, ConstantKey.RESULTCODE_PRIVATE_CHAT)
+                        }
                     } else {
                         showToast("Something Went Wrong", this)
                     }

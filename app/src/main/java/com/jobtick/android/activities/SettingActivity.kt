@@ -3,11 +3,13 @@ package com.jobtick.android.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.jobtick.android.R
 import com.jobtick.android.activities.new.ReferAFriendActivity
 import com.jobtick.android.fragments.LogOutBottomSheet
+import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.widget.ExtendedSettingItem
 
 class SettingActivity : AppCompatActivity() {
@@ -21,7 +23,7 @@ class SettingActivity : AppCompatActivity() {
     var paymentSettings: ExtendedSettingItem? = null
     var notificationSettings: ExtendedSettingItem? = null
     var changePassword: ExtendedSettingItem? = null
-
+    private var sessionManager: SessionManager? = null
 
     var jobAlertSettings: ExtendedSettingItem? = null
     var helpTopicsSetting: ExtendedSettingItem? = null
@@ -32,6 +34,7 @@ class SettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
+        sessionManager = SessionManager(this)
         initIDs()
         initToolbar()
     }
@@ -60,6 +63,8 @@ class SettingActivity : AppCompatActivity() {
         helpTopicsSetting!!.setDrawableID(R.drawable.ic_help_setting)
         acknowledgment = findViewById(R.id.acknowledgment)
         logout = findViewById(R.id.logout)
+        if (sessionManager!!.roleLocal == "poster")
+            jobAlertSettings!!.visibility = View.GONE
 
         setClick()
     }

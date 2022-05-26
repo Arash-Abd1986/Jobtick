@@ -98,7 +98,7 @@ class SearchSuburbBottomSheet(
 
     fun getTaskCategoryData(searchTxt: String) {
         val qParams =
-            if (justLocality) "&cachebuster=1609011136601&autocomplete=true&country=au&types=locality&language=en&languageMode=strict"
+            if (justLocality) "&cachebuster=1609011136601&autocomplete=true&country=au&types=locality,address&language=en&languageMode=strict"
             else
                 "&cachebuster=1609011136601&autocomplete=true&country=au&language=en&fuzzyMatch=false&routing=false&languageMode=strict"
         val stringRequest: StringRequest = object : StringRequest(

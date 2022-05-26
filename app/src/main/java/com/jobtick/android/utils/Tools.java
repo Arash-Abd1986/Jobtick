@@ -119,7 +119,7 @@ public class Tools {
 
     public static long chatDateToMillis(String dateString) throws ParseException {
         dateString =dateString.replace("T"," ");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss+SS", Locale.getDefault());
         Date date = sdf.parse(dateString);
         return date.getTime();
     }

@@ -128,7 +128,7 @@ public abstract class AbstractFilterFragment extends Fragment implements SuburbS
                 if (filterModel != null && filterModel.getPrice() != null) {
                     String[] price = filterModel.getPrice().replace("$", "").replace(",", "").split("-");
                     getPminPmax(Integer.parseInt(price[0].trim()), Integer.parseInt(price[1].trim()));
-                    txtPriceMinMax.setText(filterModel.getPrice());
+                    //txtPriceMinMax.setText(filterModel.getPrice());
                 }
                 if (filterModel != null && filterModel.getTask_open() != null) {
                     cbOpenTasks.setChecked(filterModel.getTask_open() != null);

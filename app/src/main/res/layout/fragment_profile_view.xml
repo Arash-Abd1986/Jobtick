@@ -16,7 +16,7 @@
         android:layout_height="36dp"
         android:layout_centerInParent="true" />
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -155,9 +155,10 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8dp"
+                    android:padding="16dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="@dimen/_20sp"
-                    android:layout_marginEnd="@dimen/_8dp"
+                    android:layout_marginEnd="16dp"
                     android:background="@drawable/bg_profile">
 
                     <LinearLayout
@@ -175,9 +176,6 @@
                                 android:id="@+id/rgTabs"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_20sp"
-                                android:layout_marginTop="@dimen/_20sp"
-                                android:layout_marginEnd="@dimen/_20sp"
                                 android:background="@drawable/radio_profile_bg"
                                 android:orientation="horizontal"
                                 android:weightSum="2">

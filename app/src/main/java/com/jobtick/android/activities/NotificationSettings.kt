@@ -26,7 +26,7 @@ class NotificationSettings : ActivityBase() {
         rtlBtnEmailNotification = findViewById(R.id.email_notifications)
         rtlBtnEmailNotification.setDrawableID(R.drawable.ic_mail_v2)
         rtlBtnPushNotifications = findViewById(R.id.push_notifications)
-        rtlBtnPushNotifications.setDrawableID(R.drawable.ic_bell_v2)
+        rtlBtnPushNotifications.setDrawableID(R.drawable.ic_notif_setting)
         rtlBtnSMSNotifications = findViewById(R.id.sms_notifications)
         rtlBtnSMSNotifications.setDrawableID(R.drawable.ic_sms)
     }

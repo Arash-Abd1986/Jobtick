@@ -9,6 +9,8 @@
     tools:context=".fragments.NewTaskAlertsInPersonFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_above="@+id/btn_update_alert"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -28,12 +30,12 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:background="@drawable/shape_rounded_back_white_button_active_r8"
                     android:layout_width="match_parent"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:layout_height="wrap_content">
+                    android:background="@drawable/shape_rounded_back_white_button_active_r8"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
@@ -43,6 +45,7 @@
                         android:text="Remotely"
                         android:textAppearance="@style/materialText_W400_16"
                         android:textColor="@color/N900" />
+
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/rb_remote"
                         android:layout_width="wrap_content"
@@ -58,25 +61,27 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/shape_rounded_back_white_button_active_r8"
                     android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:paddingEnd="16dp">
+
                     <LinearLayout
                         android:id="@+id/lin_in_person"
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/rb_in_person"
                             android:gravity="start"
                             android:text="In person"
-                            android:layout_toLeftOf="@+id/rb_in_person"
-                            android:textColor="@color/N900"
-                            android:textAppearance="@style/materialText_W400_16"/>
+                            android:textAppearance="@style/materialText_W400_16"
+                            android:textColor="@color/N900" />
+
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/rb_in_person"
                             android:layout_width="wrap_content"
@@ -101,7 +106,6 @@
                         app:eInputType="suburb"
                         app:eTitle="@string/suburb" />
                 </RelativeLayout>
-
 
 
             </LinearLayout>
@@ -170,10 +174,10 @@
                         android:value="15"
                         android:valueFrom="0"
                         android:valueTo="101"
-                        app:tickColor="@color/colorPrimary"
                         app:haloColor="@color/grey_E2E2E2"
-                        app:thumbColor="@color/colorPrimary"
                         app:labelBehavior="gone"
+                        app:thumbColor="@color/colorPrimary"
+                        app:tickColor="@color/colorPrimary"
                         app:trackColorActive="@color/colorPrimary"
                         app:trackColorInactive="@color/grey_E2E2E2" />
 
@@ -181,6 +185,7 @@
 
 
             </androidx.cardview.widget.CardView>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -238,19 +243,20 @@
                     app:values="@array/initial_slider_values_select_price" />
 
             </LinearLayout>
+
             <AutoCompleteTextView
-                style="@style/materialText_W400_16"
                 android:id="@+id/alerts"
-                android:padding="@dimen/_8dp"
+                style="@style/materialText_W400_16"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_medium"
-                android:minHeight="@dimen/_54dp"
                 android:background="@drawable/rectangle_card_round_corners_outlined"
-                android:layout_width="fill_parent"
                 android:hint="Add a category you prefer receive jobs on"
-                android:layout_height="wrap_content" />
+                android:minHeight="@dimen/_54dp"
+                android:padding="@dimen/_8dp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -260,7 +266,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/spacing_large"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_large"
         android:text="@string/update_alert" />
 
 

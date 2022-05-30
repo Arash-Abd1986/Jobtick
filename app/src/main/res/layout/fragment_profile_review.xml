@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:background="@drawable/bg_white"
+    android:layout_margin="8dp"
+    android:background="@drawable/bg_profile"
     android:orientation="vertical"
     android:padding="16dp"
     android:visibility="visible">
@@ -63,7 +63,6 @@
             android:id="@+id/reviewTabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_20sp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/radio_profile_bg"
             android:orientation="horizontal"
@@ -92,7 +91,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/radio_portfolio"
                 android:button="@null"
-
                 android:checked="true"
                 android:gravity="center"
                 android:text="@string/as_a_poster"

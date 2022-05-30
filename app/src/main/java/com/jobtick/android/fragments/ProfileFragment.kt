@@ -411,6 +411,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             rlStatus.visibility = View.GONE
             lnAboutMe.visibility = View.GONE
             linLevel!!.visibility = View.GONE
+            flAddSkill!!.visibility = View.GONE
             swTickerMode.isChecked = false
             txtRole.text = "As a Poster"
         } else {
@@ -420,6 +421,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             rlStatus.visibility = View.VISIBLE
             lnAboutMe.visibility = View.VISIBLE
             linLevel!!.visibility = View.VISIBLE
+            flAddSkill!!.visibility = View.VISIBLE
             swTickerMode.isChecked = true
             txtRole.text = "As a Ticker"
         }

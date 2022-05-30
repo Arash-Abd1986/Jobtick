@@ -4,7 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.MenuItem
-import com.android.volley.*
+import com.android.volley.AuthFailureError
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.appbar.MaterialToolbar
@@ -18,7 +21,6 @@ import com.jobtick.android.utils.HttpStatus
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.*
 
 class NewTaskAlertsActivity : ActivityBase(), OperationInPersonListener {
 
@@ -38,9 +40,13 @@ class NewTaskAlertsActivity : ActivityBase(), OperationInPersonListener {
         initToolbar()
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.fragment_container_view, newInstance(taskAlert, position, this), "New Job Alert")
-                    .commit()
+                .setReorderingAllowed(true)
+                .add(
+                    R.id.fragment_container_view,
+                    newInstance(taskAlert, position, this),
+                    "New Job Alert"
+                )
+                .commit()
         }
     }
 
@@ -70,7 +76,12 @@ class NewTaskAlertsActivity : ActivityBase(), OperationInPersonListener {
         supportActionBar!!.title = "New Job Alert"
     }
 
-    override fun onInPersonSave(position: Int, taskAlert: TaskAlert?, minPrice: String, maxPrice: String) {
+    override fun onInPersonSave(
+        position: Int,
+        taskAlert: TaskAlert?,
+        minPrice: String,
+        maxPrice: String
+    ) {
         this.taskAlert = taskAlert
         this.position = position
         if (taskAlert!!.alert_type == "physical") {
@@ -86,9 +97,11 @@ class NewTaskAlertsActivity : ActivityBase(), OperationInPersonListener {
     }
 
     private fun addTaskAlert(taskAlert: TaskAlert?, minPrice: String, maxPrice: String) {
-        //{{baseurl}}/taskalerts
+        // {{baseurl}}/taskalerts
         showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASK_ALERT_V2,
+        val stringRequest: StringRequest =
+            object : StringRequest(
+                Method.POST, Constant.URL_TASK_ALERT_V2,
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     hideProgressDialog()
@@ -133,34 +146,38 @@ class NewTaskAlertsActivity : ActivityBase(), OperationInPersonListener {
                     }
                     Timber.e(error.toString())
                     hideProgressDialog()
-                }) {
-            override fun getHeaders(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-                map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["X-Requested-With"] = "XMLHttpRequest"
-                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                return map1
-            }
-
-            @Throws(AuthFailureError::class)
-            override fun getParams(): Map<String, String> {
-                val map1: MutableMap<String, String> = HashMap()
-                map1["keyword"] = taskAlert!!.ketword
-                map1["type"] = taskAlert.alert_type
-                map1["min_price"] = minPrice
-                map1["max_price"] = maxPrice
-                if (taskAlert.alert_type == "physical") {
-                    map1["location"] = taskAlert.suburb
-                    map1["latitude"] = taskAlert.lattitude.toString()
-                    map1["longitude"] = taskAlert.longitude.toString()
-                    map1["distance"] = taskAlert.distance.toString()
                 }
-                return map1
+            ) {
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] =
+                        sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["X-Requested-With"] = "XMLHttpRequest"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getParams(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["keyword"] = taskAlert!!.ketword
+                    map1["type"] = taskAlert.alert_type
+                    map1["min_price"] = minPrice
+                    map1["max_price"] = maxPrice
+                    if (taskAlert.alert_type == "physical") {
+                        map1["location"] = taskAlert.suburb
+                        map1["latitude"] = taskAlert.lattitude.toString()
+                        map1["longitude"] = taskAlert.longitude.toString()
+                        map1["distance"] = taskAlert.distance.toString()
+                    }
+                    return map1
+                }
             }
-        }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
         val requestQueue = Volley.newRequestQueue(this@NewTaskAlertsActivity)
         requestQueue.add(stringRequest)
         Timber.e(stringRequest.url)

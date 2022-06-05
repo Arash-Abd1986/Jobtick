@@ -73,10 +73,10 @@ import timber.log.Timber
  * A simple [Fragment] subclass.
  */
 class ProfileViewFragment :
-    Fragment(),
-    onProfileUpdateListener,
-    AttachmentAdapter.OnItemClickListener,
-    ConfirmBlockTaskBottomSheet.NoticeListener {
+        Fragment(),
+        onProfileUpdateListener,
+        AttachmentAdapter.OnItemClickListener,
+        ConfirmBlockTaskBottomSheet.NoticeListener {
     var userId = -1
 
     var recyclerViewPortfolio: RecyclerView? = null
@@ -185,9 +185,9 @@ class ProfileViewFragment :
 
     @SuppressLint("SetTextI18n", "RtlHardcoded")
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile_view, container, false)
         onProfileupdatelistener = this
@@ -306,13 +306,13 @@ class ProfileViewFragment :
 
     private fun setPopUpWindow() {
         val inflater =
-            requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.profile_view_menu, null)
         popupWindow = PopupWindow(
-            view,
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            true
+                view,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                true
         )
         popupWindow!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val report = view.findViewById<View>(R.id.report) as TextView
@@ -333,13 +333,13 @@ class ProfileViewFragment :
             popupWindow!!.dismiss()
             userAccountModel?.let {
                 val confirmBottomSheet =
-                    ConfirmBlockTaskBottomSheet(
-                        requireContext(),
-                        userAccountModel!!.name,
-                        title = if (it.isBlockedByYou) R.string.confirm_unblock else R.string.confirm_block,
-                        description = if (it.isBlockedByYou) R.string.are_you_sure_unblock else R.string.are_you_sure_block,
-                        pButton = if (it.isBlockedByYou) R.string.unblock else R.string.block,
-                    )
+                        ConfirmBlockTaskBottomSheet(
+                                requireContext(),
+                                userAccountModel!!.name,
+                                title = if (it.isBlockedByYou) R.string.confirm_unblock else R.string.confirm_block,
+                                description = if (it.isBlockedByYou) R.string.are_you_sure_unblock else R.string.are_you_sure_block,
+                                pButton = if (it.isBlockedByYou) R.string.unblock else R.string.block,
+                        )
                 confirmBottomSheet.listener = this
                 confirmBottomSheet.show(childFragmentManager, "")
             }
@@ -375,8 +375,8 @@ class ProfileViewFragment :
     private fun initVM() {
         // TODO: move other services to viewmodel
         profileViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
+                this,
+                ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
         ).get(ProfileViewModel::class.java)
         profileViewModel.response.observe(viewLifecycleOwner) {
             it?.let {
@@ -437,7 +437,7 @@ class ProfileViewFragment :
     private fun onChangeTabUser() {
         if (userAccountModel!!.postTaskStatistics != null && userAccountModel!!.postTaskStatistics.completionRate != null) {
             tvTickerCompletionRate!!.text =
-                userAccountModel!!.postTaskStatistics.completionRate.toString() + "%"
+                    userAccountModel!!.postTaskStatistics.completionRate.toString() + "%"
         }
     }
 
@@ -456,8 +456,8 @@ class ProfileViewFragment :
             } else {
                 if (attachmentArrayList!!.size > 10) {
                     (requireActivity() as ActivityBase).showToast(
-                        "MAX 10 picture",
-                        requireContext()
+                            "MAX 10 picture",
+                            requireContext()
                     )
                 }
                 recyclerViewPortfolio!!.visibility = View.VISIBLE
@@ -493,11 +493,11 @@ class ProfileViewFragment :
     private fun init() {
         recyclerViewPortfolio!!.layoutManager = GridLayoutManager(profileActivity, 3)
         recyclerViewPortfolio!!.addItemDecoration(
-            SpacingItemDecoration(
-                3,
-                Tools.dpToPx(profileActivity, 3),
-                true
-            )
+                SpacingItemDecoration(
+                        3,
+                        Tools.dpToPx(profileActivity, 3),
+                        true
+                )
         )
         recyclerViewPortfolio!!.setHasFixedSize(true)
         adapter = AttachmentAdapter(attachmentArrayList, false, activity)
@@ -509,89 +509,89 @@ class ProfileViewFragment :
     private val allProfileData: Unit
         get() {
             val stringRequest: StringRequest =
-                object : StringRequest(
-                    Method.GET, Constant.URL_PROFILE + "/" + userId,
-                    Response.Listener { response: String? ->
-                        Timber.e(response)
-                        content!!.visibility = View.VISIBLE
-                        pbLoading!!.visibility = View.GONE
-                        btnQuote!!.visibility = View.VISIBLE
-                        profileActivity!!.hideProgressDialog()
-                        try {
-                            val jsonObject = JSONObject(response!!)
-                            Timber.e(jsonObject.toString())
-                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                userAccountModel =
-                                    UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
-                                val gson = Gson()
-                                val levels = gson.fromJson(
-                                    jsonObject.getJSONObject("data").getJSONArray("levels")
-                                        .toString(),
-                                    Levels::class.java
-                                )
-                                if (userAccountModel!!.lastMonthIncome != null)
-                                    this.lastMonthIncome =
-                                        userAccountModel!!.lastMonthIncome.toFloat()
-                                this.levels = ArrayList()
-                                this.levels!!.addAll(levels)
-                                checkLevel(levels)
-                                setUpAllEditFields(userAccountModel)
-                                attachmentArrayList = userAccountModel!!.portfolio
-                                adapter!!.clear()
-                                badgesModelArrayList = userAccountModel!!.badges
-                                if (attachmentArrayList!!.size <= 0) {
-                                    noPortfolio!!.visibility = View.VISIBLE
-                                    lPort!!.visibility = View.GONE
-                                } else {
-                                    recyclerViewPortfolio!!.visibility = View.VISIBLE
-                                    noPortfolio!!.visibility = View.GONE
-                                    lPort!!.visibility = View.VISIBLE
-                                    adapter!!.addItems(attachmentArrayList)
+                    object : StringRequest(
+                            Method.GET, Constant.URL_PROFILE + "/" + userId,
+                            Response.Listener { response: String? ->
+                                Timber.e(response)
+                                content!!.visibility = View.VISIBLE
+                                pbLoading!!.visibility = View.GONE
+                                btnQuote!!.visibility = View.VISIBLE
+                                profileActivity!!.hideProgressDialog()
+                                try {
+                                    val jsonObject = JSONObject(response!!)
+                                    Timber.e(jsonObject.toString())
+                                    if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                        userAccountModel =
+                                                UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
+                                        val gson = Gson()
+                                        val levels = gson.fromJson(
+                                                jsonObject.getJSONObject("data").getJSONArray("levels")
+                                                        .toString(),
+                                                Levels::class.java
+                                        )
+                                        if (userAccountModel!!.lastMonthIncome != null)
+                                            this.lastMonthIncome =
+                                                    userAccountModel!!.lastMonthIncome.toFloat()
+                                        this.levels = ArrayList()
+                                        this.levels!!.addAll(levels)
+                                        checkLevel(levels)
+                                        setUpAllEditFields(userAccountModel)
+                                        attachmentArrayList = userAccountModel!!.portfolio
+                                        adapter!!.clear()
+                                        badgesModelArrayList = userAccountModel!!.badges
+                                        if (attachmentArrayList!!.size <= 0) {
+                                            noPortfolio!!.visibility = View.VISIBLE
+                                            lPort!!.visibility = View.GONE
+                                        } else {
+                                            recyclerViewPortfolio!!.visibility = View.VISIBLE
+                                            noPortfolio!!.visibility = View.GONE
+                                            lPort!!.visibility = View.VISIBLE
+                                            adapter!!.addItems(attachmentArrayList)
+                                        }
+                                        if (badgesModelArrayList!!.size <= 0) {
+                                            noPortfolio!!.visibility = View.VISIBLE
+                                            lSkill!!.visibility = View.GONE
+                                        } else {
+                                            noPortfolio!!.visibility = View.GONE
+                                            lSkill!!.visibility = View.VISIBLE
+                                        }
+                                        badgesAdapter!!.addItems(badgesModelArrayList)
+                                        if (userAccountModel!!.portfolio.size == 0) {
+                                            noPortfolio!!.visibility = View.VISIBLE
+                                        } else {
+                                            noPortfolio!!.visibility = View.GONE
+                                        }
+                                        if (rbPortfollio!!.isChecked) {
+                                            lSkill!!.visibility = View.GONE
+                                            noSkill!!.visibility = View.GONE
+                                        }
+                                    } else {
+                                        profileActivity!!.showToast("Something went wrong", profileActivity)
+                                    }
+                                } catch (e: JSONException) {
+                                    profileActivity!!.showToast("Something went wrong", profileActivity)
+                                    Timber.e(e.toString())
+                                    e.printStackTrace()
                                 }
-                                if (badgesModelArrayList!!.size <= 0) {
-                                    noPortfolio!!.visibility = View.VISIBLE
-                                    lSkill!!.visibility = View.GONE
-                                } else {
-                                    noPortfolio!!.visibility = View.GONE
-                                    lSkill!!.visibility = View.VISIBLE
-                                }
-                                badgesAdapter!!.addItems(badgesModelArrayList)
-                                if (userAccountModel!!.portfolio.size == 0) {
-                                    noPortfolio!!.visibility = View.VISIBLE
-                                } else {
-                                    noPortfolio!!.visibility = View.GONE
-                                }
-                                if (rbPortfollio!!.isChecked) {
-                                    lSkill!!.visibility = View.GONE
-                                    noSkill!!.visibility = View.GONE
-                                }
-                            } else {
-                                profileActivity!!.showToast("Something went wrong", profileActivity)
+                            },
+                            Response.ErrorListener { error: VolleyError ->
+                                profileActivity!!.errorHandle1(error.networkResponse)
+                                profileActivity!!.hideProgressDialog()
                             }
-                        } catch (e: JSONException) {
-                            profileActivity!!.showToast("Something went wrong", profileActivity)
-                            Timber.e(e.toString())
-                            e.printStackTrace()
+                    ) {
+                        override fun getHeaders(): Map<String, String> {
+                            val map1: MutableMap<String, String> = HashMap()
+                            map1["authorization"] =
+                                    sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                            map1["Content-Type"] = "application/x-www-form-urlencoded"
+                            map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                            // map1.put("X-Requested-With", "XMLHttpRequest");
+                            return map1
                         }
-                    },
-                    Response.ErrorListener { error: VolleyError ->
-                        profileActivity!!.errorHandle1(error.networkResponse)
-                        profileActivity!!.hideProgressDialog()
                     }
-                ) {
-                    override fun getHeaders(): Map<String, String> {
-                        val map1: MutableMap<String, String> = HashMap()
-                        map1["authorization"] =
-                            sessionManager!!.tokenType + " " + sessionManager!!.accessToken
-                        map1["Content-Type"] = "application/x-www-form-urlencoded"
-                        map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                        // map1.put("X-Requested-With", "XMLHttpRequest");
-                        return map1
-                    }
-                }
             stringRequest.retryPolicy = DefaultRetryPolicy(
-                0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                    0, -1,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
             )
             val requestQueue = Volley.newRequestQueue(profileActivity)
             requestQueue.add(stringRequest)
@@ -604,37 +604,37 @@ class ProfileViewFragment :
                 when (i) {
                     0 -> {
                         ivMedalTop!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level1_active
-                            )
+                                ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.ic_level1_active
+                                )
                         )
                         txtLevel!!.text = "Level 1"
                     }
                     1 -> {
                         ivMedalTop!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level2_active
-                            )
+                                ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.ic_level2_active
+                                )
                         )
                         txtLevel!!.text = "Level 2"
                     }
                     2 -> {
                         ivMedalTop!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level3_active
-                            )
+                                ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.ic_level3_active
+                                )
                         )
                         txtLevel!!.text = "Level 3"
                     }
                     3 -> {
                         ivMedalTop!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_level4_active
-                            )
+                                ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.ic_level4_active
+                                )
                         )
                         txtLevel!!.text = "Level 4"
                     }
@@ -682,59 +682,59 @@ class ProfileViewFragment :
             tvTickerNoreview!!.visibility = View.GONE
             ratingbarAsTicker!!.rating = userAccountModel.workerRatings.avgRating
             tvTickerReview!!.text =
-                "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
+                    "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
             if (userAccountModel.workTaskStatistics != null) tvTickerCompletionRate!!.text =
-                userAccountModel.workTaskStatistics.completionRate.toString() + "%"
+                    userAccountModel.workTaskStatistics.completionRate.toString() + "%"
             // worker
             if (userAccountModel.workerRatings != null) {
                 tickerReviewNum.text =
-                    userAccountModel.workerRatings.avgRating.toString().cleanRound()
+                        userAccountModel.workerRatings.avgRating.toString().cleanRound()
                 if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get1() != null) {
                     progressBar1Star.progress =
-                        userAccountModel.workerRatings.breakdownModel.get1()
+                            userAccountModel.workerRatings.breakdownModel.get1()
                     txtReviewCount1Star.text =
-                        "(" + userAccountModel.workerRatings.breakdownModel.get1()
-                        .toString() + ")"
+                            "(" + userAccountModel.workerRatings.breakdownModel.get1()
+                                    .toString() + ")"
                 } else {
                     progressBar1Star.progress = 0
                     txtReviewCount1Star.text = "(0)"
                 }
                 if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get2() != null) {
                     progressBar2Star.progress =
-                        userAccountModel.workerRatings.breakdownModel.get2()
+                            userAccountModel.workerRatings.breakdownModel.get2()
                     txtReviewCount2Star.text =
-                        "(" + userAccountModel.workerRatings.breakdownModel.get2()
-                        .toString() + ")"
+                            "(" + userAccountModel.workerRatings.breakdownModel.get2()
+                                    .toString() + ")"
                 } else {
                     progressBar2Star.progress = 0
                     txtReviewCount2Star.text = "(0)"
                 }
                 if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get3() != null) {
                     progressBar3Star.progress =
-                        userAccountModel.workerRatings.breakdownModel.get3()
+                            userAccountModel.workerRatings.breakdownModel.get3()
                     txtReviewCount3Star.text =
-                        "(" + userAccountModel.workerRatings.breakdownModel.get3()
-                        .toString() + ")"
+                            "(" + userAccountModel.workerRatings.breakdownModel.get3()
+                                    .toString() + ")"
                 } else {
                     progressBar3Star.progress = 0
                     txtReviewCount3Star.text = "(0)"
                 }
                 if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get4() != null) {
                     progressBar4Star.progress =
-                        userAccountModel.workerRatings.breakdownModel.get4()
+                            userAccountModel.workerRatings.breakdownModel.get4()
                     txtReviewCount4Star.text =
-                        "(" + userAccountModel.workerRatings.breakdownModel.get4()
-                        .toString() + ")"
+                            "(" + userAccountModel.workerRatings.breakdownModel.get4()
+                                    .toString() + ")"
                 } else {
                     progressBar4Star.progress = 0
                     txtReviewCount4Star.text = "(0)"
                 }
                 if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get5() != null) {
                     progressBar5Star.progress =
-                        userAccountModel.workerRatings.breakdownModel.get5()
+                            userAccountModel.workerRatings.breakdownModel.get5()
                     txtReviewCount5Star.text =
-                        "(" + userAccountModel.workerRatings.breakdownModel.get5()
-                        .toString() + ")"
+                            "(" + userAccountModel.workerRatings.breakdownModel.get5()
+                                    .toString() + ")"
                 } else {
                     progressBar5Star.progress = 0
                     txtReviewCount5Star.text = "(0)"
@@ -754,60 +754,60 @@ class ProfileViewFragment :
             tv_poster_NoReview!!.visibility = View.GONE
             ratingbarAsPoster!!.rating = userAccountModel.posterRatings.avgRating
             tvPosterReview!!.text =
-                "(" + userAccountModel.posterRatings.receivedReviews.toString() + ")"
+                    "(" + userAccountModel.posterRatings.receivedReviews.toString() + ")"
             if (userAccountModel.postTaskStatistics != null) tvPosterCompletionRate!!.text =
-                userAccountModel.postTaskStatistics.completionRate.toString() + "%"
+                    userAccountModel.postTaskStatistics.completionRate.toString() + "%"
 
             // poster
             if (userAccountModel.posterRatings != null) {
                 posterReviewNum.text =
-                    userAccountModel.posterRatings.avgRating.toString().cleanRound()
+                        userAccountModel.posterRatings.avgRating.toString().cleanRound()
                 if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel.get1() != null) {
                     progressBar1Starp.progress =
-                        userAccountModel.posterRatings.breakdownModel.get1()
+                            userAccountModel.posterRatings.breakdownModel.get1()
                     txtReviewCount1Starp.text =
-                        "(" + userAccountModel.posterRatings.breakdownModel.get1()
-                        .toString() + ")"
+                            "(" + userAccountModel.posterRatings.breakdownModel.get1()
+                                    .toString() + ")"
                 } else {
                     progressBar1Starp.progress = 0
                     txtReviewCount1Starp.text = "(0)"
                 }
                 if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel.get2() != null) {
                     progressBar2Starp.progress =
-                        userAccountModel.posterRatings.breakdownModel.get2()
+                            userAccountModel.posterRatings.breakdownModel.get2()
                     txtReviewCount2Starp.text =
-                        "(" + userAccountModel.posterRatings.breakdownModel.get2()
-                        .toString() + ")"
+                            "(" + userAccountModel.posterRatings.breakdownModel.get2()
+                                    .toString() + ")"
                 } else {
                     progressBar2Starp.progress = 0
                     txtReviewCount2Starp.text = "(0)"
                 }
                 if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel.get3() != null) {
                     progressBar3Starp.progress =
-                        userAccountModel.posterRatings.breakdownModel.get3()
+                            userAccountModel.posterRatings.breakdownModel.get3()
                     txtReviewCount3Starp.text =
-                        "(" + userAccountModel.posterRatings.breakdownModel.get3()
-                        .toString() + ")"
+                            "(" + userAccountModel.posterRatings.breakdownModel.get3()
+                                    .toString() + ")"
                 } else {
                     progressBar3Starp.progress = 0
                     txtReviewCount3Starp.text = "(0)"
                 }
                 if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel.get4() != null) {
                     progressBar4Starp.progress =
-                        userAccountModel.posterRatings.breakdownModel.get4()
+                            userAccountModel.posterRatings.breakdownModel.get4()
                     txtReviewCount4Starp.text =
-                        "(" + userAccountModel.posterRatings.breakdownModel.get4()
-                        .toString() + ")"
+                            "(" + userAccountModel.posterRatings.breakdownModel.get4()
+                                    .toString() + ")"
                 } else {
                     progressBar4Starp.progress = 0
                     txtReviewCount4Starp.text = "(0)"
                 }
                 if (userAccountModel.posterRatings != null && userAccountModel.posterRatings.breakdownModel != null && userAccountModel.posterRatings.breakdownModel.get5() != null) {
                     progressBar5Starp.progress =
-                        userAccountModel.posterRatings.breakdownModel.get5()
+                            userAccountModel.posterRatings.breakdownModel.get5()
                     txtReviewCount5Starp.text =
-                        "(" + userAccountModel.posterRatings.breakdownModel.get5()
-                        .toString() + ")"
+                            "(" + userAccountModel.posterRatings.breakdownModel.get5()
+                                    .toString() + ")"
                 } else {
                     progressBar5Starp.progress = 0
                     txtReviewCount5Starp.text = "(0)"
@@ -832,7 +832,7 @@ class ProfileViewFragment :
             noPortfolio!!.visibility = View.GONE
         }
         if (userAccountModel.skills.skills == null && userAccountModel.skills.skills.size == 0 && userAccountModel.skills.language == null && userAccountModel.skills.language.size == 0 &&
-            userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0
+                userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0
         ) {
             noPortfolio!!.visibility = View.GONE
             lSkill!!.visibility = View.GONE
@@ -877,11 +877,16 @@ class ProfileViewFragment :
         tvViewAllReviews!!.setOnClickListener { v: View? ->
             val bundle = Bundle()
             bundle.putInt(Constant.userID, userId)
+            try {
+                bundle.putInt(Constant.Level, txtLevel!!.text.toString().filter { it.isDigit() }.toInt())
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
             ReviewsActivity.userAccountModel = userAccountModel
             bundle.putString("WhoIs", Constant.AS_A_WORKER)
             startActivity(
-                Intent(profileActivity, ReviewsActivity::class.java)
-                    .putExtras(bundle)
+                    Intent(profileActivity, ReviewsActivity::class.java)
+                            .putExtras(bundle)
             )
         }
         onChangeTabBiography()
@@ -918,10 +923,10 @@ class ProfileViewFragment :
     private fun blockUser() {
         userAccountModel?.let {
             profileViewModel.blockUser(
-                BlockUserRequest(
-                    !it.isBlockedByYou,
-                    user_id = userId.toString()
-                )
+                    BlockUserRequest(
+                            !it.isBlockedByYou,
+                            user_id = userId.toString()
+                    )
             )
         }
     }

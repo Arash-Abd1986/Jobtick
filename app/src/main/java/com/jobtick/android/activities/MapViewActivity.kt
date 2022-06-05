@@ -31,7 +31,6 @@ import com.jobtick.android.R
 import com.jobtick.android.adapers.FilterAdapter
 import com.jobtick.android.adapers.TaskListAdapterV2
 import com.jobtick.android.models.FilterModel
-import com.jobtick.android.models.TaskModel
 import com.jobtick.android.models.response.myjobs.Data
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.coroutines.Status
@@ -50,13 +49,12 @@ import com.jobtick.android.viewmodel.ViewModelFactory
 import java.util.Random
 
 class MapViewActivity :
-    ActivityBase(),
-    OnMapReadyCallback,
-    GoogleMap.OnMarkerClickListener,
-    TaskListAdapterV2.OnItemClickListener {
+        ActivityBase(),
+        OnMapReadyCallback,
+        GoogleMap.OnMarkerClickListener,
+        TaskListAdapterV2.OnItemClickListener {
     private var toolbar: MaterialToolbar? = null
     private var mapView: MapView? = null
-    private var taskListArrayList: ArrayList<TaskModel>? = null
     private var recyclerViewTask: RecyclerView? = null
     private var txtFilters: TextView? = null
     private var txtSearch: TextView? = null
@@ -70,15 +68,13 @@ class MapViewActivity :
     private lateinit var sessionManagerM: SessionManager
     private var taskListAdapter: TaskListAdapterV2? = null
     private var currentPage = PaginationListener.PAGE_START
-    private val isLastPageItem = false
-    private var totalPage = 10
-    private var totalItem = 10
-    private var isLoadingItem = false
     private var myLatitude = 0.0
     private var myLongitude = 0.0
     private var mySuburb: String? = null
     private lateinit var viewModel: MapViewModel
     private var mMarkerArray = ArrayList<Marker>()
+    private var lat = 0F
+    private var long = 0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +85,7 @@ class MapViewActivity :
         filters = ArrayList()
         filterModel = FilterModel()
         recyclerViewFilters!!.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewFilters!!.setHasFixedSize(true)
         sessionManagerM = SessionManager(this)
         filterAdapter = FilterAdapter(filters)
@@ -99,11 +95,7 @@ class MapViewActivity :
             filterModel = sessionManagerM.filter
         }
         setFilterData()
-        taskListArrayList = ArrayList()
-        val bundle = intent.extras
-        if (bundle != null) {
-            taskListArrayList = bundle.getParcelableArrayList(ConstantKey.TASK)
-        }
+
         toolbar!!.setNavigationOnClickListener { onBackPressed() }
         locationButton!!.setOnClickListener { V: View? -> goToLocation(myLatitude, myLongitude) }
         recyclerViewTask!!.setHasFixedSize(true)
@@ -113,22 +105,27 @@ class MapViewActivity :
         taskListAdapter = TaskListAdapterV2(ArrayList(), sessionManager!!.userAccount, true)
         recyclerViewTask!!.adapter = taskListAdapter
         taskListAdapter!!.setOnItemClickListener(this)
-        doApiCall()
+        val bundle = intent.extras
+        if (bundle != null) {
+            lat = bundle.getFloat("lat")
+            long = bundle.getFloat("long")
+            doApiCall(lat, long)
+        }
 
         txtSearch!!.setOnClickListener {
             viewModel.getNearJobs(
-                NearJobsRequest(
-                    googleMap!!.cameraPosition.target.latitude.toFloat(),
-                    googleMap!!.cameraPosition.target.longitude.toFloat(), 50, 100
-                )
+                    NearJobsRequest(
+                            googleMap!!.cameraPosition.target.latitude.toFloat(),
+                            googleMap!!.cameraPosition.target.longitude.toFloat(), 50, 100
+                    )
             )
         }
     }
 
     private fun initVM() {
         viewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
+                this,
+                ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
         ).get(MapViewModel::class.java)
         viewModel.response.observe(this) {
             it?.let {
@@ -147,14 +144,14 @@ class MapViewActivity :
                             while (it.data.data.size > i) {
                                 try {
                                     val latitude =
-                                        (it.data.data[i].latitude)!!.toDouble()
+                                            (it.data.data[i].latitude)!!.toDouble()
                                     val longitude =
-                                        (it.data.data[i].longitude)!!.toDouble()
+                                            (it.data.data[i].longitude)!!.toDouble()
                                     addMarker(
-                                        latitude + (Random().nextFloat() / 60 - Random().nextFloat() / 60),
-                                        longitude + (Random().nextFloat() / 60 - Random().nextFloat() / 60),
-                                        it.data.data[i].title,
-                                        i
+                                            latitude + (Random().nextFloat() / 60 - Random().nextFloat() / 60),
+                                            longitude + (Random().nextFloat() / 60 - Random().nextFloat() / 60),
+                                            it.data.data[i].title,
+                                            i
                                     )
                                 } catch (e: Exception) {
                                     e.printStackTrace()
@@ -219,7 +216,7 @@ class MapViewActivity :
                 setFilterData()
                 currentPage = PaginationListener.PAGE_START
                 taskListAdapter!!.clear()
-                doApiCall()
+                doApiCall(bundle.getFloat("lat"), bundle.getFloat("long"))
             }
         }
     }
@@ -234,10 +231,10 @@ class MapViewActivity :
         if (filterModel!!.location != null && filterModel!!.distance != null) {
             if (filterModel!!.location.length > 10) {
                 filters!!.add(
-                    filterModel!!.location.substring(
-                        0,
-                        10
-                    ) + " - " + filterModel!!.distance + " KM"
+                        filterModel!!.location.substring(
+                                0,
+                                10
+                        ) + " - " + filterModel!!.distance + " KM"
                 )
             } else {
                 filters!!.add(filterModel!!.location + " - " + filterModel!!.distance + " KM")
@@ -267,14 +264,14 @@ class MapViewActivity :
 
     override fun onMapReady(googleMap: GoogleMap) {
         val cameraPosition = CameraPosition.Builder()
-            .target(
-                LatLng(
-                    sessionManagerM.latitude.toDouble(),
-                    sessionManagerM.longitude.toDouble()
+                .target(
+                        LatLng(
+                                lat.toDouble(),
+                                long.toDouble()
+                        )
                 )
-            )
-            .zoom(12f)
-            .build()
+                .zoom(12f)
+                .build()
         this.googleMap = googleMap
         this.googleMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         Handler().postDelayed({ mapView!!.visibility = View.VISIBLE }, 200)
@@ -298,13 +295,13 @@ class MapViewActivity :
         return false
     }
 
-    private fun doApiCall() {
+    private fun doApiCall(lat: Float, long: Float) {
         Helper.closeKeyboard(this)
         viewModel.getNearJobs(
-            NearJobsRequest(
-                sessionManagerM.latitude.toFloat(),
-                sessionManagerM.longitude.toFloat(), 50, 100
-            )
+                NearJobsRequest(
+                        lat,
+                        long, 50, 100
+                )
         )
     }
 
@@ -318,16 +315,16 @@ class MapViewActivity :
 
     private fun goToLocation(latitude: Double, longitude: Double) {
         val cameraPosition = CameraPosition.Builder()
-            .target(LatLng(latitude, longitude))
-            .zoom(12f)
-            .build()
+                .target(LatLng(latitude, longitude))
+                .zoom(12f)
+                .build()
         googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
     private fun addMarker(latitude: Double, longitude: Double, title: String?, tag: Int) {
         val destination = LatLng(latitude, longitude)
         val markerOptions = MarkerOptions().position(destination)
-            .icon(bitmapFromVector(this, R.drawable.ic_pin_white_image_large))
+                .icon(bitmapFromVector(this, R.drawable.ic_pin_white_image_large))
         val marker = googleMap!!.addMarker(markerOptions)
         marker.tag = tag
         marker.title = title
@@ -338,15 +335,15 @@ class MapViewActivity :
         val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
 
         vectorDrawable!!.setBounds(
-            0,
-            0,
-            (31).dpToPx(),
-            (40).dpToPx()
+                0,
+                0,
+                (31).dpToPx(),
+                (40).dpToPx()
         )
         val bitmap = Bitmap.createBitmap(
-            (31).dpToPx(),
-            (40).dpToPx(),
-            Bitmap.Config.ARGB_8888
+                (31).dpToPx(),
+                (40).dpToPx(),
+                Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(bitmap)
         vectorDrawable.draw(canvas)

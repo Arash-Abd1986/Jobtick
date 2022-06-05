@@ -328,10 +328,11 @@ class ExploreFragment :
             creatingTask.putExtra("IsVoice", true)
             startActivity(creatingTask)
         }
-        ivMapView!!.setOnClickListener { v: View? ->
+        ivMapView!!.setOnClickListener {
             val intent = Intent(dashboardActivity, MapViewActivity::class.java)
             val bundle = Bundle()
-            bundle.putParcelableArrayList(ConstantKey.TASK, taskArrayList)
+            bundle.putFloat("lat", filterModel!!.latitude.toFloat())
+            bundle.putFloat("long", filterModel!!.logitude.toFloat())
             intent.putExtras(bundle)
             dashboardActivity!!.startActivity(intent)
         }

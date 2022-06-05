@@ -626,11 +626,9 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                     if (response.code() == HttpStatus.SUCCESS) {
                         Timber.e(strResponse)
                         assert(strResponse != null)
-                        val jsonObject = JSONObject(strResponse)
-
-
                     } else {
-                        showToast("Something went wrong", this@ChatActivity)
+
+                        showToast(JSONObject(response.errorBody()!!.string().toString()).getJSONObject("error").getString("message"), this@ChatActivity)
                     }
                 } catch (e: JSONException) {
                     showToast("Something went wrong", this@ChatActivity)

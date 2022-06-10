@@ -20,7 +20,7 @@ import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.SessionManager
 import java.util.*
 
-class TickerRequirementsBottomSheet : BottomSheetDialogFragment() {
+class TickerRequirementsBottomSheet : AbstractStateExpandedBottomSheet() {
     private var pDialog: ProgressDialog? = null
     private var profileBtn: ImageView? = null
     private var bankAccountBtn: ImageView? = null

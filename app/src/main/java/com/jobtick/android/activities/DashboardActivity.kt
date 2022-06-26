@@ -32,6 +32,7 @@ import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.new.ReferAFriendActivity
 import com.jobtick.android.fragments.CategoryListBottomSheet
+import com.jobtick.android.fragments.InviteFriendsFragment
 import com.jobtick.android.fragments.LogOutBottomSheet
 import com.jobtick.android.interfaces.onProfileUpdateListener
 import com.jobtick.android.models.FilterModel
@@ -138,6 +139,29 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     private fun handleBundle() {
         val bundle = intent.extras
         if (bundle != null) {
+            if (!bundle.getString(ConstantKey.DEEP_LINK_BUNDLE).isNullOrEmpty()){
+                when(bundle.getString(ConstantKey.DEEP_LINK_BUNDLE)?.lowercase()){
+                    "/invite" -> {
+                        val intent  = Intent(this, ReferAFriendActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "/post-job" -> {
+                        val intent  = Intent(this, TaskCreateActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "/setting" -> {
+                        val intent  = Intent(this, SettingActivity::class.java)
+                        startActivity(intent)
+                    }
+                    "/profile" -> {
+                        navController!!.navigate(R.id.navigation_profile)
+                    }
+                    "/notifications" -> {
+                        val intent  = Intent(this, NotificationActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+            }
             if (bundle.getParcelable<Parcelable?>(ConstantKey.PUSH_NOTIFICATION_MODEL) != null) {
                 val pushNotificationModel: PushNotificationModel? =
                     bundle.getParcelable(ConstantKey.PUSH_NOTIFICATION_MODEL)

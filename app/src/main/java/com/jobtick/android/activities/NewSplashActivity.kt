@@ -23,9 +23,11 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
+import com.jobtick.android.models.PushNotificationModel
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.models.response.checkforupdate.CheckForUpdateResponse
 import com.jobtick.android.utils.Constant
+import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.CustomTypefaceSpan
 import com.jobtick.android.utils.SessionManager
 import org.json.JSONException
@@ -41,6 +43,7 @@ class NewSplashActivity : AppCompatActivity() {
     @SuppressLint("NonConstantResourceId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        handleDeepLink()
         setContentView(R.layout.activity_new_splash)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         ButterKnife.bind(this)
@@ -49,6 +52,11 @@ class NewSplashActivity : AppCompatActivity() {
             sessionManager = SessionManager(this@NewSplashActivity)
             checkForUpdate()
         }, 2000)
+    }
+
+    private fun handleDeepLink() {
+        val path = intent?.data?.encodedPath
+
     }
 
     private fun login() {
@@ -75,6 +83,12 @@ class NewSplashActivity : AppCompatActivity() {
                                 val main = Intent(this@NewSplashActivity, DashboardActivity::class.java)
                                 main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                if (intent?.data?.encodedPath != null){
+                                    val bundle = Bundle()
+                                    bundle.putString(ConstantKey.DEEP_LINK_BUNDLE, intent?.data?.encodedPath)
+                                    main.putExtras(bundle)
+                                }
+
                                 startActivity(main)
                             } else {
                                 val main = Intent(this@NewSplashActivity, SigInSigUpActivity::class.java)

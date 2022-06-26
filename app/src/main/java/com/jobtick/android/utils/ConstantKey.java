@@ -140,6 +140,7 @@ public class ConstantKey {
     public static final String questionId = "questionId";
     public static final String commentId = "commentId";
     public static final String PUSH_NOTIFICATION_MODEL = "pushnotificaiton_model";
+    public static final String DEEP_LINK_BUNDLE = "deep_link_bundle";
 
     public static final String PUSH_TRIGGER = "trigger";
     public static final String PUSH_USER_ID = "user_id";

@@ -8,7 +8,7 @@ apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 android {
     signingConfigs {
         release {
-            storeFile file('/media/jalil/hdd/jobtick/jobtick.jks')
+            storeFile file('jobtick.jks')
             keyAlias 'jobtick'
             keyPassword 'T#zih@T99'
             storePassword 'T#zih@T99'

@@ -30,9 +30,7 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
-import com.jobtick.android.activities.new.ReferAFriendActivity
 import com.jobtick.android.fragments.CategoryListBottomSheet
-import com.jobtick.android.fragments.InviteFriendsFragment
 import com.jobtick.android.fragments.LogOutBottomSheet
 import com.jobtick.android.interfaces.onProfileUpdateListener
 import com.jobtick.android.models.FilterModel

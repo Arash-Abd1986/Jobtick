@@ -56,8 +56,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
-import com.jobtick.android.activities.new.IS_USER_THE_POSTER
-import com.jobtick.android.activities.new.OfferListActivity
 import com.jobtick.android.adapers.MustHaveListAdapter
 import com.jobtick.android.adapers.QuestionAttachmentAdapter
 import com.jobtick.android.adapers.QuestionListAdapter

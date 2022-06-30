@@ -1,4 +1,4 @@
-package com.jobtick.android.activities.new
+package com.jobtick.android.activities
 
 
 import android.content.Intent

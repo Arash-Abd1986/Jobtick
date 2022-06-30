@@ -23,6 +23,7 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
+import com.jobtick.android.material.ui.landing.OnboardingActivity
 import com.jobtick.android.models.PushNotificationModel
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.models.response.checkforupdate.CheckForUpdateResponse
@@ -43,7 +44,6 @@ class NewSplashActivity : AppCompatActivity() {
     @SuppressLint("NonConstantResourceId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        handleDeepLink()
         setContentView(R.layout.activity_new_splash)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         ButterKnife.bind(this)
@@ -54,10 +54,6 @@ class NewSplashActivity : AppCompatActivity() {
         }, 2000)
     }
 
-    private fun handleDeepLink() {
-        val path = intent?.data?.encodedPath
-
-    }
 
     private fun login() {
         if (sessionManager!!.tokenType != null && sessionManager!!.accessToken != null) {
@@ -80,7 +76,7 @@ class NewSplashActivity : AppCompatActivity() {
                             if (sessionManager!!.userAccount.account_status.isBasic_info) {
                                 sessionManager!!.latitude = java.lang.Double.toString(userAccountModel.latitude)
                                 sessionManager!!.longitude = java.lang.Double.toString(userAccountModel.longitude)
-                                val main = Intent(this@NewSplashActivity, DashboardActivity::class.java)
+                                val main = Intent(this@NewSplashActivity, OnboardingActivity::class.java)
                                 main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                 if (intent?.data?.encodedPath != null){
@@ -91,7 +87,7 @@ class NewSplashActivity : AppCompatActivity() {
 
                                 startActivity(main)
                             } else {
-                                val main = Intent(this@NewSplashActivity, SigInSigUpActivity::class.java)
+                                val main = Intent(this@NewSplashActivity, OnboardingActivity::class.java)
                                 main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                 startActivity(main)
@@ -117,7 +113,7 @@ class NewSplashActivity : AppCompatActivity() {
         }
 
     private fun openSignUpPage() {
-        val intent = Intent(this@NewSplashActivity, SigInSigUpActivity::class.java)
+        val intent = Intent(this@NewSplashActivity, OnboardingActivity::class.java)
         startActivity(intent)
         finish()
     }

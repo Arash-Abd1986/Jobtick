@@ -595,5 +595,14 @@
     <string name="this_job_has_been_closed">This job has been closed</string>
     <string name="edit_job_alert">Edit job alert</string>
     <string name="add_job_alert">Add job alert</string>
+    <string name="get_things_done">Get things done</string>
+    <string name="how_do_you_make_use_of_jobtick">How do you make use of Jobtick?</string>
+    <string name="earn_money">Earn money</string>
+    <string name="create_your_professional_profile_and_start_earning_right_away">Create your professional profile and start earning right away!</string>
+    <string name="welcome_jobtick">Welcome Jobtick</string>
+    <string name="how_do_you_want_to_use_jobtick">How do you want to use Jobtick?</string>
+    <string name="find_work_and_earn_money">Find work and earn money</string>
+    <string name="delegate_tasks_to_the_professionals">Delegate tasks to the professionals</string>
+    <string name="as_a_ticker_poster"><![CDATA[As a Ticker & Poster]]></string>
 
 </resources>

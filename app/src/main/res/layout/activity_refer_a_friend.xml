@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#E5E5E5"
-    tools:context=".activities.new.ReferAFriendActivity">
+    tools:context=".activities.ReferAFriendActivity">
 
     <ImageView
         android:layout_width="match_parent"

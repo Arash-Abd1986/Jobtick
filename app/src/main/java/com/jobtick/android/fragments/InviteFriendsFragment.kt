@@ -12,7 +12,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.jobtick.android.R
-import com.jobtick.android.activities.new.ReferAFriendActivity
+import com.jobtick.android.activities.ReferAFriendActivity
 import com.jobtick.android.utils.SessionManager
 
 

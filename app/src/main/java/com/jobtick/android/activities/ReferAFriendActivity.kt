@@ -1,4 +1,4 @@
-package com.jobtick.android.activities.new
+package com.jobtick.android.activities
 
 import com.jobtick.android.activities.ActivityBase
 import com.jobtick.android.R

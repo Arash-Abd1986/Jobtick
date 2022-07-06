@@ -650,11 +650,16 @@ class HomeFragment :
             e.printStackTrace()
         }
         sessionManager = SessionManager(context)
-        name!!.text = sessionManager!!.userAccount.name
-        if (!sessionManager!!.userAccount.name.isEmpty()) {
-            updateProfile!!.visibility = View.GONE
-            myJobs!!.visibility = View.VISIBLE
+        sessionManager?.let {
+            it.userAccount?.let {
+                name!!.text = it.name
+                if (!it.name.isEmpty()) {
+                    updateProfile!!.visibility = View.GONE
+                    myJobs!!.visibility = View.VISIBLE
+                }
+            }
         }
+
     }
 
     private fun onClick() {

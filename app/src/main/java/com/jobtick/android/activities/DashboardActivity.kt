@@ -217,7 +217,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     }
 
     private fun setNavClick() {
-        home!!.setOnClickListener { v: View? ->
+        home!!.setOnClickListener {
             linFilter!!.visibility = View.GONE
             if (sessionManager!!.roleLocal == "poster") {
                 navController!!.navigate(R.id.navigation_new_task)
@@ -226,16 +226,16 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                 accountDetails
             }
         }
-        search!!.setOnClickListener { v: View? ->
+        search!!.setOnClickListener {
             navController!!.navigate(R.id.navigation_my_tasks)
             linFilter!!.visibility = View.VISIBLE
         }
-        chat!!.setOnClickListener { v: View? ->
+        chat!!.setOnClickListener {
             linFilterExplore!!.visibility = View.GONE
             linFilter!!.visibility = View.GONE
             navController!!.navigate(R.id.navigation_inbox)
         }
-        profile!!.setOnClickListener { v: View? ->
+        profile!!.setOnClickListener {
             linFilterExplore!!.visibility = View.GONE
             linFilter!!.visibility = View.GONE
             navController!!.navigate(R.id.navigation_profile)
@@ -476,21 +476,25 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     }
 
     private fun setHeaderLayout() {
-        OneSignal.setExternalUserId(sessionManager!!.userAccount.id.toString())
-        OneSignal.setEmail(sessionManager!!.userAccount.email)
-        OneSignal.sendTag("Email", sessionManager!!.userAccount.email)
-        OneSignal.sendTag(
-            "Name",
-            sessionManager!!.userAccount.fname + " " + sessionManager!!.userAccount.lname
-        )
-        OneSignal.sendTag(
-            "Mobile",
-            sessionManager!!.userAccount.fname + sessionManager!!.userAccount.mobile
-        )
-        OneSignal.sendTag(
-            "Location",
-            sessionManager!!.userAccount.fname + sessionManager!!.userAccount.location
-        )
+        sessionManager?.let {
+            it.userAccount?.let {
+                OneSignal.setExternalUserId(it.id.toString())
+                OneSignal.setEmail(it.email)
+                OneSignal.sendTag("Email", it.email)
+                OneSignal.sendTag(
+                    "Name",
+                    it.fname + " " + it.lname
+                )
+                OneSignal.sendTag(
+                    "Mobile",
+                    it.fname + it.mobile
+                )
+                OneSignal.sendTag(
+                    "Location",
+                    it.fname + it.location
+                )
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

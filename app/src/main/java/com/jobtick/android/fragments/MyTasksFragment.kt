@@ -149,8 +149,12 @@ class MyTasksFragment :
 
     override fun onResume() {
         super.onResume()
-        sessionManager!!.needRefresh = false
-        statusList
+        sessionManager?.let {
+            it.userAccount?.let {
+                sessionManager!!.needRefresh = false
+                statusList
+            }
+        }
     }
 
     private fun setPopUpWindow() {
@@ -370,7 +374,16 @@ class MyTasksFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initIDS()
+        sessionManager?.let {
+            it.userAccount?.let {
+                initView()
+            }
+        }
         noJobs = view.findViewById(R.id.no_jobs_container)
+
+    }
+
+    private fun initView() {
         swipeRefresh!!.setOnRefreshListener(this)
         initToolbar()
         setHasOptionsMenu(true)
@@ -407,7 +420,7 @@ class MyTasksFragment :
             }
             false
         }
-    } //  swipeRefresh.setRefreshing(false);
+    }
 
     // categoryArrayList.clear();
     private val statusList: Unit
@@ -496,7 +509,7 @@ class MyTasksFragment :
 
     override fun onItemClick(view: View?, obj: Data?, position: Int, action: String?) {
         if (obj!!.status!!.lowercase(Locale.getDefault())
-            .equals(Constant.TASK_DRAFT.lowercase(Locale.getDefault()), ignoreCase = true)
+                .equals(Constant.TASK_DRAFT.lowercase(Locale.getDefault()), ignoreCase = true)
         ) {
             getDataFromServer(obj.slug)
         } else {

@@ -1,12 +1,16 @@
 package com.jobtick.android.material.ui.landing
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
+import com.google.android.material.radiobutton.MaterialRadioButton
+import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.R
+
 
 class ViewPagerAdapter(private val data: Array<String>) :
     RecyclerView.Adapter<ViewPagerAdapter.PagerViewHolder>() {
@@ -42,22 +46,86 @@ class ViewPagerAdapter(private val data: Array<String>) :
     }
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(position)
     }
 
     inner class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val title = itemView.findViewById<MaterialTextView>(R.id.title)
+        val msg = itemView.findViewById<MaterialTextView>(R.id.msg)
+        val tickerRB = itemView.findViewById<MaterialRadioButton>(R.id.radio1)
+        val posterRB = itemView.findViewById<MaterialRadioButton>(R.id.radio2)
+        val tickerPosterRB = itemView.findViewById<MaterialRadioButton>(R.id.radio3)
 
+        fun bind(position: Int) {
+            when (position) {
+                0 -> {
+                    val sb: Spannable =
+                        SpannableString(itemView.context.getString(R.string.how_do_you_make_use_of_jobtick))
+                    sb.setSpan(
+                        ForegroundColorSpan(
+                            itemView.context.getColor(R.color.secondary_light)
+                        ),
+                        16,
+                        sb.length -1,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    msg.text = sb
+                }
+                1 -> {
+                    val sb: Spannable =
+                        SpannableString(itemView.context.getString(R.string.create_your_professional_profile_and_start_earning_right_away))
+                    sb.setSpan(
+                        ForegroundColorSpan(
+                            itemView.context.getColor(R.color.secondary_light)
+                        ),
+                        12,
+                        32,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    msg.text = sb
+                }
+                2 -> {
+                    val sb: Spannable =
+                        SpannableString(itemView.context.getString(R.string.how_do_you_want_to_use_jobtick))
+                    sb.setSpan(
+                        ForegroundColorSpan(
+                            itemView.context.getColor(R.color.secondary_light)
+                        ),
+                        19,
+                        sb.length -1,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    msg.text = sb
 
-        fun bind(data: String) {
+                    tickerRB.setOnCheckedChangeListener { compoundButton, b ->
+                        if (b) {
+                            posterRB.isChecked = false
+                            tickerPosterRB.isChecked = false
+                        }
+                    }
+                    posterRB.setOnCheckedChangeListener { compoundButton, b ->
+                        if (b) {
+                            tickerRB.isChecked = false
+                            tickerPosterRB.isChecked = false
+                        }
+                    }
+                    tickerPosterRB.setOnCheckedChangeListener { compoundButton, b ->
+                        if (b) {
+                            tickerRB.isChecked = false
+                            posterRB.isChecked = false
+                        }
+                    }
+                }
+            }
 
         }
     }
 
     interface ItemClick {
-        fun buttonClick(type: ItemType)
+        fun buttonClick(type: Role)
     }
 
-    enum class ItemType {
-        NEXT, SKIP
+    enum class Role {
+        POSTER, TICKER, POSTER_TICKER
     }
 }

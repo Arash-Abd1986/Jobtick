@@ -197,7 +197,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var lnTickerReview: RelativeLayout? = null
     override fun onResume() {
         super.onResume()
-        allProfileData
+        sessionManager?.let {
+            it.userAccount?.let {
+                allProfileData
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n", "RtlHardcoded")
@@ -399,7 +403,12 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             levelsInfoBottomSheet.show(parentFragmentManager, "")
         }
         init()
-        allProfileData
+        sessionManager?.let {
+            it.userAccount?.let {
+                allProfileData
+            }
+        }
+
         initComponent()
     }
 
@@ -911,7 +920,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         userAccountModel.workerRatings.breakdownModel.get1()
                     txtReviewCount1Star.text =
                         "(" + userAccountModel.workerRatings.breakdownModel.get1()
-                        .toString() + ")"
+                            .toString() + ")"
                 } else {
                     progressBar1Star.progress = 0
                     txtReviewCount1Star.text = "(0)"
@@ -921,7 +930,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         userAccountModel.workerRatings.breakdownModel.get2()
                     txtReviewCount2Star.text =
                         "(" + userAccountModel.workerRatings.breakdownModel.get2()
-                        .toString() + ")"
+                            .toString() + ")"
                 } else {
                     progressBar2Star.progress = 0
                     txtReviewCount2Star.text = "(0)"
@@ -931,7 +940,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         userAccountModel.workerRatings.breakdownModel.get3()
                     txtReviewCount3Star.text =
                         "(" + userAccountModel.workerRatings.breakdownModel.get3()
-                        .toString() + ")"
+                            .toString() + ")"
                 } else {
                     progressBar3Star.progress = 0
                     txtReviewCount3Star.text = "(0)"
@@ -941,7 +950,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         userAccountModel.workerRatings.breakdownModel.get4()
                     txtReviewCount4Star.text =
                         "(" + userAccountModel.workerRatings.breakdownModel.get4()
-                        .toString() + ")"
+                            .toString() + ")"
                 } else {
                     progressBar4Star.progress = 0
                     txtReviewCount4Star.text = "(0)"
@@ -951,7 +960,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         userAccountModel.workerRatings.breakdownModel.get5()
                     txtReviewCount5Star.text =
                         "(" + userAccountModel.workerRatings.breakdownModel.get5()
-                        .toString() + ")"
+                            .toString() + ")"
                 } else {
                     progressBar5Star.progress = 0
                     txtReviewCount5Star.text = "(0)"
@@ -983,7 +992,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         userAccountModel.posterRatings.breakdownModel.get1()
                     txtReviewCount1Starp.text =
                         "(" + userAccountModel.posterRatings.breakdownModel.get1()
-                        .toString() + ")"
+                            .toString() + ")"
                 } else {
                     progressBar1Starp.progress = 0
                     txtReviewCount1Starp.text = "(0)"
@@ -993,7 +1002,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         userAccountModel.posterRatings.breakdownModel.get2()
                     txtReviewCount2Starp.text =
                         "(" + userAccountModel.posterRatings.breakdownModel.get2()
-                        .toString() + ")"
+                            .toString() + ")"
                 } else {
                     progressBar2Starp.progress = 0
                     txtReviewCount2Starp.text = "(0)"
@@ -1003,7 +1012,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         userAccountModel.posterRatings.breakdownModel.get3()
                     txtReviewCount3Starp.text =
                         "(" + userAccountModel.posterRatings.breakdownModel.get3()
-                        .toString() + ")"
+                            .toString() + ")"
                 } else {
                     progressBar3Starp.progress = 0
                     txtReviewCount3Starp.text = "(0)"
@@ -1013,7 +1022,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         userAccountModel.posterRatings.breakdownModel.get4()
                     txtReviewCount4Starp.text =
                         "(" + userAccountModel.posterRatings.breakdownModel.get4()
-                        .toString() + ")"
+                            .toString() + ")"
                 } else {
                     progressBar4Starp.progress = 0
                     txtReviewCount4Starp.text = "(0)"
@@ -1023,7 +1032,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                         userAccountModel.posterRatings.breakdownModel.get5()
                     txtReviewCount5Starp.text =
                         "(" + userAccountModel.posterRatings.breakdownModel.get5()
-                        .toString() + ")"
+                            .toString() + ")"
                 } else {
                     progressBar5Starp.progress = 0
                     txtReviewCount5Starp.text = "(0)"

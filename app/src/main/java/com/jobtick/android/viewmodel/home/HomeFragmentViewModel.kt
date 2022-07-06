@@ -37,7 +37,7 @@ class HomeFragmentViewModel : ViewModel() {
         return this.error2
     }
 
-    fun notificationList(token: String, requestQueue: RequestQueue) {
+    fun notificationList(token: String?, requestQueue: RequestQueue) {
         val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_NOTIFICATION_UNREAD,
                 Response.Listener { response: String? ->
                     Timber.e(response)
@@ -56,7 +56,9 @@ class HomeFragmentViewModel : ViewModel() {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["Authorization"] = "Bearer " + token
+                token?.let {
+                    map1["Authorization"] = "Bearer " + it
+                }
                 map1["Version"] = BuildConfig.VERSION_CODE.toString()
                 return map1
             }
@@ -67,7 +69,7 @@ class HomeFragmentViewModel : ViewModel() {
         Timber.e(stringRequest.url)
     }
 
-    fun home(token: String, requestQueue: RequestQueue) {
+    fun home(token: String?, requestQueue: RequestQueue) {
         val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.HOME,
                 Response.Listener { response: String? ->
                     Timber.e(response)
@@ -95,7 +97,9 @@ class HomeFragmentViewModel : ViewModel() {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["Content-Type"] = "application/x-www-form-urlencoded"
-                map1["Authorization"] = "Bearer " + token
+                token?.let {
+                    map1["Authorization"] = "Bearer " + it
+                }
                 map1["Version"] = BuildConfig.VERSION_CODE.toString()
                 return map1
             }

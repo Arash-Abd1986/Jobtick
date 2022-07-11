@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".material.ui.landing.OnboardingActivity">
     <fragment
-        class="com.jobtick.android.material.ui.landing.StartFragmentSlider"
+        class="com.jobtick.android.SignInFragment"
         android:id="@+id/nav_host"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/start_nav_graph"
+        app:navGraph="@navigation/login_nav_graph"
         android:layout_alignParentTop="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

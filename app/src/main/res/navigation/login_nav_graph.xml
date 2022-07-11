@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/start_nav_graph"
+    app:startDestination="@id/signInFragment">
+
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.jobtick.android.SignInFragment"
+        android:label="fragment_sign_in_v2"
+        tools:layout="@layout/fragment_sign_in_v2" />
+    <fragment
+        android:id="@+id/loginStatusFragment"
+        android:name="com.jobtick.android.LoginStatusFragment"
+        android:label="fragment_login_status"
+        tools:layout="@layout/fragment_login_status" >
+        <action
+            android:id="@+id/action_loginStatusFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_loginStatusFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginStatusFragment_to_start_nav_graph"
+            app:destination="@id/start_nav_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.jobtick.android.SignUpFragment"
+        android:label="fragment_sign_up_v2"
+        tools:layout="@layout/fragment_sign_up_v2" />
+    <include app:graph="@navigation/start_nav_graph" />
+</navigation>

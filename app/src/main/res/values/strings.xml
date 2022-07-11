@@ -25,7 +25,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
-    <string name="forgot_password">Forgot password?</string>
+    <string name="forgot_password">Forgot password</string>
     <string name="log_in">Log in</string>
     <string name="google">GOOGLE</string>
     <string name="sign_up">Sign up</string>
@@ -556,7 +556,7 @@
     <string name="promotion">Promotion</string>
     <string name="fee_min_2">Fee (min. 2$) </string>
     <string name="create_account">Create account</string>
-    <string name="or_sign_up_with">Or Sign up with</string>
+    <string name="or_sign_up_with">Or</string>
     <string name="sign_up_with_google">Sign up with Google</string>
     <string name="sign_up_with_facebook">Sign up with Facebook</string>
     <string name="enter_confirmation_code">Enter confirmation code</string>
@@ -604,5 +604,8 @@
     <string name="find_work_and_earn_money">Find work and earn money</string>
     <string name="delegate_tasks_to_the_professionals">Delegate tasks to the professionals</string>
     <string name="as_a_ticker_poster"><![CDATA[As a Ticker & Poster]]></string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="continue_with_facebook">Continue with Facebook</string>
+    <string name="login_to_jobtick">Login to Jobtick</string>
 
 </resources>

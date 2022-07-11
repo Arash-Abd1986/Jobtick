@@ -59,8 +59,6 @@ class SignInFragment : Fragment(), EditTextError {
         lytBtnSignIn = requireView().findViewById(R.id.lyt_btn_sign_in)
         txtBtnSignUp = requireView().findViewById(R.id.txt_btn_sign_up)
         socialBox = requireView().findViewById(R.id.socialBox)
-        lytBtnGoogle = requireView().findViewById(R.id.lyt_btn_google)
-        lytBtnFacebook = requireView().findViewById(R.id.lyt_btn_facebook)
     }
 
     private fun setSocialBox() {

@@ -63,8 +63,6 @@ class SignUpFragment : Fragment(), EditTextError {
         lytBtnSignUp = requireView().findViewById(R.id.lyt_btn_sign_up)
         txtBtnSignIn = requireView().findViewById(R.id.txt_btn_sign_in)
         txtBtnTerms = requireView().findViewById(R.id.txt_btn_terms)
-        lytBtnGoogle = requireView().findViewById(R.id.lyt_btn_google)
-        lytBtnFacebook = requireView().findViewById(R.id.lyt_btn_facebook)
         cbTerms = requireView().findViewById(R.id.cb_terms)
     }
 

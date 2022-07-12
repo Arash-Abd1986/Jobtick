@@ -18,6 +18,7 @@
         android:layout_marginBottom="18sp"
         android:textColor="@color/neutral_dark"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
+
     <include
         android:id="@+id/socialBox"
         layout="@layout/view_google_facebook_button" />

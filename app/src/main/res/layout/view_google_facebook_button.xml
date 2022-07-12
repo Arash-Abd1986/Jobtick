@@ -23,8 +23,8 @@
             android:textColor="@color/neutral_dark"
             app:backgroundTint="@color/neutral_light_50"
             app:icon="@drawable/ic_google"
-            app:iconGravity="textStart"
-            />
+            app:iconGravity="textStart" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/tvFB"
             style="@style/unelevatedColored"
@@ -34,8 +34,7 @@
             android:textColor="@color/neutral_dark"
             app:backgroundTint="@color/neutral_light_50"
             app:icon="@drawable/ic_facebook"
-            app:iconGravity="textStart"
-            />
+            app:iconGravity="textStart" />
 
     </LinearLayout>
 
@@ -61,8 +60,7 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
             android:text="@string/or_sign_up_with"
-            android:textColor="@color/neutral_light_300"
-            />
+            android:textColor="@color/neutral_light_300" />
 
         <View
             android:layout_width="0dp"
@@ -74,34 +72,38 @@
             android:background="@color/N050" />
     </RelativeLayout>
 
+    <include
+        layout="@layout/error_view" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email"
         style="@style/outlineTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:errorEnabled="true"
-        android:hint="@string/email_address">
+        android:hint="@string/email_address"
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="50"
-            />
+            android:maxLength="50" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password"
         style="@style/outlineTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/password"
         app:errorEnabled="true"
-        app:passwordToggleEnabled="true"
-        android:hint="@string/password">
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:maxLength="30"
-            />
+            android:maxLength="30" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

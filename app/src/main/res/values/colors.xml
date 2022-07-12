@@ -456,5 +456,7 @@
     <color name="neutral_light_800">#262626</color>
     <color name="primary">#4353FF</color>
     <color name="secondary_light">#AB47BC</color>
+    <color name="primary_error">#D7284B</color>
+
 
 </resources>

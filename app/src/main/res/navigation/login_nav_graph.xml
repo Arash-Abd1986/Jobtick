@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/start_nav_graph"
-    app:startDestination="@id/signInFragment">
+    app:startDestination="@id/signUpFragment">
 
 
     <fragment
@@ -30,6 +30,14 @@
         android:id="@+id/signUpFragment"
         android:name="com.jobtick.android.SignUpFragment"
         android:label="fragment_sign_up_v2"
-        tools:layout="@layout/fragment_sign_up_v2" />
-    <include app:graph="@navigation/start_nav_graph" />
+        tools:layout="@layout/fragment_sign_up_v2" >
+        <action
+            android:id="@+id/action_signUpFragment_to_activateAccountFragment"
+            app:destination="@id/activateAccountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/activateAccountFragment"
+        android:name="com.jobtick.android.ActivateAccountFragment"
+        android:label="fragment_activate_account"
+        tools:layout="@layout/fragment_activate_account" />
 </navigation>

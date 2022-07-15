@@ -35,7 +35,12 @@ const val TRILLION = 1000000000000L
 
 fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
-
+fun String.isNumeric(): Boolean {
+    return this.matches(".*\\d.*".toRegex())
+}
+fun String.isLetter(): Boolean {
+    return this.all { it.isLetter() }
+}
 fun String.removeClearRound(): String {
     try {
         if (this.split(".")[1] == "00") {

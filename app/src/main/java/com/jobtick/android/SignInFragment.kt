@@ -96,7 +96,7 @@ class SignInFragment : Fragment() {
     }
 
     @SuppressLint("HardwareIds")
-    fun login(email: String?, password: String?) {
+    private fun login(email: String?, password: String?) {
         activity.showProgressDialog()
         val strFcmToken = token
         val strDeviceId =

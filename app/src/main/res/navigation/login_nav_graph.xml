@@ -39,5 +39,23 @@
         android:id="@+id/activateAccountFragment"
         android:name="com.jobtick.android.ActivateAccountFragment"
         android:label="fragment_activate_account"
-        tools:layout="@layout/fragment_activate_account" />
+        tools:layout="@layout/fragment_activate_account" >
+        <action
+            android:id="@+id/action_activateAccountFragment_to_addPassFragment"
+            app:destination="@id/addPassFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPassFragment"
+        android:name="com.jobtick.android.AddPassFragment"
+        android:label="fragment_add_pass"
+        tools:layout="@layout/fragment_add_pass" >
+        <action
+            android:id="@+id/action_addPassFragment_to_addNameLastNameFragment"
+            app:destination="@id/addNameLastNameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addNameLastNameFragment"
+        android:name="com.jobtick.android.AddNameLastNameFragment"
+        android:label="fragment_add_name_last_name"
+        tools:layout="@layout/fragment_add_name_last_name" />
 </navigation>

@@ -600,6 +600,7 @@
     <string name="earn_money">Earn money</string>
     <string name="create_your_professional_profile_and_start_earning_right_away">Create your professional profile and start earning right away!</string>
     <string name="welcome_jobtick">Welcome Jobtick</string>
+    <string name="welcome_to_jobtick">Welcome to Jobtick</string>
     <string name="how_do_you_want_to_use_jobtick">How do you want to use Jobtick?</string>
     <string name="find_work_and_earn_money">Find work and earn money</string>
     <string name="delegate_tasks_to_the_professionals">Delegate tasks to the professionals</string>
@@ -607,5 +608,7 @@
     <string name="continue_with_google">Continue with Google</string>
     <string name="continue_with_facebook">Continue with Facebook</string>
     <string name="login_to_jobtick">Login to Jobtick</string>
+    <string name="the_code_will_expire_in">The code will expire in</string>
+    <string name="by_joining_you_agree_to_jobtick_s_terms_of_services">By joining, you agree to Jobtick’s Terms of Services.</string>
 
 </resources>

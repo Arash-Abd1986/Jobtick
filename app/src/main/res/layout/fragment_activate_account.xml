@@ -50,12 +50,14 @@ u******e@example.com"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:textColor="@color/black"
-            app:bar_enabled="false"
-            app:bar_height="0dp"
-            app:height="40dp"
+            app:bar_enabled="true"
+            app:bar_height="1dp"
+            app:bar_active_color="@color/primary"
+            app:bar_inactive_color="@color/transparent"
+            app:height="48dp"
             app:length="6"
             app:otp_box_background="@drawable/border_box"
-            app:width="40dp" />
+            app:width="48dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -63,13 +65,14 @@ u******e@example.com"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/timer"
             style="@style/body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
-            android:text="The code will expire in 03:00"
+            android:text="@string/the_code_will_expire_in"
             android:textColor="@color/neutral_light_600"
             app:layout_constraintBottom_toBottomOf="parent" />
     </RelativeLayout>
@@ -82,9 +85,9 @@ u******e@example.com"
             style="@style/borderlessColoredTextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/neutral_light_400"
+            android:layout_centerHorizontal="true"
             android:text="Resend code"
-            android:layout_centerHorizontal="true"/>
+            android:textColor="@color/neutral_light_400" />
     </RelativeLayout>
 
 </LinearLayout>

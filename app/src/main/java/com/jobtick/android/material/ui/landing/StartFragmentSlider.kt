@@ -39,6 +39,7 @@ class StartFragmentSlider : Fragment(), ViewPagerAdapter.ItemClick {
         val skip: MaterialButton = view.findViewById(R.id.skip)
         activity = (requireActivity() as OnboardingActivity)
         sessionManagerA = SessionManager(requireContext())
+        sessionManagerA.onBoardingStatus = true
         signIn = view.findViewById(R.id.signIn)
         pager = view.findViewById(R.id.pager)
         imBack = view.findViewById(R.id.imBack)

@@ -220,11 +220,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         home!!.setOnClickListener {
             linFilter!!.visibility = View.GONE
             if (sessionManager!!.roleLocal == "poster") {
-                if (sessionManager?.accessToken != null) {
-                    navController!!.navigate(R.id.navigation_new_task)
-                } else {
-                    unauthorizedUser()
-                }
+                navController!!.navigate(R.id.navigation_new_task)
             } else {
                 navController!!.navigate(R.id.navigation_browse)
                 accountDetails

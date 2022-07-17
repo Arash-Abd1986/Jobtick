@@ -163,6 +163,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private lateinit var poster: RadioButton
     private lateinit var ticker: RadioButton
     private lateinit var lytTicker: LinearLayout
+    private lateinit var lnReviews: LinearLayout
     private lateinit var lytPoster: LinearLayout
     private lateinit var txtReviewCount1Starp: TextView
     private lateinit var tickerReviewNum: TextView
@@ -294,6 +295,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         lnTickerJobsuccess = requireView().findViewById(R.id.ln_ticker_jobSuccess)
         lytTicker = requireView().findViewById(R.id.ticker)
         lytPoster = requireView().findViewById(R.id.Poster)
+        lnReviews = requireView().findViewById(R.id.ln_reviews)
         progressBar1Starp = requireView().findViewById(R.id.progress_bar_1_starP)
         txtReviewCount1Starp = requireView().findViewById(R.id.txt_review_count_1_starP)
         progressBar2Starp = requireView().findViewById(R.id.progress_bar_2_starP)
@@ -413,26 +415,48 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     }
 
     private fun initComponent() {
-        if (sessionManager!!.roleLocal == "poster") {
-            lnPosterReview!!.visibility = View.VISIBLE
-            lnTickerReview!!.visibility = View.GONE
+        if (sessionManager?.accessToken != null)
+            if (sessionManager!!.roleLocal == "poster") {
+                lnPosterReview!!.visibility = View.VISIBLE
+                lnTickerReview!!.visibility = View.GONE
+                fmPSkills.visibility = View.GONE
+                rlStatus.visibility = View.GONE
+                lnAboutMe.visibility = View.GONE
+                linLevel!!.visibility = View.GONE
+                flAddSkill!!.visibility = View.GONE
+                swTickerMode.isChecked = false
+                txtRole.text = "As a Poster"
+            } else {
+                lnPosterReview!!.visibility = View.GONE
+                lnTickerReview!!.visibility = View.VISIBLE
+                fmPSkills.visibility = View.VISIBLE
+                rlStatus.visibility = View.VISIBLE
+                lnAboutMe.visibility = View.VISIBLE
+                linLevel!!.visibility = View.VISIBLE
+                flAddSkill!!.visibility = View.VISIBLE
+                swTickerMode.isChecked = true
+                txtRole.text = "As a Ticker"
+            }
+        else {
+            lnPosterReview!!.visibility = View.GONE
             fmPSkills.visibility = View.GONE
             rlStatus.visibility = View.GONE
             lnAboutMe.visibility = View.GONE
             linLevel!!.visibility = View.GONE
             flAddSkill!!.visibility = View.GONE
-            swTickerMode.isChecked = false
-            txtRole.text = "As a Poster"
-        } else {
-            lnPosterReview!!.visibility = View.GONE
-            lnTickerReview!!.visibility = View.VISIBLE
-            fmPSkills.visibility = View.VISIBLE
-            rlStatus.visibility = View.VISIBLE
-            lnAboutMe.visibility = View.VISIBLE
-            linLevel!!.visibility = View.VISIBLE
-            flAddSkill!!.visibility = View.VISIBLE
-            swTickerMode.isChecked = true
-            txtRole.text = "As a Ticker"
+            reviewTabs.visibility = View.GONE
+            imgVerified!!.visibility = View.GONE
+            lnReviews!!.visibility = View.GONE
+            if (sessionManager!!.roleLocal == "poster") {
+                swTickerMode.isChecked = false
+                txtRole.text = "As a Poster"
+            } else {
+
+                swTickerMode.isChecked = true
+                txtRole.text = "As a Ticker"
+            }
+            txtFullName!!.text = "Guest"
+            txtSuburb!!.text = "Location"
         }
         swTickerMode.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked)

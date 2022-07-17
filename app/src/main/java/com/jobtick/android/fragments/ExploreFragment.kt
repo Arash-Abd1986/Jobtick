@@ -305,7 +305,7 @@ class ExploreFragment :
             val taskAlerts = Intent(requireContext(), TaskAlertsActivity::class.java)
             startActivity(taskAlerts)
         }
-        if (sessionManager!!.userAccount.account_status.isJobalerts) {
+        if (sessionManager?.userAccount?.account_status?.isJobalerts == true) {
             txtJobAlert!!.text = getString(R.string.edit_job_alert)
             icJobAlert!!.setImageResource(R.drawable.ic_edit_job_alert)
         } else {
@@ -315,15 +315,15 @@ class ExploreFragment :
     }
 
     private fun setCTAListener() {
-        edtSearch!!.setOnClickListener { v: View? ->
+        edtSearch!!.setOnClickListener {
             val creatingTask = Intent(requireActivity(), SearchTaskActivity::class.java)
             startActivity(creatingTask)
         }
-        ivSearch!!.setOnClickListener { v: View? ->
+        ivSearch!!.setOnClickListener {
             val creatingTask = Intent(requireActivity(), SearchTaskActivity::class.java)
             startActivity(creatingTask)
         }
-        btnVoice!!.setOnClickListener { v: View? ->
+        btnVoice!!.setOnClickListener {
             val creatingTask = Intent(requireActivity(), SearchTaskActivity::class.java)
             creatingTask.putExtra("IsVoice", true)
             startActivity(creatingTask)
@@ -331,8 +331,8 @@ class ExploreFragment :
         ivMapView!!.setOnClickListener {
             val intent = Intent(dashboardActivity, MapViewActivity::class.java)
             val bundle = Bundle()
-            bundle.putFloat("lat", filterModel!!.latitude.toFloat())
-            bundle.putFloat("long", filterModel!!.logitude.toFloat())
+            filterModel?.latitude?.let { it1 -> bundle.putFloat("lat", it1.toFloat()) }
+            filterModel?.logitude?.let { it1 -> bundle.putFloat("long", it1.toFloat()) }
             intent.putExtras(bundle)
             dashboardActivity!!.startActivity(intent)
         }

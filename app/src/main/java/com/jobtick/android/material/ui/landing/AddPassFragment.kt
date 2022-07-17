@@ -1,4 +1,4 @@
-package com.jobtick.android
+package com.jobtick.android.material.ui.landing
 
 import android.os.Build
 import android.os.Bundle
@@ -11,20 +11,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.android.volley.toolbox.Volley
 import com.google.android.gms.tasks.Task
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.installations.InstallationTokenResult
-import com.jobtick.android.material.ui.landing.OnboardingActivity
+import com.jobtick.android.R
 import com.jobtick.android.utils.ExternalIntentHelper
-
+import com.jobtick.android.utils.HttpStatus
+import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.viewmodel.ChangePassViewModel
+import org.json.JSONException
+import org.json.JSONObject
+import timber.log.Timber
 
 class AddPassFragment : Fragment() {
-
+    private lateinit var changePassViewModel: ChangePassViewModel
     private lateinit var activity: OnboardingActivity
     private lateinit var next: MaterialButton
     private lateinit var edtPassword: TextInputLayout
@@ -33,6 +39,7 @@ class AddPassFragment : Fragment() {
     private lateinit var txtBtnTerms: MaterialTextView
     private lateinit var cbTerms: AppCompatCheckBox
     private lateinit var txtError: MaterialTextView
+    private lateinit var sessionManagerA: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,14 +53,76 @@ class AddPassFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initVars()
         setTitle()
+        initVM()
     }
+    private fun initVM() {
+        changePassViewModel = ViewModelProvider(this).get(ChangePassViewModel::class.java)
+        changePassViewModel.changePassResponse().observe(requireActivity()) {
+            activity.hideProgressDialog()
+            try {
 
+                if (it.has("success") && !it.isNull("success")) {
+                    if (it.getBoolean("success")) {
+                        activity.navController.navigate(R.id.addNameLastNameFragment)
+                        activity.showSuccessToast(
+                            "Password Changed Successfully !",
+                            requireContext()
+                        )
+                    }
+                }
+            } catch (e: JSONException) {
+                Timber.e(e.toString())
+                e.printStackTrace()
+            }
+        }
+        changePassViewModel.getError2().observe(viewLifecycleOwner) {
+            activity.showToast("Something went wrong", requireContext())
+
+        }
+        changePassViewModel.getError().observe(viewLifecycleOwner, androidx.lifecycle.Observer { networkResponse ->
+            if (networkResponse?.data != null) {
+                val jsonError = String(networkResponse.data)
+                // Print Error!
+                Timber.e(jsonError)
+                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                    activity.unauthorizedUser()
+                    activity.hideProgressDialog()
+                    return@Observer
+                }
+                try {
+                    val jsonObject = JSONObject(jsonError)
+                    val jsonObjectError = jsonObject.getJSONObject("error")
+                    if (jsonObjectError.has("message")) {
+                        activity.showToast(jsonObjectError.getString("message"), requireContext())
+                    }
+                    if (jsonObjectError.has("errors")) {
+                        val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
+                        if (jsonObjectErrors.has("old_password")) {
+                            val jsonArrayMobile = jsonObjectErrors.getJSONArray("old_password")
+                            val oldPassword1 = jsonArrayMobile.getString(0)
+                            //oldPassword!!.setError(oldPassword1)
+                        }
+                        if (jsonObjectErrors.has("new_password")) {
+                            val jsonArrayMobile = jsonObjectErrors.getJSONArray("new_password")
+                            val newPassword1 = jsonArrayMobile.getString(0)
+                            //newPassword!!.setError(newPassword1)
+                        }
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            } else {
+                activity.showToast("Something Went Wrong", requireContext())
+            }
+            activity.hideProgressDialog()
+        })
+    }
     private fun setTitle() {
         val sb: Spannable =
             SpannableString(getString(R.string.welcome_to_jobtick))
         sb.setSpan(
             ForegroundColorSpan(
-                getColor(requireContext(), R.color.primary)
+                ContextCompat.getColor(requireContext(), R.color.primary)
             ),
             9,
             sb.length,
@@ -64,7 +133,7 @@ class AddPassFragment : Fragment() {
             SpannableString(getString(R.string.by_joining_you_agree_to_jobtick_s_terms_of_services))
         sb2.setSpan(
             ForegroundColorSpan(
-                getColor(requireContext(), R.color.primary)
+                ContextCompat.getColor(requireContext(), R.color.primary)
             ),
             35,
             sb2.length,
@@ -83,11 +152,14 @@ class AddPassFragment : Fragment() {
         txtBtnTerms = requireView().findViewById(R.id.txtBtn_terms)
         cbTerms = requireView().findViewById(R.id.cb_terms)
         txtError = requireView().findViewById(R.id.error)
+        sessionManagerA = SessionManager(requireContext())
 
         next.setOnClickListener {
             resetError()
             if (checkValidation())
-                activity.navController.navigate(R.id.addNameLastNameFragment)
+                changePassViewModel.changePass(sessionManagerA.accessToken,
+                    Volley.newRequestQueue(requireContext()), "", confirmPassword.editText?.text.toString())
+
         }
         txtBtnTerms.setOnClickListener {
             ExternalIntentHelper.openLink(

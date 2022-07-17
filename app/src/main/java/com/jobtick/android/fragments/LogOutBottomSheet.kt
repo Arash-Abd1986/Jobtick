@@ -9,6 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.jobtick.android.R
 import com.jobtick.android.activities.AuthActivity
+import com.jobtick.android.activities.DashboardActivity
 import com.jobtick.android.utils.SessionManager
 
 class LogOutBottomSheet : BottomSheetDialogFragment() {
@@ -32,7 +33,7 @@ class LogOutBottomSheet : BottomSheetDialogFragment() {
             sessionManager!!.login = false
             sessionManager!!.tokenType = null
             sessionManager!!.accessToken = null
-            val intent = Intent(context, AuthActivity::class.java)
+            val intent = Intent(context, DashboardActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)

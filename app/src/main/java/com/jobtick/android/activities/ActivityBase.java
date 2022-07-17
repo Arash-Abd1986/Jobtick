@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.NetworkResponse;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.jobtick.android.material.ui.landing.OnboardingActivity;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
 
@@ -161,7 +162,7 @@ public class ActivityBase extends AppCompatActivity {
         sessionManager.setLogin(false);
         sessionManager.setTokenType(null);
         sessionManager.setAccessToken(null);
-        Intent main = new Intent(ActivityBase.this, AuthActivity.class);
+        Intent main = new Intent(ActivityBase.this, OnboardingActivity.class);
         main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(main);

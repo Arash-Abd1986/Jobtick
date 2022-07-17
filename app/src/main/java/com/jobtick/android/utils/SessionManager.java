@@ -104,7 +104,7 @@ public class SessionManager {
     }
 
     public Boolean getNeedRefresh() {
-        return pref.getBoolean("need_refresh",false);
+        return pref.getBoolean("need_refresh", false);
     }
 
 
@@ -125,13 +125,23 @@ public class SessionManager {
     public String getRole() {
         return pref.getString("role", "worker");
     }
+
     public void setRoleLocal(String role) {
         editor.putString("role_local", role);
         editor.commit();
     }
 
     public String getRoleLocal() {
-        return pref.getString("role_local", "poster");
+        return pref.getString("role_local", "ticker");
+    }
+
+    public void setOnBoardingStatus(Boolean status) {
+        editor.putBoolean("on_boarding_status", status);
+        editor.commit();
+    }
+
+    public Boolean getOnBoardingStatus() {
+        return pref.getBoolean("on_boarding_status", false);
     }
 
     public void setQuickOffer(String offer, int id) {
@@ -162,29 +172,31 @@ public class SessionManager {
         return pref.getString("bank_account_number", null);
     }
 
-    public PreviewCategorySetModel getPreviewModel(Class<?> cls){
+    public PreviewCategorySetModel getPreviewModel(Class<?> cls) {
         String json = pref.getString(cls.getName(), null);
-        Type type = new TypeToken<PreviewCategorySetModel>(){}.getType();
+        Type type = new TypeToken<PreviewCategorySetModel>() {
+        }.getType();
         Gson gson = new Gson();
         return gson.fromJson(json, type);
     }
 
-    public void setPreviewModel(PreviewCategorySetModel previewCategorySetModel, Class<?> cls){
+    public void setPreviewModel(PreviewCategorySetModel previewCategorySetModel, Class<?> cls) {
         Gson gson = new Gson();
         String previewJson = gson.toJson(previewCategorySetModel);
         editor.putString(cls.getName(), previewJson);
         editor.commit();
     }
 
-    public PreviewTaskSetModel getPreviewTaskModel(Class<?> cls, boolean isMyTasks){
+    public PreviewTaskSetModel getPreviewTaskModel(Class<?> cls, boolean isMyTasks) {
         String previewTaskSavedName = cls.getName() + isMyTasks;
         String json = pref.getString(previewTaskSavedName, null);
-        Type type = new TypeToken<PreviewTaskSetModel>(){}.getType();
+        Type type = new TypeToken<PreviewTaskSetModel>() {
+        }.getType();
         Gson gson = new Gson();
         return gson.fromJson(json, type);
     }
 
-    public void setPreviewTaskModel(PreviewTaskSetModel previewTaskSetModel, Class<?> cls, boolean isMyTasks){
+    public void setPreviewTaskModel(PreviewTaskSetModel previewTaskSetModel, Class<?> cls, boolean isMyTasks) {
         String previewTaskSavedName = cls.getName() + isMyTasks;
         Gson gson = new Gson();
         String previewJson = gson.toJson(previewTaskSetModel);

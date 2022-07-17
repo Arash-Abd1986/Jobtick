@@ -1,4 +1,4 @@
-package com.jobtick.android
+package com.jobtick.android.material.ui.landing
 
 import android.content.Intent
 import android.os.Build
@@ -17,11 +17,19 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.installations.InstallationTokenResult
+import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
-import com.jobtick.android.material.ui.landing.OnboardingActivity
+import com.jobtick.android.models.UserAccountModel
+import com.jobtick.android.network.retrofit.ApiClient
+import com.jobtick.android.utils.Helper
+import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.isLetter
-import com.jobtick.android.utils.isNumeric
-
+import okhttp3.MultipartBody
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
 
 class AddNameLastNameFragment : Fragment() {
 
@@ -30,6 +38,8 @@ class AddNameLastNameFragment : Fragment() {
     private lateinit var fname: TextInputLayout
     private lateinit var lname: TextInputLayout
     private lateinit var txtError: MaterialTextView
+    private lateinit var sessionManagerA: SessionManager
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +55,9 @@ class AddNameLastNameFragment : Fragment() {
     }
 
 
-
     private fun initVars() {
+        sessionManagerA = SessionManager(requireContext())
+
         activity = (requireActivity() as OnboardingActivity)
         next = requireView().findViewById(R.id.btn_next)
         fname = requireView().findViewById(R.id.name)
@@ -56,10 +67,48 @@ class AddNameLastNameFragment : Fragment() {
         next.setOnClickListener {
             resetError()
             if (checkValidation()) {
-                val intent = Intent(requireActivity(), DashboardActivity::class.java)
-                startActivity(intent)
+                updateProfile()
             }
         }
+    }
+
+    private fun updateProfile() {
+        activity.showProgressDialog()
+        val call: Call<String?>?
+        activity.showProgressDialog()
+        Helper.closeKeyboard(requireActivity())
+
+        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM).apply {
+            addFormDataPart("fname", fname.editText?.text.toString())
+            addFormDataPart("lname", lname.editText?.text.toString())
+
+        }.build()
+        call = ApiClient.getClientV2(sessionManagerA).uploadProfile(
+            "XMLHttpRequest",
+            requestBody
+        )
+        call!!.enqueue(object : Callback<String?> {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                activity.hideProgressDialog()
+                try {
+                    val jsonObject = JSONObject(response.body()!!)
+                    val jsonObject_user = jsonObject.getJSONObject("data")
+                    val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_user)
+                    sessionManagerA.userAccount = userAccountModel
+                    val intent = Intent(requireActivity(), DashboardActivity::class.java)
+                    startActivity(intent)
+                    //showSuccessToast(jsonObject.getString("message"), this@EditProfileActivity)
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                    //showToast("Something Went Wrong", this@EditProfileActivity)
+                }
+            }
+
+            override fun onFailure(call: Call<String?>, t: Throwable) {
+                activity.hideProgressDialog()
+                Timber.e(call.toString())
+            }
+        })
     }
 
     private fun resetError() {
@@ -75,7 +124,7 @@ class AddNameLastNameFragment : Fragment() {
 
     private fun checkValidation(): Boolean {
         when {
-            fname.editText?.text.isNullOrEmpty() && lname.editText?.text.isNullOrEmpty()  -> {
+            fname.editText?.text.isNullOrEmpty() && lname.editText?.text.isNullOrEmpty() -> {
                 setError("Please enter your first name and last name")
                 return false
             }

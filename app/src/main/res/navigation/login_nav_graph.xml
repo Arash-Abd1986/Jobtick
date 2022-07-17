@@ -3,17 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/start_nav_graph"
-    app:startDestination="@id/signUpFragment">
-
+    app:startDestination="@id/loginStatusFragment">
+    <fragment
+        android:id="@+id/startFragmentSlider"
+        android:name="com.jobtick.android.material.ui.landing.StartFragmentSlider"
+        android:label="fragment_start_slider"
+        tools:layout="@layout/fragment_start_slider" >
+        <action
+            android:id="@+id/action_startFragmentSlider_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.jobtick.android.SignInFragment"
+        android:name="com.jobtick.android.material.ui.landing.SignInFragment"
         android:label="fragment_sign_in_v2"
-        tools:layout="@layout/fragment_sign_in_v2" />
+        tools:layout="@layout/fragment_sign_in_v2" >
+        <action
+            android:id="@+id/action_signInFragment_to_forgetPassFirstPageFragment"
+            app:destination="@id/forgetPassFirstPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginStatusFragment"
-        android:name="com.jobtick.android.LoginStatusFragment"
+        android:name="com.jobtick.android.material.ui.landing.LoginStatusFragment"
         android:label="fragment_login_status"
         tools:layout="@layout/fragment_login_status" >
         <action
@@ -25,10 +37,13 @@
         <action
             android:id="@+id/action_loginStatusFragment_to_start_nav_graph"
             app:destination="@id/start_nav_graph" />
+        <action
+            android:id="@+id/action_loginStatusFragment_to_startFragmentSlider"
+            app:destination="@id/startFragmentSlider" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.jobtick.android.SignUpFragment"
+        android:name="com.jobtick.android.material.ui.landing.SignUpFragment"
         android:label="fragment_sign_up_v2"
         tools:layout="@layout/fragment_sign_up_v2" >
         <action
@@ -37,16 +52,19 @@
     </fragment>
     <fragment
         android:id="@+id/activateAccountFragment"
-        android:name="com.jobtick.android.ActivateAccountFragment"
+        android:name="com.jobtick.android.material.ui.landing.ActivateAccountFragment"
         android:label="fragment_activate_account"
         tools:layout="@layout/fragment_activate_account" >
         <action
             android:id="@+id/action_activateAccountFragment_to_addPassFragment"
             app:destination="@id/addPassFragment" />
+        <argument
+            android:name="email"
+            app:argType="string"/>
     </fragment>
     <fragment
         android:id="@+id/addPassFragment"
-        android:name="com.jobtick.android.AddPassFragment"
+        android:name="com.jobtick.android.material.ui.landing.AddPassFragment"
         android:label="fragment_add_pass"
         tools:layout="@layout/fragment_add_pass" >
         <action
@@ -55,7 +73,21 @@
     </fragment>
     <fragment
         android:id="@+id/addNameLastNameFragment"
-        android:name="com.jobtick.android.AddNameLastNameFragment"
+        android:name="com.jobtick.android.material.ui.landing.AddNameLastNameFragment"
         android:label="fragment_add_name_last_name"
         tools:layout="@layout/fragment_add_name_last_name" />
+    <fragment
+        android:id="@+id/forgetPassFirstPageFragment"
+        android:name="com.jobtick.android.material.ui.landing.ForgetPassFirstPageFragment"
+        android:label="fragment_forget_pass_first_page"
+        tools:layout="@layout/fragment_forget_pass_first_page" >
+        <action
+            android:id="@+id/action_forgetPassFirstPageFragment_to_forgetPassSecFragmentFragment"
+            app:destination="@id/forgetPassSecFragmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgetPassSecFragmentFragment"
+        android:name="com.jobtick.android.material.ui.landing.ForgetPassSecFragmentFragment"
+        android:label="fragment_forget_pass_sec_fragment"
+        tools:layout="@layout/fragment_forget_pass_sec_fragment" />
 </navigation>

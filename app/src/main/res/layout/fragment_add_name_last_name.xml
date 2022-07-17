@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".SignInFragment">
+    tools:context=".material.ui.landing.SignInFragment">
 
     <com.google.android.material.textview.MaterialTextView
         style="@style/heading1"

@@ -86,6 +86,7 @@ class HomeFragment :
     private var space: Space? = null
     private var rlRecentJobs: RelativeLayout? = null
     private var llLoading: RelativeLayout? = null
+    private var rlRecentJobsTitle: RelativeLayout? = null
     private var rlOfferedJobs: RelativeLayout? = null
     private var rlRecommendedJobs: RelativeLayout? = null
     private var updateProfile: TextView? = null
@@ -259,7 +260,12 @@ class HomeFragment :
             sessionManager!!.accessToken,
             Volley.newRequestQueue(requireContext())
         )
-        viewModel.home(sessionManager!!.accessToken, Volley.newRequestQueue(requireContext()))
+        if (sessionManager?.accessToken != null)
+            viewModel.home(sessionManager!!.accessToken, Volley.newRequestQueue(requireContext()))
+        else {
+            rlRecentJobs!!.visibility = View.GONE
+            rlRecentJobsTitle!!.visibility = View.GONE
+        }
     }
 
     fun getTaskCategoryData(): List<TaskCategory>? {
@@ -268,6 +274,8 @@ class HomeFragment :
             Method.GET, Constant.TASK_CATEGORY_V2 + "?query=" + "",
             Response.Listener { response: String? ->
                 try {
+                    llLoading!!.visibility = View.GONE
+
                     val jsonObject = JSONObject(response)
                     if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                         val jsonArray_data = jsonObject.getJSONArray("data")
@@ -304,10 +312,13 @@ class HomeFragment :
                     adapter!!.addItems(items)
                 } catch (e: JSONException) {
                     e.printStackTrace()
+                    llLoading!!.visibility = View.GONE
                 }
             },
             Response.ErrorListener { error: VolleyError? ->
+                llLoading!!.visibility = View.GONE
             } /*errorHandle1(error.networkResponse)*/
+
         ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
@@ -576,6 +587,7 @@ class HomeFragment :
         ivNotification = dashboardActivity.findViewById(R.id.ivNotification)
         toolbar = dashboardActivity.findViewById(R.id.toolbar)
         llLoading = requireView().findViewById(R.id.loading_view)
+        rlRecentJobsTitle = requireView().findViewById(R.id.rl_recent_jobs_title)
         name = requireView().findViewById(R.id.name)
         updateProfile = requireView().findViewById(R.id.update_profile)
         myJobs = requireView().findViewById(R.id.my_jobs)
@@ -664,19 +676,33 @@ class HomeFragment :
 
     private fun onClick() {
         myJobs!!.setOnClickListener { v: View? ->
-            (requireActivity() as DashboardActivity).goToFragment(
-                DashboardActivity.Fragment.MY_JOBS
-            )
+            if (sessionManager?.accessToken != null)
+                (requireActivity() as DashboardActivity).goToFragment(
+                    DashboardActivity.Fragment.MY_JOBS
+                )
+            else {
+                (requireActivity() as DashboardActivity).unauthorizedUser()
+            }
         }
         seeAllPostedJobs!!.setOnClickListener { v: View? ->
-            (requireActivity() as DashboardActivity).goToFragment(
-                DashboardActivity.Fragment.MY_JOBS
-            )
+            if (sessionManager?.accessToken != null)
+
+                (requireActivity() as DashboardActivity).goToFragment(
+                    DashboardActivity.Fragment.MY_JOBS
+                )
+            else {
+                (requireActivity() as DashboardActivity).unauthorizedUser()
+            }
         }
         seeAllOfferedJobs!!.setOnClickListener { v: View? ->
-            (requireActivity() as DashboardActivity).goToFragment(
-                DashboardActivity.Fragment.MY_JOBS
-            )
+            if (sessionManager?.accessToken != null)
+
+                (requireActivity() as DashboardActivity).goToFragment(
+                    DashboardActivity.Fragment.MY_JOBS
+                )
+            else {
+                (requireActivity() as DashboardActivity).unauthorizedUser()
+            }
         }
         seeAllRecentJobs!!.setOnClickListener { v: View? ->
             (requireActivity() as DashboardActivity).goToFragment(
@@ -686,8 +712,13 @@ class HomeFragment :
         toolbar!!.setOnMenuItemClickListener { false }
         updateProfile!!.setOnClickListener { navigator!!.navigate(R.id.navigation_profile) }
         ivNotification!!.setOnClickListener {
-            val intent = Intent(requireContext(), NotificationActivity::class.java)
-            startActivityForResult(intent, ConstantKey.RESULTCODE_NOTIFICATION_READ)
+            if (sessionManager?.accessToken != null) {
+                val intent = Intent(requireContext(), NotificationActivity::class.java)
+                startActivityForResult(intent, ConstantKey.RESULTCODE_NOTIFICATION_READ)
+            } else {
+                (requireActivity() as DashboardActivity).unauthorizedUser()
+            }
+
         }
     }
 
@@ -722,10 +753,15 @@ class HomeFragment :
     }
 
     override fun onItemClick(view: View?, obj: TaskCategory?, position: Int) {
-        val creating_task = Intent(activity, TaskCreateActivity::class.java)
-        val bundle = Bundle()
-        bundle.putInt(ConstantKey.CATEGORY_ID, obj!!.id)
-        creating_task.putExtras(bundle)
-        requireActivity().startActivityForResult(creating_task, ConstantKey.RESULTCODE_CATEGORY)
+        if (sessionManager?.accessToken != null) {
+            val creating_task = Intent(activity, TaskCreateActivity::class.java)
+            val bundle = Bundle()
+            bundle.putInt(ConstantKey.CATEGORY_ID, obj!!.id)
+            creating_task.putExtras(bundle)
+            requireActivity().startActivityForResult(creating_task, ConstantKey.RESULTCODE_CATEGORY)
+        } else {
+            val dashboardActivity = requireActivity() as DashboardActivity
+            dashboardActivity.unauthorizedUser()
+        }
     }
 }

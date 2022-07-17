@@ -1,7 +1,6 @@
-package com.jobtick.android
+package com.jobtick.android.material.ui.landing
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -13,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
@@ -27,10 +25,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.installations.InstallationTokenResult
-import com.jobtick.android.activities.CompleteRegistrationActivity
-import com.jobtick.android.activities.DashboardActivity
-import com.jobtick.android.material.ui.landing.OnboardingActivity
-import com.jobtick.android.models.UserAccountModel
+import com.jobtick.android.R
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.FireBaseEvent
 import com.jobtick.android.utils.Helper
@@ -39,23 +34,25 @@ import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 
-
 class SignUpFragment : Fragment() {
 
     private lateinit var sessionManagerA: SessionManager
     private lateinit var activity: OnboardingActivity
     private lateinit var fireBaseEvent: FireBaseEvent
     private lateinit var next: MaterialButton
+    private lateinit var btnForgetPass: MaterialButton
     private lateinit var edtEmail: TextInputLayout
     private lateinit var edtPassword: TextInputLayout
     private lateinit var txtError: MaterialTextView
     private lateinit var title: MaterialTextView
+    private lateinit var tvGoogle: MaterialButton
+    private lateinit var tvFB: MaterialButton
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_in_v2, container, false)
+        return inflater.inflate(R.layout.fragment_sign_up_v2, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,16 +63,27 @@ class SignUpFragment : Fragment() {
 
     private fun setTitle() {
         val sb: Spannable =
-            SpannableString(getString(R.string.login_to_jobtick))
+            SpannableString(getString(R.string.join_jobtick))
         sb.setSpan(
             ForegroundColorSpan(
-                getColor(requireContext(), R.color.primary)
+                ContextCompat.getColor(requireContext(), R.color.primary)
             ),
-            9,
+            5,
             sb.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         title.text = sb
+        val sb2: Spannable =
+            SpannableString(getString(R.string.already_have_an_account_sign_in))
+        sb2.setSpan(
+            ForegroundColorSpan(
+                ContextCompat.getColor(requireContext(), R.color.primary)
+            ),
+            23,
+            sb2.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        btnForgetPass.text = sb2
     }
 
 
@@ -84,7 +92,10 @@ class SignUpFragment : Fragment() {
         sessionManagerA = SessionManager(requireContext())
         activity = (requireActivity() as OnboardingActivity)
         next = requireView().findViewById(R.id.btn_next)
+        btnForgetPass = requireView().findViewById(R.id.btn_forget_pass)
         edtEmail = requireView().findViewById(R.id.email)
+        tvFB = requireView().findViewById(R.id.tvFB)
+        tvGoogle = requireView().findViewById(R.id.tvGoogle)
         edtPassword = requireView().findViewById(R.id.password)
         edtPassword.visibility = View.GONE
         txtError = requireView().findViewById(R.id.error)
@@ -92,8 +103,17 @@ class SignUpFragment : Fragment() {
         next.setOnClickListener {
             resetError()
             if (checkValidation())
-                signUp(edtEmail.editText?.text.toString(), "j9012j9012")
+                signUp(edtEmail.editText?.text.toString())
 
+        }
+        btnForgetPass.setOnClickListener {
+            activity.navController.navigate(R.id.signInFragment)
+        }
+        tvGoogle.setOnClickListener {
+            activity.signInWithGoogle(true)
+        }
+        tvFB.setOnClickListener {
+            activity.facebookLogin(true)
         }
     }
 
@@ -129,7 +149,7 @@ class SignUpFragment : Fragment() {
     }
 
     @SuppressLint("HardwareIds")
-    private fun signUp(email: String?, password: String?) {
+    private fun signUp(email: String?) {
         activity.showProgressDialog()
         val strDeviceId =
             Settings.Secure.getString(requireActivity().contentResolver, Settings.Secure.ANDROID_ID)
@@ -143,7 +163,9 @@ class SignUpFragment : Fragment() {
                 try {
                     val jsonObject = JSONObject(response!!)
                     Timber.e(jsonObject.toString())
-                    activity.navController.navigate(R.id.activateAccountFragment)
+                    val bundle = Bundle()
+                    bundle.putString("email", email)
+                    activity.navController.navigate(R.id.activateAccountFragment, bundle)
                 } catch (e: JSONException) {
                     e.printStackTrace()
                     setError("Something Went Wrong", edtEmail)
@@ -155,7 +177,6 @@ class SignUpFragment : Fragment() {
                     val jsonError = String(networkResponse.data)
                     // Print Error!
                     Timber.tag("intent22").e(jsonError)
-                    activity.navController.navigate(R.id.activateAccountFragment)
                     try {
                         val jsonObject = JSONObject(jsonError)
                         val jsonObjectError = jsonObject.getJSONObject("error")
@@ -172,6 +193,12 @@ class SignUpFragment : Fragment() {
                                 setError("Something Went Wrong", edtEmail)
                             }
                             // signUpFragment.error(error_email,error_password);
+                        } else if (jsonObjectError.has("error_code")) {
+                            if (jsonObjectError.getString("error_code") == "403")
+                                activity.navController.navigate(R.id.signInFragment)
+                            else
+                                setError("Something Went Wrong", edtEmail)
+
                         } else if (jsonObjectError.has("message")) {
                             setError(jsonObjectError.getString("message"), edtEmail)
                         } else {
@@ -199,15 +226,15 @@ class SignUpFragment : Fragment() {
             override fun getParams(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 if (email != null) map1["email"] = email
-                if (password != null) map1["password"] = password
-                 map1["device_token"] = strDeviceId
-                map1["fname"] = "Jobtick"
-                map1["lname"] = "User"
-                map1["latitude"] = "33"
-                map1["longitude"] = "151"
+                //if (password != null) map1["password"] = password
+                map1["device_token"] = strDeviceId
+                //map1["fname"] = "Jobtick"
+                //map1["lname"] = "User"
+                //map1["latitude"] = "33"
+                // map1["longitude"] = "151"
                 map1["device_type"] = strDevice
                 map1["fcm_token"] = token
-                map1["location"] = "no location"
+                // map1["location"] = "no location"
                 return map1
             }
         }

@@ -1,41 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".SignInFragment">
+    tools:context=".material.ui.landing.SignInFragment">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/title"
-        style="@style/heading1"
-        android:layout_marginTop="@dimen/_54dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_to_jobtick"
-        android:layout_marginBottom="18sp"
-        android:textColor="@color/neutral_dark"
-        app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
-
-    <include
-        android:id="@+id/socialBox"
-        layout="@layout/view_google_facebook_button" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_next"
-        style="@style/colored"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/next"
-        android:layout_marginTop="16dp"
-        />
+        android:orientation="vertical"
+        tools:context=".material.ui.landing.SignInFragment">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
+            style="@style/heading1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_54dp"
+            android:layout_marginBottom="18sp"
+            android:text="Join Jobtick"
+            android:textColor="@color/neutral_dark"
+            app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
+
+        <include
+            android:id="@+id/socialBox"
+            layout="@layout/view_google_facebook_button" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next"
+            style="@style/colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/next" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_forget_pass"
+            style="@style/borderlessColoredTextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/forgot_password" />
+
+    </LinearLayout>
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_forget_pass"
+        android:id="@+id/signIn"
         style="@style/borderlessColoredTextButton"
         android:layout_width="wrap_content"
+        android:gravity="bottom"
         android:layout_height="wrap_content"
-        android:text="@string/forgot_password"
+        android:textColor="@color/neutral_dark"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/don_t_have_an_account_sign_up"
         android:layout_gravity="center_horizontal"/>
-</LinearLayout>
+</RelativeLayout>

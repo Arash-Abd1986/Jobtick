@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_54dp"
         android:layout_marginBottom="18sp"
-        android:text="@string/login_to_jobtick"
+        android:text="Reset Password"
         android:textColor="@color/neutral_dark"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
 
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
-        android:text="@string/login_to_jobtick"
+        android:text="Enter your new password"
         android:textColor="@color/neutral_light_800"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
 
@@ -70,7 +70,7 @@
         android:layout_marginBottom="32dp"
         android:gravity="top"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/cb_terms"

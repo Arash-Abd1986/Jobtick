@@ -597,6 +597,7 @@
     <string name="add_job_alert">Add job alert</string>
     <string name="get_things_done">Get things done</string>
     <string name="how_do_you_make_use_of_jobtick">How do you make use of Jobtick?</string>
+    <string name="outsourcing_tasks">Make your life easier by outsourcing your daily tasks to professionals!</string>
     <string name="earn_money">Earn money</string>
     <string name="create_your_professional_profile_and_start_earning_right_away">Create your professional profile and start earning right away!</string>
     <string name="welcome_jobtick">Welcome Jobtick</string>
@@ -610,5 +611,7 @@
     <string name="login_to_jobtick">Login to Jobtick</string>
     <string name="the_code_will_expire_in">The code will expire in</string>
     <string name="by_joining_you_agree_to_jobtick_s_terms_of_services">By joining, you agree to Jobtick’s Terms of Services.</string>
+    <string name="already_have_an_account_sign_in">Already have an account? Sign in</string>
+    <string name="don_t_have_an_account_sign_up">Don’t have an account? Sign up</string>
 
 </resources>

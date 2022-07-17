@@ -1,4 +1,4 @@
-package com.jobtick.android
+package com.jobtick.android.material.ui.landing
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -13,7 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
@@ -27,9 +26,9 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.installations.InstallationTokenResult
-import com.jobtick.android.activities.CompleteRegistrationActivity
+import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
-import com.jobtick.android.material.ui.landing.OnboardingActivity
+import com.jobtick.android.fragments.ForgotPassword2Fragment
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.FireBaseEvent
@@ -39,13 +38,16 @@ import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 
-
 class SignInFragment : Fragment() {
 
     private lateinit var sessionManagerA: SessionManager
     private lateinit var activity: OnboardingActivity
     private lateinit var fireBaseEvent: FireBaseEvent
     private lateinit var next: MaterialButton
+    private lateinit var tvGoogle: MaterialButton
+    private lateinit var tvFB: MaterialButton
+    private lateinit var signIn: MaterialButton
+    private lateinit var btnForgetPass: MaterialButton
     private lateinit var edtEmail: TextInputLayout
     private lateinit var edtPassword: TextInputLayout
     private lateinit var txtError: MaterialTextView
@@ -69,13 +71,24 @@ class SignInFragment : Fragment() {
             SpannableString(getString(R.string.login_to_jobtick))
         sb.setSpan(
             ForegroundColorSpan(
-                getColor(requireContext(), R.color.primary)
+                ContextCompat.getColor(requireContext(), R.color.primary)
             ),
             9,
             sb.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         title.text = sb
+        val sb2: Spannable =
+            SpannableString(getString(R.string.don_t_have_an_account_sign_up))
+        sb2.setSpan(
+            ForegroundColorSpan(
+                ContextCompat.getColor(requireContext(), R.color.primary)
+            ),
+            23,
+            sb2.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        signIn.text = sb2
     }
 
 
@@ -84,7 +97,11 @@ class SignInFragment : Fragment() {
         activity = (requireActivity() as OnboardingActivity)
         //fireBaseEvent = FireBaseEvent.getInstance(requireActivity())
         next = requireView().findViewById(R.id.btn_next)
+        btnForgetPass = requireView().findViewById(R.id.btn_forget_pass)
+        tvFB = requireView().findViewById(R.id.tvFB)
+        tvGoogle = requireView().findViewById(R.id.tvGoogle)
         edtEmail = requireView().findViewById(R.id.email)
+        signIn = requireView().findViewById(R.id.signIn)
         edtPassword = requireView().findViewById(R.id.password)
         txtError = requireView().findViewById(R.id.error)
         title = requireView().findViewById(R.id.title)
@@ -93,8 +110,96 @@ class SignInFragment : Fragment() {
             if (checkValidation())
                 login(edtEmail.editText?.text.toString(), edtPassword.editText?.text.toString())
         }
+        btnForgetPass.setOnClickListener {
+            resetError()
+            if (checkValidation2()){
+              nextStepForgotPassword(edtEmail.editText?.text.toString())
+            }
+        }
+        signIn.setOnClickListener {
+            activity.navController.navigate(R.id.signUpFragment)
+        }
+        tvGoogle.setOnClickListener {
+            activity.signInWithGoogle(true)
+        }
+        tvFB.setOnClickListener {
+            activity.facebookLogin(true)
+        }
     }
+    fun nextStepForgotPassword(email: String) {
+        activity.showProgressDialog()
+        Helper.closeKeyboard(requireActivity())
+        val stringRequest: StringRequest =
+            object : StringRequest(
+                Method.POST, Constant.URL_RESET_PASSWORD,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
+                    activity.hideProgressDialog()
+                    val bundle = Bundle()
+                    bundle.putString("email", edtEmail.editText?.text.toString())
+                    activity.navController.navigate(R.id.forgetPassFirstPageFragment, bundle)
 
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
+                    if (networkResponse?.data != null) {
+                        val jsonError = String(networkResponse.data)
+                        // Print Error!
+                        Timber.e(jsonError)
+                        try {
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObjectError = jsonObject.getJSONObject("error")
+                            if (jsonObjectError.has("errors")) {
+                                val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
+                                var strError: String? = null
+                                when {
+                                    jsonObjectErrors.has("email") -> {
+                                        val jsonArrayMobile = jsonObjectErrors.getJSONArray("email")
+                                        strError = jsonArrayMobile.getString(0)
+                                        setError(strError, edtEmail)
+                                    }
+                                    jsonObjectErrors.has("password") -> {
+                                        val jsonArrayMobile =
+                                            jsonObjectErrors.getJSONArray("password")
+                                        strError = jsonArrayMobile.getString(0)
+                                        setError(strError, edtPassword)
+                                    }
+                                    else -> {
+                                        val message = jsonObjectError.getString("message")
+                                        setError(message)
+                                    }
+                                }
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        setError("Something Went Wrong")
+                    }
+                    activity.hideProgressDialog()
+                }
+            ) {
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["X-Requested-With"] = "XMLHttpRequest"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    return map1
+                }
+
+                override fun getParams(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["email"] = email
+                    return map1
+                }
+            }
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+    }
     @SuppressLint("HardwareIds")
     private fun login(email: String?, password: String?) {
         activity.showProgressDialog()
@@ -247,6 +352,15 @@ class SignInFragment : Fragment() {
         }
         return true
     }
+    private fun checkValidation2(): Boolean {
+        when {
+            edtEmail.editText?.text.isNullOrEmpty() -> {
+                setError("Please enter your email address", edtEmail)
+                return false
+            }
+        }
+        return true
+    }
 
     private fun resetError() {
         edtPassword.error = ""
@@ -297,9 +411,6 @@ class SignInFragment : Fragment() {
             sessionManagerA.longitude = userAccountModel.longitude.toString()
             sessionManagerA.login = true
             openActivity(intent)
-        } else {
-            intent = Intent(requireActivity(), CompleteRegistrationActivity::class.java)
-            startActivity(intent)
         }
     }
 

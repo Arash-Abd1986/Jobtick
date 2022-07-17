@@ -137,25 +137,25 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     private fun handleBundle() {
         val bundle = intent.extras
         if (bundle != null) {
-            if (!bundle.getString(ConstantKey.DEEP_LINK_BUNDLE).isNullOrEmpty()){
-                when(bundle.getString(ConstantKey.DEEP_LINK_BUNDLE)?.lowercase()){
+            if (!bundle.getString(ConstantKey.DEEP_LINK_BUNDLE).isNullOrEmpty()) {
+                when (bundle.getString(ConstantKey.DEEP_LINK_BUNDLE)?.lowercase()) {
                     "/invite" -> {
-                        val intent  = Intent(this, ReferAFriendActivity::class.java)
+                        val intent = Intent(this, ReferAFriendActivity::class.java)
                         startActivity(intent)
                     }
                     "/post-job" -> {
-                        val intent  = Intent(this, TaskCreateActivity::class.java)
+                        val intent = Intent(this, TaskCreateActivity::class.java)
                         startActivity(intent)
                     }
                     "/setting" -> {
-                        val intent  = Intent(this, SettingActivity::class.java)
+                        val intent = Intent(this, SettingActivity::class.java)
                         startActivity(intent)
                     }
                     "/profile" -> {
                         navController!!.navigate(R.id.navigation_profile)
                     }
                     "/notifications" -> {
-                        val intent  = Intent(this, NotificationActivity::class.java)
+                        val intent = Intent(this, NotificationActivity::class.java)
                         startActivity(intent)
                     }
                 }
@@ -220,20 +220,34 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         home!!.setOnClickListener {
             linFilter!!.visibility = View.GONE
             if (sessionManager!!.roleLocal == "poster") {
-                navController!!.navigate(R.id.navigation_new_task)
+                if (sessionManager?.accessToken != null) {
+                    navController!!.navigate(R.id.navigation_new_task)
+                } else {
+                    unauthorizedUser()
+                }
             } else {
                 navController!!.navigate(R.id.navigation_browse)
                 accountDetails
             }
         }
         search!!.setOnClickListener {
-            navController!!.navigate(R.id.navigation_my_tasks)
-            linFilter!!.visibility = View.VISIBLE
+            if (sessionManager?.accessToken != null) {
+                navController!!.navigate(R.id.navigation_my_tasks)
+                linFilter!!.visibility = View.VISIBLE
+            } else {
+                unauthorizedUser()
+            }
+
         }
         chat!!.setOnClickListener {
-            linFilterExplore!!.visibility = View.GONE
-            linFilter!!.visibility = View.GONE
-            navController!!.navigate(R.id.navigation_inbox)
+            if (sessionManager?.accessToken != null) {
+                linFilterExplore!!.visibility = View.GONE
+                linFilter!!.visibility = View.GONE
+                navController!!.navigate(R.id.navigation_inbox)
+            } else {
+                unauthorizedUser()
+            }
+
         }
         profile!!.setOnClickListener {
             linFilterExplore!!.visibility = View.GONE
@@ -247,8 +261,12 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
             if (navigationID == R.id.navigation_my_tasks) {
                 onBackPressed()
             } else {
-                val settings = Intent(this@DashboardActivity, SettingActivity::class.java)
-                startActivity(settings)
+                if (sessionManager?.accessToken != null) {
+                    val settings = Intent(this@DashboardActivity, SettingActivity::class.java)
+                    startActivity(settings)
+                } else {
+                    unauthorizedUser()
+                }
             }
         }
     }
@@ -500,9 +518,9 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     override fun onSupportNavigateUp(): Boolean {
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         return (
-            NavigationUI.navigateUp(navController, appBarConfiguration!!) ||
-                super.onSupportNavigateUp()
-            )
+                NavigationUI.navigateUp(navController, appBarConfiguration!!) ||
+                        super.onSupportNavigateUp()
+                )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -617,9 +635,9 @@ Team ${resources.getString(R.string.app_name)}"""
                                 filterModel.location = data.data.location
                                 filterModel.price =
                                     (
-                                        data.data.browsejobs_default_filters!!.min_price +
-                                            "$-" + data.data.browsejobs_default_filters.max_price + "$"
-                                        )
+                                            data.data.browsejobs_default_filters!!.min_price +
+                                                    "$-" + data.data.browsejobs_default_filters.max_price + "$"
+                                            )
                                 filterModel.section = Constant.FILTER_ALL
                                 sessionManager1!!.filter = filterModel
                             } else if (!sessionManager1!!.filter.location.contains(",")) {
@@ -633,9 +651,9 @@ Team ${resources.getString(R.string.app_name)}"""
                                 filterModel.location = data.data.location
                                 filterModel.price =
                                     (
-                                        data.data.browsejobs_default_filters!!.min_price +
-                                            "$-" + data.data.browsejobs_default_filters.max_price + "$"
-                                        )
+                                            data.data.browsejobs_default_filters!!.min_price +
+                                                    "$-" + data.data.browsejobs_default_filters.max_price + "$"
+                                            )
                                 filterModel.section = Constant.FILTER_ALL
                                 sessionManager1!!.filter = filterModel
                             }

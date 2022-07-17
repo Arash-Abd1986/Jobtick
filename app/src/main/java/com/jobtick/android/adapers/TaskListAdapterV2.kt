@@ -28,7 +28,7 @@ import java.text.ParseException
 
 class TaskListAdapterV2(
     private val mItems: ArrayList<Data> = ArrayList(),
-    private val userAccountModel: UserAccountModel,
+    private val userAccountModel: UserAccountModel?,
     private val isSingleLineBody: Boolean,
     private val isFromExplore: Boolean = false
 ) :
@@ -211,15 +211,17 @@ class TaskListAdapterV2(
                 showAlert = false
             }
             btnAddSkills!!.setOnClickListener {
-                val intent = Intent(context, SkillsTagActivity::class.java)
-                val bundle = Bundle()
-                intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
-                bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel.skills.skills)
-                bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.EXPERIENCE)
-                bundle.putString(ConstantKey.TITLE, "Add your occupation")
-                intent.putExtras(bundle)
-                context!!.startActivity(intent)
-                showSkills = false
+                if (userAccountModel != null) {
+                    val intent = Intent(context, SkillsTagActivity::class.java)
+                    val bundle = Bundle()
+                    intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
+                    bundle.putStringArrayList(ConstantKey.SKILLS, userAccountModel.skills.skills)
+                    bundle.putString(ConstantKey.TOOLBAR_TITLE, ConstantKey.EXPERIENCE)
+                    bundle.putString(ConstantKey.TITLE, "Add your occupation")
+                    intent.putExtras(bundle)
+                    context!!.startActivity(intent)
+                    showSkills = false
+                }
             }
 
             btnCloseAlert!!.setOnClickListener {
@@ -479,10 +481,10 @@ class TaskListAdapterV2(
 //                txtStatus.setText("Posted");
 //            } else
             when {
-                userAccountModel.id == item.poster_id && item.status == "open" && item.offers!!.isNotEmpty() -> {
+                userAccountModel?.id == item.poster_id && item.status == "open" && item.offers!!.isNotEmpty() -> {
                     txtStatus!!.text = "Offered"
                 }
-                userAccountModel.id == item.poster_id && item.status == "open" -> {
+                userAccountModel?.id == item.poster_id && item.status == "open" -> {
                     txtStatus!!.text = "Posted"
                 }
                 item.status.equals("open", ignoreCase = true) -> {

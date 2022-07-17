@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_54dp"
         android:layout_marginBottom="18sp"
-        android:text="Activate Account"
+        android:text="Forgot Password"
         android:textColor="@color/neutral_dark"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
 
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="We need to confirm your email:
+        android:text="We need to confirm your identity:
 u******e@example.com"
         android:textColor="@color/neutral_light_600"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -34,7 +34,7 @@ u******e@example.com"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Enter the code we’ve just sent to your email to activate your account."
+        android:text="Enter the code we’ve just sent to your email to reset your password."
         android:textColor="@color/neutral_light_600"
         app:layout_constraintBottom_toBottomOf="parent" />
 

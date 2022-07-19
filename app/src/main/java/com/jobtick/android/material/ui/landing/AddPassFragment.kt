@@ -55,6 +55,7 @@ class AddPassFragment : Fragment() {
         setTitle()
         initVM()
     }
+
     private fun initVM() {
         changePassViewModel = ViewModelProvider(this).get(ChangePassViewModel::class.java)
         changePassViewModel.changePassResponse().observe(requireActivity()) {
@@ -64,10 +65,6 @@ class AddPassFragment : Fragment() {
                 if (it.has("success") && !it.isNull("success")) {
                     if (it.getBoolean("success")) {
                         activity.navController.navigate(R.id.addNameLastNameFragment)
-                        activity.showSuccessToast(
-                            "Password Changed Successfully !",
-                            requireContext()
-                        )
                     }
                 }
             } catch (e: JSONException) {
@@ -76,47 +73,52 @@ class AddPassFragment : Fragment() {
             }
         }
         changePassViewModel.getError2().observe(viewLifecycleOwner) {
-            activity.showToast("Something went wrong", requireContext())
+            setError("Something went wrong")
 
         }
-        changePassViewModel.getError().observe(viewLifecycleOwner, androidx.lifecycle.Observer { networkResponse ->
-            if (networkResponse?.data != null) {
-                val jsonError = String(networkResponse.data)
-                // Print Error!
-                Timber.e(jsonError)
-                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                    activity.unauthorizedUser()
-                    activity.hideProgressDialog()
-                    return@Observer
-                }
-                try {
-                    val jsonObject = JSONObject(jsonError)
-                    val jsonObjectError = jsonObject.getJSONObject("error")
-                    if (jsonObjectError.has("message")) {
-                        activity.showToast(jsonObjectError.getString("message"), requireContext())
+        changePassViewModel.getError()
+            .observe(viewLifecycleOwner, androidx.lifecycle.Observer { networkResponse ->
+                if (networkResponse?.data != null) {
+                    val jsonError = String(networkResponse.data)
+                    // Print Error!
+                    Timber.e(jsonError)
+                    if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                        activity.unauthorizedUser()
+                        activity.hideProgressDialog()
+                        return@Observer
                     }
-                    if (jsonObjectError.has("errors")) {
-                        val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
-                        if (jsonObjectErrors.has("old_password")) {
-                            val jsonArrayMobile = jsonObjectErrors.getJSONArray("old_password")
-                            val oldPassword1 = jsonArrayMobile.getString(0)
-                            //oldPassword!!.setError(oldPassword1)
+                    try {
+                        val jsonObject = JSONObject(jsonError)
+                        val jsonObjectError = jsonObject.getJSONObject("error")
+                        if (jsonObjectError.has("message")) {
+                            setError(jsonObjectError.getString("message"))
                         }
-                        if (jsonObjectErrors.has("new_password")) {
-                            val jsonArrayMobile = jsonObjectErrors.getJSONArray("new_password")
-                            val newPassword1 = jsonArrayMobile.getString(0)
-                            //newPassword!!.setError(newPassword1)
+                        if (jsonObjectError.has("errors")) {
+                            val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
+                            if (jsonObjectErrors.has("old_password")) {
+                                val jsonArrayMobile = jsonObjectErrors.getJSONArray("old_password")
+                                val oldPassword1 = jsonArrayMobile.getString(0)
+                                setError(oldPassword1, edtPassword)
+                                //oldPassword!!.setError(oldPassword1)
+                            }
+                            if (jsonObjectErrors.has("new_password")) {
+                                val jsonArrayMobile = jsonObjectErrors.getJSONArray("new_password")
+                                val newPassword1 = jsonArrayMobile.getString(0)
+                                setError(newPassword1, edtPassword)
+
+                                //newPassword!!.setError(newPassword1)
+                            }
                         }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
+                } else {
+                    setError("Something went wrong")
                 }
-            } else {
-                activity.showToast("Something Went Wrong", requireContext())
-            }
-            activity.hideProgressDialog()
-        })
+                activity.hideProgressDialog()
+            })
     }
+
     private fun setTitle() {
         val sb: Spannable =
             SpannableString(getString(R.string.welcome_to_jobtick))
@@ -157,8 +159,12 @@ class AddPassFragment : Fragment() {
         next.setOnClickListener {
             resetError()
             if (checkValidation())
-                changePassViewModel.changePass(sessionManagerA.accessToken,
-                    Volley.newRequestQueue(requireContext()), "", confirmPassword.editText?.text.toString())
+                changePassViewModel.changePass(
+                    sessionManagerA.accessToken,
+                    Volley.newRequestQueue(requireContext()),
+                    "",
+                    confirmPassword.editText?.text.toString()
+                )
 
         }
         txtBtnTerms.setOnClickListener {

@@ -329,12 +329,17 @@ class ExploreFragment :
             startActivity(creatingTask)
         }
         ivMapView!!.setOnClickListener {
-            val intent = Intent(dashboardActivity, MapViewActivity::class.java)
-            val bundle = Bundle()
-            filterModel?.latitude?.let { it1 -> bundle.putFloat("lat", it1.toFloat()) }
-            filterModel?.logitude?.let { it1 -> bundle.putFloat("long", it1.toFloat()) }
-            intent.putExtras(bundle)
-            dashboardActivity!!.startActivity(intent)
+            if (sessionManager?.accessToken != null) {
+                val intent = Intent(dashboardActivity, MapViewActivity::class.java)
+                val bundle = Bundle()
+                filterModel?.latitude?.let { it1 -> bundle.putFloat("lat", it1.toFloat()) }
+                filterModel?.logitude?.let { it1 -> bundle.putFloat("long", it1.toFloat()) }
+                intent.putExtras(bundle)
+                dashboardActivity!!.startActivity(intent)
+
+            } else {
+                dashboardActivity!!.unauthorizedUser()
+            }
         }
         txtNewJob!!.setOnClickListener { onRefresh() }
     }
@@ -344,7 +349,12 @@ class ExploreFragment :
         recyclerViewBrowse!!.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
         recyclerViewBrowse!!.layoutManager = layoutManager
-        taskListAdapter = TaskListAdapterV2(taskArrayList, sessionManager!!.userAccount, false, isFromExplore = true)
+        taskListAdapter = TaskListAdapterV2(
+            taskArrayList,
+            sessionManager!!.userAccount,
+            false,
+            isFromExplore = true
+        )
         recyclerViewBrowse!!.adapter = taskListAdapter
         taskListAdapter!!.setOnItemClickListener(this)
         recyclerViewBrowse!!.addOnScrollListener(object : PaginationListener(layoutManager) {
@@ -576,10 +586,14 @@ class ExploreFragment :
     }
 
     override fun onItemClick(view: View?, obj: Data?, position: Int, action: String?) {
-        val intent = Intent(dashboardActivity, TaskDetailsActivity::class.java)
-        val bundle = Bundle()
-        bundle.putString(ConstantKey.SLUG, obj!!.slug)
-        intent.putExtras(bundle)
-        startActivityForResult(intent, 202)
+        if (sessionManager?.accessToken != null) {
+            val intent = Intent(dashboardActivity, TaskDetailsActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString(ConstantKey.SLUG, obj!!.slug)
+            intent.putExtras(bundle)
+            startActivityForResult(intent, 202)
+        } else {
+            dashboardActivity!!.unauthorizedUser()
+        }
     }
 }

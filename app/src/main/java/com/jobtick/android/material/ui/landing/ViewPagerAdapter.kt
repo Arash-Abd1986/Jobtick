@@ -60,13 +60,13 @@ class ViewPagerAdapter(private val data: Array<String>) :
             when (position) {
                 0 -> {
                     val sb: Spannable =
-                        SpannableString(itemView.context.getString(R.string.how_do_you_make_use_of_jobtick))
+                        SpannableString(itemView.context.getString(R.string.slide_1_caption))
                     sb.setSpan(
                         ForegroundColorSpan(
                             itemView.context.getColor(R.color.secondary_light)
                         ),
-                        16,
-                        sb.length -1,
+                        25,
+                        53,
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                     msg.text = sb

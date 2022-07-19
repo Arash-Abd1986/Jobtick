@@ -33,8 +33,12 @@ class LoginStatusFragment : Fragment() {
             !sessionManagerA.onBoardingStatus -> {
                 activity.navController.navigate(R.id.startFragmentSlider)
             }
+            sessionManagerA.needSignIN -> {
+                sessionManagerA.needSignIN = false
+                activity.navController.navigate(R.id.signUpFragment)
+            }
             else -> {
-                activity.navController.navigate(R.id.signInFragment)
+                startActivity(Intent(requireActivity(), DashboardActivity::class.java))
             }
         }
     }

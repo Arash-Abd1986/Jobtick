@@ -62,6 +62,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     var navI5: AppCompatImageView? = null
     private var linFilterExplore: LinearLayout? = null
     private var linFilter: LinearLayout? = null
+    private var linSignIN: LinearLayout? = null
     var home: LinearLayout? = null
     var search: LinearLayout? = null
     var chat: LinearLayout? = null
@@ -94,6 +95,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         onProfileupdatelistenerSideMenu = this
         linFilterExplore = findViewById(R.id.lin_filter_explore)
         linFilter = findViewById(R.id.lin_filter)
+        linSignIN = findViewById(R.id.lin_signIn)
         home = findViewById(R.id.home)
         search = findViewById(R.id.search)
         chat = findViewById(R.id.chat)
@@ -219,6 +221,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     private fun setNavClick() {
         home!!.setOnClickListener {
             linFilter!!.visibility = View.GONE
+            linSignIN!!.visibility = View.GONE
             if (sessionManager!!.roleLocal == "poster") {
                 navController!!.navigate(R.id.navigation_new_task)
             } else {
@@ -230,6 +233,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
             if (sessionManager?.accessToken != null) {
                 navController!!.navigate(R.id.navigation_my_tasks)
                 linFilter!!.visibility = View.VISIBLE
+                linSignIN!!.visibility = View.GONE
             } else {
                 unauthorizedUser()
             }
@@ -239,6 +243,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
             if (sessionManager?.accessToken != null) {
                 linFilterExplore!!.visibility = View.GONE
                 linFilter!!.visibility = View.GONE
+                linSignIN!!.visibility = View.GONE
                 navController!!.navigate(R.id.navigation_inbox)
             } else {
                 unauthorizedUser()
@@ -254,6 +259,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         toolbar!!.setNavigationOnClickListener {
             linFilterExplore!!.visibility = View.GONE
             linFilter!!.visibility = View.GONE
+            linSignIN!!.visibility = View.GONE
             if (navigationID == R.id.navigation_my_tasks) {
                 onBackPressed()
             } else {

@@ -134,6 +134,14 @@ public class SessionManager {
     public String getRoleLocal() {
         return pref.getString("role_local", "ticker");
     }
+    public void setNeedSignIN(Boolean state) {
+        editor.putBoolean("need_sign_in", state);
+        editor.commit();
+    }
+
+    public Boolean getNeedSignIN() {
+        return pref.getBoolean("need_sign_in", false);
+    }
 
     public void setOnBoardingStatus(Boolean status) {
         editor.putBoolean("on_boarding_status", status);

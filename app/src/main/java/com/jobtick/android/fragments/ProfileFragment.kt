@@ -337,13 +337,23 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     }
 
     private fun initToolbar() {
-        dashboardActivity = requireActivity() as DashboardActivity
         poppinsMedium = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
         onProfileupdatelistener = this
         if (dashboardActivity != null) {
             toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
-            toolbar!!.menu.clear()
-            toolbar!!.inflateMenu(R.menu.menu_profile)
+            if (sessionManager?.accessToken != null) {
+                toolbar!!.menu.clear()
+                toolbar!!.inflateMenu(R.menu.menu_profile)
+            }else {
+               val signIn = dashboardActivity!!.findViewById<LinearLayout>(R.id.lin_signIn)
+                signIn.visibility= View.VISIBLE
+                signIn.setOnClickListener {
+                    sessionManager?.let {
+                        it.needSignIN = true
+                    }
+                    dashboardActivity!!.unauthorizedUser()
+                }
+            }
             val ivNotification = dashboardActivity!!.findViewById<ImageView>(R.id.ivNotification)
             ivNotification.visibility = View.GONE
             val toolbarTitle = dashboardActivity!!.findViewById<TextView>(R.id.toolbar_title)
@@ -382,8 +392,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             val levelInfoBottomSheet = LevelInfoBottomSheet()
             levelInfoBottomSheet.show(parentFragmentManager, "")
         }
-        initToolbar()
+        dashboardActivity = requireActivity() as DashboardActivity
         sessionManager = SessionManager(dashboardActivity)
+        initToolbar()
         userAccountModel = UserAccountModel()
         attachmentArrayList = ArrayList()
         badgesModelArrayList = ArrayList()

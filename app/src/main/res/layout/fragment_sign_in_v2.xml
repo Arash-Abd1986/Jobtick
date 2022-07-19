@@ -9,6 +9,7 @@
     tools:context=".material.ui.landing.SignInFragment">
 
     <LinearLayout
+        android:id="@+id/linAuth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -46,15 +47,18 @@
             android:text="@string/forgot_password" />
 
     </LinearLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signIn"
         style="@style/borderlessColoredTextButton"
         android:layout_width="wrap_content"
-        android:gravity="bottom"
         android:layout_height="wrap_content"
-        android:textColor="@color/neutral_dark"
+        android:layout_below="@+id/linAuth"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="94dp"
+        android:gravity="bottom"
         android:text="@string/don_t_have_an_account_sign_up"
-        android:layout_gravity="center_horizontal"/>
+        android:textColor="@color/neutral_dark" />
 </RelativeLayout>

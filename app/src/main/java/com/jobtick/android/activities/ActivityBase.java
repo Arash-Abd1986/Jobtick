@@ -162,6 +162,7 @@ public class ActivityBase extends AppCompatActivity {
         sessionManager.setLogin(false);
         sessionManager.setTokenType(null);
         sessionManager.setAccessToken(null);
+        sessionManager.setNeedSignIN(true);
         Intent main = new Intent(ActivityBase.this, OnboardingActivity.class);
         main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

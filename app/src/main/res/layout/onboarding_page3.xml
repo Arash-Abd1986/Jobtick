@@ -26,7 +26,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginVertical="12dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="@dimen/_8dp"
             android:background="@color/neutral_light_300" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -34,7 +35,7 @@
             style="@style/body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/how_do_you_want_to_use_jobtick"
             android:textColor="@color/neutral_dark"
             app:layout_constraintBottom_toBottomOf="parent" />

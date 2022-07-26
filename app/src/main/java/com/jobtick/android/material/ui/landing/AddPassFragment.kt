@@ -126,7 +126,7 @@ class AddPassFragment : Fragment() {
             ForegroundColorSpan(
                 ContextCompat.getColor(requireContext(), R.color.primary)
             ),
-            9,
+            10,
             sb.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )

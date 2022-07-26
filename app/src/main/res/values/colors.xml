@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/P300</color>
+    <color name="colorPrimary">@color/primary</color>
     <color name="colorPrimaryDark">#4F61ED</color>
     <color name="colorAccent">#6F7FFD</color>
 
@@ -457,6 +457,7 @@
     <color name="neutral_light_700">#434343</color>
     <color name="neutral_light_800">#262626</color>
     <color name="primary">#4353FF</color>
+    <color name="primary_light_100">#ECEEFF</color>
     <color name="secondary_light">#AB47BC</color>
     <color name="primary_error">#D7284B</color>
 

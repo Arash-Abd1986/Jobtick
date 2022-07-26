@@ -33,6 +33,7 @@ class ActivateAccountFragment : Fragment(), OTPListener {
     private lateinit var txtTimer: MaterialTextView
     private lateinit var otpView: OtpTextView
     private lateinit var btnForgetPass: MaterialButton
+    private lateinit var title: MaterialTextView
     private lateinit var activity: OnboardingActivity
     private lateinit var sessionManagerA: SessionManager
 
@@ -51,8 +52,9 @@ class ActivateAccountFragment : Fragment(), OTPListener {
         txtTimer = requireView().findViewById(R.id.timer)
         otpView = requireView().findViewById(R.id.otp_view)
         btnForgetPass = requireView().findViewById(R.id.btn_forget_pass)
+        title = requireView().findViewById(R.id.title)
         activity = (requireActivity() as OnboardingActivity)
-
+        setTitle()
         val timer = object : CountDownTimer(3 * 60 * 1000, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
@@ -81,6 +83,12 @@ class ActivateAccountFragment : Fragment(), OTPListener {
                         R.color.primary
                     )
                 )
+                btnForgetPass.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.primary_light_100
+                    )
+                )
             }
         }.start()
         timer.start()
@@ -91,10 +99,30 @@ class ActivateAccountFragment : Fragment(), OTPListener {
                     R.color.neutral_light_400
                 )
             )
+            btnForgetPass.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.neutral_light_100
+                )
+            )
             if (time == "00:00")
                 timer.start()
         }
         otpView.otpListener = this
+    }
+
+    private fun setTitle() {
+        val sb: Spannable =
+            SpannableString(getString(R.string.we_need_to_confirm_your_email_u_e_example_com))
+        sb.setSpan(
+            ForegroundColorSpan(
+                ContextCompat.getColor(requireContext(), R.color.neutral_dark)
+            ),
+            28,
+            sb.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        title.text = sb
     }
 
     private fun getTime(sec: Long): String {

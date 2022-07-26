@@ -323,7 +323,7 @@ class TaskBudgetFragment : Fragment() {
         imgBudget.imageTintList = cslPrimary
         imgBudget.setImageDrawable(resources.getDrawable(R.drawable.ic_budget_big))
         txtBudget.setTextColor(resources.getColor(R.color.colorPrimary))
-        val face = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+        val face = ResourcesCompat.getFont(requireContext(), R.font.dmsans_medium)
         txtBudget.typeface = face
         val cslGreen = AppCompatResources.getColorStateList(requireContext(), R.color.green)
         imgDateTime.imageTintList = cslGreen

@@ -504,7 +504,7 @@ class TaskDateTimeFragment : Fragment(), TextWatcher {
         imgDateTime.imageTintList = csl_primary
         imgDateTime.setImageDrawable(resources.getDrawable(R.drawable.ic_date_time_big))
         txtDateTime.setTextColor(resources.getColor(R.color.colorPrimary))
-        val face = ResourcesCompat.getFont(requireActivity(), R.font.roboto_medium)
+        val face = ResourcesCompat.getFont(requireActivity(), R.font.dmsans_medium)
         txtDateTime.typeface = face
         val csl_grey = AppCompatResources.getColorStateList(requireContext(), R.color.greyC4C4C4)
         val csl_green = AppCompatResources.getColorStateList(requireContext(), R.color.green)

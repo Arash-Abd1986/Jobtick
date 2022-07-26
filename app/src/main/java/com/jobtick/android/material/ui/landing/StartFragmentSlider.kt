@@ -48,10 +48,34 @@ class StartFragmentSlider : Fragment(), ViewPagerAdapter.ItemClick {
         pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                when(position){
-                    0 ->imBack.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.back_start_slide1))
-                    1 ->imBack.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.back_start_slide2))
-                    2 ->imBack.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.back_start_slide3))
+                when (position) {
+                    0 -> {
+                        imBack.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.back_start_slide1
+                            )
+                        )
+                        next.text = "Next"
+                    }
+                    1 -> {
+                        imBack.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.back_start_slide2
+                            )
+                        )
+                        next.text = "Next"
+                    }
+                    2 -> {
+                        imBack.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.back_start_slide3
+                            )
+                        )
+                        next.text = "Get started"
+                    }
                 }
 
                 super.onPageSelected(position)
@@ -72,16 +96,17 @@ class StartFragmentSlider : Fragment(), ViewPagerAdapter.ItemClick {
     }
 
     override fun buttonClick(type: ViewPagerAdapter.Role) {
-        when(type){
+        when (type) {
             ViewPagerAdapter.Role.POSTER -> {
                 sessionManagerA.roleLocal = "poster"
             }
-            else ->{
+            else -> {
                 sessionManagerA.roleLocal = "ticker"
             }
         }
     }
-    private fun navigate(role: ViewPagerAdapter.Role){
+
+    private fun navigate(role: ViewPagerAdapter.Role) {
         val main = Intent(requireContext(), DashboardActivity::class.java)
         main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

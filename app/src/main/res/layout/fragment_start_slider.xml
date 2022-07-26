@@ -14,8 +14,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_alignParentStart="true"
             android:layout_gravity="center"
             android:layout_marginTop="24dp"
@@ -45,6 +45,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/_8dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             app:layout_constraintBottom_toBottomOf="parent">
@@ -89,7 +90,7 @@
         android:id="@+id/imBack"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="fitXY"
         android:layout_alignParentEnd="true"
+        android:scaleType="fitXY"
         app:srcCompat="@drawable/back_start_slide1" />
 </RelativeLayout>

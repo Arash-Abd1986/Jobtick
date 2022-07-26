@@ -13,19 +13,19 @@ import com.jobtick.android.R;
 public class RadioButtonRegular extends androidx.appcompat.widget.AppCompatRadioButton {
     public RadioButtonRegular(Context context) {
         super(context);
-        Typeface face= ResourcesCompat.getFont(context, R.font.roboto_regular);
+        Typeface face= ResourcesCompat.getFont(context, R.font.dmsans_regular);
         this.setTypeface(face);
     }
 
     public RadioButtonRegular(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Typeface face=ResourcesCompat.getFont(context, R.font.roboto_regular);
+        Typeface face=ResourcesCompat.getFont(context, R.font.dmsans_regular);
         this.setTypeface(face);
     }
 
     public RadioButtonRegular(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        Typeface face=ResourcesCompat.getFont(context, R.font.roboto_regular);
+        Typeface face=ResourcesCompat.getFont(context, R.font.dmsans_regular);
         this.setTypeface(face);
     }
 

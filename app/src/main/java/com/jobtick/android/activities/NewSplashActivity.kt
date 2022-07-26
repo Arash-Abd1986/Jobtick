@@ -24,7 +24,6 @@ import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.material.ui.landing.OnboardingActivity
-import com.jobtick.android.models.PushNotificationModel
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.models.response.checkforupdate.CheckForUpdateResponse
 import com.jobtick.android.utils.Constant
@@ -173,8 +172,8 @@ class NewSplashActivity : AppCompatActivity() {
         val update = dialog.findViewById(R.id.btn_update) as TextView
         val no = dialog.findViewById(R.id.no_tanks) as TextView
         val txt = comment.text.toString()
-        val robotoRegular = ResourcesCompat.getFont(this, R.font.roboto_regular)
-        val robotoBold = ResourcesCompat.getFont(this, R.font.roboto_bold)
+        val robotoRegular = ResourcesCompat.getFont(this, R.font.dmsans_regular)
+        val robotoBold = ResourcesCompat.getFont(this, R.font.dmsans_bold)
 
 
         val robotoRegularSpan: TypefaceSpan = CustomTypefaceSpan("", robotoRegular)

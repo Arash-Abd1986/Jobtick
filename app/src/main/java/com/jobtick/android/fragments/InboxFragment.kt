@@ -166,7 +166,7 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
         toolbarTitle!!.visibility = View.VISIBLE
         toolbarTitle!!.setText(R.string.chat)
         toolbarTitle!!.textSize = 20f
-        toolbarTitle!!.typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_medium)
+        toolbarTitle!!.typeface = ResourcesCompat.getFont(requireActivity(), R.font.dmsans_medium)
         toolbar!!.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.backgroundLightGrey))
         val params = Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT,
                 Toolbar.LayoutParams.WRAP_CONTENT)

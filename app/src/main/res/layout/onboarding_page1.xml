@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:scaleType="fitCenter"
+        android:layout_marginBottom="@dimen/_8dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,10 +30,13 @@
         android:text="@string/get_things_done"
         android:textColor="@color/neutral_dark"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
-
+    <View
+        android:layout_marginTop="3dp"
+        android:layout_width="match_parent"
+        android:background="@color/neutral_light_300"
+        android:layout_height="1dp"/>
     <com.google.android.material.textview.MaterialTextView
         android:layout_marginTop="8dp"
-
         android:id="@+id/msg"
         style="@style/body1"
         android:layout_width="wrap_content"

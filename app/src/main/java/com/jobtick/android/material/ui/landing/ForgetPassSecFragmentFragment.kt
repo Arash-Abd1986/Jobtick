@@ -55,34 +55,9 @@ class ForgetPassSecFragmentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initVars()
-        setTitle()
         initVM()
     }
 
-    private fun setTitle() {
-        val sb: Spannable =
-            SpannableString(getString(R.string.welcome_to_jobtick))
-        sb.setSpan(
-            ForegroundColorSpan(
-                ContextCompat.getColor(requireContext(), R.color.primary)
-            ),
-            9,
-            sb.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        title.text = sb
-        val sb2: Spannable =
-            SpannableString(getString(R.string.by_joining_you_agree_to_jobtick_s_terms_of_services))
-        sb2.setSpan(
-            ForegroundColorSpan(
-                ContextCompat.getColor(requireContext(), R.color.primary)
-            ),
-            35,
-            sb2.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        txtBtnTerms.text = sb2
-    }
 
 
     private fun initVars() {

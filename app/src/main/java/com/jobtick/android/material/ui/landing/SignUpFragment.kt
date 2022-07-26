@@ -79,7 +79,7 @@ class SignUpFragment : Fragment() {
             ForegroundColorSpan(
                 ContextCompat.getColor(requireContext(), R.color.primary)
             ),
-            23,
+            24,
             sb2.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )

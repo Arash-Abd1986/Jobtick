@@ -295,7 +295,7 @@ class ProfileViewFragment :
 
     private fun initToolbar() {
         profileActivity = requireActivity() as ProfileActivity
-        poppinsMedium = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+        poppinsMedium = ResourcesCompat.getFont(requireContext(), R.font.dmsans_medium)
         onProfileupdatelistener = this
         val setting = profileActivity!!.findViewById<AppCompatImageView>(R.id.setting_icon)
         setting.setOnClickListener {

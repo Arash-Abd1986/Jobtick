@@ -337,7 +337,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     }
 
     private fun initToolbar() {
-        poppinsMedium = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+        poppinsMedium = ResourcesCompat.getFont(requireContext(), R.font.dmsans_medium)
         onProfileupdatelistener = this
         if (dashboardActivity != null) {
             toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
@@ -361,7 +361,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             toolbarTitle.setText(R.string.profile)
             toolbarTitle!!.textSize = 20f
             toolbarTitle.typeface =
-                ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+                ResourcesCompat.getFont(requireContext(), R.font.dmsans_medium)
             toolbar!!.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey_100))
             val params = Toolbar.LayoutParams(
                 Toolbar.LayoutParams.WRAP_CONTENT,

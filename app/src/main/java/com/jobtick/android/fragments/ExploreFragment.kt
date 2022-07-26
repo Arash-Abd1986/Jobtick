@@ -157,7 +157,7 @@ class ExploreFragment :
                 R.color.backgroundLightGrey
             )
         )
-        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.dmsans_medium)
         toolbarTitle.textSize = 20f
         val params = Toolbar.LayoutParams(
             Toolbar.LayoutParams.WRAP_CONTENT,

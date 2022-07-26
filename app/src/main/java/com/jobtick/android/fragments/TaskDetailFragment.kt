@@ -759,7 +759,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
         imgDetails.imageTintList = cslPrimary
         imgDetails.setImageDrawable(resources.getDrawable(R.drawable.ic_details_big))
         txtDetails.setTextColor(resources.getColor(R.color.colorPrimary))
-        val face = ResourcesCompat.getFont(requireActivity(), R.font.roboto_medium)
+        val face = ResourcesCompat.getFont(requireActivity(), R.font.dmsans_medium)
         txtDetails.typeface = face
         val cslGrey = AppCompatResources.getColorStateList(requireContext(), R.color.greyC4C4C4)
         imgDateTime.imageTintList = cslGrey

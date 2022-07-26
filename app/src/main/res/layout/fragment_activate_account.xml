@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_54dp"
-        android:layout_marginBottom="18sp"
+        android:layout_marginBottom="24dp"
         android:text="Activate Account"
         android:textColor="@color/neutral_dark"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
@@ -24,8 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="We need to confirm your email:
-u******e@example.com"
+        android:text="@string/we_need_to_confirm_your_email_u_e_example_com"
         android:textColor="@color/neutral_light_600"
         app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -66,7 +65,7 @@ u******e@example.com"
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/timer"
-            style="@style/body1"
+            style="@style/caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -83,10 +82,11 @@ u******e@example.com"
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_forget_pass"
             style="@style/borderlessColoredTextButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Resend code"
+            app:backgroundTint="@color/neutral_light_100"
             android:textColor="@color/neutral_light_400" />
     </RelativeLayout>
 

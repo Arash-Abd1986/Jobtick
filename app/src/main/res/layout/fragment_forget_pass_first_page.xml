@@ -66,7 +66,7 @@ u******e@example.com"
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/timer"
-            style="@style/body1"
+            style="@style/caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -83,10 +83,11 @@ u******e@example.com"
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_forget_pass"
             style="@style/borderlessColoredTextButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Resend code"
+            app:backgroundTint="@color/neutral_light_100"
             android:textColor="@color/neutral_light_400" />
     </RelativeLayout>
 

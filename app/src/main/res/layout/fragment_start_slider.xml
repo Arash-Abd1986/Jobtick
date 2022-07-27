@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -45,9 +45,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/_8dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_8dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <com.google.android.material.button.MaterialButton
@@ -61,10 +61,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
                 android:layout_width="32dp"
                 android:layout_height="4dp"
                 android:background="@color/secondary_light"
                 android:elevation="0dp"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/secondary_light"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
@@ -73,6 +75,44 @@
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toEndOf="@+id/skip"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/next"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radioBtnOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="4dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_selector"
+                    android:button="@null" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radioBtnTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="4dp"
+                    android:layout_margin="4dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_selector"
+                    android:button="@null" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radioBtnThree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="4dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_selector"
+                    android:button="@null" />
+
+            </RadioGroup>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/next"

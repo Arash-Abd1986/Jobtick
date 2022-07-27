@@ -30,7 +30,7 @@ class LoginStatusFragment : Fragment() {
             sessionManagerA.userAccount?.account_status?.isBasic_info == true -> {
                 dashboard(sessionManagerA.userAccount)
             }
-            sessionManagerA.onBoardingStatus -> {
+            !sessionManagerA.onBoardingStatus -> {
                 activity.navController.navigate(R.id.startFragmentSlider)
             }
             sessionManagerA.needSignIN -> {

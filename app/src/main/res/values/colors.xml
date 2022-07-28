@@ -459,6 +459,7 @@
     <color name="primary">#4353FF</color>
     <color name="primary_light_100">#ECEEFF</color>
     <color name="secondary_light">#AB47BC</color>
+    <color name="secondary__light_50">#F3E5F5</color>
     <color name="primary_error">#D7284B</color>
 
 

@@ -885,19 +885,25 @@
         <item name="fontFamily">@font/dmsans_medium</item>
         <item name="android:fontFamily">@font/dmsans_medium</item>
         <item name="android:textSize">@dimen/_30sp</item>
-        <item name="android:letterSpacing">-0.015</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="lineHeight">45sp</item>
     </style>
+
     <style name="heading2" parent="TextAppearance.MaterialComponents.Headline2">
         <item name="fontFamily">@font/dmsans_medium</item>
         <item name="android:fontFamily">@font/dmsans_medium</item>
         <item name="android:textSize">@dimen/_28sp</item>
         <item name="android:letterSpacing">-0.005</item>
+        <item name="lineHeight">42sp</item>
     </style>
+
     <style name="heading5" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="fontFamily">@font/dmsans_regular</item>
         <item name="android:fontFamily">@font/dmsans_regular</item>
         <item name="android:textSize">@dimen/_22sp</item>
+        <item name="lineHeight">@dimen/_33sp</item>
     </style>
+
     <style name="label" parent="TextAppearance.MaterialComponents.Caption">
         <item name="fontFamily">@font/dmsans_medium</item>
         <item name="android:fontFamily">@font/dmsans_medium</item>
@@ -905,22 +911,27 @@
     </style>
 
     <style name="body1" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="fontFamily">@font/iran_sans_light</item>
-        <item name="android:fontFamily">@font/iran_sans_light</item>
+        <item name="fontFamily">@font/dmsans_regular</item>
+        <item name="android:fontFamily">@font/dmsans_regular</item>
         <item name="android:textSize">@dimen/_18sp</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="lineHeight">@dimen/_27sp</item>
     </style>
+
     <style name="caption" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="fontFamily">@font/iran_sans_light</item>
-        <item name="android:fontFamily">@font/iran_sans_light</item>
+        <item name="fontFamily">@font/dmsans_regular</item>
+        <item name="android:fontFamily">@font/dmsans_regular</item>
         <item name="android:textSize">@dimen/_14sp</item>
+        <item name="lineHeight">@dimen/_21sp</item>
     </style>
 
     <style name="overline" parent="TextAppearance.MaterialComponents.Overline">
-        <item name="fontFamily">@font/iran_sans_light</item>
-        <item name="android:fontFamily">@font/iran_sans_light</item>
+        <item name="fontFamily">@font/dmsans_regular</item>
+        <item name="android:fontFamily">@font/dmsans_regular</item>
         <item name="android:textSize">@dimen/_14sp</item>
         <item name="textAllCaps">false</item>
         <item name="android:letterSpacing">0.015</item>
+        <item name="lineHeight">@dimen/_21sp</item>
     </style>
 
 
@@ -932,8 +943,10 @@
         <item name="fontFamily">@font/dmsans_medium</item>
         <item name="android:fontFamily">@font/dmsans_medium</item>
         <item name="android:textSize">@dimen/_16sp</item>
-        <item name="android:letterSpacing">0.005</item>
-        <item name="android:minHeight">56dp</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:minHeight">40dp</item>
         <item name="textAllCaps">false</item>
     </style>
 
@@ -943,33 +956,41 @@
         <item name="fontFamily">@font/dmsans_regular</item>
         <item name="android:fontFamily">@font/dmsans_regular</item>
         <item name="android:textSize">@dimen/_16sp</item>
-        <item name="android:letterSpacing">0.005</item>
-        <item name="android:minHeight">56dp</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:minHeight">40dp</item>
         <item name="textAllCaps">false</item>
     </style>
 
     <style name="unelevatedColored" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:minHeight">56dp</item>
+        <item name="android:minHeight">40dp</item>
         <item name="colorButtonNormal">@color/white</item>
         <item name="android:textColor">@color/primary</item>
         <item name="fontFamily">@font/dmsans_medium</item>
         <item name="android:fontFamily">@font/dmsans_medium</item>
         <item name="android:textSize">@dimen/_16sp</item>
         <item name="textAllCaps">false</item>
-        <item name="android:letterSpacing">0.005</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
         <item name="android:padding">14dp</item>
         <item name="iconTintMode">multiply</item>
     </style>
 
-    <style name="colored" parent="Widget.MaterialComponents.Button">
-        <item name="android:minHeight">56dp</item>
+    <style name="colored" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:minHeight">40dp</item>
         <item name="colorButtonNormal">@color/white</item>
         <item name="android:textColor">@color/white</item>
         <item name="fontFamily">@font/dmsans_medium</item>
         <item name="android:fontFamily">@font/dmsans_medium</item>
         <item name="android:textSize">@dimen/_16sp</item>
         <item name="textAllCaps">false</item>
-        <item name="android:letterSpacing">0.005</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="paddingEnd">16dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:letterSpacing">0.01</item>
         <item name="cornerRadius">4dp</item>
         <item name="textColor">@color/white</item>
     </style>

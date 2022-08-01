@@ -12,8 +12,8 @@
         style="@style/heading1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_54dp"
-        android:layout_marginBottom="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
         android:text="Reset Password"
         android:textColor="@color/neutral_dark"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
@@ -23,7 +23,6 @@
         style="@style/heading5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
         android:text="Enter your new password"
         android:textColor="@color/neutral_light_800"
@@ -43,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:inputType="textPassword"
-            android:minHeight="64dp"
+            android:minHeight="54dp"
             android:maxLength="30" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:inputType="textPassword"
-            android:minHeight="64dp"
+            android:minHeight="54dp"
             android:maxLength="30" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,6 +96,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_next"
         style="@style/colored"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/next" />

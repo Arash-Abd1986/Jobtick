@@ -18,7 +18,7 @@
             android:id="@+id/tvGoogle"
             style="@style/unelevatedColored"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:text="@string/continue_with_google"
             android:textColor="@color/neutral_dark"
             app:backgroundTint="@color/neutral_light_50"
@@ -29,9 +29,10 @@
             android:id="@+id/tvFB"
             style="@style/unelevatedColored"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:text="@string/continue_with_facebook"
             android:textColor="@color/neutral_dark"
+            android:layout_marginTop="8dp"
             app:backgroundTint="@color/neutral_light_50"
             app:icon="@drawable/ic_facebook"
             app:iconGravity="textStart" />
@@ -41,7 +42,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginVertical="16dp">
 
         <View
             android:layout_width="0dp"
@@ -58,7 +59,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
             android:text="@string/or_sign_up_with"
             android:textColor="@color/neutral_light_300" />
 
@@ -87,7 +87,7 @@
             android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="64dp"
+            android:minHeight="54dp"
             android:maxLength="50" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,7 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:minHeight="64dp"
+            android:minHeight="54dp"
             android:maxLength="30" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

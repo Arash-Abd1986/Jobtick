@@ -7,73 +7,137 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ln_ticker"
+        android:weightSum="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@drawable/back_white_gray_corner_4"
+        android:orientation="horizontal"
+        android:paddingVertical="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="24dp">
 
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/radio1"
-            style="@style/overline"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/as_a_ticker"
-            android:textColor="@color/neutral_light_500" />
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/body1"
-            android:layout_marginTop="-16dp"
-            android:layout_width="wrap_content"
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/overline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/as_a_ticker"
+                android:textColor="@color/neutral_light_500" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/find_work_and_earn_money"
+                android:textColor="@color/neutral_light_800" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="7dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:text="@string/find_work_and_earn_money"
-            android:textColor="@color/neutral_light_800" />
+            android:layout_gravity="center_vertical"
+            android:tint="@color/neutral_light_500"
+            app:srcCompat="@drawable/ic_arrow_right"
+            app:tint="@color/neutral_light_500" />
     </LinearLayout>
+
 
     <LinearLayout
-        android:layout_marginTop="16dp"
+        android:id="@+id/ln_poster"
+        android:weightSum="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="16dp"
+        android:background="@drawable/back_white_gray_corner_4"
+        android:orientation="horizontal"
+        android:paddingVertical="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="24dp">
 
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/radio2"
-            style="@style/overline"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/as_a_poster"
-            android:textColor="@color/neutral_light_500" />
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/body1"
-            android:layout_marginTop="-16dp"
-            android:layout_width="wrap_content"
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/overline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/as_a_poster"
+                android:textColor="@color/neutral_light_500" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/delegate_tasks_to_the_professionals"
+                android:textColor="@color/neutral_light_800" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="7dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:text="@string/delegate_tasks_to_the_professionals"
-            android:textColor="@color/neutral_light_800" />
+            android:layout_gravity="center_vertical"
+            android:tint="@color/neutral_light_500"
+            app:srcCompat="@drawable/ic_arrow_right"
+            app:tint="@color/neutral_light_500" />
     </LinearLayout>
+
 
     <LinearLayout
-        android:layout_marginTop="16dp"
+        android:id="@+id/ln_ticker_poster"
+        android:weightSum="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="16dp"
+        android:background="@drawable/back_white_gray_corner_4"
+        android:orientation="horizontal"
+        android:paddingVertical="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="24dp">
 
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/radio3"
-            style="@style/overline"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/as_a_ticker_poster"
-            android:textColor="@color/neutral_light_500" />
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/body1"
-            android:layout_marginTop="-16dp"
-            android:layout_width="wrap_content"
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/overline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/as_a_ticker_poster"
+                android:textColor="@color/neutral_light_500" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Outsource your tasks and earn money on the side!"
+                android:textColor="@color/neutral_light_800" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="7dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:text="Outsource your tasks and earn money on the side!"
-            android:textColor="@color/neutral_light_800" />
+            android:layout_gravity="center_vertical"
+            android:tint="@color/neutral_light_500"
+            app:srcCompat="@drawable/ic_arrow_right"
+            app:tint="@color/neutral_light_500" />
     </LinearLayout>
+
 </LinearLayout>

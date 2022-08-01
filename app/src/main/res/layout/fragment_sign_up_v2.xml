@@ -19,8 +19,8 @@
             style="@style/heading1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:layout_marginBottom="18sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             android:text="Join Jobtick"
             android:textColor="@color/neutral_dark"
             app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
@@ -37,14 +37,15 @@
             android:layout_marginTop="16dp"
             android:text="@string/next" />
 
-        <com.google.android.material.button.MaterialButton
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/btn_forget_pass"
-            style="@style/borderlessColoredTextButton"
+            style="@style/caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/neutral_dark"
-            android:text="@string/already_have_an_account_sign_in" />
+            android:layout_marginTop="16dp"
+            android:text="@string/already_have_an_account_sign_in"
+            android:textColor="@color/neutral_dark" />
 
     </LinearLayout>
 </RelativeLayout>

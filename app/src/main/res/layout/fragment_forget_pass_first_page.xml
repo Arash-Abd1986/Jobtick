@@ -12,8 +12,8 @@
         style="@style/heading1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_54dp"
-        android:layout_marginBottom="18sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
         android:text="Forgot Password"
         android:textColor="@color/neutral_dark"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
@@ -50,9 +50,9 @@ u******e@example.com"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:textColor="@color/black"
-            app:bar_enabled="true"
-            app:bar_height="1dp"
             app:bar_active_color="@color/primary"
+            app:bar_enabled="false"
+            app:bar_height="1dp"
             app:bar_inactive_color="@color/transparent"
             app:height="48dp"
             app:length="6"
@@ -77,6 +77,7 @@ u******e@example.com"
             app:layout_constraintBottom_toBottomOf="parent" />
     </RelativeLayout>
     <RelativeLayout
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

@@ -46,7 +46,7 @@ class SignInFragment : Fragment() {
     private lateinit var next: MaterialButton
     private lateinit var tvGoogle: MaterialButton
     private lateinit var tvFB: MaterialButton
-    private lateinit var signIn: MaterialButton
+    private lateinit var signIn: MaterialTextView
     private lateinit var btnForgetPass: MaterialButton
     private lateinit var edtEmail: TextInputLayout
     private lateinit var edtPassword: TextInputLayout

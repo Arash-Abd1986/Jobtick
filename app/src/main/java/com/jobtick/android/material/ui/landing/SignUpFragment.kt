@@ -40,7 +40,7 @@ class SignUpFragment : Fragment() {
     private lateinit var activity: OnboardingActivity
     private lateinit var fireBaseEvent: FireBaseEvent
     private lateinit var next: MaterialButton
-    private lateinit var btnForgetPass: MaterialButton
+    private lateinit var btnForgetPass: MaterialTextView
     private lateinit var edtEmail: TextInputLayout
     private lateinit var edtPassword: TextInputLayout
     private lateinit var txtError: MaterialTextView

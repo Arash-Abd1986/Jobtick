@@ -22,19 +22,21 @@ import com.jobtick.android.utils.pxToDp
 class StartFragmentSlider : Fragment(), ViewPagerAdapter.ItemClick {
     private lateinit var pager: ViewPager2
     private lateinit var signIn: MaterialButton
+    private lateinit var signUp: MaterialButton
     private lateinit var radioBtnOne: RadioButton
     private lateinit var radioBtnTwo: RadioButton
     private lateinit var radioBtnThree: RadioButton
     private lateinit var radioGroup: RadioGroup
     private lateinit var imBack: AppCompatImageView
+    private lateinit var imBackClick: AppCompatImageView
     private lateinit var activity: OnboardingActivity
     private lateinit var sessionManagerA: SessionManager
 
 
-    private val role: ViewPagerAdapter.Role = ViewPagerAdapter.Role.POSTER_TICKER
+    private var role: ViewPagerAdapter.Role = ViewPagerAdapter.Role.POSTER_TICKER
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_start_slider, container, false)
     }
@@ -48,8 +50,10 @@ class StartFragmentSlider : Fragment(), ViewPagerAdapter.ItemClick {
         sessionManagerA = SessionManager(requireContext())
         sessionManagerA.onBoardingStatus = true
         signIn = view.findViewById(R.id.signIn)
+        signUp = view.findViewById(R.id.signUp)
         pager = view.findViewById(R.id.pager)
         imBack = view.findViewById(R.id.imBack)
+        imBackClick = view.findViewById(R.id.back)
         radioGroup = view.findViewById(R.id.radioGroup)
         radioBtnOne = view.findViewById(R.id.radioBtnOne)
         radioBtnTwo = view.findViewById(R.id.radioBtnTwo)
@@ -64,12 +68,17 @@ class StartFragmentSlider : Fragment(), ViewPagerAdapter.ItemClick {
             layoutParams.width = (8).dpToPx()
         }
         val adapter = ViewPagerAdapter(data)
+        adapter.itemClick = this
         pager.adapter = adapter
         pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        imBackClick.setOnClickListener {
+            pager.currentItem = pager.currentItem - 1
+        }
         pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
 
                 radioGroup.check(radioGroup.getChildAt(position).id);
+                imBackClick.visibility = View.VISIBLE
                 when (position) {
                     0 -> {
                         radioBtnOne.layoutParams = radioBtnOne.layoutParams.also { layoutParams ->
@@ -82,12 +91,15 @@ class StartFragmentSlider : Fragment(), ViewPagerAdapter.ItemClick {
                             layoutParams.width = (8).dpToPx()
                         }
                         imBack.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.back_start_slide1
-                            )
+                                ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.back_start_slide1
+                                )
                         )
                         next.text = "Next"
+                        imBackClick.visibility = View.GONE
+                        next.visibility = View.VISIBLE
+                        signUp.visibility = View.GONE
                     }
                     1 -> {
                         radioBtnOne.layoutParams = radioBtnOne.layoutParams.also { layoutParams ->
@@ -100,12 +112,14 @@ class StartFragmentSlider : Fragment(), ViewPagerAdapter.ItemClick {
                             layoutParams.width = (8).dpToPx()
                         }
                         imBack.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.back_start_slide2
-                            )
+                                ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.back_start_slide2
+                                )
                         )
                         next.text = "Next"
+                        next.visibility = View.VISIBLE
+                        signUp.visibility = View.GONE
                     }
                     2 -> {
                         radioBtnOne.layoutParams = radioBtnOne.layoutParams.also { layoutParams ->
@@ -118,12 +132,14 @@ class StartFragmentSlider : Fragment(), ViewPagerAdapter.ItemClick {
                             layoutParams.width = (24).dpToPx()
                         }
                         imBack.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.back_start_slide3
-                            )
+                                ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.back_start_slide3
+                                )
                         )
                         next.text = "Get started"
+                        next.visibility = View.GONE
+                        signUp.visibility = View.VISIBLE
                     }
                 }
 
@@ -142,9 +158,14 @@ class StartFragmentSlider : Fragment(), ViewPagerAdapter.ItemClick {
         signIn.setOnClickListener {
             activity.navController.navigate(R.id.signInFragment)
         }
+        signUp.setOnClickListener {
+            activity.navController.navigate(R.id.signUpFragment)
+        }
     }
 
     override fun buttonClick(type: ViewPagerAdapter.Role) {
+        role = type
+
         when (type) {
             ViewPagerAdapter.Role.POSTER -> {
                 sessionManagerA.roleLocal = "poster"
@@ -153,6 +174,7 @@ class StartFragmentSlider : Fragment(), ViewPagerAdapter.ItemClick {
                 sessionManagerA.roleLocal = "ticker"
             }
         }
+        navigate(role)
     }
 
     private fun navigate(role: ViewPagerAdapter.Role) {

@@ -9,29 +9,30 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimationView"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_width="324dp"
+        android:layout_height="340dp"
         android:scaleType="fitCenter"
+        android:layout_gravity="center"
         android:visibility="visible"
-        android:layout_marginBottom="@dimen/_8dp"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/slide6" />
+        app:lottie_rawRes="@raw/slide1" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title"
         style="@style/heading1"
+        android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/earn_money"
+        android:text="@string/get_things_done"
         android:textColor="@color/neutral_dark"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
     <View
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:background="@color/neutral_light_300"
         android:layout_height="1dp"/>
@@ -41,8 +42,8 @@
         style="@style/body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create_your_professional_profile_and_start_earning_right_away"
-        android:textColor="@color/neutral_dark"
+        android:text="@string/how_do_you_make_use_of_jobtick"
+        android:textColor="@color/neutral_light_500"
         app:layout_constraintBottom_toBottomOf="parent" />
     <include
         android:visibility="gone"

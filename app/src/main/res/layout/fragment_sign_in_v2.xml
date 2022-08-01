@@ -20,8 +20,8 @@
             style="@style/heading1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:layout_marginBottom="18sp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
             android:text="Join Jobtick"
             android:textColor="@color/neutral_dark"
             app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
@@ -35,7 +35,7 @@
             style="@style/colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:text="@string/next" />
 
         <com.google.android.material.button.MaterialButton
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_8dp"
+            android:layout_marginTop="16dp"
             android:text="@string/forgot_password" />
 
     </LinearLayout>
@@ -53,14 +53,17 @@
     android:layout_below="@+id/linAuth"
     android:layout_alignParentBottom="true"
     android:layout_height="wrap_content">
-    <com.google.android.material.button.MaterialButton
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/signIn"
-        style="@style/borderlessColoredTextButtonLight"
+        style="@style/caption"
         android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:layout_marginBottom="@dimen/_8dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:gravity="center"
         android:text="@string/don_t_have_an_account_sign_up"
         android:textColor="@color/neutral_dark" />
 </RelativeLayout>

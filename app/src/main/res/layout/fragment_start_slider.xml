@@ -13,29 +13,30 @@
         android:padding="16dp">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:id="@+id/back"
+            android:layout_width="16dp"
+            android:layout_height="14dp"
             android:layout_alignParentStart="true"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_logo_v2" />
+            android:layout_marginTop="14dp"
+            android:rotation="180"
+            app:srcCompat="@drawable/ic_arrow_right"
+            app:tint="@color/primary_500" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/signIn"
+            android:id="@+id/skip"
             style="@style/borderlessColoredTextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:text="Sign in" />
+            android:text="@string/skip" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/constraintLayout"
-            android:layout_below="@id/icon"
+            android:layout_below="@id/skip"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,15 +48,15 @@
             android:layout_marginBottom="@dimen/_8dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
+
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/skip"
+                android:id="@+id/signIn"
                 style="@style/borderlessColoredTextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/skip"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                android:text="login" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
@@ -120,6 +121,16 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signUp"
+                style="@style/borderlessColoredTextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Sign up" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
 

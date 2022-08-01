@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="68dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
@@ -26,7 +26,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="@dimen/_8dp"
             android:background="@color/neutral_light_300" />
 
@@ -35,11 +35,11 @@
             style="@style/body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="24dp"
             android:text="@string/how_do_you_want_to_use_jobtick"
-            android:textColor="@color/neutral_dark"
+            android:textColor="@color/neutral_light_800"
             app:layout_constraintBottom_toBottomOf="parent" />
-        <include
-          layout="@layout/user_rol_view"/>
+
+        <include layout="@layout/user_rol_view" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

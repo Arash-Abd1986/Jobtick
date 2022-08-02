@@ -12,16 +12,20 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/back"
-            android:layout_width="16dp"
-            android:layout_height="14dp"
+            style="@style/borderlessColoredTextButton"
+            android:layout_width="@dimen/_40dp"
+            android:layout_height="@dimen/_40dp"
             android:layout_alignParentStart="true"
             android:layout_gravity="center"
-            android:layout_marginTop="14dp"
+            android:padding="16dp"
+            app:iconPadding="4dp"
+            app:iconGravity="start"
+            app:iconTint="@color/primary_500"
             android:rotation="180"
-            app:srcCompat="@drawable/ic_arrow_right"
-            app:tint="@color/primary_500" />
+            app:icon="@drawable/ic_arrow_right"
+            />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/skip"
@@ -37,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/constraintLayout"
             android:layout_below="@id/skip"
+            android:background="@color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
             app:layout_constraintTop_toTopOf="parent" />
 

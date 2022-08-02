@@ -88,8 +88,8 @@ u******e@example.com"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Resend code"
-            app:backgroundTint="@color/neutral_light_100"
-            android:textColor="@color/neutral_light_400" />
+            android:textColor="@color/neutral_light_400"
+            app:backgroundTint="@color/neutral_light_100" />
     </RelativeLayout>
 
 </LinearLayout>

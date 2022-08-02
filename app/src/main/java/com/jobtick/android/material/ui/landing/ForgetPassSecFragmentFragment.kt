@@ -175,7 +175,7 @@ class ForgetPassSecFragmentFragment : Fragment() {
 
     private fun setError(error: String, txtInput: TextInputLayout) {
         val errorDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_error)
-        val ss = SpannableString("    $error")
+        val ss = SpannableString("    $error\n")
         errorDrawable!!.setBounds(0, 0, errorDrawable.intrinsicWidth, errorDrawable.intrinsicHeight)
         val span = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ImageSpan(errorDrawable, ImageSpan.ALIGN_CENTER)

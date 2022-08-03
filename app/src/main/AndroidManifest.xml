@@ -43,6 +43,9 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
         <activity
+            android:name=".material.ui.postajob.PostAJobActivity"
+            android:exported="false" />
+        <activity
             android:name=".material.ui.landing.OnboardingActivity"
             android:exported="false" />
         <activity

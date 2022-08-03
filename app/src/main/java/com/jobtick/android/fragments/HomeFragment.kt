@@ -42,6 +42,7 @@ import com.jobtick.android.adapers.OfferedJobsAdapter
 import com.jobtick.android.adapers.PostedJobsAdapter
 import com.jobtick.android.adapers.RecommendedJobsAdapter
 import com.jobtick.android.adapers.TaskCategoryAdapter
+import com.jobtick.android.material.ui.postajob.PostAJobActivity
 import com.jobtick.android.models.TaskCategory
 import com.jobtick.android.models.response.home.Banner
 import com.jobtick.android.models.response.home.OfferedJob
@@ -754,7 +755,7 @@ class HomeFragment :
 
     override fun onItemClick(view: View?, obj: TaskCategory?, position: Int) {
         if (sessionManager?.accessToken != null) {
-            val creating_task = Intent(activity, TaskCreateActivity::class.java)
+            val creating_task = Intent(activity, PostAJobActivity::class.java)
             val bundle = Bundle()
             bundle.putInt(ConstantKey.CATEGORY_ID, obj!!.id)
             creating_task.putExtras(bundle)

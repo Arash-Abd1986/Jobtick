@@ -35,6 +35,7 @@
         android:id="@+id/inviteFriendsFragment"
         android:name="com.jobtick.android.fragments.InviteFriendsFragment"
         tools:layout="@layout/fragment_invite_friends" />
+    <include app:graph="@navigation/post_a_job_graph" />
 
 
 </navigation>

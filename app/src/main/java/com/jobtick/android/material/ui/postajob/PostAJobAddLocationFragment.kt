@@ -59,8 +59,8 @@ class PostAJobAddLocationFragment : Fragment() {
         ).get(PostAJobViewModel::class.java)
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collectLatest {
-                if (it.location.isNotEmpty()) {
-                    suburb.editText?.setText(it.location)
+                if (it.location != null) {
+                    suburb.editText?.setText(it.location!!.place_name_en)
                     inPerson.isChecked = true
                     suburb.visibility = View.VISIBLE
                 }
@@ -85,15 +85,12 @@ class PostAJobAddLocationFragment : Fragment() {
         suburb.editText?.doOnTextChanged { text, _, _, _ ->
             next.isEnabled = text?.length != null && text.length > 3
         }
-        suburb.editText?.setOnFocusChangeListener { _, b ->
-            if (b) {
-                activity.navController.navigate(R.id.getLocationFragment)
-            } else {
 
-            }
-        }
-        suburb.setOnClickListener {
+        suburb.setOnFocusChangeListener { view, b ->
             activity.navController.navigate(R.id.getLocationFragment)
+        }
+
+        suburb.setOnClickListener {
         }
         inPerson.setOnClickListener {
             inPerson.isChecked = true

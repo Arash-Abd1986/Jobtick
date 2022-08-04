@@ -25,8 +25,8 @@
             app:tint="@color/neutral_light_500" />
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/title"
-            style="@style/body1"
+            android:id="@+id/location"
+            style="@style/body2"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40dp"
             android:layout_marginStart="8dp"
@@ -40,6 +40,7 @@
 
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerLocation"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="28dp"

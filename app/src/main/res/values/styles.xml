@@ -925,6 +925,13 @@
         <item name="android:letterSpacing">0.01</item>
         <item name="lineHeight">@dimen/_27sp</item>
     </style>
+    <style name="body2" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/dmsans_regular</item>
+        <item name="android:fontFamily">@font/dmsans_regular</item>
+        <item name="android:textSize">@dimen/_16sp</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="lineHeight">@dimen/_21sp</item>
+    </style>
 
     <style name="caption" parent="TextAppearance.MaterialComponents.Caption">
         <item name="fontFamily">@font/dmsans_regular</item>

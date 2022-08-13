@@ -11,7 +11,7 @@
         android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="@drawable/ic_step_indicator_step2"
+        android:background="@drawable/ic_step_indicator3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Where do you need your job done?"
+        android:text="When do you need your job done?"
         android:textColor="@color/neutral_light_800"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:gravity="center_vertical"
+        android:orientation="vertical"
         android:weightSum="1"
         app:layout_constraintTop_toBottomOf="@+id/title">
 
@@ -41,48 +41,31 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnInperson"
             style="@style/checkaableColored"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="In-Person"
-            app:icon="@drawable/ic_in_person"
-            app:iconGravity="textStart"
+            android:text="On a certain date &amp; time"
+            android:layout_gravity="start"
+            android:gravity="center_vertical"
+            app:icon="@drawable/ic_calendar_month"
+            app:iconPadding="8dp"
             app:iconTint="@color/primary_500" />
 
         <androidx.legacy.widget.Space
             android:layout_width="16dp"
-            android:layout_height="1dp" />
+            android:layout_height="16dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRemote"
             style="@style/checkaableColored"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
-            android:text="Remote"
-            app:icon="@drawable/ic_language_v2"
-            app:iconGravity="textStart"
+            android:text="I’m flexible"
+            app:iconPadding="8dp"
+            app:icon="@drawable/ic_history"
+            android:gravity="center_vertical"
             app:iconTint="@color/primary_500" />
     </LinearLayout>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/suburb"
-        style="@style/body1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/back_white_gray_corner_4"
-        android:ellipsize="end"
-        android:visibility="gone"
-        android:gravity="center|start"
-        android:minHeight="54dp"
-        android:paddingHorizontal="16dp"
-        android:singleLine="true"
-        android:text="Suburb or Postcode"
-        android:textColor="@color/neutral_light_400"
-        app:layout_constraintTop_toBottomOf="@+id/linType"
-        tools:layout_editor_absoluteX="16dp" />
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_next"

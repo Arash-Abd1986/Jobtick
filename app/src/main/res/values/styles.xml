@@ -1054,6 +1054,7 @@
         <item name="errorTextAppearance">@style/label</item>
         <item name="hintTextAppearance">@style/label</item>
         <item name="android:letterSpacing">0.01</item>
+        <item name="android:focusedByDefault" tools:targetApi="o">false</item>
     </style>
 
 

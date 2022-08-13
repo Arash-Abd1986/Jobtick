@@ -1,5 +1,6 @@
 package com.jobtick.android.material.ui.postajob
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
@@ -13,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
@@ -22,14 +24,19 @@ import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.viewmodel.PostAJobViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-class PostAJobSetTitleFragment : Fragment() {
+class PostAJobDetailsFragment : Fragment() {
 
     private lateinit var activity: PostAJobActivity
     private lateinit var next: MaterialButton
     private lateinit var jobTitle: TextInputLayout
-    private lateinit var infoIcon: AppCompatImageView
-    private lateinit var label: MaterialTextView
+    private lateinit var title: MaterialTextView
+    private lateinit var dateTime: MaterialTextView
+    private lateinit var suburb: MaterialTextView
+    private lateinit var budget: MaterialTextView
+    private lateinit var attachments: MaterialTextView
     private lateinit var sessionManagerA: SessionManager
     private lateinit var viewModel: PostAJobViewModel
 
@@ -39,7 +46,7 @@ class PostAJobSetTitleFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post_a_job_set_title, container, false)
+        return inflater.inflate(R.layout.fragment_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,6 +55,7 @@ class PostAJobSetTitleFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun initVars() {
         sessionManagerA = SessionManager(requireContext())
         viewModel = ViewModelProvider(
@@ -57,28 +65,49 @@ class PostAJobSetTitleFragment : Fragment() {
         activity = (requireActivity() as PostAJobActivity)
         next = requireView().findViewById(R.id.btn_next)
         jobTitle = requireView().findViewById(R.id.job_title)
-        infoIcon = requireView().findViewById(R.id.info)
-        label = requireView().findViewById(R.id.label)
+        title = requireView().findViewById(R.id.title)
+        dateTime = requireView().findViewById(R.id.dateTime)
+        budget = requireView().findViewById(R.id.txtBudget)
+        attachments = requireView().findViewById(R.id.attachments)
+        suburb = requireView().findViewById(R.id.suburb)
+        lifecycleScope.launch {
+            viewModel.state.collectLatest {
+                title.text = it.title
+                if (it.isFlexible)
+                    dateTime.text = "Flexible"
+                else
+                    it.date?.let {
+                        dateTime.text = (it.month.toString() + it.day + it.year)
+                    }
+                if (it.isRemote)
+                    suburb.text = "Remote"
+                else
+                    suburb.text = it.location!!.text_en
+                if (it.isBudgetSpecific)
+                    budget.text = it.budget
+                else
+                    it.budgetData?.let {
+                        budget.text = "$" + it.min_budget.toString() + " to $" + it.max_budget
+                    }
+                if (it.attachments.isEmpty())
+                    attachments.text = "-"
+                else if (it.attachments.size == 1)
+                    attachments.text = it.attachments.size.toString() + "file"
+                else
+                    attachments.text = it.attachments.size.toString() + "files"
+            }
+        }
         next.setOnClickListener {
             resetError()
             if (checkValidation()) {
-                viewModel.setTitle(jobTitle.editText!!.text.toString())
-                activity.navController.navigate(R.id.postAJobAddLocationFragment)
-                //activity.navController.navigate(R.id.postAJobBudgetFragment)
+                //activity.navController.navigate(R.id.postAJobAddLocationFragment)
+                activity.navController.navigate(R.id.postAJobBudgetFragment)
             }
         }
         jobTitle.editText?.doOnTextChanged { text, _, _, _ ->
             next.isEnabled = text?.length != null && text.length > 3
         }
         jobTitle.editText?.setOnFocusChangeListener { _, b ->
-            if (b) {
-                infoIcon.setColorFilter(resources.getColor(R.color.primary_500), android.graphics.PorterDuff.Mode.SRC_IN)
-                label.setTextColor(resources.getColor(R.color.neutral_light_600))
-            } else {
-                infoIcon.setColorFilter(resources.getColor(R.color.neutral_light_400), android.graphics.PorterDuff.Mode.SRC_IN)
-                label.setTextColor(resources.getColor(R.color.neutral_light_400))
-            }
-
         }
     }
 

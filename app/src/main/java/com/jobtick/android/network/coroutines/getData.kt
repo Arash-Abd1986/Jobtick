@@ -4,11 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.jobtick.android.models.event.EventRequest
-import com.jobtick.android.network.coroutines.ServiceType.BLOCK_USER
-import com.jobtick.android.network.coroutines.ServiceType.EVENT
-import com.jobtick.android.network.coroutines.ServiceType.NEAR_JOBS
-import com.jobtick.android.network.coroutines.ServiceType.REVIEWS
-import com.jobtick.android.network.coroutines.ServiceType.SKILLS
+import com.jobtick.android.network.coroutines.ServiceType.*
 import com.jobtick.android.network.model.Response
 import com.jobtick.android.network.model.request.BlockUserRequest
 import com.jobtick.android.network.model.request.NearJobsRequest
@@ -59,6 +55,7 @@ suspend fun <T, G> getData(
             )
             SKILLS -> mainRepository.skills(input as String)
             BLOCK_USER -> mainRepository.blockUser(input as BlockUserRequest)
+            BUDGETS -> mainRepository.budgetPlans()
             else -> null
         }
         liveData.postValue(Resource.success(response as G))

@@ -22,10 +22,66 @@
         <action
             android:id="@+id/action_postAJobAddLocationFragment_to_getLocationFragment"
             app:destination="@id/getLocationFragment" />
+        <action
+            android:id="@+id/action_postAJobAddLocationFragment_to_postAJobDateTimeFragment"
+            app:destination="@id/postAJobDateTimeFragment" />
     </fragment>
     <fragment
         android:id="@+id/getLocationFragment"
         android:name="com.jobtick.android.material.ui.postajob.GetLocationFragment"
         android:label="fragment_get_location"
         tools:layout="@layout/fragment_get_location" />
+    <fragment
+        android:id="@+id/postAJobDateTimeFragment"
+        android:name="com.jobtick.android.material.ui.postajob.PostAJobDateTimeFragment"
+        android:label="fragment_post_a_job_date_time"
+        tools:layout="@layout/fragment_post_a_job_date_time" >
+        <action
+            android:id="@+id/action_postAJobDateTimeFragment_to_postAJobDateFragment"
+            app:destination="@id/postAJobDateFragment" />
+        <action
+            android:id="@+id/action_postAJobDateTimeFragment_to_postAJobBudgetFragment"
+            app:destination="@id/postAJobBudgetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postAJobDateFragment"
+        android:name="com.jobtick.android.material.ui.postajob.PostAJobDateFragment"
+        android:label="fragment_post_a_job_date"
+        tools:layout="@layout/fragment_post_a_job_date" >
+        <action
+            android:id="@+id/action_postAJobDateFragment_to_postAJobTimeFragment"
+            app:destination="@id/postAJobTimeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postAJobTimeFragment"
+        android:name="com.jobtick.android.material.ui.postajob.PostAJobTimeFragment"
+        android:label="fragment_post_a_job_time"
+        tools:layout="@layout/fragment_post_a_job_time" >
+        <action
+            android:id="@+id/action_postAJobTimeFragment_to_postAJobBudgetFragment"
+            app:destination="@id/postAJobBudgetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postAJobBudgetFragment"
+        android:name="com.jobtick.android.material.ui.postajob.PostAJobBudgetFragment"
+        android:label="fragment_post_a_job_budget"
+        tools:layout="@layout/fragment_post_a_job_budget" >
+        <action
+            android:id="@+id/action_postAJobBudgetFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.jobtick.android.material.ui.postajob.PostAJobDetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" >
+        <action
+            android:id="@+id/action_detailsFragment_to_postAJobAttachmentFragment"
+            app:destination="@id/postAJobAttachmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postAJobAttachmentFragment"
+        android:name="com.jobtick.android.material.ui.postajob.PostAJobAttachmentFragment"
+        android:label="fragment_post_a_job_attachment"
+        tools:layout="@layout/fragment_post_a_job_attachment" />
 </navigation>

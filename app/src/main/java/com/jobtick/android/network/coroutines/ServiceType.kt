@@ -6,5 +6,6 @@ enum class ServiceType {
     TASK_DETAILS,
     NEAR_JOBS,
     SKILLS,
-    BLOCK_USER
+    BLOCK_USER,
+    BUDGETS
 }

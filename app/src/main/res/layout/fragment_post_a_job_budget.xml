@@ -22,57 +22,54 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="What do you need help with?"
+        android:text="What is your budget for this job?"
         android:textColor="@color/neutral_light_800"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rl_amount"
+        android:layout_marginTop="@dimen/_8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:layout_editor_absoluteX="16dp" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_amount"
+        style="@style/checkaableColored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:text="Add a specific amount"
+        app:iconTint="@color/primary_500"
+        app:layout_constraintTop_toBottomOf="@+id/rl_amount"
+        tools:layout_editor_absoluteX="16dp" />
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/job_title"
+        android:id="@+id/budget"
         style="@style/outlineTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/job_title"
-        android:layout_marginTop="34dp"
+        android:hint="Budget"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"
         app:errorEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title">
+        app:layout_constraintTop_toBottomOf="@+id/btn_amount">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:maxLength="30"
+            android:textColor="@color/neutral_light_700"
+            android:inputType="number"
             android:minHeight="54dp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/job_title"
-        android:gravity="center_vertical"
-       >
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/info"
-            android:layout_width="@dimen/_14dp"
-            android:layout_height="@dimen/_14dp"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_info2"
-            app:tint="@color/neutral_light_500"
-            />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/label"
-            style="@style/label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:text="In a few words tell us what you need done"
-            android:textColor="@color/neutral_light_400"
-            />
-    </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_next"

@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.R
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
@@ -23,16 +22,16 @@ import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.viewmodel.PostAJobViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.handleCoroutineException
 import kotlinx.coroutines.launch
 
-class PostAJobAddLocationFragment : Fragment() {
+class PostAJobDateTimeFragment : Fragment() {
 
 
     private lateinit var activity: PostAJobActivity
     private lateinit var next: MaterialButton
-    private lateinit var inPerson: MaterialButton
-    private lateinit var remote: MaterialButton
-    private lateinit var suburb: MaterialTextView
+    private lateinit var certain: MaterialButton
+    private lateinit var flexible: MaterialButton
     private lateinit var sessionManagerA: SessionManager
     private lateinit var viewModel: PostAJobViewModel
 
@@ -42,7 +41,7 @@ class PostAJobAddLocationFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post_a_job_add_location, container, false)
+        return inflater.inflate(R.layout.fragment_post_a_job_date_time, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,17 +57,6 @@ class PostAJobAddLocationFragment : Fragment() {
                 requireActivity(),
                 ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManagerA)))
         ).get(PostAJobViewModel::class.java)
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collectLatest {
-                if (it.location != null) {
-                    suburb.text = it.location!!.place_name_en
-                    suburb.setTextColor(ContextCompat.getColor(requireContext(), R.color.neutral_light_700))
-                    suburb.setBackgroundResource(R.drawable.back_white_dark_gray_corner_4)
-                    inPerson.isChecked = true
-                    suburb.visibility = View.VISIBLE
-                }
-            }
-        }
 
     }
 
@@ -76,44 +64,26 @@ class PostAJobAddLocationFragment : Fragment() {
 
         activity = (requireActivity() as PostAJobActivity)
         next = requireView().findViewById(R.id.btn_next)
-        inPerson = requireView().findViewById(R.id.btnInperson)
-        remote = requireView().findViewById(R.id.btnRemote)
-        suburb = requireView().findViewById(R.id.suburb)
+        certain = requireView().findViewById(R.id.btnInperson)
+        flexible = requireView().findViewById(R.id.btnRemote)
         next.setOnClickListener {
-            if (checkValidation()) {
-                viewModel.setIsRemote(remote.isChecked)
-                activity.navController.navigate(R.id.postAJobDateTimeFragment)
-            }
+            viewModel.setIsFlexibleTime(flexible.isChecked)
+            if (flexible.isChecked)
+                activity.navController.navigate(R.id.postAJobBudgetFragment)
+            else
+                activity.navController.navigate(R.id.postAJobDateFragment)
         }
-        suburb.doOnTextChanged { text, _, _, _ ->
-            next.isEnabled = text?.length != null && text.length > 3
+
+        certain.setOnClickListener {
+            certain.isChecked = true
+            flexible.isChecked = false
+            next.isEnabled = true
         }
-        suburb.setOnClickListener {
-            activity.navController.navigate(R.id.getLocationFragment)
-        }
-        inPerson.setOnClickListener {
-            inPerson.isChecked = true
-            remote.isChecked = false
-            suburb.visibility = View.VISIBLE
-            next.isEnabled = suburb.text?.length != null && suburb.text.length > 3
-        }
-        remote.setOnClickListener {
-            remote.isChecked = true
-            inPerson.isChecked = false
-            suburb.visibility = View.GONE
+        flexible.setOnClickListener {
+            flexible.isChecked = true
+            certain.isChecked = false
             next.isEnabled = true
         }
     }
-
-
-    private fun checkValidation(): Boolean {
-        when {
-            suburb.text.isNullOrEmpty() -> {
-                return false
-            }
-        }
-        return true
-    }
-
 
 }

@@ -19,8 +19,11 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import com.jobtick.android.R
 import java.lang.reflect.Type
@@ -38,9 +41,11 @@ fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).to
 fun String.isNumeric(): Boolean {
     return this.matches(".*\\d.*".toRegex())
 }
+
 fun String.isLetter(): Boolean {
     return this.all { it.isLetter() }
 }
+
 fun String.removeClearRound(): String {
     try {
         if (this.split(".")[1] == "00") {
@@ -76,7 +81,7 @@ fun Double.round(decimals: Int): Double {
 
 fun Activity.hideKeyboard() {
     val imm: InputMethodManager =
-        getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
     var view: View? = currentFocus
     if (view == null) {
@@ -90,7 +95,7 @@ fun EditText.onFocus(bottomSheet: BottomSheetDialogFragment) {
     this.setOnFocusChangeListener { v, hasFocus ->
         if (hasFocus) {
             val bottomSheetInternal =
-                bottomSheet.dialog!!.findViewById<View>(R.id.design_bottom_sheet)
+                    bottomSheet.dialog!!.findViewById<View>(R.id.design_bottom_sheet)
             val height = Resources.getSystem().displayMetrics.heightPixels
             BottomSheetBehavior.from(bottomSheetInternal).peekHeight = (height * 6) / 7
         }
@@ -98,11 +103,11 @@ fun EditText.onFocus(bottomSheet: BottomSheetDialogFragment) {
 }
 
 fun View.setBackgroundShape(
-    backgroundColor: Int,
-    borderColor: Int,
-    redii: FloatArray,
-    strokeSize: Int,
-    shapeIn: Int
+        backgroundColor: Int,
+        borderColor: Int,
+        redii: FloatArray,
+        strokeSize: Int,
+        shapeIn: Int
 ) {
     val shape = GradientDrawable()
     shape.shape = shapeIn
@@ -113,23 +118,23 @@ fun View.setBackgroundShape(
 }
 
 fun View.setBackgroundShape(
-    backgroundColor: Int,
-    borderColor: Int,
-    radius: Int,
-    strokeSize: Int,
-    shapeIn: Int
+        backgroundColor: Int,
+        borderColor: Int,
+        radius: Int,
+        strokeSize: Int,
+        shapeIn: Int
 ) {
     val shape = GradientDrawable()
     shape.shape = shapeIn
     shape.cornerRadii = floatArrayOf(
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat()
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat()
     )
     shape.setColor(backgroundColor)
     shape.setStroke(strokeSize.dpToPx(), borderColor)
@@ -140,14 +145,14 @@ fun View.setBackgroundShape(backgroundColor: Int, radius: Int, shapeIn: Int) {
     val shape = GradientDrawable()
     shape.shape = shapeIn
     shape.cornerRadii = floatArrayOf(
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat(),
-        (radius).dpToPx().toFloat()
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat(),
+            (radius).dpToPx().toFloat()
     )
     shape.setColor(backgroundColor)
     this.background = shape
@@ -157,10 +162,10 @@ fun TextView.setSpanColor(start: Int, end: Int, color: Int) {
     val wordToSpan: Spannable = SpannableString(this.text)
 
     wordToSpan.setSpan(
-        ForegroundColorSpan(color),
-        start,
-        end,
-        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(color),
+            start,
+            end,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
     )
     this.text = wordToSpan
 }
@@ -176,17 +181,17 @@ fun TextView.setSpanFont(start: Int, end: Int, textSize: Float) {
     val smallSizeText = RelativeSizeSpan(textSize)
     val ssBuilder = SpannableStringBuilder(text)
     ssBuilder.setSpan(
-        smallSizeText,
-        start,
-        end,
-        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            smallSizeText,
+            start,
+            end,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
     )
     this.text = ssBuilder
 }
 
 fun Context.isNetworkAvailable(): Boolean {
     val connectivityManager =
-        getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val activeNetworkInfo = connectivityManager.activeNetworkInfo
 
     return activeNetworkInfo?.isConnected ?: false
@@ -194,18 +199,18 @@ fun Context.isNetworkAvailable(): Boolean {
 
 fun String.isMailValid(): Boolean {
     val regExpn = (
-        "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@" +
-            "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?" +
-            "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\." +
-            "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?" +
-            "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|" +
-            "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$"
-        )
+            "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@" +
+                    "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?" +
+                    "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\." +
+                    "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?" +
+                    "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|" +
+                    "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$"
+            )
 
     val inputStr: CharSequence = this
 
     val pattern =
-        Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE)
+            Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE)
     val matcher = pattern.matcher(inputStr)
 
     return matcher.matches()
@@ -241,7 +246,7 @@ fun String.getState(): String {
             return "VIC"
         }
         this.toUpperCase()
-            .contains(", WA") -> {
+                .contains(", WA") -> {
             return "WA"
         }
         else -> return ""
@@ -301,7 +306,7 @@ fun String.insertComma(): String {
     var reversedAmount = StringBuffer(amount.trim { it <= ' ' }).reverse().toString()
     if (reversedAmount[amount.length - 1] == '-') {
         reversedAmount =
-            reversedAmount.substring(0, amount.length - 1)
+                reversedAmount.substring(0, amount.length - 1)
         isNegative = true
     }
     for (i in 0 until reversedAmount.length) {
@@ -334,21 +339,21 @@ fun String.cardFormat(): String {
     return if (Build.MANUFACTURER.toLowerCase().equals("motorola", ignoreCase = true)) {
         str
     } else str.substring(0, 4) + "-" + str.substring(4, 8) + "-" + str.substring(
-        8,
-        12
+            8,
+            12
     ) + "-" + str.substring(12)
 }
 
 fun String.convertToEnglishDigits(): String {
     return try {
         this.replace("١".toRegex(), "1").replace("٢".toRegex(), "2")
-            .replace("٣".toRegex(), "3").replace("٤".toRegex(), "4").replace("٥".toRegex(), "5")
-            .replace("٦".toRegex(), "6").replace("٧".toRegex(), "7").replace("٨".toRegex(), "8")
-            .replace("٩".toRegex(), "9").replace("٠".toRegex(), "0")
-            .replace("۱".toRegex(), "1").replace("۲".toRegex(), "2").replace("۳".toRegex(), "3")
-            .replace("۴".toRegex(), "4").replace("۵".toRegex(), "5")
-            .replace("۶".toRegex(), "6").replace("۷".toRegex(), "7").replace("۸".toRegex(), "8")
-            .replace("۹".toRegex(), "9").replace("۰".toRegex(), "0")
+                .replace("٣".toRegex(), "3").replace("٤".toRegex(), "4").replace("٥".toRegex(), "5")
+                .replace("٦".toRegex(), "6").replace("٧".toRegex(), "7").replace("٨".toRegex(), "8")
+                .replace("٩".toRegex(), "9").replace("٠".toRegex(), "0")
+                .replace("۱".toRegex(), "1").replace("۲".toRegex(), "2").replace("۳".toRegex(), "3")
+                .replace("۴".toRegex(), "4").replace("۵".toRegex(), "5")
+                .replace("۶".toRegex(), "6").replace("۷".toRegex(), "7").replace("۸".toRegex(), "8")
+                .replace("۹".toRegex(), "9").replace("۰".toRegex(), "0")
     } catch (e: Exception) {
         e.printStackTrace()
         this
@@ -362,13 +367,13 @@ fun String.removeComma(): String = this.replace(",".toRegex(), "").replace("٫",
 fun TextView.changeToRequired() {
 
     val wordToSpan: Spannable =
-        SpannableString(this.text.toString() + " *")
+            SpannableString(this.text.toString() + " *")
 
     wordToSpan.setSpan(
-        ForegroundColorSpan(Color.RED),
-        this.text.toString().length + 1,
-        this.text.toString().length + 2,
-        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(Color.RED),
+            this.text.toString().length + 1,
+            this.text.toString().length + 2,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
     )
     this.text = wordToSpan
 }
@@ -397,7 +402,54 @@ fun String.isPhoneNumber(): Boolean {
 
 fun Char.isPersian(): Boolean {
     val rtlCharacters =
-        Pattern.compile("[\\u0600-\\u06FF\\u0750-\\u077F\\u0590-\\u05FF\\uFE70-\\uFEFF]")
+            Pattern.compile("[\\u0600-\\u06FF\\u0750-\\u077F\\u0590-\\u05FF\\uFE70-\\uFEFF]")
     val matcher = rtlCharacters.matcher(this.toString())
     return matcher.find()
+}
+
+fun MaterialButton.setSpanStyledTwoLineText(
+        text: String,
+        context: Context,
+        breakLinePosition: Int,
+        startStyle: CustomTypefaceSpan = CustomTypefaceSpan("dmsans_medium", ResourcesCompat.getFont(context, R.font.dmsans_medium)
+        ),
+        endStyle: CustomTypefaceSpan =
+                CustomTypefaceSpan("dmsans_regular", ResourcesCompat.getFont(context, R.font.dmsans_regular)
+                ),
+        startColor: Int = ContextCompat.getColor(context, R.color.neutral_dark),
+        endColor: Int = ContextCompat.getColor(context, R.color.neutral_light_400)) {
+    val spannable = SpannableString(text)
+
+    spannable.setSpan(
+            ForegroundColorSpan(startColor),
+            0, // start
+            breakLinePosition, // end
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+    )
+    spannable.setSpan(startStyle,
+            0, breakLinePosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+    spannable.setSpan(
+            ForegroundColorSpan(endColor),
+            breakLinePosition, // start
+            spannable.length, // end
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+    )
+    spannable.setSpan(
+            endStyle,
+            breakLinePosition, // start
+            spannable.length, // end
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+    )
+    this.text = spannable
+}
+
+fun View.visible(){
+    this.visibility = View.VISIBLE
+}
+fun View.gone(){
+    this.visibility = View.GONE
+}
+fun View.invisible(){
+    this.visibility = View.INVISIBLE
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_marginTop="16dp"
+    android:background="@drawable/back_white_gray_corner_8"
+    android:id="@+id/rlMain">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/add"
+        android:layout_width="26dp"
+        android:layout_centerInParent="true"
+        app:srcCompat="@drawable/ic_plus_v3"
+        android:layout_height="26dp" />
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progress"
+        android:layout_width="44dp"
+        android:layout_centerInParent="true"
+        android:layout_height="44dp"/>
+</RelativeLayout>

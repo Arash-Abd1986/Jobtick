@@ -3,6 +3,7 @@ package com.jobtick.android.network.retrofit
 import com.jobtick.android.models.event.EventRequest
 import com.jobtick.android.network.model.Response
 import com.jobtick.android.network.model.request.BlockUserRequest
+import com.jobtick.android.network.model.response.BudgetPlansResponse
 import com.jobtick.android.network.model.response.NearJobsResponse
 import com.jobtick.android.network.model.response.skills.SkillsResponse
 import okhttp3.MultipartBody
@@ -105,6 +106,10 @@ interface ApiInterface {
         @Query("radius") radius: Int,
         @Query("limit") limit: Int
     ): NearJobsResponse
+
+    @GET("budget-plans")
+    suspend fun budgetPlans(
+    ): BudgetPlansResponse
 
     @GET("skills")
     suspend fun skills(

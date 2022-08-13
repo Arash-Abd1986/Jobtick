@@ -13,6 +13,7 @@ class ApiHelper(private val apiService: ApiInterface) {
     suspend fun skills(query: String) = apiService.skills(query)
     suspend fun blockUser(query: BlockUserRequest) = apiService.blockUser(query)
     suspend fun budgetPlans() = apiService.budgetPlans()
+    suspend fun draft() = apiService.draft()
     suspend fun getNearJobs(latitude: Float, longitude: Float, radius: Int, limit: Int) =
         apiService.getNearJobs(latitude, longitude, radius, limit)
 }

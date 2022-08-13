@@ -86,7 +86,7 @@ class PostAJobBudgetFragment : Fragment(), BudgetsAdapter.BudgetClickListener {
         }
 
         btnAmount.setOnClickListener {
-            viewModel.setIsBudgetSpecific(true)
+            activity.viewModel.setIsBudgetSpecific(true)
             budgetsAdapter.unselectAll()
             budget.visible()
             next.isEnabled = budget.editText!!.text?.length != null && budget.editText!!.text.length > 1
@@ -130,8 +130,8 @@ class PostAJobBudgetFragment : Fragment(), BudgetsAdapter.BudgetClickListener {
     override fun onBudgetClick(data: DataX) {
         budget.gone()
         btnAmount.isChecked = false
-        viewModel.setIsBudgetSpecific(false)
-        viewModel.setBudgetData(data)
+        activity.viewModel.setIsBudgetSpecific(false)
+        activity.viewModel.setBudgetData(data)
         next.isEnabled = true
     }
 

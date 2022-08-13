@@ -9,7 +9,6 @@ import android.text.style.ImageSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -31,7 +30,8 @@ class PostAJobDetailsFragment : Fragment() {
 
     private lateinit var activity: PostAJobActivity
     private lateinit var next: MaterialButton
-    private lateinit var jobTitle: TextInputLayout
+    private lateinit var btnAttachments: MaterialButton
+    private lateinit var jobDescription: TextInputLayout
     private lateinit var title: MaterialTextView
     private lateinit var dateTime: MaterialTextView
     private lateinit var suburb: MaterialTextView
@@ -64,12 +64,17 @@ class PostAJobDetailsFragment : Fragment() {
         ).get(PostAJobViewModel::class.java)
         activity = (requireActivity() as PostAJobActivity)
         next = requireView().findViewById(R.id.btn_next)
-        jobTitle = requireView().findViewById(R.id.job_title)
+        jobDescription = requireView().findViewById(R.id.job_description)
         title = requireView().findViewById(R.id.title)
         dateTime = requireView().findViewById(R.id.dateTime)
         budget = requireView().findViewById(R.id.txtBudget)
         attachments = requireView().findViewById(R.id.attachments)
+        btnAttachments = requireView().findViewById(R.id.btnAttachments)
         suburb = requireView().findViewById(R.id.suburb)
+        btnAttachments.setOnClickListener {
+            activity.navController.navigate(R.id.postAJobAttachmentFragment)
+        }
+
         lifecycleScope.launch {
             viewModel.state.collectLatest {
                 title.text = it.title
@@ -91,38 +96,45 @@ class PostAJobDetailsFragment : Fragment() {
                     }
                 if (it.attachments.isEmpty())
                     attachments.text = "-"
-                else if (it.attachments.size == 1)
-                    attachments.text = it.attachments.size.toString() + "file"
+                else if (it.attachments.size - 1 == 1)
+                    attachments.text = (it.attachments.size - 1).toString() + " file"
                 else
-                    attachments.text = it.attachments.size.toString() + "files"
+                    attachments.text = (it.attachments.size - 1).toString() + " files"
             }
         }
         next.setOnClickListener {
             resetError()
             if (checkValidation()) {
-                //activity.navController.navigate(R.id.postAJobAddLocationFragment)
-                activity.navController.navigate(R.id.postAJobBudgetFragment)
+                activity.postJob()
             }
         }
-        jobTitle.editText?.doOnTextChanged { text, _, _, _ ->
-            next.isEnabled = text?.length != null && text.length > 3
+        jobDescription.editText!!.setOnFocusChangeListener { view, b ->
+            if (b) {
+                jobDescription.hint = "Details"
+            } else {
+                if (jobDescription.editText!!.text.toString().isNotEmpty())
+                    jobDescription.hint = "Write a brief description of the key details of your job"
+                else
+                    jobDescription.hint = "Details"
+            }
         }
-        jobTitle.editText?.setOnFocusChangeListener { _, b ->
+        jobDescription.editText?.doOnTextChanged { text, _, _, _ ->
+            next.isEnabled = text?.length != null && text.length > 3
         }
     }
 
 
     private fun resetError() {
-        jobTitle.isErrorEnabled = false
-        jobTitle.error = ""
+        jobDescription.isErrorEnabled = false
+        jobDescription.error = ""
     }
 
 
     private fun checkValidation(): Boolean {
         when {
 
-            jobTitle.editText?.text.isNullOrEmpty() -> {
-                setError("Please enter your job title", jobTitle)
+            jobDescription.editText?.text.isNullOrEmpty() -> {
+                setError("Please enter your job title", jobDescription)
                 return false
             }
         }
@@ -130,7 +142,7 @@ class PostAJobDetailsFragment : Fragment() {
     }
 
     private fun setError(error: String, txtInput: TextInputLayout) {
-        jobTitle.isErrorEnabled = true
+        jobDescription.isErrorEnabled = true
         val errorDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_error)
         val ss = SpannableString("    $error\n")
         errorDrawable!!.setBounds(0, 0, errorDrawable.intrinsicWidth, errorDrawable.intrinsicHeight)

@@ -616,5 +616,6 @@
     <string name="slide_1_caption">Make your life easier by outsourcing your daily tasks to professionals!</string>
     <string name="we_need_to_confirm_your_email_u_e_example_com">We need to confirm your email: u******e@example.com</string>
     <string name="set_your_password">Set your Password</string>
+    <string name="draft_description">Your job %s is almost ready to post. Would you like to resume where you left off?</string>
 
 </resources>

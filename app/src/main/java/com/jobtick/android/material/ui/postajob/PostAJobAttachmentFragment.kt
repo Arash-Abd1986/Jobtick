@@ -154,7 +154,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
         sessionManagerA = SessionManager(requireContext())
 
         viewModel = ViewModelProvider(
-                this,
+                requireActivity(),
                 ViewModelFactory(ApiHelper(ApiClient.getClientV1WithToken(sessionManagerA)))
         ).get(PostAJobViewModel::class.java)
         viewLifecycleOwner.lifecycleScope.launch {

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jobtick.android.models.AttachmentModelV2
 import com.jobtick.android.models.response.searchsuburb.Feature
+import com.jobtick.android.models.response.searchsuburb.Geometry
 import com.jobtick.android.network.coroutines.MainRepository
 import com.jobtick.android.network.coroutines.Resource
 import com.jobtick.android.network.coroutines.ServiceType
@@ -13,6 +14,7 @@ import com.jobtick.android.network.model.request.NearJobsRequest
 import com.jobtick.android.network.model.response.BudgetPlansResponse
 import com.jobtick.android.network.model.response.DataX
 import com.jobtick.android.network.model.response.NearJobsResponse
+import com.jobtick.android.network.model.response.draft.DraftResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -22,6 +24,7 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
     private var _state = MutableStateFlow(State())
     var state: StateFlow<State> = _state
     var response: MutableLiveData<Resource<BudgetPlansResponse>> = MutableLiveData()
+    var draftResponse: MutableLiveData<Resource<DraftResponse>> = MutableLiveData()
 
 
     fun setLocation(location: Feature) {
@@ -31,6 +34,12 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
     fun getBudgets() {
         viewModelScope.launch {
             getData(ServiceType.BUDGETS, mainRepository, null, response)
+        }
+    }
+
+    fun getDraft() {
+        viewModelScope.launch {
+            getData(ServiceType.DRAFT, mainRepository, null, draftResponse)
         }
     }
 
@@ -68,6 +77,37 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
 
     fun setAttachments(attachments: ArrayList<AttachmentModelV2>) {
         _state.value = _state.value.copy(attachments = attachments)
+    }
+
+    fun setData(draftResponse: DraftResponse) {
+        draftResponse.data.let {
+            _state.value = _state.value.copy(
+                    attachments = it.attachments as ArrayList<AttachmentModelV2>,
+                    location = Feature(null, null,
+                            null, Geometry(coordinates = listOf(it.latitude.toDouble(), it.longitude.toDouble()), null), null, null,
+                            null, null, it.location, null,
+                            null, null, null, null, null, null),
+                    isRemote = it.task_type != "physical",
+                    isFlexible = it.flexible_time != 0,
+                    date = null,
+                    time = if (it.due_time.afternoon) PostAJobTime.AFTERNOON
+                    else if (it.due_time.morning) PostAJobTime.MORNING
+                    else if (it.due_time.evening) PostAJobTime.EVENING
+                    else PostAJobTime.ANY_TIME,
+                    title = it.title,
+                    budget = it.budget ?: "",
+                    isBudgetSpecific = it.budget_plan != null,
+                    budgetData =
+                    when (it.budget_plan) {
+                        1 -> DataX(created_at = "", id = 1, max_budget = 250, min_budget = 0, title = "", updated_at = null, false)
+                        2 -> DataX(created_at = "", id = 1, max_budget = 500, min_budget = 250, title = "", updated_at = null, false)
+                        3 -> DataX(created_at = "", id = 1, max_budget = 1000, min_budget = 500, title = "", updated_at = null, false)
+                        4 -> DataX(created_at = "", id = 1, max_budget = 9999, min_budget = 10000, title = "", updated_at = null, false)
+                        else -> null
+                    }
+            )
+        }
+
     }
 
     data class State(

@@ -18,7 +18,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/job_title"
+        android:id="@+id/job_description"
         style="@style/outlineTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,21 +34,38 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:gravity="top"
-            android:maxLines="100"
             android:inputType="textMultiLine"
-            android:maxLength="30"
+            android:maxLength="500"
+            android:maxLines="100"
             android:minHeight="154dp" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAttachments"
+        style="@style/body2"
+        android:background="@color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="Attachments"
+        android:gravity="start|center"
+        android:paddingStart="0dp"
+        android:paddingEnd="8dp"
+        android:textColor="@color/neutral_dark"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:drawableTint="@color/neutral_light_600"
+        app:layout_constraintTop_toBottomOf="@+id/job_description"
+        tools:layout_editor_absoluteX="16dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical"
+        android:layout_marginTop="24dp"
         android:background="@drawable/back_white_gray_corner_4"
+        android:orientation="vertical"
         android:padding="16dp"
         app:cardCornerRadius="@dimen/_8dp"
-        app:layout_constraintTop_toBottomOf="@+id/job_title">
+        app:layout_constraintTop_toBottomOf="@+id/btnAttachments">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -76,9 +93,9 @@
 
         <View
             android:layout_width="match_parent"
-            android:background="@color/neutral_light_100"
+            android:layout_height="1dp"
             android:layout_marginVertical="10dp"
-            android:layout_height="1dp" />
+            android:background="@color/neutral_light_100" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -103,11 +120,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <View
             android:layout_width="match_parent"
-            android:background="@color/neutral_light_100"
+            android:layout_height="1dp"
             android:layout_marginVertical="10dp"
-            android:layout_height="1dp" />
+            android:background="@color/neutral_light_100" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -132,11 +150,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <View
             android:layout_width="match_parent"
-            android:background="@color/neutral_light_100"
+            android:layout_height="1dp"
             android:layout_marginVertical="10dp"
-            android:layout_height="1dp" />
+            android:background="@color/neutral_light_100" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -152,19 +171,20 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/body2"
                 android:id="@+id/txtBudget"
+                style="@style/body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/neutral_light_400"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <View
             android:layout_width="match_parent"
-            android:background="@color/neutral_light_100"
+            android:layout_height="1dp"
             android:layout_marginVertical="10dp"
-            android:layout_height="1dp" />
+            android:background="@color/neutral_light_100" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -180,8 +200,8 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/body2"
                 android:id="@+id/attachments"
+                style="@style/body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
@@ -197,7 +217,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:enabled="false"
-        android:text="@string/next"
+        android:text="Done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

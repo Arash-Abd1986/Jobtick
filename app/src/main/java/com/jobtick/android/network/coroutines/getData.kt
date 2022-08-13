@@ -56,6 +56,7 @@ suspend fun <T, G> getData(
             SKILLS -> mainRepository.skills(input as String)
             BLOCK_USER -> mainRepository.blockUser(input as BlockUserRequest)
             BUDGETS -> mainRepository.budgetPlans()
+            DRAFT -> mainRepository.draft()
             else -> null
         }
         liveData.postValue(Resource.success(response as G))

@@ -5,6 +5,7 @@ import com.jobtick.android.network.model.Response
 import com.jobtick.android.network.model.request.BlockUserRequest
 import com.jobtick.android.network.model.response.BudgetPlansResponse
 import com.jobtick.android.network.model.response.NearJobsResponse
+import com.jobtick.android.network.model.response.draft.DraftResponse
 import com.jobtick.android.network.model.response.skills.SkillsResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -110,6 +111,10 @@ interface ApiInterface {
     @GET("budget-plans")
     suspend fun budgetPlans(
     ): BudgetPlansResponse
+
+    @GET("draft")
+    suspend fun draft(
+    ): DraftResponse
 
     @GET("skills")
     suspend fun skills(

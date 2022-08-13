@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/post_a_job_graph"
-    app:startDestination="@id/postAJobSetTitleFragment">
+    app:startDestination="@id/postAJobStartFragment">
 
     <fragment
         android:id="@+id/postAJobSetTitleFragment"
@@ -13,6 +13,10 @@
         <action
             android:id="@+id/action_postAJobSetTitleFragment_to_postAJobAddLocationFragment"
             app:destination="@id/postAJobAddLocationFragment" />
+        <argument
+            android:name="resume"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/postAJobAddLocationFragment"
@@ -84,4 +88,13 @@
         android:name="com.jobtick.android.material.ui.postajob.PostAJobAttachmentFragment"
         android:label="fragment_post_a_job_attachment"
         tools:layout="@layout/fragment_post_a_job_attachment" />
+    <fragment
+        android:id="@+id/postAJobStartFragment"
+        android:name="com.jobtick.android.material.ui.postajob.PostAJobStartFragment"
+        android:label="fragment_post_a_job_start"
+        tools:layout="@layout/fragment_post_a_job_start" >
+        <action
+            android:id="@+id/action_postAJobStartFragment_to_postAJobSetTitleFragment"
+            app:destination="@id/postAJobSetTitleFragment" />
+    </fragment>
 </navigation>

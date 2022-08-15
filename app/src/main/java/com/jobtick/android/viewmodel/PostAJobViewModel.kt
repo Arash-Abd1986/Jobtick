@@ -47,6 +47,10 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
         _state.value = _state.value.copy(title = title)
     }
 
+    fun setDescription(description: String) {
+        _state.value = _state.value.copy(description = description)
+    }
+
     fun setIsRemote(isRemote: Boolean) {
         _state.value = _state.value.copy(isRemote = isRemote)
     }
@@ -73,6 +77,10 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
 
     fun setBudget(budget: String) {
         _state.value = _state.value.copy(budget = budget)
+    }
+
+    fun setBudgetTypeID(id: Int) {
+        _state.value = _state.value.copy(budTypeId = id)
     }
 
     fun setAttachments(attachments: ArrayList<AttachmentModelV2>) {
@@ -117,16 +125,19 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
             var date: PostAJobDate? = null,
             var time: PostAJobTime = PostAJobTime.ANY_TIME,
             var title: String = "",
+            var description: String = "",
             var budget: String = "",
             var isBudgetSpecific: Boolean = false,
             var budgetData: DataX? = null,
+            var budTypeId: Int? = null,
             var attachments: ArrayList<AttachmentModelV2> = arrayListOf(),
     )
 
     data class PostAJobDate(
             var day: Int,
             var month: Int,
-            var year: Int
+            var year: Int,
+            var dueDate: String
     )
 
     enum class PostAJobTime {

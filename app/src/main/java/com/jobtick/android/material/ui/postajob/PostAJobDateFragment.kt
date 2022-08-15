@@ -13,6 +13,7 @@ import com.jobtick.android.R
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.Tools
 import com.jobtick.android.viewmodel.PostAJobViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 import java.util.*
@@ -65,10 +66,11 @@ class PostAJobDateFragment : Fragment() {
         }
         calenderView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             this.day = dayOfMonth
-            this.month = month
+            this.month = month + 1
             this.year = year
             next.isEnabled = true
-            viewModel.setDate(PostAJobViewModel.PostAJobDate(day, month, year))
+            viewModel.setDate(PostAJobViewModel.PostAJobDate(day, month,
+                    year, Tools.getDayMonthDateTimeFormat("${year}-${month + 1}-$dayOfMonth")))
         }
         calenderView.date = date.time
         day = Integer.parseInt(DateFormat.format("dd", date.time) as String)  // 20

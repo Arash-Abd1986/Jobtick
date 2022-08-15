@@ -38,6 +38,7 @@ class PostAJobBudgetFragment : Fragment(), BudgetsAdapter.BudgetClickListener {
     private lateinit var viewModel: PostAJobViewModel
     private lateinit var rlAmount: RecyclerView
     private lateinit var budgetsAdapter: BudgetsAdapter
+    private var budgetTypeId: Int? = null
 
 
     override fun onCreateView(
@@ -73,8 +74,10 @@ class PostAJobBudgetFragment : Fragment(), BudgetsAdapter.BudgetClickListener {
             if (btnAmount.isChecked) {
                 activity.viewModel.setBudget(budget.editText!!.text.toString())
                 activity.viewModel.setIsBudgetSpecific(true)
-            } else
+            } else {
                 activity.viewModel.setIsBudgetSpecific(false)
+                activity.viewModel.setBudgetTypeID(budgetTypeId!!)
+            }
             activity.navController.navigate(R.id.detailsFragment)
         }
         budget.editText?.doOnTextChanged { text, _, _, _ ->
@@ -133,6 +136,7 @@ class PostAJobBudgetFragment : Fragment(), BudgetsAdapter.BudgetClickListener {
         activity.viewModel.setIsBudgetSpecific(false)
         activity.viewModel.setBudgetData(data)
         next.isEnabled = true
+        budgetTypeId = data.id
     }
 
 }

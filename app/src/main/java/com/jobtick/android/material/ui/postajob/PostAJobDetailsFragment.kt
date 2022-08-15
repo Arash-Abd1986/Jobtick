@@ -105,6 +105,7 @@ class PostAJobDetailsFragment : Fragment() {
         next.setOnClickListener {
             resetError()
             if (checkValidation()) {
+                viewModel.setDescription(jobDescription.editText!!.text.toString())
                 activity.postJob()
             }
         }

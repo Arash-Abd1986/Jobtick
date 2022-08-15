@@ -10,7 +10,6 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
@@ -19,24 +18,21 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.textview.MaterialTextView
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
 import com.jobtick.android.activities.CompleteMessageActivity
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.DueTimeModel
+import com.jobtick.android.models.PositionModel
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.coroutines.Status
-import com.jobtick.android.network.model.response.ReviewItem
 import com.jobtick.android.network.model.response.draft.DraftResponse
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
 import com.jobtick.android.viewmodel.PostAJobViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONException
@@ -110,24 +106,26 @@ class PostAJobActivity : ActivityBase() {
     }
 
     fun setData() {
-     viewModel.setData(draftResponse)
+        viewModel.setData(draftResponse)
     }
 
     fun postJob() {
         lifecycleScope.launch {
             viewModel.state.collectLatest {
-                taskModel.budget = it.budget.toInt()
-                taskModel.location = it.location?.place_name_en
+                if (it.isBudgetSpecific)
+                    taskModel.budget = it.budget.toInt()
                 taskModel.attachments = it.attachments.map {
                     AttachmentModel(it.id, it.name, it.fileName, it.mime, it.url, it.thumbUrl, it.modalUrl, it.createdAt, it.drawable, it.type)
                 } as ArrayList<AttachmentModel>?
-                taskModel.description = ""
-                it.date?.let {
-                    taskModel.dueDate = (it.month).toString() + it.month + it.year
-                }
-                taskModel.apply {
-                    dueTime = (DueTimeModel((it.time == PostAJobViewModel.PostAJobTime.ANY_TIME), (it.time == PostAJobViewModel.PostAJobTime.EVENING),
-                            (it.time == PostAJobViewModel.PostAJobTime.MORNING), (it.time == PostAJobViewModel.PostAJobTime.AFTERNOON)))
+                taskModel.description = it.description
+                if (!it.isFlexible) {
+                    it.date?.let {
+                        taskModel.dueDate = it.dueDate
+                    }
+                    taskModel.apply {
+                        dueTime = (DueTimeModel((it.time == PostAJobViewModel.PostAJobTime.ANY_TIME), (it.time == PostAJobViewModel.PostAJobTime.EVENING),
+                                (it.time == PostAJobViewModel.PostAJobTime.MORNING), (it.time == PostAJobViewModel.PostAJobTime.AFTERNOON)))
+                    }
                 }
                 taskModel.title = it.title
 
@@ -135,16 +133,16 @@ class PostAJobActivity : ActivityBase() {
                 if (it.isRemote) {
                     taskModel.taskType = "remote"
                 } else {
+                    taskModel.location = it.location?.place_name_en
                     taskModel.taskType = "physical"
-                    taskModel.position.longitude = it.location!!.geometry!!.coordinates?.get(0)
-                    taskModel.position.latitude = it.location!!.geometry!!.coordinates?.get(1)
+                    taskModel.position = PositionModel(it.location!!.geometry!!.coordinates?.get(1), it.location!!.geometry!!.coordinates?.get(0))
                 }
-                uploadDataToServer(false)
+                uploadDataToServer(false, it.isFlexible, it.isBudgetSpecific, it.budTypeId)
             }
         }
     }
 
-    private fun uploadDataToServer(draft: Boolean) {
+    private fun uploadDataToServer(draft: Boolean, flexTime: Boolean, budgetSpecific: Boolean, budTypeId: Int?) {
         val queryParameter: String
         val METHOD: Int
         if (taskModel.slug != null) {
@@ -296,20 +294,19 @@ class PostAJobActivity : ActivityBase() {
                         }
                         if (taskModel.taskType != null) map1["task_type"] = taskModel.taskType
                         if (taskModel.paymentType != null) map1["payment_type"] = taskModel.paymentType
-                        if (taskModel.paymentType != null) {
-                            if (taskModel.paymentType.equals("fixed", ignoreCase = true)) {
-                                if (taskModel.budget >= 5) map1["budget"] = taskModel.budget.toString()
-                            } else {
-                                if (taskModel.totalHours * taskModel.hourlyRate >= 5) {
-                                    map1["budget"] =
-                                            (taskModel.hourlyRate * taskModel.totalHours).toString()
-                                    map1["total_hours"] = taskModel.totalHours.toString()
-                                    map1["hourly_rate"] = taskModel.hourlyRate.toString()
-                                }
-                            }
+                        if (budgetSpecific) {
+                            if (taskModel.budget >= 5) map1["budget"] = taskModel.budget.toString()
+                        } else {
+                            map1["budget_plan"] = budTypeId.toString()
                         }
-                        if (taskModel.dueDate != null) map1["due_date"] =
-                                Tools.getApplicationFromatToServerFormat(taskModel.dueDate)
+
+                        if (!flexTime) {
+                            if (taskModel.dueDate != null) map1["due_date"] =
+                                    Tools.getApplicationFromatToServerFormat(taskModel.dueDate)
+                        } else {
+                            map1["flexible_time"] = "true"
+                        }
+
                         if (taskModel.attachments != null && taskModel.attachments.size != 0) {
                             var i = 0
                             while (taskModel.attachments.size > i) {
@@ -326,24 +323,26 @@ class PostAJobActivity : ActivityBase() {
                                 i++
                             }
                         }
-                        if (taskModel.dueTime != null) {
-                            var count = 0
-                            if (taskModel.dueTime.morning) {
-                                map1["due_time[$count]"] = "morning"
-                                count += 1
+                        if (!flexTime)
+                            if (taskModel.dueTime != null) {
+                                var count = 0
+                                if (taskModel.dueTime.morning) {
+                                    map1["due_time[$count]"] = "morning"
+                                    count += 1
+                                }
+                                if (taskModel.dueTime.afternoon) {
+                                    map1["due_time[$count]"] = "afternoon"
+                                    count += 1
+                                }
+                                if (taskModel.dueTime.evening) {
+                                    map1["due_time[$count]"] = "evening"
+                                    count += 1
+                                }
+                                if (taskModel.dueTime.anytime) {
+                                    map1["due_time[$count]"] = "anytime"
+                                }
                             }
-                            if (taskModel.dueTime.afternoon) {
-                                map1["due_time[$count]"] = "afternoon"
-                                count += 1
-                            }
-                            if (taskModel.dueTime.evening) {
-                                map1["due_time[$count]"] = "evening"
-                                count += 1
-                            }
-                            if (taskModel.dueTime.anytime) {
-                                map1["due_time[$count]"] = "anytime"
-                            }
-                        }
+
                         if (draft) {
                             map1["draft"] = "1"
                         }
@@ -385,7 +384,7 @@ class PostAJobActivity : ActivityBase() {
                 this,
                 ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
         ).get(PostAJobViewModel::class.java)
-        viewModel.getDraft()
+        /*//viewModel.getDraft()
         viewModel.draftResponse.observe(this) {
             it?.let { it ->
                 when (it.status) {
@@ -401,6 +400,6 @@ class PostAJobActivity : ActivityBase() {
                     }
                 }
             }
-        }
+        }*/
     }
 }

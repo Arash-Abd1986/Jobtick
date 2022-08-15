@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +18,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
@@ -51,6 +53,8 @@ class PostAJobActivity : ActivityBase() {
     private var isDraftWorkDone = false
     private var isEditTask = false
     private lateinit var draftResponse: DraftResponse
+    private lateinit var close: AppCompatImageView
+    private lateinit var back: AppCompatImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,12 +71,21 @@ class PostAJobActivity : ActivityBase() {
             taskModel.category_id = bundle.getInt(ConstantKey.CATEGORY_ID, 1)
         }
         title = findViewById(R.id.title)
+        close = findViewById(R.id.close)
+        back = findViewById(R.id.back)
+        back.setOnClickListener {
+            navController.popBackStack()
+        }
+        close.setOnClickListener {
+            this.finish()
+        }
         linTitle = findViewById(R.id.linTitle)
         val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
         navController = navHostFragment!!.navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
             linTitle.visibility = View.VISIBLE
+            close.visibility = View.VISIBLE
             when (destination.id) {
                 R.id.postAJobSetTitleFragment -> {
                     title.text = "Title"
@@ -100,6 +113,7 @@ class PostAJobActivity : ActivityBase() {
                 }
                 R.id.postAJobAttachmentFragment -> {
                     title.text = "Attachments"
+                    close.visibility = View.GONE
                 }
             }
         }

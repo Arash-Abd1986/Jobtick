@@ -41,7 +41,20 @@ class BudgetsAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         @SuppressLint("SetTextI18n")
         override fun onBind(position: Int) {
             super.onBind(position)
-            budget.text = """${"$"}${items[position].min_budget} to ${"$"}${items[position].max_budget}"""
+            val item = items[position]
+            item.apply {
+                when {
+                    min_budget == 0 -> {
+                        budget.text = """Less than ${"$"}${items[position].max_budget}"""
+                    }
+                    position == items.size - 1 -> {
+                        budget.text = """More than ${"$"}${items[position].min_budget}"""
+                    }
+                    else -> {
+                        budget.text = """${"$"}${items[position].min_budget} to ${"$"}${items[position].max_budget}"""
+                    }
+                }
+            }
             budget.isChecked = items[position].isChecked
 
             budget.setOnClickListener {

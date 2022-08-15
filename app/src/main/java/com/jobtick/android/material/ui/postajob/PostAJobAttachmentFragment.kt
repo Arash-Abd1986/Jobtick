@@ -115,7 +115,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
         rlAmount.addItemDecoration(SpacesItemDecorationV2((8).dpToPx()))
         title = ConstantKey.CREATE_A_JOB
         next.setOnClickListener {
-
+         activity.navController.popBackStack()
         }
         option1Icon.setOnClickListener {
             when (option) {

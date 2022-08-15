@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -35,6 +36,7 @@ class GetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListener, Su
     private lateinit var recyclerLocation: RecyclerView
     private lateinit var location: TextInputEditText
     private lateinit var adapter: SuburbSearchAdapter
+    private lateinit var back: AppCompatImageView
     private val justLocality = false
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -52,9 +54,13 @@ class GetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListener, Su
         sessionManager = SessionManager(requireContext())
         recyclerLocation = requireView().findViewById(R.id.recyclerLocation)
         location = requireView().findViewById(R.id.location)
+        back = requireView().findViewById(R.id.back)
         setCategoryData()
         location.doOnTextChanged { text, _, _, _ ->
             getTaskCategoryData(text.toString())
+        }
+        back.setOnClickListener {
+            activity.navController.popBackStack()
         }
 
     }

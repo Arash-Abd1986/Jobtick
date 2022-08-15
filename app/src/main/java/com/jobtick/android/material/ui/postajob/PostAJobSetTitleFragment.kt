@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
@@ -22,6 +23,8 @@ import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.viewmodel.PostAJobViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class PostAJobSetTitleFragment : Fragment() {
 
@@ -77,6 +80,13 @@ class PostAJobSetTitleFragment : Fragment() {
             } else {
                 infoIcon.setColorFilter(resources.getColor(R.color.neutral_light_400), android.graphics.PorterDuff.Mode.SRC_IN)
                 label.setTextColor(resources.getColor(R.color.neutral_light_400))
+            }
+
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.state.collectLatest {
+                jobTitle.editText!!.setText(it.title)
             }
 
         }

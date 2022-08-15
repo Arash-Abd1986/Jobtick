@@ -59,6 +59,7 @@ class PostAJobDateFragment : Fragment() {
 
         activity = (requireActivity() as PostAJobActivity)
         calenderView = requireView().findViewById(R.id.calenderView)
+        calenderView.minDate = System.currentTimeMillis()
         date = Date()
         next = requireView().findViewById(R.id.btn_next)
         next.setOnClickListener {

@@ -20,6 +20,7 @@ import com.jobtick.android.R
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.getShortAddress
 import com.jobtick.android.viewmodel.PostAJobViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
@@ -61,7 +62,7 @@ class PostAJobAddLocationFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collectLatest {
                 if (it.location != null) {
-                    suburb.text = it.location!!.place_name_en
+                    suburb.text = it.location!!.place_name_en!!.getShortAddress()
                     suburb.setTextColor(ContextCompat.getColor(requireContext(), R.color.neutral_light_700))
                     suburb.setBackgroundResource(R.drawable.back_white_dark_gray_corner_4)
                     inPerson.isChecked = true
@@ -70,6 +71,13 @@ class PostAJobAddLocationFragment : Fragment() {
             }
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (inPerson.isChecked){
+            suburb.visibility = View.VISIBLE
+        }
     }
 
     private fun initVars() {
@@ -95,7 +103,7 @@ class PostAJobAddLocationFragment : Fragment() {
             inPerson.isChecked = true
             remote.isChecked = false
             suburb.visibility = View.VISIBLE
-            next.isEnabled = suburb.text?.length != null && suburb.text.length > 3
+            next.isEnabled = suburb.text?.length != null && suburb.text != "Suburb or Postcode" && suburb.text.length> 3
         }
         remote.setOnClickListener {
             remote.isChecked = true

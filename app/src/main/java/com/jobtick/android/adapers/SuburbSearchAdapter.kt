@@ -36,7 +36,6 @@ class SuburbSearchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
     inner class OriginalViewHolder(v: View) : BaseViewHolder(v) {
         var txtName: TextView
-        var apply: ImageView
         var lytOuter: RelativeLayout
         override fun clear() {}
         override fun onBind(position: Int) {
@@ -49,19 +48,11 @@ class SuburbSearchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                 subClickListener.clickOnSearchedLoc(item)
                 dismissListener.dismiss()
             }
-            apply.setOnClickListener { v: View? ->
-                val item = items[position]
-                item.place_name_en = item.place_name_en!!.getShortAddress()
-                item.state = item.place_name_en!!.getState()
-                subClickListener.clickOnSearchedLoc(item)
-                dismissListener.dismiss()
-            }
         }
 
         init {
             txtName = v.findViewById(R.id.category_text)
             lytOuter = v.findViewById(R.id.category_container)
-            apply = v.findViewById(R.id.apply)
         }
     }
 

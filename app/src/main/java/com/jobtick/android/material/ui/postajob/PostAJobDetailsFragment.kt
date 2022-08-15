@@ -92,7 +92,17 @@ class PostAJobDetailsFragment : Fragment() {
                     budget.text = it.budget
                 else
                     it.budgetData?.let {
-                        budget.text = "$" + it.min_budget.toString() + " to $" + it.max_budget
+                        when {
+                            it.min_budget == 0 -> {
+                                budget.text = """Less than ${"$"}${it.max_budget}"""
+                            }
+                            it.max_budget == 9999 -> {
+                                budget.text = """More than ${"$"}${it.min_budget}"""
+                            }
+                            else -> {
+                                budget.text = """${"$"}${it.min_budget} to ${"$"}${it.max_budget}"""
+                            }
+                        }
                     }
                 if (it.attachments.isEmpty())
                     attachments.text = "-"

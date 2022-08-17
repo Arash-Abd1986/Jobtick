@@ -199,4 +199,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-tagmanager:18.0.1'
 
     implementation 'com.github.aabhasr1:OtpView:v1.1.2'
+    implementation 'com.github.HBiSoft:PickiT:2.0.5'
 }

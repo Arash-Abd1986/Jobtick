@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="16dp"
+    app:cardCornerRadius="16dp"
+    app:contentPaddingBottom="16dp"
+    app:contentPaddingLeft="24dp"
+    app:contentPaddingRight="24dp"
+    app:contentPaddingTop="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/subtitle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="Add an attachment" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pdf"
+            style="@style/borderlessColoredTextButtonLight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="left|center"
+            android:paddingStart="0dp"
+            android:text="PDF"
+            android:textColor="@color/neutral_dark"
+            app:icon="@drawable/ic_picture_as_pdf"
+            app:iconPadding="16dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:layout_marginBottom="@dimen/_8dp"
+            android:background="@color/neutral_light_100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/gallery"
+            style="@style/borderlessColoredTextButtonLight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center"
+            android:paddingStart="0dp"
+            android:text="Photo Library"
+            android:textColor="@color/neutral_dark"
+            app:icon="@drawable/ic_add_photo_alternate"
+            app:iconPadding="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel"
+            style="@style/colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:paddingStart="0dp"
+            android:text="Cancel"
+            android:textColor="@color/primary"
+            app:iconPadding="16dp" />
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

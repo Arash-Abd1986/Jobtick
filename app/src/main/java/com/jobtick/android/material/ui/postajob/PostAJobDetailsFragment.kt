@@ -124,13 +124,13 @@ class PostAJobDetailsFragment : Fragment() {
                 jobDescription.hint = "Details"
             } else {
                 if (jobDescription.editText!!.text.toString().isNotEmpty())
-                    jobDescription.hint = "Write a brief description of the key details of your job"
+                    jobDescription.hint = "Write a brief description of your job"
                 else
                     jobDescription.hint = "Details"
             }
         }
         jobDescription.editText?.doOnTextChanged { text, _, _, _ ->
-            next.isEnabled = text?.length != null && text.length > 3
+            next.isEnabled = text?.length != null && text.length > 25
         }
     }
 
@@ -144,7 +144,7 @@ class PostAJobDetailsFragment : Fragment() {
     private fun checkValidation(): Boolean {
         when {
 
-            jobDescription.editText?.text.isNullOrEmpty() -> {
+            jobDescription.editText?.text!!.length< 25 -> {
                 setError("Please enter your job title", jobDescription)
                 return false
             }

@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -123,6 +124,16 @@ class PostAJobActivity : ActivityBase() {
         viewModel.setData(draftResponse)
     }
 
+
+    fun previewMode(set:Boolean){
+        if (set){
+            title.text = "View Image"
+            linTitle.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.neutral_light_50))
+        }else{
+            title.text = "Attachment"
+            linTitle.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.white))
+        }
+    }
     fun postJob() {
         lifecycleScope.launch {
             viewModel.state.collectLatest {

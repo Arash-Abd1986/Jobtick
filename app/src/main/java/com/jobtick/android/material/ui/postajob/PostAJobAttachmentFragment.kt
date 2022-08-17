@@ -10,11 +10,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.DisplayMetrics
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +34,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
+import com.hbisoft.pickit.PickiT
+import com.hbisoft.pickit.PickiTCallbacks
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
 import com.jobtick.android.adapers.AttachmentAdapter
@@ -51,9 +57,10 @@ import retrofit2.Callback
 import timber.log.Timber
 import java.io.File
 
+
 private const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123
 
-class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener, MediaAdapter.OnShowOptions {
+class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener, MediaAdapter.OnShowOptions, PickiTCallbacks {
 
     private lateinit var activity: PostAJobActivity
     private lateinit var attachmentArrayList: ArrayList<AttachmentModelV2>
@@ -68,6 +75,8 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
     private lateinit var option1Txt: AppCompatTextView
     private lateinit var option2Icon: AppCompatImageView
     private lateinit var option2Txt: AppCompatTextView
+    private lateinit var txtTitle: AppCompatTextView
+    private lateinit var image: AppCompatImageView
     private var imagePath: String? = null
     private var filePath: Uri? = null
     private var bitmap: Bitmap? = null
@@ -75,7 +84,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
     private var slug: String? = null
     private var option: Option = Option.HIDE
     private var retryItem: AttachmentModelV2? = null
-
+    var pickiT: PickiT? = null
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -93,6 +102,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initVars() {
+        pickiT = PickiT(requireContext(), this, requireActivity())
         sessionManagerA = SessionManager(requireContext())
         attachmentArrayList = ArrayList()
         attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_ADD))
@@ -108,25 +118,49 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
         rlAmount = requireView().findViewById(R.id.rl_medias)
         option1Icon = requireView().findViewById(R.id.option1_icon)
         option1Txt = requireView().findViewById(R.id.option1_txt)
+        txtTitle = requireView().findViewById(R.id.txtTitle)
         option2Icon = requireView().findViewById(R.id.option2_icon)
         option2Txt = requireView().findViewById(R.id.option2_txt)
+        image = requireView().findViewById(R.id.image)
         rlAmount.adapter = mediaAdapter
         rlAmount.layoutManager = GridLayoutManager(requireContext(), 3)
         rlAmount.addItemDecoration(SpacesItemDecorationV2((8).dpToPx()))
         title = ConstantKey.CREATE_A_JOB
         next.setOnClickListener {
-         activity.navController.popBackStack()
+            activity.navController.popBackStack()
         }
         option1Icon.setOnClickListener {
             when (option) {
                 Option.SELECT_ALL -> {
-                    attachmentArrayList.forEach { if (it.id > 0) it.isChecked = true }
+                    attachmentArrayList.forEach { if ((it.id != -1) && (it.id != -3)) it.isChecked = true }
                     mediaAdapter.notifyDataSetChanged()
+                }
+                Option.VIEW -> {
+                    if (image.visibility == View.GONE) {
+                        image.visibility = View.VISIBLE
+                        image.setImageURI(Uri.parse(retryItem!!.file!!.path))
+                        option1Icon.setImageResource(R.drawable.ic_edit_v5)
+                        option1Txt.text = "Edit"
+                        txtTitle.visibility = View.GONE
+                        rlAmount.visibility = View.GONE
+                        activity.previewMode(true)
+                    } else {
+                        activity.previewMode(false)
+                        image.visibility = View.GONE
+                        option1Icon.setImageResource(R.drawable.ic_visibility_v5)
+                        option1Txt.text = "View"
+                        txtTitle.visibility = View.VISIBLE
+                        rlAmount.visibility = View.VISIBLE
+                    }
+
                 }
                 Option.RETRY -> {
                     retryItem?.let { retryItem ->
                         attachmentArrayList.remove(retryItem)
                         mediaAdapter.notifyDataSetChanged()
+                        next.visibility = View.VISIBLE
+                        linOptions.visibility = View.GONE
+
                     }
 
                 }
@@ -135,14 +169,33 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
         option2Icon.setOnClickListener {
             when (option) {
                 Option.SELECT_ALL -> {
-                    attachmentArrayList = attachmentArrayList.filter { !it.isChecked } as ArrayList<AttachmentModelV2>
+                    attachmentArrayList.removeAll(attachmentArrayList.filter { it.isChecked }.toSet())
                     mediaAdapter.notifyDataSetChanged()
+                    if (attachmentArrayList.size == 1) {
+                        next.visibility = View.VISIBLE
+                        linOptions.visibility = View.GONE
+                    }
                 }
                 Option.RETRY -> {
                     retryItem?.let { retryItem ->
-                        attachmentArrayList.forEach { if (it == retryItem) it.id = -1 }
+                        attachmentArrayList.forEach {
+                            if (it == retryItem) {
+                                it.id = -1
+                                it.isChecked = false
+                            }
+                        }
                         uploadDataInTempApi(retryItem.file!!)
                         mediaAdapter.notifyDataSetChanged()
+                    }
+                    next.visibility = View.VISIBLE
+                    linOptions.visibility = View.GONE
+                }
+                Option.VIEW -> {
+                    retryItem?.let { retryItem ->
+                        retryItem.let { retryItem ->
+                            attachmentArrayList.remove(retryItem)
+                            mediaAdapter.notifyDataSetChanged()
+                        }
                     }
 
                 }
@@ -165,10 +218,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
     }
 
     override fun onItemClick(view: View?, obj: AttachmentModelV2?, position: Int, action: String?) {
-        if (checkPermissionReadExternalStorage(requireContext())) {
-            val openGallary = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(Intent.createChooser(openGallary, "Open Gallary"), 1)
-        }
+        showDialog()
     }
 
     fun checkPermissionReadExternalStorage(
@@ -236,16 +286,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                 if (data != null && data.data != null) {
                     var file: File? = null
                     if (data.data!!.path != null) {
-                        file = File(data.data!!.path)
-                    }
-                    if (file != null) {
-                        if (title.equals(ConstantKey.CREATE_A_JOB, ignoreCase = true)) {
-                            uploadDataInTempApi(file)
-                        } else {
-                            uploadDataInTaskMediaApi(file)
-                        }
-                    } else {
-                        //showToast("Try Again", this)
+                        pickiT!!.getPath(data.data!!, Build.VERSION.SDK_INT)
                     }
                 }
             } else if (resultCode == ActivityBase.RESULT_CANCELED) {
@@ -286,12 +327,17 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                         val jsonobjectData = jsonObject.getJSONObject("data")
                         val gson = Gson()
                         val attachment = gson.fromJson(jsonobjectData.toString(), AttachmentModelV2::class.java)
-
+                        if (attachment.mime!!.contains("pdf")) {
+                            attachment.type = AttachmentAdapter.VIEW_TYPE_PDF
+                        } else {
+                            attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
+                        }
                         if (attachmentArrayList.size != 0) {
                             val item = attachmentArrayList.filter {
                                 it.name == attachment.name + attachment.fileName!!.substring(attachment!!.fileName!!.length - 4, attachment.fileName!!.length)
                             }[0]
                             val index = attachmentArrayList.indexOf(item)
+                            attachment.file = pictureFile
                             attachmentArrayList[index] = attachment
                             mediaAdapter.notifyDataSetChanged()
                         }
@@ -373,7 +419,11 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                             if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url")) attachment.thumbUrl = jsonObject_data.getString("thumb_url")
                             if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url")) attachment.modalUrl = jsonObject_data.getString("modal_url")
                             if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at")) attachment.createdAt = jsonObject_data.getString("created_at")
-                            attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
+                            if (attachment.mime!!.contains("pdf")) {
+                                attachment.type = AttachmentAdapter.VIEW_TYPE_PDF
+                            } else {
+                                attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
+                            }
                             if (attachmentArrayList.size != 0) {
                                 attachmentArrayList.add(attachmentArrayList.size - 1, attachment)
                             }
@@ -424,8 +474,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
         next.visibility = View.GONE
         linOptions.visibility = View.VISIBLE
         this.option = option
-        if (option == Option.RETRY)
-            this.retryItem = item
+        this.retryItem = item
         when (option) {
             Option.VIEW -> {
                 option1Icon.setImageResource(R.drawable.ic_visibility_v5)
@@ -434,6 +483,12 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                 option2Txt.text = "Delete"
             }
             Option.RETRY -> {
+                if (attachmentArrayList.filter { it.id == -2 }.size > 1) {
+                    attachmentArrayList.forEach { if (it != item) it.isChecked = false }
+                    Handler().postDelayed({
+                        mediaAdapter.notifyDataSetChanged()
+                    }, 500)
+                }
                 option1Icon.setImageResource(R.drawable.ic_delete_v5)
                 option1Txt.text = "Delete"
                 option2Icon.setImageResource(R.drawable.ic_restart_alt_v5)
@@ -456,5 +511,68 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
     override fun onStop() {
         viewModel.setAttachments(attachmentArrayList)
         super.onStop()
+    }
+
+    private fun showDialog() {
+        val view: View = layoutInflater.inflate(R.layout.dialog_attachment, null)
+        val infoDialog = AlertDialog.Builder(requireContext())
+                .setView(view)
+                .create()
+        val window = infoDialog.window;
+
+        val wlp = window!!.attributes;
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        wlp.gravity = Gravity.BOTTOM
+        window.attributes = wlp
+        infoDialog.show()
+        window.findViewById<MaterialButton>(R.id.cancel).setOnClickListener {
+            infoDialog.dismiss()
+        }
+        window.findViewById<MaterialButton>(R.id.gallery).setOnClickListener {
+            if (checkPermissionReadExternalStorage(requireContext())) {
+                val openGallary = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(Intent.createChooser(openGallary, "Open Gallary"), 1)
+                infoDialog.dismiss()
+            }
+        }
+        window.findViewById<MaterialButton>(R.id.pdf).setOnClickListener {
+            if (checkPermissionReadExternalStorage(requireContext())) {
+                val intent = Intent()
+                intent.type = "application/pdf"
+                intent.action = Intent.ACTION_GET_CONTENT
+                startActivityForResult(Intent.createChooser(intent, "Select PDF File"), 1001)
+                infoDialog.dismiss()
+            }
+        }
+    }
+
+    override fun PickiTonUriReturned() {
+
+    }
+
+    override fun PickiTonStartListener() {
+    }
+
+    override fun PickiTonProgressUpdate(progress: Int) {
+    }
+
+    override fun PickiTonCompleteListener(path: String?, wasDriveFile: Boolean, wasUnknownProvider: Boolean, wasSuccessful: Boolean, Reason: String?) {
+        path
+        val file = File(path)
+        if (file != null) {
+            if (title.equals(ConstantKey.CREATE_A_JOB, ignoreCase = true)) {
+                attachmentArrayList.add(AttachmentModelV2(-1, file.name, file.name,
+                        "", "", "", "", "", -1, AttachmentAdapter.VIEW_TYPE_PDF, file = file))
+                mediaAdapter.notifyDataSetChanged()
+                uploadDataInTempApi(file)
+            } else {
+                uploadDataInTaskMediaApi(file)
+            }
+        } else {
+            //showToast("Try Again", this)
+        }
+    }
+
+    override fun PickiTonMultipleCompleteListener(paths: java.util.ArrayList<String>?, wasSuccessful: Boolean, Reason: String?) {
     }
 }

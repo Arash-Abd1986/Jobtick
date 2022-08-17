@@ -67,11 +67,11 @@ class PostAJobSetTitleFragment : Fragment() {
             if (checkValidation()) {
                 viewModel.setTitle(jobTitle.editText!!.text.toString())
                 activity.navController.navigate(R.id.postAJobAddLocationFragment)
-                //activity.navController.navigate(R.id.postAJobBudgetFragment)
+                //activity.navController.navigate(R.id.postAJobAttachmentFragment)
             }
         }
         jobTitle.editText?.doOnTextChanged { text, _, _, _ ->
-            next.isEnabled = text?.length != null && text.length > 3
+            next.isEnabled = text?.length != null && text.length > 25
         }
         jobTitle.editText?.setOnFocusChangeListener { _, b ->
             if (b) {

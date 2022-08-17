@@ -32,6 +32,7 @@ import timber.log.Timber;
 public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int VIEW_TYPE_ADD = 0;
     public static final int VIEW_TYPE_IMAGE = 1;
+    public static final int VIEW_TYPE_PDF = 2;
 
     private OnItemClickListener mOnItemClickListener;
     private Context context;

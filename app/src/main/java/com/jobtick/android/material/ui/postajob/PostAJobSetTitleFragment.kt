@@ -8,6 +8,7 @@ import android.text.style.ImageSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
@@ -21,6 +22,8 @@ import com.jobtick.android.R
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.gone
+import com.jobtick.android.utils.visible
 import com.jobtick.android.viewmodel.PostAJobViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
@@ -35,6 +38,7 @@ class PostAJobSetTitleFragment : Fragment() {
     private lateinit var label: MaterialTextView
     private lateinit var sessionManagerA: SessionManager
     private lateinit var viewModel: PostAJobViewModel
+    private lateinit var linInfo: LinearLayout
 
 
     override fun onCreateView(
@@ -62,6 +66,7 @@ class PostAJobSetTitleFragment : Fragment() {
         jobTitle = requireView().findViewById(R.id.job_title)
         infoIcon = requireView().findViewById(R.id.info)
         label = requireView().findViewById(R.id.label)
+        linInfo = requireView().findViewById(R.id.linInfo)
         next.setOnClickListener {
             resetError()
             if (checkValidation()) {
@@ -71,7 +76,11 @@ class PostAJobSetTitleFragment : Fragment() {
             }
         }
         jobTitle.editText?.doOnTextChanged { text, _, _, _ ->
-            next.isEnabled = text?.length != null && text.length > 25
+            if (text?.length != null && text.length >= 25) {
+                linInfo.visible()
+                jobTitle.isErrorEnabled = false
+            }
+            viewModel.setTitle(text.toString())
         }
         jobTitle.editText?.setOnFocusChangeListener { _, b ->
             if (b) {
@@ -102,8 +111,10 @@ class PostAJobSetTitleFragment : Fragment() {
     private fun checkValidation(): Boolean {
         when {
 
-            jobTitle.editText?.text.isNullOrEmpty() -> {
-                setError("Please enter your job title", jobTitle)
+            jobTitle.editText?.text!!.length < 25 -> {
+                setError("Must be at least 25 characters", jobTitle)
+                linInfo.gone()
+                jobTitle.isErrorEnabled = true
                 return false
             }
         }

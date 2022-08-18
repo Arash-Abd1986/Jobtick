@@ -105,6 +105,12 @@ class BudgetsAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun select(budgetData: DataX?) {
+        items.forEach { if (it == budgetData) it.isChecked = true }
+        notifyDataSetChanged()
+    }
+
     interface BudgetClickListener {
         fun onBudgetClick(data: DataX)
     }

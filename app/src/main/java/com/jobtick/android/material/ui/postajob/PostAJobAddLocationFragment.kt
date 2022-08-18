@@ -67,6 +67,11 @@ class PostAJobAddLocationFragment : Fragment() {
                     suburb.setBackgroundResource(R.drawable.back_white_dark_gray_corner_4)
                     inPerson.isChecked = true
                     suburb.visibility = View.VISIBLE
+                }else{
+                    if (it.isRemote) {
+                        remote.isChecked = true
+                        next.isEnabled = true
+                    }
                 }
             }
         }

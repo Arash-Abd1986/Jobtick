@@ -1,9 +1,16 @@
 package com.jobtick.android.material.ui.postajob
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
@@ -30,7 +37,6 @@ import com.jobtick.android.models.DueTimeModel
 import com.jobtick.android.models.PositionModel
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.network.coroutines.ApiHelper
-import com.jobtick.android.network.coroutines.Status
 import com.jobtick.android.network.model.response.draft.DraftResponse
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
@@ -41,7 +47,6 @@ import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.ArrayList
 
 
 class PostAJobActivity : ActivityBase() {
@@ -78,7 +83,10 @@ class PostAJobActivity : ActivityBase() {
             navController.popBackStack()
         }
         close.setOnClickListener {
-            this.finish()
+            if (viewModel.state.value.title.isNotEmpty())
+                showDialog()
+            else
+                navController.popBackStack()
         }
         linTitle = findViewById(R.id.linTitle)
         val navHostFragment =
@@ -124,26 +132,48 @@ class PostAJobActivity : ActivityBase() {
         viewModel.setData(draftResponse)
     }
 
+    private fun showDialog() {
+        val layoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view: View = layoutInflater.inflate(R.layout.dialog_discard_changes, null)
+        val infoDialog = AlertDialog.Builder(this)
+                .setView(view)
+                .create()
+        val window = infoDialog.window;
 
-    fun previewMode(set:Boolean){
-        if (set){
+        val wlp = window!!.attributes;
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        wlp.gravity = Gravity.CENTER
+        window.attributes = wlp
+        infoDialog.show()
+        window.findViewById<MaterialButton>(R.id.cancel).setOnClickListener {
+            infoDialog.dismiss()
+        }
+        window.findViewById<MaterialButton>(R.id.discard).setOnClickListener {
+            this.finish()
+        }
+
+    }
+
+    fun previewMode(set: Boolean) {
+        if (set) {
             title.text = "View Image"
             linTitle.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.neutral_light_50))
-        }else{
+        } else {
             title.text = "Attachment"
             linTitle.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.white))
         }
     }
+
     fun postJob() {
         lifecycleScope.launch {
             viewModel.state.collectLatest {
-                if (it.isBudgetSpecific)
+                if (it.isBudgetSpecific == true)
                     taskModel.budget = it.budget.toInt()
                 taskModel.attachments = it.attachments.map {
                     AttachmentModel(it.id, it.name, it.fileName, it.mime, it.url, it.thumbUrl, it.modalUrl, it.createdAt, it.drawable, it.type)
                 } as ArrayList<AttachmentModel>?
                 taskModel.description = it.description
-                if (!it.isFlexible) {
+                if (!it.isFlexible!!) {
                     it.date?.let {
                         taskModel.dueDate = it.dueDate
                     }
@@ -162,7 +192,7 @@ class PostAJobActivity : ActivityBase() {
                     taskModel.taskType = "physical"
                     taskModel.position = PositionModel(it.location!!.geometry!!.coordinates?.get(1), it.location!!.geometry!!.coordinates?.get(0))
                 }
-                uploadDataToServer(false, it.isFlexible, it.isBudgetSpecific, it.budTypeId)
+                uploadDataToServer(false, it.isFlexible!!, it.isBudgetSpecific!!, it.budTypeId)
             }
         }
     }
@@ -397,17 +427,12 @@ class PostAJobActivity : ActivityBase() {
         requestQueue.add(stringRequest)
     }
 
-    override fun onBackPressed() {
-
-        super.onBackPressed()
-    }
-
     private fun initVM() {
         sessionManager = SessionManager(applicationContext)
 
         viewModel = ViewModelProvider(
                 this,
-                ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
+                ViewModelFactory(ApiHelper(ApiClient.getClient()))
         ).get(PostAJobViewModel::class.java)
         /*//viewModel.getDraft()
         viewModel.draftResponse.observe(this) {

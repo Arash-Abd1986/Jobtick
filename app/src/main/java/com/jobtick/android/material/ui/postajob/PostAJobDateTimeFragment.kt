@@ -19,6 +19,7 @@ import com.jobtick.android.R
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.getShortAddress
 import com.jobtick.android.viewmodel.PostAJobViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
@@ -57,7 +58,18 @@ class PostAJobDateTimeFragment : Fragment() {
                 requireActivity(),
                 ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManagerA)))
         ).get(PostAJobViewModel::class.java)
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.state.collectLatest {
+                if (it.isFlexible == true) {
+                    flexible.isChecked = true
+                    next.isEnabled = true
+                }
+                if (it.isFlexible == false) {
+                    certain.isChecked = true
+                    next.isEnabled = true
+                }
+            }
+        }
     }
 
     private fun initVars() {

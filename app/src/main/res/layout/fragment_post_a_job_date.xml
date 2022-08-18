@@ -11,7 +11,7 @@
         android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="@drawable/ic_step_indicator4"
+        android:background="@drawable/ic_step_indicator3_5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

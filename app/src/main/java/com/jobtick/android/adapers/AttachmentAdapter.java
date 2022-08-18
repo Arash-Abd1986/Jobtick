@@ -33,6 +33,9 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public static final int VIEW_TYPE_ADD = 0;
     public static final int VIEW_TYPE_IMAGE = 1;
     public static final int VIEW_TYPE_PDF = 2;
+    public static final int VIEW_TYPE_PLACE_HOLDER = 3;
+    public static final int VIEW_TYPE_PROGRESS = 4;
+    public static final int VIEW_TYPE_ERROR = 5;
 
     private OnItemClickListener mOnItemClickListener;
     private Context context;
@@ -139,17 +142,14 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (item.getThumbUrl() != null) {
                 ImageUtil.displayImage(imgView, item.getUrl(), null);
                 if(context!=null) {
-                    content.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, ZoomImageActivity.class);
-                            ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
-                            attachmentArrayList.add(item);
-                            intent.putExtra("url", attachmentArrayList);
-                            intent.putExtra("title", "");
-                            intent.putExtra("pos", 0);
-                            context.startActivity(intent);
-                        }
+                    content.setOnClickListener(v -> {
+                        Intent intent = new Intent(context, ZoomImageActivity.class);
+                        ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
+                        attachmentArrayList.add(item);
+                        intent.putExtra("url", attachmentArrayList);
+                        intent.putExtra("title", "");
+                        intent.putExtra("pos", 0);
+                        context.startActivity(intent);
                     });
                 }
             }
@@ -186,8 +186,6 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     mOnItemClickListener.onItemClick(view, items.get(position), position, "add");
                 }
             });
-
-
         }
 
 

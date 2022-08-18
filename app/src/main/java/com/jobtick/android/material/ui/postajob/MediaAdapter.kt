@@ -23,7 +23,7 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private var mOnItemClickListener: OnItemClickListener? = null
     private var context: Context? = null
     private var screenWidth: Int = 0
-    private var selectionMode: Boolean = false
+    private var selectionMode = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER
     lateinit var showOptions: OnShowOptions
 
     interface OnItemClickListener {
@@ -53,8 +53,6 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         return when (viewType) {
-            AttachmentAdapter.VIEW_TYPE_IMAGE -> IMAGEViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.item_media, parent, false))
             AttachmentAdapter.VIEW_TYPE_ADD -> ADDViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.item_media_plus, parent, false))
             else -> IMAGEViewHolder(
@@ -63,7 +61,7 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == AttachmentAdapter.VIEW_TYPE_IMAGE || getItemViewType(position) == AttachmentAdapter.VIEW_TYPE_PDF) {
+        if (getItemViewType(position) != AttachmentAdapter.VIEW_TYPE_ADD) {
             (holder as IMAGEViewHolder).onBind(holder.getAdapterPosition())
         } else {
             (holder as ADDViewHolder).onBind(holder.getAdapterPosition())
@@ -113,44 +111,69 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             rlMain.updateLayoutParams {
                 height = (screenWidth - (80).dpToPx()) / 3
             }
-
-            if (selectionMode) {
-                if (item!!.id != -1) {
-                    checkBox.visibility = View.VISIBLE
-                    checkBox.isChecked = item.isChecked
-                } else
-                    checkBox.visibility = View.GONE
+            when (selectionMode) {
+                AttachmentAdapter.VIEW_TYPE_IMAGE -> {
+                    if (item!!.type == AttachmentAdapter.VIEW_TYPE_IMAGE) {
+                        checkBox.visibility = View.VISIBLE
+                        checkBox.isChecked = item.isChecked
+                    } else {
+                        checkBox.visibility = View.GONE
+                    }
+                }
+                AttachmentAdapter.VIEW_TYPE_PDF -> {
+                    if (item!!.type == AttachmentAdapter.VIEW_TYPE_PDF) {
+                        checkBox.visibility = View.VISIBLE
+                        checkBox.isChecked = item.isChecked
+                    } else {
+                        checkBox.visibility = View.GONE
+                    }
+                }
+                AttachmentAdapter.VIEW_TYPE_ERROR -> {
+                    if (item!!.type == AttachmentAdapter.VIEW_TYPE_ERROR) {
+                        checkBox.visibility = View.VISIBLE
+                        checkBox.isChecked = item.isChecked
+                    } else {
+                        checkBox.visibility = View.GONE
+                    }
+                }
             }
-            checkBox.setOnCheckedChangeListener { _, b ->
-                item!!.isChecked = b
+
+            checkBox.setOnClickListener {
+                item!!.isChecked = !item.isChecked
                 items?.set(position, item)
+                items?.forEach { if(it != item) it.isChecked = false}
                 calcShowOptions(items, item)
+                notifyDataSetChanged()
             }
             media.setOnLongClickListener {
-                selectionMode = true
+                selectionMode = AttachmentAdapter.VIEW_TYPE_IMAGE
                 notifyDataSetChanged()
                 true
             }
             error.setOnLongClickListener {
-                selectionMode = true
+                selectionMode = AttachmentAdapter.VIEW_TYPE_ERROR
                 notifyDataSetChanged()
                 true
             }
             pdf.setOnLongClickListener {
-                selectionMode = true
+                selectionMode = AttachmentAdapter.VIEW_TYPE_PDF
                 notifyDataSetChanged()
                 true
             }
-            if (item!!.id == -1) {
+            if (item!!.type == AttachmentAdapter.VIEW_TYPE_PROGRESS) {
                 progress.visibility = View.VISIBLE
                 media.visibility = View.GONE
                 error.visibility = View.GONE
-            } else if (item.id == -2) {
+            } else if (item.type == AttachmentAdapter.VIEW_TYPE_ERROR) {
                 progress.visibility = View.GONE
                 media.visibility = View.GONE
                 error.visibility = View.VISIBLE
+            } else if (item.type == AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER) {
+                progress.visibility = View.GONE
+                media.visibility = View.GONE
+                error.visibility = View.GONE
             } else {
-                if (item!!.type == AttachmentAdapter.VIEW_TYPE_PDF) {
+                if (item.type == AttachmentAdapter.VIEW_TYPE_PDF) {
                     pdf.visibility = View.VISIBLE
                     media.visibility = View.GONE
                 } else {
@@ -164,24 +187,32 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         private fun calcShowOptions(items: MutableList<AttachmentModelV2>?, item: AttachmentModelV2) {
-            if (items!!.any { it.isChecked }) {
-                if (items.filter { it.isChecked && (it.id >= 0 || it.id == -2) }.size > 1 || items.filter { it.isChecked && (it.type == AttachmentAdapter.VIEW_TYPE_PDF) }.size == 1)
-                    showOptions.showOptions(item, Option.SELECT_ALL)
-                else if (items.filter { it.isChecked }.size == 1) {
-                    if (items.filter { it.isChecked }[0].id == -2) {
-                        showOptions.showOptions(item, Option.RETRY)
-                    } else {
-                        showOptions.showOptions(item, Option.VIEW)
-                    }
-                } else {
-                    if (item.id == -2) {
-                        showOptions.showOptions(item, Option.RETRY)
-                    } else {
-                        showOptions.showOptions(item, Option.HIDE)
-                    }
+            val selectedSize = items!!.filter {
+                it.isChecked && (item.type != AttachmentAdapter.VIEW_TYPE_ADD) && (item.type != AttachmentAdapter.VIEW_TYPE_PROGRESS)
+                        && (item.type != AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER)
+            }.size
+            when (selectedSize) {
+                0 -> {
+                    showOptions.showOptions(item, Option.HIDE)
                 }
-            } else {
-                showOptions.showOptions(item, Option.HIDE)
+                1 -> {
+                    when (item.type) {
+                        AttachmentAdapter.VIEW_TYPE_ERROR -> {
+                            showOptions.showOptions(item, Option.RETRY)
+                        }
+                        AttachmentAdapter.VIEW_TYPE_IMAGE -> {
+                            showOptions.showOptions(item, Option.VIEW)
+
+                        }
+                        AttachmentAdapter.VIEW_TYPE_PDF -> {
+                            showOptions.showOptions(item, Option.DELETE)
+                        }
+                    }
+
+                }
+                else -> {
+                    showOptions.showOptions(item, Option.SELECT_ALL)
+                }
             }
         }
 
@@ -200,7 +231,7 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (items!!.size <= 9)
                     mOnItemClickListener!!.onItemClick(it, items.get(index = position), adapterPosition, "add")
             }
-            if (items!!.size >= 9) {
+            if (items!!.filter { it.type != AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER }.size >= 9) {
                 add.setColorFilter(context!!.getColor(R.color.neutral_light_400))
             } else {
                 add.setColorFilter(context!!.getColor(R.color.primary))
@@ -213,5 +244,5 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
 enum class Option {
-    EDIT, RETRY, VIEW, SELECT_ALL, HIDE
+    EDIT, RETRY, VIEW, SELECT_ALL, HIDE, DELETE
 }

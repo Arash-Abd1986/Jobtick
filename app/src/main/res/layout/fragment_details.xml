@@ -36,8 +36,7 @@
             android:gravity="top"
             android:inputType="textMultiLine"
             android:maxLength="2000"
-            android:maxLines="100"
-             />
+            android:maxLines="100" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -86,7 +85,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:ellipsize="end"
                 android:gravity="end"
+                android:maxLines="1"
                 android:paddingStart="80dp"
                 android:text="Title"
                 android:textColor="@color/neutral_light_400"
@@ -227,7 +228,7 @@
         style="@style/colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:enabled="false"
+        android:enabled="true"
         android:text="Done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

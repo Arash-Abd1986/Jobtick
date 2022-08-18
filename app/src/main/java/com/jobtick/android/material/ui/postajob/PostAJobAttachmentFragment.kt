@@ -15,7 +15,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.view.Gravity
@@ -67,6 +66,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
 
     private lateinit var next: MaterialButton
     private lateinit var linOptions: LinearLayout
+    private lateinit var option1: LinearLayout
     private lateinit var sessionManagerA: SessionManager
     private lateinit var viewModel: PostAJobViewModel
     private lateinit var rlAmount: RecyclerView
@@ -83,7 +83,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
     private var title: String? = null
     private var slug: String? = null
     private var option: Option = Option.HIDE
-    private var retryItem: AttachmentModelV2? = null
+    private var selectedItem: AttachmentModelV2? = null
     var pickiT: PickiT? = null
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -106,6 +106,14 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
         sessionManagerA = SessionManager(requireContext())
         attachmentArrayList = ArrayList()
         attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_ADD))
+        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
+        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
+        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
+        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
+        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
+        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
+        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
+        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
         activity = (requireActivity() as PostAJobActivity)
         val displayMetrics = DisplayMetrics()
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -115,6 +123,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
         mediaAdapter.showOptions = this
         next = requireView().findViewById(R.id.btn_next)
         linOptions = requireView().findViewById(R.id.linOptions)
+        option1 = requireView().findViewById(R.id.option1)
         rlAmount = requireView().findViewById(R.id.rl_medias)
         option1Icon = requireView().findViewById(R.id.option1_icon)
         option1Txt = requireView().findViewById(R.id.option1_txt)
@@ -132,13 +141,13 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
         option1Icon.setOnClickListener {
             when (option) {
                 Option.SELECT_ALL -> {
-                    attachmentArrayList.forEach { if ((it.id != -1) && (it.id != -3)) it.isChecked = true }
+                    attachmentArrayList.forEach { if (it.type == selectedItem!!.type) it.isChecked = true }
                     mediaAdapter.notifyDataSetChanged()
                 }
                 Option.VIEW -> {
                     if (image.visibility == View.GONE) {
                         image.visibility = View.VISIBLE
-                        image.setImageURI(Uri.parse(retryItem!!.file!!.path))
+                        image.setImageURI(Uri.parse(selectedItem!!.file!!.path))
                         option1Icon.setImageResource(R.drawable.ic_edit_v5)
                         option1Txt.text = "Edit"
                         txtTitle.visibility = View.GONE
@@ -155,7 +164,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
 
                 }
                 Option.RETRY -> {
-                    retryItem?.let { retryItem ->
+                    selectedItem?.let { retryItem ->
                         attachmentArrayList.remove(retryItem)
                         mediaAdapter.notifyDataSetChanged()
                         next.visibility = View.VISIBLE
@@ -177,10 +186,10 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                     }
                 }
                 Option.RETRY -> {
-                    retryItem?.let { retryItem ->
+                    selectedItem?.let { retryItem ->
                         attachmentArrayList.forEach {
                             if (it == retryItem) {
-                                it.id = -1
+                                it.type = AttachmentAdapter.VIEW_TYPE_PROGRESS
                                 it.isChecked = false
                             }
                         }
@@ -191,11 +200,16 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                     linOptions.visibility = View.GONE
                 }
                 Option.VIEW -> {
-                    retryItem?.let { retryItem ->
-                        retryItem.let { retryItem ->
-                            attachmentArrayList.remove(retryItem)
-                            mediaAdapter.notifyDataSetChanged()
-                        }
+                    selectedItem?.let { retryItem ->
+                        attachmentArrayList.remove(retryItem)
+                        mediaAdapter.notifyDataSetChanged()
+                    }
+
+                }
+                Option.DELETE -> {
+                    selectedItem?.let { retryItem ->
+                        attachmentArrayList.remove(retryItem)
+                        mediaAdapter.notifyDataSetChanged()
                     }
 
                 }
@@ -210,11 +224,6 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                 requireActivity(),
                 ViewModelFactory(ApiHelper(ApiClient.getClientV1WithToken(sessionManagerA)))
         ).get(PostAJobViewModel::class.java)
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collectLatest {
-
-            }
-        }
     }
 
     override fun onItemClick(view: View?, obj: AttachmentModelV2?, position: Int, action: String?) {
@@ -274,8 +283,9 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                 //  uploadImageWithAmount();
                 val file = File(imagePath)
                 if (title.equals(ConstantKey.CREATE_A_JOB, ignoreCase = true)) {
-                    attachmentArrayList.add(AttachmentModelV2(-1, file.name, file.name,
-                            "", "", "", "", "", -1, AttachmentAdapter.VIEW_TYPE_IMAGE, file = file))
+                    attachmentArrayList.add(attachmentArrayList.indexOf(attachmentArrayList.first { it.type == AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER }), AttachmentModelV2(-1, file.name, file.name,
+                            "", "", "", "", "", -1, AttachmentAdapter.VIEW_TYPE_PROGRESS, file = file))
+                    attachmentArrayList.removeAt(9)
                     mediaAdapter.notifyDataSetChanged()
                     uploadDataInTempApi(file)
                 } else {
@@ -313,7 +323,8 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                     val name = ((call.request().body() as MultipartBody).parts()[0].headers()!!.value(0).toString()).split("\"")[3]
                     val item = attachmentArrayList.filter { it.name == name }[0]
                     val index = attachmentArrayList.indexOf(item)
-                    item.id = -2
+
+                    item.type = AttachmentAdapter.VIEW_TYPE_ERROR
                     attachmentArrayList[index] = item
                     mediaAdapter.notifyDataSetChanged()
                     return
@@ -345,7 +356,8 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                         val name = ((call.request().body() as MultipartBody).parts()[0].headers()!!.value(0).toString()).split("\"")[3]
                         val item = attachmentArrayList.filter { it.name == name }[0]
                         val index = attachmentArrayList.indexOf(item)
-                        item.id = -2
+
+                        item.type = AttachmentAdapter.VIEW_TYPE_ERROR
                         attachmentArrayList[index] = item
                         mediaAdapter.notifyDataSetChanged()
                     }
@@ -356,7 +368,8 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                     val name = ((call.request().body() as MultipartBody).parts()[0].headers()!!.value(0).toString()).split("\"")[3]
                     val item = attachmentArrayList.filter { it.name == name }[0]
                     val index = attachmentArrayList.indexOf(item)
-                    item.id = -2
+
+                    item.type = AttachmentAdapter.VIEW_TYPE_ERROR
                     attachmentArrayList[index] = item
                     mediaAdapter.notifyDataSetChanged()
                 }
@@ -368,7 +381,8 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                 val name = ((call.request().body() as MultipartBody).parts()[0].headers()!!.value(0).toString()).split("\"")[3]
                 val item = attachmentArrayList.filter { it.name == name }[0]
                 val index = attachmentArrayList.indexOf(item)
-                item.id = -2
+
+                item.type = AttachmentAdapter.VIEW_TYPE_ERROR
                 attachmentArrayList[index] = item
                 mediaAdapter.notifyDataSetChanged()
             }
@@ -473,8 +487,9 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
     override fun showOptions(item: AttachmentModelV2?, option: Option) {
         next.visibility = View.GONE
         linOptions.visibility = View.VISIBLE
+        option1.visibility = View.VISIBLE
         this.option = option
-        this.retryItem = item
+        this.selectedItem = item
         when (option) {
             Option.VIEW -> {
                 option1Icon.setImageResource(R.drawable.ic_visibility_v5)
@@ -483,12 +498,6 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                 option2Txt.text = "Delete"
             }
             Option.RETRY -> {
-                if (attachmentArrayList.filter { it.id == -2 }.size > 1) {
-                    attachmentArrayList.forEach { if (it != item) it.isChecked = false }
-                    Handler().postDelayed({
-                        mediaAdapter.notifyDataSetChanged()
-                    }, 500)
-                }
                 option1Icon.setImageResource(R.drawable.ic_delete_v5)
                 option1Txt.text = "Delete"
                 option2Icon.setImageResource(R.drawable.ic_restart_alt_v5)
@@ -504,12 +513,23 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                 next.visibility = View.VISIBLE
                 linOptions.visibility = View.GONE
             }
+            Option.DELETE -> {
+                option2Icon.setImageResource(R.drawable.ic_delete_v5)
+                option2Txt.text = "Delete"
+                next.visibility = View.GONE
+                option1.visibility = View.INVISIBLE
+                linOptions.visibility = View.VISIBLE
+
+            }
         }
 
     }
 
     override fun onStop() {
-        viewModel.setAttachments(attachmentArrayList)
+        viewModel.setAttachments(attachmentArrayList.filter {
+            it.type == AttachmentAdapter.VIEW_TYPE_IMAGE ||
+                    it.type == AttachmentAdapter.VIEW_TYPE_PDF
+        } as ArrayList<AttachmentModelV2>)
         super.onStop()
     }
 
@@ -561,8 +581,9 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
         val file = File(path)
         if (file != null) {
             if (title.equals(ConstantKey.CREATE_A_JOB, ignoreCase = true)) {
-                attachmentArrayList.add(AttachmentModelV2(-1, file.name, file.name,
-                        "", "", "", "", "", -1, AttachmentAdapter.VIEW_TYPE_PDF, file = file))
+                attachmentArrayList.add(attachmentArrayList.indexOf(attachmentArrayList.first { it.type == AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER }), AttachmentModelV2(-1, file.name, file.name,
+                        "", "", "", "", "", -1, AttachmentAdapter.VIEW_TYPE_PROGRESS, file = file))
+                attachmentArrayList.removeAt(9)
                 mediaAdapter.notifyDataSetChanged()
                 uploadDataInTempApi(file)
             } else {

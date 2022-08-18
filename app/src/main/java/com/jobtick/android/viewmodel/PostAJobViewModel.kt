@@ -15,6 +15,7 @@ import com.jobtick.android.network.model.response.BudgetPlansResponse
 import com.jobtick.android.network.model.response.DataX
 import com.jobtick.android.network.model.response.NearJobsResponse
 import com.jobtick.android.network.model.response.draft.DraftResponse
+import com.jobtick.android.utils.SingleLiveEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -121,13 +122,13 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
     data class State(
             var location: Feature? = null,
             var isRemote: Boolean = false,
-            var isFlexible: Boolean = false,
+            var isFlexible: Boolean? = null,
             var date: PostAJobDate? = null,
             var time: PostAJobTime = PostAJobTime.ANY_TIME,
             var title: String = "",
             var description: String = "",
             var budget: String = "",
-            var isBudgetSpecific: Boolean = false,
+            var isBudgetSpecific: Boolean? = null,
             var budgetData: DataX? = null,
             var budTypeId: Int? = null,
             var attachments: ArrayList<AttachmentModelV2> = arrayListOf(),

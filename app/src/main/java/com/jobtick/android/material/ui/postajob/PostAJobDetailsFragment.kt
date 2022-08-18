@@ -18,6 +18,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.R
+import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.SessionManager
@@ -78,7 +79,7 @@ class PostAJobDetailsFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.state.collectLatest {
                 title.text = it.title
-                if (it.isFlexible)
+                if (it.isFlexible == true)
                     dateTime.text = "Flexible"
                 else
                     it.date?.let {
@@ -88,7 +89,7 @@ class PostAJobDetailsFragment : Fragment() {
                     suburb.text = "Remote"
                 else
                     suburb.text = it.location!!.text_en
-                if (it.isBudgetSpecific)
+                if (it.isBudgetSpecific == true)
                     budget.text = it.budget
                 else
                     it.budgetData?.let {
@@ -109,7 +110,10 @@ class PostAJobDetailsFragment : Fragment() {
                 else if (it.attachments.size - 1 == 1)
                     attachments.text = (it.attachments.size - 1).toString() + " file"
                 else
-                    attachments.text = (it.attachments.size - 1).toString() + " files"
+                    attachments.text = (it.attachments.filter {
+                        it.type == AttachmentAdapter.VIEW_TYPE_IMAGE ||
+                                it.type == AttachmentAdapter.VIEW_TYPE_PDF
+                    }.size).toString() + " files"
             }
         }
         next.setOnClickListener {
@@ -130,7 +134,7 @@ class PostAJobDetailsFragment : Fragment() {
             }
         }
         jobDescription.editText?.doOnTextChanged { text, _, _, _ ->
-            next.isEnabled = text?.length != null && text.length > 25
+            jobDescription.isErrorEnabled = text?.length != null && text.length < 25
         }
     }
 
@@ -144,8 +148,9 @@ class PostAJobDetailsFragment : Fragment() {
     private fun checkValidation(): Boolean {
         when {
 
-            jobDescription.editText?.text!!.length< 25 -> {
-                setError("Please enter your job title", jobDescription)
+            jobDescription.editText?.text!!.length < 25 -> {
+                jobDescription.isErrorEnabled = true
+                setError("Must be at least 25 characters", jobDescription)
                 return false
             }
         }

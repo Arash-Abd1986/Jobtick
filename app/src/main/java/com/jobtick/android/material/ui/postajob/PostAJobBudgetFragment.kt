@@ -70,18 +70,26 @@ class PostAJobBudgetFragment : Fragment(), BudgetsAdapter.BudgetClickListener {
         rlAmount.adapter = budgetsAdapter
         rlAmount.layoutManager = GridLayoutManager(requireContext(), 2)
         rlAmount.addItemDecoration(SpacesItemDecoration((16).dpToPx()))
+
         next.setOnClickListener {
+            resetError()
             if (btnAmount.isChecked) {
-                activity.viewModel.setBudget(budget.editText!!.text.toString())
-                activity.viewModel.setIsBudgetSpecific(true)
+                if (checkValidation()) {
+                    activity.viewModel.setBudget(budget.editText!!.text.toString())
+                    activity.viewModel.setIsBudgetSpecific(true)
+                    activity.navController.navigate(R.id.detailsFragment)
+                }
             } else {
                 activity.viewModel.setIsBudgetSpecific(false)
                 activity.viewModel.setBudgetTypeID(budgetTypeId!!)
+                activity.navController.navigate(R.id.detailsFragment)
+
             }
-            activity.navController.navigate(R.id.detailsFragment)
         }
         budget.editText?.doOnTextChanged { text, _, _, _ ->
-            next.isEnabled = text?.length != null && text.length > 1
+            text?.let {
+                next.isEnabled = !text.isNullOrEmpty()
+            }
             if (text!!.isNotEmpty())
                 budget.editText!!.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_dolar, 0, 0, 0)
             else
@@ -94,23 +102,55 @@ class PostAJobBudgetFragment : Fragment(), BudgetsAdapter.BudgetClickListener {
             budget.visible()
             next.isEnabled = budget.editText!!.text?.length != null && budget.editText!!.text.length > 1
         }
+
+    }
+
+    private fun resetError() {
+        budget.isErrorEnabled = false
+        budget.error = ""
+    }
+
+    private fun checkValidation(): Boolean {
+        when {
+
+            budget.editText?.text?.toString()?.toInt()!! < 6 -> {
+                setError("The price must be between \$5 and \$9999", budget)
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun setError(error: String, txtInput: TextInputLayout) {
+        budget.isErrorEnabled = true
+        val errorDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_error)
+        val ss = SpannableString("    $error\n")
+        errorDrawable!!.setBounds(0, 0, errorDrawable.intrinsicWidth, errorDrawable.intrinsicHeight)
+        val span = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ImageSpan(errorDrawable, ImageSpan.ALIGN_CENTER)
+        } else {
+            ImageSpan(errorDrawable, ImageSpan.ALIGN_BOTTOM)
+        }
+        ss.setSpan(span, 0, 3, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        txtInput.error = ss
     }
 
     private fun initVM() {
         sessionManagerA = SessionManager(requireContext())
 
         viewModel = ViewModelProvider(
-                this,
+                requireActivity(),
                 ViewModelFactory(ApiHelper(ApiClient.getClientV1WithToken(sessionManagerA)))
         ).get(PostAJobViewModel::class.java)
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collectLatest {
-
-            }
+        if (activity.viewModel.state.value.isBudgetSpecific == null) {
+            viewModel.getBudgets()
         }
-        viewModel.getBudgets()
-        viewModel.response.observe(viewLifecycleOwner) {
+        if (activity.viewModel.state.value.isBudgetSpecific == true) {
+            budget.visible()
+            btnAmount.isChecked = true
+            budget.editText!!.setText(activity.viewModel.state.value.budget)
+        }
+        activity.viewModel.response.observe(viewLifecycleOwner) {
             activity.hideProgressDialog()
             it?.let {
                 when (it.status) {
@@ -126,6 +166,7 @@ class PostAJobBudgetFragment : Fragment(), BudgetsAdapter.BudgetClickListener {
                 }
             }
         }
+
 
     }
 

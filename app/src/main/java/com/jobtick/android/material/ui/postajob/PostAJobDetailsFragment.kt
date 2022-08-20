@@ -107,7 +107,7 @@ class PostAJobDetailsFragment : Fragment() {
                     }
                 if (it.attachments.isEmpty())
                     attachments.text = "-"
-                else if (it.attachments.size - 1 == 1)
+                else if (it.attachments.size == 1)
                     attachments.text = (it.attachments.size - 1).toString() + " file"
                 else
                     attachments.text = (it.attachments.filter {

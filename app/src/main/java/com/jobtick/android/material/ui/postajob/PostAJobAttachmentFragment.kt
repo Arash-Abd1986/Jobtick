@@ -104,20 +104,11 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
     private fun initVars() {
         pickiT = PickiT(requireContext(), this, requireActivity())
         sessionManagerA = SessionManager(requireContext())
-        attachmentArrayList = ArrayList()
-        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_ADD))
-        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
-        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
-        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
-        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
-        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
-        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
-        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
-        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
         activity = (requireActivity() as PostAJobActivity)
         val displayMetrics = DisplayMetrics()
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
         val width = displayMetrics.widthPixels
+        attachmentArrayList = ArrayList()
         mediaAdapter = MediaAdapter(attachmentArrayList, context = requireContext(), width)
         mediaAdapter.setOnItemClickListener(this)
         mediaAdapter.showOptions = this
@@ -224,6 +215,18 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                 requireActivity(),
                 ViewModelFactory(ApiHelper(ApiClient.getClientV1WithToken(sessionManagerA)))
         ).get(PostAJobViewModel::class.java)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.state.collectLatest {
+                if (attachmentArrayList.isEmpty()) {
+                    attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_ADD))
+                    attachmentArrayList.addAll(it.attachments)
+                    for (i in 0 until 8 - it.attachments.size)
+                        attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
+                    mediaAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+
     }
 
     override fun onItemClick(view: View?, obj: AttachmentModelV2?, position: Int, action: String?) {

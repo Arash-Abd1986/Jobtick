@@ -4,7 +4,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
-
+apply plugin: "androidx.navigation.safeargs"
 android {
     signingConfigs {
         release {
@@ -200,4 +200,5 @@ dependencies {
 
     implementation 'com.github.aabhasr1:OtpView:v1.1.2'
     implementation 'com.github.HBiSoft:PickiT:2.0.5'
+
 }

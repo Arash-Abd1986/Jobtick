@@ -101,7 +101,6 @@ class ForgetPassSecFragmentFragment : Fragment() {
                                 val jsonObjectUser = jsonObjectData.getJSONObject("user")
                                 val userAccountModel = UserAccountModel().getJsonToModel(jsonObjectUser)
                                 sessionManagerA.userAccount = userAccountModel
-                                activity.navController.
                                 activity.navController.navigate(R.id.signInFragment)
                             } catch (e: JSONException) {
                                 Timber.e(e.toString())

@@ -26,10 +26,7 @@ import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.installations.InstallationTokenResult
 import com.jobtick.android.R
-import com.jobtick.android.utils.Constant
-import com.jobtick.android.utils.FireBaseEvent
-import com.jobtick.android.utils.Helper
-import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.*
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber

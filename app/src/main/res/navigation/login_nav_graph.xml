@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_signInFragment_to_forgetPassFirstPageFragment"
             app:destination="@id/forgetPassFirstPageFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_forgetPassAddMailFragment"
+            app:destination="@id/forgetPassAddMailFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginStatusFragment"
@@ -84,10 +87,29 @@
         <action
             android:id="@+id/action_forgetPassFirstPageFragment_to_forgetPassSecFragmentFragment"
             app:destination="@id/forgetPassSecFragmentFragment" />
+        <argument
+            android:name="email"
+            app:argType="string"/>
     </fragment>
     <fragment
         android:id="@+id/forgetPassSecFragmentFragment"
         android:name="com.jobtick.android.material.ui.landing.ForgetPassSecFragmentFragment"
         android:label="fragment_forget_pass_sec_fragment"
-        tools:layout="@layout/fragment_forget_pass_sec_fragment" />
+        tools:layout="@layout/fragment_forget_pass_sec_fragment" >
+        <argument
+            android:name="email"
+            app:argType="string"/>
+        <argument
+            android:name="otp"
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/forgetPassAddMailFragment"
+        android:name="com.jobtick.android.material.ui.landing.ForgetPassAddMailFragment"
+        android:label="fragment_forget_pass_add_mail"
+        tools:layout="@layout/fragment_forget_pass_add_mail" >
+        <action
+            android:id="@+id/action_forgetPassAddMailFragment_to_forgetPassFirstPageFragment"
+            app:destination="@id/forgetPassFirstPageFragment" />
+    </fragment>
 </navigation>

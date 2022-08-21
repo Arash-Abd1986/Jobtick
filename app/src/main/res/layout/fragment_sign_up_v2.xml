@@ -8,44 +8,50 @@
     android:padding="16dp"
     tools:context=".material.ui.landing.SignInFragment">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context=".material.ui.landing.SignInFragment">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/title"
-            style="@style/heading1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:text="Join Jobtick"
-            android:textColor="@color/neutral_dark"
-            app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
-
-        <include
-            android:id="@+id/socialBox"
-            layout="@layout/view_google_facebook_button" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_next"
-            style="@style/colored"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/next" />
+            android:orientation="vertical"
+            tools:context=".material.ui.landing.SignInFragment">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/btn_forget_pass"
-            style="@style/caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:text="@string/already_have_an_account_sign_in"
-            android:textColor="@color/neutral_dark" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/title"
+                style="@style/heading1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="Join Jobtick"
+                android:textColor="@color/neutral_dark"
+                app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
 
-    </LinearLayout>
+            <include
+                android:id="@+id/socialBox"
+                layout="@layout/view_google_facebook_button" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_next"
+                style="@style/colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/next" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/btn_forget_pass"
+                style="@style/caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="@string/already_have_an_account_sign_in"
+                android:textColor="@color/neutral_dark" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </RelativeLayout>

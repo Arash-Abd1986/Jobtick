@@ -111,10 +111,8 @@ class SignInFragment : Fragment() {
                 login(edtEmail.editText?.text.toString(), edtPassword.editText?.text.toString())
         }
         btnForgetPass.setOnClickListener {
-            resetError()
-            if (checkValidation2()){
-              nextStepForgotPassword(edtEmail.editText?.text.toString())
-            }
+            activity.navController.navigate(R.id.forgetPassAddMailFragment)
+
         }
         signIn.setOnClickListener {
             activity.navController.navigate(R.id.signUpFragment)
@@ -125,80 +123,6 @@ class SignInFragment : Fragment() {
         tvFB.setOnClickListener {
             activity.facebookLogin(true)
         }
-    }
-    fun nextStepForgotPassword(email: String) {
-        activity.showProgressDialog()
-        Helper.closeKeyboard(requireActivity())
-        val stringRequest: StringRequest =
-            object : StringRequest(
-                Method.POST, Constant.URL_RESET_PASSWORD,
-                Response.Listener { response: String? ->
-                    Timber.e(response)
-                    activity.hideProgressDialog()
-                    val bundle = Bundle()
-                    bundle.putString("email", edtEmail.editText?.text.toString())
-                    activity.navController.navigate(R.id.forgetPassFirstPageFragment, bundle)
-
-                },
-                Response.ErrorListener { error: VolleyError ->
-                    val networkResponse = error.networkResponse
-                    if (networkResponse?.data != null) {
-                        val jsonError = String(networkResponse.data)
-                        // Print Error!
-                        Timber.e(jsonError)
-                        try {
-                            val jsonObject = JSONObject(jsonError)
-                            val jsonObjectError = jsonObject.getJSONObject("error")
-                            if (jsonObjectError.has("errors")) {
-                                val jsonObjectErrors = jsonObjectError.getJSONObject("errors")
-                                var strError: String? = null
-                                when {
-                                    jsonObjectErrors.has("email") -> {
-                                        val jsonArrayMobile = jsonObjectErrors.getJSONArray("email")
-                                        strError = jsonArrayMobile.getString(0)
-                                        setError(strError, edtEmail)
-                                    }
-                                    jsonObjectErrors.has("password") -> {
-                                        val jsonArrayMobile =
-                                            jsonObjectErrors.getJSONArray("password")
-                                        strError = jsonArrayMobile.getString(0)
-                                        setError(strError, edtPassword)
-                                    }
-                                    else -> {
-                                        val message = jsonObjectError.getString("message")
-                                        setError(message)
-                                    }
-                                }
-                            }
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                        }
-                    } else {
-                        setError("Something Went Wrong")
-                    }
-                    activity.hideProgressDialog()
-                }
-            ) {
-                override fun getHeaders(): Map<String, String> {
-                    val map1: MutableMap<String, String> = HashMap()
-                    map1["Content-Type"] = "application/x-www-form-urlencoded"
-                    map1["X-Requested-With"] = "XMLHttpRequest"
-                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                    return map1
-                }
-
-                override fun getParams(): Map<String, String> {
-                    val map1: MutableMap<String, String> = HashMap()
-                    map1["email"] = email
-                    return map1
-                }
-            }
-        stringRequest.retryPolicy = DefaultRetryPolicy(
-            0, -1,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
-        val requestQueue = Volley.newRequestQueue(requireContext())
-        requestQueue.add(stringRequest)
     }
     @SuppressLint("HardwareIds")
     private fun login(email: String?, password: String?) {

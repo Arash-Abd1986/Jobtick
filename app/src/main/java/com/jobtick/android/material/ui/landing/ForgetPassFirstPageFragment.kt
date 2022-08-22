@@ -138,7 +138,7 @@ class ForgetPassFirstPageFragment : Fragment(), OTPListener {
         Helper.closeKeyboard(requireActivity())
         val stringRequest: StringRequest =
                 object : StringRequest(
-                        Method.POST, Constant.URL_EMAIL_VERIFICATION,
+                        Method.POST, Constant.URL_RESET_PASSWORD_VERIFY_OTP,
                         Response.Listener { response: String? ->
                             Timber.e(response)
                             activity.hideProgressDialog()

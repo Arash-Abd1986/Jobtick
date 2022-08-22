@@ -145,12 +145,6 @@ class ForgetPassFirstPageFragment : Fragment(), OTPListener {
                             try {
                                 val jsonObject = JSONObject(response!!)
                                 Timber.e(jsonObject.toString())
-                                val jsonObjectData = jsonObject.getJSONObject("data")
-                                sessionManagerA.accessToken = jsonObjectData.getString("access_token")
-                                sessionManagerA.tokenType = jsonObjectData.getString("token_type")
-                                val jsonObjectUser = jsonObjectData.getJSONObject("user")
-                                val userAccountModel = UserAccountModel().getJsonToModel(jsonObjectUser)
-                                sessionManagerA.userAccount = userAccountModel
                                 val bundle = Bundle()
                                 bundle.putString("email", email)
                                 bundle.putString("otp", otp)

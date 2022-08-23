@@ -72,11 +72,11 @@ class ExploreFragment :
     private var swipeRefresh: SwipeRefreshLayout? = null
     private var txtFilters: TextView? = null
     private var edtSearch: TextView? = null
-    private var txtJobAlert: TextView? = null
     private var icJobAlert: AppCompatImageView? = null
     private var lin_job_alert: LinearLayout? = null
     private var btnVoice: ImageView? = null
     private var ivSearch: ImageView? = null
+    private var filter: ImageView? = null
     private var appbar: RelativeLayout? = null
     private var ivMapView: FloatingActionButton? = null
     private var emptyFilter: RelativeLayout? = null
@@ -97,6 +97,7 @@ class ExploreFragment :
     private var linFilterExplore: LinearLayout? = null
     private var txtFilter: TextView? = null
     private var txtNewJob: TextView? = null
+    private var txtRefresh: TextView? = null
     private var newJobCount = 0
     private val taskArrayList = ArrayList<Data>()
 
@@ -119,15 +120,16 @@ class ExploreFragment :
         swipeRefresh = requireView().findViewById(R.id.swipeRefresh)
         txtFilters = requireView().findViewById(R.id.txt_filters)
         edtSearch = requireView().findViewById(R.id.edt_search_categoreis)
-        txtJobAlert = requireView().findViewById(R.id.txt_job_alert)
         icJobAlert = requireView().findViewById(R.id.ic_job_alert)
         lin_job_alert = requireView().findViewById(R.id.lin_job_alert)
         btnVoice = requireView().findViewById(R.id.btnVoice)
         ivSearch = requireView().findViewById(R.id.iv_search)
+        filter = requireView().findViewById(R.id.filter)
         appbar = requireView().findViewById(R.id.appbar)
         ivMapView = requireView().findViewById(R.id.ivMapView)
         emptyFilter = requireView().findViewById(R.id.empty_filter)
         txtNewJob = requireView().findViewById(R.id.txt_new_job)
+        txtRefresh = requireView().findViewById(R.id.txtRefresh)
         linNewMessage = requireView().findViewById(R.id.linNewMessage)
     }
 
@@ -141,7 +143,7 @@ class ExploreFragment :
         txtFilter = dashboardActivity!!.findViewById(R.id.txt_filter)
         ivNotification.visibility = View.GONE
         linFilterExplore!!.visibility = View.GONE
-        lytBtnFilters!!.setOnClickListener {
+        filter!!.setOnClickListener {
             val bundle = Bundle()
             val intent = Intent(dashboardActivity, FiltersActivity::class.java)
             bundle.putParcelable(Constant.FILTER, filterModel)
@@ -273,14 +275,14 @@ class ExploreFragment :
             }
     }
 
-    @SuppressLint("LogNotTimber")
+    @SuppressLint("LogNotTimber", "SetTextI18n")
     private val newJob = Emitter.Listener { args: Array<Any?>? ->
         if (isAdded)
             requireActivity().runOnUiThread {
                 try {
                     linNewMessage!!.visibility = View.VISIBLE
                     newJobCount += 1
-                    txtNewJob!!.text = getString(R.string.new_job_count, newJobCount.toString())
+                    txtNewJob!!.text = getString(R.string.new_job_count, newJobCount.toString()) + if(newJobCount>1) "s" else ""
                 } catch (e: Exception) {
                     Log.e(TAG, e.message!!)
                     return@runOnUiThread
@@ -306,10 +308,8 @@ class ExploreFragment :
             startActivity(taskAlerts)
         }
         if (sessionManager?.userAccount?.account_status?.isJobalerts == true) {
-            txtJobAlert!!.text = getString(R.string.edit_job_alert)
             icJobAlert!!.setImageResource(R.drawable.ic_edit_job_alert)
         } else {
-            txtJobAlert!!.text = getString(R.string.add_job_alert)
             icJobAlert!!.setImageResource(R.drawable.ic_add_job_alert)
         }
     }
@@ -341,7 +341,7 @@ class ExploreFragment :
                 dashboardActivity!!.unauthorizedUser()
             }
         }
-        txtNewJob!!.setOnClickListener { onRefresh() }
+        txtRefresh!!.setOnClickListener { onRefresh() }
     }
 
     private fun initBrowse() {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLightGrey"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
@@ -14,18 +14,93 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/backgroundLightGrey">
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/rl_topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/filter"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/ic_filter_list" />
+            <LinearLayout
+                android:id="@+id/lin_job_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
+                    app:srcCompat="@drawable/ic_lightbulb_circle" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ic_job_alert"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/ic_circle_notifications" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_job_alert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_topBar"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp">
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/recent_jobs_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Explore Jobs"
+                android:textAppearance="@style/materialText_W500_20"
+                android:textColor="@color/textColor" />
+
+        </RelativeLayout>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/location"
+            style="@style/body2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40dp"
+            android:layout_below="@+id/rl_job_alert"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_round_search"
+            android:drawableStart="@drawable/ic_search_v5"
+            android:drawablePadding="4dp"
+            android:hint="Search"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/neutral_light_800" />
 
         <LinearLayout
             android:id="@+id/lin_search"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_below="@+id/rl_job_alert"
             android:layout_gravity="top"
             android:layout_marginStart="@dimen/spacing_large"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="@dimen/spacing_large"
             android:background="@drawable/linear_rounded_white_fill_6dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_search"
@@ -70,89 +145,55 @@
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/rl_job_alert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lin_search"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp">
-
-
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/recent_jobs_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Explore Jobs"
-                android:textAppearance="@style/materialText_W500_20"
-                android:textColor="@color/textColor" />
-
-            <LinearLayout
-                android:id="@+id/lin_job_alert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true">
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_job_alert"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_add_job_alert" />
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_job_alert"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textAppearance="@style/materialText_W400_14"
-                    android:textColor="@color/P300" />
-            </LinearLayout>
-
-        </RelativeLayout>
-
         <include
             android:id="@+id/filter_list"
             layout="@layout/view_filter_list"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:layout_below="@+id/rl_job_alert"
+            android:layout_below="@+id/lin_search"
             android:layout_marginHorizontal="@dimen/_8dp"
             android:layout_marginTop="8dp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
 
         <RelativeLayout
             android:id="@+id/linNewMessage"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_30dp"
-            android:layout_below="@+id/filter_list"
-            android:layout_marginTop="@dimen/_8dp"
+            android:layout_height="56dp"
+            android:layout_below="@+id/location"
+            android:layout_marginTop="12dp"
+            android:background="@color/secondary_400"
             android:gravity="center_horizontal"
             android:visibility="gone">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
+                android:layout_centerInParent="true"
+                android:layout_marginHorizontal="16dp">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_new_job"
+                    style="@style/subtitle2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:gravity="center_horizontal"
-                    android:textAppearance="@style/materialText_400_15"
-                    android:textColor="@color/colorAccent"
+                    android:layout_alignParentStart="true"
+                    android:gravity="start"
+                    android:textColor="@color/white"
                     android:visibility="visible" />
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtRefresh"
+                    style="@style/subtitle2"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_refresh" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:text="Tap to see"
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
+            </RelativeLayout>
         </RelativeLayout>
 
     </RelativeLayout>

@@ -27,12 +27,12 @@ import com.mikhaellopez.circularimageview.CircularImageView
 import java.text.ParseException
 
 class TaskListAdapterV2(
-    private val mItems: ArrayList<Data> = ArrayList(),
-    private val userAccountModel: UserAccountModel?,
-    private val isSingleLineBody: Boolean,
-    private val isFromExplore: Boolean = false
+        private val mItems: ArrayList<Data> = ArrayList(),
+        private val userAccountModel: UserAccountModel?,
+        private val isSingleLineBody: Boolean,
+        private val isFromExplore: Boolean = false
 ) :
-    RecyclerView.Adapter<BaseViewHolder>() {
+        RecyclerView.Adapter<BaseViewHolder>() {
     private var context: Context? = null
     private var mOnItemClickListener: OnItemClickListener? = null
     var onDraftDeleteListener: OnDraftDeleteListener? = null
@@ -56,10 +56,10 @@ class TaskListAdapterV2(
         context = parent.context
         return if (viewType == VIEW_TYPE_LOADING) {
             ProgressHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false)
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false)
             )
         } else ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_task_view, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.item_task_view, parent, false)
         )
     }
 
@@ -99,26 +99,26 @@ class TaskListAdapterV2(
         isLoaderVisible = true
         val position = mItems.size - 1
         mItems.add(
-            Data(
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            )
+                Data(
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                )
         )
         notifyItemInserted(position)
     }
@@ -145,19 +145,12 @@ class TaskListAdapterV2(
     }
 
     inner class ViewHolder internal constructor(itemView: View?) : BaseViewHolder(itemView) {
-        var imgAvatar3: CircularImageView? = null
-        var imgAvatar2: CircularImageView? = null
-        var imgAvatar1: CircularImageView? = null
-        var imgAvatar0: CircularImageView? = null
         var txtOfferCount: TextView? = null
         var txtTitle: TextView? = null
         var txtLocation: TextView? = null
         var txtDueDate: TextView? = null
         var txtBudget: TextView? = null
         var txtStatus: TextView? = null
-        var txtStatusDraft: TextView? = null
-        var tvDelete: TextView? = null
-        var cardTaskBackground: View? = null
         var content: View? = null
         var jobAlertCard: View? = null
         var btnAddAlert: MaterialButton? = null
@@ -168,19 +161,13 @@ class TaskListAdapterV2(
         override fun clear() {}
 
         init {
-            imgAvatar3 = itemView!!.findViewById(R.id.img_avatar3)
-            imgAvatar2 = itemView.findViewById(R.id.img_avatar2)
-            imgAvatar1 = itemView.findViewById(R.id.img_avatar1)
-            imgAvatar0 = itemView.findViewById(R.id.img_avatar0)
-            txtOfferCount = itemView.findViewById(R.id.txt_offer_count)
+
+            txtOfferCount = itemView!!.findViewById(R.id.txt_offer_count)
             txtTitle = itemView.findViewById(R.id.txt_title)
             txtLocation = itemView.findViewById(R.id.txt_location)
             txtDueDate = itemView.findViewById(R.id.txt_due_date)
             txtBudget = itemView.findViewById(R.id.txt_budget)
             txtStatus = itemView.findViewById(R.id.txt_status)
-            txtStatusDraft = itemView.findViewById(R.id.txt_status_draft)
-            tvDelete = itemView.findViewById(R.id.tv_delete)
-            cardTaskBackground = itemView.findViewById(R.id.card_task_background)
             content = itemView.findViewById(R.id.content)
             jobAlertCard = itemView.findViewById(R.id.job_alert_card)
             btnAddAlert = itemView.findViewById(R.id.btn_add_alert)
@@ -194,16 +181,6 @@ class TaskListAdapterV2(
         override fun onBind(position: Int) {
             super.onBind(position)
             val item = mItems[position]
-
-            /*if (position == 5 && !userAccountModel.account_status.isJobalerts && showAlert)
-                jobAlertCard!!.visibility = View.VISIBLE
-            else
-                jobAlertCard!!.visibility = View.GONE
-            if (position == 5 && !userAccountModel.account_status.isSkills && showSkills)
-                jobSkillsCard!!.visibility = View.VISIBLE
-            else
-                jobSkillsCard!!.visibility = View.GONE*/
-
             btnAddAlert!!.setOnClickListener {
                 val taskAlerts = Intent(context, TaskAlertsActivity::class.java)
                 taskAlerts.addFlags(FLAG_ACTIVITY_NEW_TASK)
@@ -236,120 +213,6 @@ class TaskListAdapterV2(
                 txtTitle!!.maxLines = 1
             else
                 txtTitle!!.maxLines = 2
-            if (!isFromExplore)
-                if (item.offers != null)
-                    if (item.offers.isNotEmpty()) {
-                        txtOfferCount!!.setTextColor(
-                            ContextCompat.getColor(
-                                context!!,
-                                R.color.N900
-                            )
-                        )
-                        when {
-                            item.offers.size >= 4 -> {
-                                imgAvatar3!!.visibility = View.VISIBLE
-                                imgAvatar2!!.visibility = View.VISIBLE
-                                imgAvatar1!!.visibility = View.VISIBLE
-                                imgAvatar0!!.visibility = View.VISIBLE
-                                if (item.offers[3].avatar != null) ImageUtil.displayImage(
-                                    imgAvatar3,
-                                    item.offers[3].avatar,
-                                    null
-                                ) else imgAvatar3!!.setImageResource(R.drawable.pic)
-                                if (item.offers[2].avatar != null) ImageUtil.displayImage(
-                                    imgAvatar2,
-                                    item.offers[2].avatar,
-                                    null
-                                ) else imgAvatar2!!.setImageResource(R.drawable.pic)
-                                if (item.offers[1].avatar != null) ImageUtil.displayImage(
-                                    imgAvatar1,
-                                    item.offers[1].avatar,
-                                    null
-                                ) else imgAvatar1!!.setImageResource(R.drawable.pic)
-                                if (item.offers[0].avatar != null) ImageUtil.displayImage(
-                                    imgAvatar0,
-                                    item.offers[0].avatar,
-                                    null
-                                ) else imgAvatar0!!.setImageResource(R.drawable.pic)
-                            }
-                            item.offers.size == 3 -> {
-                                imgAvatar0!!.visibility = View.GONE
-                                imgAvatar1!!.visibility = View.VISIBLE
-                                imgAvatar2!!.visibility = View.VISIBLE
-                                imgAvatar3!!.visibility = View.VISIBLE
-                                if (item.offers[2].avatar != null) ImageUtil.displayImage(
-                                    imgAvatar1,
-                                    item.offers[2].avatar,
-                                    null
-                                ) else imgAvatar1!!.setImageResource(R.drawable.pic)
-                                if (item.offers[1].avatar != null) ImageUtil.displayImage(
-                                    imgAvatar2,
-                                    item.offers[1].avatar,
-                                    null
-                                ) else imgAvatar2!!.setImageResource(R.drawable.pic)
-                                if (item.offers[0].avatar != null) ImageUtil.displayImage(
-                                    imgAvatar3,
-                                    item.offers[0].avatar,
-                                    null
-                                ) else imgAvatar3!!.setImageResource(R.drawable.pic)
-                            }
-                            item.offers.size == 2 -> {
-                                imgAvatar0!!.visibility = View.GONE
-                                imgAvatar1!!.visibility = View.GONE
-                                imgAvatar2!!.visibility = View.VISIBLE
-                                imgAvatar3!!.visibility = View.VISIBLE
-                                if (item.offers[1].avatar != null) ImageUtil.displayImage(
-                                    imgAvatar2,
-                                    item.offers[1].avatar,
-                                    null
-                                ) else imgAvatar2!!.setImageResource(R.drawable.pic)
-                                if (item.offers[0].avatar != null) ImageUtil.displayImage(
-                                    imgAvatar3,
-                                    item.offers[0].avatar,
-                                    null
-                                ) else imgAvatar3!!.setImageResource(R.drawable.pic)
-                            }
-                            item.offers.size == 1 -> {
-                                imgAvatar0!!.visibility = View.GONE
-                                imgAvatar1!!.visibility = View.GONE
-                                imgAvatar2!!.visibility = View.GONE
-                                imgAvatar3!!.visibility = View.VISIBLE
-                                if (item.offers[0].avatar != null) ImageUtil.displayImage(
-                                    imgAvatar3,
-                                    item.offers[0].avatar,
-                                    null
-                                ) else imgAvatar3!!.setImageResource(R.drawable.pic)
-                            }
-                        }
-                    } else {
-                        txtOfferCount!!.setTextColor(
-                            ContextCompat.getColor(
-                                context!!,
-                                R.color.N300
-                            )
-                        )
-                        imgAvatar3!!.visibility = View.GONE
-                        imgAvatar2!!.visibility = View.GONE
-                        imgAvatar1!!.visibility = View.GONE
-                        imgAvatar0!!.visibility = View.GONE
-                        // imgAvatar3.setImageResource(R.drawable.pic);
-                        txtOfferCount!!.text = ""
-                    } else {
-                    imgAvatar3!!.visibility = View.GONE
-                    imgAvatar2!!.visibility = View.GONE
-                    imgAvatar1!!.visibility = View.GONE
-                    imgAvatar0!!.visibility = View.GONE
-                    txtOfferCount!!.text = ""
-                    txtOfferCount!!.setTextColor(ContextCompat.getColor(context!!, R.color.N300))
-                    // imgAvatar3.setImageResource(R.drawable.pic);
-                }
-            else {
-                imgAvatar3!!.visibility = View.GONE
-                imgAvatar2!!.visibility = View.GONE
-                imgAvatar1!!.visibility = View.GONE
-                imgAvatar0!!.visibility = View.GONE
-                txtOfferCount!!.text = ""
-            }
             txtTitle!!.text = item.title
             txtDueDate!!.text = TimeHelper.convertToWeekDateFormatV2(item.due_date)
             if (item.location != null) {
@@ -362,25 +225,30 @@ class TaskListAdapterV2(
             } else txtBudget!!.text = ""
             if (item.offers != null) {
                 val count = item.offers.size
-                if (count >= 1) {
-                    if (item.offers.size < 5) txtOfferCount!!.visibility =
-                        View.GONE else txtOfferCount!!.visibility = View.VISIBLE
-                    txtOfferCount!!.text = count.toString() + ""
+                if (count > 1) {
+                    txtOfferCount!!.text = "$count Offers"
                     when {
                         count > 1000 -> {
-                            txtOfferCount!!.text = "+" + count / 1000 + "K"
+                            txtOfferCount!!.text = "+" + count / 1000 + "K" + " Offers"
                         }
                         count > 100 -> {
-                            txtOfferCount!!.text = "+" + count / 100 * 100
+                            txtOfferCount!!.text = "+" + count / 100 * 100 + " Offers"
                         }
                         count > 10 -> {
-                            txtOfferCount!!.text = "+" + count / 10 * 10
+                            txtOfferCount!!.text = "+" + count / 10 * 10 + " Offers"
                         }
                     }
+                } else if (count == 1) {
+                    txtOfferCount!!.text = "$count Offer"
+
+                } else {
+                    txtOfferCount!!.text = "No offer"
                 }
+            } else {
+                txtOfferCount!!.text = "No offer"
             }
             if (item.status != null) {
-                setColors(item)
+                txtStatus!!.visibility = View.VISIBLE
                 setStatusText(item)
             }
             content!!.setOnClickListener { v: View? ->
@@ -388,88 +256,29 @@ class TaskListAdapterV2(
                     mOnItemClickListener!!.onItemClick(v, item, adapterPosition, "action")
                 }
             }
-            tvDelete!!.setOnClickListener { v: View? ->
-                if (onDraftDeleteListener != null) {
-                    onDraftDeleteListener!!.onDraftDeleteButtonClick(v, item, position)
-                }
-            }
+
         }
 
         private fun setColors(item: Data) {
             when (item.status) {
                 "draft" -> {
                     txtStatus!!.visibility = View.VISIBLE
-                    txtStatusDraft!!.visibility = View.GONE
-                    tvDelete!!.visibility = View.GONE
-                    cardTaskBackground!!.background = ContextCompat.getDrawable(
-                        context!!, R.drawable.shape_rounded_draft
-                    )
-                    txtStatus!!.setTextColor(ContextCompat.getColor(context!!, R.color.P100))
                 }
                 "open", "posted", "offered" -> {
                     txtStatus!!.visibility = View.VISIBLE
-                    txtStatusDraft!!.visibility = View.GONE
-                    tvDelete!!.visibility = View.GONE
-                    cardTaskBackground!!.background = ContextCompat.getDrawable(
-                        context!!, R.drawable.shape_rounded_offered
-                    )
-                    txtStatus!!.setTextColor(
-                        ContextCompat.getColor(
-                            context!!,
-                            R.color.myJobsColorTaskOfferTrans
-                        )
-                    )
                 }
                 "assigned", "overdue" -> {
                     txtStatus!!.visibility = View.VISIBLE
-                    txtStatusDraft!!.visibility = View.GONE
-                    tvDelete!!.visibility = View.GONE
-                    cardTaskBackground!!.background = ContextCompat.getDrawable(
-                        context!!, R.drawable.shape_rounded_overdue
-                    )
-                    txtStatus!!.setTextColor(
-                        ContextCompat.getColor(
-                            context!!,
-                            R.color.myJobsColorTaskAssignedTrans
-                        )
-                    )
                 }
                 "completed" -> {
                     txtStatus!!.visibility = View.VISIBLE
-                    txtStatusDraft!!.visibility = View.GONE
-                    tvDelete!!.visibility = View.GONE
-                    cardTaskBackground!!.background = ContextCompat.getDrawable(
-                        context!!, R.drawable.shape_rounded_offered
-                    )
-                    txtStatus!!.setTextColor(
-                        ContextCompat.getColor(
-                            context!!,
-                            R.color.myJobsColorTaskOfferTrans
-                        )
-                    )
+
                 }
                 "closed" -> {
                     txtStatus!!.visibility = View.VISIBLE
-                    txtStatusDraft!!.visibility = View.GONE
-                    tvDelete!!.visibility = View.GONE
-                    cardTaskBackground!!.background = ContextCompat.getDrawable(
-                        context!!, R.drawable.shape_rounded_closed
-                    )
-                    txtStatus!!.setTextColor(ContextCompat.getColor(context!!, R.color.N080))
                 }
                 "cancelled" -> {
                     txtStatus!!.visibility = View.VISIBLE
-                    txtStatusDraft!!.visibility = View.GONE
-                    tvDelete!!.visibility = View.GONE
-                    cardTaskBackground!!.background = ContextCompat.getDrawable(
-                        context!!, R.drawable.shape_rounded_cancelled
-                    )
-                    txtStatus!!.setTextColor(
-                        ContextCompat.getColor(
-                            context!!,
-                            R.color.myJobsColorTaskCancelledTrans
-                        )
-                    )
                 }
             }
         }
@@ -516,7 +325,7 @@ class TaskListAdapterV2(
                     if (item.updated_at != null) {
                         try {
                             txtOfferCount!!.text = "Last edited: " + Tools.formatJobDetailsDateV2(
-                                Tools.chatDateToMillisZ(item.updated_at)
+                                    Tools.chatDateToMillisZ(item.updated_at)
                             )
                         } catch (e: ParseException) {
                             e.printStackTrace()

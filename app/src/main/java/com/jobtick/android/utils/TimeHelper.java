@@ -76,7 +76,7 @@ public class TimeHelper {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
         SimpleDateFormat sdf
-                = new SimpleDateFormat("EEEE, dd MMM", Locale.UK);
+                = new SimpleDateFormat("EEE, MMM dd", Locale.UK);
 
         Date date = null;
         try {

@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
     <include
         android:id="@+id/job_alert_card"
@@ -21,38 +23,27 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="6dp"
-        android:background="@drawable/shape_rounded_back_white_button_active_r8">
-
-        <View
-            android:id="@+id/card_task_background"
-            android:layout_width="26dp"
-            android:layout_height="2dp"
-            android:layout_marginStart="16dp"
-            android:background="@color/red" />
+        android:layout_marginBottom="8dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="12dp">
+            android:paddingEnd="16dp">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_status"
+                style="@style/overline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="8dp"
+                android:drawableStart="@drawable/ic_label"
+                android:drawablePadding="4dp"
                 android:gravity="center_vertical"
                 android:singleLine="true"
-                android:textAppearance="@style/materialText_400_12"
-                android:textColor="@color/P300"
+                android:textColor="@color/neutral_light_600"
                 tools:text="Open" />
 
             <RelativeLayout
@@ -63,30 +54,17 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_title"
+                    style="@style/body2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_marginEnd="30dp"
-                    android:layout_toLeftOf="@+id/txt_budget"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="2"
-                    android:textAppearance="@style/materialText_W400_16"
-                    android:textColor="@color/N900"
+                    android:textColor="@color/neutral_dark"
                     tools:text="@string/clean_my_two_bedroom_apartment" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_budget"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="bottom"
-                    android:layout_marginEnd="4dp"
-                    android:gravity="end|center_vertical"
-                    android:textAppearance="@style/materialText_W500_16"
-                    android:textColor="@color/P300"
-                    tools:text="@string/_200" />
+
             </RelativeLayout>
 
 
@@ -96,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_title"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="6.5dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -105,39 +83,33 @@
                     android:layout_height="16dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_map_pin" />
+                    android:src="@drawable/ic_near_me" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_location"
-                    android:layout_width="0dp"
+                    style="@style/caption"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="start"
                     android:layout_marginStart="4dp"
-                    android:layout_weight="1"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
+                    android:maxWidth="150dp"
                     android:singleLine="true"
-                    android:text="@string/no_location_set"
-                    android:textAppearance="@style/materialText_W400_14"
-                    android:textColor="@color/N300" />
-            </LinearLayout>
+                    android:text="@string/no_location_set" />
 
-
-            <LinearLayout
-                android:id="@+id/price_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/location_container"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="4dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/_8dp"
+                    android:background="@color/neutral_light_100" />
 
                 <ImageView
                     android:layout_width="13dp"
                     android:layout_height="16dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_calendar" />
+                    android:src="@drawable/ic_event" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_due_date"
@@ -152,111 +124,53 @@
                     android:text="No time set"
                     android:textAppearance="@style/materialText_W400_14"
                     android:textColor="@color/N300" />
+            </LinearLayout>
 
-                <RelativeLayout
-                    android:layout_width="75dp"
-                    android:layout_height="25dp">
 
-                    <com.mikhaellopez.circularimageview.CircularImageView
-                        android:id="@+id/img_avatar3"
-                        android:layout_width="25dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_gravity="center"
-                        android:src="@drawable/pic"
-                        card_view:civ_border="false" />
+            <RelativeLayout
 
-                    <com.mikhaellopez.circularimageview.CircularImageView
-                        android:id="@+id/img_avatar2"
-                        android:layout_width="25dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="12.5dp"
-                        android:src="@drawable/pic"
-                        card_view:civ_border="false" />
+                android:id="@+id/price_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/location_container"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                    <com.mikhaellopez.circularimageview.CircularImageView
-                        android:id="@+id/img_avatar1"
-                        android:layout_width="25dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="25dp"
-                        android:src="@drawable/pic"
-                        card_view:civ_border="false" />
-
-                    <com.mikhaellopez.circularimageview.CircularImageView
-                        android:id="@+id/img_avatar0"
-                        android:layout_width="25dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="40dp"
-                        android:src="@drawable/pic"
-                        card_view:civ_border="false" />
-                </RelativeLayout>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_offer_count"
+                    style="@style/caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|start"
-                    android:layout_marginStart="4dp"
-                    android:backgroundTint="@color/N030"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/ic_flag_v4"
+                    android:drawablePadding="4dp"
                     android:gravity="start"
                     android:lines="1"
-                    android:paddingStart="4dp"
-                    android:paddingTop="3dp"
-                    android:paddingEnd="3dp"
-                    android:paddingBottom="3dp"
-                    android:textAppearance="@style/materialText_400_12"
-                    android:textColor="@color/N900"
                     tools:text="99" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_delete"
+                    android:id="@+id/txt_budget"
+                    style="@style/heading6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/rectangle_card_round_corners_outlined_red_button"
-                    android:drawableStart="@drawable/ic_trash_hollow_red_16dp"
-                    android:paddingStart="8dp"
-                    android:paddingTop="2dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="2dp"
-                    android:text=" Delete"
-                    android:textAppearance="@style/materialText_400_12"
-                    android:textColor="@color/R300"
-                    android:visibility="gone" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:textColor="@color/primary_500"
+                    tools:text="@string/_200" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_status_draft"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|start"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/shape_rounded_gray_light"
-                    android:gravity="start"
-                    android:lines="1"
-                    android:paddingStart="8dp"
-                    android:paddingTop="2dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="2dp"
-                    android:textAppearance="@style/materialText_400_12"
-                    android:textColor="@color/grey_70"
-                    android:visibility="gone"
-                    tools:text="@string/drafted" />
-
-
-            </LinearLayout>
+            </RelativeLayout>
 
 
         </RelativeLayout>
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/neutral_light_100" />
 </LinearLayout>

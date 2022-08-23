@@ -141,15 +141,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public class ViewHolder extends BaseViewHolder {
         @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.img_avatar3)
-        CircularImageView imgAvatar3;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.img_avatar2)
-        CircularImageView imgAvatar2;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.img_avatar1)
-        CircularImageView imgAvatar1;
-        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_offer_count)
         TextView txtOfferCount;
         @SuppressLint("NonConstantResourceId")
@@ -168,15 +159,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.txt_status)
         TextView txtStatus;
         @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.txt_status_draft)
-        TextView txtStatusDraft;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.tv_delete)
-        TextView tvDelete;
-        @SuppressLint("NonConstantResourceId")
-        @BindView(R.id.card_task_background)
-        View cardTaskBackground;
-        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.content)
         View content;
 
@@ -192,15 +174,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             super.onBind(position);
             TaskModel item = mItems.get(position);
-            if (item.getPoster() != null && item.getPoster().getAvatar() != null && item.getPoster().getAvatar().getModalUrl() != null) {
-//                ImageUtil.displayImage(imgAvatar, item.getPoster().getAvatar().getThumbUrl(), null);
-//                Glide.with(imgAvatar).load(item.getPoster().getAvatar().getThumbUrl()).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(imgAvatar);
-                ImageUtil.displayImage(imgAvatar3, item.getPoster().getAvatar().getThumbUrl(), null);
-                ImageUtil.displayImage(imgAvatar2, item.getPoster().getAvatar().getThumbUrl(), null);
-                ImageUtil.displayImage(imgAvatar1, item.getPoster().getAvatar().getThumbUrl(), null);
-            } else {
-                imgAvatar3.setImageResource(R.drawable.pic);
-            }
+
 
             txtTitle.setText(item.getTitle());
             txtDueDate.setText(TimeHelper.convertToWeekDateFormat(item.getDueDate()));
@@ -244,11 +218,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             });
 
-            tvDelete.setOnClickListener(v -> {
-                if (mOnDraftDeleteListener != null) {
-                    mOnDraftDeleteListener.onDraftDeleteButtonClick(v, item, position);
-                }
-            });
         }
 
 
@@ -256,41 +225,26 @@ public class TaskListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             switch (item.getStatus()) {
                 case "draft":
                     txtStatus.setVisibility(View.VISIBLE);
-                    txtStatusDraft.setVisibility(View.GONE);
-                    tvDelete.setVisibility(View.GONE);
-                    cardTaskBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rounded_draft));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.N080));
                     break;
                 case "open":
                 case "posted":
                 case "offered":
                     txtStatus.setVisibility(View.VISIBLE);
-                    txtStatusDraft.setVisibility(View.GONE);
-                    tvDelete.setVisibility(View.GONE);
-                    cardTaskBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rounded_offered));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskOfferTrans));
                     break;
                 case "assigned":
                 case "overdue":
                     txtStatus.setVisibility(View.VISIBLE);
-                    txtStatusDraft.setVisibility(View.GONE);
-                    tvDelete.setVisibility(View.GONE);
-                    cardTaskBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rounded_overdue));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskAssignedTrans));
                     break;
                 case "completed":
                 case "closed":
                     txtStatus.setVisibility(View.VISIBLE);
-                    txtStatusDraft.setVisibility(View.GONE);
-                    tvDelete.setVisibility(View.GONE);
-                    cardTaskBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rounded_closed));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCompletedTrans));
                     break;
                 case "cancelled":
                     txtStatus.setVisibility(View.VISIBLE);
-                    txtStatusDraft.setVisibility(View.GONE);
-                    tvDelete.setVisibility(View.GONE);
-                    cardTaskBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rounded_cancelled));
                     txtStatus.setTextColor(ContextCompat.getColor(context, R.color.myJobsColorTaskCancelledTrans));
                     break;
             }

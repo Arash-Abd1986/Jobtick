@@ -59,7 +59,7 @@ class TaskListAdapterV2(
                     LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false)
             )
         } else ViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_task_view, parent, false)
+                LayoutInflater.from(parent.context).inflate(if (isFromExplore) R.layout.item_task_view else R.layout.item_task_view_map, parent, false)
         )
     }
 
@@ -247,7 +247,7 @@ class TaskListAdapterV2(
             } else {
                 txtOfferCount!!.text = "No offer"
             }
-            if (item.status != null) {
+            if (item.status != null && isFromExplore) {
                 txtStatus!!.visibility = View.VISIBLE
                 setStatusText(item)
             }

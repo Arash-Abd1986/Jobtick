@@ -16,12 +16,62 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rectangle_gradiant">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/location"
+                style="@style/body2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_round_search"
+                android:drawableStart="@drawable/ic_filter_list"
+                android:drawableEnd="@drawable/ic_circle_notifications"
+                android:drawablePadding="4dp"
+                android:hint="Search"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/neutral_light_800" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_search"
+                style="@style/caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/location"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:text="Exploring this area..."
+                android:textColor="@color/neutral_light_500"
+                android:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/loadingView"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_search"
+                android:layout_marginBottom="-8dp"
+                android:indeterminate="true"
+                android:indeterminateOnly="true" />
+        </RelativeLayout>
 
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
+            android:visibility="gone"
             style="@style/materialToolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -39,45 +89,49 @@
             android:layout_marginTop="8dp"
             android:visibility="gone" />
 
-        <com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/txt_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/shape_rounded_white_20dp"
-            android:gravity="center"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="10dp"
-            android:visibility="gone"
-            android:text="Search this area"
-            android:textAppearance="@style/materialText_600_10"
-            android:textColor="@color/N900" />
+
 
 
     </RelativeLayout>
+    <RelativeLayout
+        android:background="@drawable/back_secondary_corner_16"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/recycler_view_task"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:layout_height="52dp">
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/ivMapView"
+            style="@style/unelevatedColored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/ic_format_list_bulleted"
+            android:drawablePadding="@dimen/_8dp"
+            android:text="List View"
+            android:textColor="@color/white" />
+    </RelativeLayout>
     <androidx.cardview.widget.CardView
         android:id="@+id/location_button"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_above="@+id/recycler_view_task"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="36dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/primary_light_50"
         android:elevation="0dp"
-        app:cardCornerRadius="22dp"
+        app:cardCornerRadius="16dp"
         app:cardElevation="0dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/ic_direction" />
+            android:src="@drawable/ic_my_location" />
 
     </androidx.cardview.widget.CardView>
 
@@ -86,7 +140,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="24dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_task_view"

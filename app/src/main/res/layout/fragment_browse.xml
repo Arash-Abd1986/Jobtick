@@ -64,11 +64,11 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/recent_jobs_title"
+                style="@style/heading2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="Explore Jobs"
-                android:textAppearance="@style/materialText_W500_20"
                 android:textColor="@color/textColor" />
 
         </RelativeLayout>
@@ -271,26 +271,30 @@
                         android:textAppearance="@style/materialText_500_16"
                         android:textColor="@color/colorNavyBlue" />
 
-
                 </LinearLayout>
             </RelativeLayout>
 
         </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/ivMapView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/ic_map_white"
-        app:borderWidth="0dp"
-        app:elevation="@dimen/_16sp"
-        app:fabSize="normal"
-        app:tint="@color/white" />
+   <RelativeLayout
+       android:layout_marginBottom="24dp"
+       android:background="@drawable/back_secondary_corner_16"
+       android:layout_width="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:layout_centerHorizontal="true"
+       android:layout_height="52dp">
+
+       <com.google.android.material.textview.MaterialTextView
+           android:id="@+id/ivMapView"
+           style="@style/unelevatedColored"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_centerVertical="true"
+           android:drawableLeft="@drawable/ic_map_v4"
+           android:drawablePadding="@dimen/_8dp"
+           android:text="Explore Jobs"
+           android:textColor="@color/white" />
+   </RelativeLayout>
 
 </RelativeLayout>

@@ -18,6 +18,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,9 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import com.jobtick.android.AppController
 import com.jobtick.android.BuildConfig
@@ -59,11 +63,11 @@ import timber.log.Timber
  * A simple [Fragment] subclass.
  */
 class ExploreFragment :
-    Fragment(),
-    OnRefreshListener,
-    TaskListAdapterV2.OnItemClickListener,
-    SearchView.OnQueryTextListener,
-    SearchView.OnCloseListener {
+        Fragment(),
+        OnRefreshListener,
+        TaskListAdapterV2.OnItemClickListener,
+        SearchView.OnQueryTextListener,
+        SearchView.OnCloseListener {
     private var recyclerViewFilters: RecyclerView? = null
     private var recyclerViewBrowse: RecyclerView? = null
     private var lytBtnFilters: LinearLayout? = null
@@ -78,7 +82,8 @@ class ExploreFragment :
     private var ivSearch: ImageView? = null
     private var filter: ImageView? = null
     private var appbar: RelativeLayout? = null
-    private var ivMapView: FloatingActionButton? = null
+    private var ivMapView: MaterialTextView? = null
+    private var location: TextInputEditText? = null
     private var emptyFilter: RelativeLayout? = null
 
     private var mSocket: Socket? = null
@@ -103,9 +108,9 @@ class ExploreFragment :
 
     private val TAG = "explore"
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_browse, container, false)
@@ -128,6 +133,7 @@ class ExploreFragment :
         appbar = requireView().findViewById(R.id.appbar)
         ivMapView = requireView().findViewById(R.id.ivMapView)
         emptyFilter = requireView().findViewById(R.id.empty_filter)
+        location = requireView().findViewById(R.id.location)
         txtNewJob = requireView().findViewById(R.id.txt_new_job)
         txtRefresh = requireView().findViewById(R.id.txtRefresh)
         linNewMessage = requireView().findViewById(R.id.linNewMessage)
@@ -154,16 +160,16 @@ class ExploreFragment :
         toolbarTitle.visibility = View.VISIBLE
         toolbarTitle.setText(R.string.explore)
         toolbar!!.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.backgroundLightGrey
-            )
+                ContextCompat.getColor(
+                        requireContext(),
+                        R.color.backgroundLightGrey
+                )
         )
         toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.dmsans_medium)
         toolbarTitle.textSize = 20f
         val params = Toolbar.LayoutParams(
-            Toolbar.LayoutParams.WRAP_CONTENT,
-            Toolbar.LayoutParams.WRAP_CONTENT
+                Toolbar.LayoutParams.WRAP_CONTENT,
+                Toolbar.LayoutParams.WRAP_CONTENT
         )
         params.gravity = Gravity.START
         toolbarTitle.layoutParams = params
@@ -205,7 +211,7 @@ class ExploreFragment :
         currentPage = PaginationListener.PAGE_START
         isLastPageItems = false
         taskListAdapter!!.clear()
-        doApiCall()
+        doApiCall("")
     }
 
     @SuppressLint("LogNotTimber")
@@ -213,8 +219,8 @@ class ExploreFragment :
         try {
             requireActivity().runOnUiThread {
                 Log.i(
-                    TAG,
-                    "diconnected"
+                        TAG,
+                        "diconnected"
                 )
             }
         } catch (e: Exception) {
@@ -226,8 +232,8 @@ class ExploreFragment :
     private val onConnect = Emitter.Listener { args: Array<Any?>? ->
         requireActivity().runOnUiThread {
             Log.e(
-                TAG,
-                "Success connecting"
+                    TAG,
+                    "Success connecting"
             )
         }
     }
@@ -236,8 +242,8 @@ class ExploreFragment :
     private val onConnectError = Emitter.Listener { args: Array<Any?>? ->
         requireActivity().runOnUiThread {
             Log.e(
-                TAG,
-                "Error connecting " + args
+                    TAG,
+                    "Error connecting " + args
             )
         }
     }
@@ -282,7 +288,7 @@ class ExploreFragment :
                 try {
                     linNewMessage!!.visibility = View.VISIBLE
                     newJobCount += 1
-                    txtNewJob!!.text = getString(R.string.new_job_count, newJobCount.toString()) + if(newJobCount>1) "s" else ""
+                    txtNewJob!!.text = getString(R.string.new_job_count, newJobCount.toString()) + if (newJobCount > 1) "s" else ""
                 } catch (e: Exception) {
                     Log.e(TAG, e.message!!)
                     return@runOnUiThread
@@ -350,10 +356,10 @@ class ExploreFragment :
         val layoutManager = LinearLayoutManager(context)
         recyclerViewBrowse!!.layoutManager = layoutManager
         taskListAdapter = TaskListAdapterV2(
-            taskArrayList,
-            sessionManager!!.userAccount,
-            false,
-            isFromExplore = true
+                taskArrayList,
+                sessionManager!!.userAccount,
+                false,
+                isFromExplore = true
         )
         recyclerViewBrowse!!.adapter = taskListAdapter
         taskListAdapter!!.setOnItemClickListener(this)
@@ -361,7 +367,7 @@ class ExploreFragment :
             override fun loadMoreItems() {
                 isLoadingItems = true
                 currentPage++
-                doApiCall()
+                doApiCall("")
             }
 
             override val isLastPage: Boolean
@@ -374,7 +380,7 @@ class ExploreFragment :
     @SuppressLint("SetTextI18n")
     private fun initFilter() {
         recyclerViewFilters!!.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewFilters!!.setHasFixedSize(true)
         filterAdapter = FilterAdapter(filters)
         filterAdapter!!.setmOnFilterDeleteListener { filters.clear() }
@@ -384,6 +390,12 @@ class ExploreFragment :
             filterModel = sessionManager!!.filter
         }
         setFilterData()
+        location?.doOnTextChanged { text, start, before, count ->
+            currentPage = PaginationListener.PAGE_START
+            isLastPageItems = false
+            taskListAdapter!!.clear()
+            doApiCall(text.toString())
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -444,7 +456,7 @@ class ExploreFragment :
         }
     }
 
-    private fun doApiCall() {
+    private fun doApiCall(filterTerm: String) {
         var queryParameter = ""
         if (filterModel!!.query != null && !filterModel!!.query.equals("", ignoreCase = true)) {
             queryParameter = "&search_query=" + filterModel!!.query
@@ -453,9 +465,9 @@ class ExploreFragment :
             queryParameter = queryParameter + "&task_type=" + Constant.FILTER_ALL_QUERY
             queryParameter = queryParameter + "&distance=" + filterModel!!.distance
             val price = filterModel!!.price.replace("$", "").replace(",", "").split("-".toRegex())
-                .toTypedArray()
+                    .toTypedArray()
             queryParameter =
-                queryParameter + "&min_price=" + price[0].trim { it <= ' ' } + "&max_price=" + price[1].trim { it <= ' ' }
+                    queryParameter + "&min_price=" + price[0].trim { it <= ' ' } + "&max_price=" + price[1].trim { it <= ' ' }
             queryParameter = queryParameter + "&current_lat=" + filterModel!!.latitude
             queryParameter = queryParameter + "&current_lng=" + filterModel!!.logitude
             if (filterModel!!.task_open != null) {
@@ -464,9 +476,9 @@ class ExploreFragment :
         } else if (filterModel!!.section.equals(Constant.FILTER_REMOTE, ignoreCase = true)) {
             queryParameter = queryParameter + "&task_type=" + Constant.FILTER_REMOTE_QUERY
             val price = filterModel!!.price.replace("$", "").replace(",", "").split("-".toRegex())
-                .toTypedArray()
+                    .toTypedArray()
             queryParameter =
-                queryParameter + "&min_price=" + price[0].trim { it <= ' ' } + "&max_price=" + price[1].trim { it <= ' ' }
+                    queryParameter + "&min_price=" + price[0].trim { it <= ' ' } + "&max_price=" + price[1].trim { it <= ' ' }
             if (filterModel!!.task_open != null) {
                 queryParameter = "$queryParameter&hide_assigned=true"
             }
@@ -474,64 +486,66 @@ class ExploreFragment :
             queryParameter = queryParameter + "&task_type=" + Constant.FILTER_IN_PERSON_QUERY
             queryParameter = queryParameter + "&distance=" + filterModel!!.distance
             val price = filterModel!!.price.replace("$", "").replace(",", "").split("-".toRegex())
-                .toTypedArray()
+                    .toTypedArray()
             queryParameter =
-                queryParameter + "&min_price=" + price[0].trim { it <= ' ' } + "&max_price=" + price[1].trim { it <= ' ' }
+                    queryParameter + "&min_price=" + price[0].trim { it <= ' ' } + "&max_price=" + price[1].trim { it <= ' ' }
             queryParameter = queryParameter + "&current_lat=" + filterModel!!.latitude
             queryParameter = queryParameter + "&current_lng=" + filterModel!!.logitude
             if (filterModel!!.task_open != null) {
                 queryParameter = "$queryParameter&hide_assigned=true"
             }
         }
+        if (!filterTerm.isEmpty()) {
+            queryParameter = "$queryParameter&search_query=$filterTerm"
+        }
         //        queryParameter = queryParameter + "&hide_assigned=true";
-        Helper.closeKeyboard(dashboardActivity)
         val stringRequest: StringRequest = object : StringRequest(
-            Method.GET,
-            Constant.URL_TASKS_v2 + "?page=" + currentPage + queryParameter,
-            Response.Listener { response: String? ->
-                Timber.e(response)
-                swipeRefresh!!.isRefreshing = false
-                newJobCount = 0
-                linNewMessage!!.visibility = View.GONE
-                // categoryArrayList.clear();
-                try {
-                    val jsonObject = JSONObject(response!!)
-                    Timber.e(jsonObject.toString())
-                    val gson = Gson()
-                    val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(
-                        jsonObject.toString(),
-                        MyJobsResponse::class.java
-                    )
-                    if (data == null) {
-                        dashboardActivity!!.showToast("some went to wrong", dashboardActivity)
-                        return@Listener
-                    }
-                    totalItem = total!!
-                    Constant.PAGE_SIZE = per_page!!
-                    totalPage = total
-                    taskListAdapter!!.addItems(data, totalItem)
-                    isLastPageItems = taskListAdapter!!.itemCount == totalItem
+                Method.GET,
+                Constant.URL_TASKS_v2 + "?page=" + currentPage + queryParameter,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
                     swipeRefresh!!.isRefreshing = false
-                    isLoadingItems = false
-                    if (totalItem == 0) {
-                        emptyFilter!!.visibility = View.VISIBLE
-                        recyclerViewBrowse!!.visibility = View.GONE
-                    } else {
-                        emptyFilter!!.visibility = View.GONE
-                        recyclerViewBrowse!!.visibility = View.VISIBLE
+                    newJobCount = 0
+                    linNewMessage!!.visibility = View.GONE
+                    // categoryArrayList.clear();
+                    try {
+                        val jsonObject = JSONObject(response!!)
+                        Timber.e(jsonObject.toString())
+                        val gson = Gson()
+                        val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(
+                                jsonObject.toString(),
+                                MyJobsResponse::class.java
+                        )
+                        if (data == null) {
+                            dashboardActivity!!.showToast("some went to wrong", dashboardActivity)
+                            return@Listener
+                        }
+                        totalItem = total!!
+                        Constant.PAGE_SIZE = per_page!!
+                        totalPage = total
+                        taskListAdapter!!.addItems(data, totalItem)
+                        isLastPageItems = taskListAdapter!!.itemCount == totalItem
+                        swipeRefresh!!.isRefreshing = false
+                        isLoadingItems = false
+                        if (totalItem == 0) {
+                            emptyFilter!!.visibility = View.VISIBLE
+                            recyclerViewBrowse!!.visibility = View.GONE
+                        } else {
+                            emptyFilter!!.visibility = View.GONE
+                            recyclerViewBrowse!!.visibility = View.VISIBLE
+                        }
+                    } catch (e: JSONException) {
+                        swipeRefresh!!.isRefreshing = false
+                        dashboardActivity!!.hideProgressDialog()
+                        Timber.e(e.toString())
+                        e.printStackTrace()
                     }
-                } catch (e: JSONException) {
+                },
+                Response.ErrorListener { error: VolleyError ->
                     swipeRefresh!!.isRefreshing = false
                     dashboardActivity!!.hideProgressDialog()
-                    Timber.e(e.toString())
-                    e.printStackTrace()
+                    dashboardActivity!!.errorHandle1(error.networkResponse)
                 }
-            },
-            Response.ErrorListener { error: VolleyError ->
-                swipeRefresh!!.isRefreshing = false
-                dashboardActivity!!.hideProgressDialog()
-                dashboardActivity!!.errorHandle1(error.networkResponse)
-            }
         ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
@@ -542,8 +556,8 @@ class ExploreFragment :
             }
         }
         stringRequest.retryPolicy = DefaultRetryPolicy(
-            0, -1,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
         val requestQueue = Volley.newRequestQueue(dashboardActivity)
         requestQueue.add(stringRequest)
@@ -555,7 +569,7 @@ class ExploreFragment :
         currentPage = PaginationListener.PAGE_START
         isLastPageItems = false
         taskListAdapter!!.clear()
-        doApiCall()
+        doApiCall("")
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {

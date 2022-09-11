@@ -411,10 +411,10 @@ fun MaterialButton.setSpanStyledTwoLineText(
         text: String,
         context: Context,
         breakLinePosition: Int,
-        startStyle: CustomTypefaceSpan = CustomTypefaceSpan("dmsans_medium", ResourcesCompat.getFont(context, R.font.dmsans_medium)
+        startStyle: CustomTypefaceSpan = CustomTypefaceSpan("roboto_medium", ResourcesCompat.getFont(context, R.font.roboto_medium)
         ),
         endStyle: CustomTypefaceSpan =
-                CustomTypefaceSpan("dmsans_regular", ResourcesCompat.getFont(context, R.font.dmsans_regular)
+                CustomTypefaceSpan("roboto_regular", ResourcesCompat.getFont(context, R.font.roboto_regular)
                 ),
         startColor: Int = ContextCompat.getColor(context, R.color.neutral_dark),
         endColor: Int = ContextCompat.getColor(context, R.color.neutral_light_400)) {

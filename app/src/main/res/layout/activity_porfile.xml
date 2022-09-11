@@ -14,7 +14,7 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="start"
         android:backgroundTint="@color/backgroundLightGrey"
-        android:fontFamily="@font/dmsans_bold"
+        android:fontFamily="@font/roboto_bold"
         android:gravity="center"
         android:theme="@style/ThemeOverlay_Toolbar"
         app:contentInsetStartWithNavigation="0dp"

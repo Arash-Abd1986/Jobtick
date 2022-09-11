@@ -2,10 +2,10 @@
 <font-family xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <font
-        app:font="@font/dmsans_bold"
+        app:font="@font/roboto_bold"
         app:fontStyle="normal"
         app:fontWeight="600"
-        android:font="@font/dmsans_bold"
+        android:font="@font/roboto_bold"
         android:fontStyle="normal"
         android:fontWeight="600" />
 

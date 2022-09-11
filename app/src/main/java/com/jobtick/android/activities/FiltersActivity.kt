@@ -1,49 +1,58 @@
 package com.jobtick.android.activities
 
-import androidx.appcompat.app.AppCompatActivity
-import com.jobtick.android.fragments.FilterInPersonFragment.FragmentCallbackFilterInPerson
-import com.jobtick.android.fragments.FilterAllFragment.FragmentCallbackFilterAll
-import com.jobtick.android.fragments.FilterRemotelyFragment.FragmentCallbackFilterRemote
-import android.annotation.SuppressLint
-import butterknife.BindView
-import com.jobtick.android.R
-import com.google.android.material.appbar.MaterialToolbar
-import androidx.appcompat.widget.SwitchCompat
-import com.jobtick.android.widget.ExtendedEntryText
-import androidx.viewpager.widget.ViewPager
-import com.jobtick.android.models.FilterModel
-import com.jobtick.android.fragments.AbstractFilterFragment
-import android.os.Bundle
-import butterknife.ButterKnife
-import android.os.Parcelable
-import android.widget.CompoundButton
-import com.jobtick.android.fragments.FilterRemotelyFragment
-import com.jobtick.android.fragments.FilterInPersonFragment
-import com.jobtick.android.fragments.FilterAllFragment
 import android.content.Intent
+import android.os.Bundle
+import android.os.Parcelable
 import android.view.MenuItem
-import android.view.View
+import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.textview.MaterialTextView
+import com.jobtick.android.R
+import com.jobtick.android.fragments.AbstractFilterFragment
+import com.jobtick.android.fragments.FilterAllFragment
+import com.jobtick.android.fragments.FilterAllFragment.FragmentCallbackFilterAll
+import com.jobtick.android.fragments.FilterInPersonFragment
+import com.jobtick.android.fragments.FilterInPersonFragment.FragmentCallbackFilterInPerson
+import com.jobtick.android.fragments.FilterRemotelyFragment
+import com.jobtick.android.fragments.FilterRemotelyFragment.FragmentCallbackFilterRemote
+import com.jobtick.android.material.ui.filter.SortByFragment
+import com.jobtick.android.material.ui.postajob.GetLocationFragment
+import com.jobtick.android.models.FilterModel
+import com.jobtick.android.network.coroutines.ApiHelper
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.Constant
-import java.util.ArrayList
-import java.util.HashMap
+import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.gone
+import com.jobtick.android.utils.visible
+import com.jobtick.android.viewmodel.PostAJobViewModel
+import com.jobtick.android.viewmodel.ViewModelFactory
 
-class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson, FragmentCallbackFilterAll, FragmentCallbackFilterRemote {
-    var toolbar: MaterialToolbar? = null
-    var rbRemotely: SwitchCompat? = null
-    var rbInPerson: SwitchCompat? = null
-    var txtSuburb: ExtendedEntryText? = null
-    var viewPager: ViewPager? = null
-    var filterModel: FilterModel? = null
-    var filters: Map<String, String>? = null
+
+open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson, FragmentCallbackFilterAll, FragmentCallbackFilterRemote {
+
+    private var txtSuburb: MaterialTextView? = null
+    private lateinit var jobType: MaterialTextView
+    private lateinit var sortBy: MaterialTextView
+    private lateinit var back: AppCompatImageView
+    private var viewPager: ViewPager? = null
+    private var filterModel: FilterModel? = null
+    private var filters: Map<String, String>? = null
     private var all = true
     private var abstractFilterFragment1: AbstractFilterFragment? = null
     private var abstractFilterFragment2: AbstractFilterFragment? = null
     private var abstractFilterFragment3: AbstractFilterFragment? = null
     private var currentTab = 0
+    private lateinit var viewModel: PostAJobViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filters)
@@ -54,24 +63,50 @@ class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson, Fra
         if (bundle?.getParcelable<Parcelable?>(Constant.FILTER) != null) {
             filterModel = bundle.getParcelable(Constant.FILTER)
         }
-        initToolbar()
         initComponent()
+        initVM()
+    }
+
+    private fun initVM() {
+        viewModel = ViewModelProvider(
+                this,
+                ViewModelFactory(ApiHelper(ApiClient.getClientV2(SessionManager(applicationContext))))
+        ).get(PostAJobViewModel::class.java)
+    }
+
+    fun showFragment(fragment: Fragment) {
+        val view = findViewById<FrameLayout>(R.id.frame_container)
+        view.visible()
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        transaction.add(R.id.frame_container, fragment)
+        transaction.commit()
+    }
+
+    fun hideFragment() {
+        val view = findViewById<FrameLayout>(R.id.frame_container)
+        view.gone()
     }
 
     private fun setIDs() {
-        toolbar= findViewById(R.id.toolbar)
-        rbRemotely= findViewById(R.id.rb_remotely)
-        rbInPerson= findViewById(R.id.rb_in_person)
-        txtSuburb= findViewById(R.id.txt_suburb)
-        viewPager= findViewById(R.id.view_pager)
+        txtSuburb = findViewById(R.id.txt_suburb)
+        viewPager = findViewById(R.id.view_pager)
+        jobType = findViewById(R.id.job_type)
+        sortBy = findViewById(R.id.sortBy)
+        back = findViewById(R.id.back)
+        sortBy.setOnClickListener {
+            showFragment(SortByFragment())
+        }
+        back.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     fun setSuburb(suburb: String?) {
-        txtSuburb!!.text = suburb
+        // txtSuburb!!.text = suburb
     }
 
     fun setSubError(error: String?) {
-        txtSuburb!!.setError(error)
+        //txtSuburb!!.setError(error)
     }
 
     private fun initComponent() {
@@ -81,65 +116,61 @@ class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson, Fra
         if (filterModel != null) {
             if (filterModel!!.section.equals(Constant.FILTER_REMOTE, ignoreCase = true)) {
                 viewPager!!.currentItem = 0
-                rbRemotely!!.isChecked = true
-                rbInPerson!!.isChecked = false
-                all = false
+                jobType.text = "Remote"
             } else if (filterModel!!.section.equals(Constant.FILTER_IN_PERSON, ignoreCase = true)) {
                 viewPager!!.currentItem = 1
-                rbRemotely!!.isChecked = false
-                rbInPerson!!.isChecked = true
+                jobType.text = "In-Person"
+
                 all = false
             } else {
                 viewPager!!.currentItem = 2
-                rbRemotely!!.isChecked = true
-                rbInPerson!!.isChecked = true
+                jobType.text = "Both"
                 all = true
             }
         } else {
             viewPager!!.currentItem = 2
-            rbRemotely!!.isChecked = true
-            rbInPerson!!.isChecked = true
+            jobType.text = "Both"
             all = true
         }
-        rbRemotely!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
-            if (isChecked) {
-                if (!rbInPerson!!.isChecked) {
+        /*    rbRemotely!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+                if (isChecked) {
+                    if (!rbInPerson!!.isChecked) {
+                        viewPager!!.currentItem = 0
+                        all = false
+                    }
+                    if (rbInPerson!!.isChecked) {
+                        all = true
+                        viewPager!!.currentItem = 2
+                    }
+                } else {
+                    viewPager!!.currentItem = 1
+                    rbInPerson!!.isChecked = true
+                    all = false
+                }
+            }
+            rbInPerson!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+                if (isChecked) {
+                    if (!rbRemotely!!.isChecked) {
+                        viewPager!!.currentItem = 1
+                        all = false
+                    }
+                    if (rbRemotely!!.isChecked) {
+                        all = true
+                        viewPager!!.currentItem = 2
+                    }
+                } else {
+                    rbRemotely!!.isChecked = true
                     viewPager!!.currentItem = 0
                     all = false
                 }
-                if (rbInPerson!!.isChecked) {
-                    all = true
-                    viewPager!!.currentItem = 2
-                }
-            } else {
-                viewPager!!.currentItem = 1
-                rbInPerson!!.isChecked = true
-                all = false
-            }
-        }
-        rbInPerson!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
-            if (isChecked) {
-                if (!rbRemotely!!.isChecked) {
-                    viewPager!!.currentItem = 1
-                    all = false
-                }
-                if (rbRemotely!!.isChecked) {
-                    all = true
-                    viewPager!!.currentItem = 2
-                }
-            } else {
-                rbRemotely!!.isChecked = true
-                viewPager!!.currentItem = 0
-                all = false
-            }
-        }
-        txtSuburb!!.setExtendedViewOnClickListener {
+            }*/
+        /*txtSuburb!!.setExtendedViewOnClickListener {
             when (currentTab) {
                 0 -> abstractFilterFragment1!!.startFindLocation()
                 1 -> abstractFilterFragment2!!.startFindLocation()
                 2 -> abstractFilterFragment3!!.startFindLocation()
             }
-        }
+        }*/
     }
 
     private fun setupViewPager(viewPager: ViewPager?) {
@@ -153,11 +184,6 @@ class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson, Fra
         viewPager!!.adapter = adapter
     }
 
-    private fun initToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = "Filter"
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -179,11 +205,11 @@ class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson, Fra
     var viewPagerPageChangeListener: OnPageChangeListener = object : OnPageChangeListener {
         override fun onPageSelected(position: Int) {
             currentTab = position
-            when (position) {
-                0 -> txtSuburb!!.visibility = View.GONE
-                1 -> txtSuburb!!.visibility = View.VISIBLE
-                2 -> txtSuburb!!.visibility = View.VISIBLE
-            }
+            /* when (position) {
+                 0 -> txtSuburb!!.visibility = View.GONE
+                 1 -> txtSuburb!!.visibility = View.VISIBLE
+                 2 -> txtSuburb!!.visibility = View.VISIBLE
+             }*/
         }
 
         override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}

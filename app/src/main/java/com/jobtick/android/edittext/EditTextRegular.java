@@ -19,21 +19,21 @@ public class EditTextRegular extends androidx.appcompat.widget.AppCompatEditText
     public EditTextRegular(Context context) {
         super(context);
         listeners = new ArrayList<>();
-        Typeface face = ResourcesCompat.getFont(context, R.font.dmsans_regular);
+        Typeface face = ResourcesCompat.getFont(context, R.font.roboto_regular);
         this.setTypeface(face);
     }
 
     public EditTextRegular(Context context, AttributeSet attrs) {
         super(context, attrs);
         listeners = new ArrayList<>();
-        Typeface face = ResourcesCompat.getFont(context, R.font.dmsans_regular);
+        Typeface face = ResourcesCompat.getFont(context, R.font.roboto_regular);
         this.setTypeface(face);
     }
 
     public EditTextRegular(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         listeners = new ArrayList<>();
-        Typeface face = ResourcesCompat.getFont(context, R.font.dmsans_regular);
+        Typeface face = ResourcesCompat.getFont(context, R.font.roboto_regular);
         this.setTypeface(face);
     }
 

@@ -137,7 +137,7 @@ class MyTasksFragment :
         linFilter.visibility = View.VISIBLE
         toolbarTitle.setText(R.string.my_jobs)
         toolbarTitle.textSize = 20f
-        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.dmsans_medium)
+        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
         val params = Toolbar.LayoutParams(
             Toolbar.LayoutParams.WRAP_CONTENT,
             Toolbar.LayoutParams.WRAP_CONTENT

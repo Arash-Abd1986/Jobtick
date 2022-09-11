@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import com.jobtick.android.R
+import com.jobtick.android.activities.FiltersActivity
 import com.jobtick.android.adapers.SuburbSearchAdapter
 import com.jobtick.android.models.response.searchsuburb.Feature
 import com.jobtick.android.models.response.searchsuburb.SearchSuburbResponse
@@ -32,7 +33,6 @@ import org.json.JSONObject
 class GetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListener, SuburbSearchAdapter.DismissListener {
     private lateinit var viewModel: PostAJobViewModel
     private lateinit var sessionManager: SessionManager
-    private lateinit var activity: PostAJobActivity
     private lateinit var recyclerLocation: RecyclerView
     private lateinit var location: TextInputEditText
     private lateinit var adapter: SuburbSearchAdapter
@@ -50,7 +50,7 @@ class GetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListener, Su
     }
 
     private fun initVars() {
-        activity = (requireActivity() as PostAJobActivity)
+
         sessionManager = SessionManager(requireContext())
         recyclerLocation = requireView().findViewById(R.id.recyclerLocation)
         location = requireView().findViewById(R.id.location)
@@ -60,13 +60,16 @@ class GetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListener, Su
             getTaskCategoryData(text.toString())
         }
         back.setOnClickListener {
-            activity.navController.popBackStack()
+            if (requireActivity() is PostAJobActivity)
+                (requireActivity() as PostAJobActivity).navController.popBackStack()
+            else
+                (requireActivity() as FiltersActivity).hideFragment()
         }
 
     }
 
     private fun setCategoryData() {
-        val layoutManager = LinearLayoutManager(activity)
+        val layoutManager = LinearLayoutManager(requireActivity())
         recyclerLocation.layoutManager = layoutManager
         recyclerLocation.setHasFixedSize(true)
         adapter = SuburbSearchAdapter()
@@ -120,13 +123,16 @@ class GetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListener, Su
                 0, -1,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
-        val requestQueue = Volley.newRequestQueue(activity)
+        val requestQueue = Volley.newRequestQueue(requireActivity())
         requestQueue.add(stringRequest)
     }
 
     override fun clickOnSearchedLoc(location: Feature) {
         viewModel.setLocation(location)
-        activity.navController.popBackStack()
+        if (requireActivity() is PostAJobActivity)
+            (requireActivity() as PostAJobActivity).navController.popBackStack()
+        else
+            (requireActivity() as FiltersActivity).hideFragment()
     }
 
     override fun dismiss() {

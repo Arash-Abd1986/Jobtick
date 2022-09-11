@@ -9,21 +9,21 @@ import com.jobtick.android.R
 
 class ButtonRegular : AppCompatButton {
     constructor(context: Context?) : super(context!!) {
-        val face = ResourcesCompat.getFont(context, R.font.dmsans_regular)
+        val face = ResourcesCompat.getFont(context, R.font.roboto_regular)
         this.typeface = face
     }
 
     constructor(context: Context?, attrs: AttributeSet?) : super(
         context!!, attrs
     ) {
-        val face = ResourcesCompat.getFont(context, R.font.dmsans_regular)
+        val face = ResourcesCompat.getFont(context, R.font.roboto_regular)
         this.typeface = face
     }
 
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(
         context!!, attrs, defStyle
     ) {
-        val face = ResourcesCompat.getFont(context, R.font.dmsans_regular)
+        val face = ResourcesCompat.getFont(context, R.font.roboto_regular)
         this.typeface = face
     }
 

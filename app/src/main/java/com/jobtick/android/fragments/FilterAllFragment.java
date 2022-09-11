@@ -24,12 +24,12 @@ public class FilterAllFragment extends AbstractFilterFragment {
     }
 
     @Override
-    void fragmentCallback(FilterModel filterModel) {
+    public void fragmentCallback(FilterModel filterModel) {
         fragmentCallbackFilterAll.getAllData(filterModel);
     }
 
     @Override
-    int getFilterType() {
+    public int getFilterType() {
         return FilterType.ALL;
     }
 

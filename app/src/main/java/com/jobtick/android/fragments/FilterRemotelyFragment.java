@@ -24,12 +24,12 @@ public class FilterRemotelyFragment extends AbstractFilterFragment {
     }
 
     @Override
-    void fragmentCallback(FilterModel filterModel) {
+    public void fragmentCallback(FilterModel filterModel) {
         fragmentCallbackFilterRemote.getRemoteData(filterModel);
     }
 
     @Override
-    int getFilterType() {
+    public int getFilterType() {
         return FilterType.REMOTELY;
     }
 

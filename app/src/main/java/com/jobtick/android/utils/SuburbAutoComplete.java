@@ -29,7 +29,7 @@ public class SuburbAutoComplete {
                         .geocodingTypes("locality", "place")
                         .country("AU")
                         .language("en")
-                        .build(PlaceOptions.MODE_CARDS))
+                        .build(PlaceOptions.MODE_FULLSCREEN))
                 .build(activity);
     }
 

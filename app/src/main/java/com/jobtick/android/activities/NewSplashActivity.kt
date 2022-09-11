@@ -172,8 +172,8 @@ class NewSplashActivity : AppCompatActivity() {
         val update = dialog.findViewById(R.id.btn_update) as TextView
         val no = dialog.findViewById(R.id.no_tanks) as TextView
         val txt = comment.text.toString()
-        val robotoRegular = ResourcesCompat.getFont(this, R.font.dmsans_regular)
-        val robotoBold = ResourcesCompat.getFont(this, R.font.dmsans_bold)
+        val robotoRegular = ResourcesCompat.getFont(this, R.font.roboto_regular)
+        val robotoBold = ResourcesCompat.getFont(this, R.font.roboto_bold)
 
 
         val robotoRegularSpan: TypefaceSpan = CustomTypefaceSpan("", robotoRegular)

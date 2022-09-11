@@ -29,9 +29,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import com.jobtick.android.AppController
@@ -51,7 +49,6 @@ import com.jobtick.android.models.response.myjobs.MyJobsResponse
 import com.jobtick.android.pagination.PaginationListener
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.ConstantKey
-import com.jobtick.android.utils.Helper
 import com.jobtick.android.utils.SessionManager
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -165,7 +162,7 @@ class ExploreFragment :
                         R.color.backgroundLightGrey
                 )
         )
-        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.dmsans_medium)
+        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
         toolbarTitle.textSize = 20f
         val params = Toolbar.LayoutParams(
                 Toolbar.LayoutParams.WRAP_CONTENT,

@@ -98,7 +98,7 @@ open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson
                     PostAJobViewModel.JobType.BOTH -> {
                         viewPager!!.currentItem = 2
                         jobType.text = "Both"
-                        all == true
+                        all = true
                     }
                 }
             }

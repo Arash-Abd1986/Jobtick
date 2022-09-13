@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".material.ui.filter.SortByFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".material.ui.filter.SortByFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_marginBottom="16dp"
+            tools:context=".material.ui.postajob.PostAJobSetTitleFragment">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/back"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_back_black"
+                app:tint="@color/neutral_light_500" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/heading5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="24dp"
+                android:text="Job type" />
+
+        </LinearLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/unknown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SORT BY"
+            android:textColor="@color/neutral_light_500" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/_8dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/body3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="In-Person"
+                android:textColor="@color/neutral_light_700" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioInPerson"
+                style="@style/overline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:textColor="@color/neutral_light_500" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/neutral_light_100" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/body3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="Remote"
+                android:textColor="@color/neutral_light_700" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioRemote"
+                style="@style/overline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:textColor="@color/neutral_light_500" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/neutral_light_100" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/body3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="Both"
+                android:textColor="@color/neutral_light_700" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioBoth"
+                style="@style/overline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:textColor="@color/neutral_light_500" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

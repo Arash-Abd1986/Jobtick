@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.jobtick.android.utils.Constant;
+import com.jobtick.android.viewmodel.PostAJobViewModel;
 
 public class FilterModel implements Parcelable {
     private String query;
@@ -13,6 +14,8 @@ public class FilterModel implements Parcelable {
     private String logitude;
     private String price;
     private String task_open;
+    private Boolean isAscending = true;
+    private String sortType;
 
     public FilterModel() {
     }
@@ -26,6 +29,24 @@ public class FilterModel implements Parcelable {
         logitude = in.readString();
         price = in.readString();
         task_open = in.readString();
+        isAscending = in.readByte() != 0;
+        sortType = in.readString();
+    }
+
+    public Boolean getAscending() {
+        return isAscending;
+    }
+
+    public void setAscending(Boolean ascending) {
+        isAscending = ascending;
+    }
+
+    public String getSortType() {
+        return sortType;
+    }
+
+    public void setSortType(String sortType) {
+        this.sortType = sortType;
     }
 
     @Override
@@ -38,6 +59,8 @@ public class FilterModel implements Parcelable {
         dest.writeString(logitude);
         dest.writeString(price);
         dest.writeString(task_open);
+        dest.writeByte((byte) (isAscending ? 1 : 0));
+        dest.writeString(sortType);
     }
 
     @Override

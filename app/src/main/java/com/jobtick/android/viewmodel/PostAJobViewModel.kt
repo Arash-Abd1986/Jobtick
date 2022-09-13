@@ -10,12 +10,9 @@ import com.jobtick.android.network.coroutines.MainRepository
 import com.jobtick.android.network.coroutines.Resource
 import com.jobtick.android.network.coroutines.ServiceType
 import com.jobtick.android.network.coroutines.getData
-import com.jobtick.android.network.model.request.NearJobsRequest
 import com.jobtick.android.network.model.response.BudgetPlansResponse
 import com.jobtick.android.network.model.response.DataX
-import com.jobtick.android.network.model.response.NearJobsResponse
 import com.jobtick.android.network.model.response.draft.DraftResponse
-import com.jobtick.android.utils.SingleLiveEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -87,6 +84,15 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
     fun setAttachments(attachments: ArrayList<AttachmentModelV2>) {
         _state.value = _state.value.copy(attachments = attachments)
     }
+    fun setSortType(sortType: SortType) {
+        _state.value = _state.value.copy(sortType = sortType)
+    }
+    fun setJobType(jobType: JobType) {
+        _state.value = _state.value.copy(jobType = jobType)
+    }
+    fun setIsAscending(isAscending: Boolean) {
+        _state.value = _state.value.copy(isAscending = isAscending)
+    }
 
     fun setData(draftResponse: DraftResponse) {
         draftResponse.data.let {
@@ -132,7 +138,10 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
             var budgetData: DataX? = null,
             var budTypeId: Int? = null,
             var attachments: ArrayList<AttachmentModelV2> = arrayListOf(),
-    )
+            var isAscending: Boolean = true,
+            var sortType: SortType = SortType.DUE_DATE,
+            var jobType: JobType = JobType.BOTH,
+            )
 
     data class PostAJobDate(
             var day: Int,
@@ -144,4 +153,12 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
     enum class PostAJobTime {
         MORNING, AFTERNOON, EVENING, ANY_TIME
     }
+    enum class SortType {
+        PRICE,DUE_DATE,NEARBY_ME
+    }
+
+    enum class JobType {
+        IN_PERSON,REMOTE,BOTH
+    }
+
 }

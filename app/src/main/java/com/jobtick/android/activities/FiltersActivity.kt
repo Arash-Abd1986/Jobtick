@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.google.android.material.appbar.MaterialToolbar
@@ -24,6 +25,7 @@ import com.jobtick.android.fragments.FilterInPersonFragment
 import com.jobtick.android.fragments.FilterInPersonFragment.FragmentCallbackFilterInPerson
 import com.jobtick.android.fragments.FilterRemotelyFragment
 import com.jobtick.android.fragments.FilterRemotelyFragment.FragmentCallbackFilterRemote
+import com.jobtick.android.material.ui.filter.JobTypeFragment
 import com.jobtick.android.material.ui.filter.SortByFragment
 import com.jobtick.android.material.ui.postajob.GetLocationFragment
 import com.jobtick.android.models.FilterModel
@@ -35,6 +37,8 @@ import com.jobtick.android.utils.gone
 import com.jobtick.android.utils.visible
 import com.jobtick.android.viewmodel.PostAJobViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson, FragmentCallbackFilterAll, FragmentCallbackFilterRemote {
@@ -57,6 +61,7 @@ open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filters)
         setIDs()
+        initVM()
         filters = HashMap()
         filterModel = FilterModel()
         val bundle = intent.extras
@@ -64,7 +69,6 @@ open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson
             filterModel = bundle.getParcelable(Constant.FILTER)
         }
         initComponent()
-        initVM()
     }
 
     private fun initVM() {
@@ -72,13 +76,41 @@ open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson
                 this,
                 ViewModelFactory(ApiHelper(ApiClient.getClientV2(SessionManager(applicationContext))))
         ).get(PostAJobViewModel::class.java)
+        lifecycleScope.launch {
+            viewModel.state.collectLatest { state ->
+                sortBy.text = when (state.sortType) {
+                    PostAJobViewModel.SortType.DUE_DATE -> "Due date"
+                    PostAJobViewModel.SortType.PRICE -> "Price"
+                    PostAJobViewModel.SortType.NEARBY_ME -> "Nearby me"
+                }
+                filterModel?.let { it.sortType = state.sortType.name }
+                filterModel?.let { it.ascending = state.isAscending }
+                when (state.jobType) {
+                    PostAJobViewModel.JobType.IN_PERSON -> {
+                        viewPager!!.currentItem = 1
+                        jobType.text = "In-Person"
+                        all = false
+                    }
+                    PostAJobViewModel.JobType.REMOTE -> {
+                        viewPager!!.currentItem = 0
+                        jobType.text = "Remote"
+                    }
+                    PostAJobViewModel.JobType.BOTH -> {
+                        viewPager!!.currentItem = 2
+                        jobType.text = "Both"
+                        all == true
+                    }
+                }
+            }
+        }
+
     }
 
     fun showFragment(fragment: Fragment) {
         val view = findViewById<FrameLayout>(R.id.frame_container)
         view.visible()
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.frame_container, fragment)
+        transaction.replace(R.id.frame_container, fragment)
         transaction.commit()
     }
 
@@ -95,6 +127,9 @@ open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson
         back = findViewById(R.id.back)
         sortBy.setOnClickListener {
             showFragment(SortByFragment())
+        }
+        jobType.setOnClickListener {
+            showFragment(JobTypeFragment())
         }
         back.setOnClickListener {
             onBackPressed()
@@ -117,19 +152,23 @@ open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson
             if (filterModel!!.section.equals(Constant.FILTER_REMOTE, ignoreCase = true)) {
                 viewPager!!.currentItem = 0
                 jobType.text = "Remote"
+                viewModel.setJobType(PostAJobViewModel.JobType.REMOTE)
             } else if (filterModel!!.section.equals(Constant.FILTER_IN_PERSON, ignoreCase = true)) {
                 viewPager!!.currentItem = 1
                 jobType.text = "In-Person"
+                viewModel.setJobType(PostAJobViewModel.JobType.IN_PERSON)
 
                 all = false
             } else {
                 viewPager!!.currentItem = 2
                 jobType.text = "Both"
                 all = true
+                viewModel.setJobType(PostAJobViewModel.JobType.BOTH)
             }
         } else {
             viewPager!!.currentItem = 2
             jobType.text = "Both"
+            viewModel.setJobType(PostAJobViewModel.JobType.BOTH)
             all = true
         }
         /*    rbRemotely!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->

@@ -50,6 +50,7 @@ import com.jobtick.android.pagination.PaginationListener
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.viewmodel.PostAJobViewModel
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import org.json.JSONException
@@ -401,6 +402,12 @@ class ExploreFragment :
         if (filterModel!!.section != null) {
             filters.add(filterModel!!.section)
         }
+        if (filterModel!!.ascending != null) {
+            filters.add(if (filterModel!!.ascending) "asc" else "desc")
+        }
+        if (filterModel!!.sortType != null) {
+            filters.add(filterModel!!.sortType)
+        }
         if (filterModel!!.location != null && filterModel!!.distance != null) {
             var distance = "100 KM+"
             if (filterModel!!.distance != Integer.toString(Constant.MAX_FILTER_DISTANCE_IN_KILOMETERS)) {
@@ -419,6 +426,9 @@ class ExploreFragment :
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }
+        if (filterModel!!.task_open != null) {
+            filters.add(filterModel!!.task_open)
         }
         if (filterModel!!.task_open != null) {
             filters.add(filterModel!!.task_open)
@@ -458,6 +468,18 @@ class ExploreFragment :
         if (filterModel!!.query != null && !filterModel!!.query.equals("", ignoreCase = true)) {
             queryParameter = "&search_query=" + filterModel!!.query
         }
+        queryParameter = if (filterModel!!.ascending) {
+            "$queryParameter&sort_direction=asc"
+        } else
+            "$queryParameter&sort_direction=desc"
+        if (filterModel!!.sortType != null) {
+            when (filterModel!!.sortType) {
+                PostAJobViewModel.SortType.PRICE.name -> queryParameter =  "$queryParameter&sort_by=budget"
+                PostAJobViewModel.SortType.DUE_DATE.name -> queryParameter =  "$queryParameter&sort_by=created_at"
+                PostAJobViewModel.SortType.NEARBY_ME.name -> queryParameter =  "$queryParameter&sort_by=distance"
+            }
+        }
+
         if (filterModel!!.section.equals(Constant.FILTER_ALL, ignoreCase = true)) {
             queryParameter = queryParameter + "&task_type=" + Constant.FILTER_ALL_QUERY
             queryParameter = queryParameter + "&distance=" + filterModel!!.distance

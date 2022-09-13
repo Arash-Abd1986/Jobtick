@@ -22,6 +22,7 @@ import android.content.Intent
 import android.app.Activity
 import android.text.TextUtils
 import android.view.View
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -51,6 +52,8 @@ abstract class AbstractFilterFragment : Fragment(), SuburbSearchAdapter.SubClick
     private var lytBtnSaveFilter: LinearLayout? = null
     private var cancelFilter: LinearLayout? = null
     private var distanceContainer: LinearLayout? = null
+    private var linSuburb: RelativeLayout? = null
+    private var suburbSep: View? = null
     private val pMin = 5
     private val pMax = 9999
     private val PLACE_SELECTION_REQUEST_CODE = 1
@@ -86,6 +89,8 @@ abstract class AbstractFilterFragment : Fragment(), SuburbSearchAdapter.SubClick
         txtSuburb!!.setOnClickListener { (requireActivity() as FiltersActivity).showFragment(fragment = GetLocationFragment()) }
         if (filterType == FilterType.REMOTELY) {
             distanceContainer!!.visibility = View.GONE
+            linSuburb!!.visibility = View.GONE
+            suburbSep!!.visibility = View.GONE
             txtSuburb!!.visibility = View.GONE
         }
         setArgs()
@@ -153,6 +158,8 @@ abstract class AbstractFilterFragment : Fragment(), SuburbSearchAdapter.SubClick
         lytBtnSaveFilter = requireView().findViewById(R.id.lyt_btn_save_filter)
         cancelFilter = requireView().findViewById(R.id.cancel_filter)
         distanceContainer = requireView().findViewById(R.id.distance_container)
+        linSuburb = requireView().findViewById(R.id.linSuburb)
+        suburbSep = requireView().findViewById(R.id.suburbSep)
     }
 
     private fun getPminPmax(min: Int, max: Int) {

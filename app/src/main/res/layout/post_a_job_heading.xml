@@ -7,6 +7,7 @@
     android:padding="12dp"
     android:id="@+id/linTitle"
     android:gravity="center"
+    android:background="@color/white"
     tools:context=".material.ui.postajob.PostAJobSetTitleFragment">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -26,7 +27,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="Title"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:textColor="@color/neutral_light_800"
          />
     <androidx.appcompat.widget.AppCompatImageView

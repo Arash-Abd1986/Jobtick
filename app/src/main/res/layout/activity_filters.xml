@@ -95,6 +95,7 @@
             android:textColor="@color/neutral_light_700" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/categories"
             style="@style/caption"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

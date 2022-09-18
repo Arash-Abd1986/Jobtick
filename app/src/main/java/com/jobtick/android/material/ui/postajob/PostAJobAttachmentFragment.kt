@@ -22,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.app.ActivityCompat
@@ -215,7 +216,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                 requireActivity(),
                 ViewModelFactory(ApiHelper(ApiClient.getClientV1WithToken(sessionManagerA)))
         ).get(PostAJobViewModel::class.java)
-        viewLifecycleOwner.lifecycleScope.launch {
+        activity.lifecycleScope.launch {
             viewModel.state.collectLatest {
                 if (attachmentArrayList.isEmpty()) {
                     attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_ADD))
@@ -223,6 +224,14 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                     for (i in 0 until 8 - it.attachments.size)
                         attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
                     mediaAdapter.notifyDataSetChanged()
+                }
+                if (!it.isImageVisible) {
+                    activity.previewMode(false)
+                    image.visibility = View.GONE
+                    option1Icon.setImageResource(R.drawable.ic_visibility_v5)
+                    option1Txt.text = "View"
+                    txtTitle.visibility = View.VISIBLE
+                    rlAmount.visibility = View.VISIBLE
                 }
             }
         }
@@ -499,6 +508,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                 option1Txt.text = "View"
                 option2Icon.setImageResource(R.drawable.ic_delete_v5)
                 option2Txt.text = "Delete"
+                viewModel.setIsImageVisible(true)
             }
             Option.RETRY -> {
                 option1Icon.setImageResource(R.drawable.ic_delete_v5)

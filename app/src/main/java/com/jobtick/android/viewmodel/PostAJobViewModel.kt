@@ -13,6 +13,7 @@ import com.jobtick.android.network.coroutines.getData
 import com.jobtick.android.network.model.response.BudgetPlansResponse
 import com.jobtick.android.network.model.response.DataX
 import com.jobtick.android.network.model.response.draft.DraftResponse
+import com.jobtick.android.network.model.response.skills.SkillsResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -27,6 +28,13 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
 
     fun setLocation(location: Feature) {
         _state.value = _state.value.copy(location = location)
+    }
+
+    var response2: MutableLiveData<Resource<SkillsResponse>> = MutableLiveData()
+    fun getSkills(query: String) {
+        viewModelScope.launch {
+            getData(ServiceType.SKILLS, mainRepository, query, response2)
+        }
     }
 
     fun getBudgets() {
@@ -84,14 +92,21 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
     fun setAttachments(attachments: ArrayList<AttachmentModelV2>) {
         _state.value = _state.value.copy(attachments = attachments)
     }
+
     fun setSortType(sortType: SortType) {
         _state.value = _state.value.copy(sortType = sortType)
     }
+
     fun setJobType(jobType: JobType) {
         _state.value = _state.value.copy(jobType = jobType)
     }
+
     fun setIsAscending(isAscending: Boolean) {
         _state.value = _state.value.copy(isAscending = isAscending)
+    }
+
+    fun setIsImageVisible(isImageVisible: Boolean) {
+        _state.value = _state.value.copy(isImageVisible = isImageVisible)
     }
 
     fun setData(draftResponse: DraftResponse) {
@@ -141,7 +156,8 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
             var isAscending: Boolean = true,
             var sortType: SortType = SortType.DUE_DATE,
             var jobType: JobType = JobType.BOTH,
-            )
+            var isImageVisible: Boolean = false
+    )
 
     data class PostAJobDate(
             var day: Int,
@@ -153,12 +169,13 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
     enum class PostAJobTime {
         MORNING, AFTERNOON, EVENING, ANY_TIME
     }
+
     enum class SortType {
-        PRICE,DUE_DATE,NEARBY_ME
+        PRICE, DUE_DATE, NEARBY_ME
     }
 
     enum class JobType {
-        IN_PERSON,REMOTE,BOTH
+        IN_PERSON, REMOTE, BOTH
     }
 
 }

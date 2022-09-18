@@ -133,9 +133,6 @@ class PostAJobDetailsFragment : Fragment() {
                     jobDescription.hint = "Details"
             }
         }
-        jobDescription.editText?.doOnTextChanged { text, _, _, _ ->
-            jobDescription.isErrorEnabled = text?.length != null && text.length < 25
-        }
     }
 
 

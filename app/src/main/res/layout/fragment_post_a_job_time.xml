@@ -52,6 +52,7 @@
             android:gravity="center_vertical"
             android:lineSpacingExtra="4dp"
             android:text="Morning"
+            app:rippleColor="@color/white"
             app:icon="@drawable/ic_morning"
             app:iconPadding="8dp"
             app:iconTint="@color/primary_500" />
@@ -70,6 +71,7 @@
             android:text="Afternoon"
             app:icon="@drawable/ic_afternoon"
             app:iconPadding="8dp"
+            app:rippleColor="@color/white"
             android:lineSpacingExtra="4dp"
             app:iconTint="@color/primary_500" />
 
@@ -85,9 +87,10 @@
             android:layout_weight=".5"
             android:gravity="center_vertical"
             android:text="Evening"
-            android:lineSpacingExtra="4dp"
             app:icon="@drawable/ic_evening"
             app:iconPadding="8dp"
+            app:rippleColor="@color/white"
+            android:lineSpacingExtra="4dp"
             app:iconTint="@color/primary_500" />
 
         <androidx.legacy.widget.Space
@@ -105,6 +108,7 @@
             android:lineSpacingExtra="4dp"
             app:icon="@drawable/ic_anytime"
             app:iconPadding="8dp"
+            app:rippleColor="@color/white"
             app:iconTint="@color/primary_500" />
     </LinearLayout>
 

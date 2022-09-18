@@ -76,11 +76,10 @@ class PostAJobSetTitleFragment : Fragment() {
             }
         }
         jobTitle.editText?.doOnTextChanged { text, _, _, _ ->
-            if (text?.length != null && text.length >= 25) {
+            if (text?.length != null && text.length >= 10) {
                 linInfo.visible()
                 jobTitle.isErrorEnabled = false
             }
-            viewModel.setTitle(text.toString())
         }
         jobTitle.editText?.setOnFocusChangeListener { _, b ->
             if (b) {
@@ -111,8 +110,8 @@ class PostAJobSetTitleFragment : Fragment() {
     private fun checkValidation(): Boolean {
         when {
 
-            jobTitle.editText?.text!!.length < 25 -> {
-                setError("Must be at least 25 characters", jobTitle)
+            jobTitle.editText?.text!!.length < 10 -> {
+                setError("Must be at least 10 characters", jobTitle)
                 linInfo.gone()
                 jobTitle.isErrorEnabled = true
                 return false

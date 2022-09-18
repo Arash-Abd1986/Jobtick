@@ -200,5 +200,5 @@ dependencies {
 
     implementation 'com.github.aabhasr1:OtpView:v1.1.2'
     implementation 'com.github.HBiSoft:PickiT:2.0.5'
-
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
 }

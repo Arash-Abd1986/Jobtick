@@ -427,6 +427,18 @@ class PostAJobActivity : ActivityBase() {
         requestQueue.add(stringRequest)
     }
 
+    override fun onBackPressed() {
+        if (navController.currentDestination!!.id != R.id.postAJobAttachmentFragment)
+            super.onBackPressed()
+        else {
+            if (viewModel.state.value.isImageVisible) {
+                viewModel.setIsImageVisible(false)
+            } else {
+                super.onBackPressed()
+            }
+        }
+    }
+
     private fun initVM() {
         sessionManager = SessionManager(applicationContext)
 

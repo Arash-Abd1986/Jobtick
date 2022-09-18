@@ -428,6 +428,7 @@ fun MaterialButton.setSpanStyledTwoLineText(
     )
     spannable.setSpan(startStyle,
             0, breakLinePosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    spannable.setSpan( RelativeSizeSpan(.9f), breakLinePosition, text.length, 0);
 
     spannable.setSpan(
             ForegroundColorSpan(endColor),

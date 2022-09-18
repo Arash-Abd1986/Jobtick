@@ -25,6 +25,7 @@ import com.jobtick.android.fragments.FilterInPersonFragment
 import com.jobtick.android.fragments.FilterInPersonFragment.FragmentCallbackFilterInPerson
 import com.jobtick.android.fragments.FilterRemotelyFragment
 import com.jobtick.android.fragments.FilterRemotelyFragment.FragmentCallbackFilterRemote
+import com.jobtick.android.material.ui.filter.CategoriesFragment
 import com.jobtick.android.material.ui.filter.JobTypeFragment
 import com.jobtick.android.material.ui.filter.SortByFragment
 import com.jobtick.android.material.ui.postajob.GetLocationFragment
@@ -45,6 +46,7 @@ open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson
 
     private var txtSuburb: MaterialTextView? = null
     private lateinit var jobType: MaterialTextView
+    private lateinit var categories: MaterialTextView
     private lateinit var sortBy: MaterialTextView
     private lateinit var back: AppCompatImageView
     private var viewPager: ViewPager? = null
@@ -123,6 +125,7 @@ open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson
         txtSuburb = findViewById(R.id.txt_suburb)
         viewPager = findViewById(R.id.view_pager)
         jobType = findViewById(R.id.job_type)
+        categories = findViewById(R.id.categories)
         sortBy = findViewById(R.id.sortBy)
         back = findViewById(R.id.back)
         sortBy.setOnClickListener {
@@ -130,6 +133,9 @@ open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson
         }
         jobType.setOnClickListener {
             showFragment(JobTypeFragment())
+        }
+        categories.setOnClickListener {
+            showFragment(CategoriesFragment())
         }
         back.setOnClickListener {
             onBackPressed()

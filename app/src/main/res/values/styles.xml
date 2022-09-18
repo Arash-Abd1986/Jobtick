@@ -1070,6 +1070,7 @@
         <item name="cornerRadius">8dp</item>
         <item name="android:checkable">true</item>
         <item name="strokeColor">@color/material_button_color_stroke_v2</item>
+        <item name="strokeWidth">2dp</item>
         <item name="backgroundTint">@color/transparent</item>
         <item name="textColor">@color/neutral_dark</item>
     </style>
@@ -1095,5 +1096,30 @@
         <item name="android:focusedByDefault" tools:targetApi="o">false</item>
     </style>
 
+    <style name="Widget.IndicatorFastScroll.FastScroller" parent="android:Widget">
+        <item name="fastScrollerIconSize">20dp</item>
+        <item name="fastScrollerIconColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/neutral_light_600</item>
+        <item name="fastScrollerTextPadding">@dimen/fast_scroller_default_text_padding</item>
+    </style>
 
+    <style name="Widget.IndicatorFastScroll.FastScrollerThumb" parent="android:Widget">
+        <item name="fastScrollerIconSize">24dp</item>
+        <item name="fastScrollerThumbColor">?colorPrimary</item>
+        <item name="fastScrollerIconColor">?android:textColorPrimaryInverse</item>
+        <item name="android:textColor">@color/neutral_light_600</item>
+    </style>
+
+    <style name="Widget.CalendarView.Custom" parent="Widget.MaterialComponents.MaterialCalendar">
+        <item name="android:focusedMonthDateColor">@color/primary</item>
+        <item name="android:selectedWeekBackgroundColor">@color/primary</item>
+        <item name="android:weekSeparatorLineColor">@color/primary</item>
+        <item name="android:selectedDateVerticalBar">@color/primary</item>
+        <item name="android:showWeekNumber">true</item>
+        <item name="android:unfocusedMonthDateColor">@color/white</item>
+        <item name="android:weekNumberColor">@color/white</item>
+        <item name="android:weekDayTextAppearance">@style/body3</item>
+        <item name="android:dateTextAppearance">@style/body3</item>
+        <item name="android:headerDayOfMonthTextAppearance">@style/caption</item>
+    </style>
 </resources>

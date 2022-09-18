@@ -86,6 +86,11 @@ class PostAJobBudgetFragment : Fragment(), BudgetsAdapter.BudgetClickListener {
 
             }
         }
+        budget.editText!!.setOnFocusChangeListener { view, b ->
+            if (b){
+                budget.editText!!.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_dolar, 0, 0, 0)
+            }
+        }
         budget.editText?.doOnTextChanged { text, _, _, _ ->
             text?.let {
                 next.isEnabled = !text.isNullOrEmpty()
@@ -144,6 +149,8 @@ class PostAJobBudgetFragment : Fragment(), BudgetsAdapter.BudgetClickListener {
         ).get(PostAJobViewModel::class.java)
         if (activity.viewModel.state.value.isBudgetSpecific == null) {
             viewModel.getBudgets()
+        }else{
+            next.isEnabled = true
         }
         if (activity.viewModel.state.value.isBudgetSpecific == true) {
             budget.visible()

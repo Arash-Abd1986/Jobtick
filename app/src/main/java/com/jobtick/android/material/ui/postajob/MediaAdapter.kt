@@ -109,7 +109,7 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             val item = items?.get(position)
 
             rlMain.updateLayoutParams {
-                height = (screenWidth - (80).dpToPx()) / 3
+                height = (screenWidth - (64).dpToPx()) / 3
             }
             when (selectionMode) {
                 AttachmentAdapter.VIEW_TYPE_IMAGE -> {
@@ -202,7 +202,6 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         }
                         AttachmentAdapter.VIEW_TYPE_IMAGE -> {
                             showOptions.showOptions(item, Option.VIEW)
-
                         }
                         AttachmentAdapter.VIEW_TYPE_PDF -> {
                             showOptions.showOptions(item, Option.DELETE)

@@ -3,6 +3,7 @@ package com.jobtick.android.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jobtick.android.material.ui.filter.CategoriesAdapter
 import com.jobtick.android.models.AttachmentModelV2
 import com.jobtick.android.models.response.searchsuburb.Feature
 import com.jobtick.android.models.response.searchsuburb.Geometry
@@ -93,6 +94,10 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
         _state.value = _state.value.copy(attachments = attachments)
     }
 
+    fun setCategories(categoriesItems: ArrayList<CategoriesAdapter.CategoriesItem>) {
+        _state.value = _state.value.copy(categoriesItems = categoriesItems)
+    }
+
     fun setSortType(sortType: SortType) {
         _state.value = _state.value.copy(sortType = sortType)
     }
@@ -153,6 +158,7 @@ class PostAJobViewModel(private val mainRepository: MainRepository) : ViewModel(
             var budgetData: DataX? = null,
             var budTypeId: Int? = null,
             var attachments: ArrayList<AttachmentModelV2> = arrayListOf(),
+            var categoriesItems: ArrayList<CategoriesAdapter.CategoriesItem> = arrayListOf(),
             var isAscending: Boolean = true,
             var sortType: SortType = SortType.DUE_DATE,
             var jobType: JobType = JobType.BOTH,

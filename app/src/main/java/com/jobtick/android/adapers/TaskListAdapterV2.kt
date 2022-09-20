@@ -117,6 +117,7 @@ class TaskListAdapterV2(
                         null,
                         null,
                         null,
+                        null,
                         null
                 )
         )
@@ -220,9 +221,13 @@ class TaskListAdapterV2(
             } else {
                 txtLocation!!.text = "Remote job"
             }
-            if (item.amount != null) {
-                txtBudget!!.text = "$" + item.amount
-            } else txtBudget!!.text = ""
+            if (item.budgetplan != null)
+                txtBudget!!.text = item.budgetplan.title
+            else
+                if (item.amount != null) {
+                    txtBudget!!.text = "$" + item.amount
+                } else txtBudget!!.text = ""
+
             if (item.offers != null) {
                 val count = item.offers.size
                 if (count > 1) {

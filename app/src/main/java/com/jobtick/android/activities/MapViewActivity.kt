@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -114,7 +115,7 @@ class MapViewActivity :
         if (bundle != null) {
             lat = bundle.getFloat("lat")
             long = bundle.getFloat("long")
-            doApiCall(lat, long)
+            doApiCall(lat, long, "")
         }
     }
 
@@ -194,6 +195,15 @@ class MapViewActivity :
         locationButton = findViewById(R.id.location_button)
         location = findViewById(R.id.location)
         onViewClick()
+        location?.doOnTextChanged { text, _, _, _ ->
+            taskListAdapter!!.clear()
+            loadingView!!.visibility = View.VISIBLE
+            setFilterData()
+            currentPage = PaginationListener.PAGE_START
+            taskListAdapter!!.clear()
+            doApiCall(googleMap!!.cameraPosition.target.latitude.toFloat(),
+                    googleMap!!.cameraPosition.target.longitude.toFloat(), text.toString())
+        }
     }
 
     private fun onViewClick() {
@@ -225,7 +235,7 @@ class MapViewActivity :
                 setFilterData()
                 currentPage = PaginationListener.PAGE_START
                 taskListAdapter!!.clear()
-                doApiCall(bundle.getFloat("lat"), bundle.getFloat("long"))
+                doApiCall(bundle.getFloat("lat"), bundle.getFloat("long"), "")
             }
         }
     }
@@ -315,12 +325,11 @@ class MapViewActivity :
         return true
     }
 
-    private fun doApiCall(lat: Float, long: Float) {
-        Helper.closeKeyboard(this)
+    private fun doApiCall(lat: Float, long: Float, filter: String) {
         viewModel.getNearJobs(
                 NearJobsRequest(
                         lat,
-                        long, 50, 100
+                        long, 50, 100, filter
                 )
         )
     }

@@ -51,7 +51,8 @@ suspend fun <T, G> getData(
                 (input as NearJobsRequest).latitude,
                 (input as NearJobsRequest).longitude,
                 (input as NearJobsRequest).radius,
-                (input as NearJobsRequest).limit
+                (input as NearJobsRequest).limit,
+                (input as NearJobsRequest).query,
             )
             SKILLS -> mainRepository.skills(input as String)
             BLOCK_USER -> mainRepository.blockUser(input as BlockUserRequest)

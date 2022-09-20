@@ -9,8 +9,8 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun events(request: EventRequest) = apiHelper.events(request)
     suspend fun skills(query: String) = apiHelper.skills(query)
     suspend fun blockUser(query: BlockUserRequest) = apiHelper.blockUser(query)
-    suspend fun budgetPlans () = apiHelper.budgetPlans()
-    suspend fun draft () = apiHelper.draft()
-    suspend fun getNearJobs(latitude: Float, longitude: Float, radius: Int, limit: Int) =
-        apiHelper.getNearJobs(latitude, longitude, radius, limit)
+    suspend fun budgetPlans() = apiHelper.budgetPlans()
+    suspend fun draft() = apiHelper.draft()
+    suspend fun getNearJobs(latitude: Float, longitude: Float, radius: Int, limit: Int, query: String) =
+            apiHelper.getNearJobs(latitude, longitude, radius, limit, query)
 }

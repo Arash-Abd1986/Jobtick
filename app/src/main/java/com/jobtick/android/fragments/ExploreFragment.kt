@@ -408,6 +408,9 @@ class ExploreFragment :
         if (filterModel!!.sortType != null) {
             filters.add(filterModel!!.sortType)
         }
+        if (!filterModel!!.categories.isNullOrEmpty()) {
+            filters.add(filterModel!!.categories)
+        }
         if (filterModel!!.location != null && filterModel!!.distance != null) {
             var distance = "100 KM+"
             if (filterModel!!.distance != Integer.toString(Constant.MAX_FILTER_DISTANCE_IN_KILOMETERS)) {
@@ -468,15 +471,17 @@ class ExploreFragment :
         if (filterModel!!.query != null && !filterModel!!.query.equals("", ignoreCase = true)) {
             queryParameter = "&search_query=" + filterModel!!.query
         }
+        if (!filterModel!!.categories.isNullOrEmpty())
+            queryParameter = "queryParameter&${filterModel!!.categories}"
         queryParameter = if (filterModel!!.ascending) {
             "$queryParameter&sort_direction=asc"
         } else
             "$queryParameter&sort_direction=desc"
         if (filterModel!!.sortType != null) {
             when (filterModel!!.sortType) {
-                PostAJobViewModel.SortType.PRICE.name -> queryParameter =  "$queryParameter&sort_by=budget"
-                PostAJobViewModel.SortType.DUE_DATE.name -> queryParameter =  "$queryParameter&sort_by=created_at"
-                PostAJobViewModel.SortType.NEARBY_ME.name -> queryParameter =  "$queryParameter&sort_by=distance"
+                PostAJobViewModel.SortType.PRICE.name -> queryParameter = "$queryParameter&sort_by=budget"
+                PostAJobViewModel.SortType.DUE_DATE.name -> queryParameter = "$queryParameter&sort_by=created_at"
+                PostAJobViewModel.SortType.NEARBY_ME.name -> queryParameter = "$queryParameter&sort_by=distance"
             }
         }
 

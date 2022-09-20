@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.MenuItem
 import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -15,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.R
 import com.jobtick.android.fragments.AbstractFilterFragment
@@ -25,10 +23,10 @@ import com.jobtick.android.fragments.FilterInPersonFragment
 import com.jobtick.android.fragments.FilterInPersonFragment.FragmentCallbackFilterInPerson
 import com.jobtick.android.fragments.FilterRemotelyFragment
 import com.jobtick.android.fragments.FilterRemotelyFragment.FragmentCallbackFilterRemote
+import com.jobtick.android.material.ui.filter.CategoriesAdapter
 import com.jobtick.android.material.ui.filter.CategoriesFragment
 import com.jobtick.android.material.ui.filter.JobTypeFragment
 import com.jobtick.android.material.ui.filter.SortByFragment
-import com.jobtick.android.material.ui.postajob.GetLocationFragment
 import com.jobtick.android.models.FilterModel
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
@@ -42,7 +40,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson, FragmentCallbackFilterAll, FragmentCallbackFilterRemote {
+open class FiltersActivity : ActivityBase(), CategoriesAdapter.ItemClick, FragmentCallbackFilterInPerson, FragmentCallbackFilterAll, FragmentCallbackFilterRemote {
 
     private var txtSuburb: MaterialTextView? = null
     private lateinit var jobType: MaterialTextView
@@ -87,6 +85,17 @@ open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson
                 }
                 filterModel?.let { it.sortType = state.sortType.name }
                 filterModel?.let { it.ascending = state.isAscending }
+                filterModel?.let {
+                    if (state.categoriesItems.isNotEmpty()) {
+                        var terms = ""
+                        state.categoriesItems.forEachIndexed { index, categoriesItem ->
+                            terms += "categories[$index]=${categoriesItem.title}" + if (index != state.categoriesItems.size - 1) "&" else ""
+                        }
+                        it.categories = terms
+                    } else {
+                        it.categories = null
+                    }
+                }
                 when (state.jobType) {
                     PostAJobViewModel.JobType.IN_PERSON -> {
                         viewPager!!.currentItem = 1
@@ -303,5 +312,9 @@ open class FiltersActivity : AppCompatActivity(), FragmentCallbackFilterInPerson
         for (fragment in supportFragmentManager.fragments) {
             fragment.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    override fun onItemClick(items: MutableList<CategoriesAdapter.CategoriesItem>) {
+        viewModel.setCategories(items.filter { it.isChecked } as ArrayList<CategoriesAdapter.CategoriesItem>)
     }
 }

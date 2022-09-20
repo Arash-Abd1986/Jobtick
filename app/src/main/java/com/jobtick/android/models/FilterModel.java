@@ -16,6 +16,7 @@ public class FilterModel implements Parcelable {
     private String task_open;
     private Boolean isAscending = true;
     private String sortType;
+    private String categories;
 
     public FilterModel() {
     }
@@ -31,6 +32,7 @@ public class FilterModel implements Parcelable {
         task_open = in.readString();
         isAscending = in.readByte() != 0;
         sortType = in.readString();
+        categories = in.readString();
     }
 
     public Boolean getAscending() {
@@ -61,6 +63,15 @@ public class FilterModel implements Parcelable {
         dest.writeString(task_open);
         dest.writeByte((byte) (isAscending ? 1 : 0));
         dest.writeString(sortType);
+        dest.writeString(categories);
+    }
+
+    public String getCategories() {
+        return categories;
+    }
+
+    public void setCategories(String categories) {
+        this.categories = categories;
     }
 
     @Override

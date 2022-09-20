@@ -2,6 +2,7 @@ package com.jobtick.android.models.response.myjobs
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.jobtick.android.network.model.response.DataX
 
 data class Data(
         val assigned_worker: List<AssignedWorker>?,
@@ -21,7 +22,8 @@ data class Data(
         val slug: String?,
         val status: String?,
         val title: String?,
-        val updated_at: String?
+        val updated_at: String?,
+        val budgetplan: DataX?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.createTypedArrayList(AssignedWorker),
@@ -41,7 +43,9 @@ data class Data(
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readString())
+            parcel.readString(),
+            parcel.readParcelable(DataX::class.java.classLoader)) {
+    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeTypedList(assigned_worker)
@@ -62,6 +66,7 @@ data class Data(
         parcel.writeString(status)
         parcel.writeString(title)
         parcel.writeString(updated_at)
+        parcel.writeParcelable(budgetplan, flags)
     }
 
     override fun describeContents(): Int {

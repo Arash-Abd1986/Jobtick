@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jobtick.android.R
+import com.jobtick.android.activities.FiltersActivity
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.coroutines.Status
 import com.jobtick.android.network.retrofit.ApiClient
@@ -39,6 +40,7 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun initAdapter() {
+        adapter.itemClick = activity as FiltersActivity
         rlCategories.adapter = adapter
         rlCategories.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -61,11 +63,12 @@ class CategoriesFragment : Fragment() {
             it?.let {
                 when (it.status) {
                     Status.SUCCESS -> {
-                         addTagListSuggest = ArrayList()
+                        (requireActivity() as FiltersActivity).hideProgressDialog()
+                        addTagListSuggest = ArrayList()
                         it.data!!.data.forEach {
                             addTagListSuggest.add(it.title)
                         }
-                        adapter.addItems(addTagListSuggest)
+                        adapter.addItems(addTagListSuggest.map { CategoriesAdapter.CategoriesItem(it, false) }.toMutableList())
                         fastScroller.setupWithRecyclerView(rlCategories, { it ->
                             val item = addTagListSuggest[it]
                             FastScrollItemIndicator.Text(
@@ -74,11 +77,14 @@ class CategoriesFragment : Fragment() {
                         })
                     }
                     Status.ERROR -> {
+                        (requireActivity() as FiltersActivity).hideProgressDialog()
                     }
                     Status.LOADING -> {
+                        (requireActivity() as FiltersActivity).showProgressDialog()
                     }
                 }
             }
         }
     }
+
 }

@@ -105,7 +105,8 @@ interface ApiInterface {
         @Query("latitude") latitude: Float,
         @Query("longitude") longitude: Float,
         @Query("radius") radius: Int,
-        @Query("limit") limit: Int
+        @Query("limit") limit: Int,
+        @Query("query") query: String
     ): NearJobsResponse
 
     @GET("budget-plans")

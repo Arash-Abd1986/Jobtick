@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 import com.jobtick.android.R
 import com.jobtick.android.activities.FiltersActivity
 import com.jobtick.android.network.coroutines.ApiHelper
@@ -24,8 +27,11 @@ class CategoriesFragment : Fragment() {
     private lateinit var sessionManager: SessionManager
     private lateinit var rlCategories: RecyclerView
     private lateinit var fastScroller: FastScrollerView
-    val adapter = CategoriesAdapter()
+    private lateinit var btnNext: MaterialButton
+    private val adapter = CategoriesAdapter()
     private lateinit var addTagListSuggest: ArrayList<String>
+    private lateinit var categoriesItemList: ArrayList<CategoriesAdapter.CategoriesItem>
+    private var search: TextInputEditText? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -43,13 +49,22 @@ class CategoriesFragment : Fragment() {
         adapter.itemClick = activity as FiltersActivity
         rlCategories.adapter = adapter
         rlCategories.layoutManager = LinearLayoutManager(requireContext())
+        search?.doOnTextChanged { text, start, before, count ->
+            val filterList = categoriesItemList.filter { it.title.contains(text.toString()) }
+            adapter.addAndClearItems(filterList as MutableList<CategoriesAdapter.CategoriesItem>)
+        }
     }
 
 
     private fun initVars() {
         rlCategories = requireView().findViewById(R.id.rlCategories)
         fastScroller = requireView().findViewById(R.id.fastScroller)
+        btnNext = requireView().findViewById(R.id.btn_next)
         sessionManager = SessionManager(requireContext())
+        search = requireView().findViewById(R.id.search)
+        btnNext.setOnClickListener {
+            (activity as FiltersActivity).hideFragment()
+        }
     }
 
 
@@ -65,9 +80,11 @@ class CategoriesFragment : Fragment() {
                     Status.SUCCESS -> {
                         (requireActivity() as FiltersActivity).hideProgressDialog()
                         addTagListSuggest = ArrayList()
+                        categoriesItemList = ArrayList()
                         it.data!!.data.forEach {
                             addTagListSuggest.add(it.title)
                         }
+                        categoriesItemList = addTagListSuggest.map { CategoriesAdapter.CategoriesItem(it, false) }.toMutableList() as ArrayList<CategoriesAdapter.CategoriesItem>
                         adapter.addItems(addTagListSuggest.map { CategoriesAdapter.CategoriesItem(it, false) }.toMutableList())
                         fastScroller.setupWithRecyclerView(rlCategories, { it ->
                             val item = addTagListSuggest[it]

@@ -1,5 +1,6 @@
 package com.jobtick.android.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -71,6 +72,7 @@ open class FiltersActivity : ActivityBase(), CategoriesAdapter.ItemClick, Fragme
         initComponent()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initVM() {
         viewModel = ViewModelProvider(
                 this,
@@ -96,6 +98,7 @@ open class FiltersActivity : ActivityBase(), CategoriesAdapter.ItemClick, Fragme
                         it.categories = null
                     }
                 }
+                categories.text = """${state.categoriesItems.size} Selected"""
                 when (state.jobType) {
                     PostAJobViewModel.JobType.IN_PERSON -> {
                         viewPager!!.currentItem = 1

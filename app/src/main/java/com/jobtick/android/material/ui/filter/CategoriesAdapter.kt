@@ -66,6 +66,19 @@ class CategoriesAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun getItems(): MutableList<CategoriesItem> {
+        return items
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun addAndClearItems(mItems: MutableList<CategoriesItem>) {
+        items.clear()
+        items.addAll(mItems)
+        notifyDataSetChanged()
+    }
+
+
     override fun getItemCount(): Int {
         return items.size
     }

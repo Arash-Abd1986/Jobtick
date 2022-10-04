@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/job_details_graph"
+    app:startDestination="@id/jobDetailsPosterFragment">
+
+    <fragment
+        android:id="@+id/jobDetailsPosterFragment"
+        android:name="com.jobtick.android.material.ui.jobdetails.JobDetailsPosterFragment"
+        android:label="fragment_job_details_poster"
+        tools:layout="@layout/fragment_job_details_poster" >
+        <action
+            android:id="@+id/action_jobDetailsPosterFragment_to_jobDetailsTicketViewerFragment"
+            app:destination="@id/jobDetailsTicketViewerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/jobDetailsTicketViewerFragment"
+        android:name="com.jobtick.android.material.ui.jobdetails.JobDetailsTicketViewerFragment"
+        android:label="fragment_job_details_ticket_viewer"
+        tools:layout="@layout/fragment_job_details_ticket_viewer" />
+</navigation>

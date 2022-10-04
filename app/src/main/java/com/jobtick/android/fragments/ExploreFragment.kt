@@ -40,9 +40,9 @@ import com.jobtick.android.activities.FiltersActivity
 import com.jobtick.android.activities.MapViewActivity
 import com.jobtick.android.activities.SearchTaskActivity
 import com.jobtick.android.activities.TaskAlertsActivity
-import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.adapers.FilterAdapter
 import com.jobtick.android.adapers.TaskListAdapterV2
+import com.jobtick.android.material.ui.jobdetails.JobDetailsActivity
 import com.jobtick.android.models.FilterModel
 import com.jobtick.android.models.response.myjobs.Data
 import com.jobtick.android.models.response.myjobs.MyJobsResponse
@@ -625,7 +625,7 @@ class ExploreFragment :
 
     override fun onItemClick(view: View?, obj: Data?, position: Int, action: String?) {
         if (sessionManager?.accessToken != null) {
-            val intent = Intent(dashboardActivity, TaskDetailsActivity::class.java)
+            val intent = Intent(dashboardActivity, JobDetailsActivity::class.java)
             val bundle = Bundle()
             bundle.putString(ConstantKey.SLUG, obj!!.slug)
             intent.putExtras(bundle)

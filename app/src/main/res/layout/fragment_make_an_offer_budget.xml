@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLightGrey"
+    android:background="@color/white"
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:context=".fragments.MakeAnOfferBudgetFragment">
@@ -51,51 +51,63 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_15sp"
-                android:layout_marginTop="@dimen/_10sp"
-                android:layout_marginEnd="@dimen/_15sp"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical"
                 android:paddingBottom="80dp">
 
-
-                <!--Poster Offer Design-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sp"
-                    android:background="@drawable/bg_poster_offer"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sp">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="24dp"
+                    android:paddingBottom="12dp">
+                    <!--Poster Offer Design-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/_5sp"
-                        android:layout_marginEnd="@dimen/_5sp"
-                        android:layout_weight="1"
-                        android:text="Poster offer"
-                        android:textAppearance="@style/materialText_400_15"
-                        android:textColor="@color/grey_70" />
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/body3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="Poster offer"
+                            android:textColor="@color/neutral_light_700" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tvOffer"
+                            style="@style/caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="$200"
+                            android:textColor="@color/neutral_light_500" />
+
+                    </LinearLayout>
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tvOffer"
+                        style="@style/caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="$200"
-                        android:textAppearance="@style/materialText_500_17"
-                        android:textColor="@color/colorPrimary" />
-
+                        android:layout_gravity="start"
+                        android:layout_marginTop="8dp"
+                        android:text="Service fee isn’t included"
+                        android:textColor="@color/neutral_light_500" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/neutral_light_50" />
 
                 <com.jobtick.android.widget.ExtendedEntryText
                     android:id="@+id/edt_budget"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     app:eHint="5 - 9999"
@@ -103,40 +115,44 @@
                     app:eInputType="budget"
                     app:eTitle="Your offer" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/neutral_light_50" />
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/_12sp"
-                    android:background="@drawable/bg_white_settings"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
                     android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:paddingLeft="@dimen/_8sp"
-                        android:paddingRight="@dimen/_8sp">
+                        android:paddingLeft="24dp"
+                        android:paddingRight="24dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sp"
-                            android:layout_marginTop="@dimen/_5sp"
                             android:orientation="horizontal">
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_fee_title"
+                                style="@style/body3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:drawableEnd="@drawable/ic_alert_circle_new_grey_12dp"
                                 android:gravity="center"
-                                android:text="@string/fee_min_2"
-                                android:textAppearance="@style/materialText_400_15"
-                                android:textColor="@color/grey_70" />
+                                android:text="Fee"
+                                android:textColor="@color/neutral_light_700" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_service_fee"
+                                style="@style/caption"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_10sp"
@@ -144,146 +160,88 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical|end"
                                 android:text="$00"
-                                android:textAppearance="@style/materialText_500_17"
-                                android:textColor="@color/textColor" />
-
+                                android:textColor="@color/primary_error" />
                         </LinearLayout>
 
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical|end"
+                            android:text="Service fee for your level is %10 + GST"
+                            android:textColor="@color/neutral_light_500" />
                         <!--Receive free design-->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/neutral_light_50" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sp"
-                            android:layout_marginTop="@dimen/_3sp"
-                            android:orientation="horizontal"
-                            android:paddingBottom="@dimen/_3sp">
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal">
 
                             <com.google.android.material.textview.MaterialTextView
+                                style="@style/body3"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="You’ll receive"
-                                android:textAppearance="@style/materialText_500_17"
-                                android:textColor="@color/textColor" />
+                                android:textColor="@color/neutral_light_700" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_final_budget"
+                                style="@style/caption"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_10sp"
-                                android:layout_marginTop="@dimen/_5sp"
                                 android:text="$00"
-                                android:textAppearance="@style/materialText_400_20"
-                                android:textColor="@color/colorPrimary" />
+                                android:textColor="@color/primary_500" />
                         </LinearLayout>
                     </LinearLayout>
                 </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/neutral_light_50" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/_12sp"
-                    android:background="@drawable/bg_white_settings"
+                    android:paddingHorizontal="24dp"
                     android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/_10sp">
+                        android:orientation="vertical">
 
-                        <!--Level shield design-->
-                        <RelativeLayout
-                            android:layout_width="110dp"
-                            android:layout_height="110dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/shape_circle_gray_level" />
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/bg_level_squre_diamond" />
-
-                            <ImageView
-                                android:id="@+id/img_level"
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
-                                android:layout_centerInParent="true"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/ic_medal3" />
-
-
-                        </RelativeLayout>
-
-                        <!--assign level number-->
-                        <com.jobtick.android.text_view.TextViewMedium
-                            android:id="@+id/txt_account_level"
-                            android:layout_width="5dp"
-                            android:layout_height="1dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/_10sp"
-                            android:text="Level 1"
-                            android:textColor="@color/grey_70"
-                            android:textSize="@dimen/_14sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sp"
-                            android:layout_marginTop="@dimen/_20sp"
-                            android:layout_marginEnd="@dimen/_10sp"
-                            android:orientation="horizontal">
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Service Fee (Currently)"
-                                android:textAppearance="@style/materialText_400_15"
-                                android:textColor="@color/textColor" />
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/txt_current_service_fee"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="%10"
-                                android:textAppearance="@style/materialText_500_17"
-                                android:textColor="@color/textColor" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sp"
-                            android:layout_marginTop="@dimen/_10sp"
-                            android:layout_marginEnd="@dimen/_10sp"
                             android:orientation="vertical">
 
                             <com.google.android.material.textview.MaterialTextView
+                                style="@style/caption"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:lineHeight="20dp"
-                                android:text="Complete more Jobs in-order to upgrade your account and be eligible to pay minimum service fee."
-                                android:textAppearance="@style/materialText_400_15"
-                                android:textColor="@color/grey_70" />
+                                android:text="Service fee may vary based on your level. Complete more Jobs in-order to upgrade your account and be eligible to pay minimum service fee."
+                                android:textColor="@color/neutral_light_500" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_learn_how_level_affects_service_fee"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_10sp"
-                                android:layout_marginBottom="@dimen/_5sp"
                                 android:text="More information about levels and service fees."
-                                android:textAppearance="@style/materialText_400_13"
-                                android:textColor="@color/colorTaskOffer" />
+                                style="@style/caption"
+                                android:textColor="@color/primary_500" />
                         </LinearLayout>
                     </LinearLayout>
                 </FrameLayout>
@@ -292,15 +250,15 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_next"
-            style="@style/materialButton"
+            style="@style/colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="16dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="32dp"
-            android:enabled="false"
-            android:text="@string/next" />
+            android:enabled="true"
+            android:text="@string/make_an_offer" />
 
     </RelativeLayout>
 

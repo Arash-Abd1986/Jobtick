@@ -68,20 +68,11 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
     @BindView(R.id.txt_final_budget)
     TextView txtFinalBudget;
     @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_account_level)
-    TextView txtAccountLevel;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.txt_current_service_fee)
-    TextView txtCurrentServiceFee;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.txt_learn_how_level_affects_service_fee)
     TextView txtLearnHowLevelAffectsServiceFee;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btn_next)
     MaterialButton btnNext;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.img_level)
-    ImageView imgLevel;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvOffer)
     TextView tvOffer;
@@ -97,11 +88,11 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
     private final String previousCalculatedBudget = "0";
 
-    public static MakeAnOfferBudgetFragment newInstance(MakeAnOfferModel makeAnOfferModel, BudgetCallbackFunction budgetCallbackFunction) {
+    public static MakeAnOfferBudgetFragment newInstance(MakeAnOfferModel makeAnOfferModel, TaskModel taskModel, BudgetCallbackFunction budgetCallbackFunction) {
 
         Bundle args = new Bundle();
         args.putParcelable(ConstantKey.MAKE_AN_OFFER_MODEL, makeAnOfferModel);
-        // args.putParcelable(ConstantKey.TASK, taskModel);
+        args.putParcelable(ConstantKey.TASK, taskModel);
         MakeAnOfferBudgetFragment fragment = new MakeAnOfferBudgetFragment();
         fragment.budgetCallbackFunction = budgetCallbackFunction;
         fragment.setArguments(args);
@@ -143,10 +134,9 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
         if (getArguments() != null && getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL) != null) {
             makeAnOfferModel = getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL);
         }
-        /*if (getArguments() != null && getArguments().getParcelable(ConstantKey.TASK) != null) {
+        if (getArguments() != null && getArguments().getParcelable(ConstantKey.TASK) != null) {
             taskModel = getArguments().getParcelable(ConstantKey.TASK);
-        }*/
-        taskModel = TaskDetailsActivity.taskModel;
+        }
         if (makeAnOfferModel != null) {
             initLayout();
         }
@@ -154,13 +144,7 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
 
         //Custom tool bar back here
         ImageView ivBack = view.findViewById(R.id.ivBack);
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                makeAnOfferActivity.onBackPressed();
-            }
-        });
+        ivBack.setOnClickListener(v -> makeAnOfferActivity.onBackPressed());
         edtBudget.addTextChangedListener(this);
 
         btnNext.setOnClickListener(v -> {
@@ -190,22 +174,6 @@ public class MakeAnOfferBudgetFragment extends Fragment implements TextWatcher {
             txtFinalBudget.setText(String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel.getYouWillReceive()));
         }
         tvOffer.setText(String.format(Locale.ENGLISH, "$%d", taskModel.getBudget()));
-        txtAccountLevel.setText(String.format(Locale.ENGLISH, "Level %d", userAccountModel.getWorkerTier().getId()));
-        txtCurrentServiceFee.setText(String.format(Locale.ENGLISH, "%%%s", userAccountModel.getWorkerTier().getServiceFee()));
-
-        if (userAccountModel.getWorkerTier().getId() == 1) {
-            //TODO change image level 1
-            imgLevel.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_medal1));
-        } else if (userAccountModel.getWorkerTier().getId() == 2) {
-            //TODO change image level 2
-            imgLevel.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_medal2));
-        } else if (userAccountModel.getWorkerTier().getId() == 3) {
-            //TODO change image level 3
-            imgLevel.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_medal3));
-        } else if (userAccountModel.getWorkerTier().getId() == 4) {
-            //TODO change image level 4
-            imgLevel.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_medal4));
-        }
     }
 
     @Override

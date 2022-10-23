@@ -56,8 +56,8 @@ class JobDetailsActivity : ActivityBase() {
             linTitle.visibility = View.VISIBLE
             close.visibility = View.VISIBLE
             when (destination.id) {
-                R.id.postAJobSetTitleFragment -> {
-                    title.text = "Title"
+                R.id.jobDetailsTicketViewerFragment -> {
+                    title.text = "Job Details"
                 }
             }
         }

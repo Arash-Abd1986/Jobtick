@@ -43,15 +43,14 @@ class MakeAnOfferActivity : ActivityBase(), MustHaveCallbackFunction, BudgetCall
         val builder = VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
         makeAnOfferModel = MakeAnOfferModel()
-        // taskModel = new TaskModel();
         val bundle = intent.extras
         if (bundle != null) {
-            id = bundle.getInt("id")
-            bugdet = bundle.getInt("budget")
+            taskModel = bundle.getParcelable<TaskModel>("model")
+            id = taskModel!!.id
+            bugdet = taskModel!!.budget
             makeAnOfferModel!!.task_id = id
         }
-        taskModel = TaskDetailsActivity.taskModel
-        val fragment: Fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, this@MakeAnOfferActivity)
+        val fragment: Fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, taskModel, this@MakeAnOfferActivity)
         commit(fragment, MakeAnOfferBudgetFragment::class.java.simpleName)
     }
 
@@ -68,7 +67,7 @@ class MakeAnOfferActivity : ActivityBase(), MustHaveCallbackFunction, BudgetCall
     }
 
     override fun continueMustHave(makeAnOfferModel: MakeAnOfferModel) {
-        val fragment: Fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, this@MakeAnOfferActivity)
+        val fragment: Fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, taskModel, this@MakeAnOfferActivity)
         commit(fragment, MakeAnOfferBudgetFragment::class.java.simpleName)
     }
 
@@ -105,7 +104,7 @@ class MakeAnOfferActivity : ActivityBase(), MustHaveCallbackFunction, BudgetCall
     }
 
     override fun backButtonAbout() {
-        val fragment: Fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, this@MakeAnOfferActivity)
+        val fragment: Fragment = MakeAnOfferBudgetFragment.newInstance(makeAnOfferModel, taskModel, this@MakeAnOfferActivity)
         commit(fragment, MakeAnOfferBudgetFragment::class.java.simpleName)
     }
 

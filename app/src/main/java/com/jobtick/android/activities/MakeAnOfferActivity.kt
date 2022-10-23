@@ -45,7 +45,7 @@ class MakeAnOfferActivity : ActivityBase(), MustHaveCallbackFunction, BudgetCall
         makeAnOfferModel = MakeAnOfferModel()
         val bundle = intent.extras
         if (bundle != null) {
-            taskModel = bundle.getParcelable<TaskModel>("model")
+            taskModel = bundle.getParcelable("model")
             id = taskModel!!.id
             bugdet = taskModel!!.budget
             makeAnOfferModel!!.task_id = id
@@ -89,7 +89,7 @@ class MakeAnOfferActivity : ActivityBase(), MustHaveCallbackFunction, BudgetCall
         }
     }
 
-    override fun continueButtonBudget(makeAnOfferModel: MakeAnOfferModel) {
+    override fun continueButtonBudget(makeAnOfferModel: MakeAnOfferModel?) {
         val fragment: Fragment = MakeAnOfferAboutFragment.newInstance(makeAnOfferModel, this@MakeAnOfferActivity)
         commit(fragment, MakeAnOfferAboutFragment::class.java.simpleName)
     }
@@ -226,4 +226,5 @@ class MakeAnOfferActivity : ActivityBase(), MustHaveCallbackFunction, BudgetCall
     companion object {
         private const val TAG = "MakeAnOfferActivity"
     }
+
 }

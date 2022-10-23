@@ -103,17 +103,54 @@
                     android:layout_height="8dp"
                     android:background="@color/neutral_light_50" />
 
-                <com.jobtick.android.widget.ExtendedEntryText
-                    android:id="@+id/edt_budget"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/budget"
+                    android:layout_marginHorizontal="16dp"
+                    style="@style/outlineTextField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    app:eHint="5 - 9999"
-                    app:eImeOptions="normal"
-                    app:eInputType="budget"
-                    app:eTitle="Your offer" />
+                    android:layout_marginTop="34dp"
+                    android:hint="Your Offer"
+                    app:errorEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLength="200"
+                        android:minHeight="54dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_marginHorizontal="16dp"
+                    android:id="@+id/linInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/job_title">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/info"
+                        android:layout_width="@dimen/_14dp"
+                        android:layout_height="@dimen/_14dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_info2"
+                        app:tint="@color/neutral_light_500" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/label"
+                        style="@style/label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="Your offer cannot be less than Poster Offer."
+                        android:textColor="@color/neutral_light_400" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -237,10 +274,10 @@
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_learn_how_level_affects_service_fee"
+                                style="@style/caption"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="More information about levels and service fees."
-                                style="@style/caption"
                                 android:textColor="@color/primary_500" />
                         </LinearLayout>
                     </LinearLayout>
@@ -253,10 +290,10 @@
             style="@style/colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
             android:layout_marginHorizontal="24dp"
             android:layout_marginBottom="16dp"
-            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
             android:enabled="true"
             android:text="@string/make_an_offer" />
 

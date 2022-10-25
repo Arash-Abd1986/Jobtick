@@ -1,634 +1,500 @@
-package com.jobtick.android.fragments;
+package com.jobtick.android.fragments
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.hardware.camera2.CameraCharacteristics;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.button.MaterialButton;
-import com.jobtick.android.R;
-import com.jobtick.android.activities.ActivityBase;
-import com.jobtick.android.activities.MakeAnOfferActivity;
-import com.jobtick.android.activities.TaskDetailsActivity;
-import com.jobtick.android.activities.VideoPlayerActivity;
-import com.jobtick.android.adapers.AttachmentAdapter;
-import com.jobtick.android.models.AttachmentModel;
-import com.jobtick.android.models.MakeAnOfferModel;
-import com.jobtick.android.network.retrofit.ApiClient;
-import com.jobtick.android.utils.CameraUtils;
-import com.jobtick.android.utils.ConstantKey;
-import com.jobtick.android.utils.ImageUtil;
-import com.jobtick.android.utils.SessionManager;
-import com.jobtick.android.utils.Tools;
-import com.jobtick.android.widget.ExtendedCommentText;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.mikhaellopez.circularimageview.CircularImageView;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.util.List;
-import java.util.Locale;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import timber.log.Timber;
-
-import static android.app.Activity.RESULT_OK;
-import static com.jobtick.android.utils.Constant.URL_VIDEO_GUIDELINE;
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.hardware.camera2.CameraCharacteristics
+import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import android.os.Parcelable
+import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.*
+import androidx.cardview.widget.CardView
+import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputLayout
+import com.jobtick.android.R
+import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.activities.MakeAnOfferActivity
+import com.jobtick.android.activities.TaskDetailsActivity
+import com.jobtick.android.activities.VideoPlayerActivity
+import com.jobtick.android.adapers.AttachmentAdapter
+import com.jobtick.android.models.AttachmentModel
+import com.jobtick.android.models.MakeAnOfferModel
+import com.jobtick.android.network.retrofit.ApiClient
+import com.jobtick.android.utils.*
+import com.jobtick.android.widget.ExtendedCommentText
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.mikhaellopez.circularimageview.CircularImageView
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
+import java.io.File
+import java.util.*
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple [Fragment] subclass.
  */
-public class MakeAnOfferAboutFragment extends Fragment implements View.OnClickListener {
+class MakeAnOfferAboutFragment : Fragment(), View.OnClickListener {
+    private lateinit var edtDescription: ExtendedCommentText
+    private lateinit var description: TextInputLayout
+    private lateinit var checkboxSaveAsTemplate: CheckBox
+    private lateinit var viewSelection: LinearLayout
+    private lateinit var saveQuickOfferTxt: MaterialButton
+    private lateinit var quickOfferDesc: TextView
+    private lateinit var lytBtnMakeALiveVideo: LinearLayout
+    private lateinit var lytRecord2: LinearLayout
+    private lateinit var lytBtnContinue: MaterialButton
+    private lateinit var btnTxtOffer: MaterialButton
+    private lateinit var gxtGuideLineVideo: TextView
+    private lateinit var cardLiveVideo: CardView
+    private lateinit var ivBack: ImageView
+    private lateinit var imgThumbnail: ImageView
+    private lateinit var LytVideoPlay: RelativeLayout
+    private lateinit var viewOffer: RelativeLayout
+    private lateinit var llPlayVideo: LinearLayout
+    private lateinit var bottomSheet: FrameLayout
+    private lateinit var llJobDetails: LinearLayout
+    private lateinit var llCancelVideo: LinearLayout
+    private lateinit var recordVideo: MaterialButton
+    private var makeAnOfferModel: MakeAnOfferModel? = null
+    private var makeAnOfferActivity: MakeAnOfferActivity? = null
+    private var aboutCallbackFunction: AboutCallbackFunction? = null
+    private var quickOffer: String? = null
+    private var sessionManager: SessionManager? = null
+    private var mBottomSheetDialog: BottomSheetDialog? = null
+    private var mBehavior: BottomSheetBehavior<*>? = null
 
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.edt_description)
-    ExtendedCommentText edtDescription;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.checkbox_save_as_template)
-    CheckBox checkboxSaveAsTemplate;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.saveQuickOfferTxt)
-    TextView saveQuickOfferTxt;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.quickOfferDesc)
-    TextView quickOfferDesc;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_make_a_live_video)
-    LinearLayout lytBtnMakeALiveVideo;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lytRecord2)
-    LinearLayout lytRecord2;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.lyt_btn_continue)
-    MaterialButton lytBtnContinue;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.guideline_video)
-    TextView gxtGuideLineVideo;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.card_live_video)
-    CardView cardLiveVideo;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.imgThumbnail)
-    ImageView imgThumbnail;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.LytVideoPlay)
-    RelativeLayout LytVideoPlay;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.llPlayVideo)
-    LinearLayout llPlayVideo;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.bottom_sheet)
-    FrameLayout bottomSheet;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.llJobDetails)
-    LinearLayout llJobDetails;
-
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.llCancelVideo)
-    LinearLayout llCancelVideo;
-
-
-    public static final long MAX_VIDEO_DURATION = 30;
-    public static final long MAX_VIDEO_SIZE = 80 * 1024 * 1024;
-
-    private MakeAnOfferModel makeAnOfferModel;
-    private MakeAnOfferActivity makeAnOfferActivity;
-    private AboutCallbackFunction aboutCallbackFunction;
-    private String quickOffer;
-
-
-    // key to store image path in savedInstance state
-    private static final String KEY_IMAGE_STORAGE_PATH = "image_path";
-    private static String imageStoragePath;
-    private static final int CAMERA_CAPTURE_VIDEO_REQUEST_CODE = 200;
-    private SessionManager sessionManager;
-
-    private BottomSheetDialog mBottomSheetDialog;
-    private BottomSheetBehavior mBehavior;
-
-    public static MakeAnOfferAboutFragment newInstance(MakeAnOfferModel makeAnOfferModel, AboutCallbackFunction aboutCallbackFunction) {
-
-        Bundle args = new Bundle();
-        args.putParcelable(ConstantKey.MAKE_AN_OFFER_MODEL, makeAnOfferModel);
-        MakeAnOfferAboutFragment fragment = new MakeAnOfferAboutFragment();
-        fragment.aboutCallbackFunction = aboutCallbackFunction;
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public MakeAnOfferAboutFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_make_an_offer_about, container, false);
-        ButterKnife.bind(this, view);
-        mBehavior = BottomSheetBehavior.from(bottomSheet);
-        sessionManager = new SessionManager(getContext());
-
-        quickOffer = sessionManager.getQuickOffer(sessionManager.getUserAccount().getId());
-        setQuickOffer(quickOffer, "");
-
-        edtDescription.setTextWatcher(
-                new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        setQuickOffer(quickOffer, editable.toString());
-                    }
-                });
-
-        LytVideoPlay.setVisibility(View.GONE);
-        return view;
+        val view = inflater.inflate(R.layout.fragment_make_an_offer_about, container, false)
+        return view
     }
 
-    private void setQuickOffer(String quickOffer, String currentText) {
-        if (!quickOffer.equals("")) {
-            if (currentText.equals(quickOffer)) {
-                saveQuickOfferTxt.setEnabled(false);
-            } else if (currentText.length() < edtDescription.geteMinSize()) {
-                saveQuickOfferTxt.setEnabled(true);
-                saveQuickOfferTxt.setText(R.string.use_quick_offer);
-                loadQuickOffer();
-                saveQuickOfferTxt.setOnClickListener(v -> {
-                    edtDescription.setText(quickOffer);
-                    edtDescription.setSelection(edtDescription.getText().length());
-                });
+    private fun setIds() {
+
+        edtDescription = requireView().findViewById(R.id.edt_description)
+        checkboxSaveAsTemplate = requireView().findViewById(R.id.checkbox_save_as_template)
+        saveQuickOfferTxt = requireView().findViewById(R.id.saveQuickOfferTxt)
+        viewSelection = requireView().findViewById(R.id.viewSelection)
+        quickOfferDesc = requireView().findViewById(R.id.quickOfferDesc)
+        lytBtnMakeALiveVideo = requireView().findViewById(R.id.lyt_btn_make_a_live_video)
+        lytRecord2 = requireView().findViewById(R.id.lytRecord2)
+        lytBtnContinue = requireView().findViewById(R.id.lyt_btn_continue)
+        btnTxtOffer = requireView().findViewById(R.id.btnTxtOffer)
+        gxtGuideLineVideo = requireView().findViewById(R.id.guideline_video)
+        cardLiveVideo = requireView().findViewById(R.id.card_live_video)
+        ivBack = requireView().findViewById(R.id.ivBack)
+        imgThumbnail = requireView().findViewById(R.id.imgThumbnail)
+        LytVideoPlay = requireView().findViewById(R.id.LytVideoPlay)
+        viewOffer = requireView().findViewById(R.id.viewOffer)
+        llPlayVideo = requireView().findViewById(R.id.llPlayVideo)
+        bottomSheet = requireView().findViewById(R.id.bottom_sheet)
+        llJobDetails = requireView().findViewById(R.id.llJobDetails)
+        llCancelVideo = requireView().findViewById(R.id.llCancelVideo)
+        recordVideo = requireView().findViewById(R.id.recordVideo)
+        description = requireView().findViewById(R.id.description)
+    }
+
+    private fun setQuickOffer(quickOffer: String?, currentText: String) {
+        if (quickOffer != "") {
+            if ((currentText == quickOffer)) {
+                saveQuickOfferTxt.isEnabled = false
+            } else if (currentText.length < 25) {
+                saveQuickOfferTxt.isEnabled = true
+                saveQuickOfferTxt.setText(R.string.use_quick_offer)
+                loadQuickOffer()
+                saveQuickOfferTxt.setOnClickListener {
+                    description.editText!!.setText(quickOffer)
+                }
             } else {
-                saveQuickOfferTxt.setOnClickListener(v -> {
-                    saveQuickOffer(currentText);
-                });
-                saveQuickOfferTxt.setEnabled(true);
-                saveQuickOfferTxt.setText(R.string.update_quick_offer);
+                saveQuickOfferTxt.setOnClickListener { saveQuickOffer(currentText) }
+                saveQuickOfferTxt.isEnabled = true
+                saveQuickOfferTxt.setText(R.string.update_quick_offer)
             }
         } else {
-            saveQuickOfferTxt.setText(R.string.save_as_a_Quick_offer);
-
-            saveQuickOfferTxt.setOnClickListener(v -> {
-                saveQuickOffer(currentText);
-            });
-
-            if (currentText.length() < edtDescription.geteMinSize()) {
-                saveQuickOfferTxt.setEnabled(false);
-                saveQuickOfferTxt.setAlpha(0.5f);
+            saveQuickOfferTxt.setText(R.string.save_as_a_Quick_offer)
+            saveQuickOfferTxt.setOnClickListener { saveQuickOffer(currentText) }
+            if (currentText.length < 25) {
+                saveQuickOfferTxt.isEnabled = false
+                saveQuickOfferTxt.alpha = 0.5f
             } else {
-                saveQuickOfferTxt.setEnabled(true);
-                saveQuickOfferTxt.setAlpha(1f);
+                saveQuickOfferTxt.isEnabled = true
+                saveQuickOfferTxt.alpha = 1f
             }
         }
     }
 
-    private void saveQuickOffer(String currentQuickOffer) {
-        ((ActivityBase) requireActivity()).showSuccessToast("Quick offer saved", getContext());
-        quickOfferDesc.setText(String.format(Locale.ENGLISH, "%s...", currentQuickOffer.trim().substring(0, Math.min(currentQuickOffer.trim().length() - 1, 19))));
-        sessionManager.setQuickOffer(currentQuickOffer, sessionManager.getUserAccount().getId());
+    private fun saveQuickOffer(currentQuickOffer: String) {
+        (requireActivity() as ActivityBase).showSuccessToast("Quick offer saved", context)
+        quickOfferDesc.text = String.format(Locale.ENGLISH, "%s...", currentQuickOffer.trim { it <= ' ' }.substring(0, Math.min(currentQuickOffer.trim { it <= ' ' }.length - 1, 19)))
+        sessionManager!!.setQuickOffer(currentQuickOffer, sessionManager!!.userAccount.id)
     }
 
-    private void loadQuickOffer() {
-        String quickOffer = sessionManager.getQuickOffer(sessionManager.getUserAccount().getId());
-        quickOfferDesc.setText(String.format(Locale.ENGLISH, "%s...", quickOffer.trim().substring(0, Math.min(quickOffer.trim().length() - 1, 19))));
+    private fun loadQuickOffer() {
+        val quickOffer = sessionManager!!.getQuickOffer(sessionManager!!.userAccount.id)
+        quickOfferDesc.text = String.format(Locale.ENGLISH, "%s...", quickOffer.trim { it <= ' ' }.substring(0, Math.min(quickOffer.trim { it <= ' ' }.length - 1, 19)))
     }
 
-    private void setLayoout() {
+    private fun setLayoout() {
         // cardLiveVideo.setVisibility(View.GONE);
         // cardLiveVideo.setVisibility(View.VISIBLE);
-        checkboxSaveAsTemplate.setChecked(makeAnOfferModel.isCheckbok());
-        if (makeAnOfferModel.getMessage() != null) {
-            edtDescription.setText(makeAnOfferModel.getMessage());
-
+        checkboxSaveAsTemplate.isChecked = makeAnOfferModel!!.isCheckbok
+        if (makeAnOfferModel!!.message != null) {
+            description.editText!!.setText(makeAnOfferModel!!.message)
         }
     }
 
-    private void showJobDetailDialog() {
-
-
-        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    private fun showJobDetailDialog() {
+        if (mBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED) {
+            mBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
         }
-
-        final View view = getLayoutInflater().inflate(R.layout.sheet_job_details, null);
-
-        TextView tvJobTitle = view.findViewById(R.id.tvJobTitle);
-        TextView tvPosterName = view.findViewById(R.id.tvPosterName);
-        TextView tvLocation = view.findViewById(R.id.tvLocation);
-        TextView tvDate = view.findViewById(R.id.tvDate);
-        TextView tvDesc = view.findViewById(R.id.tvDesc);
-
-        tvJobTitle.setText(TaskDetailsActivity.taskModel.getTitle());
-        tvPosterName.setText(TaskDetailsActivity.taskModel.getPoster().getName());
-        if(TaskDetailsActivity.taskModel.getLocation() != null)
-            tvLocation.setText(TaskDetailsActivity.taskModel.getLocation());
-        else
-            tvLocation.setText(R.string.remotely);
-
-        tvDesc.setText(TaskDetailsActivity.taskModel.getDescription());
+        val view = layoutInflater.inflate(R.layout.sheet_job_details, null)
+        val tvJobTitle = view.findViewById<TextView>(R.id.tvJobTitle)
+        val tvPosterName = view.findViewById<TextView>(R.id.tvPosterName)
+        val tvLocation = view.findViewById<TextView>(R.id.tvLocation)
+        val tvDate = view.findViewById<TextView>(R.id.tvDate)
+        val tvDesc = view.findViewById<TextView>(R.id.tvDesc)
+        tvJobTitle.text = TaskDetailsActivity.taskModel!!.title
+        tvPosterName.text = TaskDetailsActivity.taskModel!!.poster.name
+        if (TaskDetailsActivity.taskModel!!.location != null) tvLocation.text = TaskDetailsActivity.taskModel!!.location else tvLocation.setText(R.string.remotely)
+        tvDesc.text = TaskDetailsActivity.taskModel!!.description
 
         //
-        tvDate.setText(Tools.getDayMonthDateTimeFormat2(TaskDetailsActivity.taskModel.getDueDate()));
-
-        CircularImageView imgAvtarPoster = view.findViewById(R.id.ivAvatar);
-        if (TaskDetailsActivity.taskModel.getPoster().getAvatar() != null && TaskDetailsActivity.taskModel.getPoster().getAvatar().getThumbUrl() != null) {
-            ImageUtil.displayImage(imgAvtarPoster, TaskDetailsActivity.taskModel.getPoster().getAvatar().getThumbUrl(), null);
+        tvDate.text = Tools.getDayMonthDateTimeFormat2(TaskDetailsActivity.taskModel!!.dueDate)
+        val imgAvtarPoster = view.findViewById<CircularImageView>(R.id.ivAvatar)
+        if (TaskDetailsActivity.taskModel!!.poster.avatar != null && TaskDetailsActivity.taskModel!!.poster.avatar.thumbUrl != null) {
+            ImageUtil.displayImage(imgAvtarPoster, TaskDetailsActivity.taskModel!!.poster.avatar.thumbUrl, null)
         } else {
             //TODO DUMMY IMAGE
         }
-
-        mBottomSheetDialog = new BottomSheetDialog(requireActivity());
-        mBottomSheetDialog.setContentView(view);
-        mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        mBottomSheetDialog = BottomSheetDialog(requireActivity())
+        mBottomSheetDialog!!.setContentView(view)
+        mBottomSheetDialog!!.window!!.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
 
 
         // set background transparent
-        ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
-
-        mBottomSheetDialog.show();
-        mBottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                mBottomSheetDialog = null;
-            }
-        });
-
+        (view.parent as View).setBackgroundColor(resources.getColor(android.R.color.transparent))
+        mBottomSheetDialog!!.show()
+        mBottomSheetDialog!!.setOnDismissListener { mBottomSheetDialog = null }
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        makeAnOfferActivity = (MakeAnOfferActivity) requireActivity();
-
-
-        if (makeAnOfferActivity != null) {
-            sessionManager = new SessionManager(makeAnOfferActivity);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setIds()
+        mBehavior = BottomSheetBehavior.from(bottomSheet)
+        sessionManager = SessionManager(context)
+        quickOffer = sessionManager!!.getQuickOffer(sessionManager!!.userAccount.id)
+        setQuickOffer(quickOffer, "")
+        description.editText!!.doAfterTextChanged {
+            setQuickOffer(quickOffer, it.toString())
         }
-        makeAnOfferModel = new MakeAnOfferModel();
-        if (getArguments() != null && getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL) != null) {
-            makeAnOfferModel = getArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL);
+        LytVideoPlay.visibility = View.GONE
+        makeAnOfferActivity = requireActivity() as MakeAnOfferActivity
+        if (makeAnOfferActivity != null) {
+            sessionManager = SessionManager(makeAnOfferActivity)
+        }
+        makeAnOfferModel = MakeAnOfferModel()
+        if (arguments != null && requireArguments().getParcelable<Parcelable?>(ConstantKey.MAKE_AN_OFFER_MODEL) != null) {
+            makeAnOfferModel = requireArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL)
         }
         if (makeAnOfferModel != null) {
-            setLayoout();
+            setLayoout()
         }
         // toolbar.setNavigationOnClickListener(MakeAnOfferAboutFragment.this);
-        checkboxSaveAsTemplate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-              /*  if(isChecked){
+        checkboxSaveAsTemplate.setOnCheckedChangeListener { _, _ -> /*  if(isChecked){
                     cardLiveVideo.setVisibility(View.GONE);
                 }else{
                     cardLiveVideo.setVisibility(View.VISIBLE);
                 }*/
+        }
+        ivBack.setOnClickListener { makeAnOfferActivity!!.onBackPressed() }
+        recordVideo.setOnClickListener {
+            if (!CameraUtils.isDeviceSupportCamera(makeAnOfferActivity)) {
+                (requireActivity() as ActivityBase).showToast("Sorry! Your device doesn't support camera", requireContext())
+                // will close the app if the device doesn't have camera
+                //finish();
+                return@setOnClickListener
             }
-        });
-
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                makeAnOfferActivity.onBackPressed();
+            if (CameraUtils.checkPermissions(makeAnOfferActivity)) {
+                captureVideo()
+            } else {
+                requestCameraPermission(ConstantKey.MEDIA_TYPE_VIDEO)
             }
-        });
-    }
-
-
-    @OnClick({R.id.lyt_btn_make_a_live_video, R.id.lyt_btn_continue, R.id.lytRecord2, R.id.llJobDetails, R.id.llCancelVideo, R.id.guideline_video})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.lytRecord2:
-
-            case R.id.lyt_btn_make_a_live_video:
-                // Checking availability of the camera
-                if (!CameraUtils.isDeviceSupportCamera(makeAnOfferActivity)) {
-                    ((ActivityBase) requireActivity()).showToast("Sorry! Your device doesn't support camera", requireContext());
-                    // will close the app if the device doesn't have camera
-                    //finish();
-                    return;
+        }
+        btnTxtOffer.setOnClickListener {
+            viewOffer.visibility = View.VISIBLE
+            viewSelection.visibility = View.GONE
+        }
+        lytBtnMakeALiveVideo.setOnClickListener {
+            // Checking availability of the camera
+            if (!CameraUtils.isDeviceSupportCamera(makeAnOfferActivity)) {
+                (requireActivity() as ActivityBase).showToast("Sorry! Your device doesn't support camera", requireContext())
+            }
+            if (CameraUtils.checkPermissions(makeAnOfferActivity)) {
+                captureVideo()
+            } else {
+                requestCameraPermission(ConstantKey.MEDIA_TYPE_VIDEO)
+            }
+        }
+        lytRecord2.setOnClickListener {
+            // Checking availability of the camera
+            if (!CameraUtils.isDeviceSupportCamera(makeAnOfferActivity)) {
+                (requireActivity() as ActivityBase).showToast("Sorry! Your device doesn't support camera", requireContext())
+            }
+            if (CameraUtils.checkPermissions(makeAnOfferActivity)) {
+                captureVideo()
+            } else {
+                requestCameraPermission(ConstantKey.MEDIA_TYPE_VIDEO)
+            }
+        }
+        lytBtnContinue.setOnClickListener {
+            when (validation()) {
+                1 -> edtDescription.setError("Please enter your description or record a video")
+                2 -> (requireActivity() as ActivityBase).showToast("Please enter only video or text", requireContext())
+                0 -> if (aboutCallbackFunction != null) {
+                    makeAnOfferModel!!.message = description.editText!!.text.toString().trim { it <= ' ' }
+                    makeAnOfferModel!!.isCheckbok = checkboxSaveAsTemplate.isChecked
+                    aboutCallbackFunction!!.continueButtonAbout(makeAnOfferModel)
                 }
-
-                if (CameraUtils.checkPermissions(makeAnOfferActivity)) {
-                    captureVideo();
-                } else {
-                    requestCameraPermission(ConstantKey.MEDIA_TYPE_VIDEO);
-                }
-                break;
-
-            case R.id.lyt_btn_continue:
-                switch (validation()) {
-                    case 1:
-                        edtDescription.setError("Please enter your description or record a video");
-                        break;
-                    case 2:
-                        ((ActivityBase)requireActivity()).showToast("Please enter only video or text", requireContext());
-                        break;
-                    case 0:
-                        if (aboutCallbackFunction != null) {
-                            makeAnOfferModel.setMessage(edtDescription.getText().trim());
-                            makeAnOfferModel.setCheckbok(checkboxSaveAsTemplate.isChecked());
-                            aboutCallbackFunction.continueButtonAbout(makeAnOfferModel);
-                        }
-                        break;
-                }
-                break;
-            case R.id.llJobDetails:
-                showJobDetailDialog();
-                break;
-
-            case R.id.llCancelVideo:
-                lytBtnMakeALiveVideo.setVisibility(View.VISIBLE);
-                LytVideoPlay.setVisibility(View.GONE);
-                edtDescription.setText("");
-                imageStoragePath = "";
-                break;
-
-            case R.id.guideline_video:
-                Intent intent = new Intent(requireActivity(), VideoPlayerActivity.class);
-                intent.putExtra(ConstantKey.VIDEO_PATH, URL_VIDEO_GUIDELINE);
-                requireActivity().startActivity(intent);
-                break;
+            }
+        }
+        llJobDetails.setOnClickListener {
+            showJobDetailDialog()
+        }
+        llCancelVideo.setOnClickListener {
+            lytBtnMakeALiveVideo.visibility = View.VISIBLE
+            LytVideoPlay.visibility = View.GONE
+            description.editText!!.setText("")
+            imageStoragePath = ""
+        }
+        gxtGuideLineVideo.setOnClickListener {
+            val intent = Intent(requireActivity(), VideoPlayerActivity::class.java)
+            intent.putExtra(ConstantKey.VIDEO_PATH, Constant.URL_VIDEO_GUIDELINE)
+            requireActivity().startActivity(intent)
         }
     }
 
-    private int validation() {
-        if (edtDescription.getText().length() < edtDescription.geteMinSize() && makeAnOfferModel.getAttachment() == null) {
-            return 1;
-        } else if (!TextUtils.isEmpty(edtDescription.getText().trim()) && makeAnOfferModel.getAttachment() != null) {
-            return 2;
+    private fun validation(): Int {
+        if (description.editText!!.text.length < 25 && makeAnOfferModel!!.attachment == null) {
+            return 1
+        } else if (!TextUtils.isEmpty(description.editText!!.text.trim { it <= ' ' }) && makeAnOfferModel!!.attachment != null) {
+            return 2
         }
-        return 0;
+        return 0
     }
 
     /**
      * Requesting permissions using Dexter library
      */
-    private void requestCameraPermission(final int type) {
+    private fun requestCameraPermission(type: Int) {
         Dexter.withContext(makeAnOfferActivity)
                 .withPermissions(Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.RECORD_AUDIO)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                .withListener(object : MultiplePermissionsListener {
+                    override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                         if (report.areAllPermissionsGranted()) {
-
                             if (type == ConstantKey.MEDIA_TYPE_IMAGE) {
                                 // capture picture
                                 //captureImage();
                             } else {
-                                captureVideo();
+                                captureVideo()
                             }
-
-                        } else if (report.isAnyPermissionPermanentlyDenied()) {
-                            makeAnOfferActivity.showPermissionsAlert();
+                        } else if (report.isAnyPermissionPermanentlyDenied) {
+                            makeAnOfferActivity!!.showPermissionsAlert()
                         }
                     }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
+                    override fun onPermissionRationaleShouldBeShown(permissions: List<PermissionRequest>, token: PermissionToken) {
+                        token.continuePermissionRequest()
                     }
-                }).check();
+                }).check()
     }
-
 
     /**
      * Launching camera app to record video
      */
-    private void captureVideo() {
-        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        File file = CameraUtils.getOutputMediaFile(ConstantKey.MEDIA_TYPE_VIDEO);
+    private fun captureVideo() {
+        val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+        val file = CameraUtils.getOutputMediaFile(ConstantKey.MEDIA_TYPE_VIDEO)
         if (file != null) {
-            imageStoragePath = file.getAbsolutePath();
+            imageStoragePath = file.absolutePath
         }
-        Uri fileUri = CameraUtils.getOutputMediaFileUri(makeAnOfferActivity, file);
+        val fileUri = CameraUtils.getOutputMediaFileUri(makeAnOfferActivity, file)
         // set video quality
         // intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, MAX_VIDEO_DURATION);
-        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-        intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, MAX_VIDEO_SIZE);
-
-
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, MAX_VIDEO_DURATION)
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0)
+        intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, MAX_VIDEO_SIZE)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            intent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_FRONT);
-            intent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);// Tested on API 24 Android version 7.0(Samsung S6)
+            intent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_FRONT)
+            intent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true) // Tested on API 24 Android version 7.0(Samsung S6)
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            intent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_FRONT); // Tested on API 27 Android version 8.0(Nexus 6P)
-            intent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
+            intent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_FRONT) // Tested on API 27 Android version 8.0(Nexus 6P)
+            intent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true)
         } else {
-            intent.putExtra("android.intent.extras.CAMERA_FACING", 1);
+            intent.putExtra("android.intent.extras.CAMERA_FACING", 1)
         }
         // Tested API 21 Android version 5.0.1(Samsung S4)
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri) // set the image file
         // start the video capture Intent
-        startActivityForResult(intent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE);
+        startActivityForResult(intent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE)
     }
 
     /**
      * Activity result method will be called after closing the camera
      */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         // if the result is capturing Image
         if (requestCode == CAMERA_CAPTURE_VIDEO_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
                 // Refreshing the gallery
-                CameraUtils.refreshGallery(makeAnOfferActivity, imageStoragePath);
-                uploadDataInTempApi(new File(Uri.parse("file://" + imageStoragePath).getPath()));
-
+                CameraUtils.refreshGallery(makeAnOfferActivity, imageStoragePath)
+                uploadDataInTempApi(File(Uri.parse("file://" + imageStoragePath).path))
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 // user cancelled recording
-                ((ActivityBase) requireActivity()).showToast(
-                        "User cancelled video recording", requireContext());
+                (requireActivity() as ActivityBase).showToast(
+                        "User cancelled video recording", requireContext())
             } else {
                 // failed to record video
-                ((ActivityBase) requireActivity()).showToast(
-                        "Sorry! Failed to record video", requireContext());
+                (requireActivity() as ActivityBase).showToast(
+                        "Sorry! Failed to record video", requireContext())
             }
         }
     }
 
-
-    private void uploadDataInTempApi(File pictureFile) {
-        makeAnOfferActivity.showProgressDialog();
-        Call<String> call;
+    private fun uploadDataInTempApi(pictureFile: File) {
+        makeAnOfferActivity!!.showProgressDialog()
+        val call: Call<String?>?
 
         //    File file = new File(imagePath);
         //    Log.e("AttachmentApi: ", file.getName());
         //   Log.e("uploadProfile++:11 ", imagePath);
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile);
+        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         // MultipartBody.Part is used to send also the actual file name
-        MultipartBody.Part imageFile = MultipartBody.Part.createFormData("media", pictureFile.getName(), requestFile);
-        call = new ApiClient().buildAndGetClientForVideoUpload().getTaskTempAttachmentMediaData(
-                "XMLHttpRequest", sessionManager.getTokenType() + " " + sessionManager.getAccessToken(), imageFile);
-
-
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
-                makeAnOfferActivity.hideProgressDialog();
-                Timber.tag("Response").e(response.toString());
+        val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
+        call = ApiClient().buildAndGetClientForVideoUpload().getTaskTempAttachmentMediaData(
+                "XMLHttpRequest", sessionManager!!.tokenType + " " + sessionManager!!.accessToken, imageFile)
+        call!!.enqueue(object : Callback<String?> {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                makeAnOfferActivity!!.hideProgressDialog()
+                Timber.tag("Response").e(response.toString())
                 if (response.code() == 422) {
-                    makeAnOfferActivity.showToast(response.message(), makeAnOfferActivity);
-                    return;
+                    makeAnOfferActivity!!.showToast(response.message(), makeAnOfferActivity)
+                    return
                 }
-
                 try {
-                    String strResponse = response.body();
-                    Timber.tag("body").e(strResponse);
-                    JSONObject jsonObject = new JSONObject(strResponse);
-                    Timber.e(jsonObject.toString());
+                    val strResponse = response.body()
+                    Timber.tag("body").e(strResponse)
+                    val jsonObject = JSONObject(strResponse)
+                    Timber.e(jsonObject.toString())
                     if (jsonObject.has("data")) {
-                        AttachmentModel attachment = new AttachmentModel();
-                        JSONObject jsonObject_data = jsonObject.getJSONObject("data");
-                        if (jsonObject_data.has("id") && !jsonObject_data.isNull("id"))
-                            attachment.setId(jsonObject_data.getInt("id"));
-                        if (jsonObject_data.has("name") && !jsonObject_data.isNull("name"))
-                            attachment.setName(jsonObject_data.getString("name"));
-                        if (jsonObject_data.has("file_name") && !jsonObject_data.isNull("file_name"))
-                            attachment.setFileName(jsonObject_data.getString("file_name"));
-                        if (jsonObject_data.has("mime") && !jsonObject_data.isNull("mime"))
-                            attachment.setMime(jsonObject_data.getString("mime"));
-                        if (jsonObject_data.has("url") && !jsonObject_data.isNull("url"))
-                            attachment.setUrl(jsonObject_data.getString("url"));
-                        if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url"))
-                            attachment.setThumbUrl(jsonObject_data.getString("thumb_url"));
-                        if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url"))
-                            attachment.setModalUrl(jsonObject_data.getString("modal_url"));
-                        if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at"))
-                            attachment.setCreatedAt(jsonObject_data.getString("created_at"));
-                        attachment.setType(AttachmentAdapter.VIEW_TYPE_IMAGE);
-                        makeAnOfferModel.setAttachment(attachment);
+                        val attachment = AttachmentModel()
+                        val jsonObject_data = jsonObject.getJSONObject("data")
+                        if (jsonObject_data.has("id") && !jsonObject_data.isNull("id")) attachment.id = jsonObject_data.getInt("id")
+                        if (jsonObject_data.has("name") && !jsonObject_data.isNull("name")) attachment.name = jsonObject_data.getString("name")
+                        if (jsonObject_data.has("file_name") && !jsonObject_data.isNull("file_name")) attachment.fileName = jsonObject_data.getString("file_name")
+                        if (jsonObject_data.has("mime") && !jsonObject_data.isNull("mime")) attachment.mime = jsonObject_data.getString("mime")
+                        if (jsonObject_data.has("url") && !jsonObject_data.isNull("url")) attachment.url = jsonObject_data.getString("url")
+                        if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url")) attachment.thumbUrl = jsonObject_data.getString("thumb_url")
+                        if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url")) attachment.modalUrl = jsonObject_data.getString("modal_url")
+                        if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at")) attachment.createdAt = jsonObject_data.getString("created_at")
+                        attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
+                        makeAnOfferModel!!.attachment = attachment
                     }
 
                     // aboutCallbackFunction.continueButtonAbout(makeAnOfferModel);
-
-                    lytBtnMakeALiveVideo.setVisibility(View.GONE);
-                    LytVideoPlay.setVisibility(View.VISIBLE);
-                    ImageUtil.displayImage(imgThumbnail, makeAnOfferModel.getAttachment().getModalUrl(), null);
+                    if (aboutCallbackFunction != null) {
+                        makeAnOfferModel!!.message = description.editText!!.text.toString().trim { it <= ' ' }
+                        makeAnOfferModel!!.isCheckbok = checkboxSaveAsTemplate.isChecked
+                        aboutCallbackFunction!!.continueButtonAbout(makeAnOfferModel)
+                    }
+                    lytBtnMakeALiveVideo.visibility = View.GONE
+                    LytVideoPlay.visibility = View.VISIBLE
+                    ImageUtil.displayImage(imgThumbnail, makeAnOfferModel!!.attachment.modalUrl, null)
                     //ImageUtil.displayImage(imgThumbnail, "https://images.wallpaperscraft.com/image/road_asphalt_marking_130996_1280x720.jpg", null);
-
-
-                    llPlayVideo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            Intent intent = new Intent(requireActivity(), VideoPlayerActivity.class);
-                            intent.putExtra(ConstantKey.VIDEO_PATH, "" + makeAnOfferModel.getAttachment().getUrl());
-                            requireActivity().startActivity(intent);
-                        }
-                    });
+                    llPlayVideo.setOnClickListener {
+                        val intent: Intent = Intent(requireActivity(), VideoPlayerActivity::class.java)
+                        intent.putExtra(ConstantKey.VIDEO_PATH, "" + makeAnOfferModel!!.attachment.url)
+                        requireActivity().startActivity(intent)
+                    }
 
                     //https://images.wallpaperscraft.com/image/road_asphalt_marking_130996_1280x720.jpg
 
                     //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
-                } catch (Exception e) {
-                    makeAnOfferActivity.showToast("Something went wrong", makeAnOfferActivity);
-
-                    e.printStackTrace();
+                } catch (e: Exception) {
+                    makeAnOfferActivity!!.showToast("Something went wrong", makeAnOfferActivity)
+                    e.printStackTrace()
                 }
             }
 
-            @Override
-            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+            override fun onFailure(call: Call<String?>, t: Throwable) {
                 try {
-
-                    makeAnOfferActivity.hideProgressDialog();
-                    Timber.tag("Response").e(call.toString());
-                }catch (Exception e){
-                    e.printStackTrace();
+                    makeAnOfferActivity!!.hideProgressDialog()
+                    Timber.tag("Response").e(call.toString())
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
-        });
-
+        })
     }
 
-
-    @Override
-    public void onClick(View v) {
+    override fun onClick(v: View) {
         if (aboutCallbackFunction != null) {
-            aboutCallbackFunction.backButtonAbout();
+            aboutCallbackFunction!!.backButtonAbout()
         }
     }
 
-    public interface AboutCallbackFunction {
-        void backButtonAbout();
-
-        void continueButtonAbout(MakeAnOfferModel makeAnOfferModel);
+    interface AboutCallbackFunction {
+        fun backButtonAbout()
+        fun continueButtonAbout(makeAnOfferModel: MakeAnOfferModel?)
     }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
         // get the file url
         if (savedInstanceState != null) {
-            imageStoragePath = savedInstanceState.getString(KEY_IMAGE_STORAGE_PATH);
+            imageStoragePath = savedInstanceState.getString(KEY_IMAGE_STORAGE_PATH)
+        }
+    }
+
+    companion object {
+        val MAX_VIDEO_DURATION: Long = 30
+        val MAX_VIDEO_SIZE = (80 * 1024 * 1024).toLong()
+
+        // key to store image path in savedInstance state
+        private val KEY_IMAGE_STORAGE_PATH = "image_path"
+        private var imageStoragePath: String? = null
+        private val CAMERA_CAPTURE_VIDEO_REQUEST_CODE = 200
+        fun newInstance(makeAnOfferModel: MakeAnOfferModel?, aboutCallbackFunction: AboutCallbackFunction?): MakeAnOfferAboutFragment {
+            val args = Bundle()
+            args.putParcelable(ConstantKey.MAKE_AN_OFFER_MODEL, makeAnOfferModel)
+            val fragment = MakeAnOfferAboutFragment()
+            fragment.aboutCallbackFunction = aboutCallbackFunction
+            fragment.arguments = args
+            return fragment
         }
     }
 }

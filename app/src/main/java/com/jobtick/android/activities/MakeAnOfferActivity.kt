@@ -108,7 +108,7 @@ class MakeAnOfferActivity : ActivityBase(), MustHaveCallbackFunction, BudgetCall
         commit(fragment, MakeAnOfferBudgetFragment::class.java.simpleName)
     }
 
-    override fun continueButtonAbout(makeAnOfferModel: MakeAnOfferModel) {
+    override fun continueButtonAbout(makeAnOfferModel: MakeAnOfferModel?) {
         val fragment: Fragment = MakeAnOfferReviewFragment.newInstance(makeAnOfferModel, this@MakeAnOfferActivity)
         commit(fragment, MakeAnOfferReviewFragment::class.java.simpleName)
     }

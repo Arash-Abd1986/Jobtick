@@ -113,13 +113,14 @@ class MakeAnOfferActivity : ActivityBase(), MustHaveCallbackFunction, BudgetCall
         commit(fragment, MakeAnOfferReviewFragment::class.java.simpleName)
     }
 
-    override fun backButtonReview(makeAnOfferModel: MakeAnOfferModel) {
+    override fun backButtonReview(makeAnOfferModel: MakeAnOfferModel?) {
         val fragment: Fragment = MakeAnOfferAboutFragment.newInstance(makeAnOfferModel, this@MakeAnOfferActivity)
         commit(fragment, MakeAnOfferAboutFragment::class.java.simpleName)
     }
 
-    override fun submitButtonReview(makeAnOfferModel: MakeAnOfferModel) {
-        submitOffer(makeAnOfferModel)
+    override fun submitButtonReview(makeAnOfferModel: MakeAnOfferModel?) {
+        if (makeAnOfferModel != null)
+            submitOffer(makeAnOfferModel)
     }
 
     private fun submitOffer(makeAnOfferModel: MakeAnOfferModel) {

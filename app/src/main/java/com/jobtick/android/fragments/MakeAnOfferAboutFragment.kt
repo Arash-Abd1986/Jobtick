@@ -9,13 +9,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.widget.doAfterTextChanged
@@ -189,26 +186,29 @@ class MakeAnOfferAboutFragment : Fragment(), View.OnClickListener {
         } else {
             //TODO DUMMY IMAGE
         }
-        mBottomSheetDialog = BottomSheetDialog(requireActivity())
-        mBottomSheetDialog!!.setContentView(view)
-        mBottomSheetDialog!!.window!!.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        /*  mBottomSheetDialog = BottomSheetDialog(requireActivity())
+          mBottomSheetDialog!!.setContentView(view)
+          mBottomSheetDialog!!.window!!.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)*/
 
 
         // set background transparent
         (view.parent as View).setBackgroundColor(resources.getColor(android.R.color.transparent))
-        mBottomSheetDialog!!.show()
-        mBottomSheetDialog!!.setOnDismissListener { mBottomSheetDialog = null }
+        /* mBottomSheetDialog!!.show()
+         mBottomSheetDialog!!.setOnDismissListener { mBottomSheetDialog = null }*/
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setIds()
-        mBehavior = BottomSheetBehavior.from(bottomSheet)
+//        mBehavior = BottomSheetBehavior.from(bottomSheet)
         sessionManager = SessionManager(context)
         quickOffer = sessionManager!!.getQuickOffer(sessionManager!!.userAccount.id)
         setQuickOffer(quickOffer, "")
         description.editText!!.doAfterTextChanged {
             setQuickOffer(quickOffer, it.toString())
+            it?.let {
+                lytBtnContinue.isEnabled = it.length > 25
+            }
         }
         LytVideoPlay.visibility = View.GONE
         makeAnOfferActivity = requireActivity() as MakeAnOfferActivity
@@ -281,7 +281,7 @@ class MakeAnOfferAboutFragment : Fragment(), View.OnClickListener {
             }
         }
         llJobDetails.setOnClickListener {
-            showJobDetailDialog()
+            // showJobDetailDialog()
         }
         llCancelVideo.setOnClickListener {
             lytBtnMakeALiveVideo.visibility = View.VISIBLE
@@ -412,15 +412,15 @@ class MakeAnOfferAboutFragment : Fragment(), View.OnClickListener {
                     Timber.e(jsonObject.toString())
                     if (jsonObject.has("data")) {
                         val attachment = AttachmentModel()
-                        val jsonObject_data = jsonObject.getJSONObject("data")
-                        if (jsonObject_data.has("id") && !jsonObject_data.isNull("id")) attachment.id = jsonObject_data.getInt("id")
-                        if (jsonObject_data.has("name") && !jsonObject_data.isNull("name")) attachment.name = jsonObject_data.getString("name")
-                        if (jsonObject_data.has("file_name") && !jsonObject_data.isNull("file_name")) attachment.fileName = jsonObject_data.getString("file_name")
-                        if (jsonObject_data.has("mime") && !jsonObject_data.isNull("mime")) attachment.mime = jsonObject_data.getString("mime")
-                        if (jsonObject_data.has("url") && !jsonObject_data.isNull("url")) attachment.url = jsonObject_data.getString("url")
-                        if (jsonObject_data.has("thumb_url") && !jsonObject_data.isNull("thumb_url")) attachment.thumbUrl = jsonObject_data.getString("thumb_url")
-                        if (jsonObject_data.has("modal_url") && !jsonObject_data.isNull("modal_url")) attachment.modalUrl = jsonObject_data.getString("modal_url")
-                        if (jsonObject_data.has("created_at") && !jsonObject_data.isNull("created_at")) attachment.createdAt = jsonObject_data.getString("created_at")
+                        val jsonObjectData = jsonObject.getJSONObject("data")
+                        if (jsonObjectData.has("id") && !jsonObjectData.isNull("id")) attachment.id = jsonObjectData.getInt("id")
+                        if (jsonObjectData.has("name") && !jsonObjectData.isNull("name")) attachment.name = jsonObjectData.getString("name")
+                        if (jsonObjectData.has("file_name") && !jsonObjectData.isNull("file_name")) attachment.fileName = jsonObjectData.getString("file_name")
+                        if (jsonObjectData.has("mime") && !jsonObjectData.isNull("mime")) attachment.mime = jsonObjectData.getString("mime")
+                        if (jsonObjectData.has("url") && !jsonObjectData.isNull("url")) attachment.url = jsonObjectData.getString("url")
+                        if (jsonObjectData.has("thumb_url") && !jsonObjectData.isNull("thumb_url")) attachment.thumbUrl = jsonObjectData.getString("thumb_url")
+                        if (jsonObjectData.has("modal_url") && !jsonObjectData.isNull("modal_url")) attachment.modalUrl = jsonObjectData.getString("modal_url")
+                        if (jsonObjectData.has("created_at") && !jsonObjectData.isNull("created_at")) attachment.createdAt = jsonObjectData.getString("created_at")
                         attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
                         makeAnOfferModel!!.attachment = attachment
                     }

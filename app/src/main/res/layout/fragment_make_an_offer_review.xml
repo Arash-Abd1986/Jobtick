@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLightGrey"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".fragments.MakeAnOfferReviewFragment">
 
@@ -27,49 +27,42 @@
                 android:padding="@dimen/_5sp"
                 android:src="@drawable/ic_back" />
 
-            <com.jobtick.android.text_view.TextViewMedium
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/toolbar_title"
+                style="@style/heading5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_5sp"
-                android:text="@string/offer_summary"
-                android:textColor="@color/textColor"
+                android:text="Review Offer"
+                android:textColor="@color/neutral_light_800"
                 android:textSize="@dimen/_18sp" />
         </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
             android:fillViewport="true"
             android:overScrollMode="never"
-            android:paddingBottom="120dp"
-            android:layout_below="@id/toolbar">
+            android:paddingBottom="120dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sp"
-                android:layout_marginEnd="@dimen/_5sp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
-                    android:background="@drawable/bg_white_settings">
+                    android:background="@color/primary_50">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingStart="@dimen/_10sp"
-                        android:paddingTop="@dimen/_15sp"
-                        android:paddingEnd="@dimen/_10sp"
-                        android:paddingBottom="@dimen/_15sp">
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginVertical="16dp"
+                        android:orientation="vertical">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -80,19 +73,32 @@
                                 android:layout_width="@dimen/_24sp"
                                 android:layout_height="@dimen/_24sp"
                                 android:layout_centerVertical="true"
-                                android:src="@drawable/ic_info2"
+                                android:src="@drawable/ic_info_v5"
                                 app:tint="@color/colorPrimary" />
 
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_marginStart="@dimen/_10sp"
+                            <LinearLayout
+                                android:layout_marginStart="16dp"
                                 android:layout_toEndOf="@+id/img_info"
-                                android:lineHeight="20dp"
-                                android:text="Once your offer is accepted, you agree to complete the job. Any cancellation may lead to deduction of cancellation fee."
-                                android:textColor="@color/textColor"
-                                android:textAppearance="@style/materialText_400_15" />
+                                android:layout_width="match_parent"
+                                android:orientation="vertical"
+                                android:layout_height="wrap_content">
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/body3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Important Notice!"
+                                    android:textColor="@color/neutral_dark" />
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/caption"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="Once your offer is accepted, you agree to complete the job. Any cancellation may lead to deduction of cancellation fee."
+                                    android:textColor="@color/neutral_light_700" />
+
+                            </LinearLayout>
+
+
                         </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -101,118 +107,136 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15sp"
-                    android:layout_marginTop="@dimen/_5sp"
-                    android:layout_marginEnd="@dimen/_15sp"
-                    android:layout_marginBottom="@dimen/_5sp"
-                    android:background="@drawable/bg_poster_offer"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal"
-                    android:padding="@dimen/_8sp">
+                    android:paddingHorizontal="24dp">
 
-                    <com.jobtick.android.text_view.TextViewMedium
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/body3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/_5sp"
-                        android:layout_marginEnd="@dimen/_5sp"
                         android:layout_weight="1"
                         android:text="Your Offer"
-                        android:textColor="@color/grey_70"
-                        android:textSize="@dimen/_14sp" />
+                        android:textColor="@color/neutral_light_700" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_total_budget"
+                        style="@style/caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/_10sp"
                         android:text="$200"
-                        android:textColor="@color/colorPrimary"
-                        android:textAppearance="@style/materialText_500_17" />
+                        android:textColor="@color/neutral_light_500" />
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/neutral_light_50" />
+
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:background="@drawable/bg_white_settings">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingStart="@dimen/_10sp"
-                        android:paddingTop="@dimen/_10sp"
-                        android:paddingBottom="@dimen/_10sp">
+                        android:orientation="vertical">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:paddingHorizontal="24dp">
 
                             <com.google.android.material.textview.MaterialTextView
+                                style="@style/body3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_5sp"
                                 android:text="Fee:"
-                                android:textColor="@color/grey_70"
-                                android:textAppearance="@style/materialText_400_15" />
+                                android:textColor="@color/neutral_light_700" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_service_fee"
+                                style="@style/caption"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
-                                android:layout_marginEnd="@dimen/_15sp"
                                 android:text="$20"
-                                android:textColor="@color/textColor"
-                                android:textAppearance="@style/materialText_500_17" />
+                                android:textColor="@color/primary_error" />
 
                         </RelativeLayout>
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_10sp" />
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="24dp"
+                            android:background="@color/neutral_light_50" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:paddingHorizontal="24dp">
 
                             <com.google.android.material.textview.MaterialTextView
+                                style="@style/body3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
-                                android:layout_marginStart="@dimen/_5sp"
                                 android:text="You’ll Receive:"
-                                android:textColor="@color/textColor"
-                                android:textAppearance="@style/materialText_500_17" />
+                                android:textColor="@color/neutral_light_700" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_receive_budget"
+                                style="@style/caption"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
-                                android:layout_marginEnd="@dimen/_15sp"
                                 android:text="$180"
-                                android:textColor="@color/colorPrimary"
-                                android:textAppearance="@style/materialText_400_20" />
+                                android:textColor="@color/primary_500" />
                         </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp"
+                            android:layout_marginTop="12dp"
+                            android:background="@color/neutral_light_50" />
                     </LinearLayout>
                 </FrameLayout>
-
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:id="@+id/offerType"
+                    style="@style/unknown"
+                    android:layout_marginTop="16dp"
+                    android:inputType="textCapWords"
+                    android:text="Text offer"
+                    android:textColor="@color/neutral_light_500"
+                    android:layout_marginStart="24dp"
+                    android:layout_height="wrap_content" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textOffer"
+                    android:layout_width="match_parent"
+                    style="@style/caption"
+                    android:visibility="gone"
+                    android:inputType="textImeMultiLine"
+                    android:text="Text offer"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/neutral_light_700"
+                    android:layout_height="wrap_content" />
                 <FrameLayout
                     android:id="@+id/card_live_video"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/_15sp"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_middle"
+                   android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
                     android:background="@color/backgroundLightGrey"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -251,14 +275,14 @@
                             android:paddingBottom="@dimen/_10sp">
 
                             <LinearLayout
-                                android:visibility="gone"
                                 android:id="@+id/lytRecord2"
                                 android:layout_width="@dimen/_40sp"
                                 android:layout_height="@dimen/_40sp"
                                 android:layout_gravity="center"
                                 android:background="@drawable/bg_rounded_recording"
                                 android:gravity="center"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:visibility="gone">
 
                                 <com.jobtick.android.text_view.TextViewSemiBold
                                     android:layout_width="wrap_content"
@@ -270,15 +294,17 @@
                             </LinearLayout>
 
                             <ImageView
-                                android:visibility="gone"
                                 android:id="@+id/img_btn_play"
                                 android:layout_width="45dp"
                                 android:layout_height="45dp"
                                 android:layout_marginStart="@dimen/_10sp"
-                                android:src="@drawable/ic_play_circle" />
+                                android:src="@drawable/ic_play_circle"
+                                android:visibility="gone" />
                         </LinearLayout>
                     </RelativeLayout>
                 </FrameLayout>
+
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
@@ -295,20 +321,25 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="@dimen/_12sp"
-                android:lineHeight="17dp"
                 android:text="@string/review_conditions"
+                android:textAppearance="@style/materialText_400_13"
                 android:textColor="@color/grey_70"
-                android:textAppearance="@style/materialText_400_13" />
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/neutral_light_50" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/lyt_btn_submit_offer"
-                style="@style/materialButton"
+                style="@style/colored"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="32dp"
-                android:text="@string/submit_offer" />
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/next" />
 
         </LinearLayout>
 

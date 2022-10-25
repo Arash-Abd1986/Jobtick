@@ -201,7 +201,7 @@
         <activity
             android:name=".activities.MakeAnOfferActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.TaskDetailsActivity"
             android:screenOrientation="portrait"

@@ -457,6 +457,7 @@
     <color name="neutral_light_700">#434343</color>
     <color name="neutral_light_800">#262626</color>
     <color name="primary">#4353FF</color>
+    <color name="primary_50">#EBECFF</color>
     <color name="primary_light_100">#ECEEFF</color>
     <color name="primary_500">#4353FF</color>
     <color name="secondary_light">#AB47BC</color>

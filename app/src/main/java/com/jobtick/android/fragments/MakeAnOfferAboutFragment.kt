@@ -64,6 +64,7 @@ class MakeAnOfferAboutFragment : Fragment(), View.OnClickListener {
     private lateinit var lytBtnContinue: MaterialButton
     private lateinit var btnTxtOffer: MaterialButton
     private lateinit var gxtGuideLineVideo: TextView
+    private lateinit var toolbar_title: TextView
     private lateinit var cardLiveVideo: CardView
     private lateinit var ivBack: ImageView
     private lateinit var imgThumbnail: ImageView
@@ -112,6 +113,7 @@ class MakeAnOfferAboutFragment : Fragment(), View.OnClickListener {
         llCancelVideo = requireView().findViewById(R.id.llCancelVideo)
         recordVideo = requireView().findViewById(R.id.recordVideo)
         description = requireView().findViewById(R.id.description)
+        toolbar_title = requireView().findViewById(R.id.toolbar_title)
     }
 
     private fun setQuickOffer(quickOffer: String?, currentText: String) {
@@ -246,6 +248,7 @@ class MakeAnOfferAboutFragment : Fragment(), View.OnClickListener {
         btnTxtOffer.setOnClickListener {
             viewOffer.visibility = View.VISIBLE
             viewSelection.visibility = View.GONE
+            toolbar_title.text = "Write Text"
         }
         lytBtnMakeALiveVideo.setOnClickListener {
             // Checking availability of the camera

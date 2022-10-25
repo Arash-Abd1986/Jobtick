@@ -10,35 +10,40 @@
 
     <LinearLayout
         android:id="@+id/toolbar"
+        android:layout_marginStart="16dp"
         android:layout_width="match_parent"
+        android:gravity="center_vertical"
         android:layout_height="?attr/actionBarSize"
         android:orientation="horizontal">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivBack"
-            android:layout_width="@dimen/_32sp"
-            android:layout_height="@dimen/_32sp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_10sp"
-            android:padding="@dimen/_5sp"
-            android:src="@drawable/ic_back" />
+            android:padding="6dp"
+            app:srcCompat="@drawable/ic_back_black"
+            app:tint="@color/neutral_light_500"
+            />
 
-        <com.jobtick.android.text_view.TextViewMedium
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
+            style="@style/heading5"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_5sp"
-            android:text="@string/make_an_offer"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_18sp" />
+            android:text="Offer Details"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/neutral_light_800"
+            />
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/viewSelection"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -139,7 +144,7 @@
                 style="@style/outlineTextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:hint="Text Offer"
                 android:paddingHorizontal="16dp"

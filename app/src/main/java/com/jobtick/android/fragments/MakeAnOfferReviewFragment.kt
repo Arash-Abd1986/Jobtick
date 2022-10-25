@@ -96,7 +96,7 @@ class MakeAnOfferReviewFragment : Fragment(), View.OnClickListener {
     }
     private fun showDialog() {
         val layoutInflater = requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view: View = layoutInflater.inflate(R.layout.dialog_discard_changes, null)
+        val view: View = layoutInflater.inflate(R.layout.dialog_confirm_offer, null)
         val infoDialog = AlertDialog.Builder(requireContext())
                 .setView(view)
                 .create()

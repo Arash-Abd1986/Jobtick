@@ -33,6 +33,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.jobtick.android.R
 import com.jobtick.android.adapers.FilterAdapter
 import com.jobtick.android.adapers.TaskListAdapterV2
+import com.jobtick.android.material.ui.jobdetails.JobDetailsActivity
 import com.jobtick.android.models.FilterModel
 import com.jobtick.android.models.response.myjobs.Data
 import com.jobtick.android.network.coroutines.ApiHelper
@@ -335,7 +336,7 @@ class MapViewActivity :
     }
 
     override fun onItemClick(view: View?, obj: Data?, position: Int, action: String?) {
-        val intent = Intent(this@MapViewActivity, TaskDetailsActivity::class.java)
+        val intent = Intent(this@MapViewActivity, JobDetailsActivity::class.java)
         val bundle = Bundle()
         bundle.putString(ConstantKey.SLUG, obj!!.slug)
         intent.putExtras(bundle)

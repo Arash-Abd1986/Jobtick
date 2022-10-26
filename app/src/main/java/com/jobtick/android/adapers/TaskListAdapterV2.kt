@@ -19,10 +19,7 @@ import com.jobtick.android.activities.SkillsTagActivity
 import com.jobtick.android.activities.TaskAlertsActivity
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.models.response.myjobs.Data
-import com.jobtick.android.utils.ConstantKey
-import com.jobtick.android.utils.ImageUtil
-import com.jobtick.android.utils.TimeHelper
-import com.jobtick.android.utils.Tools
+import com.jobtick.android.utils.*
 import com.mikhaellopez.circularimageview.CircularImageView
 import java.text.ParseException
 
@@ -221,9 +218,29 @@ class TaskListAdapterV2(
             } else {
                 txtLocation!!.text = "Remote job"
             }
-            if (item.budgetplan != null)
-                txtBudget!!.text = item.budgetplan.title
-            else
+            if (item.budgetplan?.id in 1..4) {
+                item.budgetplan?.let {
+                    when (item.budgetplan.id) {
+                        1 -> {
+                            txtBudget!!.text = "Less than $250"
+                            txtBudget!!.setSpanColor(0, 10, ContextCompat.getColor(context!!, R.color.neutral_light_500))
+                        }
+                        2 -> {
+                            txtBudget!!.text = "$250 to $500"
+                            txtBudget!!.setSpanColor(5, 7, ContextCompat.getColor(context!!, R.color.neutral_light_500))
+                        }
+                        3 -> {
+                            txtBudget!!.text = "$500 to $1000"
+                            txtBudget!!.setSpanColor(5, 7, ContextCompat.getColor(context!!, R.color.neutral_light_500))
+                        }
+                        4 -> {
+                            txtBudget!!.text = "More than $1000"
+                            txtBudget!!.setSpanColor(0, 10, ContextCompat.getColor(context!!, R.color.neutral_light_500))
+                        }
+                    }
+                }
+
+            } else
                 if (item.amount != null) {
                     txtBudget!!.text = "$" + item.amount
                 } else txtBudget!!.text = ""

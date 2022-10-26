@@ -12,10 +12,13 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.R
 import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.models.AttachmentModelV2
 import com.jobtick.android.utils.dpToPx
+import com.jobtick.android.utils.gone
+import com.jobtick.android.utils.visible
 import timber.log.Timber
 
 
@@ -103,14 +106,28 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         var pdf: AppCompatImageView = itemView!!.findViewById(R.id.pdf)
         var rlMain: RelativeLayout = itemView!!.findViewById(R.id.rlMain)
         var checkBox: AppCompatCheckBox = itemView!!.findViewById(R.id.checkBox)
+        var txtMore: MaterialTextView = itemView!!.findViewById(R.id.txtMore)
 
-        @SuppressLint("NotifyDataSetChanged")
+        @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
         fun onBind(position: Int) {
             val item = items?.get(position)
 
             rlMain.updateLayoutParams {
                 height = (screenWidth - (64).dpToPx()) / 3
             }
+            items?.let {
+                if (it.size > 3) {
+                    if (position == 2) {
+                        txtMore.visible()
+                        txtMore.text = "+" + (items.size - 3)
+                    } else {
+                        txtMore.gone()
+                    }
+                } else
+                    txtMore.gone()
+
+            }
+
             when (selectionMode) {
                 AttachmentAdapter.VIEW_TYPE_IMAGE -> {
                     if (item!!.type == AttachmentAdapter.VIEW_TYPE_IMAGE) {
@@ -141,7 +158,7 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             checkBox.setOnClickListener {
                 item!!.isChecked = !item.isChecked
                 items?.set(position, item)
-                items?.forEach { if(it != item) it.isChecked = false}
+                items?.forEach { if (it != item) it.isChecked = false }
                 calcShowOptions(items, item)
                 notifyDataSetChanged()
             }

@@ -60,6 +60,29 @@
 
         </RelativeLayout>
 
+        <LinearLayout
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:text="Attachments"
+                android:textColor="@color/neutral_light_600" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/seeAll"
+                style="@style/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="See All"
+                android:textColor="@color/primary_500" />
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rl_medias"
             android:layout_width="match_parent"

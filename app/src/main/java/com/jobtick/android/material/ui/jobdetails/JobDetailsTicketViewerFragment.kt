@@ -2,14 +2,15 @@ package com.jobtick.android.material.ui.jobdetails
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,8 +25,6 @@ import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.ChatActivity
 import com.jobtick.android.activities.MakeAnOfferActivity
-import com.jobtick.android.activities.TaskDetailsActivity
-import com.jobtick.android.material.ui.postajob.PostAJobActivity
 import com.jobtick.android.models.*
 import com.jobtick.android.models.response.conversationinfo.GetConversationInfoResponse
 import com.jobtick.android.network.coroutines.ApiHelper
@@ -48,6 +47,7 @@ class JobDetailsTicketViewerFragment : Fragment() {
     private lateinit var direction: MaterialTextView
     private lateinit var title: MaterialTextView
     private lateinit var posterName: MaterialTextView
+    private lateinit var seeAll: MaterialTextView
     private lateinit var description: MaterialTextView
     private lateinit var icChat: AppCompatImageView
     private lateinit var btnNext: MaterialButton
@@ -104,6 +104,11 @@ class JobDetailsTicketViewerFragment : Fragment() {
                         taskModel.slug,
                         taskModel.poster.id.toString()
                 )
+            }
+            direction.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?saddr=${sessionManager.latitude},${sessionManager.longitude}&daddr=${taskModel.position.latitude},${taskModel.position.longitude}"))
+                startActivity(intent)
             }
         }
     }

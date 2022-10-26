@@ -34,6 +34,7 @@
         android:layout_centerInParent="true"
         android:visibility="gone"
         app:srcCompat="@drawable/ic_error_v3" />
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/pdf"
         android:layout_width="@dimen/_40dp"
@@ -41,6 +42,14 @@
         android:layout_centerInParent="true"
         android:visibility="gone"
         app:srcCompat="@drawable/ic_picture_as_pdf" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txtMore"
+        style="@style/heading2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_500"
+        android:layout_centerInParent="true" />
 
     <ProgressBar
         android:id="@+id/progress"

@@ -28,6 +28,7 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private var screenWidth: Int = 0
     private var selectionMode = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER
     lateinit var showOptions: OnShowOptions
+    private var isFull = false
 
     interface OnItemClickListener {
         fun onItemClick(view: View?, obj: AttachmentModelV2?, position: Int, action: String?)
@@ -79,10 +80,12 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return items?.size ?: 0
     }
 
-    fun addItems(items: List<AttachmentModelV2>?) {
-        this.items!!.addAll(items!!)
+    fun addItems(items: List<AttachmentModelV2>?, isFull: Boolean) {
+        this.items!!.clear()
+        this.items.addAll(items!!)
         notifyDataSetChanged()
         Timber.e("call")
+        this.isFull = isFull
     }
 
     fun addLoading() {
@@ -116,7 +119,7 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 height = (screenWidth - (64).dpToPx()) / 3
             }
             items?.let {
-                if (it.size > 3) {
+                if (it.size == 3 && !isFull) {
                     if (position == 2) {
                         txtMore.visible()
                         txtMore.text = "+" + (items.size - 3)

@@ -2101,8 +2101,8 @@ class TaskDetailsActivity :
     }
 
     override fun onWithdraw(id: Int) {
-        val infoBottomSheet = WithdrawBottomSheet(this, id)
-        infoBottomSheet.show(supportFragmentManager, null)
+       // val infoBottomSheet = WithdrawBottomSheet(this, id)
+       // infoBottomSheet.show(supportFragmentManager, null)
     }
 
     override fun onStripeRequirementFilled() {

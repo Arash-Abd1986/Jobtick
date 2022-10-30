@@ -25,6 +25,7 @@ import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.ChatActivity
 import com.jobtick.android.activities.MakeAnOfferActivity
+import com.jobtick.android.fragments.WithdrawBottomSheet
 import com.jobtick.android.models.*
 import com.jobtick.android.models.response.conversationinfo.GetConversationInfoResponse
 import com.jobtick.android.network.coroutines.ApiHelper
@@ -36,7 +37,7 @@ import org.json.JSONObject
 import timber.log.Timber
 import java.text.ParseException
 
-class JobDetailsTicketViewerFragment : Fragment() {
+class JobDetailsTicketViewerFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private lateinit var taskStatus: MaterialTextView
     private lateinit var offerCount: MaterialTextView
     private lateinit var pDatetime: MaterialTextView
@@ -56,7 +57,12 @@ class JobDetailsTicketViewerFragment : Fragment() {
     private lateinit var mediaAdapter: MediaAdapter
     private lateinit var sessionManager: SessionManager
     private lateinit var activity: JobDetailsActivity
+    private var isAllMedias = false
+    private var jobState = JobState.MAKE_AN_OFFER
 
+    private enum class JobState {
+        VIEW_MY_OFFER, MAKE_AN_OFFER
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -95,9 +101,6 @@ class JobDetailsTicketViewerFragment : Fragment() {
             setTaskLocation(taskModel)
             setMedias(taskModel.attachments)
             budget.text = "$${taskModel.budget}"
-            btnNext.setOnClickListener {
-                makeAnOffer(taskModel)
-            }
             icChat.setOnClickListener {
                 activity.showProgressDialog()
                 getConversationId(
@@ -110,11 +113,53 @@ class JobDetailsTicketViewerFragment : Fragment() {
                         Uri.parse("http://maps.google.com/maps?saddr=${sessionManager.latitude},${sessionManager.longitude}&daddr=${taskModel.position.latitude},${taskModel.position.longitude}"))
                 startActivity(intent)
             }
+            seeAll.setOnClickListener {
+                setMediaList(taskModel.attachments)
+            }
+            setOfferStatus(taskModel)
+            btnNext.setOnClickListener {
+                when (jobState) {
+                    JobState.VIEW_MY_OFFER -> viewMyOffer(taskModel)
+                    JobState.MAKE_AN_OFFER -> makeAnOffer(taskModel)
+                }
+
+            }
+        }
+    }
+
+    private fun viewMyOffer(taskModel: TaskModel) {
+        val infoBottomSheet = WithdrawBottomSheet(this, taskModel.offers.filter { it.worker.id == sessionManager.userAccount.id }[0])
+        infoBottomSheet.show(parentFragmentManager, null)
+    }
+
+    private fun setOfferStatus(taskModel: TaskModel) {
+        if (taskModel.offerCount > 0) {
+            taskModel.offers.forEach {
+                if (it.worker.id == sessionManager.userAccount.id) {
+                    btnNext.text = "View offer"
+                    jobState = JobState.VIEW_MY_OFFER
+                }
+            }
+        }
+    }
+
+    private fun setMediaList(attachments: ArrayList<AttachmentModel>) {
+        if (isAllMedias) {
+            mediaAdapter.addItems(attachments.toV2(), !isAllMedias)
+            isAllMedias = false
+            seeAll.text = "See Less"
+        } else {
+            seeAll.text = "See All"
+            isAllMedias = true
+            if (attachments.size > 3)
+                mediaAdapter.addItems(attachments.toV2().subList(0, 3), !isAllMedias)
+            else
+                mediaAdapter.addItems(attachments.toV2(), !isAllMedias)
         }
     }
 
 
-    private fun setMedias(attachments: ArrayList<AttachmentModel>?) {
+    private fun setMedias(attachments: java.util.ArrayList<AttachmentModel>) {
         val displayMetrics = DisplayMetrics()
         requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
         val width = displayMetrics.widthPixels
@@ -122,7 +167,7 @@ class JobDetailsTicketViewerFragment : Fragment() {
         rlMedias.adapter = mediaAdapter
         rlMedias.layoutManager = GridLayoutManager(requireContext(), 3)
         rlMedias.addItemDecoration(SpacesItemDecorationV2((8).dpToPx()))
-        mediaAdapter.addItems(attachments?.toV2())
+        setMediaList(attachments)
     }
 
     private fun setTaskLocation(taskModel: TaskModel) {
@@ -175,6 +220,7 @@ class JobDetailsTicketViewerFragment : Fragment() {
         description = requireView().findViewById(R.id.description)
         rlMedias = requireView().findViewById(R.id.rl_medias)
         budget = requireView().findViewById(R.id.budget)
+        seeAll = requireView().findViewById(R.id.seeAll)
     }
 
     private fun makeAnOffer(taskModel: TaskModel) {
@@ -326,6 +372,10 @@ class JobDetailsTicketViewerFragment : Fragment() {
         )
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
+    }
+
+    override fun startWithdraw(int: Int) {
+
     }
 }
 

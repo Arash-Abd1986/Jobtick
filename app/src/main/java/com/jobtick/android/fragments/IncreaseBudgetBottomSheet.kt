@@ -79,7 +79,7 @@ class IncreaseBudgetBottomSheet : Fragment() {
             }
             text?.let {
                 if (text.isNotEmpty()) {
-                    //setupBudget(text.toString().toInt() + taskModel!!.amount)
+                    setupBudget(text.toString().toInt() + taskModel!!.amount)
                 }
             }
 

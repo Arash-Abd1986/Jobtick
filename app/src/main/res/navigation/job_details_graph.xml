@@ -25,6 +25,6 @@
     </fragment>
     <fragment
         android:id="@+id/increaseBudgetBottomSheet"
-        android:name="com.jobtick.android.fragments.IncreaseBudgetBottomSheet"
+        android:name="com.jobtick.android.material.ui.jobdetails.IncreaseBudgetFragment"
         android:label="IncreaseBudgetBottomSheet" />
 </navigation>

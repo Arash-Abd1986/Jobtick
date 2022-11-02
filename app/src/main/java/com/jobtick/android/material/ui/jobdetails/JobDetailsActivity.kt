@@ -17,19 +17,16 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
-import com.jobtick.android.fragments.IncreaseBudgetBottomSheet
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
-import com.jobtick.android.utils.ConstantKey
-import com.jobtick.android.utils.SessionManager
-import com.jobtick.android.utils.Tools
+import com.jobtick.android.utils.*
 import com.jobtick.android.viewmodel.EventsViewModel
 import com.jobtick.android.viewmodel.JobDetailsViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 
 
-class JobDetailsActivity : ActivityBase(), IncreaseBudgetBottomSheet.NoticeListener {
+class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener {
     lateinit var navController: NavController
     lateinit var viewModel: JobDetailsViewModel
     private lateinit var sessionManager: SessionManager
@@ -55,22 +52,25 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetBottomSheet.NoticeListe
         close = findViewById(R.id.close)
         options = findViewById(R.id.options)
         back = findViewById(R.id.back)
+        linTitle = findViewById(R.id.linTitle)
         back.setOnClickListener {
             navController.popBackStack()
         }
         close.setOnClickListener {
             navController.popBackStack()
         }
-        linTitle = findViewById(R.id.linTitle)
         val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
         navController = navHostFragment!!.navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            linTitle.visibility = View.VISIBLE
-            close.visibility = View.VISIBLE
+            linTitle.visible()
+            close.visible()
             when (destination.id) {
                 R.id.jobDetailsTicketViewerFragment -> {
                     title.text = "Job Details"
+                }
+                R.id.increaseBudgetBottomSheet -> {
+                    linTitle.gone()
                 }
             }
         }
@@ -92,6 +92,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetBottomSheet.NoticeListe
         val increasePrice = view.findViewById<View>(R.id.increasePrice) as TextView
         increasePrice.setOnClickListener {
             navController.navigate(R.id.increaseBudgetBottomSheet)
+            popupWindow!!.dismiss()
         }
     }
 

@@ -1,9 +1,8 @@
-package com.jobtick.android.fragments
+package com.jobtick.android.material.ui.jobdetails
 
 import android.widget.TextView
 import android.app.ProgressDialog
 import android.content.Context
-import android.graphics.drawable.Icon
 import com.jobtick.android.models.TaskModel
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -37,7 +36,7 @@ import org.json.JSONObject
 import java.lang.ClassCastException
 import java.util.*
 
-class IncreaseBudgetBottomSheet : Fragment() {
+class IncreaseBudgetFragment : Fragment() {
     private var oldPrice: TextView? = null
     private var serviceFee: TextView? = null
     private var receiveMoney: TextView? = null
@@ -67,19 +66,30 @@ class IncreaseBudgetBottomSheet : Fragment() {
         info = view.findViewById(R.id.info)
         label = view.findViewById(R.id.label)
         submit!!.setOnClickListener(View.OnClickListener {
-            if (!validation()){
-                return@OnClickListener}
+            if (!validation()) {
+                return@OnClickListener
+            }
             val increasedPrice = addPrice!!.editText!!.text.toString().toInt()
             submitIncreaseBudget(increasedPrice.toString(), reason!!.editText!!.text.toString().trim { it <= ' ' })
         })
 
         addPrice!!.editText!!.doOnTextChanged { text, _, _, _ ->
-            if (validation()){
+            if (validation()) {
                 addPrice!!.error("Increase amount must be between $5 and $500.", label, info, setError = false, isBold = true)
             }
             text?.let {
                 if (text.isNotEmpty()) {
                     setupBudget(text.toString().toInt() + taskModel!!.amount)
+                }
+            }
+
+        }
+        reason!!.editText!!.doOnTextChanged { text, _, _, _ ->
+            text?.let {
+                if (text.length < 25)
+                    reason!!.error = "Must be at least 25 characters"
+                else {
+                    reason!!.error = ""
                 }
             }
 

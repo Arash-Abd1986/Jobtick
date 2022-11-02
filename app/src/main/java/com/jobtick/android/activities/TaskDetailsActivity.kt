@@ -69,7 +69,7 @@ import com.jobtick.android.cancellations.TTCancellationSummaryActivity
 import com.jobtick.android.fragments.CategoryListBottomSheet
 import com.jobtick.android.fragments.ConfirmAskToReleaseBottomSheet
 import com.jobtick.android.fragments.ConfirmReleaseBottomSheet
-import com.jobtick.android.fragments.IncreaseBudgetBottomSheet
+import com.jobtick.android.material.ui.jobdetails.IncreaseBudgetFragment
 import com.jobtick.android.fragments.IncreaseBudgetDeclineBottomSheet
 import com.jobtick.android.fragments.IncreaseBudgetNoticeBottomSheet
 import com.jobtick.android.fragments.OfferBottomSheet
@@ -78,7 +78,6 @@ import com.jobtick.android.fragments.RescheduleNoticeBottomSheetState
 import com.jobtick.android.fragments.RescheduleNoticeBottomSheetState.Companion.newInstance
 import com.jobtick.android.fragments.TickerRequirementsBottomSheet
 import com.jobtick.android.fragments.TickerRequirementsBottomSheet.Companion.newInstance
-import com.jobtick.android.fragments.WithdrawBottomSheet
 import com.jobtick.android.fragments.WithdrawBottomSheet.Withdraw
 import com.jobtick.android.interfaces.OnRequestAcceptListener
 import com.jobtick.android.interfaces.OnWidthDrawListener
@@ -144,7 +143,7 @@ class TaskDetailsActivity :
     OnWidthDrawListener,
     OnExtendedAlertButtonClickListener,
     RescheduleNoticeBottomSheetState.NoticeListener,
-    IncreaseBudgetBottomSheet.NoticeListener,
+    IncreaseBudgetFragment.NoticeListener,
     IncreaseBudgetNoticeBottomSheet.NoticeListener,
     IncreaseBudgetDeclineBottomSheet.NoticeListener,
     ConfirmAskToReleaseBottomSheet.NoticeListener,

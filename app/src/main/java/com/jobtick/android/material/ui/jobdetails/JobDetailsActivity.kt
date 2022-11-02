@@ -1,8 +1,15 @@
 package com.jobtick.android.material.ui.jobdetails
 
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.PopupWindow
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -10,23 +17,26 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.fragments.IncreaseBudgetBottomSheet
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.Tools
 import com.jobtick.android.viewmodel.EventsViewModel
 import com.jobtick.android.viewmodel.JobDetailsViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 
 
-class JobDetailsActivity : ActivityBase() {
+class JobDetailsActivity : ActivityBase(), IncreaseBudgetBottomSheet.NoticeListener {
     lateinit var navController: NavController
     lateinit var viewModel: JobDetailsViewModel
     private lateinit var sessionManager: SessionManager
     private lateinit var title: MaterialTextView
     private lateinit var linTitle: LinearLayout
     private lateinit var close: AppCompatImageView
+    private lateinit var options: AppCompatImageView
     private lateinit var back: AppCompatImageView
     private lateinit var eventsViewModel: EventsViewModel
     private var strSlug: String = ""
@@ -36,11 +46,14 @@ class JobDetailsActivity : ActivityBase() {
     private var isUserThePoster = false
     private var isUserTheTicker = false
     private var noActionAvailable = false
+    var popupWindow: PopupWindow? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_job_details)
         title = findViewById(R.id.title)
         close = findViewById(R.id.close)
+        options = findViewById(R.id.options)
         back = findViewById(R.id.back)
         back.setOnClickListener {
             navController.popBackStack()
@@ -65,6 +78,23 @@ class JobDetailsActivity : ActivityBase() {
         initVm()
     }
 
+    private fun setPopUpWindow(taskModel: TaskModel) {
+        val inflater =
+                getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.job_details_menu, null)
+        popupWindow = PopupWindow(
+                view,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                true
+        )
+        popupWindow!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val increasePrice = view.findViewById<View>(R.id.increasePrice) as TextView
+        increasePrice.setOnClickListener {
+            navController.navigate(R.id.increaseBudgetBottomSheet)
+        }
+    }
+
     private fun initVars() {
         sessionManager = SessionManager(this)
     }
@@ -79,8 +109,12 @@ class JobDetailsActivity : ActivityBase() {
                 ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
         ).get(EventsViewModel::class.java)
         viewModel.getTaskModel(applicationContext, strSlug, sessionManager.tokenType, sessionManager.accessToken, sessionManager.userAccount.id)
-        viewModel.geTaskModelResponse().observe(this) {
-            setOwnerTask(taskModel = it)
+        viewModel.geTaskModelResponse().observe(this) { taskModel ->
+            setOwnerTask(taskModel = taskModel)
+            options.setOnClickListener {
+                setPopUpWindow(taskModel)
+                popupWindow!!.showAsDropDown(options, 0, Tools.px2dip(applicationContext, -20f))
+            }
         }
     }
 
@@ -107,7 +141,8 @@ class JobDetailsActivity : ActivityBase() {
             }
         }
     }
-    private fun setTickerViewerMode(){
+
+    private fun setTickerViewerMode() {
         val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
         val inflater = navHostFragment?.navController?.navInflater
@@ -132,6 +167,10 @@ class JobDetailsActivity : ActivityBase() {
         if (bundle.getInt(ConstantKey.PUSH_QUESTION_ID) != 0) {
             pushQuestionID = bundle.getInt(ConstantKey.PUSH_QUESTION_ID)
         }
+    }
+
+    override fun onSubmitIncreasePrice() {
+
     }
 
 }

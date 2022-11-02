@@ -18,5 +18,13 @@
         android:id="@+id/jobDetailsTicketViewerFragment"
         android:name="com.jobtick.android.material.ui.jobdetails.JobDetailsTicketViewerFragment"
         android:label="fragment_job_details_ticket_viewer"
-        tools:layout="@layout/fragment_job_details_ticket_viewer" />
+        tools:layout="@layout/fragment_job_details_ticket_viewer" >
+        <action
+            android:id="@+id/action_jobDetailsTicketViewerFragment_to_increaseBudgetBottomSheet"
+            app:destination="@id/increaseBudgetBottomSheet" />
+    </fragment>
+    <fragment
+        android:id="@+id/increaseBudgetBottomSheet"
+        android:name="com.jobtick.android.fragments.IncreaseBudgetBottomSheet"
+        android:label="IncreaseBudgetBottomSheet" />
 </navigation>

@@ -19,11 +19,14 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import com.jobtick.android.R
 import java.lang.reflect.Type
@@ -453,4 +456,25 @@ fun View.gone(){
 }
 fun View.invisible(){
     this.visibility = View.INVISIBLE
+}
+fun TextInputLayout.error(errorTxt: String, errorView: MaterialTextView, errorIcon: AppCompatImageView, setError: Boolean, isBold: Boolean) {
+    errorView.text = errorTxt
+    this.error = ""
+    if (setError.not())
+        if (isBold) {
+            errorIcon.setColorFilter(resources.getColor(R.color.neutral_light_700), android.graphics.PorterDuff.Mode.SRC_IN)
+            errorView.setTextColor(resources.getColor(R.color.neutral_light_600))
+        } else {
+            errorIcon.setColorFilter(resources.getColor(R.color.neutral_light_400), android.graphics.PorterDuff.Mode.SRC_IN)
+            errorView.setTextColor(resources.getColor(R.color.neutral_light_400))
+        }
+    else {
+        this.error = "sdcsdc"
+        this.isErrorEnabled = true
+        if (this.childCount == 2) {
+            this.getChildAt(1).visibility = View.GONE;
+        }
+        errorIcon.setColorFilter(resources.getColor(R.color.primary_error), android.graphics.PorterDuff.Mode.SRC_IN)
+        errorView.setTextColor(resources.getColor(R.color.primary_error))
+    }
 }

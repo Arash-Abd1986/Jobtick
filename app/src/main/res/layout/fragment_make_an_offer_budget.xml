@@ -177,6 +177,7 @@
                         android:paddingRight="24dp">
 
                         <LinearLayout
+                            android:layout_gravity="center_vertical"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -196,8 +197,6 @@
                                 style="@style/caption"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_10sp"
-                                android:layout_marginTop="@dimen/_5sp"
                                 android:layout_weight="1"
                                 android:gravity="center_vertical|end"
                                 android:text="$00"

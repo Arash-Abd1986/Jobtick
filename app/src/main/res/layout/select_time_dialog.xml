@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    tools:context=".material.ui.postajob.PostAJobSetTitleFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        app:cardCornerRadius="4dp"
+        app:contentPaddingBottom="16dp"
+        app:contentPaddingLeft="16dp"
+        app:contentPaddingRight="16dp"
+        app:contentPaddingTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1"
+            app:layout_constraintTop_toTopOf="parent"
+           >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </RelativeLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/morning"
+                style="@style/checkaableColored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="4dp"
+                android:text="Morning"
+                app:icon="@drawable/ic_morning"
+                app:iconPadding="8dp"
+                app:iconTint="@color/primary_500"
+                app:rippleColor="@color/white" />
+
+            <androidx.legacy.widget.Space
+                android:layout_width="16dp"
+                android:layout_height="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/afternoon"
+                style="@style/checkaableColored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="4dp"
+                android:text="Afternoon"
+                app:icon="@drawable/ic_afternoon"
+                app:iconPadding="8dp"
+                app:iconTint="@color/primary_500"
+                app:rippleColor="@color/white" />
+
+            <androidx.legacy.widget.Space
+                android:layout_width="16dp"
+                android:layout_height="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/evening"
+                style="@style/checkaableColored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="4dp"
+                android:text="Evening"
+                app:icon="@drawable/ic_evening"
+                app:iconPadding="8dp"
+                app:iconTint="@color/primary_500"
+                app:rippleColor="@color/white" />
+            <androidx.legacy.widget.Space
+                android:layout_width="16dp"
+                android:layout_height="16dp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/anytime"
+                style="@style/checkaableColored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="4dp"
+                android:text="Anytime"
+                app:icon="@drawable/ic_anytime"
+                app:iconPadding="8dp"
+                app:iconTint="@color/primary_500"
+                app:rippleColor="@color/white" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cancel"
+                    style="@style/colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:text="Cancel"
+                    android:textColor="@color/primary"
+                    app:iconPadding="16dp" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ok"
+                    style="@style/colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:text="Ok"
+                    android:textColor="@color/primary"
+                    app:iconPadding="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

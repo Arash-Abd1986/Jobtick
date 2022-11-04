@@ -1,6 +1,7 @@
 package com.jobtick.android.material.ui.jobdetails
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -17,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.activities.RescheduleTimeRequestActivity
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
@@ -90,8 +92,18 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         )
         popupWindow!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val increasePrice = view.findViewById<View>(R.id.increasePrice) as TextView
+        val reschedule = view.findViewById<View>(R.id.reschedule) as TextView
         increasePrice.setOnClickListener {
             navController.navigate(R.id.increaseBudgetBottomSheet)
+            popupWindow!!.dismiss()
+        }
+        reschedule.setOnClickListener {
+            intent =
+                    Intent(applicationContext, RescheduleTimeRequestActivity::class.java)
+            val bundle = Bundle()
+            bundle.putParcelable(ConstantKey.TASK, taskModel)
+            intent.putExtras(bundle)
+            startActivityForResult(intent, ConstantKey.RESULTCODE_RESCHEDULE)
             popupWindow!!.dismiss()
         }
     }

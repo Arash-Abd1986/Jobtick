@@ -6,144 +6,245 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <include layout="@layout/toolbar" />
-
+    <include layout="@layout/reschedule_heading" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/linTitle"
+        android:background="@color/neutral_light_50" />
     <androidx.core.widget.NestedScrollView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/linTitle"
         android:fitsSystemWindows="true">
 
         <RelativeLayout
-            android:layout_marginVertical="16dp"
-            android:layout_marginHorizontal="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp">
 
 
             <RelativeLayout
                 android:id="@+id/card_previous_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/rectangle_card_round_gray_cards"
-               >
+                android:layout_marginHorizontal="16dp">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_large">
+                    android:orientation="vertical">
 
                     <com.google.android.material.textview.MaterialTextView
+                        style="@style/unknown"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/previous_time"
-                        android:textAppearance="@style/materialText_W500_12"
-                        android:textColor="@color/colorPrimary" />
+                        android:text="CURRENT DATE &amp; TIME"
+                        android:textColor="@color/neutral_light_500" />
 
                     <LinearLayout
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_middle"
-                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical"
                         android:weightSum="1">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_previous_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/inset_ellipse_primary"
-                            android:textAppearance="@style/materialText_W400_16"
-                            android:textColor="@color/textColor"
-                            tools:text="Tomorrow" />
+                        <LinearLayout
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_previous_time"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="32dp"
-                            android:drawableStart="@drawable/inset_ellipse_primary"
-                            android:textAppearance="@style/materialText_W400_16"
-                            android:textColor="@color/textColor"
-                            tools:text="Morning" />
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                style="@style/body3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/neutral_light_700"
+                                android:text="Date" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_previous_date"
+                                style="@style/caption"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/neutral_light_500"
+                                tools:text="Tomorrow" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="12dp"
+                            android:background="@color/neutral_light_50" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                style="@style/body3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/neutral_light_700"
+                                android:text="Time" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_previous_time"
+                                style="@style/caption"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/neutral_light_500"
+                                tools:text="Morning" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
             </RelativeLayout>
 
-            <com.jobtick.android.widget.ExtendedCommentText
-                android:id="@+id/edt_note"
+            <View
+                android:id="@+id/gap1"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_below="@id/card_previous_time"
-                android:layout_marginBottom="12dp"
-                app:eIsMandatory="false"
-                app:eMaxCharSize="200"
-                app:eMinCharSize="25"
-                app:eTitle="@string/reason"
-                app:isTitleBlue="false" />
-
-            <com.jobtick.android.widget.ExtendedEntryText
-                android:id="@+id/txt_date"
-                android:layout_marginBottom="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/edt_note"
-                app:eInputType="calendar"
-                app:eTitle="@string/date" />
-
+                android:layout_height="8dp"
+                android:layout_below="@+id/card_previous_time"
+                android:layout_marginTop="12dp"
+                android:background="@color/neutral_light_50" />
 
             <RelativeLayout
+                android:id="@+id/card_new_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_date"
-                android:background="@drawable/rectangle_card_round_corners_outlined"
-                android:padding="16dp">
+                android:layout_below="@+id/gap1"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp">
 
-                <include
-                    layout="@layout/time_spinner"
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/unknown"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="NEW DATE &amp; TIME"
+                        android:textColor="@color/neutral_light_500" />
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical"
+                        android:weightSum="1">
+
+                        <LinearLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                style="@style/body3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/neutral_light_700"
+                                android:text="Date" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_new_date"
+                                style="@style/caption"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/neutral_light_500"
+                                android:drawableEnd="@drawable/ic_arrow_right"
+                                android:drawableTint="@color/neutral_light_300"
+                                android:drawablePadding="@dimen/_8dp"
+                                android:text="Tomorrow" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="12dp"
+                            android:background="@color/neutral_light_50" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                style="@style/body3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/neutral_light_700"
+                                android:text="Time" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_new_time"
+                                style="@style/caption"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableEnd="@drawable/ic_arrow_right"
+                                android:drawableTint="@color/neutral_light_300"
+                                android:drawablePadding="@dimen/_8dp"
+                                android:textColor="@color/neutral_light_500"
+                                tools:text="Morning" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
             </RelativeLayout>
 
+            <View
+                android:id="@+id/gap2"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_below="@+id/card_new_time"
+                android:layout_marginTop="12dp"
+                android:background="@color/neutral_light_50" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edt_note"
+                style="@style/outlineTextField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gap2"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:hint="Reasons (Required)"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+               >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="264dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:maxLength="300"
+                    android:maxLines="100" />
+            </com.google.android.material.textfield.TextInputLayout>
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-    <LinearLayout
-        android:id="@+id/lyt_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/lyt_btn_decline"
-            style="@style/materialButtonDecline"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="4dp"
-            android:layout_weight="1"
-            android:text="Cancel" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/lyt_btn_verify"
-            style="@style/materialButtonAccept"
-            android:textColor="@color/white"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="4dp"
-            android:layout_weight="1"
-            android:text="@string/submit" />
-
-    </LinearLayout>
 
 </RelativeLayout>

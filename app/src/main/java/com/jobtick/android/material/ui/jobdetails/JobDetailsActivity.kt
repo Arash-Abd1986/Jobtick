@@ -18,7 +18,11 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.activities.ReportActivity
 import com.jobtick.android.activities.RescheduleTimeRequestActivity
+import com.jobtick.android.activities.TaskDetailsActivity
+import com.jobtick.android.cancellations.CancellationPosterActivity
+import com.jobtick.android.cancellations.CancellationWorkerActivity
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
@@ -80,7 +84,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         initVm()
     }
 
-    private fun setPopUpWindow(taskModel: TaskModel) {
+    private fun setToolbarWindow(taskModel: TaskModel) {
         val inflater =
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.job_details_menu, null)
@@ -93,6 +97,8 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         popupWindow!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val increasePrice = view.findViewById<View>(R.id.increasePrice) as TextView
         val reschedule = view.findViewById<View>(R.id.reschedule) as TextView
+        val cancellation = view.findViewById<View>(R.id.cancellation) as TextView
+        val report = view.findViewById<View>(R.id.report) as TextView
         increasePrice.setOnClickListener {
             navController.navigate(R.id.increaseBudgetBottomSheet)
             popupWindow!!.dismiss()
@@ -104,6 +110,27 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
             bundle.putParcelable(ConstantKey.TASK, taskModel)
             intent.putExtras(bundle)
             startActivityForResult(intent, ConstantKey.RESULTCODE_RESCHEDULE)
+            popupWindow!!.dismiss()
+        }
+        cancellation.setOnClickListener {
+            val intent: Intent = if (isUserThePoster) {
+                Intent(applicationContext, CancellationPosterActivity::class.java)
+            } else {
+                Intent(applicationContext, CancellationWorkerActivity::class.java)
+            }
+            val bundle = Bundle()
+            bundle.putString(ConstantKey.SLUG, taskModel.slug)
+            intent.putExtras(bundle)
+            startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION)
+            popupWindow!!.dismiss()
+        }
+        report.setOnClickListener {
+            val bundleReport = Bundle()
+            val intentReport = Intent(applicationContext, ReportActivity::class.java)
+            bundleReport.putString(ConstantKey.SLUG, TaskDetailsActivity.taskModel!!.slug)
+            bundleReport.putString("key", ConstantKey.KEY_TASK_REPORT)
+            intentReport.putExtras(bundleReport)
+            startActivity(intentReport)
             popupWindow!!.dismiss()
         }
     }
@@ -125,7 +152,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         viewModel.geTaskModelResponse().observe(this) { taskModel ->
             setOwnerTask(taskModel = taskModel)
             options.setOnClickListener {
-                setPopUpWindow(taskModel)
+                setToolbarWindow(taskModel)
                 popupWindow!!.showAsDropDown(options, 0, Tools.px2dip(applicationContext, -20f))
             }
         }

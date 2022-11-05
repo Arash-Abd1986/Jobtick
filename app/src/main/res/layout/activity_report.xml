@@ -1,119 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/report_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLightGrey"
-    android:id="@+id/report_root">
+    android:background="@color/white">
 
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        android:background="@color/backgroundLightGrey"
-        app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="@drawable/ic_back_black"
-        app:title="Report Job"
-        app:titleTextColor="@color/textColor" />
+    <include layout="@layout/report_heading" />
 
-    <com.jobtick.android.widget.ExtendedEntryText
-        android:id="@+id/edt_subject"
+    <LinearLayout
+        android:id="@+id/options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        app:eInputType="spinner"
-        app:eTitle="What is your reason for reporting?" />
+        android:layout_below="@+id/linTitle"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/spinner_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/edt_subject"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:alpha="0"
-        android:elevation="16dp"
-        android:visibility="gone"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="16dp">
-
-        <LinearLayout
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/spinner_spam"
+            style="@style/caption"
+            android:minHeight="26dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:orientation="vertical">
+            android:drawableTint="@color/primary"
+            android:gravity="center_vertical"
+            android:text="Spam"
+            android:textColor="@color/neutral_dark" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/spinner_spam"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Spam"
-                android:textAppearance="@style/materialText_400_14"
-                android:textColor="@color/textColor" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/neutral_light_50" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/spinner_fraud"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Scam or Fraud"
-                android:textAppearance="@style/materialText_400_14"
-                android:textColor="@color/textColor" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/spinner_fraud"
+            style="@style/caption"
+            android:minHeight="26dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTint="@color/primary"
+            android:gravity="center_vertical"
+            android:text="Scam or Fraud"
+            android:textColor="@color/neutral_dark" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/neutral_light_50" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/spinner_offensive"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Harassment or Offensive"
-                android:textAppearance="@style/materialText_400_14"
-                android:textColor="@color/textColor" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/spinner_offensive"
+            style="@style/caption"
+            android:minHeight="26dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTint="@color/primary"
+            android:gravity="center_vertical"
+            android:text="Harassment or Offensive"
+            android:textColor="@color/neutral_dark" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/neutral_light_50" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/spinner_others"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:text="Others"
-                android:textAppearance="@style/materialText_400_14"
-                android:textColor="@color/textColor" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/spinner_others"
+            style="@style/caption"
+            android:minHeight="26dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTint="@color/primary"
+            android:gravity="center_vertical"
+            android:text="Others"
+            android:textColor="@color/neutral_dark" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-
-    <com.jobtick.android.widget.ExtendedCommentText
+    </LinearLayout>
+    <View
+        android:id="@+id/gap1"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/options"
+        android:background="@color/neutral_light_50" />
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edt_description"
+        style="@style/outlineTextField"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@id/edt_subject"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:eIsMandatory="true"
-        app:eMaxCharSize="300"
-        app:eMinCharSize="25"
-        app:eTitle="Comment"
-        app:isTitleBlue="false" />
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/gap1"
+        android:hint="Comment"
+        app:errorEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3">
 
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/submit"
-        style="@style/materialButtonAccept"
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/submit" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="154dp"
+            android:layout_marginBottom="4dp"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:maxLength="300"
+            android:maxLines="100" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </RelativeLayout>

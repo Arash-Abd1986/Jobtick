@@ -516,7 +516,7 @@ class TaskDetailsActivity :
                     } else {
                         Intent(this@TaskDetailsActivity, CancellationWorkerActivity::class.java)
                     }
-                    val bundle: Bundle = Bundle()
+                    val bundle = Bundle()
                     bundle.putString(ConstantKey.SLUG, taskModel!!.slug)
                     intent.putExtras(bundle)
                     startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION)

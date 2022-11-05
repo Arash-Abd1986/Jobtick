@@ -16,9 +16,9 @@ import com.jobtick.android.utils.SessionManager
 import com.mikhaellopez.circularimageview.CircularImageView
 
 class OfferListAdapterV2(
-    private val context: Context,
-    private val isMyTask: Boolean,
-    private val mItems: MutableList<OfferModel>?
+        private val context: Context,
+        private val isMyTask: Boolean,
+        private val mItems: MutableList<OfferModel>?
 ) : RecyclerView.Adapter<BaseViewHolder>() {
     var sessionManager: SessionManager
     var spanS: Spannable? = null
@@ -27,8 +27,8 @@ class OfferListAdapterV2(
 
     interface OnItemClickListener {
         fun onItemOfferClick(
-            obj: OfferModel?,
-            action: String?
+                obj: OfferModel?,
+                action: String?
         ) //  void onItemClick(View view, OfferChatModel obj, int position, String action);
     }
 
@@ -39,7 +39,7 @@ class OfferListAdapterV2(
     private var isLoaderVisible = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_offer_v3, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.item_offer_v3, parent, false)
         )
     }
 
@@ -107,7 +107,7 @@ class OfferListAdapterV2(
             if (item.worker.avatar != null) {
                 ImageUtil.displayImage(imgAvatar, item.worker.avatar.thumbUrl, null)
             }
-            txtBudget.text = item.offerPrice.toString()
+            txtBudget.text = "$" + item.offerPrice.toString()
             txtCreatedDate.text = item.createdAt
             txtName.text = item.worker.name
             if (item.worker != null && item.worker.workerRatings != null && item.worker.workerRatings.avgRating != null) {
@@ -118,7 +118,7 @@ class OfferListAdapterV2(
             assert(item.worker != null)
             if (item.worker.workTaskStatistics.completionRate != null) {
                 txtCompletionRate.text =
-                    item.worker.workTaskStatistics.completionRate.toString() + "%"
+                        item.worker.workTaskStatistics.completionRate.toString() + "%"
                 txt_job_success.visibility = View.VISIBLE
             } else {
                 txt_job_success.visibility = View.GONE
@@ -131,12 +131,12 @@ class OfferListAdapterV2(
 
             imgAvatar.setOnClickListener { v: View? ->
                 if (mOnItemClickListener != null) {
-                    mOnItemClickListener!!.onItemOfferClick( item, "profile")
+                    mOnItemClickListener!!.onItemOfferClick(item, "profile")
                 }
             }
             txtName.setOnClickListener { v: View? ->
                 if (mOnItemClickListener != null) {
-                    mOnItemClickListener!!.onItemOfferClick( item, "profile")
+                    mOnItemClickListener!!.onItemOfferClick(item, "profile")
                 }
             }
 

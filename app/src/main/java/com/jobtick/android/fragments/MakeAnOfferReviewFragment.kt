@@ -1,9 +1,7 @@
 package com.jobtick.android.fragments
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -23,13 +21,12 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import butterknife.ButterKnife
 import com.google.android.material.button.MaterialButton
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
-import com.jobtick.android.activities.MakeAnOfferActivity
+import com.jobtick.android.material.ui.jobdetails.MakeAnOfferActivity
 import com.jobtick.android.activities.VideoPlayerActivity
 import com.jobtick.android.models.MakeAnOfferModel
 import com.jobtick.android.models.UserAccountModel

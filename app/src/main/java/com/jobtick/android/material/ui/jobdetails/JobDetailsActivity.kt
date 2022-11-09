@@ -32,7 +32,7 @@ import com.jobtick.android.viewmodel.JobDetailsViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 
 
-class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener {
+class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener, RescheduleNoticeFragment.NoticeListener {
     lateinit var navController: NavController
     lateinit var viewModel: JobDetailsViewModel
     private lateinit var sessionManager: SessionManager
@@ -76,6 +76,9 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                     title.text = "Job Details"
                 }
                 R.id.increaseBudgetBottomSheet -> {
+                    linTitle.gone()
+                }
+                R.id.rescheduleNoticeBottomSheetState -> {
                     linTitle.gone()
                 }
             }
@@ -168,7 +171,6 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                     isUserThePoster = false
                     isUserTheTicker = true
                     noActionAvailable = false
-                    setTickerViewerMode()
                 } else {
                     noActionAvailable = true
                     isUserTheTicker = false
@@ -177,9 +179,9 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                 isUserThePoster = false
                 isUserTheTicker = false
                 noActionAvailable = false
-                setTickerViewerMode()
             }
         }
+        setTickerViewerMode()
     }
 
     private fun setTickerViewerMode() {
@@ -187,7 +189,10 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                 supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
         val inflater = navHostFragment?.navController?.navInflater
         val graph = inflater?.inflate(R.navigation.job_details_graph)
-        graph?.startDestination = R.id.jobDetailsTicketViewerFragment
+        if (isUserThePoster)
+            graph?.startDestination = R.id.jobDetailsPosterFragment
+        else
+            graph?.startDestination = R.id.jobDetailsTicketViewerFragment
         navHostFragment?.navController?.graph = graph!!
     }
 
@@ -210,7 +215,12 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
     }
 
     override fun onSubmitIncreasePrice() {
+    }
 
+    override fun onRescheduleTimeAcceptDeclineClick() {
+    }
+
+    override fun onRescheduleWithDraw() {
     }
 
 }

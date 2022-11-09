@@ -7,12 +7,11 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jobtick.android.R
-import com.jobtick.android.activities.ActivityBase
-import com.jobtick.android.activities.ProfileActivity
-import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.adapers.OfferListAdapterV2
 import com.jobtick.android.fragments.OfferBottomSheet
 import com.jobtick.android.models.OfferModel
+import com.jobtick.android.models.TaskModel
+import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.SessionManager
 
 const val OFFER_LIST = "offer_list"
@@ -25,14 +24,14 @@ class OfferListActivity : ActivityBase(), OfferListAdapterV2.OnItemClickListener
     private lateinit var offerListAdapter: OfferListAdapterV2
     private var isUserThePoster = false
     private var sessionManagerO: SessionManager? = null
-    private lateinit var offerListF: ArrayList<OfferModel>
+    private var taskModel: TaskModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offer_list)
         val bundle = intent.extras
-        offerListF = TaskDetailsActivity.offersC
-        isUserThePoster = bundle!!.getBoolean(IS_USER_THE_POSTER)
+        taskModel = bundle!!.getParcelable(ConstantKey.TASK)
+        isUserThePoster = bundle.getBoolean(IS_USER_THE_POSTER)
         initIDS()
         initComponents()
         initOfferList()
@@ -44,7 +43,7 @@ class OfferListActivity : ActivityBase(), OfferListAdapterV2.OnItemClickListener
         recyclerViewOffers.layoutManager = layoutManager
         offerListAdapter = OfferListAdapterV2(this, isUserThePoster, ArrayList())
         recyclerViewOffers.adapter = offerListAdapter
-        offerListAdapter.addItems(offerListF)
+        offerListAdapter.addItems(taskModel!!.offers)
         offerListAdapter.setOnItemClickListener(this)
     }
 
@@ -61,13 +60,13 @@ class OfferListActivity : ActivityBase(), OfferListAdapterV2.OnItemClickListener
 
 
     override fun onItemOfferClick(offer: OfferModel?, action: String?) {
-        if (action=="profile"){
+        if (action == "profile") {
             val intent = Intent(this, ProfileActivity::class.java)
             intent.putExtra("id", offer!!.worker.id.toInt())
             startActivity(intent)
-        }else {
+        } else {
             val questionsBottomSheet =
-                OfferBottomSheet(offer!!, isUserThePoster, sessionManagerO!!, false, false)
+                    OfferBottomSheet(offer!!, taskModel = taskModel!!, isUserThePoster, sessionManagerO!!, isAssigned = false, isMyOffer = false)
             questionsBottomSheet.show(supportFragmentManager, null)
         }
     }

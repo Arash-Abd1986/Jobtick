@@ -17,7 +17,7 @@ import com.jobtick.android.R;
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.activities.ActivityBase;
-import com.jobtick.android.activities.MakeAnOfferActivity;
+import com.jobtick.android.material.ui.jobdetails.MakeAnOfferActivity;
 import com.jobtick.android.activities.TaskDetailsActivity;
 import com.jobtick.android.adapers.MustHaveListAdapter;
 import com.jobtick.android.models.MakeAnOfferModel;

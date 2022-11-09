@@ -199,7 +199,7 @@
             android:name=".activities.PortfolioActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.MakeAnOfferActivity"
+            android:name=".material.ui.jobdetails.MakeAnOfferActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity

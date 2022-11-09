@@ -22,7 +22,7 @@ import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
-import com.jobtick.android.activities.MakeAnOfferActivity
+import com.jobtick.android.material.ui.jobdetails.MakeAnOfferActivity
 import com.jobtick.android.models.MakeAnOfferModel
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.models.UserAccountModel

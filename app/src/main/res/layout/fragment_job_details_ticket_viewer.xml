@@ -10,7 +10,10 @@
         android:background="@color/white"
         android:orientation="vertical"
         tools:context=".material.ui.jobdetails.JobDetailsTicketViewerFragment">
-
+      <include
+          android:visibility="gone"
+          android:id="@+id/card_message"
+          layout="@layout/post_a_job_message"/>
         <include
             layout="@layout/job_header"
             android:layout_width="match_parent"

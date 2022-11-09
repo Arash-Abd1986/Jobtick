@@ -1,4 +1,4 @@
-package com.jobtick.android.activities
+package com.jobtick.android.material.ui.jobdetails
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,8 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
+import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.activities.CompleteMessageActivity
 import com.jobtick.android.fragments.MakeAnOfferAboutFragment
 import com.jobtick.android.fragments.MakeAnOfferAboutFragment.AboutCallbackFunction
 import com.jobtick.android.fragments.MakeAnOfferBudgetFragment
@@ -25,6 +27,7 @@ import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.FireBaseEvent
 import com.jobtick.android.utils.HttpStatus
+import com.jobtick.android.utils.SessionManager
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
@@ -36,10 +39,12 @@ class MakeAnOfferActivity : ActivityBase(), MustHaveCallbackFunction, BudgetCall
     private var taskModel: TaskModel? = null
     private var id = 0
     private var bugdet = 0
+    private lateinit var sessionManager: SessionManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_make_an_offer)
         setIDs()
+        sessionManager = SessionManager(applicationContext)
         val builder = VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
         makeAnOfferModel = MakeAnOfferModel()

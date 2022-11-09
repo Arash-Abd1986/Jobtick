@@ -22,9 +22,16 @@
         <action
             android:id="@+id/action_jobDetailsTicketViewerFragment_to_increaseBudgetBottomSheet"
             app:destination="@id/increaseBudgetBottomSheet" />
+        <action
+            android:id="@+id/action_jobDetailsTicketViewerFragment_to_rescheduleNoticeBottomSheetState"
+            app:destination="@id/rescheduleNoticeBottomSheetState" />
     </fragment>
     <fragment
         android:id="@+id/increaseBudgetBottomSheet"
         android:name="com.jobtick.android.material.ui.jobdetails.IncreaseBudgetFragment"
         android:label="IncreaseBudgetBottomSheet" />
+    <fragment
+        android:id="@+id/rescheduleNoticeBottomSheetState"
+        android:name="com.jobtick.android.material.ui.jobdetails.RescheduleNoticeFragment"
+        android:label="RescheduleNoticeBottomSheetState" />
 </navigation>

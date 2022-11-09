@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linTitle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary_50"
+    android:layout_marginBottom="12dp"
+    android:gravity="center"
+    android:padding="16dp"
+    tools:context=".material.ui.postajob.PostAJobSetTitleFragment">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/msg_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:padding="6dp"
+        app:srcCompat="@drawable/ic_back_black"
+        app:tint="@color/neutral_light_500" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/msg_header"
+            style="@style/body3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Report"
+            android:textColor="@color/neutral_dark" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/msg_body"
+            style="@style/caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Report"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/neutral_light_700" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/msg_action"
+            style="@style/caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            app:iconPadding="0dp"
+            android:paddingHorizontal="0dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/primary_500"
+            android:text="@string/send" />
+    </LinearLayout>
+
+</LinearLayout>

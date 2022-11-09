@@ -13,6 +13,8 @@ import com.jobtick.android.R
 import com.jobtick.android.models.OfferModel
 import com.jobtick.android.utils.ImageUtil
 import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.cleanRound
+import com.jobtick.android.utils.removeClearRound
 import com.mikhaellopez.circularimageview.CircularImageView
 
 class OfferListAdapterV2(
@@ -93,10 +95,11 @@ class OfferListAdapterV2(
         var imgAvatar: CircularImageView = itemView!!.findViewById(R.id.img_avatar)
         var txtName: TextView = itemView!!.findViewById(R.id.txt_name)
         var txtCompletionRate: TextView = itemView!!.findViewById(R.id.txt_completion_rate)
-        var txt_job_success: TextView = itemView!!.findViewById(R.id.txt_job_success)
+        var txtJobSuccess: TextView = itemView!!.findViewById(R.id.txt_job_success)
         var txtBudget: TextView = itemView!!.findViewById(R.id.txt_budget)
         var starRatingBar: RatingBar = itemView!!.findViewById(R.id.ratingbar_worker)
         var txtCreatedDate: TextView = itemView!!.findViewById(R.id.txt_created_date)
+        var txt_rank: TextView = itemView!!.findViewById(R.id.txt_rank)
 
         override fun clear() {}
 
@@ -112,16 +115,18 @@ class OfferListAdapterV2(
             txtName.text = item.worker.name
             if (item.worker != null && item.worker.workerRatings != null && item.worker.workerRatings.avgRating != null) {
                 starRatingBar.rating = item.worker.workerRatings.avgRating
+                txt_rank.text = "("+item.worker.workerRatings.avgRating.toString().cleanRound() +"/5)"
             } else {
                 starRatingBar.rating = 0f
+                txt_rank.text = "( 0.0/5)"
             }
             assert(item.worker != null)
             if (item.worker.workTaskStatistics.completionRate != null) {
                 txtCompletionRate.text =
                         item.worker.workTaskStatistics.completionRate.toString() + "%"
-                txt_job_success.visibility = View.VISIBLE
+                txtJobSuccess.visibility = View.VISIBLE
             } else {
-                txt_job_success.visibility = View.GONE
+                txtJobSuccess.visibility = View.GONE
                 txtCompletionRate.text = "New"
             }
 

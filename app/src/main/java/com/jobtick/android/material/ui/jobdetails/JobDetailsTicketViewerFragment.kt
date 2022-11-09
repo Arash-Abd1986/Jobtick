@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,7 +25,6 @@ import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.ChatActivity
-import com.jobtick.android.activities.MakeAnOfferActivity
 import com.jobtick.android.fragments.WithdrawBottomSheet
 import com.jobtick.android.models.*
 import com.jobtick.android.models.response.conversationinfo.GetConversationInfoResponse
@@ -36,6 +36,9 @@ import com.jobtick.android.viewmodel.ViewModelFactory
 import org.json.JSONObject
 import timber.log.Timber
 import java.text.ParseException
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class JobDetailsTicketViewerFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private lateinit var taskStatus: MaterialTextView
@@ -50,6 +53,9 @@ class JobDetailsTicketViewerFragment : Fragment(), WithdrawBottomSheet.Withdraw 
     private lateinit var posterName: MaterialTextView
     private lateinit var seeAll: MaterialTextView
     private lateinit var description: MaterialTextView
+    private lateinit var msgHeader: MaterialTextView
+    private lateinit var msgAction: MaterialTextView
+    private lateinit var msgBody: MaterialTextView
     private lateinit var icChat: AppCompatImageView
     private lateinit var btnNext: MaterialButton
     lateinit var viewModel: JobDetailsViewModel
@@ -57,6 +63,7 @@ class JobDetailsTicketViewerFragment : Fragment(), WithdrawBottomSheet.Withdraw 
     private lateinit var mediaAdapter: MediaAdapter
     private lateinit var sessionManager: SessionManager
     private lateinit var activity: JobDetailsActivity
+    private lateinit var cardMessage: View
     private var isAllMedias = false
     private var jobState = JobState.MAKE_AN_OFFER
 
@@ -100,6 +107,7 @@ class JobDetailsTicketViewerFragment : Fragment(), WithdrawBottomSheet.Withdraw 
             setMoreLess(description, taskModel.description, 3)
             setTaskLocation(taskModel)
             setMedias(taskModel.attachments)
+            checkRescheduleRequest(taskModel)
             budget.text = "$${taskModel.budget}"
             icChat.setOnClickListener {
                 activity.showProgressDialog()
@@ -125,6 +133,55 @@ class JobDetailsTicketViewerFragment : Fragment(), WithdrawBottomSheet.Withdraw 
 
             }
         }
+    }
+
+    private fun checkRescheduleRequest(taskModel: TaskModel) {
+        var loc = 0
+        var rescheduledByWho = ""
+
+        if (taskModel.rescheduleReqeust != null && taskModel.rescheduleReqeust.size > 0) {
+            for (i in taskModel.rescheduleReqeust.indices) {
+                if (taskModel.rescheduleReqeust[i].status == "pending" &&
+                        taskModel.status.lowercase(Locale.getDefault()) != Constant.TASK_CANCELLED
+                        && taskModel.status.lowercase(Locale.getDefault()) != Constant.TASK_CLOSED) {
+                    //TODO user should be poster or ticker not viewer
+                    cardMessage.visible()
+                    msgAction.text = "View request"
+                    msgHeader.text = "Reschedule Request"
+
+                    val requesterId = taskModel.rescheduleReqeust[i].requester_id
+                    if (taskModel.worker != null && taskModel.worker.id == requesterId) {
+                        rescheduledByWho = "Ticker has"
+                    }
+                    if (taskModel.poster != null && taskModel.poster.id == requesterId) {
+                        rescheduledByWho = taskModel.poster.name + "has"
+                    }
+                    if (sessionManager.userAccount.id == requesterId) {
+                        rescheduledByWho = "You have"
+                    }
+
+                    msgBody.text = Html.fromHtml(
+                            rescheduledByWho +
+                                    " requested to reschedule time on this job on <b>" +
+                                    TimeHelper.convertToShowTimeFormat(taskModel.rescheduleReqeust[i].created_at) + ".</b>"
+                    )
+                    loc = i
+                    break
+                }
+            }
+            msgAction.setOnClickListener {
+                showDialogRescheduleRequest(taskModel, loc, isMine = rescheduledByWho == "You have", msgBody.text)
+            }
+        }
+    }
+
+    private fun showDialogRescheduleRequest(taskModel: TaskModel, pos: Int, isMine: Boolean, text: CharSequence) {
+        val bundle = Bundle()
+        bundle.putParcelable(ConstantKey.TASK, taskModel)
+        bundle.putInt(ConstantKey.POSITION, pos)
+        bundle.putBoolean(ConstantKey.IS_MY_TASK, isMine)
+        bundle.putCharSequence(ConstantKey.COMPLETES_MESSAGE_SUBTITLE, text)
+        activity.navController.navigate(R.id.rescheduleNoticeBottomSheetState, bundle)
     }
 
     private fun viewMyOffer(taskModel: TaskModel) {
@@ -221,6 +278,10 @@ class JobDetailsTicketViewerFragment : Fragment(), WithdrawBottomSheet.Withdraw 
         rlMedias = requireView().findViewById(R.id.rl_medias)
         budget = requireView().findViewById(R.id.budget)
         seeAll = requireView().findViewById(R.id.seeAll)
+        cardMessage = requireView().findViewById(R.id.card_message)
+        msgHeader = requireView().findViewById(R.id.msg_header)
+        msgBody = requireView().findViewById(R.id.msg_body)
+        msgAction = requireView().findViewById(R.id.msg_action)
     }
 
     private fun makeAnOffer(taskModel: TaskModel) {

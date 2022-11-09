@@ -4,50 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/transparent"
     android:elevation="0dp"
     app:cardCornerRadius="25dp"
-    android:background="@color/transparent"
     app:cardElevation="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/bg_white_top_c">
 
-        <include layout="@layout/view_bottom_sheet_top_handler" />
+        <include
+            android:id="@+id/heading"
+            layout="@layout/reschedulenotic_heading"/>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bottom_sheet_handler"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:text="Reschedule time request"
-            android:textAppearance="@style/materialText_W400_16"
-            android:textColor="@color/textColor" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/from"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:text="From"
-            android:textAppearance="@style/materialText_W500_16"
-            android:textColor="@color/textColor" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/heading"
+            android:background="@color/neutral_light_50" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/name"
+            style="@style/caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="24dp"
-            android:layout_toEndOf="@id/from"
-            android:textAppearance="@style/materialText_W500_16"
-            android:textColor="@color/colorPrimary"
+            android:layout_below="@+id/heading"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/neutral_light_700"
             tools:text="Sajad B." />
 
 
@@ -55,14 +40,14 @@
             android:id="@+id/job_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/from"
+            android:layout_below="@+id/name"
             android:layout_alignParentStart="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:layout_toEndOf="@id/from"
             android:text="Job title"
             android:textAppearance="@style/materialText_W500_16"
-            android:textColor="@color/N300" />
+            android:textColor="@color/N300"
+            android:visibility="gone" />
 
 
         <com.google.android.material.textview.MaterialTextView
@@ -74,9 +59,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_toEndOf="@id/from"
             android:textAppearance="@style/materialText_W400_14"
             android:textColor="@color/textColor"
+            android:visibility="gone"
             tools:text="Clean my two bedroom witnin 6 hours in my apartment" />
 
         <LinearLayout
@@ -84,47 +69,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/description"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="@dimen/spacing_large"
-            android:layout_marginBottom="@dimen/spacing_middle"
-            android:background="@drawable/rectangle_card_round_gray_cards"
+            android:layout_marginTop="24dp"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_large">
+            android:paddingHorizontal="16dp">
 
             <com.google.android.material.textview.MaterialTextView
+                style="@style/caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/previous_time"
-                android:textAppearance="@style/materialText_W500_12"
-                android:textColor="@color/colorPrimary" />
+                android:text="Current Date &amp; Time"
+                android:textColor="@color/neutral_light_500" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_previous_date"
+                style="@style/caption"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_middle"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_previous_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/inset_ellipse_primary"
-                    android:textAppearance="@style/materialText_W400_16"
-                    android:textColor="@color/textColor"
-                    tools:text="Tomorrow" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_previous_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:drawableStart="@drawable/inset_ellipse_primary"
-                    android:textAppearance="@style/materialText_W400_16"
-                    android:textColor="@color/textColor"
-                    tools:text="Morning" />
-            </LinearLayout>
+                android:layout_marginTop="4dp"
+                android:textColor="@color/neutral_dark"
+                tools:text="Tomorrow" />
         </LinearLayout>
 
         <LinearLayout
@@ -132,53 +95,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/card_previous_time"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="@dimen/spacing_large"
-            android:layout_marginBottom="@dimen/spacing_middle"
-            android:background="@drawable/rectangle_card_round_gray_cards"
+            android:layout_marginTop="16dp"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_large">
+            android:paddingHorizontal="16dp">
 
             <com.google.android.material.textview.MaterialTextView
+                style="@style/caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/new_time"
-                android:textAppearance="@style/materialText_W500_12"
-                android:textColor="@color/colorPrimary" />
+                android:text="New Date"
+                android:textColor="@color/neutral_light_500" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_new_time"
+                style="@style/caption"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_middle"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_new_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/inset_ellipse_primary"
-                    android:textAppearance="@style/materialText_W400_16"
-                    android:textColor="@color/textColor"
-                    tools:text="Tues. 20th Dec. 2020" />
-
-            </LinearLayout>
+                android:layout_marginTop="4dp"
+                android:textColor="@color/neutral_dark"
+                tools:text="Tues. 20th Dec. 2020" />
         </LinearLayout>
 
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/reason"
+            style="@style/caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/card_new_time"
             android:layout_alignParentStart="true"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_toEndOf="@id/from"
+            android:layout_marginTop="16dp"
             android:text="@string/reason"
-            android:textAppearance="@style/materialText_W500_16"
-            android:textColor="@color/N300" />
+            android:textColor="@color/neutral_light_500" />
 
 
         <com.google.android.material.textview.MaterialTextView
@@ -188,55 +137,68 @@
             android:layout_below="@+id/reason"
             android:layout_alignParentStart="true"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:layout_toEndOf="@id/from"
-            android:textAppearance="@style/materialText_W400_14"
-            android:textColor="@color/N600"
+            android:textAppearance="@style/caption"
+            android:textColor="@color/neutral_dark"
             tools:text="Reason here in publishing and graphic design, Lorem ipsum" />
 
         <LinearLayout
             android:id="@+id/lyt_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/reason_description"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="32dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/neutral_light_50" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
+                android:paddingBottom="16dp"
+                android:weightSum="2"
+                android:layout_height="wrap_content">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_decline"
-                style="@style/materialButtonDecline"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:text="@string/decline" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_decline"
+                    style="@style/colored"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/primary_light_100"
+                    android:text="@string/decline"
+                    android:textColor="@color/primary_500" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_accept"
-                style="@style/materialButtonAccept"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="4dp"
-                android:layout_weight="1"
-                android:text="@string/accept" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_accept"
+                    style="@style/colored"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/accept" />
+            </LinearLayout>
+
 
         </LinearLayout>
+
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/lytWithDraw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lyt_button"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="32dp"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="1">
 
             <com.google.android.material.button.MaterialButton

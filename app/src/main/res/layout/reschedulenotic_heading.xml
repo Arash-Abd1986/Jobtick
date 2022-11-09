@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:gravity="center"
+    android:background="@color/white"
+    tools:context=".material.ui.postajob.PostAJobSetTitleFragment">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/close"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        app:iconGravity="start"
+        android:padding="3dp"
+        android:visibility="visible"
+        android:rotation="90"
+        app:srcCompat="@drawable/ic_close_v4"
+        app:tint="@color/neutral_light_500"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        style="@style/heading4"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="Reschedule Request"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/neutral_light_800"
+         />
+</LinearLayout>

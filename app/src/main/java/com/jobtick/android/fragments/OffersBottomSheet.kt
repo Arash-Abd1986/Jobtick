@@ -95,7 +95,8 @@ class OffersBottomSheet(
             action.equals("accept", ignoreCase = true) -> {
                 val intent = Intent(requireContext(), PaymentOverviewActivity::class.java)
                 val bundle = Bundle()
-                TaskDetailsActivity.offerModel = obj
+                //bundle.putParcelable(ConstantKey.TASK, task)
+                bundle.putParcelable(ConstantKey.OFFER, obj)
                 intent.putExtras(bundle)
                 startActivityForResult(intent, ConstantKey.RESULTCODE_PAYMENTOVERVIEW)
             }

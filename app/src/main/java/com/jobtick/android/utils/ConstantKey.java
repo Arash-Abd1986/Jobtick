@@ -15,6 +15,7 @@ public class ConstantKey {
     public static final String PORTFO_SKILLS = "portfolio_skills";
     public static final String TASK_STATUS = "task_status";
     public static final String TASK = "TASK";
+    public static final String OFFER = "OFFER";
     public static final String POSITION = "POSITION ";
     public static final String CATEGORY = "CATEGORY";
     public static final String CATEGORY_ID = "CATEGORY_ID";

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLightGrey"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".activities.PaymentOverviewActivity">
 
@@ -23,331 +23,150 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.jobtick.android.widget.ExtendedAlertBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                app:eAlertHasButton="false"
-                app:eAlertTitle="Your payment will be secured till getting your job done." />
-
-            <LinearLayout
-                android:id="@+id/card_view_user"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:background="@drawable/rectangle_round_corners"
-                android:orientation="horizontal"
-                android:padding="@dimen/spacing_large">
-
-
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/img_avatar"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/pic" />
-
-                <View
-                    android:layout_width="@dimen/spacing_large"
-                    android:layout_height="match_parent" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_user_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Julie Grantt"
-                        android:textAppearance="@style/materialText_600_16"
-                        android:textColor="@color/textColor" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_post_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="9dp"
-                        android:singleLine="true"
-                        android:text="Clean my two bedroom apartment"
-                        android:textColor="@color/grey_70" />
-
-
-                </LinearLayout>
-            </LinearLayout>
-
+            <include
+                android:id="@+id/card_message"
+                layout="@layout/post_a_job_message"
+                android:visibility="visible" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_middle"
-                android:background="@drawable/rectangle_round_corners"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_large">
+                android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/summaryTitle"
+                    style="@style/unknown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:text="Summary"
-                    android:textAppearance="@style/materialText_600_14"
-                    android:textColor="@color/colorPrimary" />
+                    android:layout_marginHorizontal="16dp"
+                    android:text="PAYMENT OVERVIEW"
+                    android:textColor="@color/neutral_light_500" />
 
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/lin_cost"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/txt_task_cost"
-                    android:layout_alignBottom="@id/txt_task_cost"
-                    android:layout_alignParentStart="true"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:text="@string/job_cost"
-                    android:textAppearance="@style/materialText_400_14"
-                    android:textColor="@color/textColor" />
+                    android:layout_below="@+id/summaryTitle"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/body3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="@string/job_cost"
+                        android:textColor="@color/neutral_light_700" />
 
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_task_cost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/summaryTitle"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="14dp"
-                    tools:text="$ 175"
-                    android:textAppearance="@style/materialText_600_16"
-                    android:textColor="@color/colorPrimary" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_task_cost"
+                        style="@style/caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/neutral_light_500"
+                        tools:text="$175" />
+                </LinearLayout>
 
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/txt_service_fee"
-                    android:layout_alignBottom="@id/txt_service_fee"
-                    android:layout_alignParentStart="true"
-                    android:singleLine="true"
-                    android:text="Fee (GST Inc.)"
-                    android:textAppearance="@style/materialText_400_14"
-                    android:textColor="@color/textColor" />
-
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_service_fee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/txt_task_cost"
-                    android:layout_alignParentEnd="true"
+                <View
+                    android:id="@+id/gap1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/lin_cost"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="12dp"
-                    tools:text="$ 25"
-                    android:textAppearance="@style/materialText_600_16"
-                    android:textColor="@color/colorPrimary" />
+                    android:background="@color/neutral_light_50"
+                    android:paddingTop="12dp" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/lin_fee"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/txt_discount_fee"
-                    android:layout_alignBottom="@id/txt_discount_fee"
-                    android:layout_alignParentStart="true"
-                    android:singleLine="true"
-                    android:text="@string/promotion"
-                    android:textAppearance="@style/materialText_400_14"
-                    android:textColor="@color/textColor" />
+                    android:layout_below="@+id/gap1"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/body3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="Fee"
+                        android:textColor="@color/neutral_light_700" />
 
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_discount_fee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/txt_wallet_value"
-                    android:layout_alignParentEnd="true"
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_service_fee"
+                        style="@style/caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/neutral_light_500"
+                        tools:text="$25" />
+                </LinearLayout>
+
+
+                <View
+                    android:id="@+id/gap2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/lin_fee"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="12dp"
-                    tools:text="$ 00"
-                    android:textAppearance="@style/materialText_600_16"
-                    android:textColor="@color/colorGreen" />
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_wallet_title"
-                    android:layout_width="wrap_content"
+                    android:background="@color/neutral_light_50" />
+
+                <LinearLayout
+                    android:id="@+id/lin_total"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/txt_wallet_value"
-                    android:layout_alignBottom="@id/txt_wallet_value"
-                    android:layout_alignParentStart="true"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:text="@string/wallet_balance"
-                    android:visibility="gone"
-                    android:textAppearance="@style/materialText_400_14"
-                    android:textColor="@color/textColor" />
+                    android:layout_below="@+id/gap2"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/body3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="Total Cost"
+                        android:textColor="@color/neutral_light_700" />
 
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_wallet_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/txt_service_fee"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="12dp"
-                    android:visibility="gone"
-                    android:textAppearance="@style/materialText_600_16"
-                    android:textColor="@color/colorPrimary"
-                    tools:text="-$ 50" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_total_cost"
+                        style="@style/caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_500"
+                        tools:text="$ 200" />
 
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/txt_total_cost"
-                    android:layout_alignBottom="@id/txt_total_cost"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:text="Total Cost"
-                    android:textAppearance="@style/materialText_600_14"
-                    android:textColor="@color/textColor" />
-
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_total_cost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/txt_discount_fee"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="12dp"
-                    tools:text="$ 200"
-                    android:textAppearance="@style/materialText_600_20"
-                    android:textColor="@color/colorPrimary" />
+                </LinearLayout>
 
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/payment_method"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/txt_total_cost"
+                    android:layout_below="@id/lin_total"
                     android:layout_marginTop="24dp"
                     android:text="Payment Method"
                     android:textAppearance="@style/materialText_600_14"
                     android:textColor="@color/colorPrimary" />
 
                 <LinearLayout
-                    android:layout_below="@+id/payment_method"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <RelativeLayout
-                        android:id="@+id/rlt_payment_method"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:visibility="gone">
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/img_brand"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:backgroundTint="@color/grey_E2E2E2"
-                            android:elevation="0dp"
-                            app:cardElevation="0dp">
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_alignParentStart="true"
-                                android:layout_centerVertical="true"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_credit_card"
-                                />
-                        </androidx.cardview.widget.CardView>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/payment_method"
+                    android:orientation="vertical">
 
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/spacing_large"
-                            android:layout_marginEnd="@dimen/spacing_large"
-                            android:layout_toStartOf="@+id/btn_new"
-                            android:layout_toEndOf="@id/img_brand"
-                            android:orientation="vertical">
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/txt_account_number"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:singleLine="true"
-                                android:textAppearance="@style/materialText_400_12"
-                                android:textColor="@color/textColor"
-                                tools:text="**** **** **** 4949" />
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/txt_expires_date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:gravity="center_vertical"
-                                android:singleLine="true"
-                                android:textAppearance="@style/materialText_400_12"
-                                android:textColor="@color/textColor"
-                                tools:text="Expires 06/22" />
-
-
-                        </LinearLayout>
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_new"
-                            style="@style/materialButton.outlined"
-                            android:layout_width="70dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_margin="@dimen/spacing_line"
-                            android:text="@string/new_text" />
-
-
-                    </RelativeLayout>
-                    <LinearLayout
-                        android:id="@+id/lyt_add_credit_card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:orientation="horizontal"
-                        android:visibility="visible">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_add_primary"
-                            />
-
-                        <View
-                            android:layout_width="@dimen/spacing_large"
-                            android:layout_height="match_parent" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:singleLine="true"
-                            android:text="@string/add_credit_card"
-                            android:textAppearance="@style/materialText_500_14"
-                            android:textColor="@color/colorPrimary" />
-
-
-                    </LinearLayout>
                     <LinearLayout
                         android:id="@+id/llCoupon"
                         android:layout_width="match_parent"
@@ -355,17 +174,6 @@
                         android:layout_marginTop="20dp"
                         android:orientation="horizontal"
                         android:visibility="visible">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_add_primary"
-                            />
-
-                        <View
-                            android:layout_width="@dimen/spacing_large"
-                            android:layout_height="match_parent" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
@@ -378,19 +186,22 @@
 
 
                     </LinearLayout>
+
                     <RelativeLayout
-                        android:visibility="gone"
                         android:id="@+id/relCouponDetails"
-                        android:layout_marginTop="20dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:visibility="gone">
+
                         <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            style="@style/materialText_500_14"
-                            android:textColor="#596880"
                             android:id="@+id/tvCoupon"
+                            style="@style/materialText_500_14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="#596880" />
+
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnDeleteCoupon"
                             style="@style/materialButton.outlined.red"
@@ -401,9 +212,69 @@
                             android:layout_margin="@dimen/spacing_line"
                             android:text="@string/delete" />
                     </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lyt_add_credit_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/unknown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:singleLine="true"
+                            android:text="CREDIT CARD"
+                            android:textColor="@color/neutral_light_500" />
+
+                        <LinearLayout
+                            android:id="@+id/rlt_payment_method"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:visibility="visible">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/brand"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                app:srcCompat="@drawable/ic_credit_card" />
+
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_account_number"
+                                style="@style/caption"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="8dp"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:singleLine="true"
+                                android:textColor="@color/neutral_light_500"
+                                tools:text="**** **** **** 4949" />
+
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/change"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:tint="@color/neutral_light_300"
+                                app:srcCompat="@drawable/ic_arrow_right" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
                 </LinearLayout>
-
-
 
 
             </RelativeLayout>

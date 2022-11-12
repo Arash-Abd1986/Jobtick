@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.text.Spannable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -23,11 +21,11 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.*
+import com.jobtick.android.material.ui.jobdetails.PaymentData
 import com.jobtick.android.models.*
 import com.jobtick.android.models.response.conversationinfo.GetConversationInfoResponse
 import com.jobtick.android.utils.*
@@ -49,16 +47,18 @@ class OfferBottomSheet(
     lateinit var txtMessage: TextView
     lateinit var txtName: TextView
     lateinit var txtCompletionRate: TextView
+    lateinit var offerType: TextView
+    lateinit var starRank: TextView
+    lateinit var viewProfile: TextView
     lateinit var txtBudget: TextView
     lateinit var imgOfferOnTask: ImageView
+    lateinit var close: ImageView
     lateinit var starRatingBar: RatingBar
     lateinit var imgAvatar: CircularImageView
     lateinit var lnAction: MaterialButton
     lateinit var ivFlag: ImageView
     lateinit var imgBtnPlay: ImageView
     lateinit var icChat: AppCompatImageView
-    private var spanS: Spannable? = null
-    private var spanF: Spannable? = null
     lateinit var offerBottomSheetClick: OfferBottomSheetClick
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,10 +93,17 @@ class OfferBottomSheet(
         ivFlag = requireView().findViewById(R.id.img_report)
         imgBtnPlay = requireView().findViewById(R.id.img_btn_play)
         starRatingBar = requireView().findViewById(R.id.ratingbar_worker)
+        close = requireView().findViewById(R.id.close)
+        offerType = requireView().findViewById(R.id.offerType)
+        starRank = requireView().findViewById(R.id.star_rank)
+        viewProfile = requireView().findViewById(R.id.view_profile)
     }
 
     @SuppressLint("SetTextI18n")
     private fun setUI() {
+        close.setOnClickListener {
+            this.dismiss()
+        }
         lnAction.text = when {
             isAssigned -> "Reschedule"
             isMyOffer -> "Withdraw"
@@ -146,6 +153,10 @@ class OfferBottomSheet(
             onItemOfferClick("profile")
         }
 
+        viewProfile.setOnClickListener {
+            onItemOfferClick("profile")
+        }
+
         txtName.setOnClickListener {
             onItemOfferClick("profile")
         }
@@ -158,11 +169,14 @@ class OfferBottomSheet(
         txtBudget.text = "$" + item.offerPrice.toString()
         if (item.worker != null && item.worker.workerRatings != null && item.worker.workerRatings.avgRating != null) {
             starRatingBar.rating = item.worker.workerRatings.avgRating
+            starRank.text  =item.worker.workerRatings.avgRating.toString().cleanRound()
         } else {
             starRatingBar.rating = 0f
+            starRank.text  = "0.0"
         }
 
         if (item.attachments != null && item.attachments.isNotEmpty()) {
+            offerType.text = "Video Offer"
             cardLiveVideo.visibility = View.VISIBLE
             txtMessage.visibility = View.GONE
             ImageUtil.displayImage(imgOfferOnTask, item.attachments[0].modalUrl, null)
@@ -180,6 +194,7 @@ class OfferBottomSheet(
                 requireActivity().startActivity(intent)
             }
         } else {
+            offerType.text = "Text Offer"
             cardLiveVideo.visibility = View.GONE
             txtMessage.visibility = View.VISIBLE
             txtMessage.text = item.message
@@ -202,7 +217,7 @@ class OfferBottomSheet(
             action.equals("reply", ignoreCase = true) -> {
                 val intent = Intent(requireContext(), PublicChatActivity::class.java)
                 val bundle = Bundle()
-               // offerModel = item
+                // offerModel = item
                 //isOfferQuestion = "offer"
                 bundle.putBoolean("isPoster", isUserThePoster)
                 bundle.putString("posterID", taskModel.poster.id.toString())
@@ -212,7 +227,7 @@ class OfferBottomSheet(
             action.equals("accept", ignoreCase = true) -> {
                 val intent = Intent(requireContext(), PaymentOverviewActivity::class.java)
                 val bundle = Bundle()
-                //offerModel = item
+                bundle.putParcelable(ConstantKey.OFFER, PaymentData(item.offerPrice, item.id, taskModel.slug))
                 intent.putExtras(bundle)
                 startActivityForResult(intent, ConstantKey.RESULTCODE_PAYMENTOVERVIEW)
             }

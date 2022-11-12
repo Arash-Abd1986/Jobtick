@@ -16,9 +16,8 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_gravity="center"
-        android:padding="6dp"
         app:srcCompat="@drawable/ic_back_black"
-        app:tint="@color/neutral_light_500" />
+        />
 
     <LinearLayout
         android:layout_width="0dp"

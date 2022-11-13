@@ -1,103 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <ImageView
-        android:id="@+id/handle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        android:src="@drawable/ic_down"
-        tools:ignore="ContentDescription"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        />
+    android:layout_height="wrap_content">
 
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/materialText_500_18"
-        android:text="@string/promo_code"
-        android:gravity="center"
-        android:layout_below="@id/handle"
-        android:layout_marginTop="16dp"/>
-
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:orientation="vertical"
-        android:layout_below="@id/header"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etPromoCode"
-            style="@style/materialText_500_14"
+            style="@style/outlineTextField"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:maxLength="20"
-            android:layout_toStartOf="@id/actionFrame"
-            android:background="@drawable/bg_dark_border"
-            android:hint="@string/enter_your_promo_code"
-            android:importantForAutofill="no" />
+            android:layout_height="wrap_content"
+            android:hint="Card Number"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:id="@+id/tvError"
-            style="@style/materialText_500_14"
-            android:layout_below="@id/etPromoCode"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/colorRedBalance"
-            android:visibility="gone"
-            android:text="@string/that_code_isn_t_valid_or_has_been_expired"
-            android:layout_height="wrap_content"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLength="20"
+
+                android:minHeight="54dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <FrameLayout
             android:id="@+id/actionFrame"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_alignParentEnd="true"
-            android:layout_width="@dimen/_50dp"
-            android:layout_height="@dimen/_50dp">
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etPromoCode">
 
             <ImageView
                 android:id="@+id/ivState"
-                android:padding="6dp"
-                android:src="@drawable/ic_unverified_coupon"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_unverified_coupon" />
+
             <ProgressBar
-                android:visibility="gone"
                 android:id="@+id/pbLoading"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="6dp"/>
+                android:padding="6dp"
+                android:visibility="gone" />
         </FrameLayout>
 
-    </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
+    <View
+        android:id="@+id/gap"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/content"
+        android:layout_marginTop="12dp"
+        android:background="@color/neutral_light_50" />
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnVerify"
-        android:layout_width="match_parent"
+        style="@style/borderlessColoredTextButton"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:text="@string/submit"
-        android:textColor="@color/white"
-        style="@style/materialText_700_14"
-        android:layout_below="@id/content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textAllCaps="false"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="32dp" />
+        android:layout_below="@id/gap"
+        android:text="Apply" />
 
 </RelativeLayout>
 

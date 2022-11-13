@@ -1,59 +1,68 @@
-package com.jobtick.android.activities
+package com.jobtick.android.material.ui.jobdetails
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
+import com.jobtick.android.activities.CompleteMessageActivity
 import com.jobtick.android.fragments.PosterRequirementsBottomSheet
-import com.jobtick.android.fragments.others.AddCouponFragment
-import com.jobtick.android.fragments.others.AddCouponFragment.SubmitListener
-import com.jobtick.android.material.ui.jobdetails.PaymentData
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.models.calculation.PayingCalculationModel
 import com.jobtick.android.models.response.getbalance.CreditCardModel
+import com.jobtick.android.network.coroutines.ApiHelper
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
+import com.jobtick.android.viewmodel.ViewModelFactory
+import com.jobtick.android.viewmodel.home.PaymentOverviewViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
-import java.util.Locale
+import java.util.*
 
-class PaymentOverviewActivity :
-        ActivityBase(),
-        PosterRequirementsBottomSheet.NoticeListener,
-        SubmitListener {
 
-    private lateinit var toolbar: MaterialToolbar
+class PaymentOverviewFragment :
+        Fragment(),
+        PosterRequirementsBottomSheet.NoticeListener{
+
     private lateinit var txtTaskCost: MaterialTextView
-    private lateinit var btnDeleteCoupon: MaterialButton
     private lateinit var txtServiceFee: MaterialTextView
     private lateinit var txtTotalCost: MaterialTextView
-    private lateinit var tvCoupon: MaterialTextView
     private lateinit var txtAccountNumber: MaterialTextView
     private lateinit var rltPaymentMethod: LinearLayout
     private lateinit var btnPay: MaterialButton
+    private lateinit var btnAddCard: MaterialButton
     private lateinit var lytAddCreditCard: LinearLayout
-    private lateinit var llCoupon: LinearLayout
-    private lateinit var relCouponDetails: RelativeLayout
     private lateinit var msgHeader: MaterialTextView
     private lateinit var msgAction: MaterialTextView
     private lateinit var msgBody: MaterialTextView
     private lateinit var msgIcon: AppCompatImageView
     private lateinit var change: AppCompatImageView
+    private lateinit var back: AppCompatImageView
+    private lateinit var title: MaterialTextView
+    private lateinit var frame: FrameLayout
     private var paymentData: PaymentData? = null
     private var userAccountModel: UserAccountModel? = null
     private var coupon: String? = null
@@ -63,80 +72,185 @@ class PaymentOverviewActivity :
     var found: String? = null
     var id: String? = null
     private var amount = -1
+    lateinit var activity: PaymentOverviewActivity
+    lateinit var sessionManager: SessionManager
+    lateinit var viewModel: PaymentOverviewViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_payment_overview)
+    var isVerified = false
+    private lateinit var btnVerify: Button
+    private lateinit var etPromoCode: TextInputLayout
+    private lateinit var ivState: ImageView
+    private lateinit var pbLoading: ProgressBar
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_payment_overview, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setIDs()
-        initToolbar()
-        val bundle = intent.extras
+        activity = (requireActivity() as PaymentOverviewActivity)
+        sessionManager = SessionManager(requireContext())
         userAccountModel = sessionManager.userAccount
-        paymentData = bundle!!.getParcelable(ConstantKey.OFFER)
         // val offerID = bundle.getString(ConstantKey.OFFER)
         gson = Gson()
-        found = bundle.getString("found")
-        id = bundle.getString("id")
-        amount = paymentData!!.amount
-        if (found != null) {
-            llCoupon.visibility = View.GONE
-            amount = found!!.toInt()
+        initVm()
+        back.setOnClickListener {
+            activity.onBackPressed()
         }
-        setUpData()
-        paymentMethod
-        onViewClick()
+        title.text = "Payment Overview"
+
+    }
+
+    private fun initVm() {
+        viewModel = ViewModelProvider(
+                requireActivity(),
+                ViewModelFactory(ApiHelper(ApiClient.getClient()))
+        ).get(PaymentOverviewViewModel::class.java)
+        lifecycleScope.launch {
+            viewModel.state.collectLatest {
+                paymentData = it.paymentData
+                found = it.found
+                id = it.id
+                amount = paymentData!!.amount
+                if (found != null) {
+                   // llCoupon.visibility = View.GONE
+                    amount = found!!.toInt()
+                }
+                setUpData()
+                paymentMethod
+                onViewClick()
+            }
+        }
+
+    }
+    private fun verify() {
+        if (etPromoCode.editText!!.text.isNotEmpty()) {
+            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+            ivState.visibility = View.GONE
+            pbLoading.visibility = View.VISIBLE
+            checkPromoCode()
+        }
+    }
+
+    private fun checkPromoCode() {
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_OFFERS_PAYING_CALCULATION,
+                Response.Listener { response: String? ->
+                    pbLoading.visibility = View.GONE
+                    try {
+                        val jsonObject = JSONObject(response!!)
+                        val data = jsonObject.getString("data")
+                        isVerified = true
+                        ivState.visibility = View.VISIBLE
+                        ivState.setImageResource(R.drawable.ic_verified_coupon)
+                        pbLoading.visibility = View.GONE
+                        etPromoCode.error = ""
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                        isVerified = false
+                        etPromoCode.error = ""
+                        ivState.setImageResource(R.drawable.ic_unverified_coupon)
+                        ivState.visibility = View.VISIBLE
+                    }
+                    if (isVerified)
+                        Handler().postDelayed({
+                            onVerifySubmit(etPromoCode.editText!!.text.toString())
+                        },2000)
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    pbLoading.visibility = View.GONE
+                    isVerified = false
+                    val networkResponse = error.networkResponse
+                    if (networkResponse?.data != null) {
+                        val jsonError = String(networkResponse.data)
+                        try {
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObjectError = jsonObject.getJSONObject("error")
+                            val message = jsonObjectError.getString("message")
+                            etPromoCode.error = message
+
+                            ivState.setImageResource(R.drawable.ic_unverified_coupon)
+                            ivState.visibility = View.VISIBLE
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                            etPromoCode.error = ""
+                            ivState.setImageResource(R.drawable.ic_unverified_coupon)
+                            ivState.visibility = View.VISIBLE
+                        }
+                    } else {
+                        etPromoCode.error = ""
+                        ivState.setImageResource(R.drawable.ic_unverified_coupon)
+                        ivState.visibility = View.VISIBLE
+                    }
+                }) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["X-Requested-With"] = "XMLHttpRequest"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
+            }
+
+            override fun getParams(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["amount"] = amount.toString()
+                map1["discount_code"] = etPromoCode.editText!!.text.toString()
+                return map1
+            }
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        val requestQueue = Volley.newRequestQueue(activity)
+        requestQueue.add(stringRequest)
     }
 
     private fun setIDs() {
-        toolbar = findViewById(R.id.toolbar)
-        txtTaskCost = findViewById(R.id.txt_task_cost)
-        btnDeleteCoupon = findViewById(R.id.btnDeleteCoupon)
-        txtServiceFee = findViewById(R.id.txt_service_fee)
-        txtTotalCost = findViewById(R.id.txt_total_cost)
-        tvCoupon = findViewById(R.id.tvCoupon)
-        txtAccountNumber = findViewById(R.id.txt_account_number)
-        rltPaymentMethod = findViewById(R.id.rlt_payment_method)
-        btnPay = findViewById(R.id.btn_pay)
-        lytAddCreditCard = findViewById(R.id.lyt_add_credit_card)
-        llCoupon = findViewById(R.id.llCoupon)
-        relCouponDetails = findViewById(R.id.relCouponDetails)
-        msgHeader = findViewById(R.id.msg_header)
-        msgBody = findViewById(R.id.msg_body)
-        msgAction = findViewById(R.id.msg_action)
-        msgIcon = findViewById(R.id.msg_icon)
-        change = findViewById(R.id.change)
+        txtTaskCost = requireView().findViewById(R.id.txt_task_cost)
+        txtServiceFee = requireView().findViewById(R.id.txt_service_fee)
+        txtTotalCost = requireView().findViewById(R.id.txt_total_cost)
+        txtAccountNumber = requireView().findViewById(R.id.txt_account_number)
+        rltPaymentMethod = requireView().findViewById(R.id.rlt_payment_method)
+        btnPay = requireView().findViewById(R.id.btn_pay)
+        lytAddCreditCard = requireView().findViewById(R.id.lyt_add_credit_card)
+        msgHeader = requireView().findViewById(R.id.msg_header)
+        msgBody = requireView().findViewById(R.id.msg_body)
+        msgAction = requireView().findViewById(R.id.msg_action)
+        msgIcon = requireView().findViewById(R.id.msg_icon)
+        change = requireView().findViewById(R.id.change)
+        back = requireView().findViewById(R.id.back)
+        title = requireView().findViewById(R.id.title)
+        btnAddCard = requireView().findViewById(R.id.btnAddCard)
+        btnVerify = requireView().findViewById(R.id.btnVerify)
+        etPromoCode = requireView().findViewById(R.id.etPromoCode)
+        ivState = requireView().findViewById(R.id.ivState)
+        pbLoading = requireView().findViewById(R.id.pbLoading)
         msgAction.gone()
     }
 
-    var addCouponFragment: AddCouponFragment? = null
     private fun setupCoupon(netPayingAmount: Int) {
-        llCoupon.setOnClickListener {
+       /* llCoupon.setOnClickListener {
             addCouponFragment = AddCouponFragment.newInstance(netPayingAmount)
-            addCouponFragment!!.show(supportFragmentManager, "")
-        }
-        if (coupon != null) {
+            addCouponFragment!!.show(parentFragmentManager, "")
+        }*/
+        /*if (coupon != null) {
             tvCoupon.text = coupon
             relCouponDetails.visibility = View.VISIBLE
-        }
-        btnDeleteCoupon.setOnClickListener {
+        }*/
+        /*btnDeleteCoupon.setOnClickListener {
             coupon = null
             relCouponDetails.visibility = View.GONE
-            llCoupon.visibility = View.VISIBLE
+           // llCoupon.visibility = View.VISIBLE
             calculate(amount.toString() + "")
-        }
-    }
-
-    private fun initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back)
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = "Payment Overview"
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        }*/
     }
 
     private fun setUpData() {
         txtTaskCost.text = String.format(Locale.ENGLISH, "$%d", amount)
         stateRequirement[PosterRequirementsBottomSheet.Requirement.CreditCard] = false
-        setupCoupon(amount)
         calculate(amount.toFloat().toString())
         msgBody.text = "You will be requested to release it after job completion."
         msgHeader.text = "Jobtick Secure Payment"
@@ -146,7 +260,7 @@ class PaymentOverviewActivity :
     // http request
     private val paymentMethod: Unit
         get() {
-            showProgressDialog()
+            activity.showProgressDialog()
             val stringRequest: StringRequest =
                     object : StringRequest(
                             Method.GET, Constant.URL_PAYMENTS_METHOD,
@@ -165,12 +279,13 @@ class PaymentOverviewActivity :
                                                 if (creditCardModel != null && creditCardModel.data!![0].card != null) {
                                                     setUpLayout(creditCardModel)
                                                 } else {
+                                                    //show add card
                                                     setUpAddPaymentLayout()
                                                 }
                                             }
                                         } else {
                                             setUpAddPaymentLayout()
-                                            showToast("Something went Wrong", this)
+                                            activity.showToast("Something went Wrong", requireContext())
                                         }
                                     }
                                 } catch (e: JSONException) {
@@ -199,7 +314,7 @@ class PaymentOverviewActivity :
                                     }
                                 }
                                 Timber.e(error.toString())
-                                errorHandle1(error.networkResponse)
+                                activity.errorHandle1(error.networkResponse)
                             }
                     ) {
                         @Throws(AuthFailureError::class)
@@ -217,7 +332,7 @@ class PaymentOverviewActivity :
                     0, -1,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
             )
-            val requestQueue = Volley.newRequestQueue(this)
+            val requestQueue = Volley.newRequestQueue(requireContext())
             requestQueue.add(stringRequest)
         }
 
@@ -226,13 +341,15 @@ class PaymentOverviewActivity :
         btnPay.alpha = 0.5f
         rltPaymentMethod.visibility = View.GONE
         lytAddCreditCard.visibility = View.GONE
-        hideProgressDialog()
+        btnAddCard.visibility = View.VISIBLE
+        activity.hideProgressDialog()
     }
 
     private fun setUpLayout(creditCardModel: CreditCardModel) {
         btnPay.isEnabled = true
         btnPay.alpha = 1.0f
         lytAddCreditCard.visibility = View.VISIBLE
+        btnAddCard.visibility = View.GONE
         txtAccountNumber.text =
                 String.format("**** **** **** %s", creditCardModel.data!![0].card!!.last4)
         rltPaymentMethod.visibility = View.VISIBLE
@@ -267,16 +384,15 @@ class PaymentOverviewActivity :
         lytAddCreditCard.setOnClickListener {
             showCreditCardRequirementBottomSheet()
         }
+        btnVerify.setOnClickListener { verify() }
     }
 
     private fun showCreditCardRequirementBottomSheet() {
-        val posterRequirementsBottomSheet =
-                PosterRequirementsBottomSheet.newInstance(stateRequirement)
-        posterRequirementsBottomSheet.show(supportFragmentManager, "")
+        activity.navController.navigate(R.id.creditCardReqFragment)
     }
 
     private fun payAcceptOffer(coupon: String?) {
-        showProgressDialog()
+        activity.showProgressDialog()
         val stringRequest: StringRequest = object : StringRequest(
                 Method.POST,
                 Constant.URL_TASKS + "/" + paymentData!!.slug + "/accept-offer",
@@ -294,8 +410,8 @@ class PaymentOverviewActivity :
                                         if (jsonObjectData.getString("status")
                                                         .equals("assigned", ignoreCase = true)
                                         ) {
-                                            hideProgressDialog()
-                                            FireBaseEvent.getInstance(applicationContext)
+                                            activity.hideProgressDialog()
+                                            FireBaseEvent.getInstance(requireContext())
                                                     .sendEvent(
                                                             FireBaseEvent.Event.PAYMENT_OVERVIEW,
                                                             FireBaseEvent.EventType.API_RESPOND_SUCCESS,
@@ -305,9 +421,9 @@ class PaymentOverviewActivity :
                                             var bundle = Bundle()
                                             bundle.putBoolean(ConstantKey.PAYMENT_OVERVIEW, true)
                                             intent.putExtras(bundle)
-                                            setResult(ConstantKey.RESULTCODE_PAYMENTOVERVIEW, intent)
+                                            activity.setResult(ConstantKey.RESULTCODE_PAYMENTOVERVIEW, intent)
                                             intent = Intent(
-                                                    this@PaymentOverviewActivity,
+                                                    requireContext(),
                                                     CompleteMessageActivity::class.java
                                             )
                                             bundle = Bundle()
@@ -321,28 +437,28 @@ class PaymentOverviewActivity :
                                             )
                                             intent.putExtras(bundle)
                                             startActivity(intent)
-                                            finish()
+                                            activity.finish()
                                             return@Listener
                                         }
                                     }
                                 }
-                                hideProgressDialog()
+                                activity.hideProgressDialog()
                             } else {
-                                hideProgressDialog()
-                                showToast("Something went Wrong", this@PaymentOverviewActivity)
+                                activity.hideProgressDialog()
+                                activity.showToast("Something went Wrong", requireContext())
                             }
                         } else {
-                            showToast("Payment failed", this@PaymentOverviewActivity)
+                            activity.showToast("Payment failed", requireContext())
                         }
                     } catch (e: JSONException) {
                         Timber.e(e.toString())
                         e.printStackTrace()
-                        hideProgressDialog()
-                        showToast("Something went wrong", this@PaymentOverviewActivity)
+                        activity.hideProgressDialog()
+                        activity.showToast("Something went wrong", requireContext())
                     }
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    hideProgressDialog()
+                    activity.hideProgressDialog()
                     val networkResponse = error.networkResponse
                     if (networkResponse?.data != null) {
                         val jsonError = String(networkResponse.data)
@@ -350,13 +466,13 @@ class PaymentOverviewActivity :
                             val jsonObject = JSONObject(jsonError)
                             val jsonObjectError = jsonObject.getJSONObject("error")
                             val message = jsonObjectError.getString("message")
-                            showToast(message, this@PaymentOverviewActivity)
+                            activity.showToast(message, requireContext())
                         } catch (e: JSONException) {
                             e.printStackTrace()
-                            showToast("Something went wrong", this@PaymentOverviewActivity)
+                            activity.showToast("Something went wrong", requireContext())
                         }
                     } else {
-                        showToast("Something went wrong", this@PaymentOverviewActivity)
+                        activity.showToast("Something went wrong", requireContext())
                     }
                 }
         ) {
@@ -384,29 +500,29 @@ class PaymentOverviewActivity :
                 0, -1,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
-        val requestQueue = Volley.newRequestQueue(this@PaymentOverviewActivity)
+        val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
         Timber.e(stringRequest.url)
     }
 
     private fun acceptRequest(id: String) {
-        showProgressDialog()
+        activity.showProgressDialog()
         val stringRequest: StringRequest = object : StringRequest(
                 Method.GET,
                 Constant.BASE_URL + Constant.URL_ADDITIONAL_FUND + "/" + id + "/accept",
                 Response.Listener { response: String? ->
                     Timber.e(response)
-                    hideProgressDialog()
+                    activity.hideProgressDialog()
                     try {
                         val jsonObject = JSONObject(response)
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 found = null
-                                onBackPressed()
+                                activity.onBackPressed()
                             } else {
-                                showToast(
+                                activity.showToast(
                                         "Something went Wrong",
-                                        this
+                                        requireContext()
                                 )
                             }
                         }
@@ -417,50 +533,50 @@ class PaymentOverviewActivity :
                 },
                 Response.ErrorListener { error: VolleyError ->
                     val networkResponse = error.networkResponse
-                    if (networkResponse != null && networkResponse.data != null) {
+                    if (networkResponse?.data != null) {
                         val jsonError = String(networkResponse.data)
                         // Print Error!
                         Timber.e(jsonError)
                         if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            unauthorizedUser()
-                            hideProgressDialog()
+                            activity.unauthorizedUser()
+                            activity.hideProgressDialog()
                             return@ErrorListener
                         }
                         try {
                             val jsonObject = JSONObject(jsonError)
-                            val jsonObject_error = jsonObject.getJSONObject("error")
-                            if (jsonObject_error.has("errors")) {
-                                val jsonObject_errors =
-                                        jsonObject_error.getJSONObject("errors")
-                                if (jsonObject_errors.has("amount") && !jsonObject_errors.isNull("amount")) {
-                                    val jsonArray_amount =
-                                            jsonObject_errors.getJSONArray("amount")
-                                    showToast(
-                                            jsonArray_amount.getString(
+                            val jsonobjectError = jsonObject.getJSONObject("error")
+                            if (jsonobjectError.has("errors")) {
+                                val jsonobjectErrors =
+                                        jsonobjectError.getJSONObject("errors")
+                                if (jsonobjectErrors.has("amount") && !jsonobjectErrors.isNull("amount")) {
+                                    val jsonarrayAmount =
+                                            jsonobjectErrors.getJSONArray("amount")
+                                    activity.showToast(
+                                            jsonarrayAmount.getString(
                                                     0
                                             ),
-                                            this
+                                            requireContext()
                                     )
-                                } else if (jsonObject_errors.has("creation_reason") && !jsonObject_errors.isNull(
+                                } else if (jsonobjectErrors.has("creation_reason") && !jsonobjectErrors.isNull(
                                                 "creation_reason"
                                         )
                                 ) {
                                     val jsonArray_amount =
-                                            jsonObject_errors.getJSONArray("creation_reason")
-                                    showToast(
+                                            jsonobjectErrors.getJSONArray("creation_reason")
+                                    activity.showToast(
                                             jsonArray_amount.getString(
                                                     0
                                             ),
-                                            this
+                                            requireContext()
                                     )
                                 }
                             } else {
-                                if (jsonObject_error.has("message")) {
-                                    showToast(
-                                            jsonObject_error.getString(
+                                if (jsonobjectError.has("message")) {
+                                    activity.showToast(
+                                            jsonobjectError.getString(
                                                     "message"
                                             ),
-                                            this
+                                            requireContext()
                                     )
                                 }
                             }
@@ -468,13 +584,13 @@ class PaymentOverviewActivity :
                             e.printStackTrace()
                         }
                     } else {
-                        showToast(
+                        activity.showToast(
                                 "Something Went Wrong",
-                                this
+                                requireContext()
                         )
                     }
                     Timber.e(error.toString())
-                    hideProgressDialog()
+                    activity.hideProgressDialog()
                 }
         ) {
             override fun getHeaders(): Map<String, String> {
@@ -490,7 +606,7 @@ class PaymentOverviewActivity :
                 0, -1,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
-        val requestQueue = Volley.newRequestQueue(this)
+        val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
     }
 
@@ -499,7 +615,7 @@ class PaymentOverviewActivity :
                 object : StringRequest(
                         Method.POST, Constant.URL_OFFERS_PAYING_CALCULATION,
                         Response.Listener { response: String? ->
-                            hideProgressDialog()
+                            activity.hideProgressDialog()
                             try {
                                 val jsonObject = JSONObject(response!!)
                                 val data = jsonObject.getString("data")
@@ -533,7 +649,7 @@ class PaymentOverviewActivity :
                             }
                         },
                         Response.ErrorListener { error: VolleyError ->
-                            hideProgressDialog()
+                            activity.hideProgressDialog()
                             val networkResponse = error.networkResponse
                             if (networkResponse?.data != null) {
                                 val jsonError = String(networkResponse.data)
@@ -541,13 +657,13 @@ class PaymentOverviewActivity :
                                     val jsonObject = JSONObject(jsonError)
                                     val jsonObjectError = jsonObject.getJSONObject("error")
                                     val message = jsonObjectError.getString("message")
-                                    showToast(message, this@PaymentOverviewActivity)
+                                    activity.showToast(message, requireContext())
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
-                                    showToast("Something went wrong", this@PaymentOverviewActivity)
+                                    activity.showToast("Something went wrong", requireContext())
                                 }
                             } else {
-                                showToast("Something went wrong", this@PaymentOverviewActivity)
+                                activity.showToast("Something went wrong", requireContext())
                             }
                         }
                 ) {
@@ -573,7 +689,7 @@ class PaymentOverviewActivity :
                 0, -1,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
-        val requestQueue = Volley.newRequestQueue(this@PaymentOverviewActivity)
+        val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
     }
 
@@ -581,18 +697,18 @@ class PaymentOverviewActivity :
         paymentMethod
     }
 
-    override fun onVerifySubmit(coupon: String?) {
+    fun onVerifySubmit(coupon: String?) {
         calculate(amount.toString() + "")
         this.coupon = coupon
-        tvCoupon.text = coupon
-        llCoupon.visibility = View.GONE
-        relCouponDetails.visibility = View.VISIBLE
-        if (addCouponFragment != null) addCouponFragment!!.dismiss()
+        //tvCoupon.text = coupon
+        //llCoupon.visibility = View.GONE
+        //relCouponDetails.visibility = View.VISIBLE
+       // if (addCouponFragment != null) addCouponFragment!!.dismiss()
     }
 
-    override fun onClose() {
+    fun onClose() {
         coupon = null
-        if (addCouponFragment != null) addCouponFragment!!.dismiss()
+       // if (addCouponFragment != null) addCouponFragment!!.dismiss()
     }
 
     companion object {

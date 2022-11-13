@@ -18,7 +18,7 @@ import com.android.volley.toolbox.Volley
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
-import com.jobtick.android.activities.PaymentOverviewActivity
+import com.jobtick.android.material.ui.jobdetails.PaymentOverviewActivity
 import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.utils.Constant

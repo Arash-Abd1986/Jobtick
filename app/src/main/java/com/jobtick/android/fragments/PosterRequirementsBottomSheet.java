@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.jobtick.android.R;
@@ -16,7 +17,7 @@ import com.jobtick.android.utils.Constant;
 
 import java.util.HashMap;
 
-public class PosterRequirementsBottomSheet extends BottomSheetDialogFragment {
+public class PosterRequirementsBottomSheet extends Fragment {
 
     private HashMap<Requirement, Boolean> state;
     private NoticeListener listener;
@@ -30,12 +31,6 @@ public class PosterRequirementsBottomSheet extends BottomSheetDialogFragment {
         PosterRequirementsBottomSheet fragment = new PosterRequirementsBottomSheet();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.ThemeOverlay_BottomSheetDialog);
     }
 
     @Override
@@ -104,7 +99,7 @@ public class PosterRequirementsBottomSheet extends BottomSheetDialogFragment {
 
             case 1:
                 listener.onCreditCardAdded();
-                dismiss();
+                requireActivity().onBackPressed();
                 break;
         }
     }

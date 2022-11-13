@@ -25,6 +25,7 @@ import com.jobtick.android.R
 import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.adapers.PublicChatListAdapter
 import com.jobtick.android.adapers.QuestionAttachmentAdapter
+import com.jobtick.android.material.ui.jobdetails.PaymentOverviewActivity
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.CommentModel
 import com.jobtick.android.models.OfferModel

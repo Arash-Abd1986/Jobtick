@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/payment_graph"
+    app:startDestination="@id/paymentOverviewFragment">
+    <fragment
+        android:id="@+id/paymentOverviewFragment"
+        android:name="com.jobtick.android.material.ui.jobdetails.PaymentOverviewFragment"
+        android:label="fragment_payment_overview"
+        tools:layout="@layout/fragment_payment_overview" >
+        <action
+            android:id="@+id/action_paymentOverviewFragment_to_creditCardReqFragment"
+            app:destination="@id/creditCardReqFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/creditCardReqFragment"
+        android:name="com.jobtick.android.fragments.CreditCardReqFragment"
+        android:label="CreditCardReqFragment" />
+</navigation>

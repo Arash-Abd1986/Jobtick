@@ -18,6 +18,7 @@ import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.*
 import com.jobtick.android.adapers.OfferListAdapter
+import com.jobtick.android.material.ui.jobdetails.PaymentOverviewActivity
 import com.jobtick.android.models.*
 import com.jobtick.android.models.response.conversationinfo.GetConversationInfoResponse
 import com.jobtick.android.utils.Constant

@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".material.ui.jobdetails.PaymentOverviewActivity">
+
+    <include layout="@layout/payment_overview_heading" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_pay"
+        android:layout_below="@+id/linTitle"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/card_message"
+                layout="@layout/post_a_job_message"
+                android:visibility="visible" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/summaryTitle"
+                    style="@style/unknown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="PAYMENT OVERVIEW"
+                    android:textColor="@color/neutral_light_500" />
+
+                <LinearLayout
+                    android:id="@+id/lin_cost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/summaryTitle"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/body3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="@string/job_cost"
+                        android:textColor="@color/neutral_light_700" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_task_cost"
+                        style="@style/caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/neutral_light_500"
+                        tools:text="$175" />
+                </LinearLayout>
+
+
+                <View
+                    android:id="@+id/gap1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/lin_cost"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/neutral_light_50"
+                    android:paddingTop="12dp" />
+
+                <LinearLayout
+                    android:id="@+id/lin_fee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/gap1"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/body3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="Fee"
+                        android:textColor="@color/neutral_light_700" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_service_fee"
+                        style="@style/caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/neutral_light_500"
+                        tools:text="$25" />
+                </LinearLayout>
+
+
+                <View
+                    android:id="@+id/gap2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/lin_fee"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/neutral_light_50" />
+
+                <LinearLayout
+                    android:id="@+id/lin_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/gap2"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/body3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="Total Cost"
+                        android:textColor="@color/neutral_light_700" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_total_cost"
+                        style="@style/caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_500"
+                        tools:text="$ 200" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lin_total"
+                    android:orientation="vertical">
+                    <View
+                        android:id="@+id/gap4"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@color/neutral_light_50"
+                        />
+
+                    <RelativeLayout
+                        android:paddingHorizontal="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/content"
+                            android:layout_marginTop="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/etPromoCode"
+                                style="@style/outlineTextField"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Promo Code"
+                                app:errorEnabled="true"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="4dp"
+                                    android:imeOptions="actionDone"
+                                    android:inputType="text"
+                                    android:maxLength="20"
+
+                                    android:minHeight="54dp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <FrameLayout
+                                android:id="@+id/actionFrame"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="24dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/etPromoCode">
+
+                                <ImageView
+                                    android:id="@+id/ivState"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/ic_unverified_coupon" />
+
+                                <ProgressBar
+                                    android:id="@+id/pbLoading"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:padding="6dp"
+                                    android:visibility="gone" />
+                            </FrameLayout>
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <View
+                            android:id="@+id/gap"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@id/content"
+                            android:layout_marginTop="12dp"
+                            android:background="@color/neutral_light_50" />
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnVerify"
+                            style="@style/borderlessColoredTextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/gap"
+                            android:text="Apply" />
+
+                    </RelativeLayout>
+                    <View
+                        android:id="@+id/gap3"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@color/neutral_light_50"
+                         />
+                    <LinearLayout
+                        android:id="@+id/lyt_add_credit_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/unknown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:singleLine="true"
+                            android:text="CREDIT CARD"
+                            android:textColor="@color/neutral_light_500" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAddCard"
+                            style="@style/borderlessColoredTextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:singleLine="true"
+                            android:layout_marginTop="12dp"
+                            android:text="Add Credit Card"
+                            android:layout_marginStart="-8dp"
+                           />
+
+                        <LinearLayout
+                            android:id="@+id/rlt_payment_method"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:visibility="visible">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/brand"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                app:srcCompat="@drawable/ic_credit_card" />
+
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txt_account_number"
+                                style="@style/caption"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="8dp"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:singleLine="true"
+                                android:textColor="@color/neutral_light_500"
+                                tools:text="**** **** **** 4949" />
+
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/change"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:tint="@color/neutral_light_300"
+                                app:srcCompat="@drawable/ic_arrow_right" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

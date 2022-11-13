@@ -8,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.fragment.app.Fragment
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.textfield.TextInputLayout
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.fragments.AbstractStateExpandedBottomSheet
@@ -22,18 +24,13 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
-class AddCouponFragment : AbstractStateExpandedBottomSheet() {
+class AddCouponFragment : Fragment() {
     var sessionManager: SessionManager? = null
     var isVerified = false
     private var listener: SubmitListener? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.ThemeOverlay_BottomSheetDialog)
-    }
 
     private lateinit var btnVerify: Button
-    private lateinit var tvError: TextView
-    private lateinit var etPromoCode: EditText
+    private lateinit var etPromoCode: TextInputLayout
     private lateinit var ivState: ImageView
     private lateinit var pbLoading: ProgressBar
 
@@ -54,7 +51,7 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
     }
 
     private fun verify() {
-        if (etPromoCode.text.isNotEmpty()) {
+        if (etPromoCode.editText!!.text.isNotEmpty()) {
             val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(requireView().windowToken, 0)
             ivState.visibility = View.GONE
@@ -65,7 +62,6 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
 
     private fun setupPromotionCodeChecker() {
         btnVerify = requireView().findViewById(R.id.btnVerify)
-        tvError = requireView().findViewById(R.id.tvError)
         etPromoCode = requireView().findViewById(R.id.etPromoCode)
         ivState = requireView().findViewById(R.id.ivState)
         pbLoading = requireView().findViewById(R.id.pbLoading)
@@ -82,17 +78,17 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
                         ivState.visibility = View.VISIBLE
                         ivState.setImageResource(R.drawable.ic_verified_coupon)
                         pbLoading.visibility = View.GONE
-                        tvError.visibility = View.GONE
+                        etPromoCode.error = ""
                     } catch (e: JSONException) {
                         e.printStackTrace()
                         isVerified = false
-                        tvError.visibility = View.GONE
+                        etPromoCode.error = ""
                         ivState.setImageResource(R.drawable.ic_unverified_coupon)
                         ivState.visibility = View.VISIBLE
                     }
                     if (isVerified)
                         Handler().postDelayed({
-                            listener!!.onVerifySubmit(etPromoCode.text.toString())
+                            listener!!.onVerifySubmit(etPromoCode.editText!!.text.toString())
                         },2000)
                 },
                 Response.ErrorListener { error: VolleyError ->
@@ -105,18 +101,18 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
                             val jsonObject = JSONObject(jsonError)
                             val jsonObjectError = jsonObject.getJSONObject("error")
                             val message = jsonObjectError.getString("message")
-                            tvError.text = message
-                            tvError.visibility = View.VISIBLE
+                            etPromoCode.error = message
+
                             ivState.setImageResource(R.drawable.ic_unverified_coupon)
                             ivState.visibility = View.VISIBLE
                         } catch (e: JSONException) {
                             e.printStackTrace()
-                            tvError.visibility = View.GONE
+                            etPromoCode.error = ""
                             ivState.setImageResource(R.drawable.ic_unverified_coupon)
                             ivState.visibility = View.VISIBLE
                         }
                     } else {
-                        tvError.visibility = View.GONE
+                        etPromoCode.error = ""
                         ivState.setImageResource(R.drawable.ic_unverified_coupon)
                         ivState.visibility = View.VISIBLE
                     }
@@ -133,7 +129,7 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
             override fun getParams(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 if (amount != null) map1["amount"] = amount.toString()
-                map1["discount_code"] = etPromoCode.text.toString()
+                map1["discount_code"] = etPromoCode.editText!!.text.toString()
                 return map1
             }
         }
@@ -149,7 +145,7 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
             context as SubmitListener
         } catch (e: ClassCastException) {
             throw ClassCastException(this.toString()
-                    + " must implement NoticeListener")
+                    + " must implement SubmitListener")
         }
     }
 
@@ -164,10 +160,10 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
                         ivState.visibility = View.VISIBLE
                         ivState.setImageResource(R.drawable.ic_verified_coupon)
                         pbLoading.visibility = View.GONE
-                        tvError.visibility = View.GONE
+                        etPromoCode.error = ""
                     } catch (e: JSONException) {
                         e.printStackTrace()
-                        tvError.visibility = View.GONE
+                        etPromoCode.error = ""
                         ivState.setImageResource(R.drawable.ic_unverified_coupon)
                         ivState.visibility = View.VISIBLE
                     }
@@ -181,12 +177,11 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
                             val jsonObject = JSONObject(jsonError)
                             val jsonObjectError = jsonObject.getJSONObject("error")
                             val message = jsonObjectError.getString("message")
-                            tvError.text = message
-                            tvError.visibility = View.VISIBLE
+                            etPromoCode.error = message
                             ivState.setImageResource(R.drawable.ic_unverified_coupon)
                             ivState.visibility = View.VISIBLE
                         } catch (e: Exception) {
-                            tvError.visibility = View.GONE
+                            etPromoCode.error = ""
                             ivState.visibility = View.VISIBLE
                             ivState.setImageResource(R.drawable.ic_unverified_coupon)
                         }
@@ -204,7 +199,7 @@ class AddCouponFragment : AbstractStateExpandedBottomSheet() {
             override fun getParams(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["amount"] = amount.toString()
-                map1["coupon"] = etPromoCode.text.toString()
+                map1["coupon"] = etPromoCode.editText!!.text.toString()
                 return map1
             }
         }

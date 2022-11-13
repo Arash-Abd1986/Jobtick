@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.coroutines.MainRepository
+import com.jobtick.android.viewmodel.home.PaymentOverviewViewModel
 
 class ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Factory {
 
@@ -27,6 +28,9 @@ class ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Fac
             }
             modelClass.isAssignableFrom(PostAJobViewModel::class.java) -> {
                 PostAJobViewModel(MainRepository(apiHelper)) as T
+            }
+            modelClass.isAssignableFrom(PaymentOverviewViewModel::class.java) -> {
+                PaymentOverviewViewModel(MainRepository(apiHelper)) as T
             }
             else -> throw IllegalArgumentException("Unknown class name")
         }

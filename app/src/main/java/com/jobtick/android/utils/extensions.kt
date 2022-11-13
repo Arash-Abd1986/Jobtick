@@ -9,10 +9,8 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.net.ConnectivityManager
 import android.os.Build
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.SpannableStringBuilder
-import android.text.Spanned
+import android.text.*
+import android.text.InputFilter.LengthFilter
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.view.View
@@ -431,7 +429,7 @@ fun MaterialButton.setSpanStyledTwoLineText(
     )
     spannable.setSpan(startStyle,
             0, breakLinePosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-    spannable.setSpan( RelativeSizeSpan(.9f), breakLinePosition, text.length, 0);
+    spannable.setSpan(RelativeSizeSpan(.9f), breakLinePosition, text.length, 0);
 
     spannable.setSpan(
             ForegroundColorSpan(endColor),
@@ -448,15 +446,18 @@ fun MaterialButton.setSpanStyledTwoLineText(
     this.text = spannable
 }
 
-fun View.visible(){
+fun View.visible() {
     this.visibility = View.VISIBLE
 }
-fun View.gone(){
+
+fun View.gone() {
     this.visibility = View.GONE
 }
-fun View.invisible(){
+
+fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
+
 fun TextInputLayout.error(errorTxt: String, errorView: MaterialTextView, errorIcon: AppCompatImageView, setError: Boolean, isBold: Boolean) {
     errorView.text = errorTxt
     this.error = ""
@@ -476,5 +477,19 @@ fun TextInputLayout.error(errorTxt: String, errorView: MaterialTextView, errorIc
         }
         errorIcon.setColorFilter(resources.getColor(R.color.primary_error), android.graphics.PorterDuff.Mode.SRC_IN)
         errorView.setTextColor(resources.getColor(R.color.primary_error))
+    }
+}
+
+fun TextInputLayout.setFilter(max: Int) {
+    editText!!.filters = arrayOf<InputFilter>(LengthFilter(max))
+}
+
+fun TextInputLayout.setDifferentHintOnFocus(hint: String) {
+    editText!!.setOnFocusChangeListener { _, b ->
+        if (b) {
+            editText!!.hint = hint
+        } else {
+            editText!!.hint = ""
+        }
     }
 }

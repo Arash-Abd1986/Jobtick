@@ -12,9 +12,21 @@
         <action
             android:id="@+id/action_paymentOverviewFragment_to_creditCardReqFragment"
             app:destination="@id/creditCardReqFragment" />
+        <action
+            android:id="@+id/action_paymentOverviewFragment_to_cardInfoFragment"
+            app:destination="@id/cardInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/creditCardReqFragment"
         android:name="com.jobtick.android.fragments.CreditCardReqFragment"
         android:label="CreditCardReqFragment" />
+    <fragment
+        android:id="@+id/cardInfoFragment"
+        android:name="com.jobtick.android.material.ui.jobdetails.CardInfoFragment"
+        android:label="fragment_card_info"
+        tools:layout="@layout/fragment_card_info" >
+        <argument
+            android:name="cardInfo"
+            app:argType="com.jobtick.android.material.ui.jobdetails.CardInfo" />
+    </fragment>
 </navigation>

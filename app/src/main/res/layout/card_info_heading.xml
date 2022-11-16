@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:id="@+id/linTitle"
+    android:gravity="center"
+    android:background="@color/white"
+    tools:context=".material.ui.postajob.PostAJobSetTitleFragment">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/back"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:padding="6dp"
+        app:srcCompat="@drawable/ic_back_black"
+        app:tint="@color/neutral_light_500"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        style="@style/heading4"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="View Credit Card"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/neutral_light_800"
+         />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@color/primary_error"
+        app:srcCompat="@drawable/ic_delete_v5" />
+</LinearLayout>

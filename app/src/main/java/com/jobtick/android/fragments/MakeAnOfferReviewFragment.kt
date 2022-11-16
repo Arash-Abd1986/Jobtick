@@ -49,7 +49,6 @@ class MakeAnOfferReviewFragment : Fragment(), View.OnClickListener {
     private lateinit var cardLiveVideo: FrameLayout
     private lateinit var ivBack: ImageView
     private var makeAnOfferModel: MakeAnOfferModel? = null
-    private var makeAnOfferActivity: MakeAnOfferActivity? = null
     private var reviewCallbackFunction: ReviewCallbackFunction? = null
     private var sessionManager: SessionManager? = null
     private var userAccountModel: UserAccountModel? = null
@@ -63,10 +62,9 @@ class MakeAnOfferReviewFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setIds()
-        makeAnOfferActivity = requireActivity() as MakeAnOfferActivity
         makeAnOfferModel = MakeAnOfferModel()
         userAccountModel = UserAccountModel()
-        sessionManager = SessionManager(makeAnOfferActivity)
+        sessionManager = SessionManager(requireContext())
         userAccountModel = sessionManager!!.userAccount
         if (arguments != null && requireArguments().getParcelable<Parcelable?>(ConstantKey.MAKE_AN_OFFER_MODEL) != null) {
             makeAnOfferModel = requireArguments().getParcelable(ConstantKey.MAKE_AN_OFFER_MODEL)
@@ -76,7 +74,7 @@ class MakeAnOfferReviewFragment : Fragment(), View.OnClickListener {
             txtServiceFee.text = String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel!!.allFee)
             txtReceiveBudget.text = String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel!!.youWillReceive)
         }
-        ivBack.setOnClickListener { v: View? -> makeAnOfferActivity!!.onBackPressed() }
+        ivBack.setOnClickListener { v: View? -> requireActivity()!!.onBackPressed() }
 
         // toolbar.setNavigationOnClickListener(MakeAnOfferReviewFragment.this);
         reviewConditions()

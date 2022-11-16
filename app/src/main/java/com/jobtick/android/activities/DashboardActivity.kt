@@ -127,11 +127,11 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         val graphInflater = navController!!.navInflater
         val navGraph = graphInflater.inflate(R.navigation.mobile_navigation)
-        navGraph.startDestination = if (sessionManager!!.roleLocal == "poster") {
+        navGraph.setStartDestination(  if (sessionManager!!.roleLocal == "poster") {
             R.id.navigation_new_task
         } else {
             R.id.navigation_browse
-        }
+        })
         navController!!.graph = navGraph
         NavigationUI.setupWithNavController(toolbar!!, navController!!, appBarConfiguration!!)
     }
@@ -210,7 +210,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                                 pushNotificationModel.getConversation_id()
                             )
                             val graph = navController!!.graph
-                            graph.startDestination = R.id.navigation_inbox
+                            graph.setStartDestination(R.id.navigation_inbox)
                             navController!!.setGraph(graph, bundle1)
                         }
                     }

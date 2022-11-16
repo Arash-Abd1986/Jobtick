@@ -42,6 +42,7 @@ import com.jobtick.android.adapers.OfferedJobsAdapter
 import com.jobtick.android.adapers.PostedJobsAdapter
 import com.jobtick.android.adapers.RecommendedJobsAdapter
 import com.jobtick.android.adapers.TaskCategoryAdapter
+import com.jobtick.android.material.ui.jobdetails.JobDetailsActivity
 import com.jobtick.android.material.ui.postajob.PostAJobActivity
 import com.jobtick.android.models.TaskCategory
 import com.jobtick.android.models.response.home.Banner
@@ -744,7 +745,7 @@ class HomeFragment :
     }
 
     private fun goToJob(slug: String?) {
-        val intent = Intent(requireContext(), TaskDetailsActivity::class.java)
+        val intent = Intent(requireContext(), JobDetailsActivity::class.java)
         val bundle = Bundle()
         bundle.putString(ConstantKey.SLUG, slug)
         //   bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());

@@ -1,35 +1,16 @@
 package com.jobtick.android.material.ui.jobdetails
 
-import android.content.Context
-import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.LinearLayout
 import android.widget.PopupWindow
-import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.textview.MaterialTextView
-import com.google.gson.Gson
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
-import com.jobtick.android.activities.ReportActivity
-import com.jobtick.android.activities.RescheduleTimeRequestActivity
-import com.jobtick.android.activities.TaskDetailsActivity
-import com.jobtick.android.cancellations.CancellationPosterActivity
-import com.jobtick.android.cancellations.CancellationWorkerActivity
-import com.jobtick.android.models.TaskModel
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
-import com.jobtick.android.utils.*
-import com.jobtick.android.viewmodel.EventsViewModel
-import com.jobtick.android.viewmodel.JobDetailsViewModel
+import com.jobtick.android.utils.ConstantKey
+import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.viewmodel.ViewModelFactory
 import com.jobtick.android.viewmodel.home.PaymentOverviewViewModel
 
@@ -64,7 +45,7 @@ class PaymentOverviewActivity : ActivityBase() {
                 supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
         val inflater = navHostFragment?.navController?.navInflater
         val graph = inflater?.inflate(R.navigation.payment_graph)
-        graph?.startDestination = R.id.paymentOverviewFragment
+        graph?.setStartDestination(R.id.paymentOverviewFragment)
         navHostFragment?.navController?.graph = graph!!
     }
     private fun initVars() {

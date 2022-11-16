@@ -3,51 +3,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="0dp"
-    app:cardCornerRadius="25dp"
+    android:layout_height="match_parent"
     android:background="@color/transparent"
+    android:elevation="0dp"
+    app:cardCornerRadius="8dp"
     app:cardElevation="0dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_white_top_c">
+        android:orientation="vertical">
 
-        <include layout="@layout/view_bottom_sheet_top_handler" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/bottom_sheet_handler"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:text="Increase price request"
-            android:textAppearance="@style/materialText_W400_16"
-            android:textColor="@color/textColor" />
+            android:padding="12dp"
+            android:id="@+id/linTitle"
+            android:gravity="center"
+            android:background="@color/white">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/from"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:text="From"
-            android:textAppearance="@style/materialText_W500_16"
-            android:textColor="@color/textColor" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btn_close"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:padding="6dp"
+                app:srcCompat="@drawable/ic_close_v4"
+                app:tint="@color/neutral_light_500"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/title"
+                style="@style/heading4"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Increase Price Request"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/neutral_light_800"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/neutral_light_50" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/name"
+            style="@style/caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="24dp"
-            android:layout_toEndOf="@id/from"
-            android:textAppearance="@style/materialText_W500_16"
-            android:textColor="@color/colorPrimary"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/neutral_light_700"
             tools:text="Sajad B." />
 
 
@@ -62,7 +71,8 @@
             android:layout_toEndOf="@id/from"
             android:text="Job title"
             android:textAppearance="@style/materialText_W500_16"
-            android:textColor="@color/N300" />
+            android:textColor="@color/N300"
+            android:visibility="gone" />
 
 
         <com.google.android.material.textview.MaterialTextView
@@ -77,6 +87,7 @@
             android:layout_toEndOf="@id/from"
             android:textAppearance="@style/materialText_W400_14"
             android:textColor="@color/textColor"
+            android:visibility="gone"
             tools:text="Clean my two bedroom witnin 6 hours in my apartment" />
 
         <LinearLayout
@@ -87,30 +98,25 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/rectangle_card_round_gray_cards"
-            android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="10dp">
+            android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="start|center_vertical"
                 android:text="Current price"
-                android:textAppearance="@style/materialText_W500_16"
-                android:textColor="@color/N600" />
+                android:textAppearance="@style/caption"
+                android:textColor="@color/neutral_light_500" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/old_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:gravity="end|center_vertical"
                 android:text="$0.0"
-                android:textAppearance="@style/materialText_500_16"
-                android:textColor="@color/colorPrimary" />
+                android:textAppearance="@style/caption"
+                android:textColor="@color/neutral_dark" />
         </LinearLayout>
 
         <LinearLayout
@@ -119,32 +125,29 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/old_price_container"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="14dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/rectangle_card_round_gray_cards"
-            android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="16dp"
+            android:orientation="vertical"
             android:paddingBottom="10dp">
 
             <com.google.android.material.textview.MaterialTextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="start|center_vertical"
                 android:text="@string/new_price"
-                android:textAppearance="@style/materialText_W500_16"
-                android:textColor="@color/N600" />
+                android:textAppearance="@style/caption"
+                android:textColor="@color/neutral_light_500" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/new_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:gravity="end|center_vertical"
                 android:text="$0.0"
-                android:textAppearance="@style/materialText_500_16"
-                android:textColor="@color/colorPrimary" />
+                android:textAppearance="@style/caption"
+                android:textColor="@color/neutral_dark" />
         </LinearLayout>
 
 
@@ -155,83 +158,84 @@
             android:layout_below="@+id/new_price_container"
             android:layout_alignParentStart="true"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="14dp"
             android:layout_toEndOf="@id/from"
             android:text="@string/reason"
-            android:textAppearance="@style/materialText_W500_16"
-            android:textColor="@color/N300" />
+            android:textAppearance="@style/caption"
+            android:textColor="@color/neutral_light_500" />
 
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/reason_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/reason"
-            android:layout_alignParentStart="true"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:layout_toEndOf="@id/from"
-            android:textAppearance="@style/materialText_W400_14"
-            android:textColor="@color/N600"
+            android:textAppearance="@style/caption"
+            android:textColor="@color/neutral_dark"
             tools:text="Reason here in publishing and graphic design, Lorem ipsum" />
 
-        <LinearLayout
-            android:id="@+id/lyt_button"
-            android:layout_width="match_parent"
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyt_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reason_description"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_decline"
+            style="@style/colored"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/reason_description"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="32dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/primary_light_100"
+            android:text="@string/decline"
+            android:textColor="@color/primary_500" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_decline"
-                style="@style/materialButtonDecline"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:text="@string/decline" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_accept"
-                style="@style/materialButtonAccept"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="4dp"
-                android:layout_weight="1"
-                android:text="@string/accept" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/lytWithDraw"
-            android:layout_width="match_parent"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_accept"
+            style="@style/colored"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lyt_button"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="32dp"
-            android:orientation="horizontal"
-            android:weightSum="1">
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:text="@string/accept" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnWithdraw"
-                style="@style/materialButtonAccept"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:text="@string/withdrawal_the_request" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lytWithDraw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lyt_button"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="1">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnWithdraw"
+            style="@style/colored"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:text="@string/withdrawal_the_request" />
 
 
-
-        </LinearLayout>
-    </RelativeLayout>
-
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,6 +27,7 @@ import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.*
+import com.jobtick.android.fragments.IncreaseBudgetNoticeBottomSheet
 import com.jobtick.android.fragments.WithdrawBottomSheet
 import com.jobtick.android.models.*
 import com.jobtick.android.models.response.conversationinfo.GetConversationInfoResponse
@@ -58,6 +60,8 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private lateinit var msgAction: MaterialTextView
     private lateinit var msgBody: MaterialTextView
     private lateinit var icChat: AppCompatImageView
+    private lateinit var msgIcon: AppCompatImageView
+    private lateinit var linMessage: LinearLayout
     private lateinit var btnNext: MaterialButton
     lateinit var viewModel: JobDetailsViewModel
     private lateinit var rlMedias: RecyclerView
@@ -65,17 +69,16 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private lateinit var sessionManager: SessionManager
     private lateinit var activity: JobDetailsActivity
     private lateinit var linNext: LinearLayout
-    private lateinit var cardMessage: View
     private var isAllMedias = false
     private var jobState = JobState.MAKE_AN_OFFER
 
     private enum class JobState {
-        MAKE_AN_OFFER, VIEW_OFFER_LIST
+        MAKE_AN_OFFER, VIEW_OFFER_LIST, VIEW_MY_OFFER
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_job_details_ticket_viewer, container, false)
+        return inflater.inflate(R.layout.fragment_job_details_poster, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -91,7 +94,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
         viewModel = ViewModelProvider(
                 requireActivity(),
                 ViewModelFactory(ApiHelper(ApiClient.getClient()))
-        ).get(JobDetailsViewModel::class.java)
+        )[JobDetailsViewModel::class.java]
         viewModel.geTaskModelResponse().observe(viewLifecycleOwner) {
             setUpView(it)
         }
@@ -109,8 +112,10 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
             setMoreLess(description, taskModel.description, 3)
             setTaskLocation(taskModel)
             setMedias(taskModel.attachments)
-            checkRescheduleRequest(taskModel)
             budget.text = "$${taskModel.budget}"
+            changeViewByStatus(taskModel)
+
+
             icChat.setOnClickListener {
                 activity.showProgressDialog()
                 getConversationId(
@@ -130,11 +135,81 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
             btnNext.setOnClickListener {
                 when (jobState) {
                     JobState.MAKE_AN_OFFER -> makeAnOffer(taskModel)
+                    JobState.VIEW_MY_OFFER -> viewMyOffer(taskModel)
                     JobState.VIEW_OFFER_LIST -> showOfferList(taskModel)
                 }
 
             }
         }
+    }
+
+    private fun viewMyOffer(taskModel: TaskModel) {
+        val infoBottomSheet = WithdrawBottomSheet(this, taskModel.offers.filter { it.worker.id == sessionManager.userAccount.id }[0])
+        infoBottomSheet.show(parentFragmentManager, null)
+    }
+
+    private fun changeViewByStatus(taskModel: TaskModel) {
+        when (taskModel.status) {
+            "assigned" -> {
+                linNext.gone()
+                offerCount.gone()
+                taskStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_400))
+                checkRescheduleRequest(taskModel)
+                initIncreaseBudget(taskModel)
+            }
+        }
+
+    }
+
+    private fun initIncreaseBudget(taskModel: TaskModel) {
+        if (taskModel.additionalFund != null && taskModel.additionalFund.status == "pending") {
+            showIncreaseBudgetCard(taskModel)
+        }
+    }
+
+    var isIncreaseBudgetRequestForMine = false
+    var isRescheduledRequestForMine = false
+    
+    private fun showIncreaseBudgetCard(taskModel: TaskModel) {
+        var increaseRequestByWho = ""
+        val requesterId = taskModel.additionalFund.requesterId
+        if (taskModel.worker != null) {
+            if (taskModel.worker.id == requesterId) {
+                increaseRequestByWho = taskModel.worker.name + " has"
+            }
+        }
+        if (taskModel.poster != null) {
+            if (taskModel.poster.id == requesterId) {
+                increaseRequestByWho = taskModel.poster.name + " has"
+            }
+        }
+        if (sessionManager.userAccount.id == requesterId) {
+            isIncreaseBudgetRequestForMine = true
+            increaseRequestByWho = "You have"
+        } else {
+            isIncreaseBudgetRequestForMine = false
+        }
+
+        linMessage.visible()
+        msgAction.visible()
+        msgHeader.text = "Increase Price Request"
+        msgBody.text = Html.fromHtml(
+                increaseRequestByWho +
+                        " requested to increase price on this job on <b>" +
+                        TimeHelper.convertToShowTimeFormat(taskModel.additionalFund.createdAt) + "</b>"
+        )
+        msgIcon.setImageResource(R.drawable.ic_increase_price_v6)
+
+        linMessage.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primary_50))
+        msgAction.setOnClickListener {
+            showDialogIncreaseBudgetNoticeRequest(isIncreaseBudgetRequestForMine, taskModel)
+        }
+        msgIcon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.primary_500))
+        msgAction.text = "View request"
+    }
+
+    private fun showDialogIncreaseBudgetNoticeRequest(isMine: Boolean, taskModel: TaskModel) {
+        activity.navController.navigate(JobDetailsPosterFragmentDirections.actionJobDetailsPosterFragmentToIncreaseBudgetNoticeBottomSheet(taskModel, isMine))
     }
 
     private fun checkRescheduleRequest(taskModel: TaskModel) {
@@ -143,13 +218,12 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
 
         if (taskModel.rescheduleReqeust != null && taskModel.rescheduleReqeust.size > 0) {
             for (i in taskModel.rescheduleReqeust.indices) {
-                if (taskModel.rescheduleReqeust[i].status == "pending" &&
-                        taskModel.status.lowercase(Locale.getDefault()) != Constant.TASK_CANCELLED
-                        && taskModel.status.lowercase(Locale.getDefault()) != Constant.TASK_CLOSED) {
+                if (taskModel.rescheduleReqeust[i].status == "pending") {
                     //TODO user should be poster or ticker not viewer
-                    cardMessage.visible()
+                    linMessage.visible()
                     msgAction.text = "View request"
                     msgHeader.text = "Reschedule Request"
+                    msgIcon.setImageResource(R.drawable.ic_reschedule)
 
                     val requesterId = taskModel.rescheduleReqeust[i].requester_id
                     if (taskModel.worker != null && taskModel.worker.id == requesterId) {
@@ -169,8 +243,26 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
                     )
                     loc = i
                     linNext.gone()
+                    linMessage.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primary_50))
                     break
                 }
+                if (viewModel.userType == JobDetailsViewModel.UserType.POSTER && taskModel.rescheduleReqeust[i].requester_id != sessionManager.userAccount.id)
+                    if (taskModel.rescheduleReqeust[i].status == "accepted") {
+                        linMessage.visible()
+                        msgAction.gone()
+                        msgHeader.text = "Reschedule Request Accepted"
+                        msgBody.text = "Ticker accepted your reschedule time request on this job."
+                        msgIcon.setImageResource(R.drawable.ic_reschedule)
+                        msgIcon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.feedback))
+                        linMessage.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.feedback_light))
+                    } else if (taskModel.rescheduleReqeust[i].status == "declined") {
+                        linMessage.visible()
+                        msgAction.gone()
+                        msgHeader.text = "Reschedule Request Declined"
+                        msgBody.text = "Ticker declined your reschedule time request on this job."
+                        msgIcon.setImageResource(R.drawable.ic_error_v3)
+                        linMessage.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primary_error_light))
+                    }
             }
             msgAction.setOnClickListener {
                 showDialogRescheduleRequest(taskModel, loc, isMine = rescheduledByWho == "You have", msgBody.text)
@@ -198,17 +290,26 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
 
     @SuppressLint("SetTextI18n")
     private fun setOfferStatus(taskModel: TaskModel) {
-        if (taskModel.offerCount > 0) {
-            if (taskModel.offerCount> 0){
-                btnNext.text = "See offers(${taskModel.offerCount})"
-                budget.gone()
-                jobState = JobState.VIEW_OFFER_LIST
-            }else{
-                btnNext.text = "Awaiting for offers"
-                budget.gone()
-                btnNext.isEnabled = false
-            }
-        }
+        if (viewModel.userType == JobDetailsViewModel.UserType.POSTER)
+            if (taskModel.offerCount > 0) {
+                if (taskModel.offerCount > 0) {
+                    btnNext.text = "See offers(${taskModel.offerCount})"
+                    budget.gone()
+                    jobState = JobState.VIEW_OFFER_LIST
+                } else {
+                    btnNext.text = "Awaiting for offers"
+                    budget.gone()
+                    btnNext.isEnabled = false
+                }
+            } else
+                if (taskModel.offerCount > 0) {
+                    taskModel.offers.forEach {
+                        if (it.worker.id == sessionManager.userAccount.id) {
+                            btnNext.text = "View offer"
+                            jobState = JobState.VIEW_MY_OFFER
+                        }
+                    }
+                }
     }
 
     private fun setMediaList(attachments: ArrayList<AttachmentModel>) {
@@ -289,11 +390,12 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
         rlMedias = requireView().findViewById(R.id.rl_medias)
         budget = requireView().findViewById(R.id.budget)
         seeAll = requireView().findViewById(R.id.seeAll)
-        cardMessage = requireView().findViewById(R.id.card_message)
         msgHeader = requireView().findViewById(R.id.msg_header)
         msgBody = requireView().findViewById(R.id.msg_body)
         msgAction = requireView().findViewById(R.id.msg_action)
+        msgIcon = requireView().findViewById(R.id.msg_icon)
         linNext = requireView().findViewById(R.id.linNext)
+        linMessage = requireView().findViewById(R.id.lin_message)
     }
 
     private fun makeAnOffer(taskModel: TaskModel) {

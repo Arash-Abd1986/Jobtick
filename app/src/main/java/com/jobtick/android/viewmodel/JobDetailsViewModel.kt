@@ -28,12 +28,22 @@ class JobDetailsViewModel(private val mainRepository: MainRepository) : ViewMode
     private val taskModelResponse = MutableLiveData<TaskModel>()
     private val error = MutableLiveData<String>()
     private val error2 = MutableLiveData<String>()
+
+    enum class UserType {
+        POSTER, TICKER, VIEWER
+    }
+
+    var userType  = UserType.VIEWER
+
+
     fun geTaskModelResponse(): LiveData<TaskModel> {
         return this.taskModelResponse
     }
+
     fun getError(): LiveData<String> {
         return this.error
     }
+
     fun getError2(): LiveData<String> {
         return this.error2
     }
@@ -50,7 +60,7 @@ class JobDetailsViewModel(private val mainRepository: MainRepository) : ViewMode
         return getData(ServiceType.TASK_DETAILS, mainRepository, request)
     }
 
-    fun getTaskModel(context: Context, strSlug:String, tokenType:String, token:String, userId:Int) {
+    fun getTaskModel(context: Context, strSlug: String, tokenType: String, token: String, userId: Int) {
         val stringRequest: StringRequest =
                 object : StringRequest(
                         Method.GET, Constant.URL_TASKS + "/" + strSlug,
@@ -90,10 +100,10 @@ class JobDetailsViewModel(private val mainRepository: MainRepository) : ViewMode
                                         //initRestConf(jsonObjectData)
                                     }
                                 } else {
-                                   /* showToast("Something went wrong", this@JobDetailsActivity)
-                                    Handler().postDelayed({
-                                        onBackPressed()
-                                    }, 2000)*/
+                                    /* showToast("Something went wrong", this@JobDetailsActivity)
+                                     Handler().postDelayed({
+                                         onBackPressed()
+                                     }, 2000)*/
                                 }
                             } catch (e: Exception) {
                                 /*showToast("Something went wrong", this@JobDetailsActivity)
@@ -107,13 +117,13 @@ class JobDetailsViewModel(private val mainRepository: MainRepository) : ViewMode
                             //onLoadingFinished()
                         },
                         com.android.volley.Response.ErrorListener { error: VolleyError ->
-                           /* //isInitPageLoaded = true
-                            // llLoading.visibility = View.GONE
-                            //onLoadingFinished()
-                            errorHandle1(error.networkResponse)
-                            Handler().postDelayed({
-                                onBackPressed()
-                            }, 2000)*/
+                            /* //isInitPageLoaded = true
+                             // llLoading.visibility = View.GONE
+                             //onLoadingFinished()
+                             errorHandle1(error.networkResponse)
+                             Handler().postDelayed({
+                                 onBackPressed()
+                             }, 2000)*/
                         }
                 ) {
                     override fun getHeaders(): Map<String, String> {

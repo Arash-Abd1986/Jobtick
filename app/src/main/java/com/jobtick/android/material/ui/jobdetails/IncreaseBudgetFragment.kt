@@ -52,6 +52,8 @@ class IncreaseBudgetFragment : Fragment() {
     lateinit var viewModel: JobDetailsViewModel
     lateinit var label: MaterialTextView
     lateinit var info: AppCompatImageView
+    private var isReasonOk = false
+    private var isAmountOk = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_increase_budget, container, false)
@@ -74,25 +76,30 @@ class IncreaseBudgetFragment : Fragment() {
         })
 
         addPrice!!.editText!!.doOnTextChanged { text, _, _, _ ->
-            if (validation()) {
+            isAmountOk = if (validation()) {
                 addPrice!!.error("Increase amount must be between $5 and $500.", label, info, setError = false, isBold = true)
+                true
+            }else{
+                false
             }
             text?.let {
                 if (text.isNotEmpty()) {
                     setupBudget(text.toString().toInt() + taskModel!!.amount)
                 }
             }
-
+            submit!!.isEnabled = isAmountOk && isReasonOk
         }
         reason!!.editText!!.doOnTextChanged { text, _, _, _ ->
             text?.let {
-                if (text.length < 25)
+                if (text.length < 25) {
                     reason!!.error = "Must be at least 25 characters"
-                else {
+                    isReasonOk = false
+                } else {
+                    isReasonOk = true
                     reason!!.error = ""
                 }
             }
-
+            submit!!.isEnabled = isAmountOk && isReasonOk
         }
         initProgressDialog()
         init()
@@ -103,7 +110,7 @@ class IncreaseBudgetFragment : Fragment() {
         viewModel = ViewModelProvider(
                 requireActivity(),
                 ViewModelFactory(ApiHelper(ApiClient.getClient()))
-        ).get(JobDetailsViewModel::class.java)
+        )[JobDetailsViewModel::class.java]
 
         viewModel.geTaskModelResponse().observe(viewLifecycleOwner) { taskModel ->
             this.taskModel = taskModel
@@ -147,7 +154,7 @@ class IncreaseBudgetFragment : Fragment() {
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                             if (jsonObject.getBoolean("success")) {
                                 listener!!.onSubmitIncreasePrice()
-                                //dismiss();
+                                requireActivity().onBackPressed()
                             } else {
                                 (requireActivity() as ActivityBase).showToast("Something went Wrong", context)
                             }

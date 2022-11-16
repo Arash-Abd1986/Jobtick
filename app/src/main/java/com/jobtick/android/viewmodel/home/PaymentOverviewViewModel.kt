@@ -21,11 +21,19 @@ class PaymentOverviewViewModel(private val mainRepository: MainRepository) : Vie
     fun setId(id: String?) {
         _state.value = _state.value.copy(id = id)
     }
+    fun setIsCardDeleted(isDeleted: Boolean) {
+        _state.value = _state.value.copy(isCardDeleted = isDeleted)
+    }
+    fun setIsCardDeletedByMe(isDeleted: Boolean) {
+        _state.value = _state.value.copy(isCardDeletedByMe = isDeleted)
+    }
 
     data class State(
             var paymentData: PaymentData? = null,
             var found: String? = null,
-            var id: String? = null
+            var id: String? = null,
+            var isCardDeleted: Boolean? = null,
+            var isCardDeletedByMe: Boolean? = null
     )
 
 

@@ -43,9 +43,7 @@ import timber.log.Timber
 import java.util.*
 
 
-class PaymentOverviewFragment :
-        Fragment(),
-        PosterRequirementsBottomSheet.NoticeListener{
+class PaymentOverviewFragment : Fragment(), PosterRequirementsBottomSheet.NoticeListener {
 
     private lateinit var txtTaskCost: MaterialTextView
     private lateinit var txtServiceFee: MaterialTextView
@@ -54,7 +52,6 @@ class PaymentOverviewFragment :
     private lateinit var rltPaymentMethod: LinearLayout
     private lateinit var btnPay: MaterialButton
     private lateinit var btnAddCard: MaterialButton
-    private lateinit var lytAddCreditCard: LinearLayout
     private lateinit var msgHeader: MaterialTextView
     private lateinit var msgAction: MaterialTextView
     private lateinit var msgBody: MaterialTextView
@@ -83,8 +80,7 @@ class PaymentOverviewFragment :
     private lateinit var pbLoading: ProgressBar
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_payment_overview, container, false)
     }
 
@@ -105,10 +101,7 @@ class PaymentOverviewFragment :
     }
 
     private fun initVm() {
-        viewModel = ViewModelProvider(
-                requireActivity(),
-                ViewModelFactory(ApiHelper(ApiClient.getClient()))
-        ).get(PaymentOverviewViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), ViewModelFactory(ApiHelper(ApiClient.getClient())))[PaymentOverviewViewModel::class.java]
         lifecycleScope.launch {
             viewModel.state.collectLatest {
                 paymentData = it.paymentData
@@ -116,16 +109,29 @@ class PaymentOverviewFragment :
                 id = it.id
                 amount = paymentData!!.amount
                 if (found != null) {
-                   // llCoupon.visibility = View.GONE
+                    // llCoupon.visibility = View.GONE
                     amount = found!!.toInt()
                 }
                 setUpData()
                 paymentMethod
                 onViewClick()
+                if (it.isCardDeletedByMe != true)
+                    if (it.isCardDeleted?.not() == true) {
+                        rltPaymentMethod.visibility = View.VISIBLE
+                        btnAddCard.visibility = View.GONE
+                    } else {
+                        rltPaymentMethod.visibility = View.GONE
+                        btnAddCard.visibility = View.VISIBLE
+                    }
+                else{
+                    rltPaymentMethod.visibility = View.GONE
+                    btnAddCard.visibility = View.VISIBLE
+                }
             }
         }
 
     }
+
     private fun verify() {
         if (etPromoCode.editText!!.text.isNotEmpty()) {
             val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -137,58 +143,55 @@ class PaymentOverviewFragment :
     }
 
     private fun checkPromoCode() {
-        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_OFFERS_PAYING_CALCULATION,
-                Response.Listener { response: String? ->
-                    pbLoading.visibility = View.GONE
-                    try {
-                        val jsonObject = JSONObject(response!!)
-                        val data = jsonObject.getString("data")
-                        isVerified = true
-                        ivState.visibility = View.VISIBLE
-                        ivState.setImageResource(R.drawable.ic_verified_coupon)
-                        pbLoading.visibility = View.GONE
-                        etPromoCode.error = ""
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                        isVerified = false
-                        etPromoCode.error = ""
-                        ivState.setImageResource(R.drawable.ic_unverified_coupon)
-                        ivState.visibility = View.VISIBLE
-                    }
-                    if (isVerified)
-                        Handler().postDelayed({
-                            onVerifySubmit(etPromoCode.editText!!.text.toString())
-                        },2000)
-                },
-                Response.ErrorListener { error: VolleyError ->
-                    pbLoading.visibility = View.GONE
-                    isVerified = false
-                    val networkResponse = error.networkResponse
-                    if (networkResponse?.data != null) {
-                        val jsonError = String(networkResponse.data)
-                        try {
-                            val jsonObject = JSONObject(jsonError)
-                            val jsonObjectError = jsonObject.getJSONObject("error")
-                            val message = jsonObjectError.getString("message")
-                            etPromoCode.error = message
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_OFFERS_PAYING_CALCULATION, Response.Listener { response: String? ->
+            pbLoading.visibility = View.GONE
+            try {
+                val jsonObject = JSONObject(response!!)
+                val data = jsonObject.getString("data")
+                isVerified = true
+                ivState.visibility = View.VISIBLE
+                ivState.setImageResource(R.drawable.ic_verified_coupon)
+                pbLoading.visibility = View.GONE
+                etPromoCode.error = ""
+            } catch (e: JSONException) {
+                e.printStackTrace()
+                isVerified = false
+                etPromoCode.error = ""
+                ivState.setImageResource(R.drawable.ic_unverified_coupon)
+                ivState.visibility = View.VISIBLE
+            }
+            if (isVerified) Handler().postDelayed({
+                onVerifySubmit(etPromoCode.editText!!.text.toString())
+            }, 2000)
+        }, Response.ErrorListener { error: VolleyError ->
+            pbLoading.visibility = View.GONE
+            isVerified = false
+            val networkResponse = error.networkResponse
+            if (networkResponse?.data != null) {
+                val jsonError = String(networkResponse.data)
+                try {
+                    val jsonObject = JSONObject(jsonError)
+                    val jsonObjectError = jsonObject.getJSONObject("error")
+                    val message = jsonObjectError.getString("message")
+                    etPromoCode.error = message
 
-                            ivState.setImageResource(R.drawable.ic_unverified_coupon)
-                            ivState.visibility = View.VISIBLE
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                            etPromoCode.error = ""
-                            ivState.setImageResource(R.drawable.ic_unverified_coupon)
-                            ivState.visibility = View.VISIBLE
-                        }
-                    } else {
-                        etPromoCode.error = ""
-                        ivState.setImageResource(R.drawable.ic_unverified_coupon)
-                        ivState.visibility = View.VISIBLE
-                    }
-                }) {
+                    ivState.setImageResource(R.drawable.ic_unverified_coupon)
+                    ivState.visibility = View.VISIBLE
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    etPromoCode.error = ""
+                    ivState.setImageResource(R.drawable.ic_unverified_coupon)
+                    ivState.visibility = View.VISIBLE
+                }
+            } else {
+                etPromoCode.error = ""
+                ivState.setImageResource(R.drawable.ic_unverified_coupon)
+                ivState.visibility = View.VISIBLE
+            }
+        }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
-                map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager!!.accessToken
                 map1["Content-Type"] = "application/x-www-form-urlencoded"
                 map1["X-Requested-With"] = "XMLHttpRequest"
                 map1["Version"] = BuildConfig.VERSION_CODE.toString()
@@ -202,8 +205,7 @@ class PaymentOverviewFragment :
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         val requestQueue = Volley.newRequestQueue(activity)
         requestQueue.add(stringRequest)
     }
@@ -215,7 +217,6 @@ class PaymentOverviewFragment :
         txtAccountNumber = requireView().findViewById(R.id.txt_account_number)
         rltPaymentMethod = requireView().findViewById(R.id.rlt_payment_method)
         btnPay = requireView().findViewById(R.id.btn_pay)
-        lytAddCreditCard = requireView().findViewById(R.id.lyt_add_credit_card)
         msgHeader = requireView().findViewById(R.id.msg_header)
         msgBody = requireView().findViewById(R.id.msg_body)
         msgAction = requireView().findViewById(R.id.msg_action)
@@ -232,10 +233,10 @@ class PaymentOverviewFragment :
     }
 
     private fun setupCoupon(netPayingAmount: Int) {
-       /* llCoupon.setOnClickListener {
-            addCouponFragment = AddCouponFragment.newInstance(netPayingAmount)
-            addCouponFragment!!.show(parentFragmentManager, "")
-        }*/
+        /* llCoupon.setOnClickListener {
+             addCouponFragment = AddCouponFragment.newInstance(netPayingAmount)
+             addCouponFragment!!.show(parentFragmentManager, "")
+         }*/
         /*if (coupon != null) {
             tvCoupon.text = coupon
             relCouponDetails.visibility = View.VISIBLE
@@ -258,101 +259,39 @@ class PaymentOverviewFragment :
     } // map1.put("X-Requested-With", "XMLHttpRequest");// Print Error!
 
     // http request
-    private val paymentMethod: Unit
-        get() {
-            activity.showProgressDialog()
-            val stringRequest: StringRequest =
-                    object : StringRequest(
-                            Method.GET, Constant.URL_PAYMENTS_METHOD,
-                            Response.Listener { response: String? ->
-                                Timber.e(response)
-                                try {
-                                    val jsonObject = JSONObject(response!!)
-                                    Timber.e(jsonObject.toString())
-                                    if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                                        if (jsonObject.getBoolean("success")) {
-                                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                                val jsonString = jsonObject.toString() // http request
-                                                val gson = Gson()
-                                                val creditCardModel =
-                                                        gson.fromJson(jsonString, CreditCardModel::class.java)
-                                                if (creditCardModel != null && creditCardModel.data!![0].card != null) {
-                                                    setUpLayout(creditCardModel)
-                                                } else {
-                                                    //show add card
-                                                    setUpAddPaymentLayout()
-                                                }
-                                            }
-                                        } else {
-                                            setUpAddPaymentLayout()
-                                            activity.showToast("Something went Wrong", requireContext())
-                                        }
-                                    }
-                                } catch (e: JSONException) {
-                                    Timber.e(e.toString())
-                                    e.printStackTrace()
-                                    setUpAddPaymentLayout()
-                                }
-                            },
-                            Response.ErrorListener { error: VolleyError ->
-                                setUpAddPaymentLayout()
-                                val networkResponse = error.networkResponse
-                                if (networkResponse?.data != null) {
-                                    val jsonError = String(networkResponse.data)
-                                    // Print Error!
-                                    Timber.e(jsonError)
-                                    try {
-                                        val jsonObject = JSONObject(jsonError)
-                                        val jsonObjectError = jsonObject.getJSONObject("error")
-                                        if (jsonObjectError.has("error_code") && !jsonObjectError.isNull("error_code")) {
-                                            if (ConstantKey.NO_PAYMENT_METHOD == jsonObjectError.getString("error_code")) {
-                                                return@ErrorListener
-                                            }
-                                        }
-                                    } catch (e: JSONException) {
-                                        e.printStackTrace()
-                                    }
-                                }
-                                Timber.e(error.toString())
-                                activity.errorHandle1(error.networkResponse)
-                            }
-                    ) {
-                        @Throws(AuthFailureError::class)
-                        override fun getHeaders(): Map<String, String> {
-                            val map1: MutableMap<String, String> = HashMap()
-                            map1["authorization"] =
-                                    sessionManager.tokenType + " " + sessionManager.accessToken
-                            map1["Content-Type"] = "application/x-www-form-urlencoded"
-                            map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                            // map1.put("X-Requested-With", "XMLHttpRequest");
-                            return map1
-                        }
-                    }
-            stringRequest.retryPolicy = DefaultRetryPolicy(
-                    0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-            )
-            val requestQueue = Volley.newRequestQueue(requireContext())
-            requestQueue.add(stringRequest)
-        }
+
 
     private fun setUpAddPaymentLayout() {
         btnPay.isEnabled = false
         btnPay.alpha = 0.5f
-        rltPaymentMethod.visibility = View.GONE
-        lytAddCreditCard.visibility = View.GONE
-        btnAddCard.visibility = View.VISIBLE
+        viewModel.setIsCardDeleted(true)
         activity.hideProgressDialog()
     }
 
     private fun setUpLayout(creditCardModel: CreditCardModel) {
         btnPay.isEnabled = true
         btnPay.alpha = 1.0f
-        lytAddCreditCard.visibility = View.VISIBLE
-        btnAddCard.visibility = View.GONE
-        txtAccountNumber.text =
-                String.format("**** **** **** %s", creditCardModel.data!![0].card!!.last4)
-        rltPaymentMethod.visibility = View.VISIBLE
+        viewModel.setIsCardDeleted(false)
+        txtAccountNumber.text = String.format("**** **** **** %s", creditCardModel.data!![0].card!!.last4)
+
+        txtAccountNumber.setOnClickListener {
+            val action = PaymentOverviewFragmentDirections.actionPaymentOverviewFragmentToCardInfoFragment(
+                    CardInfo(accountHolder = "",
+                            cardNumber = String.format("**** **** **** %s", creditCardModel.data!![0].card!!.last4),
+                            expiryDate = creditCardModel.data!![0].card!!.exp_month.toString() + "/" + creditCardModel.data!![0].card!!.exp_year,
+                            CVC = "***"))
+
+            activity.navController.navigate(action)
+        }
+        change.setOnClickListener {
+            val action = PaymentOverviewFragmentDirections.actionPaymentOverviewFragmentToCardInfoFragment(
+                    CardInfo(accountHolder = "",
+                            cardNumber = String.format("**** **** **** %s", creditCardModel.data!![0].card!!.last4),
+                            expiryDate = creditCardModel.data!![0].card!!.exp_month.toString() + "/" + creditCardModel.data!![0].card!!.exp_year,
+                            CVC = "***"))
+
+            activity.navController.navigate(action)
+        }
         /* if (creditCardModel.data!![1].wallet != null) {
              txtWallet.visibility = View.VISIBLE
              txtWalletTitle.visibility = View.VISIBLE
@@ -373,17 +312,11 @@ class PaymentOverviewFragment :
                 acceptRequest(id!!)
             }
         }
-        txtAccountNumber.setOnClickListener {
+        btnAddCard.setOnClickListener {
             showCreditCardRequirementBottomSheet()
             setUpAddPaymentLayout()
         }
-        change.setOnClickListener {
-            showCreditCardRequirementBottomSheet()
-            setUpAddPaymentLayout()
-        }
-        lytAddCreditCard.setOnClickListener {
-            showCreditCardRequirementBottomSheet()
-        }
+
         btnVerify.setOnClickListener { verify() }
     }
 
@@ -393,89 +326,68 @@ class PaymentOverviewFragment :
 
     private fun payAcceptOffer(coupon: String?) {
         activity.showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(
-                Method.POST,
-                Constant.URL_TASKS + "/" + paymentData!!.slug + "/accept-offer",
-                Response.Listener { response ->
-                    Timber.e(response)
-                    //   hidepDialog();
-                    try {
-                        val jsonObject = JSONObject(response!!)
-                        Timber.e(jsonObject.toString())
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                    val jsonObjectData = jsonObject.getJSONObject("data")
-                                    if (jsonObjectData.has("status") && !jsonObjectData.isNull("status")) {
-                                        if (jsonObjectData.getString("status")
-                                                        .equals("assigned", ignoreCase = true)
-                                        ) {
-                                            activity.hideProgressDialog()
-                                            FireBaseEvent.getInstance(requireContext())
-                                                    .sendEvent(
-                                                            FireBaseEvent.Event.PAYMENT_OVERVIEW,
-                                                            FireBaseEvent.EventType.API_RESPOND_SUCCESS,
-                                                            FireBaseEvent.EventValue.PAYMENT_OVERVIEW_SUBMIT
-                                                    )
-                                            var intent = Intent()
-                                            var bundle = Bundle()
-                                            bundle.putBoolean(ConstantKey.PAYMENT_OVERVIEW, true)
-                                            intent.putExtras(bundle)
-                                            activity.setResult(ConstantKey.RESULTCODE_PAYMENTOVERVIEW, intent)
-                                            intent = Intent(
-                                                    requireContext(),
-                                                    CompleteMessageActivity::class.java
-                                            )
-                                            bundle = Bundle()
-                                            bundle.putString(
-                                                    ConstantKey.COMPLETES_MESSAGE_TITLE,
-                                                    "Your payment is secured, and you will be requested to release it after completion!"
-                                            )
-                                            bundle.putString(
-                                                    ConstantKey.COMPLETES_MESSAGE_SUBTITLE,
-                                                    "Wait for an answer or continue looking for more tasks!"
-                                            )
-                                            intent.putExtras(bundle)
-                                            startActivity(intent)
-                                            activity.finish()
-                                            return@Listener
-                                        }
-                                    }
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_TASKS + "/" + paymentData!!.slug + "/accept-offer", Response.Listener { response ->
+            Timber.e(response)
+            //   hidepDialog();
+            try {
+                val jsonObject = JSONObject(response!!)
+                Timber.e(jsonObject.toString())
+                if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                    if (jsonObject.getBoolean("success")) {
+                        if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                            val jsonObjectData = jsonObject.getJSONObject("data")
+                            if (jsonObjectData.has("status") && !jsonObjectData.isNull("status")) {
+                                if (jsonObjectData.getString("status").equals("assigned", ignoreCase = true)) {
+                                    activity.hideProgressDialog()
+                                   // FireBaseEvent.getInstance(requireContext()).sendEvent(FireBaseEvent.Event.PAYMENT_OVERVIEW, FireBaseEvent.EventType.API_RESPOND_SUCCESS, FireBaseEvent.EventValue.PAYMENT_OVERVIEW_SUBMIT)
+                                    var intent = Intent()
+                                    var bundle = Bundle()
+                                    bundle.putBoolean(ConstantKey.PAYMENT_OVERVIEW, true)
+                                    intent.putExtras(bundle)
+                                    activity.setResult(ConstantKey.RESULTCODE_PAYMENTOVERVIEW, intent)
+                                    intent = Intent(requireContext(), CompleteMessageActivity::class.java)
+                                    bundle = Bundle()
+                                    bundle.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Your payment is secured, and you will be requested to release it after completion!")
+                                    bundle.putString(ConstantKey.COMPLETES_MESSAGE_SUBTITLE, "Wait for an answer or continue looking for more tasks!")
+                                    intent.putExtras(bundle)
+                                    startActivity(intent)
+                                    activity.finish()
+                                    return@Listener
                                 }
-                                activity.hideProgressDialog()
-                            } else {
-                                activity.hideProgressDialog()
-                                activity.showToast("Something went Wrong", requireContext())
                             }
-                        } else {
-                            activity.showToast("Payment failed", requireContext())
                         }
-                    } catch (e: JSONException) {
-                        Timber.e(e.toString())
-                        e.printStackTrace()
                         activity.hideProgressDialog()
-                        activity.showToast("Something went wrong", requireContext())
-                    }
-                },
-                Response.ErrorListener { error: VolleyError ->
-                    activity.hideProgressDialog()
-                    val networkResponse = error.networkResponse
-                    if (networkResponse?.data != null) {
-                        val jsonError = String(networkResponse.data)
-                        try {
-                            val jsonObject = JSONObject(jsonError)
-                            val jsonObjectError = jsonObject.getJSONObject("error")
-                            val message = jsonObjectError.getString("message")
-                            activity.showToast(message, requireContext())
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                            activity.showToast("Something went wrong", requireContext())
-                        }
                     } else {
-                        activity.showToast("Something went wrong", requireContext())
+                        activity.hideProgressDialog()
+                        activity.showToast("Something went Wrong", requireContext())
                     }
+                } else {
+                    activity.showToast("Payment failed", requireContext())
                 }
-        ) {
+            } catch (e: JSONException) {
+                Timber.e(e.toString())
+                e.printStackTrace()
+                activity.hideProgressDialog()
+                activity.showToast("Something went wrong", requireContext())
+            }
+        }, Response.ErrorListener { error: VolleyError ->
+            activity.hideProgressDialog()
+            val networkResponse = error.networkResponse
+            if (networkResponse?.data != null) {
+                val jsonError = String(networkResponse.data)
+                try {
+                    val jsonObject = JSONObject(jsonError)
+                    val jsonObjectError = jsonObject.getJSONObject("error")
+                    val message = jsonObjectError.getString("message")
+                    activity.showToast(message, requireContext())
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    activity.showToast("Something went wrong", requireContext())
+                }
+            } else {
+                activity.showToast("Something went wrong", requireContext())
+            }
+        }) {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
@@ -496,10 +408,7 @@ class PaymentOverviewFragment :
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(
-                0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
         Timber.e(stringRequest.url)
@@ -507,92 +416,60 @@ class PaymentOverviewFragment :
 
     private fun acceptRequest(id: String) {
         activity.showProgressDialog()
-        val stringRequest: StringRequest = object : StringRequest(
-                Method.GET,
-                Constant.BASE_URL + Constant.URL_ADDITIONAL_FUND + "/" + id + "/accept",
-                Response.Listener { response: String? ->
-                    Timber.e(response)
-                    activity.hideProgressDialog()
-                    try {
-                        val jsonObject = JSONObject(response)
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                found = null
-                                activity.onBackPressed()
-                            } else {
-                                activity.showToast(
-                                        "Something went Wrong",
-                                        requireContext()
-                                )
-                            }
-                        }
-                    } catch (e: JSONException) {
-                        Timber.e(e.toString())
-                        e.printStackTrace()
+        val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL + Constant.URL_ADDITIONAL_FUND + "/" + id + "/accept", Response.Listener { response: String? ->
+            Timber.e(response)
+            activity.hideProgressDialog()
+            try {
+                val jsonObject = JSONObject(response)
+                if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                    if (jsonObject.getBoolean("success")) {
+                        found = null
+                        activity.onBackPressed()
+                    } else {
+                        activity.showToast("Something went Wrong", requireContext())
                     }
-                },
-                Response.ErrorListener { error: VolleyError ->
-                    val networkResponse = error.networkResponse
-                    if (networkResponse?.data != null) {
-                        val jsonError = String(networkResponse.data)
-                        // Print Error!
-                        Timber.e(jsonError)
-                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                            activity.unauthorizedUser()
-                            activity.hideProgressDialog()
-                            return@ErrorListener
-                        }
-                        try {
-                            val jsonObject = JSONObject(jsonError)
-                            val jsonobjectError = jsonObject.getJSONObject("error")
-                            if (jsonobjectError.has("errors")) {
-                                val jsonobjectErrors =
-                                        jsonobjectError.getJSONObject("errors")
-                                if (jsonobjectErrors.has("amount") && !jsonobjectErrors.isNull("amount")) {
-                                    val jsonarrayAmount =
-                                            jsonobjectErrors.getJSONArray("amount")
-                                    activity.showToast(
-                                            jsonarrayAmount.getString(
-                                                    0
-                                            ),
-                                            requireContext()
-                                    )
-                                } else if (jsonobjectErrors.has("creation_reason") && !jsonobjectErrors.isNull(
-                                                "creation_reason"
-                                        )
-                                ) {
-                                    val jsonArray_amount =
-                                            jsonobjectErrors.getJSONArray("creation_reason")
-                                    activity.showToast(
-                                            jsonArray_amount.getString(
-                                                    0
-                                            ),
-                                            requireContext()
-                                    )
-                                }
-                            } else {
-                                if (jsonobjectError.has("message")) {
-                                    activity.showToast(
-                                            jsonobjectError.getString(
-                                                    "message"
-                                            ),
-                                            requireContext()
-                                    )
-                                }
-                            }
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
+                }
+            } catch (e: JSONException) {
+                Timber.e(e.toString())
+                e.printStackTrace()
+            }
+        }, Response.ErrorListener { error: VolleyError ->
+            val networkResponse = error.networkResponse
+            if (networkResponse?.data != null) {
+                val jsonError = String(networkResponse.data)
+                // Print Error!
+                Timber.e(jsonError)
+                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                    activity.unauthorizedUser()
+                    activity.hideProgressDialog()
+                    return@ErrorListener
+                }
+                try {
+                    val jsonObject = JSONObject(jsonError)
+                    val jsonobjectError = jsonObject.getJSONObject("error")
+                    if (jsonobjectError.has("errors")) {
+                        val jsonobjectErrors = jsonobjectError.getJSONObject("errors")
+                        if (jsonobjectErrors.has("amount") && !jsonobjectErrors.isNull("amount")) {
+                            val jsonarrayAmount = jsonobjectErrors.getJSONArray("amount")
+                            activity.showToast(jsonarrayAmount.getString(0), requireContext())
+                        } else if (jsonobjectErrors.has("creation_reason") && !jsonobjectErrors.isNull("creation_reason")) {
+                            val jsonArray_amount = jsonobjectErrors.getJSONArray("creation_reason")
+                            activity.showToast(jsonArray_amount.getString(0), requireContext())
                         }
                     } else {
-                        activity.showToast(
-                                "Something Went Wrong",
-                                requireContext()
-                        )
+                        if (jsonobjectError.has("message")) {
+                            activity.showToast(jsonobjectError.getString("message"), requireContext())
+                        }
                     }
-                    Timber.e(error.toString())
-                    activity.hideProgressDialog()
+                } catch (e: JSONException) {
+                    e.printStackTrace()
                 }
-        ) {
+            } else {
+                activity.showToast("Something Went Wrong", requireContext())
+            }
+            Timber.e(error.toString())
+            activity.hideProgressDialog()
+        }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = java.util.HashMap()
                 map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
@@ -602,93 +479,77 @@ class PaymentOverviewFragment :
                 return map1
             }
         }
-        stringRequest.retryPolicy = DefaultRetryPolicy(
-                0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
     }
 
     fun calculate(amount: String) {
-        val stringRequest: StringRequest =
-                object : StringRequest(
-                        Method.POST, Constant.URL_OFFERS_PAYING_CALCULATION,
-                        Response.Listener { response: String? ->
-                            activity.hideProgressDialog()
-                            try {
-                                val jsonObject = JSONObject(response!!)
-                                val data = jsonObject.getString("data")
-                                val model = gson!!.fromJson(data, PayingCalculationModel::class.java)
-                                txtServiceFee.text =
-                                        String.format(Locale.ENGLISH, "$%.1f", model.serviceFee)
-                                txtTotalCost.text = String.format(
-                                        Locale.ENGLISH,
-                                        "$%.1f",
-                                        model.netPayingAmount)
-                                //txtDiscountFee.text = String.format(Locale.ENGLISH, "$%.1f", model.discount)
-                                /*if (model.netPayingAmount - wallet >= 0) {
-                                    if (wallet > 0) txtWallet.text = String.format(
-                                            Locale.ENGLISH,
-                                            "-$%.1f",
-                                            wallet
-                                    ) else txtWallet.text =
-                                            String.format(Locale.ENGLISH, "$%.1f", Math.abs(wallet))
-                                    txtTotalCost.text = String.format(
-                                            Locale.ENGLISH,
-                                            "$%.1f",
-                                            model.netPayingAmount - wallet
-                                    )
-                                } else {
-                                    txtTotalCost.text = String.format(Locale.ENGLISH, "$%.1f", 0f)
-                                    txtWallet.text =
-                                            String.format(Locale.ENGLISH, "-$%.1f", model.netPayingAmount)
-                                }*/
-                            } catch (e: JSONException) {
-                                e.printStackTrace()
-                            }
-                        },
-                        Response.ErrorListener { error: VolleyError ->
-                            activity.hideProgressDialog()
-                            val networkResponse = error.networkResponse
-                            if (networkResponse?.data != null) {
-                                val jsonError = String(networkResponse.data)
-                                try {
-                                    val jsonObject = JSONObject(jsonError)
-                                    val jsonObjectError = jsonObject.getJSONObject("error")
-                                    val message = jsonObjectError.getString("message")
-                                    activity.showToast(message, requireContext())
-                                } catch (e: JSONException) {
-                                    e.printStackTrace()
-                                    activity.showToast("Something went wrong", requireContext())
-                                }
-                            } else {
-                                activity.showToast("Something went wrong", requireContext())
-                            }
-                        }
-                ) {
-                    @Throws(AuthFailureError::class)
-                    override fun getHeaders(): Map<String, String> {
-                        val map1: MutableMap<String, String> = HashMap()
-                        map1["authorization"] =
-                                sessionManager.tokenType + " " + sessionManager.accessToken
-                        map1["Content-Type"] = "application/x-www-form-urlencoded"
-                        map1["X-Requested-With"] = "XMLHttpRequest"
-                        map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                        return map1
-                    }
-
-                    override fun getParams(): Map<String, String> {
-                        val map1: MutableMap<String, String> = HashMap()
-                        map1["amount"] = amount
-                        if (coupon != null) map1["discount_code"] = coupon!!
-                        return map1
-                    }
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_OFFERS_PAYING_CALCULATION, Response.Listener { response: String? ->
+            activity.hideProgressDialog()
+            try {
+                val jsonObject = JSONObject(response!!)
+                val data = jsonObject.getString("data")
+                val model = gson!!.fromJson(data, PayingCalculationModel::class.java)
+                txtServiceFee.text = String.format(Locale.ENGLISH, "$%.1f", model.serviceFee)
+                txtTotalCost.text = String.format(Locale.ENGLISH, "$%.1f", model.netPayingAmount)
+                //txtDiscountFee.text = String.format(Locale.ENGLISH, "$%.1f", model.discount)
+                /*if (model.netPayingAmount - wallet >= 0) {
+                    if (wallet > 0) txtWallet.text = String.format(
+                            Locale.ENGLISH,
+                            "-$%.1f",
+                            wallet
+                    ) else txtWallet.text =
+                            String.format(Locale.ENGLISH, "$%.1f", Math.abs(wallet))
+                    txtTotalCost.text = String.format(
+                            Locale.ENGLISH,
+                            "$%.1f",
+                            model.netPayingAmount - wallet
+                    )
+                } else {
+                    txtTotalCost.text = String.format(Locale.ENGLISH, "$%.1f", 0f)
+                    txtWallet.text =
+                            String.format(Locale.ENGLISH, "-$%.1f", model.netPayingAmount)
+                }*/
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }, Response.ErrorListener { error: VolleyError ->
+            activity.hideProgressDialog()
+            val networkResponse = error.networkResponse
+            if (networkResponse?.data != null) {
+                val jsonError = String(networkResponse.data)
+                try {
+                    val jsonObject = JSONObject(jsonError)
+                    val jsonObjectError = jsonObject.getJSONObject("error")
+                    val message = jsonObjectError.getString("message")
+                    activity.showToast(message, requireContext())
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    activity.showToast("Something went wrong", requireContext())
                 }
-        stringRequest.retryPolicy = DefaultRetryPolicy(
-                0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
+            } else {
+                activity.showToast("Something went wrong", requireContext())
+            }
+        }) {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["X-Requested-With"] = "XMLHttpRequest"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
+            }
+
+            override fun getParams(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["amount"] = amount
+                if (coupon != null) map1["discount_code"] = coupon!!
+                return map1
+            }
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)
     }
@@ -703,12 +564,80 @@ class PaymentOverviewFragment :
         //tvCoupon.text = coupon
         //llCoupon.visibility = View.GONE
         //relCouponDetails.visibility = View.VISIBLE
-       // if (addCouponFragment != null) addCouponFragment!!.dismiss()
+        // if (addCouponFragment != null) addCouponFragment!!.dismiss()
     }
+
+    private val paymentMethod: Unit
+        get() {
+            activity.showProgressDialog()
+            val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_PAYMENTS_METHOD, Response.Listener { response: String? ->
+                Timber.e(response)
+                try {
+                    val jsonObject = JSONObject(response!!)
+                    Timber.e(jsonObject.toString())
+                    if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                        if (jsonObject.getBoolean("success")) {
+                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                val jsonString = jsonObject.toString() // http request
+                                val gson = Gson()
+                                val creditCardModel = gson.fromJson(jsonString, CreditCardModel::class.java)
+                                if (creditCardModel != null && creditCardModel.data!![0].card != null) {
+                                    setUpLayout(creditCardModel)
+                                } else {
+                                    //show add card
+                                    setUpAddPaymentLayout()
+                                }
+                            }
+                        } else {
+                            setUpAddPaymentLayout()
+                            activity.showToast("Something went Wrong", requireContext())
+                        }
+                    }
+                } catch (e: JSONException) {
+                    Timber.e(e.toString())
+                    e.printStackTrace()
+                    setUpAddPaymentLayout()
+                }
+            }, Response.ErrorListener { error: VolleyError ->
+                setUpAddPaymentLayout()
+                val networkResponse = error.networkResponse
+                if (networkResponse?.data != null) {
+                    val jsonError = String(networkResponse.data)
+                    // Print Error!
+                    Timber.e(jsonError)
+                    try {
+                        val jsonObject = JSONObject(jsonError)
+                        val jsonObjectError = jsonObject.getJSONObject("error")
+                        if (jsonObjectError.has("error_code") && !jsonObjectError.isNull("error_code")) {
+                            if (ConstantKey.NO_PAYMENT_METHOD == jsonObjectError.getString("error_code")) {
+                                return@ErrorListener
+                            }
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+                Timber.e(error.toString())
+                activity.errorHandle1(error.networkResponse)
+            }) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val map1: MutableMap<String, String> = HashMap()
+                    map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                    map1["Content-Type"] = "application/x-www-form-urlencoded"
+                    map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    // map1.put("X-Requested-With", "XMLHttpRequest");
+                    return map1
+                }
+            }
+            stringRequest.retryPolicy = DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            val requestQueue = Volley.newRequestQueue(requireContext())
+            requestQueue.add(stringRequest)
+        }
 
     fun onClose() {
         coupon = null
-       // if (addCouponFragment != null) addCouponFragment!!.dismiss()
+        // if (addCouponFragment != null) addCouponFragment!!.dismiss()
     }
 
     companion object {

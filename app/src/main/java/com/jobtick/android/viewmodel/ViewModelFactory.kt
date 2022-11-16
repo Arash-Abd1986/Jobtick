@@ -2,14 +2,13 @@ package com.jobtick.android.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.coroutines.MainRepository
 import com.jobtick.android.viewmodel.home.PaymentOverviewViewModel
 
 class ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-
+    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return when {
             modelClass.isAssignableFrom(JobDetailsViewModel::class.java) -> {
                 JobDetailsViewModel(MainRepository(apiHelper)) as T

@@ -23,6 +23,7 @@ import com.jobtick.android.activities.RescheduleTimeRequestActivity
 import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.cancellations.CancellationPosterActivity
 import com.jobtick.android.cancellations.CancellationWorkerActivity
+import com.jobtick.android.fragments.IncreaseBudgetNoticeBottomSheet
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
@@ -32,7 +33,7 @@ import com.jobtick.android.viewmodel.JobDetailsViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 
 
-class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener, RescheduleNoticeFragment.NoticeListener {
+class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener, RescheduleNoticeFragment.NoticeListener, IncreaseBudgetNoticeBottomSheet.NoticeListener {
     lateinit var navController: NavController
     lateinit var viewModel: JobDetailsViewModel
     private lateinit var sessionManager: SessionManager
@@ -70,15 +71,18 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         navController = navHostFragment!!.navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
             linTitle.visible()
-            close.visible()
+            close.invisible()
             when (destination.id) {
-                R.id.jobDetailsTicketViewerFragment -> {
+                R.id.jobDetailsPosterFragment -> {
                     title.text = "Job Details"
                 }
                 R.id.increaseBudgetBottomSheet -> {
                     linTitle.gone()
                 }
                 R.id.rescheduleNoticeBottomSheetState -> {
+                    linTitle.gone()
+                }
+                R.id.increaseBudgetNoticeBottomSheet -> {
                     linTitle.gone()
                 }
             }
@@ -146,11 +150,11 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         viewModel = ViewModelProvider(
                 this,
                 ViewModelFactory(ApiHelper(ApiClient.getClient()))
-        ).get(JobDetailsViewModel::class.java)
+        )[JobDetailsViewModel::class.java]
         eventsViewModel = ViewModelProvider(
                 this,
                 ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
-        ).get(EventsViewModel::class.java)
+        )[EventsViewModel::class.java]
         viewModel.getTaskModel(applicationContext, strSlug, sessionManager.tokenType, sessionManager.accessToken, sessionManager.userAccount.id)
         viewModel.geTaskModelResponse().observe(this) { taskModel ->
             setOwnerTask(taskModel = taskModel)
@@ -165,12 +169,14 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         if (taskModel.poster.id == sessionManager.userAccount.id) {
             isUserThePoster = true
             isUserTheTicker = false
+            viewModel.userType = JobDetailsViewModel.UserType.POSTER
         } else {
             if (taskModel.worker != null) {
                 if (taskModel.worker.id == sessionManager.userAccount.id) {
                     isUserThePoster = false
                     isUserTheTicker = true
                     noActionAvailable = false
+                    viewModel.userType = JobDetailsViewModel.UserType.TICKER
                 } else {
                     noActionAvailable = true
                     isUserTheTicker = false
@@ -179,6 +185,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                 isUserThePoster = false
                 isUserTheTicker = false
                 noActionAvailable = false
+                viewModel.userType = JobDetailsViewModel.UserType.VIEWER
             }
         }
         setTickerViewerMode()
@@ -189,10 +196,8 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                 supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
         val inflater = navHostFragment?.navController?.navInflater
         val graph = inflater?.inflate(R.navigation.job_details_graph)
-        if (isUserThePoster)
-            graph?.startDestination = R.id.jobDetailsPosterFragment
-        else
-            graph?.startDestination = R.id.jobDetailsTicketViewerFragment
+        graph?.setStartDestination(R.id.jobDetailsPosterFragment)
+
         navHostFragment?.navController?.graph = graph!!
     }
 
@@ -221,6 +226,16 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
     }
 
     override fun onRescheduleWithDraw() {
+    }
+
+    override fun onIncreaseBudgetAcceptClick() {
+
+    }
+
+    override fun onIncreaseBudgetRejectClick() {
+    }
+
+    override fun onIncreaseBudgetWithDrawClick() {
     }
 
 }

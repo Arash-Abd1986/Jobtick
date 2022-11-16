@@ -13,15 +13,23 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.DatePicker
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.android.volley.NetworkResponse
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
+import com.jobtick.android.network.coroutines.ApiHelper
+import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.payment.AddCreditCard
 import com.jobtick.android.payment.AddCreditCardImpl
 import com.jobtick.android.utils.*
+import com.jobtick.android.viewmodel.ViewModelFactory
+import com.jobtick.android.viewmodel.home.PaymentOverviewViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.*
 
 class CreditCardReqFragment : Fragment(), TextWatcher {
@@ -36,6 +44,7 @@ class CreditCardReqFragment : Fragment(), TextWatcher {
     private var expYear = 0
     private var addCreditCard: AddCreditCard? = null
     private var sessionManager: SessionManager? = null
+    lateinit var viewModel: PaymentOverviewViewModel
 
     var mDateSetListener: DatePickerDialog.OnDateSetListener? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,8 +99,10 @@ class CreditCardReqFragment : Fragment(), TextWatcher {
         }
         addCreditCard = object : AddCreditCardImpl(requireContext(), sessionManager) {
             override fun onSuccess() {
+                viewModel.setIsCardDeletedByMe(false)
                 (requireActivity() as ActivityBase).hideProgressDialog()
-                goNext()
+                requireActivity().onBackPressed()
+                //goNext()
             }
 
             override fun onError(e: Exception) {
@@ -110,9 +121,12 @@ class CreditCardReqFragment : Fragment(), TextWatcher {
             }
         }
         btnAddCard.isEnabled = false
+        initVm()
         //        setupCardTypes();
     }
-
+    private fun initVm() {
+        viewModel = ViewModelProvider(requireActivity(), ViewModelFactory(ApiHelper(ApiClient.getClient()))).get(PaymentOverviewViewModel::class.java)
+    }
     private fun setupCardTypes() {
         edtCardNumber.editText!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}

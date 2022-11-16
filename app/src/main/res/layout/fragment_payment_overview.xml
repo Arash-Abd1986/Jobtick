@@ -250,7 +250,6 @@
                         android:background="@color/neutral_light_50"
                          />
                     <LinearLayout
-                        android:id="@+id/lyt_add_credit_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"

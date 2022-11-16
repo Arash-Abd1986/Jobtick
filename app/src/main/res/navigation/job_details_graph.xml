@@ -10,21 +10,16 @@
         android:name="com.jobtick.android.material.ui.jobdetails.JobDetailsPosterFragment"
         android:label="fragment_job_details_poster"
         tools:layout="@layout/fragment_job_details_poster" >
+
         <action
-            android:id="@+id/action_jobDetailsPosterFragment_to_jobDetailsTicketViewerFragment"
-            app:destination="@id/jobDetailsTicketViewerFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/jobDetailsTicketViewerFragment"
-        android:name="com.jobtick.android.material.ui.jobdetails.JobDetailsTicketViewerFragment"
-        android:label="fragment_job_details_ticket_viewer"
-        tools:layout="@layout/fragment_job_details_ticket_viewer" >
+            android:id="@+id/action_jobDetailsPosterFragment_to_rescheduleNoticeBottomSheetState"
+            app:destination="@id/rescheduleNoticeBottomSheetState" />
         <action
-            android:id="@+id/action_jobDetailsTicketViewerFragment_to_increaseBudgetBottomSheet"
+            android:id="@+id/action_jobDetailsPosterFragment_to_increaseBudgetBottomSheet"
             app:destination="@id/increaseBudgetBottomSheet" />
         <action
-            android:id="@+id/action_jobDetailsTicketViewerFragment_to_rescheduleNoticeBottomSheetState"
-            app:destination="@id/rescheduleNoticeBottomSheetState" />
+            android:id="@+id/action_jobDetailsPosterFragment_to_increaseBudgetNoticeBottomSheet"
+            app:destination="@id/increaseBudgetNoticeBottomSheet" />
     </fragment>
     <fragment
         android:id="@+id/increaseBudgetBottomSheet"
@@ -34,4 +29,16 @@
         android:id="@+id/rescheduleNoticeBottomSheetState"
         android:name="com.jobtick.android.material.ui.jobdetails.RescheduleNoticeFragment"
         android:label="RescheduleNoticeBottomSheetState" />
+    <fragment
+        android:id="@+id/increaseBudgetNoticeBottomSheet"
+        android:name="com.jobtick.android.fragments.IncreaseBudgetNoticeBottomSheet"
+        android:label="IncreaseBudgetNoticeBottomSheet" >
+        <argument
+            android:name="taskModel"
+            app:argType="com.jobtick.android.models.TaskModel" />
+        <argument
+            android:name="isMine"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
 </navigation>

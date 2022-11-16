@@ -15,6 +15,10 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
@@ -23,6 +27,8 @@ import com.jobtick.android.activities.RescheduleTimeRequestActivity
 import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.cancellations.CancellationPosterActivity
 import com.jobtick.android.cancellations.CancellationWorkerActivity
+import com.jobtick.android.fragments.ConfirmAskToReleaseBottomSheet
+import com.jobtick.android.fragments.ConfirmReleaseBottomSheet.NoticeListener
 import com.jobtick.android.fragments.IncreaseBudgetNoticeBottomSheet
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.network.coroutines.ApiHelper
@@ -31,9 +37,13 @@ import com.jobtick.android.utils.*
 import com.jobtick.android.viewmodel.EventsViewModel
 import com.jobtick.android.viewmodel.JobDetailsViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
+import org.json.JSONException
+import org.json.JSONObject
+import timber.log.Timber
 
 
-class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener, RescheduleNoticeFragment.NoticeListener, IncreaseBudgetNoticeBottomSheet.NoticeListener {
+class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener,
+        RescheduleNoticeFragment.NoticeListener, IncreaseBudgetNoticeBottomSheet.NoticeListener, ConfirmAskToReleaseBottomSheet.NoticeListener, NoticeListener {
     lateinit var navController: NavController
     lateinit var viewModel: JobDetailsViewModel
     private lateinit var sessionManager: SessionManager
@@ -134,7 +144,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         report.setOnClickListener {
             val bundleReport = Bundle()
             val intentReport = Intent(applicationContext, ReportActivity::class.java)
-            bundleReport.putString(ConstantKey.SLUG, TaskDetailsActivity.taskModel!!.slug)
+            bundleReport.putString(ConstantKey.SLUG, taskModel!!.slug)
             bundleReport.putString("key", ConstantKey.KEY_TASK_REPORT)
             intentReport.putExtras(bundleReport)
             startActivity(intentReport)
@@ -157,6 +167,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         )[EventsViewModel::class.java]
         viewModel.getTaskModel(applicationContext, strSlug, sessionManager.tokenType, sessionManager.accessToken, sessionManager.userAccount.id)
         viewModel.geTaskModelResponse().observe(this) { taskModel ->
+            hideProgressDialog()
             setOwnerTask(taskModel = taskModel)
             options.setOnClickListener {
                 setToolbarWindow(taskModel)
@@ -236,6 +247,150 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
     }
 
     override fun onIncreaseBudgetWithDrawClick() {
+    }
+
+    override fun onReleaseConfirmClick() {
+        submitReleaseMoney()
+        
+    }
+
+    override fun onAskToReleaseConfirmClick() {
+        submitAskToReleaseMoney()
+    }
+
+    private fun submitAskToReleaseMoney() {
+        showProgressDialog()
+        val stringRequest: StringRequest = object :
+                StringRequest(
+                        Method.POST, Constant.URL_TASKS + "/" + viewModel.geTaskModelResponse().value!!.slug + "/complete",
+                        com.android.volley.Response.Listener { response: String? ->
+                            Timber.e(response)
+                            try {
+                                val jsonObject = JSONObject(response!!)
+                                Timber.e(jsonObject.toString())
+                                if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                                    viewModel.getTaskModel(applicationContext, strSlug, sessionManager.tokenType, sessionManager.accessToken, sessionManager.userAccount.id)
+                                } else {
+                                    hideProgressDialog()
+                                    showToast(
+                                            getString(R.string.server_went_wrong),
+                                            this@JobDetailsActivity
+                                    )
+                                }
+                            } catch (e: JSONException) {
+                                hideProgressDialog()
+                                e.printStackTrace()
+                            }
+                        },
+                        com.android.volley.Response.ErrorListener { error: VolleyError ->
+                            val networkResponse = error.networkResponse
+                            if (networkResponse != null && networkResponse.data != null) {
+                                val jsonError = String(networkResponse.data)
+                                // Print Error!
+                                Timber.e(jsonError)
+                                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                                    unauthorizedUser()
+                                    hideProgressDialog()
+                                    return@ErrorListener
+                                }
+                                hideProgressDialog()
+                                try {
+                                    val jsonObject = JSONObject(jsonError)
+                                    val jsonObject_error = jsonObject.getJSONObject("error")
+                                    if (jsonObject_error.has("message")) {
+                                        showToast(jsonObject_error.getString("message"), this)
+                                    }
+                                } catch (e: JSONException) {
+                                    e.printStackTrace()
+                                }
+                            } else {
+                                showToast("Something Went Wrong", this@JobDetailsActivity)
+                            }
+                            Timber.e(error.toString())
+                            hideProgressDialog()
+                        }
+                ) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                return map1
+            }
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        val requestQueue = Volley.newRequestQueue(this@JobDetailsActivity)
+        requestQueue.add(stringRequest)
+    }
+    private fun submitReleaseMoney() {
+        showProgressDialog()
+        val stringRequest: StringRequest = object :
+                StringRequest(
+                        Method.POST, Constant.URL_TASKS + "/" + viewModel.geTaskModelResponse().value!!.slug + "/close",
+                        com.android.volley.Response.Listener { response: String? ->
+                            Timber.e(response)
+                            try {
+                                val jsonObject = JSONObject(response!!)
+                                Timber.e(jsonObject.toString())
+                                if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                                    viewModel.getTaskModel(applicationContext, strSlug, sessionManager.tokenType, sessionManager.accessToken, sessionManager.userAccount.id)
+                                } else {
+                                    hideProgressDialog()
+                                    showToast(
+                                            getString(R.string.server_went_wrong),
+                                            this@JobDetailsActivity
+                                    )
+                                }
+                            } catch (e: JSONException) {
+                                hideProgressDialog()
+                                e.printStackTrace()
+                            }
+                        },
+                        com.android.volley.Response.ErrorListener { error: VolleyError ->
+                            val networkResponse = error.networkResponse
+                            if (networkResponse != null && networkResponse.data != null) {
+                                val jsonError = String(networkResponse.data)
+                                // Print Error!
+                                Timber.e(jsonError)
+                                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                                    unauthorizedUser()
+                                    hideProgressDialog()
+                                    return@ErrorListener
+                                }
+                                hideProgressDialog()
+                                try {
+                                    val jsonObject = JSONObject(jsonError)
+                                    val jsonObject_error = jsonObject.getJSONObject("error")
+                                    if (jsonObject_error.has("message")) {
+                                        showToast(jsonObject_error.getString("message"), this)
+                                    }
+
+                                    //  ((CredentialActivity)requireActivity()).showToast(message,requireActivity());
+                                } catch (e: JSONException) {
+                                    e.printStackTrace()
+                                }
+                            } else {
+                                showToast("Something Went Wrong", this@JobDetailsActivity)
+                            }
+                            Timber.e(error.toString())
+                            hideProgressDialog()
+                        }
+                ) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                return map1
+            }
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        val requestQueue = Volley.newRequestQueue(this@JobDetailsActivity)
+        requestQueue.add(stringRequest)
     }
 
 }

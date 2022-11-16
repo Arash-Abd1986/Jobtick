@@ -27,6 +27,8 @@ import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.*
+import com.jobtick.android.fragments.ConfirmAskToReleaseBottomSheet
+import com.jobtick.android.fragments.ConfirmReleaseBottomSheet
 import com.jobtick.android.fragments.IncreaseBudgetNoticeBottomSheet
 import com.jobtick.android.fragments.WithdrawBottomSheet
 import com.jobtick.android.models.*
@@ -73,7 +75,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private var jobState = JobState.MAKE_AN_OFFER
 
     private enum class JobState {
-        MAKE_AN_OFFER, VIEW_OFFER_LIST, VIEW_MY_OFFER
+        MAKE_AN_OFFER, VIEW_OFFER_LIST, VIEW_MY_OFFER, SUBMIT_RELEASE_MONEY
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -137,10 +139,39 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
                     JobState.MAKE_AN_OFFER -> makeAnOffer(taskModel)
                     JobState.VIEW_MY_OFFER -> viewMyOffer(taskModel)
                     JobState.VIEW_OFFER_LIST -> showOfferList(taskModel)
+                    JobState.SUBMIT_RELEASE_MONEY -> showCustomDialogAskToReleaseMoney(taskModel)
                 }
 
             }
         }
+    }
+
+    private fun showCustomDialogAskToReleaseMoney(taskModel: TaskModel) {
+        if (taskModel.additionalFund != null && taskModel.additionalFund.status == "pending") {
+            activity.showToast(
+                    "Increase price request already pending. You either delete or wait for poster response on that.",
+                    requireContext()
+            )
+            return
+        }
+        if (taskModel.rescheduleReqeust != null && taskModel.rescheduleReqeust.size > 0) {
+            for (i in taskModel.rescheduleReqeust.indices) {
+                if (taskModel.rescheduleReqeust[i].status == "pending") {
+                    if (taskModel.status.lowercase(Locale.getDefault()) != Constant.TASK_CANCELLED && taskModel.status.lowercase(Locale.getDefault()) != Constant.TASK_CLOSED) {
+                        if (viewModel.userType == JobDetailsViewModel.UserType.TICKER || viewModel.userType == JobDetailsViewModel.UserType.POSTER) {
+                            activity.showToast(
+                                    "Reschedule time request already pending. You either delete or wait for poster response on that.",
+                                    requireContext()
+                            )
+                            return
+                        }
+                    }
+                }
+            }
+        }
+        val fragmentManager = parentFragmentManager
+        val dialog = ConfirmAskToReleaseBottomSheet(requireContext())
+        dialog.show(fragmentManager, "")
     }
 
     private fun viewMyOffer(taskModel: TaskModel) {
@@ -151,14 +182,68 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private fun changeViewByStatus(taskModel: TaskModel) {
         when (taskModel.status) {
             "assigned" -> {
-                linNext.gone()
                 offerCount.gone()
                 taskStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_400))
                 checkRescheduleRequest(taskModel)
                 initIncreaseBudget(taskModel)
+                if (viewModel.userType == JobDetailsViewModel.UserType.TICKER) {
+                    linNext.visible()
+                    btnNext.text = "Ask for payment"
+                    jobState = JobState.SUBMIT_RELEASE_MONEY
+                    budget.gone()
+                } else {
+                    linNext.gone()
+                }
+            }
+            "completed" -> {
+                linNext.gone()
+                taskStatus.text = "Ticked"
+                offerCount.gone()
+                taskStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_400))
+                if (viewModel.userType == JobDetailsViewModel.UserType.POSTER) {
+                    showConfirmReleaseCard(taskModel)
+                } else if (viewModel.userType == JobDetailsViewModel.UserType.TICKER){
+                    showAskToReleaseCard(taskModel)
+                }
             }
         }
+    }
 
+    private fun showAskToReleaseCard(taskModel: TaskModel) {
+        linMessage.visible()
+        msgBody.text = Html.fromHtml(
+                "You have requested to release money on this job on <b>" +
+                        TimeHelper.convertToShowTimeFormat(taskModel.conversation.task.completedAt) + "</b>"
+        )
+        msgHeader.text = "Release Money Request"
+        msgAction.gone()
+        msgIcon.setImageResource(R.drawable.ic_payment_setting)
+        msgIcon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.primary_500))
+    }
+
+    private fun showConfirmReleaseCard(taskModel: TaskModel) {
+        linMessage.visible()
+        val whoRequestToReleaseMoney = taskModel.worker.name
+
+        msgBody.text = Html.fromHtml(
+                "<b>" + whoRequestToReleaseMoney + "</b> " +
+                        " have requested to release money on this job on <b>" +
+                        TimeHelper.convertToShowTimeFormat(taskModel.conversation.task.completedAt) + "</b>"
+        )
+        msgHeader.text = "Release Money Request"
+        msgIcon.setImageResource(R.drawable.ic_payment_setting)
+        msgIcon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.primary_500))
+        msgAction.text = "View request"
+        msgAction.setOnClickListener {
+            showCustomDialogReleaseMoney()
+        }
+
+    }
+
+    private fun showCustomDialogReleaseMoney() {
+        val fragmentManager = parentFragmentManager
+        val dialog = ConfirmReleaseBottomSheet(requireContext())
+        dialog.show(fragmentManager, "")
     }
 
     private fun initIncreaseBudget(taskModel: TaskModel) {
@@ -169,7 +254,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
 
     var isIncreaseBudgetRequestForMine = false
     var isRescheduledRequestForMine = false
-    
+
     private fun showIncreaseBudgetCard(taskModel: TaskModel) {
         var increaseRequestByWho = ""
         val requesterId = taskModel.additionalFund.requesterId

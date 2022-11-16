@@ -40,6 +40,7 @@ import com.jobtick.android.activities.SearchTaskActivity
 import com.jobtick.android.activities.TaskCreateActivity
 import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.adapers.TaskListAdapterV2
+import com.jobtick.android.material.ui.jobdetails.JobDetailsActivity
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.models.response.myjobs.Data
 import com.jobtick.android.models.response.myjobs.MyJobsResponse
@@ -514,7 +515,7 @@ class MyTasksFragment :
         ) {
             getDataFromServer(obj.slug)
         } else {
-            val intent = Intent(dashboardActivity, TaskDetailsActivity::class.java)
+            val intent = Intent(dashboardActivity, JobDetailsActivity::class.java)
             val bundle = Bundle()
             bundle.putString(ConstantKey.SLUG, obj.slug)
             //   bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());

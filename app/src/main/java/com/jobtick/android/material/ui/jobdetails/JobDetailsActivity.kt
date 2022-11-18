@@ -166,6 +166,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                 ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
         )[EventsViewModel::class.java]
         viewModel.getTaskModel(applicationContext, strSlug, sessionManager.tokenType, sessionManager.accessToken, sessionManager.userAccount.id)
+        showProgressDialog()
         viewModel.geTaskModelResponse().observe(this) { taskModel ->
             hideProgressDialog()
             setOwnerTask(taskModel = taskModel)

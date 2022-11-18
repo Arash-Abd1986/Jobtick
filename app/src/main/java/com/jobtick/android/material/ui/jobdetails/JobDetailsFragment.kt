@@ -63,6 +63,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private lateinit var msgBody: MaterialTextView
     private lateinit var icChat: AppCompatImageView
     private lateinit var msgIcon: AppCompatImageView
+    private lateinit var icLocation: AppCompatImageView
     private lateinit var linMessage: LinearLayout
     private lateinit var btnNext: MaterialButton
     lateinit var viewModel: JobDetailsViewModel
@@ -71,6 +72,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private lateinit var sessionManager: SessionManager
     private lateinit var activity: JobDetailsActivity
     private lateinit var linNext: LinearLayout
+    private lateinit var linAttachmentsTitle: LinearLayout
     private var isAllMedias = false
     private var jobState = JobState.MAKE_AN_OFFER
 
@@ -181,6 +183,9 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
 
     private fun changeViewByStatus(taskModel: TaskModel) {
         when (taskModel.status) {
+            "open" -> {
+
+            }
             "assigned" -> {
                 offerCount.gone()
                 taskStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_400))
@@ -202,7 +207,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
                 taskStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_400))
                 if (viewModel.userType == JobDetailsViewModel.UserType.POSTER) {
                     showConfirmReleaseCard(taskModel)
-                } else if (viewModel.userType == JobDetailsViewModel.UserType.TICKER){
+                } else if (viewModel.userType == JobDetailsViewModel.UserType.TICKER) {
                     showAskToReleaseCard(taskModel)
                 }
             }
@@ -367,7 +372,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private fun showOfferList(taskModel: TaskModel) {
         val i = Intent(requireContext(), OfferListActivity::class.java)
         val bundle = Bundle()
-        bundle.putParcelable(ConstantKey.TASK, taskModel)
+        bundle.putParcelableArrayList(ConstantKey.TASK, taskModel.offers)
         bundle.putBoolean(IS_USER_THE_POSTER, true)
         i.putExtras(bundle)
         startActivity(i)
@@ -398,6 +403,10 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     }
 
     private fun setMediaList(attachments: ArrayList<AttachmentModel>) {
+        if (attachments.size == 0)
+            linAttachmentsTitle.gone()
+        else
+            linAttachmentsTitle.visible()
         if (isAllMedias) {
             mediaAdapter.addItems(attachments.toV2(), !isAllMedias)
             isAllMedias = false
@@ -427,8 +436,12 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private fun setTaskLocation(taskModel: TaskModel) {
         if (taskModel.taskType == "physical" && taskModel.location != null) {
             location.text = taskModel.location
+            direction.visible()
+            icLocation.setImageResource(R.drawable.ic_location_v6)
         } else {
-            location.text = "Remote job"
+            location.text = "Remote"
+            direction.gone()
+            icLocation.setImageResource(R.drawable.ic_remote_v6)
         }
     }
 
@@ -481,6 +494,8 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
         msgIcon = requireView().findViewById(R.id.msg_icon)
         linNext = requireView().findViewById(R.id.linNext)
         linMessage = requireView().findViewById(R.id.lin_message)
+        icLocation = requireView().findViewById(R.id.icLocation)
+        linAttachmentsTitle = requireView().findViewById(R.id.linAttachmentsTitle)
     }
 
     private fun makeAnOffer(taskModel: TaskModel) {

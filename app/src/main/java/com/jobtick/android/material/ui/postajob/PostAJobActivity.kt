@@ -61,6 +61,7 @@ class PostAJobActivity : ActivityBase() {
     private lateinit var draftResponse: DraftResponse
     private lateinit var close: AppCompatImageView
     private lateinit var back: AppCompatImageView
+    private lateinit var options: AppCompatImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +80,8 @@ class PostAJobActivity : ActivityBase() {
         title = findViewById(R.id.title)
         close = findViewById(R.id.close)
         back = findViewById(R.id.back)
+        options = findViewById(R.id.options)
+        options.gone()
         back.setOnClickListener {
             navController.popBackStack()
         }

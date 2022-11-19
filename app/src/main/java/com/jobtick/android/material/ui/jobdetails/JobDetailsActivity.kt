@@ -20,11 +20,9 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.textview.MaterialTextView
+import com.google.gson.Gson
 import com.jobtick.android.R
-import com.jobtick.android.activities.ActivityBase
-import com.jobtick.android.activities.ReportActivity
-import com.jobtick.android.activities.RescheduleTimeRequestActivity
-import com.jobtick.android.activities.TaskDetailsActivity
+import com.jobtick.android.activities.*
 import com.jobtick.android.cancellations.CancellationPosterActivity
 import com.jobtick.android.cancellations.CancellationWorkerActivity
 import com.jobtick.android.fragments.ConfirmAskToReleaseBottomSheet
@@ -116,6 +114,16 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         val reschedule = view.findViewById<View>(R.id.reschedule) as TextView
         val cancellation = view.findViewById<View>(R.id.cancellation) as TextView
         val report = view.findViewById<View>(R.id.report) as TextView
+        val jobReceipt = view.findViewById<View>(R.id.jobReceipt) as TextView
+        jobReceipt.setOnClickListener {
+            intent = Intent(this@JobDetailsActivity, JobReceiptActivity::class.java)
+            val bundle = Bundle()
+            bundle.putBoolean(ConstantKey.IS_MY_TASK, isUserThePoster)
+            bundle.putString(ConstantKey.TASK_SLUG, taskModel.slug)
+            intent.putExtras(bundle)
+            startActivity(intent)
+            popupWindow!!.dismiss()
+        }
         increasePrice.setOnClickListener {
             navController.navigate(R.id.increaseBudgetBottomSheet)
             popupWindow!!.dismiss()
@@ -136,7 +144,9 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                 Intent(applicationContext, CancellationWorkerActivity::class.java)
             }
             val bundle = Bundle()
-            bundle.putString(ConstantKey.SLUG, taskModel.slug)
+            var gson = Gson()
+            var jsonString = gson.toJson(taskModel)
+            bundle.putString(ConstantKey.TASK, jsonString)
             intent.putExtras(bundle)
             startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION)
             popupWindow!!.dismiss()
@@ -144,7 +154,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         report.setOnClickListener {
             val bundleReport = Bundle()
             val intentReport = Intent(applicationContext, ReportActivity::class.java)
-            bundleReport.putString(ConstantKey.SLUG, taskModel!!.slug)
+            bundleReport.putString(ConstantKey.SLUG, taskModel.slug)
             bundleReport.putString("key", ConstantKey.KEY_TASK_REPORT)
             intentReport.putExtras(bundleReport)
             startActivity(intentReport)
@@ -167,8 +177,10 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         )[EventsViewModel::class.java]
         viewModel.getTaskModel(applicationContext, strSlug, sessionManager.tokenType, sessionManager.accessToken, sessionManager.userAccount.id)
         showProgressDialog()
+        linTitle.invisible()
         viewModel.geTaskModelResponse().observe(this) { taskModel ->
             hideProgressDialog()
+            linTitle.visible()
             setOwnerTask(taskModel = taskModel)
             options.setOnClickListener {
                 setToolbarWindow(taskModel)

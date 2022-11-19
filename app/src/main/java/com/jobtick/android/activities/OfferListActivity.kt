@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.jobtick.android.R
 import com.jobtick.android.adapers.OfferListAdapterV2
 import com.jobtick.android.fragments.OfferBottomSheet
@@ -30,7 +31,8 @@ class OfferListActivity : ActivityBase(), OfferListAdapterV2.OnItemClickListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offer_list)
         val bundle = intent.extras
-        taskModel = bundle!!.getParcelable(ConstantKey.TASK)
+        val gson = Gson()
+        taskModel =  gson.fromJson(bundle!!.getString(ConstantKey.TASK), TaskModel::class.java)
         isUserThePoster = bundle.getBoolean(IS_USER_THE_POSTER)
         initIDS()
         initComponents()

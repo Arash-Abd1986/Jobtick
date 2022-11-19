@@ -29,7 +29,6 @@ import com.jobtick.android.R
 import com.jobtick.android.activities.*
 import com.jobtick.android.fragments.ConfirmAskToReleaseBottomSheet
 import com.jobtick.android.fragments.ConfirmReleaseBottomSheet
-import com.jobtick.android.fragments.IncreaseBudgetNoticeBottomSheet
 import com.jobtick.android.fragments.WithdrawBottomSheet
 import com.jobtick.android.models.*
 import com.jobtick.android.models.response.conversationinfo.GetConversationInfoResponse
@@ -55,11 +54,12 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private lateinit var budget: MaterialTextView
     private lateinit var direction: MaterialTextView
     private lateinit var title: MaterialTextView
-    private lateinit var posterName: MaterialTextView
+    private lateinit var name: MaterialTextView
     private lateinit var seeAll: MaterialTextView
     private lateinit var description: MaterialTextView
     private lateinit var msgHeader: MaterialTextView
     private lateinit var msgAction: MaterialTextView
+    private lateinit var txtRoleTitle: MaterialTextView
     private lateinit var msgBody: MaterialTextView
     private lateinit var icChat: AppCompatImageView
     private lateinit var msgIcon: AppCompatImageView
@@ -112,7 +112,6 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
             taskStatus.text = taskModel.status
             offerCount.text = getOfferCount(taskModel.offerCount)
             pDatetime.text = taskModel.createdAt
-            posterName.text = taskModel.poster.name
             setMoreLess(description, taskModel.description, 3)
             setTaskLocation(taskModel)
             setMedias(taskModel.attachments)
@@ -183,8 +182,24 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
 
     private fun changeViewByStatus(taskModel: TaskModel) {
         when (taskModel.status) {
-            "open" -> {
-
+            "closed" -> {
+                linMessage.visible()
+                linNext.gone()
+                offerCount.gone()
+                taskStatus.text = "Ticked"
+                msgHeader.text = "Congrats! Job Ticked"
+                msgBody.text = "Ticker has successfully completed your job."
+                msgIcon.setImageResource(R.drawable.ic_check_circle)
+                msgIcon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.feedback))
+                msgAction.gone()
+                linMessage.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.feedback_light))
+                if (viewModel.userType == JobDetailsViewModel.UserType.POSTER) {
+                    name.text = taskModel.worker.name
+                    txtRoleTitle.text = "Ticked by"
+                } else {
+                    name.text = taskModel.poster.name
+                    txtRoleTitle.text = "Ticked by"
+                }
             }
             "assigned" -> {
                 offerCount.gone()
@@ -196,7 +211,11 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
                     btnNext.text = "Ask for payment"
                     jobState = JobState.SUBMIT_RELEASE_MONEY
                     budget.gone()
+                    name.text = taskModel.poster.name
+                    txtRoleTitle.text = "Post by"
                 } else {
+                    name.text = taskModel.worker.name
+                    txtRoleTitle.text = "Assigned to"
                     linNext.gone()
                 }
             }
@@ -370,9 +389,11 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     }
 
     private fun showOfferList(taskModel: TaskModel) {
+        var gson = Gson()
+        var jsonString = gson.toJson(taskModel)
         val i = Intent(requireContext(), OfferListActivity::class.java)
         val bundle = Bundle()
-        bundle.putParcelableArrayList(ConstantKey.TASK, taskModel.offers)
+        bundle.putString(ConstantKey.TASK, jsonString)
         bundle.putBoolean(IS_USER_THE_POSTER, true)
         i.putExtras(bundle)
         startActivity(i)
@@ -481,7 +502,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
         location = requireView().findViewById(R.id.location)
         direction = requireView().findViewById(R.id.direction)
         title = requireView().findViewById(R.id.title)
-        posterName = requireView().findViewById(R.id.posterName)
+        name = requireView().findViewById(R.id.posterName)
         icChat = requireView().findViewById(R.id.ic_chat)
         btnNext = requireView().findViewById(R.id.btn_next)
         description = requireView().findViewById(R.id.description)
@@ -496,6 +517,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
         linMessage = requireView().findViewById(R.id.lin_message)
         icLocation = requireView().findViewById(R.id.icLocation)
         linAttachmentsTitle = requireView().findViewById(R.id.linAttachmentsTitle)
+        txtRoleTitle = requireView().findViewById(R.id.txt_role_title)
     }
 
     private fun makeAnOffer(taskModel: TaskModel) {

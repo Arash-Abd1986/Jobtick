@@ -72,7 +72,9 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
         ButterKnife.bind(this);
         initToolbar();
         sessionManager = new SessionManager(this);
-        taskModel = TaskDetailsActivity.taskModel;
+        Bundle bundle = getIntent().getExtras();
+        Gson gson = new Gson();
+        taskModel =  gson.fromJson(bundle.getString(ConstantKey.TASK), TaskModel.class);
         str_SLUG = taskModel.getSlug();
         learnMore.setOnClickListener(view ->{
             ExternalIntentHelper.openLink(this, Constant.URL_privacy_policy);

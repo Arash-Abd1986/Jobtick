@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLightGrey"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".cancellations.CancellationWorkerActivity">
 
@@ -21,78 +21,68 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="@dimen/spacing_large"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:orientation="vertical">
 
 
             <com.google.android.material.textview.MaterialTextView
+                style="@style/unknown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/select_one_reason_for_your_request"
+                android:text="REASON FOR CANCELLATION"
+                android:inputType="textCapWords"
                 android:textAppearance="@style/materialText_500_14"
-                android:textColor="@color/N300" />
+                android:textColor="@color/neutral_light_500" />
 
 
             <RadioGroup
                 android:id="@+id/rg_reason_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_reason_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:drawableStart="@drawable/radio_button_selector_size_16"
                     android:button="@null"
-                    android:background="@drawable/rectangle_button_round_corners_outlined_padding12"
-                    android:paddingStart="@dimen/spacing_large"
                     android:text=""
                     android:drawablePadding="12dp"
                     android:layoutDirection="rtl"
-                    android:textAppearance="@style/materialText_W400_14" />
+                    android:textAppearance="@style/caption" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_reason_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:drawableStart="@drawable/radio_button_selector_size_16"
                     android:button="@null"
-                    android:background="@drawable/rectangle_button_round_corners_outlined_padding12"
-                    android:paddingStart="@dimen/spacing_large"
                     android:layoutDirection="rtl"
                     android:text=""
-                    android:textAppearance="@style/materialText_W400_14" />
+                    android:textAppearance="@style/caption" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_reason_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:drawableStart="@drawable/radio_button_selector_size_16"
                     android:button="@null"
-                    android:background="@drawable/rectangle_button_round_corners_outlined_padding12"
-                    android:paddingStart="@dimen/spacing_large"
                     android:layoutDirection="rtl"
                     android:text=""
-                    android:textAppearance="@style/materialText_W400_14" />
+                    android:textAppearance="@style/caption" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rb_reason_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:drawableStart="@drawable/radio_button_selector_size_16"
                     android:button="@null"
-                    android:background="@drawable/rectangle_button_round_corners_outlined_padding12"
-                    android:paddingStart="@dimen/spacing_large"
                     android:layoutDirection="rtl"
                     android:text=""
-                    android:textAppearance="@style/materialText_W400_14" />
+                    android:textAppearance="@style/caption" />
 
             </RadioGroup>
 
@@ -119,7 +109,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="16dp"
                     android:text="You will be charged a Cancellation Fee once the request has been accepted."
                     android:textColor="@color/N300" />
 

@@ -30,9 +30,9 @@ import timber.log.Timber
 import java.util.*
 
 class JobReceiptActivity : ActivityBase() {
-    private lateinit var toolbar: MaterialToolbar
     private lateinit var imgAvatar: CircularImageView
     private lateinit var imgVerifiedAccount: ImageView
+    private lateinit var back: ImageView
     private lateinit var txtLocation: TextView
     private lateinit var txtFullName: TextView
     private lateinit var jobTitle: TextView
@@ -66,13 +66,11 @@ class JobReceiptActivity : ActivityBase() {
             taskSlug = bundle.getString(ConstantKey.TASK_SLUG)
         }
         checkNotNull(taskSlug) { "need to send taskslug on bundle" }
-        initToolbar()
         init()
         getData(taskSlug!!)
     }
 
     private fun setIDs() {
-        toolbar = findViewById(R.id.toolbar)
         imgAvatar = findViewById(R.id.img_avatar)
         imgVerifiedAccount = findViewById(R.id.img_verified_account)
         txtLocation = findViewById(R.id.txt_location)
@@ -94,6 +92,10 @@ class JobReceiptActivity : ActivityBase() {
         jobTickServiceTitle = findViewById(R.id.job_tick_service_fee_title)
         jobTickGtsValue = findViewById(R.id.job_tick_gts_value)
         jobTickTotalValue = findViewById(R.id.job_tick_total_value)
+        back = findViewById(R.id.back)
+        back.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun init() {
@@ -105,12 +107,6 @@ class JobReceiptActivity : ActivityBase() {
         }
     }
 
-    private fun initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_back)
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = "Job receipt"
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

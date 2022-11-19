@@ -74,26 +74,21 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
 
         for (int i = 0; reasons.size() > i; i++) {
             String reason = reasons.get(i).getReason();
-            if(reason.contains("{poster}"))
-                reason = reason.replace("{poster}", "<b>" + taskModel.getPoster().getName() + "</b>");
-            if(reason.contains("{worker}"))
-                reason = reason.replace("{worker}", "<b>" + taskModel.getWorker().getName() + "</b>");
-
             switch (i) {
                 case 0:
-                    rbReason1.setText(Html.fromHtml(reason));
+                    rbReason1.setText(reason);
                     rbReason1.setTag(reasons.get(i));
                     break;
                 case 1:
-                    rbReason2.setText(Html.fromHtml(reason));
+                    rbReason2.setText(reason);
                     rbReason2.setTag(reasons.get(i));
                     break;
                 case 2:
-                    rbReason3.setText(Html.fromHtml(reason));
+                    rbReason3.setText(reason);
                     rbReason3.setTag(reasons.get(i));
                     break;
                 case 3:
-                    rbReason4.setText(Html.fromHtml(reason));
+                    rbReason4.setText(reason);
                     rbReason4.setTag(reasons.get(i));
                     break;
                 case 4:

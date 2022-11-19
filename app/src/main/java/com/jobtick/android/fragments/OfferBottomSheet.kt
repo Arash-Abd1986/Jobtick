@@ -221,7 +221,7 @@ class OfferBottomSheet(
                 // offerModel = item
                 //isOfferQuestion = "offer"
                 bundle.putBoolean("isPoster", isUserThePoster)
-                bundle.putString("posterID", taskModel.poster.id.toString())
+                bundle.putString("posterID", taskModel.poster!!.id.toString())
                 intent.putExtras(bundle)
                 startActivityForResult(intent, 20)
             }
@@ -241,7 +241,7 @@ class OfferBottomSheet(
                 startActivity(intent)
             }
             action.equals("message", ignoreCase = true) -> {
-                getConversationId(taskModel.slug, item.worker.id.toString())
+                getConversationId(taskModel.slug!!, item.worker.id.toString())
             }
 
             action.equals("profile", ignoreCase = true) -> {

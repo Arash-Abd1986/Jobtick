@@ -14,6 +14,7 @@ import android.text.InputFilter.LengthFilter
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
@@ -32,6 +33,7 @@ import java.util.regex.Pattern
 import kotlin.math.floor
 import kotlin.math.round
 import kotlin.math.roundToInt
+
 
 const val MILLION = 1000000L
 const val BILLION = 1000000000L
@@ -491,5 +493,13 @@ fun TextInputLayout.setDifferentHintOnFocus(hint: String) {
         } else {
             editText!!.hint = ""
         }
+    }
+}
+
+fun View.setMargins(l: Int = 0, t: Int = 0, r: Int = 0, b: Int = 0) {
+    if (layoutParams is MarginLayoutParams) {
+        val p = layoutParams as MarginLayoutParams
+        p.setMargins(l, t, r, b)
+        requestLayout()
     }
 }

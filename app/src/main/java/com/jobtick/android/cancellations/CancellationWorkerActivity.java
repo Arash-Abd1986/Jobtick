@@ -9,8 +9,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.google.android.material.button.MaterialButton;
 import com.jobtick.android.R;
+
 import android.annotation.SuppressLint;
 
 import com.jobtick.android.models.cancellation.reason.CancellationReasonModel;
@@ -24,7 +26,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class CancellationWorkerActivity extends AbstractCancellationReasonsActivity
-        implements RadioGroup.OnCheckedChangeListener{
+        implements RadioGroup.OnCheckedChangeListener {
 
 
     @SuppressLint("NonConstantResourceId")
@@ -71,24 +73,28 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
     public void setReasons(CancellationReasonModel cancellationReasonModel) {
 
         List<Worker> reasons = cancellationReasonModel.getWorker();
+        if (reason.contains("{poster}"))
+            reason = reason.replace("{poster}", "<b>" + taskModel.getPoster().getName() + "</b>");
+        if (reason.contains("{worker}"))
+            reason = reason.replace("{worker}", "<b>" + taskModel.getWorker().getName() + "</b>");
 
         for (int i = 0; reasons.size() > i; i++) {
             String reason = reasons.get(i).getReason();
             switch (i) {
                 case 0:
-                    rbReason1.setText(reason);
+                    rbReason1.setText(Html.fromHtml(reason));
                     rbReason1.setTag(reasons.get(i));
                     break;
                 case 1:
-                    rbReason2.setText(reason);
+                    rbReason2.setText(Html.fromHtml(reason));
                     rbReason2.setTag(reasons.get(i));
                     break;
                 case 2:
-                    rbReason3.setText(reason);
+                    rbReason3.setText(Html.fromHtml(reason));
                     rbReason3.setTag(reasons.get(i));
                     break;
                 case 3:
-                    rbReason4.setText(reason);
+                    rbReason4.setText(Html.fromHtml(reason));
                     rbReason4.setTag(reasons.get(i));
                     break;
                 case 4:
@@ -101,13 +107,13 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
     @Override
     public void onCheckedChanged(RadioGroup group, int id) {
         RadioButton radioButton = group.findViewById(id);
-        Worker selectedReason = ((Worker)radioButton.getTag());
+        Worker selectedReason = ((Worker) radioButton.getTag());
         if (radioButton.isChecked()) {
             reason = radioButton.getText().toString().trim();
-            if(selectedReason.getResponsiblePersonType().equals("worker")){
+            if (selectedReason.getResponsiblePersonType().equals("worker")) {
                 cancellationFee.setText(String.format(Locale.ENGLISH, "-$%s", cancellationFeeValue));
                 cancellationFeeContainer.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 cancellationFeeContainer.setVisibility(View.GONE);
             }
 
@@ -127,7 +133,7 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
         bundle.putInt(CANCELLATION_ID, reasonId);
         bundle.putString(CANCELLATION_REASON, reason);
         bundle.putString(CANCELLATION_COMMENT, str_comment);
-        if(cancellationFeeContainer.getVisibility() == View.VISIBLE)
+        if (cancellationFeeContainer.getVisibility() == View.VISIBLE)
             bundle.putFloat(CANCELLATION_VALUE, cancellationFeeValue);
         bundle.putString(ConstantKey.CANCELLATION_TITLE, generateTitle());
 

@@ -22,130 +22,68 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rounded_back_white_button_active_r8"
             android:orientation="vertical"
-            android:paddingHorizontal="16dp"
+            android:paddingHorizontal="8dp"
             android:paddingVertical="12dp"
             tools:context=".activities.ChatActivity">
 
-            <LinearLayout
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_job_receipt" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/jobReceipt"
-                    style="@style/body1"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="start"
-                    android:text="Job Receipt"
-                    android:textColor="@color/neutral_dark" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/jobReceipt"
+                style="@style/borderlessColoredTextButtonLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Job Receipt"
+                app:icon="@drawable/ic_job_receipt"
+                app:iconPadding="8dp"
+                app:iconTint="@color/material_button_borderless_color_text_v3"
+                android:textColor="@color/material_button_borderless_color_text_v3" />
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="24dp"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/increasePrice"
+                style="@style/borderlessColoredTextButtonLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Increase Price"
+                app:icon="@drawable/ic_dollar_v2"
+                app:iconPadding="8dp"
+                app:iconTint="@color/material_button_borderless_color_text_v3"
+                android:textColor="@color/material_button_borderless_color_text_v3" />
 
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/reschedule"
+                style="@style/borderlessColoredTextButtonLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reschedule Job"
+                app:icon="@drawable/ic_reschedule"
+                app:iconPadding="8dp"
+                app:iconTint="@color/material_button_borderless_color_text_v3"
+                android:textColor="@color/material_button_borderless_color_text_v3" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_dollar_v2" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/increasePrice"
-                    style="@style/body1"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="start"
-                    android:text="Increase Price"
-                    android:textColor="@color/neutral_dark" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancellation"
+                style="@style/borderlessColoredTextButtonLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel Job"
+                app:icon="@drawable/ic_cancellation"
+                app:iconPadding="8dp"
+                app:iconTint="@color/material_button_borderless_color_text_v3"
+                android:textColor="@color/material_button_borderless_color_text_v3" />
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_marginTop="24dp"
-                android:layout_height="match_parent">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/report"
+                style="@style/borderlessColoredTextButtonLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Report"
+                app:icon="@drawable/ic_sms_failed"
+                app:iconPadding="8dp"
+                app:iconTint="@color/material_button_borderless_color_text_v3"
+                android:textColor="@color/material_button_borderless_color_text_v3" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_reschedule" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/reschedule"
-                    style="@style/body1"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="start"
-                    android:text="Reschedule Job"
-                    android:textColor="@color/neutral_dark" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_marginTop="24dp"
-                android:layout_height="match_parent">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_cancellation" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/cancellation"
-                    style="@style/body1"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="start"
-                    android:text="Cancel Job"
-                    android:textColor="@color/neutral_dark" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_marginTop="24dp"
-                android:layout_height="match_parent">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_sms_failed" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/report"
-                    style="@style/body1"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="start"
-                    android:text="Report"
-                    android:textColor="@color/neutral_dark" />
-
-            </LinearLayout>
 
 
         </LinearLayout>

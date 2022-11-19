@@ -1,6 +1,7 @@
 package com.jobtick.android.material.ui.jobdetails
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -19,6 +20,8 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import com.jobtick.android.R
@@ -38,6 +41,8 @@ import com.jobtick.android.viewmodel.ViewModelFactory
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
+import java.util.*
+import kotlin.collections.HashMap
 
 
 class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener,
@@ -110,11 +115,131 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                 true
         )
         popupWindow!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val increasePrice = view.findViewById<View>(R.id.increasePrice) as TextView
-        val reschedule = view.findViewById<View>(R.id.reschedule) as TextView
-        val cancellation = view.findViewById<View>(R.id.cancellation) as TextView
-        val report = view.findViewById<View>(R.id.report) as TextView
-        val jobReceipt = view.findViewById<View>(R.id.jobReceipt) as TextView
+
+        val increasePrice = view.findViewById<View>(R.id.increasePrice) as MaterialButton
+        val reschedule = view.findViewById<View>(R.id.reschedule) as MaterialButton
+        val cancellation = view.findViewById<View>(R.id.cancellation) as MaterialButton
+        val report = view.findViewById<View>(R.id.report) as MaterialButton
+        val jobReceipt = view.findViewById<View>(R.id.jobReceipt) as MaterialButton
+
+        if (isUserThePoster)
+            when (taskModel.status) {
+                "open" -> {
+                    increasePrice.gone()
+                    reschedule.gone()
+                    report.gone()
+                    jobReceipt.gone()
+                    cancellation.setTextColor(getColor(R.color.primary_error))
+                    cancellation.setIconTintResource(R.color.primary_error)
+                    cancellation.setMargins()
+                }
+                "assigned" -> {
+                    if (doWeHaveActiveRequest(taskModel)) {
+                        increasePrice.visible()
+                        increasePrice.isEnabled = false
+                        reschedule.visible()
+                        reschedule.isEnabled = false
+                        jobReceipt.gone()
+                        cancellation.visible()
+                        cancellation.isEnabled = false
+                        report.gone()
+                    } else {
+                        increasePrice.visible()
+                        increasePrice.isEnabled = true
+                        reschedule.visible()
+                        reschedule.isEnabled = true
+                        jobReceipt.gone()
+                        cancellation.visible()
+                        cancellation.isEnabled = true
+                        report.gone()
+                    }
+                }
+                "cancelled" -> {
+                    increasePrice.visible()
+                    increasePrice.isEnabled = false
+                    reschedule.visible()
+                    reschedule.isEnabled = false
+                    jobReceipt.gone()
+                    cancellation.visible()
+                    cancellation.isEnabled = false
+                    report.gone()
+                }
+                "completed", "closed" -> {
+                    increasePrice.gone()
+                    reschedule.gone()
+                    cancellation.gone()
+                    jobReceipt.visible()
+                    report.gone()
+                }
+            }
+        else
+            when (taskModel.status) {
+                "open" -> {
+                    increasePrice.gone()
+                    reschedule.gone()
+                    jobReceipt.gone()
+                    cancellation.gone()
+                    report.setMargins()
+                }
+                "offered" -> {
+                    if (isUserTheTicker) {
+                        increasePrice.visible()
+                        reschedule.visible()
+                        cancellation.visible()
+                        report.visible()
+                        jobReceipt.gone()
+                    } else {
+                        increasePrice.gone()
+                        reschedule.gone()
+                        jobReceipt.gone()
+                        cancellation.gone()
+                        report.visible()
+                        report.setMargins()
+                        jobReceipt.gone()
+                    }
+                }
+                "assigned" -> {
+                    if (doWeHaveActiveRequest(taskModel)) {
+                        increasePrice.visible()
+                        increasePrice.isEnabled = false
+                        reschedule.visible()
+                        reschedule.isEnabled = false
+                        jobReceipt.gone()
+                        cancellation.visible()
+                        cancellation.isEnabled = false
+                        report.visible()
+                    } else {
+                        increasePrice.visible()
+                        increasePrice.isEnabled = true
+                        reschedule.visible()
+                        reschedule.isEnabled = true
+                        jobReceipt.gone()
+                        cancellation.visible()
+                        cancellation.isEnabled = true
+                        report.visible()
+                    }
+                }
+                "cancelled" -> {
+                    increasePrice.visible()
+                    increasePrice.isEnabled = false
+                    reschedule.visible()
+                    reschedule.isEnabled = false
+                    jobReceipt.gone()
+                    cancellation.visible()
+                    cancellation.isEnabled = false
+                    report.gone()
+                }
+                "completed", "closed" -> {
+                    increasePrice.gone()
+                    reschedule.gone()
+                    cancellation.gone()
+                    jobReceipt.visible()
+                    report.visible()
+                }
+            }
+
+
+
         jobReceipt.setOnClickListener {
             intent = Intent(this@JobDetailsActivity, JobReceiptActivity::class.java)
             val bundle = Bundle()
@@ -138,18 +263,28 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
             popupWindow!!.dismiss()
         }
         cancellation.setOnClickListener {
-            val intent: Intent = if (isUserThePoster) {
-                Intent(applicationContext, CancellationPosterActivity::class.java)
-            } else {
-                Intent(applicationContext, CancellationWorkerActivity::class.java)
-            }
-            val bundle = Bundle()
-            var gson = Gson()
-            var jsonString = gson.toJson(taskModel)
-            bundle.putString(ConstantKey.TASK, jsonString)
-            intent.putExtras(bundle)
-            startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION)
             popupWindow!!.dismiss()
+            if (taskModel.status != "open") {
+                val intent: Intent = if (isUserThePoster) {
+                    Intent(applicationContext, CancellationPosterActivity::class.java)
+                } else {
+                    Intent(applicationContext, CancellationWorkerActivity::class.java)
+                }
+                val bundle = Bundle()
+                var gson = Gson()
+                var jsonString = gson.toJson(taskModel)
+                bundle.putString(ConstantKey.TASK, jsonString)
+                intent.putExtras(bundle)
+                startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION)
+            } else {
+                MaterialAlertDialogBuilder(this@JobDetailsActivity)
+                        .setTitle(resources.getString(R.string.title_delete))
+                        .setNegativeButton(resources.getString(R.string.no)) { dialog: DialogInterface, which: Int -> dialog.dismiss() }
+                        .setPositiveButton(resources.getString(R.string.yes)) { dialog: DialogInterface, which: Int ->
+                            dialog.dismiss()
+                            deleteTaskPermanent(TaskDetailsActivity.taskModel!!.slug)
+                        }.show()
+            }
         }
         report.setOnClickListener {
             val bundleReport = Bundle()
@@ -264,7 +399,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
 
     override fun onReleaseConfirmClick() {
         submitReleaseMoney()
-        
+
     }
 
     override fun onAskToReleaseConfirmClick() {
@@ -337,6 +472,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         val requestQueue = Volley.newRequestQueue(this@JobDetailsActivity)
         requestQueue.add(stringRequest)
     }
+
     private fun submitReleaseMoney() {
         showProgressDialog()
         val stringRequest: StringRequest = object :
@@ -404,6 +540,71 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         )
         val requestQueue = Volley.newRequestQueue(this@JobDetailsActivity)
         requestQueue.add(stringRequest)
+    }
+
+    private fun deleteTaskPermanent(slug: String) {
+        showProgressDialog()
+        val stringRequest: StringRequest =
+                object : StringRequest(
+                        Method.POST, Constant.URL_TASKS + "/" + slug + "/cancellation",
+                        com.android.volley.Response.Listener { response: String? ->
+                            Timber.e(response)
+                            try {
+                                val jsonObject = JSONObject(response!!)
+                                if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                                    if (jsonObject.getBoolean("success")) {
+                                        viewModel.getTaskModel(applicationContext, strSlug, sessionManager.tokenType, sessionManager.accessToken, sessionManager.userAccount.id)
+                                        showSuccessToast(
+                                                "Job Cancelled Successfully",
+                                                this@JobDetailsActivity
+                                        )
+                                    } else {
+                                        showToast("Job not cancelled", this@JobDetailsActivity)
+                                    }
+                                } else {
+                                    showToast(
+                                            getString(R.string.server_went_wrong),
+                                            this@JobDetailsActivity
+                                    )
+                                }
+                                hideProgressDialog()
+                            } catch (e: JSONException) {
+                                hideProgressDialog()
+                                e.printStackTrace()
+                            }
+                        },
+                        com.android.volley.Response.ErrorListener { error: VolleyError? -> hideProgressDialog() }
+                ) {
+                    override fun getHeaders(): Map<String, String> {
+                        val map1: MutableMap<String, String> = HashMap()
+                        map1["authorization"] =
+                                sessionManager.tokenType + " " + sessionManager.accessToken
+                        map1["Content-Type"] = "application/json"
+                        map1["X-Requested-With"] = "XMLHttpRequest"
+                        return map1
+                    }
+                }
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        val requestQueue = Volley.newRequestQueue(this@JobDetailsActivity)
+        requestQueue.add(stringRequest)
+    }
+
+
+    private fun doWeHaveActiveRequest(taskModel: TaskModel): Boolean {
+        if (taskModel.rescheduleReqeust != null && taskModel.rescheduleReqeust.size > 0) {
+            for (i in taskModel.rescheduleReqeust.indices) {
+                if (taskModel.rescheduleReqeust[i].status == "pending") {
+                    return true
+                }
+            }
+        }
+        if (taskModel.additionalFund != null && taskModel.additionalFund.status == "pending")
+            return true
+
+        return false
     }
 
 }

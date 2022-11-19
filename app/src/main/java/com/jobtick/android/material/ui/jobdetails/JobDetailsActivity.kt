@@ -30,6 +30,7 @@ import com.jobtick.android.cancellations.CancellationPosterActivity
 import com.jobtick.android.cancellations.CancellationWorkerActivity
 import com.jobtick.android.fragments.ConfirmAskToReleaseBottomSheet
 import com.jobtick.android.fragments.ConfirmReleaseBottomSheet.NoticeListener
+import com.jobtick.android.fragments.IncreaseBudgetDeclineBottomSheet
 import com.jobtick.android.fragments.IncreaseBudgetNoticeBottomSheet
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.network.coroutines.ApiHelper
@@ -379,27 +380,33 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
     }
 
     override fun onSubmitIncreasePrice() {
+        recreate()
     }
 
     override fun onRescheduleTimeAcceptDeclineClick() {
+        recreate()
     }
 
     override fun onRescheduleWithDraw() {
+        recreate()
     }
 
     override fun onIncreaseBudgetAcceptClick() {
-
+        recreate()
     }
 
     override fun onIncreaseBudgetRejectClick() {
+        val fragmentManager = supportFragmentManager
+        val dialog = IncreaseBudgetDeclineBottomSheet.newInstance(viewModel.geTaskModelResponse().value)
+        dialog.show(fragmentManager, "")
     }
 
     override fun onIncreaseBudgetWithDrawClick() {
+        recreate()
     }
 
     override fun onReleaseConfirmClick() {
         submitReleaseMoney()
-
     }
 
     override fun onAskToReleaseConfirmClick() {
@@ -417,7 +424,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                                 val jsonObject = JSONObject(response!!)
                                 Timber.e(jsonObject.toString())
                                 if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                                    viewModel.getTaskModel(applicationContext, strSlug, sessionManager.tokenType, sessionManager.accessToken, sessionManager.userAccount.id)
+                                    recreate()
                                 } else {
                                     hideProgressDialog()
                                     showToast(
@@ -484,7 +491,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                                 val jsonObject = JSONObject(response!!)
                                 Timber.e(jsonObject.toString())
                                 if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                                    viewModel.getTaskModel(applicationContext, strSlug, sessionManager.tokenType, sessionManager.accessToken, sessionManager.userAccount.id)
+                                    recreate()
                                 } else {
                                     hideProgressDialog()
                                     showToast(
@@ -553,7 +560,7 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                                 val jsonObject = JSONObject(response!!)
                                 if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                                     if (jsonObject.getBoolean("success")) {
-                                        viewModel.getTaskModel(applicationContext, strSlug, sessionManager.tokenType, sessionManager.accessToken, sessionManager.userAccount.id)
+                                        recreate()
                                         showSuccessToast(
                                                 "Job Cancelled Successfully",
                                                 this@JobDetailsActivity

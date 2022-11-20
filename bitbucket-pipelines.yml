@@ -1,4 +1,4 @@
-image: androidsdk/android-30
+image: openjdk:11-jdk
 pipelines:
   branches:
     master:

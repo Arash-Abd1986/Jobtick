@@ -1,4 +1,4 @@
-image: androidsdk/android-32
+image: java:11
 pipelines:
   branches:
     master:

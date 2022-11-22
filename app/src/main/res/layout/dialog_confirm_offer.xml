@@ -8,9 +8,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginBottom="24dp"
         android:elevation="16dp"
         app:cardCornerRadius="16dp"
@@ -25,7 +25,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/subtitle2"
+                style="@style/subtitle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
@@ -57,13 +57,11 @@
                     android:gravity="center"
                     android:text="Cancel"
                     android:textColor="@color/primary"
-                    app:iconPadding="16dp" />
+                  />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="34dp"
-                    android:layout_marginTop="@dimen/_8dp"
-                    android:layout_marginBottom="@dimen/_8dp"
                     android:background="@color/neutral_light_100" />
 
                 <com.google.android.material.button.MaterialButton

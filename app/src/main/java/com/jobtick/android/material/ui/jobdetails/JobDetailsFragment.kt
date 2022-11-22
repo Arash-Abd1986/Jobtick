@@ -65,6 +65,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private lateinit var msgIcon: AppCompatImageView
     private lateinit var icLocation: AppCompatImageView
     private lateinit var linMessage: LinearLayout
+    private lateinit var linAvatar: LinearLayout
     private lateinit var btnNext: MaterialButton
     lateinit var viewModel: JobDetailsViewModel
     private lateinit var rlMedias: RecyclerView
@@ -109,13 +110,15 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
         if (taskModel.dueTime != null) {
             setDateTime(taskModel.dueTime, taskModel.dueDate)
             title.text = taskModel.title
-            taskStatus.text = taskModel.status
-            offerCount.text = getOfferCount(taskModel.offerCount)
+            taskStatus.text = taskModel.status.capitalize()
+            offerCount.text = " • " + getOfferCount(taskModel.offerCount)
+            offerCount.setSpanColor(0, 3, resources.getColor(R.color.neutral_light_600))
             pDatetime.text = taskModel.createdAt
             setMoreLess(description, taskModel.description, 3)
             setTaskLocation(taskModel)
             setMedias(taskModel.attachments)
             budget.text = "$${taskModel.budget}"
+            name.text = taskModel.poster.name
             changeViewByStatus(taskModel)
 
 
@@ -182,6 +185,10 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
 
     private fun changeViewByStatus(taskModel: TaskModel) {
         when (taskModel.status) {
+            "open" -> {
+                if (viewModel.userType == JobDetailsViewModel.UserType.POSTER)
+                    linAvatar.gone()
+            }
             "closed" -> {
                 linMessage.visible()
                 linNext.gone()
@@ -487,7 +494,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
             }
         }
         try {
-            date.text = Tools.formatJobDetailsDateV3(Tools.jobDetailsDate(dueDate))
+            date.text = Tools.formatJobDetailsDateV4(Tools.jobDetailsDate(dueDate))
         } catch (e: ParseException) {
             date.text = dueDate
         }
@@ -518,6 +525,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
         icLocation = requireView().findViewById(R.id.icLocation)
         linAttachmentsTitle = requireView().findViewById(R.id.linAttachmentsTitle)
         txtRoleTitle = requireView().findViewById(R.id.txt_role_title)
+        linAvatar = requireView().findViewById(R.id.linAvatar)
     }
 
     private fun makeAnOffer(taskModel: TaskModel) {

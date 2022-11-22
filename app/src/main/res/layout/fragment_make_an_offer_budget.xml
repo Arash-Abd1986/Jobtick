@@ -78,7 +78,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:text="Poster offer"
+                            android:text="Poster Offer"
                             android:textColor="@color/neutral_light_700" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -230,7 +230,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="You’ll receive"
+                                android:text="You’ll Receive"
                                 android:textColor="@color/neutral_light_700" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -268,37 +268,41 @@
                             android:orientation="vertical">
 
                             <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/help"
                                 style="@style/caption"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:lineHeight="20dp"
-                                android:text="Service fee may vary based on your level. Complete more Jobs in-order to upgrade your account and be eligible to pay minimum service fee."
+                                android:text="Service fee may vary based on your level. Complete more Jobs in-order to upgrade your account and be eligible to pay minimum service fee. More information about levels and service fees."
                                 android:textColor="@color/neutral_light_500" />
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/txt_learn_how_level_affects_service_fee"
-                                style="@style/caption"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="More information about levels and service fees."
-                                android:textColor="@color/primary_500" />
                         </LinearLayout>
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_alignParentBottom="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/neutral_light_50" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_next"
-            style="@style/colored"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:enabled="true"
-            android:text="@string/make_an_offer" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_next"
+        style="@style/colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1"
+        android:enabled="false"
+        android:text="Next" />
+</LinearLayout>
+
 
     </RelativeLayout>
 

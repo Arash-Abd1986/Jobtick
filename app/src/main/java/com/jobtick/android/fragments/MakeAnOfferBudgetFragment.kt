@@ -30,6 +30,7 @@ import com.jobtick.android.models.calculation.EarningCalculationModel
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.setSpanColor
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
@@ -41,7 +42,6 @@ class MakeAnOfferBudgetFragment : Fragment() {
     private lateinit var txtServiceFee: TextView
     private lateinit var txtFeeTitle: TextView
     private lateinit var txtFinalBudget: TextView
-    private lateinit var txtLearnHowLevelAffectsServiceFee: TextView
     private lateinit var btnNext: MaterialButton
     private lateinit var tvOffer: TextView
     private var gson: Gson? = null
@@ -54,6 +54,7 @@ class MakeAnOfferBudgetFragment : Fragment() {
     private lateinit var budget: TextInputLayout
     private lateinit var infoIcon: AppCompatImageView
     private lateinit var label: MaterialTextView
+    private lateinit var help: MaterialTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -105,7 +106,6 @@ class MakeAnOfferBudgetFragment : Fragment() {
             val infoBottomSheet = ServiceFeeInfoBottomSheet()
             infoBottomSheet.show(childFragmentManager, null)
         }
-        txtLearnHowLevelAffectsServiceFee.setOnClickListener { v: View? -> }
     }
 
     private fun setIds() {
@@ -113,11 +113,11 @@ class MakeAnOfferBudgetFragment : Fragment() {
         txtFeeTitle = requireView().findViewById(R.id.txt_fee_title)
         txtFinalBudget = requireView().findViewById(R.id.txt_final_budget)
         tvOffer = requireView().findViewById(R.id.tvOffer)
-        txtLearnHowLevelAffectsServiceFee = requireView().findViewById(R.id.txt_learn_how_level_affects_service_fee)
         btnNext = requireView().findViewById(R.id.btn_next)
         budget = requireView().findViewById(R.id.budget)
         infoIcon = requireView().findViewById(R.id.info)
         label = requireView().findViewById(R.id.label)
+        help = requireView().findViewById(R.id.help)
 
 
         budget.editText!!.setOnFocusChangeListener { _, b ->
@@ -162,6 +162,7 @@ class MakeAnOfferBudgetFragment : Fragment() {
             txtFinalBudget.text = String.format(Locale.ENGLISH, "$%.1f", makeAnOfferModel!!.youWillReceive)
         }
         tvOffer.text = String.format(Locale.ENGLISH, "$%d", taskModel!!.budget)
+        help.setSpanColor(help.text.length - 48, help.text.length, resources.getColor(R.color.primary_500))
     }
 
 

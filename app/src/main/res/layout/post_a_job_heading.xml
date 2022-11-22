@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     android:padding="12dp"
     android:id="@+id/linTitle"
     android:gravity="center"
@@ -12,10 +12,10 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/back"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_gravity="center"
-        android:padding="6dp"
+        android:padding="4dp"
         app:srcCompat="@drawable/ic_back_black"
         app:tint="@color/neutral_light_500"
         />
@@ -44,11 +44,11 @@
         />
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/options"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_gravity="center"
         app:iconGravity="start"
-        android:padding="3dp"
+        android:padding="5dp"
         app:srcCompat="@drawable/more_vert"
         />
 </LinearLayout>

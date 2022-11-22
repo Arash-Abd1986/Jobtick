@@ -64,13 +64,17 @@ class MakeAnOfferAboutFragment : Fragment(), View.OnClickListener {
     private lateinit var lytBtnContinue: MaterialButton
     private lateinit var btnTxtOffer: MaterialButton
     private lateinit var gxtGuideLineVideo: TextView
-    private lateinit var toolbar_title: TextView
+    private lateinit var toolbarTitle: TextView
     private lateinit var cardLiveVideo: CardView
     private lateinit var ivBack: ImageView
     private lateinit var imgThumbnail: ImageView
+    private lateinit var info: ImageView
+    private lateinit var refresh: ImageView
+    private lateinit var btnUseQuickOffer: MaterialButton
     private lateinit var LytVideoPlay: RelativeLayout
     private lateinit var viewOffer: RelativeLayout
     private lateinit var llPlayVideo: LinearLayout
+    private lateinit var linQuickOffer: LinearLayout
     private lateinit var bottomSheet: FrameLayout
     private lateinit var llJobDetails: LinearLayout
     private lateinit var llCancelVideo: LinearLayout
@@ -108,12 +112,16 @@ class MakeAnOfferAboutFragment : Fragment(), View.OnClickListener {
         LytVideoPlay = requireView().findViewById(R.id.LytVideoPlay)
         viewOffer = requireView().findViewById(R.id.viewOffer)
         llPlayVideo = requireView().findViewById(R.id.llPlayVideo)
+        linQuickOffer = requireView().findViewById(R.id.linQuickOffer)
         bottomSheet = requireView().findViewById(R.id.bottom_sheet)
         llJobDetails = requireView().findViewById(R.id.llJobDetails)
         llCancelVideo = requireView().findViewById(R.id.llCancelVideo)
         recordVideo = requireView().findViewById(R.id.recordVideo)
         description = requireView().findViewById(R.id.description)
-        toolbar_title = requireView().findViewById(R.id.toolbar_title)
+        toolbarTitle = requireView().findViewById(R.id.toolbar_title)
+        info = requireView().findViewById(R.id.info)
+        refresh = requireView().findViewById(R.id.refresh)
+        btnUseQuickOffer = requireView().findViewById(R.id.btnUseQuickOffer)
     }
 
     private fun setQuickOffer(quickOffer: String?, currentText: String) {
@@ -146,7 +154,7 @@ class MakeAnOfferAboutFragment : Fragment(), View.OnClickListener {
     }
 
     private fun saveQuickOffer(currentQuickOffer: String) {
-        (requireActivity() as ActivityBase).showSuccessToast("Quick offer saved", context)
+        (requireActivity() as ActivityBase).showSuccessToast(if (currentQuickOffer.isEmpty()) "Quick offer saved" else "Quick offer has been updated", context)
         quickOfferDesc.text = String.format(Locale.ENGLISH, "%s...", currentQuickOffer.trim { it <= ' ' }.substring(0, Math.min(currentQuickOffer.trim { it <= ' ' }.length - 1, 19)))
         sessionManager!!.setQuickOffer(currentQuickOffer, sessionManager!!.userAccount.id)
     }
@@ -248,7 +256,9 @@ class MakeAnOfferAboutFragment : Fragment(), View.OnClickListener {
         btnTxtOffer.setOnClickListener {
             viewOffer.visibility = View.VISIBLE
             viewSelection.visibility = View.GONE
-            toolbar_title.text = "Write Text"
+            refresh.visibility = View.VISIBLE
+            info.visibility = View.VISIBLE
+            toolbarTitle.text = "Write Text"
         }
         lytBtnMakeALiveVideo.setOnClickListener {
             // Checking availability of the camera
@@ -296,6 +306,20 @@ class MakeAnOfferAboutFragment : Fragment(), View.OnClickListener {
             val intent = Intent(requireActivity(), VideoPlayerActivity::class.java)
             intent.putExtra(ConstantKey.VIDEO_PATH, Constant.URL_VIDEO_GUIDELINE)
             requireActivity().startActivity(intent)
+        }
+        refresh.setOnClickListener {
+            description.editText!!.setText("")
+        }
+        val QOffer = sessionManager!!.getQuickOffer(sessionManager!!.userAccount.id)
+        linQuickOffer.visibility = if (QOffer.isNullOrBlank()) View.GONE else View.VISIBLE
+        btnUseQuickOffer.setOnClickListener {
+            viewOffer.visibility = View.VISIBLE
+            viewSelection.visibility = View.GONE
+            refresh.visibility = View.VISIBLE
+            info.visibility = View.VISIBLE
+            toolbarTitle.text = "Write Text"
+            loadQuickOffer()
+            description.editText!!.setText(QOffer)
         }
     }
 

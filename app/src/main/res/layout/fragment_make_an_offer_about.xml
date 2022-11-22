@@ -10,33 +10,52 @@
 
     <LinearLayout
         android:id="@+id/toolbar"
-        android:layout_marginStart="16dp"
         android:layout_width="match_parent"
-        android:gravity="center_vertical"
         android:layout_height="?attr/actionBarSize"
+        android:layout_marginStart="16dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivBack"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_gravity="center"
-            android:padding="6dp"
+            android:padding="4dp"
             app:srcCompat="@drawable/ic_back_black"
-            app:tint="@color/neutral_light_500"
-            />
+            app:tint="@color/neutral_light_500" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/toolbar_title"
             style="@style/heading5"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Offer Details"
             android:layout_marginStart="16dp"
-            android:textColor="@color/neutral_light_800"
-            />
+            android:layout_weight="1"
+            android:text="Offer Details"
+            android:textColor="@color/neutral_light_800" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/info"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="16dp"
+            android:padding="2dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_job_info"
+            app:tint="@color/neutral_light_500" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/refresh"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="16dp"
+            android:padding="4dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_refresh"
+            app:tint="@color/neutral_light_500" />
     </LinearLayout>
 
     <LinearLayout
@@ -82,6 +101,34 @@
             android:paddingVertical="0dp"
             android:text="Add Text"
             android:textColor="@color/primary_500" />
+
+        <LinearLayout
+            android:id="@+id/linQuickOffer"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/neutral_light_50" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUseQuickOffer"
+                style="@style/borderlessColoredTextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
+                android:padding="0dp"
+                android:layout_marginBottom="4dp"
+                android:paddingVertical="0dp"
+                android:text="Use Quick Offer"
+                android:textColor="@color/neutral_light_700" />
+
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -460,9 +507,9 @@
 
         <View
             android:id="@+id/v_seperator"
-            android:layout_above="@+id/lyt_btn_continue"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_above="@+id/lyt_btn_continue"
             android:layout_marginBottom="16dp"
             android:background="@color/neutral_light_50" />
 

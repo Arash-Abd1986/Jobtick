@@ -74,8 +74,8 @@
 
                             <ImageView
                                 android:id="@+id/img_info"
-                                android:layout_width="@dimen/_24sp"
-                                android:layout_height="@dimen/_24sp"
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
                                 android:layout_centerVertical="true"
                                 android:src="@drawable/ic_info_v5"
                                 app:tint="@color/colorPrimary" />
@@ -111,7 +111,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:orientation="horizontal"
                     android:paddingHorizontal="24dp">
 
@@ -138,7 +138,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:background="@color/neutral_light_50" />
 
                 <FrameLayout
@@ -160,7 +160,7 @@
                                 style="@style/body3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Fee:"
+                                android:text="Fee"
                                 android:textColor="@color/neutral_light_700" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -177,6 +177,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
+                            android:layout_marginTop="12dp"
                             android:layout_marginHorizontal="24dp"
                             android:background="@color/neutral_light_50" />
 
@@ -192,7 +193,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
-                                android:text="You’ll Receive:"
+                                android:text="You’ll Receive"
                                 android:textColor="@color/neutral_light_700" />
 
                             <com.google.android.material.textview.MaterialTextView

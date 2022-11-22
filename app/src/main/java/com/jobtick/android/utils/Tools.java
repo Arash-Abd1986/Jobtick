@@ -96,6 +96,10 @@ public class Tools {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMM", Locale.getDefault());
         return dateFormat.format(timeInMillis);
     }
+    public static String formatJobDetailsDateV4(long timeInMillis) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d", Locale.getDefault());
+        return dateFormat.format(timeInMillis);
+    }
     public static String formatJobDetailsDateV2(long timeInMillis) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dMMMM yyyy", Locale.getDefault());
         return dateFormat.format(timeInMillis);

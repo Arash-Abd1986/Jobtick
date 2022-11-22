@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.NetworkResponse;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 import com.jobtick.android.material.ui.landing.OnboardingActivity;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
@@ -123,18 +125,14 @@ public class ActivityBase extends AppCompatActivity {
     }
 
     public void showToast(String content, Context context) {
-        Alerter.create(this)
-                .setTitle("")
-                .setText(content)
-                .setBackgroundResource(R.color.colorRedError)
+        Snackbar.make(findViewById(android.R.id.content), content, Snackbar.LENGTH_LONG)
+                .setBackgroundTint(getResources().getColor(R.color.neutral_light_600 ))
                 .show();
     }
 
     public void showSuccessToast(String content, Context context) {
-        Alerter.create(this)
-                .setTitle("")
-                .setText(content)
-                .setBackgroundResource(R.color.colorOk)
+        Snackbar.make(findViewById(android.R.id.content), content, Snackbar.LENGTH_LONG)
+                .setBackgroundTint(getResources().getColor(R.color.neutral_light_600 ))
                 .show();
     }
 

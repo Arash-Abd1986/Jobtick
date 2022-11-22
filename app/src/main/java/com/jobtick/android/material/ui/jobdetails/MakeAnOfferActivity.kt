@@ -143,18 +143,8 @@ class MakeAnOfferActivity : ActivityBase(), MustHaveCallbackFunction, BudgetCall
                                         .sendEvent(FireBaseEvent.Event.OFFER_SUMMARY,
                                                 FireBaseEvent.EventType.API_RESPOND_SUCCESS,
                                                 FireBaseEvent.EventValue.OFFER_SUMMARY_SUBMIT_OFFER)
-                                var intent = Intent()
-                                val bundle = Bundle()
-                                bundle.putBoolean(ConstantKey.MAKE_AN_OFFER, true)
-                                intent.putExtras(bundle)
-                                setResult(ConstantKey.RESULTCODE_MAKEANOFFER, intent)
-                                intent = Intent(this@MakeAnOfferActivity, CompleteMessageActivity::class.java)
-                                val bundle1 = Bundle()
-                                bundle1.putString(ConstantKey.COMPLETES_MESSAGE_TITLE, "Offer Sent Successfully")
-                                bundle1.putString(ConstantKey.COMPLETES_MESSAGE_SUBTITLE, "Wait for an answer or continue looking for more tasks!")
-                                bundle1.putInt(ConstantKey.COMPLETES_MESSAGE_FROM, ConstantKey.RESULTCODE_MAKEANOFFER)
-                                intent.putExtras(bundle1)
-                                startActivity(intent)
+
+                                showToast("Offer Sent Successfully", applicationContext)
                                 finish()
                             } else {
                                 showToast("Something went Wrong", this@MakeAnOfferActivity)

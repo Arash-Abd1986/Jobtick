@@ -16,7 +16,7 @@
 
         <include
             android:id="@+id/heading"
-            layout="@layout/reschedulenotic_heading"/>
+            layout="@layout/reschedulenotic_heading" />
 
         <View
             android:layout_width="match_parent"
@@ -126,7 +126,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="@string/reason"
+            android:text="Reasons"
             android:textColor="@color/neutral_light_500" />
 
 
@@ -197,15 +197,16 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="32dp"
+            android:paddingBottom="16dp"
             android:orientation="horizontal"
             android:visibility="gone"
             android:weightSum="1">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnWithdraw"
-                style="@style/materialButtonAccept"
+                style="@style/colored"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:layout_weight="1"
                 android:text="@string/withdrawal_the_request" />

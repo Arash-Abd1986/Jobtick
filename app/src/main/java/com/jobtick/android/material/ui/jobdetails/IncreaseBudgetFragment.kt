@@ -10,6 +10,7 @@ import android.os.Bundle
 import com.jobtick.android.R
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -20,16 +21,13 @@ import com.android.volley.toolbox.StringRequest
 import timber.log.Timber
 import com.jobtick.android.activities.ActivityBase
 import org.json.JSONException
-import com.jobtick.android.utils.HttpStatus
 import com.android.volley.toolbox.Volley
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.network.coroutines.ApiHelper
 import com.jobtick.android.network.retrofit.ApiClient
-import com.jobtick.android.utils.Constant
-import com.jobtick.android.utils.SessionManager
-import com.jobtick.android.utils.error
+import com.jobtick.android.utils.*
 import com.jobtick.android.viewmodel.JobDetailsViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
 import org.json.JSONObject
@@ -52,6 +50,7 @@ class IncreaseBudgetFragment : Fragment() {
     lateinit var viewModel: JobDetailsViewModel
     lateinit var label: MaterialTextView
     lateinit var info: AppCompatImageView
+    lateinit var lnFee: LinearLayout
     private var isReasonOk = false
     private var isAmountOk = false
 
@@ -67,6 +66,7 @@ class IncreaseBudgetFragment : Fragment() {
         submit = view.findViewById(R.id.submit)
         info = view.findViewById(R.id.info)
         label = view.findViewById(R.id.label)
+        lnFee = view.findViewById(R.id.lnFee)
         submit!!.setOnClickListener(View.OnClickListener {
             if (!validation()) {
                 return@OnClickListener
@@ -84,6 +84,7 @@ class IncreaseBudgetFragment : Fragment() {
             }
             text?.let {
                 if (text.isNotEmpty()) {
+                    lnFee.visible()
                     setupBudget(text.toString().toInt() + taskModel!!.amount)
                 }
             }

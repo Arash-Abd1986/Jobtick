@@ -1,5 +1,6 @@
 package com.jobtick.android.material.ui.jobdetails
 
+import android.annotation.SuppressLint
 import android.widget.TextView
 import android.app.ProgressDialog
 import android.content.Context
@@ -79,7 +80,7 @@ class IncreaseBudgetFragment : Fragment() {
             isAmountOk = if (validation()) {
                 addPrice!!.error("Increase amount must be between $5 and $500.", label, info, setError = false, isBold = true)
                 true
-            }else{
+            } else {
                 false
             }
             text?.let {
@@ -107,6 +108,7 @@ class IncreaseBudgetFragment : Fragment() {
         return view
     }
 
+    @SuppressLint("SetTextI18n")
     private fun init() {
         viewModel = ViewModelProvider(
                 requireActivity(),
@@ -115,7 +117,7 @@ class IncreaseBudgetFragment : Fragment() {
 
         viewModel.geTaskModelResponse().observe(viewLifecycleOwner) { taskModel ->
             this.taskModel = taskModel
-            oldPrice!!.text = String.format(Locale.ENGLISH, "%d", taskModel!!.amount)
+            oldPrice!!.text = "$" + String.format(Locale.ENGLISH, "%d", taskModel!!.amount)
         }
     }
 

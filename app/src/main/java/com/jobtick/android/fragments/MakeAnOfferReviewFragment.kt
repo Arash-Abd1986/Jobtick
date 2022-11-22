@@ -107,6 +107,7 @@ class MakeAnOfferReviewFragment : Fragment(), View.OnClickListener {
         }
         window.findViewById<MaterialButton>(R.id.confirm).setOnClickListener {
             reviewCallbackFunction!!.submitButtonReview(makeAnOfferModel)
+            infoDialog.dismiss()
         }
 
     }

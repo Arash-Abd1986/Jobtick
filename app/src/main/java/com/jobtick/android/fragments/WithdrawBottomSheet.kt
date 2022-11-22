@@ -20,7 +20,7 @@ class WithdrawBottomSheet(private val withdrawInterface: @NotNull Withdraw, priv
     private lateinit var withdraw: MaterialButton
     private lateinit var txtOffer: MaterialTextView
     private lateinit var txtInfo: MaterialTextView
-    private var infoStart = "You have made an offer on this job"
+    private var infoStart = "YYou have submitted an offer for this job"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

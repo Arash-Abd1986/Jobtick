@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_b_s"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="top"
     android:background="@drawable/bg_white_top_c"
-    android:orientation="vertical"
-    android:paddingHorizontal="20dp">
+    android:orientation="vertical">
 
     <RelativeLayout
+        android:paddingHorizontal="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp">
@@ -23,9 +21,9 @@
     </RelativeLayout>
 
     <FrameLayout
+        android:paddingHorizontal="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:visibility="visible">
 
@@ -33,15 +31,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp">
+            >
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/caption"
-                android:id="@+id/txtInfo"
+                style="@style/heading6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="View Offer"
+                android:textColor="@color/neutral_light_700" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="8dp"
+                android:background="@color/neutral_light_50" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtInfo"
+                style="@style/caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:layout_weight="1"
                 android:gravity="start"
                 android:text="Service fee for your level is %10 + GST"
@@ -51,7 +62,7 @@
                 style="@style/caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|end"
                 android:text="Text Offer"
@@ -87,7 +98,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="Offer Price"
-                    android:textColor="@color/neutral_light_700" />
+                    android:textColor="@color/neutral_light_500" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvOffer"
@@ -114,7 +125,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="Fee"
-                    android:textColor="@color/neutral_light_700" />
+                    android:textColor="@color/neutral_light_500" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_service_fee"
@@ -147,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="You’ll receive"
-                    android:textColor="@color/neutral_light_700" />
+                    android:textColor="@color/neutral_light_500" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_final_budget"
@@ -165,18 +176,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:layout_marginBottom="24dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:weightSum="10">
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/neutral_light_50" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/withdraw"
             style="@style/colored"
+            android:layout_marginHorizontal="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/primary_light_100"
             android:enabled="true"
-            android:text="@string/withdraw_offer" />
+            android:text="@string/withdraw_offer"
+            android:textColor="@color/primary_500" />
     </LinearLayout>
 
 </LinearLayout>

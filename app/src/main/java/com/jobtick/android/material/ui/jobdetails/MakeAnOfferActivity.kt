@@ -2,6 +2,7 @@ package com.jobtick.android.material.ui.jobdetails
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import android.widget.FrameLayout
@@ -145,7 +146,10 @@ class MakeAnOfferActivity : ActivityBase(), MustHaveCallbackFunction, BudgetCall
                                                 FireBaseEvent.EventValue.OFFER_SUMMARY_SUBMIT_OFFER)
 
                                 showToast("Offer Sent Successfully", applicationContext)
-                                finish()
+                                Handler().postDelayed({
+                                    finish()
+                                }, 2000)
+
                             } else {
                                 showToast("Something went Wrong", this@MakeAnOfferActivity)
                             }

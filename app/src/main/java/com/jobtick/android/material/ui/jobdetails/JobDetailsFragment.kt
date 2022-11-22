@@ -37,6 +37,7 @@ import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
 import com.jobtick.android.viewmodel.JobDetailsViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
+import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 import java.text.ParseException
@@ -408,7 +409,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
 
     @SuppressLint("SetTextI18n")
     private fun setOfferStatus(taskModel: TaskModel) {
-        if (viewModel.userType == JobDetailsViewModel.UserType.POSTER)
+        if (viewModel.userType == JobDetailsViewModel.UserType.POSTER) {
             if (taskModel.offerCount > 0) {
                 if (taskModel.offerCount > 0) {
                     btnNext.text = "See offers(${taskModel.offerCount})"
@@ -419,15 +420,17 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
                     budget.gone()
                     btnNext.isEnabled = false
                 }
-            } else
-                if (taskModel.offerCount > 0) {
-                    taskModel.offers.forEach {
-                        if (it.worker.id == sessionManager.userAccount.id) {
-                            btnNext.text = "View offer"
-                            jobState = JobState.VIEW_MY_OFFER
-                        }
+            }
+        } else {
+            if (taskModel.offerCount > 0) {
+                taskModel.offers.forEach {
+                    if (it.worker.id == sessionManager.userAccount.id) {
+                        btnNext.text = "View offer"
+                        jobState = JobState.VIEW_MY_OFFER
                     }
                 }
+            }
+        }
     }
 
     private fun setMediaList(attachments: ArrayList<AttachmentModel>) {
@@ -680,9 +683,55 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     }
 
     override fun startWithdraw(int: Int) {
-
+        doApiCall(Constant.URL_OFFERS + "/" + id)
+    }
+    private fun doApiCall(url: String) {
+        activity.showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(
+                Method.DELETE, url,
+                com.android.volley.Response.Listener { response: String? ->
+                    activity.hideProgressDialog()
+                    Timber.e(response)
+                    // categoryArrayList.clear();
+                    try {
+                        val jsonObject = JSONObject(response!!)
+                        var data = OfferDeleteModel()
+                        val gson = Gson()
+                        data = gson.fromJson(jsonObject.toString(), OfferDeleteModel::class.java)
+                        activity.recreate()
+                        //       showToast(data.getMessage(), this);
+                    } catch (e: JSONException) {
+                        activity.hideProgressDialog()
+                        Timber.e(e.toString())
+                        e.printStackTrace()
+                    }
+                },
+                com.android.volley.Response.ErrorListener { error: VolleyError ->
+                    //  swipeRefresh.setRefreshing(false);
+                    activity.hideProgressDialog()
+                    activity.errorHandle1(error.networkResponse)
+                }
+        ) {
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                //    map1.put("X-Requested-With", "XMLHttpRequest");
+                return map1
+            }
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(stringRequest)
+        Timber.e(stringRequest.url)
     }
 }
+
+
+
 
 private fun ArrayList<AttachmentModel>.toV2(): List<AttachmentModelV2> {
     return this.map {

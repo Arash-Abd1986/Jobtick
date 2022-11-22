@@ -42,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="Current Pricer"
+                        android:text="Current Price"
                         android:textColor="@color/neutral_light_700" />
 
                     <com.google.android.material.textview.MaterialTextView

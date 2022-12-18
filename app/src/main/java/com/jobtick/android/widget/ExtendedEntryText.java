@@ -292,7 +292,7 @@ public class ExtendedEntryText extends RelativeLayout implements View.OnClickLis
     public void setError(CharSequence error) {
         setBackgroundResource(R.drawable.rectangle_card_round_corners_outlined_red);
         //sajad said that remove all error, red background is enough
-        //editText.setError(error);
+        editText.setError(error);
         //Due to new comments, I cancel my suggestion. So I comment delete below lines, we just show
         //red border for errors.
         //errorView.setVisibility(View.VISIBLE);

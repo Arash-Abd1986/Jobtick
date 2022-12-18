@@ -2949,6 +2949,7 @@ class TaskDetailsActivity :
                 val infoBottomSheet = CategoryListBottomSheet(sessionManager)
                 infoBottomSheet.show(supportFragmentManager, null)
             }
+            else -> {}
         }
     }
 

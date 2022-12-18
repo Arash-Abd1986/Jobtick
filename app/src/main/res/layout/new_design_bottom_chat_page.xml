@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_alignParentBottom="true"
+    android:background="@color/white"
+    android:id="@+id/cvAction"
+    android:animateLayoutChanges="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_marginStart="16dp"
+        android:animateLayoutChanges="true"
+        android:layout_toEndOf="@+id/img_chat_more"
+        android:layout_centerVertical="true"
+        android:id="@+id/attachmentsParent"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/new_design_add_photo"
+            android:layout_weight="1"
+            android:id="@+id/camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="23dp"
+            android:layout_marginEnd="23dp"
+            android:src="@drawable/new_design_gallery"
+            android:layout_weight="1"
+            android:id="@+id/gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:src="@drawable/new_design_document"
+            android:layout_weight="1"
+            android:id="@+id/pdfDocument"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+<ImageView
+    android:id="@+id/img_btn_send"
+    android:src="@drawable/new_design_chat_send"
+    android:layout_alignParentEnd="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"/>
+
+    <ImageView
+        android:id="@+id/img_chat_more"
+        android:src="@drawable/new_design_chat_more"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"/>
+
+    <androidx.cardview.widget.CardView
+        android:visibility="visible"
+        android:id="@+id/editTextParent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_toStartOf="@+id/img_btn_send"
+        android:layout_toEndOf="@+id/attachmentsParent"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:cardBackgroundColor="@color/neutral_light_50"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:cardMaxElevation="0dp"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="false">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="16dp"
+                android:id="@+id/rl_image"
+                android:layout_width="@dimen/_40dp"
+                android:layout_height="@dimen/_40dp"
+                android:layout_centerVertical="true"
+                android:visibility="gone">
+
+                <com.rishabhharit.roundedimageview.RoundedImageView
+                    android:id="@+id/img_attachment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/shape_tab_gray10"
+                    android:visibility="visible"
+                    app:cornerRadius="4dp" />
+
+                <ImageView
+                    android:id="@+id/img_btn_delete"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_medium"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:background="@drawable/ic_close_portfollio"
+                    android:clickable="true"
+                    android:padding="@dimen/spacing_medium"
+                    android:src="@drawable/ic_cancel"
+                    android:visibility="visible"
+                    app:tint="@color/strokeRed"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputEditText
+
+    android:id="@+id/edt_comment_message"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/rl_image"
+    android:background="@null"
+    android:hint="Write a message..."
+    android:inputType="textMultiLine"
+    android:padding="5dp"
+    android:maxLines="50"
+    android:minHeight="@dimen/_55dp"
+    android:maxHeight="60dp"
+    android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

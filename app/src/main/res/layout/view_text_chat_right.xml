@@ -8,6 +8,7 @@
     android:padding="1dp">
 
     <com.google.android.material.textview.MaterialTextView
+        android:text="asd ashdj ajhd jahd jahd jahd jasdhjadhjahdjashd jahd ajdsh "
         android:id="@+id/view_text_chat_text"
         style="@style/materialText_500_15"
         android:layout_width="wrap_content"
@@ -16,8 +17,8 @@
         android:gravity="start"
         android:minWidth="@dimen/_50dp"
         android:paddingTop="4dp"
-        android:textColor="@color/N900"
-        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,17 +39,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="end"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/secondary_s400"
             android:textSize="@dimen/_10sp"
             tools:text="11:40" />
 
         <ImageView
+            android:layout_marginStart="5dp"
             android:id="@+id/view_text_chat_doubleTick"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:contentDescription="@string/todo"
             android:padding="0dp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_vector__7_" />
+            android:visibility="visible"
+            app:srcCompat="@drawable/new_design_two_ticks" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

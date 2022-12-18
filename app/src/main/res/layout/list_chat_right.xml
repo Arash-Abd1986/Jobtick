@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutDate"
         android:layout_alignParentEnd="true"
-        app:cardBackgroundColor="@color/P050"
+        app:cardBackgroundColor="@color/secondary_s50"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         app:cardMaxElevation="0dp"
@@ -54,7 +54,7 @@
             android:visibility="visible"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp"
-            app:cardBackgroundColor="@color/P050"
+            app:cardBackgroundColor="@color/secondary_s50"
             app:cardCornerRadius="8dp">
 
             <include layout="@layout/view_text_chat_right" />
@@ -68,7 +68,7 @@
             android:visibility="gone"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp"
-            app:cardBackgroundColor="@color/P050"
+            app:cardBackgroundColor="@color/secondary_s50"
             app:cardCornerRadius="8dp">
 
             <include layout="@layout/view_file_chat_right" />

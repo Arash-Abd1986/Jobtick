@@ -3,6 +3,9 @@ package com.jobtick.android.activities
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Environment
+import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.jobtick.android.AppController
 import com.jobtick.android.fragments.AttachmentBottomSheet
@@ -24,6 +27,8 @@ abstract class AbstractUploadableImageImpl(private val activity: FragmentActivit
         if (resultCode == Activity.RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             val resultUri = UCrop.getOutput(data!!)
             val file = File(resultUri!!.path)
+            Log.d("imagepath4: ", file.absolutePath)
+
             onImageReady(file)
         } else if (resultCode == UCrop.RESULT_ERROR) {
             val cropError = UCrop.getError(data!!)
@@ -35,11 +40,23 @@ abstract class AbstractUploadableImageImpl(private val activity: FragmentActivit
             onCropImage.crop(filePath, isCircle)
         }
         if (requestCode == AttachmentBottomSheet.CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            val externalStorageVolumes = ContextCompat.getExternalFilesDirs(activity, null)
+            val storageDir: File? = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
             val imagePath = NewCameraUtil.getImagePath()
+            Log.d("imagepath3: ", imagePath)
+
+            // val imagePath = storageDir?.absolutePath
             if (imagePath == null) {
                 (activity as ActivityBase).showToast("Can not find image.", activity)
                 return
             }
+//            val imgUri = FileProvider.getUriForFile(
+//                activity,
+//                BuildConfig.APPLICATION_ID + ".provider",
+//                File(imagePath)
+//            )
+
             val imageUri = Uri.fromFile(File(imagePath))
             val cropImage: OnCropImage = OnUCropImageImpl(activity)
             cropImage.crop(imageUri, isCircle)

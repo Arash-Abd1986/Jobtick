@@ -384,7 +384,7 @@
     <style name="materialText_500_10" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">@dimen/message_title_second_line</item>
     </style>
 
     <style name="fontSmall" parent="TextAppearance.MaterialComponents.Subtitle2">
@@ -402,7 +402,7 @@
     <style name="materialText_600_12" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/message_title_third_line</item>
     </style>
 
     <style name="materialText_600_10" parent="TextAppearance.MaterialComponents.Subtitle2">
@@ -528,7 +528,7 @@
     <style name="materialText_400_12" parent="TextAppearance.MaterialComponents.Caption">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/message_title_second_line</item>
     </style>
 
     <style name="materialText_400_10" parent="TextAppearance.MaterialComponents.Overline">
@@ -1128,5 +1128,9 @@
         <item name="android:weekDayTextAppearance">@style/body3</item>
         <item name="android:dateTextAppearance">@style/body3</item>
         <item name="android:headerDayOfMonthTextAppearance">@style/caption</item>
+    </style>
+    <style name="My.TabText.Style" parent="@android:style/Widget.Holo.ActionBar.TabText">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14dp</item>
     </style>
 </resources>

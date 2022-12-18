@@ -3,6 +3,7 @@ package com.jobtick.android.fragments
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -256,6 +257,7 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
         Response.Listener { response: String? ->
             Timber.e(response)
             try {
+                Log.d("inboxData", response.toString())
                 val jsonObject = JSONObject(response!!)
                 Timber.e(jsonObject.toString())
                 if (!jsonObject.has("data")) {

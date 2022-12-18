@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -40,7 +41,6 @@ import com.jobtick.android.activities.SearchTaskActivity
 import com.jobtick.android.activities.TaskCreateActivity
 import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.adapers.TaskListAdapterV2
-import com.jobtick.android.material.ui.jobdetails.JobDetailsActivity
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.models.response.myjobs.Data
 import com.jobtick.android.models.response.myjobs.MyJobsResponse
@@ -59,11 +59,11 @@ import java.util.Locale
  * A simple [Fragment] subclass.
  */
 class MyTasksFragment :
-        Fragment(),
-        TaskListAdapterV2.OnItemClickListener,
-        OnRefreshListener,
-        TaskListAdapterV2.OnDraftDeleteListener,
-        ConfirmDeleteTaskBottomSheet.NoticeListener {
+    Fragment(),
+    TaskListAdapterV2.OnItemClickListener,
+    OnRefreshListener,
+    TaskListAdapterV2.OnDraftDeleteListener,
+    ConfirmDeleteTaskBottomSheet.NoticeListener {
 
     private var recyclerViewStatus: RecyclerView? = null
     private var swipeRefresh: SwipeRefreshLayout? = null
@@ -89,9 +89,9 @@ class MyTasksFragment :
     private var noJobs: LinearLayout? = null
     var mypopupWindow: PopupWindow? = null
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_tasks, container, false)
@@ -118,15 +118,15 @@ class MyTasksFragment :
         filterIcon = dashboardActivity!!.findViewById(R.id.filter_icon)
         filterText.setOnClickListener {
             filterText.setTextColor(
-                    ContextCompat.getColor(
-                            requireContext(), R.color.P300
-                    )
+                ContextCompat.getColor(
+                    requireContext(), R.color.P300
+                )
             )
             filterIcon.setImageDrawable(
-                    ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_sort_arrow_up
-                    )
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_sort_arrow_up
+                )
             )
             mypopupWindow!!.showAsDropDown(toolbar.findViewById(R.id.lin_filter), 0, 0)
         }
@@ -140,8 +140,8 @@ class MyTasksFragment :
         toolbarTitle.textSize = 20f
         toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
         val params = Toolbar.LayoutParams(
-                Toolbar.LayoutParams.WRAP_CONTENT,
-                Toolbar.LayoutParams.WRAP_CONTENT
+            Toolbar.LayoutParams.WRAP_CONTENT,
+            Toolbar.LayoutParams.WRAP_CONTENT
         )
         params.gravity = Gravity.START
         toolbarTitle.layoutParams = params
@@ -150,24 +150,19 @@ class MyTasksFragment :
 
     override fun onResume() {
         super.onResume()
-        sessionManager = SessionManager(requireContext())
-        sessionManager?.let {
-            it.userAccount?.let {
-                sessionManager!!.needRefresh = false
-                statusList
-            }
-        }
+        sessionManager!!.needRefresh = false
+        statusList
     }
 
     private fun setPopUpWindow() {
         val inflater =
-                requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.my_jobs_menu, null)
         mypopupWindow = PopupWindow(
-                view,
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                true
+            view,
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            true
         )
         mypopupWindow!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val allJobs = view.findViewById<View>(R.id.all_jobs) as TextView
@@ -203,10 +198,10 @@ class MyTasksFragment :
         mypopupWindow!!.setOnDismissListener {
             filterText.setTextColor(ContextCompat.getColor(requireContext(), R.color.N900))
             filterIcon.setImageDrawable(
-                    ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_sort_arrow_down
-                    )
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_sort_arrow_down
+                )
             )
         }
         allJobs.setOnClickListener { v: View? ->
@@ -265,9 +260,9 @@ class MyTasksFragment :
         }
         offered.setOnClickListener { v: View? ->
             allJobs.setTextColor(
-                    ContextCompat.getColor(
-                            requireContext(), R.color.N300
-                    )
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
             )
             assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
             posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
@@ -283,9 +278,9 @@ class MyTasksFragment :
         }
         draft.setOnClickListener { v: View? ->
             allJobs.setTextColor(
-                    ContextCompat.getColor(
-                            requireContext(), R.color.N300
-                    )
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
             )
             assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
             posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
@@ -301,9 +296,9 @@ class MyTasksFragment :
         }
         completed.setOnClickListener { v: View? ->
             allJobs.setTextColor(
-                    ContextCompat.getColor(
-                            requireContext(), R.color.N300
-                    )
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
             )
             assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
             posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
@@ -319,9 +314,9 @@ class MyTasksFragment :
         }
         overdue.setOnClickListener { v: View? ->
             allJobs.setTextColor(
-                    ContextCompat.getColor(
-                            requireContext(), R.color.N300
-                    )
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
             )
             assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
             posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
@@ -355,9 +350,9 @@ class MyTasksFragment :
         }
         cancelled.setOnClickListener { v: View? ->
             allJobs.setTextColor(
-                    ContextCompat.getColor(
-                            requireContext(), R.color.N300
-                    )
+                ContextCompat.getColor(
+                    requireContext(), R.color.N300
+                )
             )
             assigned.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
             posted.setTextColor(ContextCompat.getColor(requireContext(), R.color.N300))
@@ -391,6 +386,7 @@ class MyTasksFragment :
         initToolbar()
         setHasOptionsMenu(true)
         mBehavior = BottomSheetBehavior.from<FrameLayout?>(bottomSheet!!)
+        sessionManager = SessionManager(dashboardActivity)
 
         // use a linear layout manager
         val layoutManager = LinearLayoutManager(dashboardActivity)
@@ -422,7 +418,7 @@ class MyTasksFragment :
             }
             false
         }
-    }
+    } //  swipeRefresh.setRefreshing(false);
 
     // categoryArrayList.clear();
     private val statusList: Unit
@@ -438,64 +434,68 @@ class MyTasksFragment :
             ) "" else "&status=" + singleChoiceSelected!!.lowercase(Locale.getDefault())
             if (currentPage == 1) swipeRefresh!!.isRefreshing = true
             Helper.closeKeyboard(dashboardActivity)
+            Log.d("mytaskfragmentjobsRoute", Constant.URL_MY_JOBS + "?page=" + currentPage + query_parameter);
+
             val stringRequest: StringRequest = object : StringRequest(
-                    Method.GET, Constant.URL_MY_JOBS + "?page=" + currentPage + query_parameter,
-                    Response.Listener { response: String? ->
-                        Timber.e(response)
-                        // categoryArrayList.clear();
-                        try {
-                            val jsonObject = JSONObject(response!!)
-                            Timber.e(jsonObject.toString())
-                            val gson = Gson()
-                            val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(
-                                    jsonObject.toString(),
-                                    MyJobsResponse::class.java
-                            )
-                            if (data == null) {
-                                dashboardActivity!!.showToast("some went to wrong", dashboardActivity)
-                                return@Listener
-                            }
-                            totalItemT = total!!
-                            Constant.PAGE_SIZE = per_page!!
-                            if (currentPage == 1) {
-                                resetTaskListAdapter()
-                            }
-                            taskListAdapter!!.addItems(data, totalItemT)
-                            isLastPage = taskListAdapter!!.itemCount == totalItemT
-                            if (data.size <= 0) {
-                                noJobs!!.visibility = View.VISIBLE
-                                recyclerViewStatus!!.visibility = View.GONE
-                            } else {
-                                noJobs!!.visibility = View.GONE
-                                recyclerViewStatus!!.visibility = View.VISIBLE
-                            }
-                            swipeRefresh!!.isRefreshing = false
-                            strSearch = null
-                        } catch (e: JSONException) {
-                            strSearch = null
-                            dashboardActivity!!.hideProgressDialog()
-                            Timber.e(e.toString())
-                            e.printStackTrace()
+                Method.GET, Constant.URL_MY_JOBS + "?page=" + currentPage + query_parameter,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
+                    Log.d("mytaskfragmentjobs", response.toString());
+                    // categoryArrayList.clear();
+                    try {
+                        val jsonObject = JSONObject(response!!)
+                        Timber.e(jsonObject.toString())
+                        val gson = Gson()
+                        val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(
+                            jsonObject.toString(),
+                            MyJobsResponse::class.java
+                        )
+                        if (data == null) {
+                            dashboardActivity!!.showToast("some went to wrong", dashboardActivity)
+                            return@Listener
                         }
-                    },
-                    Response.ErrorListener { error: VolleyError ->
-                        //  swipeRefresh.setRefreshing(false);
-                        strSearch = null
+                        totalItemT = total!!
+                        Constant.PAGE_SIZE = per_page!!
+                        if (currentPage == 1) {
+                            resetTaskListAdapter()
+                        }
+                        taskListAdapter!!.addItems(data, totalItemT)
+                        isLastPage = taskListAdapter!!.itemCount == totalItemT
+                        if (data.size <= 0) {
+                            noJobs!!.visibility = View.VISIBLE
+                            recyclerViewStatus!!.visibility = View.GONE
+                        } else {
+                            noJobs!!.visibility = View.GONE
+                            recyclerViewStatus!!.visibility = View.VISIBLE
+                        }
                         swipeRefresh!!.isRefreshing = false
-                        dashboardActivity!!.errorHandle1(error.networkResponse)
+                        strSearch = null
+                    } catch (e: JSONException) {
+                        strSearch = null
+                        dashboardActivity!!.hideProgressDialog()
+                        Timber.e(e.toString())
+                        e.printStackTrace()
                     }
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    //  swipeRefresh.setRefreshing(false);
+                    strSearch = null
+                    swipeRefresh!!.isRefreshing = false
+                    dashboardActivity!!.errorHandle1(error.networkResponse)
+                }
             ) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
                     map1["Content-Type"] = "application/x-www-form-urlencoded"
                     map1["Authorization"] = "Bearer " + sessionManager!!.accessToken
                     map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                    Log.d("mytaskfragmentjobsHeader", map1.toString());
                     return map1
                 }
             }
             stringRequest.retryPolicy = DefaultRetryPolicy(
-                    0, -1,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                0, -1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
             )
             val requestQueue = Volley.newRequestQueue(dashboardActivity)
             requestQueue.add(stringRequest)
@@ -511,11 +511,11 @@ class MyTasksFragment :
 
     override fun onItemClick(view: View?, obj: Data?, position: Int, action: String?) {
         if (obj!!.status!!.lowercase(Locale.getDefault())
-                        .equals(Constant.TASK_DRAFT.lowercase(Locale.getDefault()), ignoreCase = true)
+            .equals(Constant.TASK_DRAFT.lowercase(Locale.getDefault()), ignoreCase = true)
         ) {
             getDataFromServer(obj.slug)
         } else {
-            val intent = Intent(dashboardActivity, JobDetailsActivity::class.java)
+            val intent = Intent(dashboardActivity, TaskDetailsActivity::class.java)
             val bundle = Bundle()
             bundle.putString(ConstantKey.SLUG, obj.slug)
             //   bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
@@ -528,42 +528,42 @@ class MyTasksFragment :
     private fun getDataFromServer(slug: String?) {
         dashboardActivity!!.showProgressDialog()
         val stringRequest: StringRequest = object : StringRequest(
-                Method.GET, Constant.URL_TASKS + "/" + slug,
-                Response.Listener { response: String? ->
-                    Timber.e(response)
-                    dashboardActivity!!.hideProgressDialog()
-                    try {
-                        val jsonObject = JSONObject(response!!)
-                        Timber.e(jsonObject.toString())
-                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                            if (jsonObject.getBoolean("success")) {
-                                if (jsonObject.has("data") && !jsonObject.isNull("data")) {
-                                    val jsonObject_data = jsonObject.getJSONObject("data")
-                                    val taskModel =
-                                            TaskModel().getJsonToModel(jsonObject_data, dashboardActivity)
-                                    EditTask(taskModel)
-                                }
-                            } else {
-                                dashboardActivity!!.showToast("Something went wrong", dashboardActivity)
+            Method.GET, Constant.URL_TASKS + "/" + slug,
+            Response.Listener { response: String? ->
+                Timber.e(response)
+                dashboardActivity!!.hideProgressDialog()
+                try {
+                    val jsonObject = JSONObject(response!!)
+                    Timber.e(jsonObject.toString())
+                    if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                        if (jsonObject.getBoolean("success")) {
+                            if (jsonObject.has("data") && !jsonObject.isNull("data")) {
+                                val jsonObject_data = jsonObject.getJSONObject("data")
+                                val taskModel =
+                                    TaskModel().getJsonToModel(jsonObject_data, dashboardActivity)
+                                EditTask(taskModel)
                             }
                         } else {
                             dashboardActivity!!.showToast("Something went wrong", dashboardActivity)
                         }
-                    } catch (e: JSONException) {
+                    } else {
                         dashboardActivity!!.showToast("Something went wrong", dashboardActivity)
-                        Timber.e(e.toString())
-                        e.printStackTrace()
                     }
-                },
-                Response.ErrorListener { error: VolleyError ->
-                    dashboardActivity!!.errorHandle1(error.networkResponse)
-                    dashboardActivity!!.hideProgressDialog()
+                } catch (e: JSONException) {
+                    dashboardActivity!!.showToast("Something went wrong", dashboardActivity)
+                    Timber.e(e.toString())
+                    e.printStackTrace()
                 }
+            },
+            Response.ErrorListener { error: VolleyError ->
+                dashboardActivity!!.errorHandle1(error.networkResponse)
+                dashboardActivity!!.hideProgressDialog()
+            }
         ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] =
-                        sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                    sessionManager!!.tokenType + " " + sessionManager!!.accessToken
                 map1["Content-Type"] = "application/x-www-form-urlencoded"
                 map1["Version"] = BuildConfig.VERSION_CODE.toString()
                 // map1.put("X-Requested-With", "XMLHttpRequest");
@@ -571,8 +571,8 @@ class MyTasksFragment :
             }
         }
         stringRequest.retryPolicy = DefaultRetryPolicy(
-                0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
         val requestQueue = Volley.newRequestQueue(dashboardActivity)
         requestQueue.add(stringRequest)
@@ -592,16 +592,16 @@ class MyTasksFragment :
     fun refreshSort(rbText: String) {
         tempSingleChoiceSelected = rbText.lowercase(Locale.getDefault())
         if (tempSingleChoiceSelected.equals(
-                        Constant.TASK_DRAFT_CASE_ALL_JOB_KEY,
-                        ignoreCase = true
-                )
+                Constant.TASK_DRAFT_CASE_ALL_JOB_KEY,
+                ignoreCase = true
+            )
         ) {
             tempSingleChoiceSelected = Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE
         }
         if (tempSingleChoiceSelected.equals(
-                        Constant.TASK_ASSIGNED_CASE_UPPER_FIRST,
-                        ignoreCase = true
-                )
+                Constant.TASK_ASSIGNED_CASE_UPPER_FIRST,
+                ignoreCase = true
+            )
         ) {
             tempSingleChoiceSelected = Constant.TASK_ASSIGNED_CASE_RELATED_JOB_VALUE
         }
@@ -643,65 +643,65 @@ class MyTasksFragment :
     protected fun deleteTask(taskModel: Data?) {
         swipeRefresh!!.isRefreshing = true
         val stringRequest: StringRequest = object :
-                StringRequest(
-                        Method.DELETE, Constant.URL_TASKS + "/" + taskModel!!.slug,
-                        Response.Listener { response: String? ->
-                            Timber.e(response)
-                            try {
-                                val jsonObject = JSONObject(response!!)
-                                Timber.e(jsonObject.toString())
-                                if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                                    if (jsonObject.getBoolean("success")) {
-                                        onRefresh()
-                                    } else {
-                                        (requireActivity() as ActivityBase).showToast(
-                                                "Something went Wrong",
-                                                requireContext()
-                                        )
-                                    }
-                                }
-                            } catch (e: JSONException) {
-                                Timber.e(e.toString())
-                                e.printStackTrace()
-                            }
-                        },
-                        Response.ErrorListener { error: VolleyError ->
-                            val networkResponse = error.networkResponse
-                            if (networkResponse != null && networkResponse.data != null) {
-                                val jsonError = String(networkResponse.data)
-                                // Print Error!
-                                Timber.e(jsonError)
-                                if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
-                                    (requireActivity() as ActivityBase).unauthorizedUser()
-                                    return@ErrorListener
-                                }
-                                try {
-                                    val jsonObject = JSONObject(jsonError)
-                                    val jsonObject_error = jsonObject.getJSONObject("error")
-                                    if (jsonObject_error.has("message")) {
-                                        (requireActivity() as ActivityBase).showToast(
-                                                jsonObject_error.getString(
-                                                        "message"
-                                                ),
-                                                requireContext()
-                                        )
-                                    }
-                                } catch (e: JSONException) {
-                                    e.printStackTrace()
-                                }
+            StringRequest(
+                Method.DELETE, Constant.URL_TASKS + "/" + taskModel!!.slug,
+                Response.Listener { response: String? ->
+                    Timber.e(response)
+                    try {
+                        val jsonObject = JSONObject(response!!)
+                        Timber.e(jsonObject.toString())
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success")) {
+                                onRefresh()
                             } else {
                                 (requireActivity() as ActivityBase).showToast(
-                                        "Something Went Wrong",
-                                        requireContext()
+                                    "Something went Wrong",
+                                    requireContext()
                                 )
                             }
-                            Timber.e(error.toString())
                         }
-                ) {
+                    } catch (e: JSONException) {
+                        Timber.e(e.toString())
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    val networkResponse = error.networkResponse
+                    if (networkResponse != null && networkResponse.data != null) {
+                        val jsonError = String(networkResponse.data)
+                        // Print Error!
+                        Timber.e(jsonError)
+                        if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
+                            (requireActivity() as ActivityBase).unauthorizedUser()
+                            return@ErrorListener
+                        }
+                        try {
+                            val jsonObject = JSONObject(jsonError)
+                            val jsonObject_error = jsonObject.getJSONObject("error")
+                            if (jsonObject_error.has("message")) {
+                                (requireActivity() as ActivityBase).showToast(
+                                    jsonObject_error.getString(
+                                        "message"
+                                    ),
+                                    requireContext()
+                                )
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        (requireActivity() as ActivityBase).showToast(
+                            "Something Went Wrong",
+                            requireContext()
+                        )
+                    }
+                    Timber.e(error.toString())
+                }
+            ) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()
                 map1["authorization"] =
-                        sessionManager!!.tokenType + " " + sessionManager!!.accessToken
+                    sessionManager!!.tokenType + " " + sessionManager!!.accessToken
                 map1["Content-Type"] = "application/x-www-form-urlencoded"
                 map1["X-Requested-With"] = "XMLHttpRequest"
                 map1["Version"] = BuildConfig.VERSION_CODE.toString()
@@ -709,8 +709,8 @@ class MyTasksFragment :
             }
         }
         stringRequest.retryPolicy = DefaultRetryPolicy(
-                0, -1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(stringRequest)

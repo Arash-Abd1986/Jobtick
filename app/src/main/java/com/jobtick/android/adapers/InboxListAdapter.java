@@ -1,9 +1,11 @@
 package com.jobtick.android.adapers;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -252,6 +254,9 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_unseen_count)
         TextView txtUnseenCount;
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.hasUnreadMessage)
+        ImageView hasUnreadMessage;
         @BindView(R.id.rl_unseen_count)
         RelativeLayout rlUnseenCount;
         @SuppressLint("NonConstantResourceId")
@@ -278,12 +283,13 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             super.onBind(position);
             ConversationModel item = mItems.get(position);
+            Log.d("hereinadapter", position+"");
             if (item.getReceiver() != null)
                 if (!item.getReceiver().getId().equals(sessionManager.getUserAccount().getId())) {
                     if (item.getReceiver().getAvatar() != null && item.getReceiver().getAvatar().getThumbUrl() != null) {
                         ImageUtil.displayImage(imgAvatar, item.getReceiver().getAvatar().getThumbUrl(), null);
                     }else{
-                        imgAvatar.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.pic));
+                        imgAvatar.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.new_design_person));
                     }
 
                     txtUserName.setText(item.getReceiver().getName());
@@ -293,10 +299,10 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         txtStatus.setVisibility(View.GONE);
                     }
                 }else{
-                    imgAvatar.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.pic));
+                    imgAvatar.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.new_design_person));
                 }
             else{
-                imgAvatar.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.pic));
+                imgAvatar.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.new_design_person));
             }
 
             txtTitle.setText(item.getName());
@@ -317,6 +323,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     txtLastMessage.setText(item.getLastMessage().getMessage());
                 }
             } else {
+
                 rltLastMessage.setVisibility(View.GONE);
             }
 
@@ -330,6 +337,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
 
             } else {
+                hasUnreadMessage.setVisibility(View.GONE);
                 rlUnseenCount.setVisibility(View.GONE);
                 txtUnseenCount.setVisibility(View.GONE);
                 txtLastMessage.setVisibility(View.VISIBLE);

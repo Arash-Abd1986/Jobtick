@@ -42,7 +42,7 @@
         android:layout_marginEnd="74dp"
         app:cardUseCompatPadding="true"
         app:cardPreventCornerOverlap="false"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/neutral_light_50"
         app:cardCornerRadius="8dp">
 
 
@@ -57,7 +57,7 @@
             app:cardPreventCornerOverlap="false"
             android:maxHeight="76dp"
             android:visibility="visible"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/neutral_light_50"
             app:cardCornerRadius="10dp">
 
             <include layout="@layout/view_text_chat_left" />
@@ -71,7 +71,7 @@
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp"
             android:visibility="gone"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/neutral_light_50"
             app:cardCornerRadius="8dp">
 
             <include layout="@layout/view_file_chat_left" />

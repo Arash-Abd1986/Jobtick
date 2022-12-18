@@ -24,8 +24,7 @@
 
     <fragment
         android:id="@+id/navigation_inbox"
-        android:name="com.jobtick.android.fragments.InboxFragment"
-        tools:layout="@layout/fragment_inbox" />
+        android:name="com.jobtick.android.fragments.NewDesignMessagesFragment" />
 
     <fragment
         android:id="@+id/navigation_profile"

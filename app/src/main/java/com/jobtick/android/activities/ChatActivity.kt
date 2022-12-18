@@ -1,19 +1,26 @@
 package com.jobtick.android.activities
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,10 +34,13 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
 import com.jobtick.android.AppController
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.adapers.ChatAdapter
+import com.jobtick.android.fragments.AttachmentBottomSheet
 import com.jobtick.android.fragments.ConfirmBlockTaskBottomSheet
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.ChatModel
@@ -64,7 +74,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
     private lateinit var btnUnblock: Button
     private lateinit var txtStatus: TextView
     private lateinit var cardStatus: CardView
-    private lateinit var imgBtnTaskAction: ImageView
+    private lateinit var imgBtnTaskAction: TextView
     private lateinit var imgAttachment: ImageView
     private lateinit var lytTaskDetails: LinearLayout
     private lateinit var recyclerView: RecyclerView
@@ -84,6 +94,11 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
     private lateinit var bottomSheet: FrameLayout
     private lateinit var txtCount: TextView
     private lateinit var pbLoading: ProgressBar
+    private lateinit var attachmentLayout: LinearLayout
+    private lateinit var more: ImageView
+    private lateinit var camera: ImageView
+    private lateinit var gallery: ImageView
+    private lateinit var document: ImageView
 
     private var mypopupWindow: PopupWindow? = null
     private var adapter: ChatAdapter? = null
@@ -240,6 +255,8 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                 imageFileTemp = imageFile
                 imgBtnImageSelect.visibility = View.INVISIBLE
                 rlImage.visibility = View.VISIBLE
+                attachmentLayout.visibility = View.GONE
+               // more.visibility = View.VISIBLE
                 // uploadDataInPortfolioMediaApi(imageFile)
             }
         }
@@ -247,6 +264,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             imgBtnImageSelect.visibility = View.VISIBLE
             rlImage.visibility = View.GONE
             imageFileTemp = null
+            more.visibility = View.VISIBLE
         }
         imgBtnImageSelect.setOnClickListener { uploadableImage!!.showAttachmentImageBottomSheet(false) }
         imgBtnSend.setOnClickListener {
@@ -271,6 +289,78 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             intent.putExtras(bundle)
             startActivity(intent)
         }
+
+        more.setOnClickListener {
+            attachmentLayout.visibility = View.VISIBLE
+            more.visibility = View.GONE
+        }
+
+        edtCommentMessage.setOnClickListener{
+            attachmentLayout.visibility = View.GONE
+            more.visibility = View.VISIBLE
+        }
+
+        edtCommentMessage.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                attachmentLayout.visibility = View.GONE
+                more.visibility = View.VISIBLE
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        camera.setOnClickListener { view1: View? ->
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                val permissionlistener: PermissionListener = object : PermissionListener {
+
+                    override fun onPermissionGranted() {
+                        val cameraIntent = NewCameraUtil.getTakePictureIntent(this@ChatActivity)
+                        if (cameraIntent == null) {
+                            showToast("can not write to your files to save picture.", this@ChatActivity)
+                        }
+                        try {
+                            startActivityForResult(cameraIntent,
+                                AttachmentBottomSheet.CAMERA_REQUEST
+                            )
+                        } catch (e: ActivityNotFoundException) {
+                            showToast("Can not find your camera.", this@ChatActivity)
+                        }
+                    }
+
+                    override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+
+                    }
+                }
+                TedPermission.with(this)
+                    .setPermissionListener(permissionlistener)
+                    .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                    .setPermissions(Manifest.permission.CAMERA)
+                    .check()
+            } else {
+                val cameraIntent = NewCameraUtil.getTakePictureIntent(this)
+                if (cameraIntent == null) {
+                    showToast("can not write to your files to save picture.", this@ChatActivity)
+                }
+                try {
+                    startActivityForResult(cameraIntent,
+                        AttachmentBottomSheet.CAMERA_REQUEST
+                    )
+                } catch (e: ActivityNotFoundException) {
+                    showToast("Can not find your camera.", this@ChatActivity)
+                }
+            }
+        }
+
+        gallery.setOnClickListener { v: View? ->
+            if (checkPermissionREAD_EXTERNAL_STORAGE(this@ChatActivity)) {
+                val intent = Intent()
+                intent.type = "image/*"
+                intent.action = Intent.ACTION_GET_CONTENT
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+                    AttachmentBottomSheet.GALLERY_REQUEST
+                )
+            }
+        }
+
 
     }
 
@@ -303,7 +393,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         swipeRefresh.setOnRefreshListener(this)
         // use a linear layout manager
         layoutManager = LinearLayoutManager(this@ChatActivity)
-        layoutManager!!.stackFromEnd = true
+       // layoutManager!!.stackFromEnd = true
         recyclerView.layoutManager = layoutManager
         adapter = ChatAdapter(this@ChatActivity, ArrayList(), conversationModel!!.sender.id)
         recyclerView.adapter = adapter
@@ -321,9 +411,10 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         cvAction = findViewById(R.id.cvAction)
         btnUnblock = findViewById(R.id.btnUnblock)
         txtStatus = findViewById(R.id.txt_status)
-        cardStatus = findViewById(R.id.card_status)
-        cardStatus = findViewById(R.id.card_status)
+
+      //  cardStatus = findViewById(R.id.card_status)
         imgBtnTaskAction = findViewById(R.id.img_btn_task_action)
+        imgBtnTaskAction.setText("View Job Details")
         imgAttachment = findViewById(R.id.img_attachment)
         lytTaskDetails = findViewById(R.id.lyt_task_details)
         recyclerView = findViewById(R.id.recycler_view)
@@ -344,6 +435,11 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         txtCount = findViewById(R.id.txtCount)
         pbLoading = findViewById(R.id.pbLoading)
         icSetting = findViewById(R.id.icSetting)
+        attachmentLayout = findViewById(R.id.attachmentsParent)
+        more = findViewById(R.id.img_chat_more)
+        gallery = findViewById(R.id.gallery)
+        camera = findViewById(R.id.camera)
+        document = findViewById(R.id.pdfDocument)
 
     }
 
@@ -482,31 +578,31 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         txtJobTitle.text = conversationModel.name
         txtStatus.text = conversationModel.status
 
-        when (conversationModel.status) {
-            Constant.TASK_CANCELLED -> {
-                cardStatus.setCardBackgroundColor(getColor(R.color.R050))
-                txtStatus.setTextColor(ContextCompat.getColor(this, R.color.myJobsColorTaskCancelledTrans))
-            }
-            Constant.TASK_CLOSED -> {
-                cardStatus.setCardBackgroundColor(getColor(R.color.N030))
-                txtStatus.setTextColor(ContextCompat.getColor(this, R.color.N080))
-            }
-            Constant.TASK_COMPLETE, "completed" -> {
-                cardStatus.setCardBackgroundColor(getColor(R.color.G050))
-                txtStatus.setTextColor(ContextCompat.getColor(this, R.color.G400))
-            }
-            (Constant.TASK_OPEN), "posted", "offered" -> {
-                cardStatus.setCardBackgroundColor(getColor(R.color.P050))
-                txtStatus.setTextColor(ContextCompat.getColor(this, R.color.P300))
-            }
-            Constant.TASK_ASSIGNED, "overdue" -> {
-                cardStatus.setCardBackgroundColor(getColor(R.color.Y050))
-                txtStatus.setTextColor(ContextCompat.getColor(this, R.color.Y400))
-            }
-            else -> {
-                cardStatus.setCardBackgroundColor(getColor(R.color.colorTaskCompleted))
-            }
-        }
+//        when (conversationModel.status) {
+//            Constant.TASK_CANCELLED -> {
+//                cardStatus.setCardBackgroundColor(getColor(R.color.R050))
+//                txtStatus.setTextColor(ContextCompat.getColor(this, R.color.myJobsColorTaskCancelledTrans))
+//            }
+//            Constant.TASK_CLOSED -> {
+//                cardStatus.setCardBackgroundColor(getColor(R.color.N030))
+//                txtStatus.setTextColor(ContextCompat.getColor(this, R.color.N080))
+//            }
+//            Constant.TASK_COMPLETE, "completed" -> {
+//                cardStatus.setCardBackgroundColor(getColor(R.color.G050))
+//                txtStatus.setTextColor(ContextCompat.getColor(this, R.color.G400))
+//            }
+//            (Constant.TASK_OPEN), "posted", "offered" -> {
+//                cardStatus.setCardBackgroundColor(getColor(R.color.P050))
+//                txtStatus.setTextColor(ContextCompat.getColor(this, R.color.P300))
+//            }
+//            Constant.TASK_ASSIGNED, "overdue" -> {
+//                cardStatus.setCardBackgroundColor(getColor(R.color.Y050))
+//                txtStatus.setTextColor(ContextCompat.getColor(this, R.color.Y400))
+//            }
+//            else -> {
+//                cardStatus.setCardBackgroundColor(getColor(R.color.colorTaskCompleted))
+//            }
+//        }
 
     }
 
@@ -535,6 +631,8 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                     Timber.e(response)
                     // categoryArrayList.clear();
                     try {
+                        Log.d("chatres",response.toString())
+
                         val jsonObject = JSONObject(response!!)
                         val gson = Gson()
                         val chatResponse = gson.fromJson(jsonObject.toString(), ChatResponse::class.java)
@@ -605,7 +703,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                 imageFileTemp = null
                 imgBtnImageSelect.visibility = View.VISIBLE
                 rlImage.visibility = View.GONE
-
+                more.visibility = View.VISIBLE
                 pbLoading.visibility = View.GONE
                 imgBtnSend.visibility = View.VISIBLE
                 Timber.d(response.toString())
@@ -641,12 +739,14 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                 pbLoading.visibility = View.GONE
                 imgBtnSend.visibility = View.VISIBLE
                 showToast("Something went wrong", this@ChatActivity)
+                Log.d("errorOnSending", t.message.toString());
             }
         })
     }
 
     private fun validation(): Boolean {
         if (TextUtils.isEmpty(Objects.requireNonNull(edtCommentMessage.text).toString().trim { it <= ' ' })) {
+            Log.d("validation", "ggg");
             if (imageFileTemp != null)
                 return true
             //edtCommentMessage.error = "?"
@@ -683,6 +783,40 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
 
     override fun onBlockConfirmClick() {
         setUserBlockState(true)
+    }
+    fun checkPermissionREAD_EXTERNAL_STORAGE(context: Context?): Boolean {
+        val permissionlistener: PermissionListener = object : PermissionListener {
+
+            override fun onPermissionGranted() {
+                val intent = Intent()
+                intent.type = "image/*"
+                intent.action = Intent.ACTION_GET_CONTENT
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+                    AttachmentBottomSheet.GALLERY_REQUEST
+                )
+
+            }
+
+            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+
+            }
+        }
+        val currentAPIVersion = Build.VERSION.SDK_INT
+        return if (currentAPIVersion >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this@ChatActivity,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                TedPermission.with(context)
+                    .setPermissionListener(permissionlistener)
+                    .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                    .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .check()
+                false
+            } else {
+                true
+            }
+        } else {
+            true
+        }
     }
 
 

@@ -3,6 +3,7 @@ package com.jobtick.android.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.*
@@ -14,6 +15,7 @@ import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.SessionManager
 import org.json.JSONException
 import org.json.JSONObject
+import timber.log.Timber
 import java.util.*
 
 class SplashActivity : AppCompatActivity() {
@@ -30,8 +32,11 @@ class SplashActivity : AppCompatActivity() {
 
     private fun login() {
         if (sessionManager!!.login) {
+            Timber.tag("where am i").d("im logged in")
             accountDetails
         } else {
+            Timber.tag("where am i").d( "im not logged in")
+
             val sign = Intent(this@SplashActivity, SigInSigUpActivity::class.java)
             sign.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             sign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -45,6 +50,8 @@ class SplashActivity : AppCompatActivity() {
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_GET_ACCOUNT,
                     Response.Listener { response: String? ->
                         try {
+                            Log.d("where", "here in response:" + response)
+
                             val jsonObject = JSONObject(response!!)
                             val jsonObjectData = jsonObject.getJSONObject("data")
                             val userAccountModel = UserAccountModel().getJsonToModel(jsonObjectData)

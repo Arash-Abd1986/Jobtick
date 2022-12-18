@@ -9,6 +9,7 @@ import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
@@ -49,12 +50,15 @@ class NewSplashActivity : AppCompatActivity() {
         val handler = Handler()
         handler.postDelayed({
             sessionManager = SessionManager(this@NewSplashActivity)
+                Log.d("hereinsplash","");
             checkForUpdate()
+           // accountDetails
         }, 2000)
     }
 
 
     private fun login() {
+        Log.d("splashlogin", "");
         if (sessionManager!!.tokenType != null && sessionManager!!.accessToken != null) {
             accountDetails
         } else {
@@ -66,6 +70,7 @@ class NewSplashActivity : AppCompatActivity() {
         get() {
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_GET_ACCOUNT,
                     Response.Listener { response: String? ->
+                        Log.d("splashgetAccountres",response.toString());
                         try {
                             val jsonObject = JSONObject(response!!)
                             val jsonObject_data = jsonObject.getJSONObject("data")
@@ -96,7 +101,10 @@ class NewSplashActivity : AppCompatActivity() {
                             openSignUpPage()
                         }
                     },
-                    Response.ErrorListener { error: VolleyError? -> openSignUpPage() }) {
+                    Response.ErrorListener { error: VolleyError? ->
+                        Log.d("splashgetAccounterr",error.toString());
+
+                        openSignUpPage() }) {
                 override fun getHeaders(): Map<String, String> {
                     val map1: MutableMap<String, String> = HashMap()
                     map1["authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
@@ -118,9 +126,13 @@ class NewSplashActivity : AppCompatActivity() {
     }
 
     private fun checkForUpdate() {
+        Log.d("splashcheckupdate", Constant.BASE_URL + Constant.CHECK_UPDATE)
+
         val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL + Constant.CHECK_UPDATE,
                 Response.Listener { response: String? ->
                     try {
+                        Log.d("splashcheckupdate", response.toString())
+
                         val jsonObject = JSONObject(response!!)
                         val jsonString = jsonObject.toString() //http request
                         val gson = Gson()

@@ -356,9 +356,9 @@ class MapViewActivity :
         val markerOptions = MarkerOptions().position(destination)
                 .icon(bitmapFromVector(this, if (isMyLocation) R.drawable.ic_loc_selected else R.drawable.ic_loc_not_selected, 16, 16))
         val marker = googleMap!!.addMarker(markerOptions)
-        marker.tag = tag
-        marker.title = title
-        mMarkerArray.add(marker)
+        marker?.tag = tag
+        marker?.title = title
+        mMarkerArray.add(marker!!)
     }
 
     private fun bitmapFromVector(context: Context, vectorResId: Int, w: Int, h: Int): BitmapDescriptor? {

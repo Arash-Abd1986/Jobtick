@@ -21,13 +21,14 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
+                app:buttonGravity="center_vertical"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="@dimen/_65dp"
                 android:background="@color/white"
                 app:contentInsetStartWithNavigation="0dp"
                 app:menu="@menu/menu_chat"
-                app:navigationIcon="@drawable/ic_back"
+                app:navigationIcon="@drawable/new_design_back_arrow"
                 app:subtitle="Offline"
                 app:subtitleTextColor="@color/colorPrimary">
 
@@ -40,7 +41,7 @@
                     android:layout_marginRight="5dp"
                     android:contentDescription="@string/todo"
                     android:padding="5dp"
-                    android:src="@drawable/ic_more"
+                    android:src="@drawable/new_design_more"
                     android:visibility="visible" />
 
                 <LinearLayout
@@ -51,13 +52,14 @@
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/img_avatar"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
                         app:civ_border_width="0dp"
 
-                        tools:src="@drawable/pic" />
+                        tools:src="@drawable/new_design_person"
+                        app:civ_circle_color="#F5F5F5"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -69,7 +71,7 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_title"
-                            style="@style/materialText_600_12"
+                            style="@style/materialText_400_12"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:maxLines="1"
@@ -78,11 +80,12 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txt_subtitle"
-                            style="@style/materialText_400_12"
+
+                 android:textSize="12dp"           style="@style/materialText_400_12"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:maxLines="1"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/primary_500"
                             android:textStyle="normal"
                             tools:text="Online" />
                     </LinearLayout>
@@ -97,7 +100,11 @@
                 android:layout_height="1dp"
                 android:background="@color/N040" />
 
-            <RelativeLayout
+            <LinearLayout
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
                 android:id="@+id/holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,83 +112,124 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:orientation="vertical">
+                <LinearLayout
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
 
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_status"
+                        style="@style/overline"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_label"
+                        android:drawablePadding="4dp"
+                        android:gravity="center_vertical|start"
+                        android:singleLine="true"
+                        android:textColor="@color/secondary_400"
+                        tools:text="Open" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:gravity="center_vertical|end"
+                        android:id="@+id/img_btn_task_action"
+                        style="@style/overline"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:textColor="@color/primary_p500_base_light"
+                        tools:text="View Job Details" />
+
+                                    <ImageView
+                    android:id="@+id/label"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/lyt_task_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="10dp"
+
                     android:background="@color/transparent"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_job_title"
                         style="@style/materialText_600_12"
-                        android:layout_width="180dp"
+                        android:textSize="@dimen/_14sp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
+                     android:layout_marginEnd="20dp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textColor="@color/textColor"
+                        android:textColor="@color/neutral_light_700"
                         tools:text="Clean my two bedroom apartment" />
 
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        tools:ignore="UselessLeaf" />
+<!--                    <FrameLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        tools:ignore="UselessLeaf" />-->
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_status"
-                        android:layout_width="@dimen/_70dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="@dimen/spacing_line"
-                        android:elevation="0dp"
-                        android:padding="8dp"
-                        app:cardBackgroundColor="@color/colorTaskAssigned"
-                        app:cardCornerRadius="3dp">
+<!--                    <androidx.cardview.widget.CardView-->
+<!--                        android:id="@+id/card_status"-->
+<!--                        android:layout_width="@dimen/_70dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_margin="@dimen/spacing_line"-->
+<!--                        android:elevation="0dp"-->
+<!--                        android:padding="8dp"-->
+<!--                        app:cardBackgroundColor="@color/colorTaskAssigned"-->
+<!--                        app:cardCornerRadius="3dp">-->
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/txt_status"
-                            style="@style/materialText_600_10"
-                            android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="4dp"
-                            android:background="?attr/selectableItemBackground"
-                            android:gravity="center"
-                            android:text="@string/assigned"
-                            android:textColor="@color/white" />
-                    </androidx.cardview.widget.CardView>
+<!--&lt;!&ndash;                        <com.google.android.material.textview.MaterialTextView&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:id="@+id/txt_status"&ndash;&gt;-->
+<!--&lt;!&ndash;                            style="@style/materialText_600_10"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_height="30dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_marginStart="4dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_marginEnd="4dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:background="?attr/selectableItemBackground"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:text="@string/assigned"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:textColor="@color/white" />&ndash;&gt;-->
+<!--                    </androidx.cardview.widget.CardView>-->
 
-                    <ImageView
-                        android:id="@+id/img_btn_task_action"
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/shape_tab_primary"
-                        android:contentDescription="@string/todo"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_arrow_right" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/img_btn_task_action"-->
+<!--                        android:layout_width="30dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="4dp"-->
+<!--                        android:layout_marginEnd="4dp"-->
+<!--                        android:background="@drawable/shape_tab_primary"-->
+<!--                        android:contentDescription="@string/todo"-->
+<!--                        android:padding="8dp"-->
+<!--                        android:src="@drawable/ic_arrow_right" />-->
                 </LinearLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/N040" />
+
         </LinearLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="60dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_below="@+id/lin_holder"
-            android:layout_alignParentBottom="true"
-            android:background="@color/N020"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -193,7 +241,7 @@
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/N020"
+                    android:background="@color/white"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:paddingHorizontal="7dp"
@@ -246,6 +294,11 @@
             </LinearLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+        <include
+
+            android:id="@+id/bottomLayout"
+            layout="@layout/new_design_bottom_chat_page"
+            />
 
         <RelativeLayout
             android:id="@+id/rlt_layout_action_data"
@@ -253,8 +306,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:minHeight="?attr/actionBarSize"
-            android:visibility="visible">
-
+            android:visibility="gone">
             <RelativeLayout
                 android:id="@+id/cvAction"
                 android:layout_width="match_parent"

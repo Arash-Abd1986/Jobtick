@@ -160,6 +160,10 @@
     <dimen name="inner_frame_layout_padding">5dp</dimen>
 
 
+    //new design by Arash Abd
+    <dimen  name="message_title_first_line">17dp</dimen>
+    <dimen  name="message_title_second_line">14dp</dimen>
+    <dimen  name="message_title_third_line">12dp</dimen>
 
     <dimen name="fast_scroller_thumb_elevation">2dp</dimen>
     <dimen name="fast_scroller_thumb_size">32dp</dimen>

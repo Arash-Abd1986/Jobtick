@@ -116,7 +116,7 @@ class SignInFragment : Fragment(), EditTextError {
         } else if (TextUtils.isEmpty(edtPassword!!.text.trim { it <= ' ' })) {
             edtPassword!!.setError("Enter your password")
             return false
-        } else if (edtPassword!!.text.trim { it <= ' ' }.length < 8) {
+        } else if (edtPassword!!.text.trim { it <= ' ' }.length < 6) {
             edtPassword!!.setError("Password must be atleast 8 characters.")
             return false
         }

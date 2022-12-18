@@ -256,7 +256,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 if (item.getSender_id().equals(sender_id)) {
 
                     if (item.is_seen() == 1) {
-                        doubleTickF.setVisibility(View.GONE);
+                        doubleTickF.setVisibility(View.VISIBLE);
                     } else {
                         doubleTickF.setVisibility(View.GONE);
                     }
@@ -292,7 +292,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
                 if (item.getSender_id().equals(sender_id)) {
                     if (item.is_seen() == 1) {
-                        doubleTick.setVisibility(View.GONE);
+                        doubleTick.setVisibility(View.VISIBLE);
                     } else {
                         doubleTick.setVisibility(View.GONE);
                     }

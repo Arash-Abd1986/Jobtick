@@ -15,6 +15,10 @@
         android:elevation="5dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="161dp"
@@ -29,18 +33,79 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/ic_baseline_block" />
+                android:src="@drawable/new_design_help_center" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/block"
+                android:id="@+id/helpCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="start"
-                android:text="Block user"
+                android:text="Help Center"
                 android:textAppearance="@style/materialText_400_14"
                 android:textColor="@color/N900" />
 
+
+        </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/N040" />
+
+            <LinearLayout
+                android:layout_width="161dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_back_white_button_active_r8"
+                android:orientation="horizontal"
+                android:paddingHorizontal="17dp"
+                android:paddingVertical="13dp"
+                tools:context=".activities.ChatActivity">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/new_design_report" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/report"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="start"
+                    android:text="Report"
+                    android:textAppearance="@style/materialText_400_14"
+                    android:textColor="@color/N900" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="161dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_back_white_button_active_r8"
+                android:orientation="horizontal"
+                android:paddingHorizontal="17dp"
+                android:paddingVertical="13dp"
+                tools:context=".activities.ChatActivity">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/new_design_block" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="start"
+                    android:text="Block user"
+                    android:textAppearance="@style/materialText_400_14"
+                    android:textColor="@color/N900" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

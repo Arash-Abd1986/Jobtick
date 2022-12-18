@@ -165,6 +165,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                     }
 
                 }
+                else -> {}
             }
         }
         option2Icon.setOnClickListener {
@@ -205,6 +206,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                     }
 
                 }
+                else -> {}
             }
         }
     }
@@ -534,6 +536,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
                 linOptions.visibility = View.VISIBLE
 
             }
+            else -> {}
         }
 
     }

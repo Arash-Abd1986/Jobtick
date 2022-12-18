@@ -16,8 +16,9 @@
         android:layout_alignParentTop="true"
         android:gravity="start"
         android:paddingTop="4dp"
-        android:textColor="@color/N900"
-        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:text="Test Text Sample"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +39,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="end"
             android:textColor="@color/N600"
-            android:textSize="@dimen/_10sp"
+            android:textSize="10sp"
             tools:text="11:40" />
 
         <ImageView
@@ -48,6 +49,6 @@
             android:contentDescription="@string/todo"
             android:padding="0dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_vector__7_" />
+            app:srcCompat="@drawable/new_design_two_ticks" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

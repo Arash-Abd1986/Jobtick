@@ -21,6 +21,7 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/view_file_chat_txtShowMessage"
         style="@style/materialText_500_14"
+        android:textSize="16dp"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_alignParentTop="true"
@@ -31,7 +32,7 @@
         android:lines="1"
         android:paddingHorizontal="12dp"
         android:paddingTop="12dp"
-        android:textColor="@color/N200"
+        android:textColor="@color/black"
         tools:text="sf;kjglksfjglksgjlskjglskfgjksj.gjdsjhhjdsghshgjdsfghsghsghgksjhgksghlgs;l;g;lsl;gsksjg" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -45,8 +46,8 @@
         android:gravity="start|top"
         android:lines="2"
         android:paddingHorizontal="12dp"
-        android:textColor="@color/colorAccent"
-        android:textSize="@dimen/_12sp"
+        android:textColor="@color/neutral_light_500"
+        android:textSize="10dp"
         tools:text="sf;kjgksjg" />
 
 
@@ -66,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="end"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/secondary_s400"
             android:textSize="@dimen/_10sp"
             tools:text="11:40" />
 
@@ -77,7 +78,7 @@
             android:contentDescription="@string/todo"
             android:padding="5dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_vector__7_" />
+            app:srcCompat="@drawable/new_design_two_ticks" />
     </LinearLayout>
 
     <com.google.android.material.textview.MaterialTextView

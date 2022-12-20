@@ -168,5 +168,11 @@
     <dimen name="fast_scroller_thumb_elevation">2dp</dimen>
     <dimen name="fast_scroller_thumb_size">32dp</dimen>
     <dimen name="fast_scroller_default_text_padding">4dp</dimen>
+    
+    
+    //profile
+    <dimen name="profile_acounts_header">14dp</dimen>
+    <dimen name="profile_acounts_values">16dp</dimen>
+    <dimen name="profile_mobile_verification">30dp</dimen>
 
 </resources>

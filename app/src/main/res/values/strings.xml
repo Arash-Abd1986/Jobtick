@@ -617,5 +617,8 @@
     <string name="we_need_to_confirm_your_email_u_e_example_com">We need to confirm your email:</string>
     <string name="set_your_password">Set your Password</string>
     <string name="draft_description">Your job %s is almost ready to post. Would you like to resume where you left off?</string>
-
+    <string name="profile_delete_account_warning">Deleting your account is irreversible. Your data will be permanently removed from Jobtick servers. You will not be able to reactivate you account.</string>
+    <string name="profile_verify_number">Enter the code we\'ve just sent to your mobile to confirm your identity.</string>
+    <string name="profile_about_hint">Write a few sentences about yourself</string>
+    <string name="profile_forgotpassword_hint">Your password must contain at least one lowercase character, one special character, one uppercase character, 8 characters minimum, and one number</string>
 </resources>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/backgeound_border_payment_history_header"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:padding="1dp"
+    android:layout_margin="17dp"
+    android:layout_marginStart="17dp"
+    android:layout_marginEnd="17dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_height="45dp">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+<!--        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon, 0, 0, 0);-->
+
+        <com.google.android.material.textview.MaterialTextView
+
+            android:layout_toEndOf="@+id/tick1"
+            android:gravity="center"
+            android:padding="5dp"
+            android:id="@+id/txt_name_value"
+            style="@style/materialText_400_12"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="12dp"
+            android:textColor="@color/light_neutral_n700"
+            tools:text="Day" />
+        <ImageView
+            android:id="@+id/tick1"
+            android:layout_marginStart="22.5dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/new_design_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <RelativeLayout
+
+        android:background="@color/primary_50"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <!--        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon, 0, 0, 0);-->
+
+        <com.google.android.material.textview.MaterialTextView
+
+            android:layout_toEndOf="@+id/tick1"
+            android:gravity="center"
+            android:padding="5dp"
+            android:id="@+id/txt_name_value"
+            style="@style/materialText_400_12"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="12dp"
+            android:textColor="@color/light_neutral_n700"
+            tools:text="Week" />
+        <View
+            android:layout_alignParentStart="true"
+            android:background="@color/light_neutral_n700"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/tick1"
+            android:layout_marginStart="22.5dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/new_design_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <!--        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon, 0, 0, 0);-->
+
+        <com.google.android.material.textview.MaterialTextView
+
+            android:layout_toEndOf="@+id/tick1"
+            android:gravity="center"
+            android:padding="5dp"
+            android:id="@+id/txt_name_value"
+            style="@style/materialText_400_12"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="12dp"
+            android:textColor="@color/light_neutral_n700"
+            tools:text="Month" />
+        <View
+            android:layout_alignParentStart="true"
+            android:background="@color/light_neutral_n700"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/tick1"
+            android:layout_marginStart="22.5dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/new_design_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <!--        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon, 0, 0, 0);-->
+
+        <com.google.android.material.textview.MaterialTextView
+
+            android:layout_toEndOf="@+id/tick1"
+            android:gravity="center"
+            android:padding="5dp"
+            android:id="@+id/txt_name_value"
+            style="@style/materialText_400_12"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="12dp"
+            android:textColor="@color/light_neutral_n700"
+            tools:text="Custom" />
+        <View
+            android:layout_alignParentStart="true"
+            android:background="@color/light_neutral_n700"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:id="@+id/tick1"
+            android:layout_marginStart="22.5dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/new_design_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</LinearLayout>

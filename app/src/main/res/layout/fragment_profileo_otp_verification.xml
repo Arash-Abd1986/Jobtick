@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/header_new_design"/>
-    <?xml version="1.0" encoding="utf-8"?>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

@@ -66,10 +66,12 @@
             </LinearLayout>
 
         </LinearLayout>
+
         <include
             layout="@layout/job_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <include
             layout="@layout/job_poster"
             android:layout_width="match_parent"

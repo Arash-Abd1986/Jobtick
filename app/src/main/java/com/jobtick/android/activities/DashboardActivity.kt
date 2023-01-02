@@ -6,8 +6,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.transition.Explode
 import android.view.MenuItem
 import android.view.View
+import android.view.Window
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -20,6 +22,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.android.volley.DefaultRetryPolicy
@@ -70,12 +73,21 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     var smallPlus: FrameLayout? = null
     private var creditCardModel: CreditCardModel? = null
     var navController: NavController? = null
+    var navHostFragment: NavHostFragment? = null
     private var navigationID = -1
 
     @SuppressLint("NonConstantResourceId")
     override fun onCreate(savedInstanceState: Bundle?) {
+        with(window) {
+            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+
+            // Set an exit transition
+            exitTransition = Explode()
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+
         initVars()
         initNavigation()
         handleBundle()
@@ -294,6 +306,8 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                 R.id.navigation_profile -> {
                     setMenuItemProperties(4)
                 }
+                else ->
+                    setMenuItemProperties(4)
             }
             navigationID = destination.id
         }

@@ -60,6 +60,61 @@ interface ApiInterface {
         @Body body: RequestBody
     ): Call<String?>?
 
+    @POST("email-verification/resent-otp")
+    fun emailResendOtp(
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        @Body body: RequestBody
+    ): Call<String?>?
+
+    @POST("email-verification")
+    fun emailOtpVerification(
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        @Body body: RequestBody
+    ): Call<String?>?
+
+
+    @POST("account/phone_verification")
+    fun mobileOtpVerification(
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        @Body body: RequestBody
+    ): Call<String?>?
+
+    @POST("account/phone_send_otp")
+    fun mobileSendOtp(
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        @Body body: RequestBody
+    ): Call<String?>?
+
+    @GET("profile/skill/list")
+    fun getSkills(
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        //@Header("authorization") auth: String?
+    ): Call<String?>?
+
+    @GET("profile/skill/all")
+    fun getAllSkills(
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        //@Header("authorization") auth: String?
+    ): Call<String?>?
+    @GET("profile/skill/add")
+    fun addSkills(
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        @Body body: RequestBody
+        //@Header("authorization") auth: String?
+    ): Call<String?>?
+
+    @GET("account/bankaccount")
+    fun getBankAccount(
+        @Header("X-Requested-With") XMLHttpRequest: String?
+    ): Call<String?>?
+
+    @GET("account/billingaddress")
+    fun getBillingAddress(
+        @Header("X-Requested-With") XMLHttpRequest: String?
+    ): Call<String?>?
+
+
+
     @Multipart
     @POST("chat/send")
     fun sendMessageWithImage(

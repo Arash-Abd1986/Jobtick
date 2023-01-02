@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -245,6 +246,9 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_user_name)
         TextView txtUserName;
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.txt_last_name)
+        TextView txtLastName;
         // @SuppressLint("NonConstantResourceId")
         //   @BindView(R.id.img_gallery)
         //   ImageView imgGallery;
@@ -291,12 +295,25 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     }else{
                         imgAvatar.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.new_design_person));
                     }
+                    String name = item.getReceiver().getName();
+                    try {
+                        StringBuilder buffer = new StringBuilder(name);
+                        String firstname = buffer.deleteCharAt(buffer.length() - 1).toString();
+                        String lastName = Character.toString(buffer.charAt(buffer.length() - 1));
+                        txtUserName.setText(firstname);
+                        txtLastName.setText(lastName);
+                    } catch (Exception e) {
+                        txtUserName.setText(item.getReceiver().getName());
 
-                    txtUserName.setText(item.getReceiver().getName());
+                    }
+
                     if (item.getReceiver().getIsOnline()) {
-                        txtStatus.setVisibility(View.VISIBLE);
+                        txtStatus.setBackground(ContextCompat.getDrawable(context, R.drawable.new_design_ellipse_filled));
+                        //txtStatus.setVisibility(View.VISIBLE);
                     } else {
-                        txtStatus.setVisibility(View.GONE);
+                        txtStatus.setBackground(ContextCompat.getDrawable(context, R.drawable.new_design_ellipse));
+
+                        //txtStatus.setVisibility(View.GONE);
                     }
                 }else{
                     imgAvatar.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.new_design_person));
@@ -328,8 +345,9 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
 
             if (item.getUnseenCount() != 0) {
-                txtUnseenCount.setVisibility(View.VISIBLE);
-                rlUnseenCount.setVisibility(View.VISIBLE);
+                hasUnreadMessage.setVisibility(View.VISIBLE);
+                txtUnseenCount.setVisibility(View.GONE);
+                rlUnseenCount.setVisibility(View.GONE);
                 if (item.getUnseenCount() > 9) {
                     txtUnseenCount.setText("+9");
                 } else {

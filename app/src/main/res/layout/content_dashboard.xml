@@ -22,6 +22,4 @@
         android:layout_above="@+id/nav_view"
         app:defaultNavHost="true" />
 
-
-
 </RelativeLayout>

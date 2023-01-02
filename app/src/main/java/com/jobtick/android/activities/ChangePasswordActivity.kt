@@ -100,7 +100,7 @@ class ChangePasswordActivity : ActivityBase(), TextWatcher {
 
     private fun initVM() {
         changePassViewModel = ViewModelProvider(this).get(ChangePassViewModel::class.java)
-        changePassViewModel.changePassResponse().observe(this, androidx.lifecycle.Observer {
+        changePassViewModel.changePassResponse().observe(this) {
             hideProgressDialog()
             try {
 
@@ -113,7 +113,7 @@ class ChangePasswordActivity : ActivityBase(), TextWatcher {
                 Timber.e(e.toString())
                 e.printStackTrace()
             }
-        })
+        }
         changePassViewModel.getError2().observe(this, androidx.lifecycle.Observer {
             this.showToast("Something went wrong", this)
 

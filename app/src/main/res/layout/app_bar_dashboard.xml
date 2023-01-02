@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="center"
-        android:backgroundTint="@color/backgroundLightGrey"
+        android:backgroundTint="@color/white"
         android:fontFamily="@font/roboto_bold"
         android:gravity="center"
         android:theme="@style/ThemeOverlay_Toolbar"

@@ -166,32 +166,20 @@
     <string name="reason_worker_4">I am not able to do the job</string>
     <string name="increase_budget">Increase Price</string>
 
-    <string-array name="array_name">
-        <item>All Time</item>
-        <item>All Time</item>
-        <item>All Time</item>
-    </string-array>
-
-
-    <string-array name="report_category">
-        <item>Spam</item>
-        <item>Rude or Offensive</item>
-        <item>Breach of marketplace rules</item>
-        <item>Others</item>
-
-    </string-array>
-
-
     <string name="read_more">More</string>
+
+
     <string name="read_less">Less</string>
+
+
     <string name="portfolio">Portfolio</string>
     <string name="skills">Skills</string>
     <string name="get_quote">Get a  Quote</string>
     <string name="name">Name</string>
     <string name="verify">Verify</string>
-
     <string name="profile">Profile</string>
     <string name="level">Level</string>
+
     <string name="review">Reviews</string>
     <string name="view_all">View All</string>
     <string name="as_ticker">As a Ticker</string>
@@ -221,7 +209,7 @@
     <string name="aaron_brooks">Aaron Brooks</string>
     <string name="surfers_paradise_australia">Surfers Paradise, Australia</string>
     <string name="active_13_min_ago">Active 13 min. ago</string>
-    <string name="chat">Chats</string>
+    <string name="chat">Messaging</string>
     <string name="private_chat">Private Chat</string>
     <string name="offer">Offers</string>
     <string name="offerWithNumber">OFFER(%1$s)</string>
@@ -254,15 +242,15 @@
     <string name="email_confirmation_code">Confirmation code</string>
     <string name="verification_sent">\"Enter verification code sent to "</string>
     <string name="enter_verification_code">Enter the confirmation code we sent to</string>
-
-    <!-- onboarding descriptions -->
     <string name="poster_page1">Post whatever you need to get done!</string>
     <string name="poster_page2">The best offers will be made on your job by Tickers</string>
+
+    <!-- onboarding descriptions -->
     <string name="poster_page3">Select the best Ticker to get your job done</string>
     <string name="poster_page4">Great! Job is done! Enjoy Jobtick!</string>
-
     <string name="worker_page1">Explore jobs which suit you</string>
     <string name="worker_page2">Make your best offer to get the job</string>
+
     <string name="worker_page3">You will be notified if your offer has been accepted by poster</string>
     <string name="worker_page4">Do your best! enjoy your money!</string>
     <string name="get_started">Get Started</string>
@@ -274,9 +262,9 @@
     <string name="choose_an_action">Choose an action</string>
     <string name="enter_job_location">Enter job location</string>
     <string name="add_requirements">Add requirements</string>
-
     <string name="nathan_fox">Nathan Fox</string>
     <string name="requirements">Requirements</string>
+
     <string name="upload_a_profile_picture">Upload a profile picture</string>
     <string name="provide_bank_account">Provide bank account</string>
     <string name="account_name">Account name</string>
@@ -309,13 +297,13 @@
     <string name="enter_verification_code_sent_to">Enter verification code sent to</string>
     <string name="verify_mobile_number">Verify mobile number</string>
     <string name="job_cost">Job Cost</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
+    <!-- Strings used for fragments for navigation -->
     <string name="previous">Previous</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
     <string name="title_activity_payment_s">PaymentSActivity</string>
     <string name="paid">Paid</string>
     <string name="select_one_reason_for_your_request">Select one reason for your request</string>
@@ -407,9 +395,9 @@
     <string name="no_transaction_recorded_here">No transaction recorded here</string>
     <string name="no_messages_yet">No messages yet</string>
     <string name="me">Me</string>
-
     <string name="cancellation_ticker"><b>You</b> have requested to cancel this job on <b>%s</b></string>
     <string name="view_cancellation_request">View cancellation request</string>
+
     <string name="state">State</string>
     <string name="post_code">Postcode</string>
     <string name="country">Country</string>
@@ -576,12 +564,12 @@
     <string name="update_message">Good new! a new version of Jobtick is available. Update the app to take advantage of the latest features.</string>
     <string name="update_title">We’re better than ever</string>
     <string name="title_activity_update">UpdateActivity</string>
+    <string name="hello_world">Hello Square World!</string>
+    <string name="good_new_a_new_version_of_jobtick_is_available_update_the_app_to_take_advantage_of_the_latest_features">Good new! a new version of Jobtick is available. Update the app to take advantage of the latest features.</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">Hello Square World!</string>
-    <string name="good_new_a_new_version_of_jobtick_is_available_update_the_app_to_take_advantage_of_the_latest_features">Good new! a new version of Jobtick is available. Update the app to take advantage of the latest features.</string>
     <string name="no_result_found">No result found :(</string>
     <string name="sorry_we_couldn_t_find_any_matches_for_you_please_check_spelling_or_try_another_keyword">Sorry we couldn’t find any matches for you. Please check spelling or try another keyword</string>
     <string name="new_job_count">%1$s New Job</string>
@@ -618,7 +606,20 @@
     <string name="set_your_password">Set your Password</string>
     <string name="draft_description">Your job %s is almost ready to post. Would you like to resume where you left off?</string>
     <string name="profile_delete_account_warning">Deleting your account is irreversible. Your data will be permanently removed from Jobtick servers. You will not be able to reactivate you account.</string>
+    <string name="profile_logout">Are you sure for logging out?</string>
     <string name="profile_verify_number">Enter the code we\'ve just sent to your mobile to confirm your identity.</string>
     <string name="profile_about_hint">Write a few sentences about yourself</string>
     <string name="profile_forgotpassword_hint">Your password must contain at least one lowercase character, one special character, one uppercase character, 8 characters minimum, and one number</string>
+    <string-array name="array_name">
+        <item>All Time</item>
+        <item>All Time</item>
+        <item>All Time</item>
+    </string-array>
+    <string-array name="report_category">
+        <item>Spam</item>
+        <item>Rude or Offensive</item>
+        <item>Breach of marketplace rules</item>
+        <item>Others</item>
+
+    </string-array>
 </resources>

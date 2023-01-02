@@ -21,6 +21,8 @@ import com.jobtick.android.utils.scrolview.FastScrollItemIndicator
 import com.jobtick.android.utils.scrolview.FastScrollerView
 import com.jobtick.android.viewmodel.PostAJobViewModel
 import com.jobtick.android.viewmodel.ViewModelFactory
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CategoriesFragment : Fragment() {
     private lateinit var viewModel: PostAJobViewModel
@@ -89,7 +91,7 @@ class CategoriesFragment : Fragment() {
                         fastScroller.setupWithRecyclerView(rlCategories, { it ->
                             val item = addTagListSuggest[it]
                             FastScrollItemIndicator.Text(
-                                    item.substring(0, 1).toUpperCase() // Grab the first letter and capitalize it
+                                item.substring(0, 1).uppercase(Locale.ROOT) // Grab the first letter and capitalize it
                             )
                         })
                     }

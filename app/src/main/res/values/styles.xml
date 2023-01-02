@@ -1139,4 +1139,21 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">14dp</item>
     </style>
+    <style name="AnimatedDialog" parent="Theme.AppCompat.Light.Dialog">
+                <item name="android:windowBackground">@null</item>
+        <item name="android:windowAnimationStyle">@style/PauseDialogAnimation</item>
+    </style>
+    <style name="PauseDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/zoomin</item>
+        <item name="android:windowExitAnimation">@anim/fadeout</item>
+    </style>
+    <style name="ChipCustomStyle" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="chipIconEnabled">true</item>
+        <item name="closeIconEnabled">true</item>
+
+        <item name="android:textSize">14dp</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipStrokeColor">@color/neutral_light_500</item>
+        <item name="chipBackgroundColor">@color/white</item>
+    </style>
 </resources>

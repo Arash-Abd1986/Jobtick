@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<include layout="@layout/header_new_design"/>
+<include
+    android:id="@+id/header"
+    layout="@layout/header_new_design"/>
     <ScrollView
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <LinearLayout
+        android:paddingBottom="30dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -24,24 +27,22 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_name_title"
         style="@style/materialText_400_12"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/back"
-        android:layout_toStartOf="@+id/txt_action"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:textSize="@dimen/profile_acounts_header"
         android:textColor="@color/neutral_light_500"
-        tools:text="NAME" />
+        android:text="NAME &amp; ABOUT" />
     <RelativeLayout
+        android:id="@+id/name_parent"
         android:layout_marginTop="8dp"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_name_value"
+            android:id="@+id/txt_username_value"
             style="@style/materialText_400_12"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
@@ -50,7 +51,7 @@
             android:maxLines="1"
             android:textSize="@dimen/profile_acounts_values"
             android:textColor="@color/neutral_light_700"
-            tools:text="Username" />
+            android:text="Name" />
         <ImageView
             android:layout_centerVertical="true"
             android:src="@drawable/new_design_chevron_right"
@@ -58,6 +59,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </RelativeLayout>
+    <View
+        android:background="@color/neutral_light_50"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <RelativeLayout
+        android:id="@+id/about_parent"
+        android:layout_marginTop="8dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_about_value"
+            style="@style/materialText_400_12"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="@dimen/profile_acounts_values"
+            android:textColor="@color/neutral_light_700"
+            android:text="About me" />
+        <ImageView
+            android:layout_centerVertical="true"
+            android:src="@drawable/new_design_chevron_right"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
 </LinearLayout>
         <View
             android:background="@color/neutral_light_50"
@@ -73,19 +105,44 @@
                 android:id="@+id/txt_email_title"
                 style="@style/materialText_400_12"
                 android:layout_marginTop="16dp"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/back"
-                android:layout_toStartOf="@+id/txt_action"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:textSize="@dimen/profile_acounts_header"
                 android:textColor="@color/neutral_light_500"
-                tools:text="EMAIL ADDRESS" />
+                android:text="EMAIL ADDRESS" />
             <RelativeLayout
+                android:id="@+id/edittext_for_email"
                 android:layout_marginTop="8dp"
                 android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailTextInput"
+
+                    style="@style/outlineTextField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="EMAIL ADDRESS"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/email"
+                        android:layout_toStartOf="@+id/email_status"
+                        android:layout_centerVertical="true"
+                        android:maxLength="50"
+                        android:minHeight="54dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+
+                android:layout_marginBottom="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
@@ -98,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    tools:text="arash.abd1986@gmail.com" />
+                    android:text="arash.abd1986@gmail.com" />
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/email_status"
                     style="@style/materialText_400_12"
@@ -108,15 +165,16 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/feedback"
-                    tools:text="Verified"/>
+                    android:text="Verified"/>
             </RelativeLayout>
             <View
                 android:background="@color/neutral_light_50"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <com.google.android.material.textview.MaterialTextView
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
+
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:id="@+id/txt_change_email"
                 style="@style/materialText_400_12"
                 android:maxLines="1"
@@ -125,7 +183,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/profile_acounts_values"
                 android:textColor="@color/primary_500"
-                tools:text="Change Email Address"/>
+                android:text="Change Email Address"/>
 
         </LinearLayout>
         <View
@@ -147,25 +205,29 @@
                 android:maxLines="1"
                 android:textSize="@dimen/profile_acounts_header"
                 android:textColor="@color/neutral_light_500"
-                tools:text="MOBILE NUMBER" />
+                android:text="MOBILE NUMBER" />
             <RelativeLayout
+                android:id="@+id/edittext_for_mobile"
                 android:layout_marginTop="8dp"
                 android:paddingTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/email"
+                    android:id="@+id/numberTextInput"
+
                     style="@style/outlineTextField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="+6112345678"
+                    android:hint="Mobile Number"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
+                        android:id="@+id/number"
                         android:layout_toStartOf="@+id/email_status"
+
                         android:layout_centerVertical="true"
                         android:maxLength="50"
                         android:minHeight="54dp" />
@@ -180,13 +242,13 @@
                 <com.google.android.material.textview.MaterialTextView
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/email_status"
                     android:layout_centerVertical="true"
+                    android:id="@+id/text_mobile_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    tools:text="Username" />
+                    android:text="Status" />
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_number_status"
                     style="@style/materialText_400_12"
@@ -196,7 +258,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/primary_error"
-                    tools:text="Not Verified"/>
+                    android:text="Not Verified"/>
             </RelativeLayout>
 
             <View
@@ -204,9 +266,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <com.google.android.material.textview.MaterialTextView
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:id="@+id/change_email"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:id="@+id/text_change_number"
                 style="@style/materialText_400_12"
                 android:maxLines="1"
                 android:layout_alignParentEnd="true"
@@ -214,7 +276,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/profile_acounts_values"
                 android:textColor="@color/primary_500"
-                tools:text="Verify Mobile Number"/>
+                android:text="Verify Mobile Number"/>
 
         </LinearLayout>
         <View
@@ -239,8 +301,9 @@
                 android:maxLines="1"
                 android:textSize="@dimen/profile_acounts_header"
                 android:textColor="@color/neutral_light_500"
-                tools:text="Account Management" />
+                android:text="Account Management" />
             <RelativeLayout
+                android:id="@+id/delete_account_parent"
                 android:layout_marginTop="8dp"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
@@ -256,7 +319,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    tools:text="Delete Account" />
+                    android:text="Delete Account" />
                 <ImageView
                     android:src="@drawable/new_design_chevron_right"
                     android:layout_centerVertical="true"
@@ -270,6 +333,7 @@
             android:layout_width="match_parent"
             android:layout_height="8dp"/>
         <LinearLayout
+            android:id="@+id/logout_parent"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:orientation="vertical"
@@ -279,16 +343,14 @@
                 android:id="@+id/txt_delete_account"
                 android:gravity="center"
                 style="@style/materialText_400_12"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/back"
-                android:layout_toStartOf="@+id/txt_action"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:textSize="@dimen/profile_acounts_values"
                 android:textColor="@color/primary_error"
-                tools:text="Logout" />
+                android:text="Logout" />
         </LinearLayout>
     </LinearLayout>
     </ScrollView>

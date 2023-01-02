@@ -15,7 +15,7 @@ import com.jobtick.android.R
 
 class NewDesignMessagesFragment : Fragment() {
 
-    private var inboxFragment1: InboxFragment? = null
+    private var inboxFragment1: InboxFragmentOpens? = null
     private var inboxFragment2: InboxFragment? = null
     private var viewPager: ViewPager? = null
     private var tabLayout: TabLayout? = null
@@ -31,7 +31,7 @@ class NewDesignMessagesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        inboxFragment1 = InboxFragment()
+        inboxFragment1 = InboxFragmentOpens()
         inboxFragment2 = InboxFragment()
         tabLayout?.setupWithViewPager(viewPager)
         val viewPagerAdapter = ViewPagerAdapter(getChildFragmentManager(), 0)

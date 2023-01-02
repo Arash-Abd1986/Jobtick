@@ -13,11 +13,15 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.TextUtils
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.jobtick.android.R
+import com.jobtick.android.activities.DashboardActivity
 import com.yalantis.ucrop.UCrop
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
+
 
 class OnUCropImageImpl(private val activity: Activity) : OnCropImage {
     private val uriPathHelper: UriPathHelper

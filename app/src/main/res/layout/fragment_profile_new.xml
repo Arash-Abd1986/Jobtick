@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/header"
+        layout="@layout/header_new_design"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:layout_marginTop="16dp"
+
+            android:layout_gravity="center"
+            android:id="@+id/img_avatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:civ_border_width="0dp"
+
+            android:src="@drawable/new_design_person"
+            app:civ_circle_color="#F5F5F5"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/full_name"
+            android:gravity="center"
+            style="@style/materialText_400_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:text="First name" />
+<!--            <com.google.android.material.textview.MaterialTextView-->
+<!--                android:id="@+id/first_name"-->
+<!--                android:gravity="center"-->
+<!--                style="@style/materialText_400_12"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:maxLines="1"-->
+<!--                android:textSize="20dp"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:text=" Last name" />-->
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/islogin_parent_2"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="3dp"
+            android:drawableEnd="@drawable/new_design_info"
+            android:drawableStart="@drawable/new_design_verified"
+            android:id="@+id/text_verification_status"
+            style="@style/materialText_400_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="@dimen/profile_acounts_values"
+            android:textColor="@color/feedback"
+            android:text="Verified Ticker" />
+        <com.google.android.material.textview.MaterialTextView
+            android:padding="8dp"
+            android:gravity="center"
+            android:id="@+id/text_public_profile"
+            style="@style/materialText_400_12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="@dimen/profile_acounts_values"
+            android:textColor="@color/primary_500"
+            android:text="View Public Profile" />
+        </LinearLayout>
+            <LinearLayout
+                android:animateLayoutChanges="true"
+
+                android:layout_marginTop="16dp"
+                android:id="@+id/noligon_parent"
+
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/materialText_400_12"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+ android:drawablePadding="10dp"                       android:drawableStart="@drawable/new_design_add_circle"
+                        android:maxLines="1"
+                        android:textSize="@dimen/profile_acounts_values"
+                        android:textColor="@color/primary_500"
+                        android:text="Join Jobtick" />
+                </RelativeLayout>
+                <View
+                    android:background="@color/neutral_light_50"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <RelativeLayout
+                    android:id="@+id/login_parent"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/materialText_400_12"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textSize="@dimen/profile_acounts_values"
+ android:drawableStart="@drawable/new_design_login"
+                        android:drawablePadding="10dp"
+                        android:textColor="@color/neutral_light_700"
+                        android:text="Login" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:animateLayoutChanges="true"
+
+            android:id="@+id/islogin_parent"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:animateLayoutChanges="true"
+
+                android:id="@+id/account_parent"
+                android:layout_marginBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_12"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="@dimen/profile_acounts_values"
+                    android:textColor="@color/neutral_light_700"
+                    android:text="Account" />
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:maxLines="1"
+                    android:textSize="@dimen/profile_acounts_header"
+                    android:textColor="@color/neutral_light_500"
+                    android:text="Name, Mobile Number &amp; Email" />
+                </LinearLayout>
+
+                <ImageView
+                    android:src="@drawable/new_design_chevron_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <View
+                android:background="@color/neutral_light_50"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_12"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="@dimen/profile_acounts_values"
+                    android:textColor="@color/neutral_light_700"
+                    android:text="Change Password" />
+                <ImageView
+                    android:src="@drawable/new_design_chevron_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+        <View
+            android:id="@+id/line"
+            android:background="@color/neutral_light_50"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+        <LinearLayout
+            android:id="@+id/portfolio_skills_parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/portfilioParent"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_12"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="@dimen/profile_acounts_values"
+                    android:textColor="@color/neutral_light_700"
+                    android:text="Portfolio" />
+                <ImageView
+                    android:src="@drawable/new_design_chevron_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <View
+                android:background="@color/neutral_light_50"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <RelativeLayout
+                android:id="@+id/skillsParent"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_12"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="@dimen/profile_acounts_values"
+                    android:textColor="@color/neutral_light_700"
+                    android:text="Skills" />
+                <ImageView
+                    android:src="@drawable/new_design_chevron_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:background="@color/neutral_light_50"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+        <LinearLayout
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_12"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="@dimen/profile_acounts_values"
+                    android:textColor="@color/neutral_light_700"
+                    android:text="Job Alerts" />
+                <ImageView
+                    android:src="@drawable/new_design_chevron_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <View
+                android:background="@color/neutral_light_50"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <RelativeLayout
+                android:id="@+id/payments"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_12"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="@dimen/profile_acounts_values"
+                    android:textColor="@color/neutral_light_700"
+                    android:text="Payments" />
+                <ImageView
+                    android:src="@drawable/new_design_chevron_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <View
+                android:background="@color/neutral_light_50"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <RelativeLayout
+                android:id="@+id/notification_parent"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_12"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="@dimen/profile_acounts_values"
+                    android:textColor="@color/neutral_light_700"
+                    android:text="Notifications" />
+                <ImageView
+                    android:src="@drawable/new_design_chevron_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+        </LinearLayout>
+            </LinearLayout>
+        <View
+            android:background="@color/neutral_light_50"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+        <LinearLayout
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/help_support_parent"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_12"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="@dimen/profile_acounts_values"
+                    android:textColor="@color/neutral_light_700"
+                    android:text="Help &amp; Support" />
+                <ImageView
+                    android:src="@drawable/new_design_chevron_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <View
+                android:background="@color/neutral_light_50"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <RelativeLayout
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_12"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="@dimen/profile_acounts_values"
+                    android:textColor="@color/neutral_light_700"
+                    android:text="Invite Friends" />
+                <ImageView
+                    android:src="@drawable/new_design_chevron_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <View
+                android:background="@color/neutral_light_50"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <RelativeLayout
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/materialText_400_12"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="@dimen/profile_acounts_values"
+                    android:textColor="@color/neutral_light_700"
+                    android:text="Privacy Policy" />
+                <ImageView
+                    android:src="@drawable/new_design_chevron_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <View
+                android:background="@color/neutral_light_50"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <RelativeLayout
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_name_value"
+                    style="@style/materialText_400_12"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="@dimen/profile_acounts_values"
+                    android:textColor="@color/neutral_light_700"
+                    android:text="Terms &amp; Conditions" />
+                <ImageView
+                    android:src="@drawable/new_design_chevron_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

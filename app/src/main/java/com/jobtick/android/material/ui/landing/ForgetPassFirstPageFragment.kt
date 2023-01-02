@@ -123,8 +123,8 @@ class ForgetPassFirstPageFragment : Fragment(), OTPListener {
     }
 
     private fun getTime(sec: Long): String {
-        val minutes = (sec % 3600) / 60;
-        val seconds = sec % 60;
+        val minutes = (sec % 3600) / 60
+        val seconds = sec % 60
 
         return String.format("%02d:%02d", minutes, seconds);
     }

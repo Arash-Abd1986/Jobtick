@@ -4,19 +4,21 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/header_new_design"/>
+    <include
+        android:id="@+id/header"
+        layout="@layout/header_new_design"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:layout_marginTop="16dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_name_value"
                 style="@style/materialText_400_12"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
@@ -26,15 +28,16 @@
                 android:maxLines="1"
                 android:textSize="@dimen/profile_acounts_header"
                 android:textColor="@color/neutral_light_500"
-                tools:text="FAQ" />
+                android:text="FAQ" />
 
             <RelativeLayout
+                android:id="@+id/text_jobtick"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_name_value"
+
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
@@ -43,7 +46,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    tools:text="Jobtick" />
+                    android:text="Jobtick" />
                 <ImageView
                     android:src="@drawable/new_design_chevron_right"
                     android:layout_centerVertical="true"
@@ -64,12 +67,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
+                android:id="@+id/text_poster"
+
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_name_value"
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
@@ -78,7 +82,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    tools:text="Poster" />
+                    android:text="Poster" />
                 <ImageView
                     android:src="@drawable/new_design_chevron_right"
                     android:layout_centerVertical="true"
@@ -88,12 +92,13 @@
             </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/text_ticker"
+
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_name_value"
                         style="@style/materialText_400_12"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
@@ -102,7 +107,7 @@
                         android:maxLines="1"
                         android:textSize="@dimen/profile_acounts_values"
                         android:textColor="@color/neutral_light_700"
-                        tools:text="Ticker" />
+                        android:text="Ticker" />
                     <ImageView
                         android:src="@drawable/new_design_chevron_right"
                         android:layout_centerVertical="true"
@@ -124,12 +129,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
+                android:id="@+id/text_feedback"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_name_value"
+
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
@@ -138,7 +144,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    tools:text="Live us a Feedback" />
+                    android:text="Live us a Feedback" />
                 <ImageView
                     android:src="@drawable/new_design_chevron_right"
                     android:layout_centerVertical="true"
@@ -152,12 +158,13 @@
                 android:layout_height="1dp"/>
 
             <RelativeLayout
+                android:id="@+id/text_bug_report"
+
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_name_value"
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
@@ -166,7 +173,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    tools:text="Bug Report" />
+                    android:text="Bug Report" />
                 <ImageView
                     android:src="@drawable/new_design_chevron_right"
                     android:layout_centerVertical="true"

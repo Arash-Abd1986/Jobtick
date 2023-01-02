@@ -253,7 +253,7 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
         val items = ArrayList<ConversationModel>()
         Helper.closeKeyboard(dashboardActivity)
         val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_CHAT +
-                "/conversations" + "?page=" + currentPage + "&query=" + queryParameter,
+                "/conversations/close" + "?page=" + currentPage + "&query=" + queryParameter,
         Response.Listener { response: String? ->
             Timber.e(response)
             try {

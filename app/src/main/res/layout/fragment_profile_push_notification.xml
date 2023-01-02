@@ -4,7 +4,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/header_new_design"/>
+    <include
+        android:id="@+id/header"
+        layout="@layout/header_new_design"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -39,7 +41,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    tools:text="Push Notifications" />
+                    android:text="Push Notifications" />
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/materialText_400_12"
 
@@ -49,7 +51,7 @@
                         android:layout_marginTop="8dp"
                         android:textSize="14dp"
                         android:textColor="@color/neutral_light_500"
-                        tools:text="Always on" />
+                        android:text="Always on" />
 
                 </LinearLayout>
             </RelativeLayout>
@@ -79,7 +81,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    tools:text="Email Notifications" />
+                    android:text="Email Notifications" />
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
@@ -105,7 +107,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    tools:text="SMS Notifications" />
+                    android:text="SMS Notifications" />
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"

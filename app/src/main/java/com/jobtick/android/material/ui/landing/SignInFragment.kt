@@ -9,6 +9,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.ImageSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.installations.InstallationTokenResult
 import com.jobtick.android.R
+import com.jobtick.android.activities.CompleteRegistrationActivity
 import com.jobtick.android.activities.DashboardActivity
 import com.jobtick.android.fragments.ForgotPassword2Fragment
 import com.jobtick.android.models.UserAccountModel
@@ -138,7 +140,9 @@ class SignInFragment : Fragment() {
                 Timber.e(response)
                 activity.hideProgressDialog()
                 try {
+
                     val jsonObject = JSONObject(response!!)
+                    Log.d("loginresponse", jsonObject.toString())
                     Timber.e(jsonObject.toString())
                     val jsonObjectData = jsonObject.getJSONObject("data")
                     sessionManagerA.accessToken = jsonObjectData.getString("access_token")
@@ -335,6 +339,9 @@ class SignInFragment : Fragment() {
             sessionManagerA.longitude = userAccountModel.longitude.toString()
             sessionManagerA.login = true
             openActivity(intent)
+        } else {
+            intent = Intent(requireActivity(), CompleteRegistrationActivity::class.java)
+            startActivity(intent)
         }
     }
 

@@ -4,8 +4,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/header_new_design"/>
-    <include layout="@layout/header_payment_history"/>
+    <include
+        android:id="@+id/header"
+        layout="@layout/header_new_design"/>
+    <include
+        android:id="@+id/filters"
+        layout="@layout/header_payment_history"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -17,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_name_value"
                 style="@style/materialText_400_12"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
@@ -27,7 +30,7 @@
                 android:maxLines="1"
                 android:textSize="@dimen/profile_acounts_header"
                 android:textColor="@color/neutral_light_500"
-                tools:text="History Range" />
+                android:text="History Range" />
 
             <RelativeLayout
                 android:paddingTop="12dp"
@@ -35,33 +38,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_name_value"
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/start_date_value"
+                    android:layout_toStartOf="@+id/text_start_date"
                     android:layout_centerVertical="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    tools:text="Start" />
+                    android:text="Start" />
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_marginEnd="3dp"
-                    android:id="@+id/start_date_value"
+                    android:id="@+id/text_start_date"
                     style="@style/materialText_400_12"
-                    android:layout_toStartOf="@+id/bankaccount_arrow"
+                    android:layout_toStartOf="@+id/arrow1"
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_header"
                     android:textColor="@color/neutral_light_500"
-                    tools:text="Sep 16, 2022" />
+                    android:text="Sep 16, 2022" />
 
                 <ImageView
                     android:src="@drawable/new_design_chevron_right"
-                    android:id="@+id/bankaccount_arrow"
+                    android:id="@+id/arrow1"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
@@ -85,20 +87,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_name_value"
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/end_date_value"
+                    android:layout_toStartOf="@+id/text_end_date"
                     android:layout_centerVertical="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    tools:text="End" />
+                    android:text="End" />
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_marginEnd="3dp"
-                    android:id="@+id/end_date_value"
+                    android:id="@+id/text_end_date"
                     style="@style/materialText_400_12"
                     android:layout_toStartOf="@+id/bankaccount_arrow"
                     android:layout_centerVertical="true"
@@ -107,7 +108,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_header"
                     android:textColor="@color/neutral_light_500"
-                    tools:text="Today" />
+                    android:text="Today" />
 
                 <ImageView
                     android:src="@drawable/new_design_chevron_right"
@@ -135,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_name_value"
+                    android:id="@+id/text_download_csv"
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
@@ -144,7 +145,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/primary_p500_base_light"
-                    tools:text="Download History as CSV" />
+                    android:text="Download History as CSV" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -154,6 +155,7 @@
             android:layout_height="8dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>

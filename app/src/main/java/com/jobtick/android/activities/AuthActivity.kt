@@ -6,6 +6,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
+import android.util.Log
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -462,6 +463,7 @@ open class AuthActivity : ActivityBase() {
 
     @SuppressLint("HardwareIds")
     fun login(email: String?, password: String?) {
+
         showProgressDialog()
         val strFcmToken = token
         val strDeviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)

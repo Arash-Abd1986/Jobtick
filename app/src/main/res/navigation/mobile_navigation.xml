@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation">
-
     <fragment
         android:id="@+id/navigation_new_task"
         android:name="com.jobtick.android.fragments.HomeFragment"
@@ -25,17 +24,364 @@
     <fragment
         android:id="@+id/navigation_inbox"
         android:name="com.jobtick.android.fragments.NewDesignMessagesFragment"
-        tools:layout="@layout/fragment_messages_new_design"
-        />
+        tools:layout="@layout/fragment_messages_new_design" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.jobtick.android.fragments.ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentNew"
+        tools:layout="@layout/fragment_profile_new" >
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_profile_account"
+            app:destination="@id/navigation_profile_account"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_profile_change_password"
+            app:destination="@id/navigation_profile_change_password"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_profile_portfolio"
+            app:destination="@id/navigation_profile_portfolio"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_profile_skills"
+            app:destination="@id/navigation_profile_skills"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_profile_payments"
+            app:destination="@id/navigation_profile_payments"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_profile_notifications"
+            app:destination="@id/navigation_profile_notifications"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_profile_help_and_support"
+            app:destination="@id/navigation_profile_help_and_support"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
     <fragment
         android:id="@+id/inviteFriendsFragment"
         android:name="com.jobtick.android.fragments.InviteFriendsFragment"
         tools:layout="@layout/fragment_invite_friends" />
+
+
+    <fragment
+        android:id="@+id/navigation_profile_account"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentAccount"
+        tools:layout="@layout/fragment_profile_account" >
+        <action
+            android:id="@+id/action_navigation_profile_account_to_navigation_profile_name"
+            app:destination="@id/navigation_profile_name"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            />
+        <action
+            android:id="@+id/action_navigation_profile_account_to_navigation_profile"
+            app:destination="@id/navigation_profile"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+        <action
+            android:id="@+id/action_navigation_profile_account_to_navigation_profile_about"
+            app:destination="@id/navigation_profile_about"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_account_to_navigation_profile_change_email_first_page"
+            app:destination="@id/navigation_profile_change_email_first_page"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_account_to_navigation_profile_delete_account"
+            app:destination="@id/navigation_profile_delete_account"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_account_to_navigation_profile_change_email_second_page"
+            app:destination="@id/navigation_profile_change_email_second_page" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_name"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentName"
+        tools:layout="@layout/fragment_profile_name" >
+        <action
+            android:id="@+id/action_navigation_profile_name_to_navigation_profile_account"
+            app:destination="@id/navigation_profile_account"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_about"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentAbout"
+        tools:layout="@layout/fragment_profile_about">
+        <action
+            android:id="@+id/action_navigation_profile_about_to_navigation_profile_account"
+            app:destination="@id/navigation_profile_account"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_add_portfolio_item"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentAddPortfolioItem"
+        tools:layout="@layout/fragment_profile_portfolio">
+        <action
+            android:id="@+id/action_navigation_profile_add_portfolio_item_to_navigation_profile_portfolio"
+            app:destination="@id/navigation_profile_portfolio"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_bank_account"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentBankAccount"
+        tools:layout="@layout/fragment_profile_bank_account">
+        <action
+            android:id="@+id/action_navigation_profile_bank_account_to_navigation_profile_payments"
+            app:destination="@id/navigation_profile_payments"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_profile_billing_address"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentBillingAddress"
+        tools:layout="@layout/fragment_profile_billing_address">
+        <action
+            android:id="@+id/action_navigation_profile_billing_address_to_navigation_profile_payments"
+            app:destination="@id/navigation_profile_payments"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_change_email_first_page"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentChangeEmailFirstPage"
+        tools:layout="@layout/fragment_profile_change_email_first_page">
+        <action
+            android:id="@+id/action_navigation_profile_change_email_first_page_to_navigation_profile_change_email_second_page"
+            app:destination="@id/navigation_profile_change_email_second_page"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_change_email_first_page_to_navigation_profile_account"
+            app:destination="@id/navigation_profile_account"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_change_email_second_page"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentChangeEmailSecondPage"
+        tools:layout="@layout/fragment_profile_change_email_second_page">
+        <action
+            android:id="@+id/action_navigation_profile_change_email_second_page_to_navigation_profile_otp_verification"
+            app:destination="@id/navigation_profile_otp_verification"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_change_email_second_page_to_navigation_profile_change_email_first_page"
+            app:destination="@id/navigation_profile_change_email_first_page"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_change_email_second_page_to_navigation_profile_account"
+            app:destination="@id/navigation_profile_account" />
+        <action
+            android:id="@+id/action_navigation_profile_change_email_second_page_to_navigation_profile_otp_verification_mobile"
+            app:destination="@id/navigation_profile_otp_verification_mobile" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_change_password"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentChangePassword"
+        tools:layout="@layout/fragment_profile_change_password">
+        <action
+            android:id="@+id/action_navigation_profile_change_password_to_navigation_profile"
+            app:destination="@id/navigation_profile"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_delete_account"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentDeleteAccount"
+        tools:layout="@layout/fragment_profile_delete_account">
+        <action
+            android:id="@+id/action_navigation_profile_delete_account_to_navigation_profile_account"
+            app:destination="@id/navigation_profile_account"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_feedback"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentFeedback"
+        tools:layout="@layout/fragment_profile_feedback">
+        <action
+            android:id="@+id/action_navigation_profile_feedback_to_navigation_profile_help_and_support"
+            app:destination="@id/navigation_profile_help_and_support"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_help_and_support"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentHelpAndSupport"
+        tools:layout="@layout/fragment_profile_help_and_support">
+        <action
+            android:id="@+id/action_navigation_profile_help_and_support_to_navigation_profile_feedback"
+            app:destination="@id/navigation_profile_feedback"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_help_and_support_to_navigation_profile"
+            app:destination="@id/navigation_profile"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_notifications"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentNotifications"
+        tools:layout="@layout/fragment_profile_notifications">
+        <action
+            android:id="@+id/action_navigation_profile_notifications_to_navigation_profile_push_notification"
+            app:destination="@id/navigation_profile_push_notification"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_notifications_to_navigation_profile"
+            app:destination="@id/navigation_profile"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_otp_verification"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentOTPVerificationForEmail"
+        tools:layout="@layout/fragment_profile_otp_verification">
+        <action
+            android:id="@+id/action_navigation_profile_otp_verification_to_navigation_profile_change_email_second_page"
+            app:destination="@id/navigation_profile_change_email_second_page"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_navigation_profile_otp_verification_to_navigation_profile_account"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:destination="@id/navigation_profile_account" />
+        <action
+            android:id="@+id/action_navigation_profile_otp_verification_to_navigation_profile_account2"
+            app:destination="@id/navigation_profile_account" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_profile_otp_verification_mobile"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentOTPVerificationForMobile"
+        tools:layout="@layout/fragment_profile_otp_verification">
+
+        <action
+            android:id="@+id/action_navigation_profile_otp_verification_mobile_to_navigation_profile_change_email_second_page"
+            app:popUpToInclusive="true"
+            app:destination="@id/navigation_profile_change_email_second_page" />
+        <action
+            android:id="@+id/action_navigation_profile_otp_verification_mobile_to_navigation_profile_account"
+            app:destination="@id/navigation_profile_account" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_profile_payment_details"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentPaymentDetails"
+        tools:layout="@layout/fragment_profile_payment_details">
+        <action
+            android:id="@+id/action_navigation_profile_payment_details_to_navigation_profile_payment_history"
+            app:destination="@id/navigation_profile_payment_history"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_payment_history"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentPaymentHistory"
+        tools:layout="@layout/fragment_profile_payment_history">
+        <action
+            android:id="@+id/action_navigation_profile_payment_history_to_navigation_profile_payment_details"
+            app:destination="@id/navigation_profile_payment_details"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_payment_history_to_navigation_profile_payments"
+            app:destination="@id/navigation_profile_payments"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_payments"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentPayments"
+        tools:layout="@layout/fragment_profile_payments">
+        <action
+            android:id="@+id/action_navigation_profile_payments_to_navigation_profile_payment_history"
+            app:destination="@id/navigation_profile_payment_history"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_payments_to_navigation_profile_billing_address"
+            app:destination="@id/navigation_profile_billing_address"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_payments_to_navigation_profile_bank_account"
+            app:destination="@id/navigation_profile_bank_account"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_payments_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_portfolio"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentPortfolio"
+        tools:layout="@layout/fragment_profile_portfolio">
+        <action
+            android:id="@+id/action_navigation_profile_portfolio_to_navigation_profile"
+            app:destination="@id/navigation_profile"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_portfolio_to_navigation_profile_add_portfolio_item"
+            app:destination="@id/navigation_profile_add_portfolio_item"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_push_notification"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentPushNotifications"
+        tools:layout="@layout/fragment_profile_push_notification">
+        <action
+            android:id="@+id/action_navigation_profile_push_notification_to_navigation_profile_notifications"
+            app:destination="@id/navigation_profile_notifications"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_skills"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentSkills"
+        tools:layout="@layout/fragment_profile_skills_new">
+        <action
+            android:id="@+id/action_navigation_profile_skills_to_navigation_profile"
+            app:destination="@id/navigation_profile"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_skills_to_navigation_profile_skills_search"
+            app:destination="@id/navigation_profile_skills_search" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_skills_search"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentSkillSearch"
+        tools:layout="@layout/fragment_profile_skill_search">
+        <action
+            android:id="@+id/action_navigation_profile_skills_search_to_navigation_profile_skills"
+            app:destination="@id/navigation_profile_skills" />
+    </fragment>
+
     <include app:graph="@navigation/post_a_job_graph" />
 
 

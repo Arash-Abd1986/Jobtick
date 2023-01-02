@@ -746,7 +746,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
 
     private fun validation(): Boolean {
         if (TextUtils.isEmpty(Objects.requireNonNull(edtCommentMessage.text).toString().trim { it <= ' ' })) {
-            Log.d("validation", "ggg");
+            Log.d("validation", "ggg")
             if (imageFileTemp != null)
                 return true
             //edtCommentMessage.error = "?"

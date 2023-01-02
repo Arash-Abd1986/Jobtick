@@ -24,6 +24,7 @@ abstract class AbstractUploadableImageImpl(private val activity: FragmentActivit
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d("imagepath10: ", resultCode.toString() + ", " + requestCode + ", " + data.toString())
         if (resultCode == Activity.RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             val resultUri = UCrop.getOutput(data!!)
             val file = File(resultUri!!.path)
@@ -34,7 +35,7 @@ abstract class AbstractUploadableImageImpl(private val activity: FragmentActivit
             val cropError = UCrop.getError(data!!)
             if (cropError != null) (activity.applicationContext as AppController).mCrashlytics.recordException(cropError)
         }
-        if (requestCode == AttachmentBottomSheet.GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
+            if (requestCode == AttachmentBottomSheet.GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
             val filePath = data!!.data
             val onCropImage: OnCropImage = OnUCropImageImpl(activity)
             onCropImage.crop(filePath, isCircle)

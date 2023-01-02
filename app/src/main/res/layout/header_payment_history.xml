@@ -22,10 +22,10 @@
 
         <com.google.android.material.textview.MaterialTextView
 
-            android:layout_toEndOf="@+id/tick1"
+            android:layout_toEndOf="@+id/tick_day"
             android:gravity="center"
             android:padding="5dp"
-            android:id="@+id/txt_name_value"
+            android:id="@+id/tezt_day"
             style="@style/materialText_400_12"
             android:layout_centerVertical="true"
             android:layout_width="match_parent"
@@ -33,9 +33,9 @@
             android:maxLines="1"
             android:textSize="12dp"
             android:textColor="@color/light_neutral_n700"
-            tools:text="Day" />
+            android:text="Day" />
         <ImageView
-            android:id="@+id/tick1"
+            android:id="@+id/tick_day"
             android:layout_marginStart="22.5dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
@@ -55,10 +55,10 @@
 
         <com.google.android.material.textview.MaterialTextView
 
-            android:layout_toEndOf="@+id/tick1"
+            android:layout_toEndOf="@+id/tick_week"
             android:gravity="center"
             android:padding="5dp"
-            android:id="@+id/txt_name_value"
+            android:id="@+id/text_week"
             style="@style/materialText_400_12"
             android:layout_centerVertical="true"
             android:layout_width="match_parent"
@@ -66,7 +66,7 @@
             android:maxLines="1"
             android:textSize="12dp"
             android:textColor="@color/light_neutral_n700"
-            tools:text="Week" />
+            android:text="Week" />
         <View
             android:layout_alignParentStart="true"
             android:background="@color/light_neutral_n700"
@@ -74,7 +74,7 @@
             android:layout_height="match_parent"/>
 
         <ImageView
-            android:id="@+id/tick1"
+            android:id="@+id/tick_week"
             android:layout_marginStart="22.5dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
@@ -92,10 +92,9 @@
 
         <com.google.android.material.textview.MaterialTextView
 
-            android:layout_toEndOf="@+id/tick1"
+            android:layout_toEndOf="@+id/tick_month"
             android:gravity="center"
             android:padding="5dp"
-            android:id="@+id/txt_name_value"
             style="@style/materialText_400_12"
             android:layout_centerVertical="true"
             android:layout_width="match_parent"
@@ -103,7 +102,7 @@
             android:maxLines="1"
             android:textSize="12dp"
             android:textColor="@color/light_neutral_n700"
-            tools:text="Month" />
+            android:text="Month" />
         <View
             android:layout_alignParentStart="true"
             android:background="@color/light_neutral_n700"
@@ -111,7 +110,7 @@
             android:layout_height="match_parent"/>
 
         <ImageView
-            android:id="@+id/tick1"
+            android:id="@+id/tick_month"
             android:layout_marginStart="22.5dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
@@ -129,7 +128,7 @@
 
         <com.google.android.material.textview.MaterialTextView
 
-            android:layout_toEndOf="@+id/tick1"
+            android:layout_toEndOf="@+id/tick_custom"
             android:gravity="center"
             android:padding="5dp"
             android:id="@+id/txt_name_value"
@@ -140,14 +139,14 @@
             android:maxLines="1"
             android:textSize="12dp"
             android:textColor="@color/light_neutral_n700"
-            tools:text="Custom" />
+            android:text="Custom" />
         <View
             android:layout_alignParentStart="true"
             android:background="@color/light_neutral_n700"
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
         <ImageView
-            android:id="@+id/tick1"
+            android:id="@+id/tick_custom"
             android:layout_marginStart="22.5dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"

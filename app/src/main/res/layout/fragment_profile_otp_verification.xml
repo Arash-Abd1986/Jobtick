@@ -5,7 +5,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/header_new_design"/>
+    <include
+        android:id="@+id/header"
+        layout="@layout/header_new_design"/>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -88,7 +90,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_name_title"
                     style="@style/materialText_400_12"
 
                     android:layout_width="wrap_content"
@@ -99,7 +100,7 @@
                     tools:text="Need help?" />
 
                 <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_name_title"
+                android:id="@+id/text_contact_support"
                 style="@style/materialText_400_12"
 
                 android:layout_width="wrap_content"

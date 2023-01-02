@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip style="@style/ChipCustomStyle"
+    android:text="SKILl"
+    android:textSize="14dp"
+    app:closeIcon="@drawable/new_design_cross"
+    app:chipCornerRadius="7dp"
+    app:closeIconEnabled="true"
+    app:closeIconTint="@color/neutral_light_500"
+    app:closeIconSize="11dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" />

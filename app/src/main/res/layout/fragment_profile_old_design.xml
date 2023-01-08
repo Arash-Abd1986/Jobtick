@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:descendantFocusability="blocksDescendants"
+    android:background="@color/backgroundLightGrey"
+    android:overScrollMode="never">
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_centerInParent="true"
+        android:layout_width="36dp"
+        android:layout_height="36dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/content"
+        android:visibility="visible"
+        android:background="@color/backgroundLightGrey"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_100dp">
+
+                <include layout="@layout/fragment_profile_title" />
+                <include layout="@layout/fragment_profile_status" />
+                <include layout="@layout/fragment_profile_level" />
+                <include layout="@layout/fragment_profile_about_me" />
+
+                <FrameLayout
+                    android:id="@+id/fm_p_skills"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_marginTop="@dimen/_20sp"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:padding="16dp"
+                    android:background="@drawable/bg_profile">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        tools:ignore="UselessParent">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:ignore="UselessParent">
+
+                            <RadioGroup
+                                android:id="@+id/rgTabs"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_20sp"
+                                android:layout_marginTop="@dimen/_20sp"
+                                android:layout_marginEnd="@dimen/_20sp"
+                                android:background="@drawable/radio_profile_bg"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <com.google.android.material.radiobutton.MaterialRadioButton
+                                    android:id="@+id/rbPortfollio"
+                                    style="@style/materialText_W500_14"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_60dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/radio_portfolio"
+                                    android:button="@null"
+                                    android:checked="true"
+                                    android:gravity="center"
+                                    android:text="@string/portfolio"
+                                    android:textColor="@color/N100"
+                                    tools:ignore="TooDeepLayout"/>
+
+                                <com.google.android.material.radiobutton.MaterialRadioButton
+                                    android:id="@+id/rbSkills"
+                                    style="@style/materialText_W500_14"
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_60dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/radio_portfolio"
+                                    android:button="@null"
+                                    android:checked="false"
+                                    android:gravity="center"
+                                    android:text="@string/skills"
+                                    android:textColor="@color/N600" />
+                            </RadioGroup>
+                        </RelativeLayout>
+
+                        <include
+                            layout="@layout/fragment_profile_skills"/>
+                    </LinearLayout>
+                </FrameLayout>
+                <FrameLayout
+                    android:id="@+id/fl_add_skill"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:background="@drawable/bg_profile">
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/materialText_W500_14"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="+ add your skills"
+                        android:textColor="@color/P300" />
+                </FrameLayout>
+                <include layout="@layout/fragment_profile_review" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:visibility="gone"
+        android:id="@+id/card_get_quote"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/_10sp"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_middle"
+        android:backgroundTint="@color/colorReleasedMoney"
+        android:elevation="@dimen/spacing_middle"
+        app:cardCornerRadius="@dimen/spacing_medium">
+
+        <LinearLayout
+            android:id="@+id/lyt_btn_get_a_quote"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_600_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_20sp"
+                android:paddingRight="@dimen/_20sp"
+                android:text="@string/get_quote"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

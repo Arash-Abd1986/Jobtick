@@ -44,7 +44,7 @@ class ProfileFragmentFeedback : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetToolbar(activity, "Feedback", "send", R.id.navigation_profile, binding.header, view)
+        SetToolbar(activity, "Feedback", "Send", R.id.navigation_profile, binding.header, view)
 
         binding.header.back.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_feedback_to_navigation_profile_help_and_support)

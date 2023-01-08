@@ -37,7 +37,7 @@ class   ProfileNewViewModel: ViewModel() {
             }
             sessionManager?.role?.let { addFormDataPart("role_as", it) }
         }.build()
-        call = ApiClient.getClientV2(sessionManager).uploadProfile(
+        call = ApiClient.getClientV1WithToken(sessionManager).editProfile(
             "XMLHttpRequest",
             requestBody
         )
@@ -206,7 +206,7 @@ class   ProfileNewViewModel: ViewModel() {
             }
             sessionManager?.role?.let { addFormDataPart("role_as", it) }
         }.build()
-        call = ApiClient.getClientV1WithToken(sessionManager).uploadProfile(
+        call = ApiClient.getClientV1WithToken(sessionManager).addSkills(
             "XMLHttpRequest",
             requestBody
         )

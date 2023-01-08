@@ -55,7 +55,7 @@ class ProfileFragmentAbout : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetToolbar(activity, "About", "save", R.id.navigation_profile, binding.header, view)
+        SetToolbar(activity, "About", "Save", R.id.navigation_profile, binding.header, view)
         viewModel = ViewModelProvider(activity)[ProfileNewViewModel::class.java]
 
 

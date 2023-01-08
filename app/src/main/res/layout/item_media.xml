@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.jobtick.android.relativelayout.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rlMain"
     android:layout_width="match_parent"
@@ -21,10 +21,11 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/add"
+        android:padding="30dp"
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:layout_centerInParent="true"
-        android:visibility="gone"
+        android:visibility="visible"
         app:srcCompat="@drawable/ic_plus" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -70,4 +71,4 @@
         android:button="@null"
         android:gravity="center"
         android:visibility="gone" />
-</RelativeLayout>
+</com.jobtick.android.relativelayout.SquareRelativeLayout>

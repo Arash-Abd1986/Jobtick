@@ -8,13 +8,15 @@
 
 
     <LinearLayout
+        android:gravity="center_vertical"
         android:id="@+id/lin_main"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@android:color/white"
-        android:weightSum="8">
+        android:background="@android:color/white">
 
         <LinearLayout
+            android:visibility="visible"
+            android:gravity="center_vertical"
             android:id="@+id/home"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -24,21 +26,23 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/nav_i1"
                 android:layout_width="match_parent"
-                android:layout_height="28dp"
-                app:srcCompat="@drawable/ic_home_small" />
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/new_design_search" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/nav_t1"
+                android:textSize="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/materialText_400_12"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/N900"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/neutral_light_500"
                 android:gravity="center"
-                android:text="Home" />
+                android:text="Explore" />
         </LinearLayout>
 
         <LinearLayout
+            android:gravity="center_vertical"
             android:id="@+id/search"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -48,18 +52,19 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/nav_i2"
                 android:layout_width="match_parent"
-                android:layout_height="28dp"
-                app:srcCompat="@drawable/ic_explore_small" />
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/new_design_bottomnavigation_workspace" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/nav_t2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                    android:textSize="12dp"
                 android:gravity="center"
                 style="@style/materialText_400_12"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/N900"
-                android:text="My Jobs" />
+                android:layout_marginTop="10dp"
+                android:textColor="@color/neutral_light_500"
+                android:text="Workspace" />
         </LinearLayout>
 
         <RelativeLayout
@@ -88,6 +93,7 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:gravity="center_vertical"
             android:id="@+id/chat"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -97,21 +103,23 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/nav_i4"
                 android:layout_width="match_parent"
-                android:layout_height="28dp"
-                app:srcCompat="@drawable/ic_chats_small" />
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/new_design_bottomnavigation_inbox" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/nav_t4"
+                android:textSize="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 style="@style/materialText_400_12"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/N900"
-                android:text="Chats" />
+                android:layout_marginTop="10dp"
+                android:textColor="@color/neutral_light_500"
+                android:text="Messaging" />
         </LinearLayout>
 
         <LinearLayout
+            android:gravity="center_vertical"
             android:id="@+id/profile"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -121,17 +129,18 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/nav_i5"
                 android:layout_width="match_parent"
-                android:layout_height="28dp"
-                app:srcCompat="@drawable/ic_profile_small" />
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/new_design_bottomnavigation_person" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/nav_t5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textSize="12dp"
                 style="@style/materialText_400_12"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/N900"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/neutral_light_500"
                 android:text="Profile" />
         </LinearLayout>
 

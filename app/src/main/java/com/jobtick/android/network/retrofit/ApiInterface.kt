@@ -60,6 +60,13 @@ interface ApiInterface {
         @Body body: RequestBody
     ): Call<String?>?
 
+    @POST("profile/info")
+    fun editProfile(
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        @Body body: RequestBody
+    ): Call<String?>?
+
+
     @POST("email-verification/resent-otp")
     fun emailResendOtp(
         @Header("X-Requested-With") XMLHttpRequest: String?,
@@ -96,6 +103,14 @@ interface ApiInterface {
         @Header("X-Requested-With") XMLHttpRequest: String?,
         //@Header("authorization") auth: String?
     ): Call<String?>?
+
+    @POST("account/change-password")
+    fun changePass(
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        @Body body: RequestBody
+        //@Header("authorization") auth: String?
+    ): Call<String?>?
+
     @GET("profile/skill/add")
     fun addSkills(
         @Header("X-Requested-With") XMLHttpRequest: String?,

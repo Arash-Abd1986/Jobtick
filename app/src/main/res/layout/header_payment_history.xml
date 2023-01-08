@@ -1,158 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/backgeound_border_payment_history_header"
-    android:orientation="horizontal"
+<com.google.android.material.button.MaterialButtonToggleGroup android:id="@+id/toggleButton"
+        android:gravity="center"
+        android:layout_marginStart="17dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
     android:layout_width="match_parent"
-    android:padding="1dp"
-    android:layout_margin="17dp"
-    android:layout_marginStart="17dp"
-    android:layout_marginEnd="17dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginBottom="20dp"
-    android:layout_height="45dp">
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    app:checkedButton="@id/custom"
+    app:selectionRequired="true"
+    app:singleSelection="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Button
+        style="?attr/materialButtonOutlinedStyle"
+        android:id="@+id/day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Day"
+        />
+    <Button
+        style="?attr/materialButtonOutlinedStyle"
+        android:id="@+id/week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Week"
+        />
+    <Button
+        style="?attr/materialButtonOutlinedStyle"
+        android:id="@+id/month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Month"
+        />
+    <Button
+        style="?attr/materialButtonOutlinedStyle"
+        android:id="@+id/custom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Custom"
+        />
 
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent">
+</com.google.android.material.button.MaterialButtonToggleGroup>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:background="@drawable/backgeound_border_payment_history_header"-->
+<!--    android:orientation="horizontal"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:padding="1dp"-->
+<!--    android:layout_margin="17dp"-->
+<!--    android:layout_marginStart="17dp"-->
+<!--    android:layout_marginEnd="17dp"-->
+<!--    android:layout_marginTop="20dp"-->
+<!--    android:layout_marginBottom="20dp"-->
+<!--    android:layout_height="45dp">-->
 
-<!--        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon, 0, 0, 0);-->
+<!--    <RelativeLayout-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent">-->
 
-        <com.google.android.material.textview.MaterialTextView
+<!--&lt;!&ndash;        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon, 0, 0, 0);&ndash;&gt;-->
 
-            android:layout_toEndOf="@+id/tick_day"
-            android:gravity="center"
-            android:padding="5dp"
-            android:id="@+id/tezt_day"
-            style="@style/materialText_400_12"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textSize="12dp"
-            android:textColor="@color/light_neutral_n700"
-            android:text="Day" />
-        <ImageView
-            android:id="@+id/tick_day"
-            android:layout_marginStart="22.5dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/new_design_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
-    <RelativeLayout
+<!--        <com.google.android.material.textview.MaterialTextView-->
 
-        android:background="@color/primary_50"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent">
+<!--            android:layout_toEndOf="@+id/tick_day"-->
+<!--            android:gravity="center"-->
+<!--            android:padding="5dp"-->
+<!--            android:id="@+id/tezt_day"-->
+<!--            style="@style/materialText_400_12"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:maxLines="1"-->
+<!--            android:textSize="12dp"-->
+<!--            android:textColor="@color/light_neutral_n700"-->
+<!--            android:text="Day" />-->
+<!--        <ImageView-->
+<!--            android:id="@+id/tick_day"-->
+<!--            android:layout_marginStart="22.5dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:src="@drawable/new_design_check"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--    </RelativeLayout>-->
+<!--    <RelativeLayout-->
 
-        <!--        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon, 0, 0, 0);-->
+<!--        android:background="@color/primary_50"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent">-->
 
-        <com.google.android.material.textview.MaterialTextView
+<!--        &lt;!&ndash;        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon, 0, 0, 0);&ndash;&gt;-->
 
-            android:layout_toEndOf="@+id/tick_week"
-            android:gravity="center"
-            android:padding="5dp"
-            android:id="@+id/text_week"
-            style="@style/materialText_400_12"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textSize="12dp"
-            android:textColor="@color/light_neutral_n700"
-            android:text="Week" />
-        <View
-            android:layout_alignParentStart="true"
-            android:background="@color/light_neutral_n700"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"/>
+<!--        <com.google.android.material.textview.MaterialTextView-->
 
-        <ImageView
-            android:id="@+id/tick_week"
-            android:layout_marginStart="22.5dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/new_design_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent">
+<!--            android:layout_toEndOf="@+id/tick_week"-->
+<!--            android:gravity="center"-->
+<!--            android:padding="5dp"-->
+<!--            android:id="@+id/text_week"-->
+<!--            style="@style/materialText_400_12"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:maxLines="1"-->
+<!--            android:textSize="12dp"-->
+<!--            android:textColor="@color/light_neutral_n700"-->
+<!--            android:text="Week" />-->
+<!--        <View-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:background="@color/light_neutral_n700"-->
+<!--            android:layout_width="1dp"-->
+<!--            android:layout_height="match_parent"/>-->
 
-        <!--        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon, 0, 0, 0);-->
+<!--        <ImageView-->
+<!--            android:id="@+id/tick_week"-->
+<!--            android:layout_marginStart="22.5dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:src="@drawable/new_design_check"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--    </RelativeLayout>-->
+<!--    <RelativeLayout-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent">-->
 
-        <com.google.android.material.textview.MaterialTextView
+<!--        &lt;!&ndash;        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon, 0, 0, 0);&ndash;&gt;-->
 
-            android:layout_toEndOf="@+id/tick_month"
-            android:gravity="center"
-            android:padding="5dp"
-            style="@style/materialText_400_12"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textSize="12dp"
-            android:textColor="@color/light_neutral_n700"
-            android:text="Month" />
-        <View
-            android:layout_alignParentStart="true"
-            android:background="@color/light_neutral_n700"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"/>
+<!--        <com.google.android.material.textview.MaterialTextView-->
 
-        <ImageView
-            android:id="@+id/tick_month"
-            android:layout_marginStart="22.5dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/new_design_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent">
+<!--            android:layout_toEndOf="@+id/tick_month"-->
+<!--            android:gravity="center"-->
+<!--            android:padding="5dp"-->
+<!--            style="@style/materialText_400_12"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:maxLines="1"-->
+<!--            android:textSize="12dp"-->
+<!--            android:textColor="@color/light_neutral_n700"-->
+<!--            android:text="Month" />-->
+<!--        <View-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:background="@color/light_neutral_n700"-->
+<!--            android:layout_width="1dp"-->
+<!--            android:layout_height="match_parent"/>-->
 
-        <!--        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon, 0, 0, 0);-->
+<!--        <ImageView-->
+<!--            android:id="@+id/tick_month"-->
+<!--            android:layout_marginStart="22.5dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:src="@drawable/new_design_check"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--    </RelativeLayout>-->
+<!--    <RelativeLayout-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent">-->
 
-        <com.google.android.material.textview.MaterialTextView
+<!--        &lt;!&ndash;        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon, 0, 0, 0);&ndash;&gt;-->
 
-            android:layout_toEndOf="@+id/tick_custom"
-            android:gravity="center"
-            android:padding="5dp"
-            android:id="@+id/txt_name_value"
-            style="@style/materialText_400_12"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textSize="12dp"
-            android:textColor="@color/light_neutral_n700"
-            android:text="Custom" />
-        <View
-            android:layout_alignParentStart="true"
-            android:background="@color/light_neutral_n700"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"/>
-        <ImageView
-            android:id="@+id/tick_custom"
-            android:layout_marginStart="22.5dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/new_design_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
+<!--        <com.google.android.material.textview.MaterialTextView-->
 
-</LinearLayout>
+<!--            android:layout_toEndOf="@+id/tick_custom"-->
+<!--            android:gravity="center"-->
+<!--            android:padding="5dp"-->
+<!--            android:id="@+id/txt_name_value"-->
+<!--            style="@style/materialText_400_12"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:maxLines="1"-->
+<!--            android:textSize="12dp"-->
+<!--            android:textColor="@color/light_neutral_n700"-->
+<!--            android:text="Custom" />-->
+<!--        <View-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:background="@color/light_neutral_n700"-->
+<!--            android:layout_width="1dp"-->
+<!--            android:layout_height="match_parent"/>-->
+<!--        <ImageView-->
+<!--            android:id="@+id/tick_custom"-->
+<!--            android:layout_marginStart="22.5dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:src="@drawable/new_design_check"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--    </RelativeLayout>-->
+
+<!--</LinearLayout>-->

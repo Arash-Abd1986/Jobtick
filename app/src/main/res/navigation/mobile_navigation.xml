@@ -8,6 +8,14 @@
         android:name="com.jobtick.android.fragments.HomeFragment"
         tools:layout="@layout/fragment_home" />
 
+    <fragment
+        android:id="@+id/navigation_profile_billing_address_get_location"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileGetLocationFragment"
+        tools:layout="@layout/fragment_get_location" >
+        <action
+            android:id="@+id/action_navigation_profile_billing_address_get_location_to_navigation_profile_billing_address"
+            app:destination="@id/navigation_profile_billing_address" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_my_tasks"
@@ -27,6 +35,12 @@
         tools:layout="@layout/fragment_messages_new_design" />
 
     <fragment
+        android:id="@+id/navigation_public_profile"
+        android:name="com.jobtick.android.fragments.ProfileFragment"
+        tools:layout="@layout/fragment_profile" >
+    </fragment>
+
+    <fragment
         android:id="@+id/navigation_profile"
         android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentNew"
         tools:layout="@layout/fragment_profile_new" >
@@ -38,11 +52,6 @@
         <action
             android:id="@+id/action_navigation_profile_to_navigation_profile_change_password"
             app:destination="@id/navigation_profile_change_password"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:enterAnim="@anim/nav_default_enter_anim"/>
-        <action
-            android:id="@+id/action_navigation_profile_to_navigation_profile_portfolio"
-            app:destination="@id/navigation_profile_portfolio"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:enterAnim="@anim/nav_default_enter_anim"/>
         <action
@@ -65,6 +74,12 @@
             app:destination="@id/navigation_profile_help_and_support"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_profile_portfolio_item"
+            app:destination="@id/navigation_profile_portfolio_item" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_public_profile"
+            app:destination="@id/navigation_public_profile" />
     </fragment>
     <fragment
         android:id="@+id/inviteFriendsFragment"
@@ -128,13 +143,11 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_profile_add_portfolio_item"
-        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentAddPortfolioItem"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentPortfolio"
         tools:layout="@layout/fragment_profile_portfolio">
         <action
-            android:id="@+id/action_navigation_profile_add_portfolio_item_to_navigation_profile_portfolio"
-            app:destination="@id/navigation_profile_portfolio"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:enterAnim="@anim/nav_default_enter_anim"/>
+            android:id="@+id/action_navigation_profile_add_portfolio_item_to_navigation_profile_portfolio_item"
+            app:destination="@id/navigation_profile_portfolio_item" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile_bank_account"
@@ -156,6 +169,9 @@
             app:destination="@id/navigation_profile_payments"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:enterAnim="@anim/nav_default_enter_anim"/>
+        <action
+            android:id="@+id/action_navigation_profile_billing_address_to_navigation_profile_billing_address_get_location"
+            app:destination="@id/navigation_profile_billing_address_get_location" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile_change_email_first_page"
@@ -336,19 +352,17 @@
             app:destination="@id/navigation_profile" />
     </fragment>
     <fragment
-        android:id="@+id/navigation_profile_portfolio"
-        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentPortfolio"
-        tools:layout="@layout/fragment_profile_portfolio">
+        android:id="@+id/navigation_profile_portfolio_item"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentPortfolioItems"
+        tools:layout="@layout/fragment_profile_portfolio_item">
         <action
             android:id="@+id/action_navigation_profile_portfolio_to_navigation_profile"
             app:destination="@id/navigation_profile"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:enterAnim="@anim/nav_default_enter_anim"/>
         <action
-            android:id="@+id/action_navigation_profile_portfolio_to_navigation_profile_add_portfolio_item"
-            app:destination="@id/navigation_profile_add_portfolio_item"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:enterAnim="@anim/nav_default_enter_anim"/>
+            android:id="@+id/action_navigation_profile_portfolio_item_to_navigation_profile_add_portfolio_item"
+            app:destination="@id/navigation_profile_add_portfolio_item" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile_push_notification"

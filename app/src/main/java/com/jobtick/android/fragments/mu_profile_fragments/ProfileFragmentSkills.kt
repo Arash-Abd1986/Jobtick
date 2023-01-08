@@ -58,7 +58,7 @@ class ProfileFragmentSkills : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetToolbar(activity, "Skills", "save", R.id.navigation_profile, binding.header, view)
+        SetToolbar(activity, "Skills", "Save", R.id.navigation_profile, binding.header, view)
         viewModel = ViewModelProvider(activity)[ProfileSkillsViewModel::class.java]
         viewModel.getSkills(activity)
         binding.txtAddNewSkill.setOnClickListener {

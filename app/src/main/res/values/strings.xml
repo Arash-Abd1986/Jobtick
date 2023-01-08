@@ -609,6 +609,7 @@
     <string name="profile_logout">Are you sure for logging out?</string>
     <string name="profile_verify_number">Enter the code we\'ve just sent to your mobile to confirm your identity.</string>
     <string name="profile_about_hint">Write a few sentences about yourself</string>
+    <string name="profile_portfolio_hint">Write a few sentences about this job</string>
     <string name="profile_forgotpassword_hint">Your password must contain at least one lowercase character, one special character, one uppercase character, 8 characters minimum, and one number</string>
     <string-array name="array_name">
         <item>All Time</item>

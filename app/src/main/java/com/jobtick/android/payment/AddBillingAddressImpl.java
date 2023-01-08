@@ -1,6 +1,7 @@
 package com.jobtick.android.payment;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -72,13 +73,14 @@ public abstract class AddBillingAddressImpl implements AddBillingAddress{
                             onValidationError(ErrorType.UnAuthenticatedUser, "user is not authenticated.");
                             return;
                         }
+                        Log.d("errorjson", jsonError);
                         try {
                             JSONObject jsonObject = new JSONObject(jsonError);
                             JSONObject jsonObject_error = jsonObject.getJSONObject("error");
                             if (jsonObject_error.has("message")) {
                                 onError(new Exception(jsonObject_error.getString("message")));
                             }
-                            if (jsonObject_error.has("errors")) {
+                            else if (jsonObject_error.has("errors")) {
                                 onError(new Exception(jsonObject_error.getJSONObject("errors").getString("errors")));
                             }
                         } catch (JSONException e) {

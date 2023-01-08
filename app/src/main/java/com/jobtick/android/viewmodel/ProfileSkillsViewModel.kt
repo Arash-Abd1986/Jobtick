@@ -127,7 +127,7 @@ class   ProfileSkillsViewModel: ViewModel() {
             }
             sessionManager?.role?.let { addFormDataPart("role_as", it) }
         }.build()
-        call = ApiClient.getClientV1WithToken(sessionManager).uploadProfile(
+        call = ApiClient.getClientV1WithToken(sessionManager).addSkills(
             "XMLHttpRequest",
             requestBody
         )

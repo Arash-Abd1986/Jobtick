@@ -3,6 +3,7 @@ package com.jobtick.android.fragments.mu_profile_fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.ContentUris
 import android.content.Context
@@ -10,7 +11,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -19,6 +24,7 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.TextUtils
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,8 +35,12 @@ import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textview.MaterialTextView
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.hbisoft.pickit.PickiT
+import com.hbisoft.pickit.PickiTCallbacks
 import com.jobtick.android.R
 import com.jobtick.android.activities.AbstractUploadableImageImpl
 import com.jobtick.android.activities.ActivityBase
@@ -41,6 +51,7 @@ import com.jobtick.android.databinding.FragmentProfileNewBinding
 import com.jobtick.android.fragments.AttachmentBottomSheet
 import com.jobtick.android.fragments.ProfileFragment
 import com.jobtick.android.models.AttachmentModel
+import com.jobtick.android.models.AttachmentModelV2
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
 import com.yalantis.ucrop.UCrop
@@ -55,11 +66,12 @@ import retrofit2.Response
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
+import java.util.ArrayList
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class ProfileFragmentNew : Fragment() {
+class ProfileFragmentNew : Fragment(), PickiTCallbacks {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var activity: DashboardActivity
@@ -68,6 +80,8 @@ class ProfileFragmentNew : Fragment() {
 //    private lateinit var profileNewViewModel: ProfileNewViewModel
     private var sessionManager: SessionManager? = null
     private var uploadableImage: UploadableImage? = null
+    var pickiT: PickiT? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,13 +95,16 @@ class ProfileFragmentNew : Fragment() {
         super.onAttach(context)
         activity = (requireActivity() as DashboardActivity)
         sessionManager = SessionManager(context)
+        pickiT = PickiT(requireContext(), this, requireActivity())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity.toolbar!!.visibility = View.GONE
+
         if(sessionManager!!.roleLocal == "poster") {
-            SetToolbar(activity, "Profile", "Switch to Ticker", null, binding.header, view)
+           // SetToolbar(activity, "Profile", "Switch to Ticker", null, binding.header, view)
 
             if(sessionManager!!.userAccount!!.isVerifiedAccount == 1)
                 binding.textVerificationStatus.text = "Verified Poster"
@@ -95,7 +112,7 @@ class ProfileFragmentNew : Fragment() {
                 binding.isloginParent2.visibility = View.GONE
         }
         else {
-            SetToolbar(activity, "Profile", "Switch to Poster", null, binding.header, view)
+            //SetToolbar(activity, "Profile", "Switch to Poster", null, binding.header, view)
             try {
                 if (sessionManager!!.userAccount!!.isVerifiedAccount == 1)
                     binding.textVerificationStatus.text = "Verified Ticker"
@@ -112,7 +129,8 @@ class ProfileFragmentNew : Fragment() {
             binding.imgAvatar.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_person))
         }
 
-        binding.imgAvatar.setOnClickListener { uploadableImage!!.showAttachmentImageBottomSheet(true) }
+//        binding.imgAvatar.setOnClickListener { uploadableImage!!.showAttachmentImageBottomSheet(true) }
+        binding.imgAvatar.setOnClickListener { showDialog() }
         uploadableImage = object : AbstractUploadableImageImpl(requireActivity()) {
             override fun onImageReady(imageFile: File) {
                 Log.d("onImageReady", "ss")
@@ -120,59 +138,59 @@ class ProfileFragmentNew : Fragment() {
             }
         }
 
-        binding.imgAvatar.setOnClickListener { v: View? ->
-            if (checkPermissionREAD_EXTERNAL_STORAGE(activity)) {
-                val intent = Intent()
-                intent.type = "image/*"
-                intent.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
-                    AttachmentBottomSheet.GALLERY_REQUEST
-                )
-            }
-        }
+//        binding.imgAvatar.setOnClickListener { v: View? ->
+//            if (checkPermissionREAD_EXTERNAL_STORAGE(activity)) {
+//                val intent = Intent()
+//                intent.type = "image/*"
+//                intent.action = Intent.ACTION_GET_CONTENT
+//                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+//                    AttachmentBottomSheet.GALLERY_REQUEST
+//                )
+//            }
+//        }
 
 
-        binding.imgAvatar.setOnClickListener { view1: View? ->
-            if (checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                val permissionlistener: PermissionListener = object : PermissionListener {
-
-                    override fun onPermissionGranted() {
-                        val cameraIntent = NewCameraUtil.getTakePictureIntent(activity)
-                        if (cameraIntent == null) {
-                            activity.showToast("can not write to your files to save picture.", activity)
-                        }
-                        try {
-                            startActivityForResult(cameraIntent,
-                                AttachmentBottomSheet.CAMERA_REQUEST
-                            )
-                        } catch (e: ActivityNotFoundException) {
-                            activity.showToast("Can not find your camera.", activity)
-                        }
-                    }
-
-                    override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-
-                    }
-                }
-                TedPermission.with(activity)
-                    .setPermissionListener(permissionlistener)
-                    .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                    .setPermissions(Manifest.permission.CAMERA)
-                    .check()
-            } else {
-                val cameraIntent = NewCameraUtil.getTakePictureIntent(activity)
-                if (cameraIntent == null) {
-                    activity.showToast("can not write to your files to save picture.", activity)
-                }
-                try {
-                    startActivityForResult(cameraIntent,
-                        AttachmentBottomSheet.CAMERA_REQUEST
-                    )
-                } catch (e: ActivityNotFoundException) {
-                    activity.showToast("Can not find your camera.", activity)
-                }
-            }
-        }
+//        binding.imgAvatar.setOnClickListener { view1: View? ->
+//            if (checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//                val permissionlistener: PermissionListener = object : PermissionListener {
+//
+//                    override fun onPermissionGranted() {
+//                        val cameraIntent = NewCameraUtil.getTakePictureIntent(activity)
+//                        if (cameraIntent == null) {
+//                            activity.showToast("can not write to your files to save picture.", activity)
+//                        }
+//                        try {
+//                            startActivityForResult(cameraIntent,
+//                                AttachmentBottomSheet.CAMERA_REQUEST
+//                            )
+//                        } catch (e: ActivityNotFoundException) {
+//                            activity.showToast("Can not find your camera.", activity)
+//                        }
+//                    }
+//
+//                    override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+//
+//                    }
+//                }
+//                TedPermission.with(activity)
+//                    .setPermissionListener(permissionlistener)
+//                    .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+//                    .setPermissions(Manifest.permission.CAMERA)
+//                    .check()
+//            } else {
+//                val cameraIntent = NewCameraUtil.getTakePictureIntent(activity)
+//                if (cameraIntent == null) {
+//                    activity.showToast("can not write to your files to save picture.", activity)
+//                }
+//                try {
+//                    startActivityForResult(cameraIntent,
+//                        AttachmentBottomSheet.CAMERA_REQUEST
+//                    )
+//                } catch (e: ActivityNotFoundException) {
+//                    activity.showToast("Can not find your camera.", activity)
+//                }
+//            }
+//        }
 
         if(sessionManager!!.accessToken != null) {
             binding.fullName.text = sessionManager!!.userAccount!!.name
@@ -188,17 +206,26 @@ class ProfileFragmentNew : Fragment() {
             binding.isloginParent2.visibility = View.GONE
         }
 
-        binding.header.txtAction.setOnClickListener {
+        if(sessionManager!!.roleLocal == "ticker")
+            binding.txtAction.text = "Switch to Poster"
+        else
+            binding.txtAction.text = "Switch to Ticker"
 
-                    if (binding.header.txtAction.text == "Switch to Ticker") {
-                        binding.header.txtAction.text = "Switch to Poster"
+        binding.txtAction.setOnClickListener {
+
+                    if (binding.txtAction.text == "Switch to Ticker") {
+                        binding.txtAction.text = "Switch to Poster"
+                        sessionManager!!.roleLocal = "ticker"
                         binding.portfolioSkillsParent.visibility = View.VISIBLE
                         binding.line.visibility = View.VISIBLE
                     } else {
-                        binding.header.txtAction.text = "Switch to Ticker"
+                        binding.txtAction.text = "Switch to Ticker"
+                        sessionManager!!.roleLocal = "poster"
                         binding.portfolioSkillsParent.visibility = View.GONE
                         binding.line.visibility = View.GONE
-            }
+                    }
+            activity.resetBottomBar()
+
         }
 
         binding.loginParent.setOnClickListener {
@@ -214,7 +241,7 @@ class ProfileFragmentNew : Fragment() {
         }
 
         binding.portfilioParent.setOnClickListener {
-            view.findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_portfolio)
+            view.findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_portfolio_item)
         }
 
         binding.skillsParent.setOnClickListener {
@@ -227,8 +254,12 @@ class ProfileFragmentNew : Fragment() {
             view.findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_help_and_support)
         }
 
+        binding.changePassword.setOnClickListener {
+            view.findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_change_password)
+        }
+
         binding.textPublicProfile.setOnClickListener {
-            activity.showToast("به زودی انشااله ...", activity)
+                view.findNavController().navigate(R.id.action_navigation_profile_to_navigation_public_profile)
         }
     }
 
@@ -294,16 +325,24 @@ class ProfileFragmentNew : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Log.d("imagepath11: ", resultCode.toString() + ", " + requestCode + ", " + data.toString())
         if (requestCode == AttachmentBottomSheet.GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
-            val filePath = data!!.data
-           // val onCropImage: OnCropImage = OnUCropImageImpl(activity)
-            val bitmap = MediaStore.Images.Media.getBitmap(activity.contentResolver, filePath)
-            if (filePath != null) {
-                uploadProfileAvatar(filePath.toFile())
-            }
-            binding.imgAvatar.setImageBitmap(bitmap)
+//            val filePath = data!!.data
+//           // val onCropImage: OnCropImage = OnUCropImageImpl(activity)
+//            val bitmap = MediaStore.Images.Media.getBitmap(activity.contentResolver, filePath)
 //            if (filePath != null) {
-//                crop(filePath, false, activity)
+//                uploadProfileAvatar(filePath.toFile())
 //            }
+//          //  binding.imgAvatar.setImageBitmap(bitmap)
+////            if (filePath != null) {
+////                crop(filePath, false, activity)
+////            }
+
+            val filePath = data!!.data
+            //val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, filePath)
+            val imagePath = getPath(data.data)
+            //imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+            //  uploadImageWithAmount();
+            val file = File(imagePath)
+            uploadProfileAvatar(file)
         }
         if (requestCode == AttachmentBottomSheet.CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             val externalStorageVolumes = ContextCompat.getExternalFilesDirs(activity, null)
@@ -324,8 +363,8 @@ class ProfileFragmentNew : Fragment() {
 //            )
 
             val imageUri = Uri.fromFile(File(imagePath))
-            val bitmap = MediaStore.Images.Media.getBitmap(activity.contentResolver, imageUri)
-            binding.imgAvatar.setImageBitmap(bitmap)
+           // val bitmap = MediaStore.Images.Media.getBitmap(activity.contentResolver, imageUri)
+           // binding.imgAvatar.setImageBitmap(bitmap)
             uploadProfileAvatar(File(imagePath))
            // val cropImage: OnCropImage = OnUCropImageImpl(activity)
            // crop(imageUri, false, activity)
@@ -712,13 +751,15 @@ class ProfileFragmentNew : Fragment() {
                             if (jsonObjectData.has("created_at") && !jsonObjectData.isNull("created_at")) attachment.createdAt = jsonObjectData.getString("created_at")
                             attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
                             sessionManager!!.userAccount.avatar = attachment
+
                             ImageUtil.displayImage(binding.imgAvatar, attachment.url, null)
-                            if (ProfileFragment.onProfileupdatelistener != null) {
-                                ProfileFragment.onProfileupdatelistener!!.updatedSuccesfully(attachment.url)
-                            }
-                            if (DashboardActivity.onProfileupdatelistenerSideMenu != null) {
-                                DashboardActivity.onProfileupdatelistenerSideMenu!!.updatedSuccesfully(attachment.url)
-                            }
+                            binding.imgAvatar.setImageBitmap(BitmapFactory.decodeFile(pictureFile.path))
+//                            if (ProfileFragment.onProfileupdatelistener != null) {
+//                                ProfileFragment.onProfileupdatelistener!!.updatedSuccesfully(attachment.url)
+//                            }
+//                            if (DashboardActivity.onProfileupdatelistenerSideMenu != null) {
+//                                DashboardActivity.onProfileupdatelistenerSideMenu!!.updatedSuccesfully(attachment.url)
+//                            }
                         }
 
 
@@ -736,6 +777,97 @@ class ProfileFragmentNew : Fragment() {
                     activity.hideProgressDialog()
             }
         })
+    }
+
+    private fun showDialog() {
+        val view: View = layoutInflater.inflate(R.layout.dialog_attachment, null)
+        val infoDialog = AlertDialog.Builder(requireContext())
+            .setView(view)
+            .create()
+        val window = infoDialog.window;
+
+        val wlp = window!!.attributes;
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        wlp.gravity = Gravity.BOTTOM
+        window.attributes = wlp
+        infoDialog.show()
+        window.findViewById<MaterialButton>(R.id.pdf).text = "Camera"
+        window.findViewById<MaterialTextView>(R.id.title).text = "Upload Avatar"
+        window.findViewById<MaterialButton>(R.id.pdf).icon = ContextCompat.getDrawable(activity, R.drawable.new_design_add_photo)
+        window.findViewById<MaterialButton>(R.id.cancel).setOnClickListener {
+            infoDialog.dismiss()
+        }
+        window.findViewById<MaterialButton>(R.id.gallery).setOnClickListener {
+            if (checkPermissionREAD_EXTERNAL_STORAGE(requireContext())) {
+                val openGallary = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(Intent.createChooser(openGallary, "Open Gallary"), AttachmentBottomSheet.GALLERY_REQUEST)
+                infoDialog.dismiss()
+            }
+        }
+        window.findViewById<MaterialButton>(R.id.pdf).setOnClickListener {
+            if (checkPermissionREAD_EXTERNAL_STORAGE(requireContext())) {
+
+                val cameraIntent = NewCameraUtil.getTakePictureIntent(activity)
+                if (cameraIntent == null) {
+                    activity.showToast("can not write to your files to save picture.", activity)
+                }
+                try {
+                    startActivityForResult(cameraIntent,
+                        AttachmentBottomSheet.CAMERA_REQUEST
+                    )
+                } catch (e: ActivityNotFoundException) {
+                    activity.showToast("Can not find your camera.", activity)
+                }
+
+//                val intent = Intent()
+//                intent.type = "application/pdf"
+//                intent.action = Intent.ACTION_GET_CONTENT
+//                startActivityForResult(Intent.createChooser(intent, "Select PDF File"), 1001)
+                infoDialog.dismiss()
+            }
+        }
+    }
+
+    override fun PickiTonUriReturned() {
+        TODO("Not yet implemented")
+    }
+
+    override fun PickiTonStartListener() {
+        TODO("Not yet implemented")
+    }
+
+    override fun PickiTonProgressUpdate(progress: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun PickiTonCompleteListener(
+        path: String?,
+        wasDriveFile: Boolean,
+        wasUnknownProvider: Boolean,
+        wasSuccessful: Boolean,
+        Reason: String?
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun PickiTonMultipleCompleteListener(
+        paths: ArrayList<String>?,
+        wasSuccessful: Boolean,
+        Reason: String?
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    @SuppressLint("Range")
+    fun getPath(uri: Uri?): String {
+        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor: Cursor = requireActivity().contentResolver.query(uri!!, filePathColumn, null, null, null)!!
+        cursor.moveToFirst()
+        val columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
+        val picturePath: String = cursor.getString(columnIndex)
+        cursor.close()
+        Timber.e(picturePath)
+        return picturePath
     }
 
 }

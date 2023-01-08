@@ -64,10 +64,11 @@ class ProfileFragmentName : Fragment() {
             view.findNavController().navigate(R.id.action_navigation_profile_name_to_navigation_profile_account)
         }
 
-        mutableMap = mutableMapOf("fname" to binding.edittextFirstnameValue.text.toString(),
-            "lname" to binding.edittextLastNameValue.text.toString())
 
         binding.header.txtAction.setOnClickListener {
+            mutableMap = mutableMapOf("fname" to binding.edittextFirstnameValue.text.toString(),
+                "lname" to binding.edittextLastNameValue.text.toString())
+
             if(checkValidation())
                 viewModel.updateProfile(activity, mutableMap)
         }

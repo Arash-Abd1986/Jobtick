@@ -134,7 +134,7 @@ public abstract class AddBankAccountImpl implements AddBankAccount {
 
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
 
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("btoken", btoken);

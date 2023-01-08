@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:paddingHorizontal="16dp"
-    android:paddingTop="8dp"
+    android:paddingTop="12dp"
     android:paddingBottom="16dp"
     android:orientation="vertical"
     tools:context=".material.ui.postajob.PostAJobSetTitleFragment">

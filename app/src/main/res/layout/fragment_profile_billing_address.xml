@@ -104,7 +104,7 @@
                     android:id="@+id/txt_name_value"
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/start_date_value"
+                    android:layout_toStartOf="@+id/text_suburb"
                     android:layout_centerVertical="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_header"
                     android:textColor="@color/neutral_light_500"
-                    android:text="Melbourne" />
+                    android:text="choose suburb" />
 
                 <ImageView
                     android:src="@drawable/new_design_chevron_right"
@@ -135,6 +135,7 @@
             </RelativeLayout>
         </LinearLayout>
         <ImageView
+            android:id="@+id/state_image"
             android:layout_marginTop="9dp"
             android:layout_gravity="center"
             android:src="@drawable/new_design_australia_map_state_6"

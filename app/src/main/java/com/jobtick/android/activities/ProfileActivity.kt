@@ -1,6 +1,7 @@
 package com.jobtick.android.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import com.google.android.material.appbar.MaterialToolbar
 import com.jobtick.android.R
@@ -14,6 +15,7 @@ class ProfileActivity : ActivityBase() {
         if (intent.getIntExtra("id", -1) != -1) {
             val b = Bundle()
             b.putInt("userId", intent.getIntExtra("id", -1))
+            Log.d("asdadad", intent.getIntExtra("id", -1).toString())
             val ft = supportFragmentManager.beginTransaction()
             val profileFragment = ProfileViewFragment()
             profileFragment.arguments = b

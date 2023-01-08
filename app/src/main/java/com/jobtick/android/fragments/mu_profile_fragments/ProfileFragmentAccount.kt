@@ -194,6 +194,7 @@ class ProfileFragmentAccount : Fragment() {
         val cancel: MaterialButton?
         val delete: MaterialButton?
         val title: TextView?
+        val mainTitle: TextView?
         val dialog = Dialog(activity, R.style.AnimatedDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
@@ -204,6 +205,8 @@ class ProfileFragmentAccount : Fragment() {
         cancel = dialog.findViewById(R.id.cancel)
         delete = dialog.findViewById(R.id.discard)
         title = dialog.findViewById(R.id.title)
+        mainTitle = dialog.findViewById(R.id.mainTitle)
+        mainTitle.text = "Logout"
         delete.text = "Logout"
         title.setText(activity.getString(R.string.profile_logout))
 

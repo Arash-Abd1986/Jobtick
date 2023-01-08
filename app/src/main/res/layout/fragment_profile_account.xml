@@ -301,7 +301,7 @@
                 android:maxLines="1"
                 android:textSize="@dimen/profile_acounts_header"
                 android:textColor="@color/neutral_light_500"
-                android:text="Account Management" />
+                android:text="ACCOUNT MANAGEMENT" />
             <RelativeLayout
                 android:id="@+id/delete_account_parent"
                 android:layout_marginTop="8dp"

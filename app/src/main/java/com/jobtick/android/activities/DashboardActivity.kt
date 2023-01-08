@@ -3,6 +3,7 @@ package com.jobtick.android.activities
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
@@ -14,9 +15,10 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -48,6 +50,7 @@ import com.jobtick.android.utils.SessionManager
 import com.onesignal.OneSignal
 import org.json.JSONObject
 import timber.log.Timber
+
 
 class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     var drawerLayout: DrawerLayout? = null
@@ -140,7 +143,8 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         val graphInflater = navController!!.navInflater
         val navGraph = graphInflater.inflate(R.navigation.mobile_navigation)
         navGraph.setStartDestination(  if (sessionManager!!.roleLocal == "poster") {
-            R.id.navigation_new_task
+          //  R.id.navigation_new_task
+            R.id.navigation_my_tasks
         } else {
             R.id.navigation_browse
         })
@@ -235,7 +239,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
             linFilter!!.visibility = View.GONE
             linSignIN!!.visibility = View.GONE
             if (sessionManager!!.roleLocal == "poster") {
-                navController!!.navigate(R.id.navigation_new_task)
+                navController!!.navigate(R.id.navigation_my_tasks)
             } else {
                 navController!!.navigate(R.id.navigation_browse)
                 accountDetails
@@ -367,103 +371,132 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
 
     fun setMenuItemIcon(item: AppCompatImageView?, itemId: Int, status: String) {
         if (status == "LARGE") {
+            val color = getColor(R.color.primary_500)
+            val mode = PorterDuff.Mode.DST_ATOP
+          //  item!!.setColorFilter(color, mode)
+
+           // val unwrappedDrawable = AppCompatResources.getDrawable(this, item.id)
+            val wrappedDrawable = DrawableCompat.wrap(item!!.drawable)
+            DrawableCompat.setTint(wrappedDrawable, color)
             when (itemId) {
+
                 0 -> {
-                    if (sessionManager!!.roleLocal == "poster") {
-                        item!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.ic_home_medium
-                            )
-                        )
-                        navT1!!.text = getString(R.string.title_home)
+                    if (sessionManager!!.roleLocal == "ticker") {
+                            home?.visibility = View.VISIBLE
+//                        item!!.setImageDrawable(
+//                            ContextCompat.getDrawable(
+//                                this,
+//                                R.drawable.ic_home_medium
+//                            )
+//                        )
+                        navT1!!.text = getString(R.string.explore)
                     } else {
-                        item!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.ic_explore_medium
-                            )
-                        )
+                        home?.visibility = View.GONE
+//                        item!!.setImageDrawable(
+//                            ContextCompat.getDrawable(
+//                                this,
+//                                R.drawable.ic_explore_medium
+//                            )
+//                        )
                         navT1!!.text = getString(R.string.explore)
                     }
-                    navT1!!.setTextColor(getColor(R.color.P300))
+                    navT1!!.setTextColor(color)
                 }
                 1 -> {
-                    item!!.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_myjobs_medium
-                        )
-                    )
-                    navT2!!.setTextColor(getColor(R.color.P300))
+                    if (sessionManager!!.roleLocal == "poster") {
+                        navT2!!.text = "Inventory"
+                    }
+                    else
+                        navT2!!.text = "Workspace"
+//                    item!!.setImageDrawable(
+//                        ContextCompat.getDrawable(
+//                            this,
+//                            R.drawable.new_des
+//                        )
+//                    )
+                    navT2!!.setTextColor(color)
+                   // item!!.setColorFilter(color, mode)
                 }
                 3 -> {
-                    item!!.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_chats_medium
-                        )
-                    )
-                    navT4!!.setTextColor(getColor(R.color.P300))
+//                    item!!.setImageDrawable(
+//                        ContextCompat.getDrawable(
+//                            this,
+//                            R.drawable.ic_chats_medium
+//                        )
+//                    )
+                    navT4!!.setTextColor(color)
                 }
                 4 -> {
-                    item!!.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_profile_medium
-                        )
-                    )
-                    navT5!!.setTextColor(getColor(R.color.P300))
+//                    item!!.setImageDrawable(
+//                        ContextCompat.getDrawable(
+//                            this,
+//                            R.drawable.ic_profile_medium
+//                        )
+//                    )
+                    navT5!!.setTextColor(color)
                 }
             }
         } else {
+            val color = getColor(R.color.neutral_light_500)
+            val wrappedDrawable = DrawableCompat.wrap(item!!.drawable)
+            DrawableCompat.setTint(wrappedDrawable, color)
+//            val color = getColor(R.color.neutral_light_500)
+//            val mode = PorterDuff.Mode.DST_OVER
+//            item!!.setColorFilter(color, mode)
             when (itemId) {
                 0 -> {
-                    if (sessionManager!!.roleLocal == "poster") {
-                        item!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.ic_home_small
-                            )
-                        )
-                        navT1!!.text = getString(R.string.title_home)
+                    if (sessionManager!!.roleLocal == "ticker") {
+                        home?.visibility = View.VISIBLE
+//                        item!!.setImageDrawable(
+//                            ContextCompat.getDrawable(
+//                                this,
+//                                R.drawable.ic_home_small
+//                            )
+//                        )
+                        navT1!!.text = getString(R.string.explore)
                     } else {
-                        item!!.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                this,
-                                R.drawable.ic_explore_small
-                            )
-                        )
+                        home?.visibility = View.GONE
+//                        item!!.setImageDrawable(
+//                            ContextCompat.getDrawable(
+//                                this,
+//                                R.drawable.ic_explore_small
+//                            )
+//                        )
                         navT1!!.text = getString(R.string.explore)
                     }
-                    navT1!!.setTextColor(getColor(R.color.N900))
+                    navT1!!.setTextColor(getColor(R.color.neutral_light_500))
                 }
                 1 -> {
-                    item!!.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_my_jobs_small
-                        )
-                    )
-                    navT2!!.setTextColor(getColor(R.color.N900))
+                    if (sessionManager!!.roleLocal == "poster") {
+                        navT2!!.text = "Inventory"
+                    }
+                    else
+                        navT2!!.text = "Workspace"
+//                    item!!.setImageDrawable(
+//                        ContextCompat.getDrawable(
+//                            this,
+//                            R.drawable.ic_my_jobs_small
+//                        )
+//                    )
+                    navT2!!.setTextColor(getColor(R.color.neutral_light_500))
                 }
                 3 -> {
-                    item!!.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_chats_small
-                        )
-                    )
-                    navT4!!.setTextColor(getColor(R.color.N900))
+//                    item!!.setImageDrawable(
+//                        ContextCompat.getDrawable(
+//                            this,
+//                            R.drawable.ic_chats_small
+//                        )
+//                    )
+                    navT4!!.setTextColor(getColor(R.color.neutral_light_500))
                 }
                 4 -> {
-                    item!!.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_profile_small
-                        )
-                    )
-                    navT5!!.setTextColor(getColor(R.color.N900))
+//                    item!!.setImageDrawable(
+//                        ContextCompat.getDrawable(
+//                            this,
+//                            R.drawable.ic_profile_small
+//                        )
+//                    )
+                    navT5!!.setTextColor(getColor(R.color.neutral_light_500))
                 }
             }
         }

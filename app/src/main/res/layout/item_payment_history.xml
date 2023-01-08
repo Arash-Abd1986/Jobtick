@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp"
+    android:layout_marginTop="24dp"
+    android:layout_marginBottom="12dp"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -12,16 +17,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:lines="1"
         android:visibility="visible"
         android:singleLine="true"
+        android:textSize="14dp"
+
         android:textAppearance="@style/materialText_500_10"
-        android:textColor="@color/grey_70"
+        android:textColor="@color/neutral_light_500"
         tools:text="Feb 21, 2020" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
+        android:visibility="gone"
         android:id="@+id/ivAvatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -32,52 +38,69 @@
         android:src="@drawable/pic"
         app:civ_border="false" />
 
+    <RelativeLayout
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <com.google.android.material.textview.MaterialTextView
+        android:layout_centerVertical="true"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:id="@+id/descriptionTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/ivAvatar"
-        android:layout_marginStart="12dp"
         android:layout_marginTop="1dp"
         android:layout_toStartOf="@id/priceTxt"
         android:layout_marginEnd="8dp"
-        android:layout_toEndOf="@id/ivAvatar"
         android:gravity="top|start"
         android:lines="1"
+        android:textSize="16dp"
         android:textAppearance="@style/materialText_500_14"
-        android:textColor="@color/textColor"
+        android:textColor="@color/neutral_light_700"
         tools:ignore="SpUsage"
         tools:text="Clean my two bedroom apartment which is very dirty" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:visibility="gone"
         android:id="@+id/nameTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/ivAvatar"
         android:layout_marginStart="12dp"
         android:lines="1"
         android:layout_toStartOf="@id/priceTxt"
-        android:layout_toEndOf="@id/ivAvatar"
         android:textAppearance="@style/materialText_400_12"
         android:textColor="@color/grey_70"
         tools:text="Cody Lane" />
 
 
     <com.google.android.material.textview.MaterialTextView
+        android:layout_toStartOf="@+id/img1"
         android:id="@+id/priceTxt"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/descriptionTxt"
-        android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
         android:gravity="end|center_vertical"
         android:lines="1"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="14dp"
         android:textAppearance="@style/materialText_700_20"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/neutral_light_500"
         tools:text="$100" />
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/img1"
+            android:src="@drawable/new_design_chevron_right"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/debitedTxt"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/nameTxt"
@@ -92,6 +115,7 @@
 
 
     <View
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="@dimen/spacing_line"
         android:background="@color/colorF0F0F0"
@@ -101,4 +125,4 @@
         android:layout_marginTop="15dp"/>
 
 
-</RelativeLayout>
+</LinearLayout>

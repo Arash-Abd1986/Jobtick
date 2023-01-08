@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -26,6 +27,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.lujun.androidtagview.TagContainerLayout
 import com.android.volley.DefaultRetryPolicy
@@ -196,6 +198,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private lateinit var fmPSkills: FrameLayout
     private var lnPosterReview: RelativeLayout? = null
     private var lnTickerReview: RelativeLayout? = null
+    private var badgeRecycler: RecyclerView? = null
     override fun onResume() {
         super.onResume()
         sessionManager?.let {
@@ -329,10 +332,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         lnAboutMe = requireView().findViewById(R.id.ln_about_me)
         rlStatus = requireView().findViewById(R.id.rl_status)
         fmPSkills = requireView().findViewById(R.id.fm_p_skills)
+        badgeRecycler = requireView().findViewById(R.id.badgeRecycler)
         linFcc!!.visibility = View.GONE
         reviewTabs.visibility = View.GONE
-        linFcc2!!.visibility = View.VISIBLE
-        linMode.visibility = View.VISIBLE
+        linFcc2!!.visibility = View.GONE
+        linMode.visibility = View.GONE
         txtRole.visibility = View.VISIBLE
     }
 
@@ -416,11 +420,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             levelsInfoBottomSheet.show(parentFragmentManager, "")
         }
         init()
-        sessionManager?.let {
-            it.userAccount?.let {
-                allProfileData
-            }
-        }
+//        sessionManager?.let {
+//            it.userAccount?.let {
+//                allProfileData
+//            }
+//        }
 
         initComponent()
     }
@@ -441,10 +445,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 lnPosterReview!!.visibility = View.GONE
                 lnTickerReview!!.visibility = View.VISIBLE
                 fmPSkills.visibility = View.VISIBLE
-                rlStatus.visibility = View.VISIBLE
+                rlStatus.visibility = View.GONE
                 lnAboutMe.visibility = View.VISIBLE
-                linLevel!!.visibility = View.VISIBLE
-                flAddSkill!!.visibility = View.VISIBLE
+                linLevel!!.visibility = View.GONE
+                flAddSkill!!.visibility = View.GONE
                 swTickerMode.isChecked = true
                 txtRole.text = "As a Ticker"
             }
@@ -513,9 +517,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 recyclerViewPortfolio!!.visibility = View.VISIBLE
                 noSkill!!.visibility = View.GONE
                 noPortfolio!!.visibility = View.GONE
-                lPort!!.visibility = View.VISIBLE
+                lPort!!.visibility = View.GONE
             }
-            lSkill!!.visibility = View.GONE
+            lSkill!!.visibility = View.VISIBLE
             flAddSkill!!.visibility = View.GONE
             rbPortfollio!!.setTextColor(resources.getColor(R.color.N600))
             rbSkills!!.setTextColor(resources.getColor(R.color.N100))
@@ -539,7 +543,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 noPortfolio!!.visibility = View.GONE
                 noSkill!!.visibility = View.GONE
                 lSkill!!.visibility = View.VISIBLE
-                flAddSkill!!.visibility = View.VISIBLE
+                flAddSkill!!.visibility = View.GONE
             }
             recyclerViewPortfolio!!.visibility = View.GONE
             lPort!!.visibility = View.GONE
@@ -561,7 +565,10 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         adapter = AttachmentAdapter(attachmentArrayList, false, activity)
         recyclerViewPortfolio!!.adapter = adapter
         adapter!!.setOnItemClickListener(this)
+        badgeRecycler!!.setHasFixedSize(true)
+        badgeRecycler!!.layoutManager = LinearLayoutManager(requireContext())
         badgesAdapter = BadgesAdapter(badgesModelArrayList)
+        badgeRecycler!!.adapter = badgesAdapter
     }
 
     private fun checkLevel(levels: Levels?) {
@@ -616,7 +623,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             content!!.visibility = View.GONE
             val stringRequest: StringRequest = object : StringRequest(
                 Method.GET,
-                Constant.URL_PROFILE + "/" + sessionManager!!.userAccount.id,
+               // Constant.URL_PROFILE + "/" + sessionManager!!.userAccount.id,
+                Constant.URL_PROFILE + "/6" ,
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     content!!.visibility = View.VISIBLE
@@ -625,6 +633,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     try {
                         val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
+                        Log.d("profileresponse", jsonObject.toString())
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             userAccountModel =
                                 UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
@@ -642,14 +651,17 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             setJobStatus(userAccountModel!!.account_status)
                             attachmentArrayList = userAccountModel!!.portfolio
                             adapter!!.clear()
+                            badgesAdapter!!.clear()
                             badgesModelArrayList = userAccountModel!!.badges
+                            Log.d("arraylisstsiz", badgesModelArrayList!!.size.toString())
                             if (attachmentArrayList!!.size <= 0) {
                                 noPortfolio!!.visibility = View.VISIBLE
                                 lPort!!.visibility = View.GONE
                             } else {
                                 recyclerViewPortfolio!!.visibility = View.VISIBLE
                                 noPortfolio!!.visibility = View.GONE
-                                lPort!!.visibility = View.VISIBLE
+                                //useless portfollio
+                                lPort!!.visibility = View.GONE
                                 adapter!!.addItems(attachmentArrayList)
                             }
                             if (badgesModelArrayList!!.size <= 0) {
@@ -659,7 +671,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             } else {
                                 noPortfolio!!.visibility = View.GONE
                                 lSkill!!.visibility = View.VISIBLE
-                                flAddSkill!!.visibility = View.VISIBLE
+                                flAddSkill!!.visibility = View.GONE
                             }
                             badgesAdapter!!.addItems(badgesModelArrayList)
                             if (userAccountModel!!.portfolio.size == 0) {
@@ -1154,6 +1166,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
 
     override fun updateProfile() {
         adapter!!.clear()
+        badgesAdapter!!.clear()
         allProfileData
     }
 

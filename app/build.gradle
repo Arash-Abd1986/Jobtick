@@ -173,7 +173,7 @@ dependencies {
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
 
     //Lottie library for animations
-    implementation 'com.airbnb.android:lottie:3.5.0'
+    implementation 'com.airbnb.android:lottie:5.2.0'
 
     //Glide Image Loader
     implementation "com.github.bumptech.glide:glide:4.11.0"

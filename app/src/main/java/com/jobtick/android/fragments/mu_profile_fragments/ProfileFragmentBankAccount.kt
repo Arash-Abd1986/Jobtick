@@ -11,25 +11,22 @@ import android.widget.CalendarView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.android.volley.*
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.google.android.material.button.MaterialButton
-import com.jobtick.android.BuildConfig
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.jobtick.android.R
-import com.jobtick.android.activities.ChatActivity
+import com.jobtick.android.activities.ActivityBase
 import com.jobtick.android.activities.DashboardActivity
-import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.databinding.FragmentProfileBankAccountBinding
-import com.jobtick.android.models.OfferModel
-import com.jobtick.android.models.TaskModel
 import com.jobtick.android.network.retrofit.ApiClient
+import com.jobtick.android.payment.AddBankAccount
+import com.jobtick.android.payment.AddBankAccountImpl
 import com.jobtick.android.utils.*
-import okhttp3.MultipartBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -49,6 +46,7 @@ class ProfileFragmentBankAccount : Fragment(){
     private var cday = 0
     private var str_due_date: String? = null
     private var calendarView: CalendarView? = null
+    private var addBankAccount: AddBankAccount? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +65,7 @@ class ProfileFragmentBankAccount : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetToolbar(activity, "Account", "", R.id.navigation_profile, binding.header, view)
+        SetToolbar(activity, "Bank Account", "Save", R.id.navigation_profile, binding.header, view)
         getBankAccount(activity)
 //        DatePickerDialog.OnDateSetListener { view1: DatePicker?, year: Int, month: Int, dayOfMonth: Int ->
 //            val lMonth = month + 1
@@ -75,41 +73,108 @@ class ProfileFragmentBankAccount : Fragment(){
 //            binding.startDateValue.text = str_due_date
 //        }
 
+        binding.header.txtAction.setOnClickListener {
+            view.findNavController().navigate(R.id.action_navigation_profile_bank_account_to_navigation_profile_payments)
+        }
+
+        addBankAccount = object : AddBankAccountImpl(requireContext(), sessionManager) {
+            override fun onSuccess() {
+                activity.showToast("Saved Successfully!", activity)
+                (requireActivity() as ActivityBase).hideProgressDialog()
+            }
+
+            override fun onError(e: Exception) {
+                activity.showToast(e.toString(), activity)
+                (requireActivity() as ActivityBase).hideProgressDialog()
+            }
+
+            override fun onValidationError(errorType: ErrorType, message: String) {
+                activity.showToast(message, activity)
+                (requireActivity() as ActivityBase).hideProgressDialog()
+            }
+        }
+
         val calendar = Calendar.getInstance()
+        val format = SimpleDateFormat("EEEE, MMMM d yyyy")
+        val formattedDate: String = format.format(calendar.time)
+        binding.startDateValue.text = formattedDate
         cyear = calendar[Calendar.YEAR]
         cmonth = calendar[Calendar.MONTH]
         cday = calendar[Calendar.DAY_OF_MONTH]
-        binding.startDateValue.text  = Tools.getDayMonthDateTimeFormat("$cyear-$cmonth-$cday")
+      //  binding.startDateValue.text = Tools.getDayMonthDateTimeFormat("$cyear-$cmonth-$cday")
 
         binding.calender.setOnClickListener {
-            showCalendar()
+            showCalendatMaterial()
+         //   showCalendar()
         }
-
-        binding.header.back.setOnClickListener {
-            view.findNavController().navigate(R.id.action_navigation_profile_bank_account_to_navigation_profile_payments)
-        }
-    }
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProfileBankAccountBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragmentAccount().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        binding.header.txtAction.setOnClickListener {
+            if (checkValidation()) {
+                activity.showProgressDialog()
+                (addBankAccount as AddBankAccountImpl).add(
+                    binding.edittextAccountHolder.editText?.text?.trim().toString(),
+                    binding.edittextBsb.editText?.text?.trim().toString(),
+                    binding.edittextAccountNumber.editText?.text?.trim().toString()
+                )
             }
-    }
+        }
+        binding.header.back.setOnClickListener {
+            view.findNavController()
+                .navigate(R.id.action_navigation_profile_bank_account_to_navigation_profile_payments)
+        }
 
+        binding.edittextBsb.editText!!.setOnFocusChangeListener{view, b ->
+            if(b)
+                binding.edittextBsb.editText!!.hint = "XXY-ZZZ"
+        }
+
+        binding.edittextAccountNumber.editText!!.setOnFocusChangeListener{view, b ->
+            if(b)
+                binding.edittextBsb.editText!!.hint = "XXXXXX-YYYYYYY-ZZZ"
+        }
+
+        binding.edittextAccountHolder.editText!!.setOnFocusChangeListener{view, b ->
+            if(b)
+                binding.edittextAccountHolder.editText!!.hint = "e.g. Oliver Smith"
+        }
+
+
+    }
+        override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View {
+            _binding = FragmentProfileBankAccountBinding.inflate(inflater, container, false)
+            return binding.root
+        }
+
+        companion object {
+            @JvmStatic
+            fun newInstance(param1: String, param2: String) =
+                ProfileFragmentAccount().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)
+                    }
+                }
+        }
+
+    fun showCalendatMaterial() {
+        val datePicker =
+            MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Birthday")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
+
+        datePicker.show(childFragmentManager, "")
+
+        datePicker.addOnPositiveButtonClickListener {
+            val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+            calendar.timeInMillis = it
+            val format = SimpleDateFormat("EEEE, MMMM d yyyy")
+            val formattedDate: String = format.format(calendar.time)
+            binding.startDateValue.text = formattedDate
+        }
+    }
     fun showCalendar() {
         val accept: MaterialButton?
         val decline: MaterialButton?
@@ -209,5 +274,22 @@ class ProfileFragmentBankAccount : Fragment(){
         })
     }
 
+    private fun checkValidation(): Boolean {
+        when {
+            binding.edittextAccountHolder.editText?.text.isNullOrEmpty() -> {
+                binding.edittextAccountHolder.setError("Please enter Account Holder")
+                return false
+            }
+            binding.edittextBsb.editText?.text.isNullOrEmpty() -> {
+                binding.edittextBsb.setError("Please enter BSB")
+                return false
+            }
+            binding.edittextAccountNumber.editText?.text.isNullOrEmpty() -> {
+                binding.edittextAccountNumber.setError("Please enter Account Number")
+                return false
+            }
+        }
+        return true
+    }
 
 }

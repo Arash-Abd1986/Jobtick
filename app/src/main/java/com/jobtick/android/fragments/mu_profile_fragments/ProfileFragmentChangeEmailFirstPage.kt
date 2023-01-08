@@ -49,11 +49,11 @@ class ProfileFragmentChangeEmailFirstPage : Fragment() {
 
 
         if(requireArguments().getString("number") == "1") {
-            SetToolbar(activity, "Change Mobile Number", "verify", R.id.navigation_profile_account, binding.header, view)
+            SetToolbar(activity, "Change Mobile Number", "Verify", R.id.navigation_profile_account, binding.header, view)
 //            binding.edittextFirstnameValue.setText(requireArguments().getString("number"))
         }
         else if(requireArguments().getString("email") == "1") {
-            SetToolbar(activity, "Change Email", "verify", R.id.navigation_profile_account, binding.header, view)
+            SetToolbar(activity, "Change Email", "Verify", R.id.navigation_profile_account, binding.header, view)
 //            binding.edittextFirstnameValue.setText(requireArguments().getString("email"))
         }
 

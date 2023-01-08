@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
@@ -15,6 +16,8 @@ import com.jobtick.android.databinding.FragmentProfileAccountBinding
 import com.jobtick.android.databinding.FragmentProfileChangePasswordBinding
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.SetToolbar
+import com.jobtick.android.viewmodel.ChangePassViewModel
+import com.jobtick.android.viewmodel.ProfileChangePasswordViewModel
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -25,6 +28,8 @@ class ProfileFragmentChangePassword : Fragment() {
     private var param2: String? = null
     private lateinit var activity: DashboardActivity
     private lateinit var sessionManager: SessionManager
+    private var changePassViewmodel: ProfileChangePasswordViewModel? = null
+    private lateinit var mutableMap: MutableMap<String, String>
     private var _binding: FragmentProfileChangePasswordBinding? = null
     private val binding get() = _binding!!
 
@@ -45,10 +50,19 @@ class ProfileFragmentChangePassword : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetToolbar(activity, "Change Password", "save", R.id.navigation_profile, binding.header, view)
+        SetToolbar(activity, "Change Password", "Save", R.id.navigation_profile, binding.header, view)
+        changePassViewmodel = ViewModelProvider(activity)[ProfileChangePasswordViewModel::class.java]
 
         binding.header.back.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_change_password_to_navigation_profile)
+        }
+
+        binding.header.txtAction.setOnClickListener {
+            if(checkValidation()) {
+                mutableMap = mutableMapOf("old_password" to binding.edittextCurrentPassword.toString(),
+                    "new_password" to binding.edittextNewPassword.toString())
+                changePassViewmodel?.changePass(activity,mutableMap)
+            }
         }
     }
 
@@ -71,4 +85,30 @@ class ProfileFragmentChangePassword : Fragment() {
                 }
             }
     }
+    private fun checkValidation(): Boolean {
+        when {
+            binding.edittextCurrentPassword.editText?.text.isNullOrEmpty() -> {
+                binding.edittextCurrentPassword.setError("Please enter your Current Password")
+                return false
+            }
+            binding.edittextNewPassword.editText?.text.isNullOrEmpty() -> {
+                binding.edittextNewPassword.setError("Please enter your New Password")
+                return false
+            }
+            binding.edittextCurrentPassword.editText?.text.isNullOrEmpty() -> {
+                binding.edittextCurrentPassword.setError("Please enter New Password Confirmation")
+                return false
+            }
+            !binding.edittextNewPassword.editText?.text?.trim().toString().equals(
+                binding.edittextNewPassword.editText?.text?.trim().toString()
+            ) -> {
+                activity.showToast("new password and confirm password are not the same!", activity)
+                return false
+            }
+
+
+        }
+        return true
+    }
+
 }

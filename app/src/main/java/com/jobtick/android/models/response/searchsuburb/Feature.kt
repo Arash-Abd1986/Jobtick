@@ -1,5 +1,7 @@
 package com.jobtick.android.models.response.searchsuburb
 
+import java.io.Serializable
+
 data class Feature(
         val bbox: List<Double>?,
         val center: List<Double>?,
@@ -17,4 +19,4 @@ data class Feature(
         val text_en: String?,
         var state: String?,
         val type: String?
-)
+) : Serializable

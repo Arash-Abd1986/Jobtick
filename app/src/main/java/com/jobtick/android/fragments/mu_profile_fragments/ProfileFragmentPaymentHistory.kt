@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -103,6 +104,8 @@ class ProfileFragmentPaymentHistory : Fragment() {
             }
 
             firstInit = textFilter != ""
+            if(isChecked)
+                getPaymentHistory(startDate, endDate)
         }
 
         binding.parentStart.setOnClickListener {
@@ -197,6 +200,7 @@ class ProfileFragmentPaymentHistory : Fragment() {
     }
 
     private fun fillData(data: List<PaymentHistory>, total_amount: String, firstInit: Boolean) {
+
         if (data.isEmpty()) {
             activity.showToast("no data!", activity)
             return
@@ -215,6 +219,8 @@ class ProfileFragmentPaymentHistory : Fragment() {
                 data,
                 sessionManager.roleLocal == "poster"
             ) { paymentHistory: PaymentHistory? ->
+                val bundle = bundleOf("payment" to paymentHistory)
+                view?.findNavController()?.navigate(R.id.action_navigation_profile_payment_history_to_navigation_profile_payment_details, bundle)
                 Log.d("isclicked", paymentHistory!!.taxRate)
             })
     }

@@ -42,7 +42,7 @@ public abstract class AddBankAccountImpl implements AddBankAccount {
     }
 
     @Override
-    public void add(String accountName, String bsb, String accountNumber) {
+    public void add(String accountName, String bsb, String accountNumber, String dob) {
 
         AppExecutors.getInstance().getNetworkIO().execute(new Runnable() {
             @Override
@@ -71,7 +71,7 @@ public abstract class AddBankAccountImpl implements AddBankAccount {
                     System.out.println("Token success: id:" + token.getId());
 
                     btoken = token.getId();
-                    addBankAccountDetails();
+                    addBankAccountDetails(dob);
 
                 } catch (StripeException e){
                     e.printStackTrace();
@@ -83,7 +83,7 @@ public abstract class AddBankAccountImpl implements AddBankAccount {
         });
     }
 
-    private void addBankAccountDetails() {
+    private void addBankAccountDetails(String dob) {
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, BASE_URL + ADD_ACCOUNT_DETAILS,
                 response -> {
@@ -138,6 +138,7 @@ public abstract class AddBankAccountImpl implements AddBankAccount {
 
                 Map<String, String> map1 = new HashMap<String, String>();
                 map1.put("btoken", btoken);
+                map1.put("birth_date", dob);
 
                 return map1;
             }

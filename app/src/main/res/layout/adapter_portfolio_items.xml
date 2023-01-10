@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_marginEnd="24dp"
+    android:layout_marginStart="24dp"
+    android:layout_marginBottom="12dp"
+    android:layout_marginTop="12dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:id="@+id/titleTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_toStartOf="@id/numberTxt"
+            android:layout_marginEnd="30dp"
+            android:gravity="top|start"
+            android:lines="1"
+            android:textSize="16dp"
+            android:textAppearance="@style/materialText_500_14"
+            android:textColor="@color/neutral_light_800"
+            tools:ignore="SpUsage"
+            tools:text="Clean my two bedroom apartment which is very dirty" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:visibility="gone"
+            android:id="@+id/nameTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:lines="1"
+            android:layout_toStartOf="@id/numberTxt"
+            android:textAppearance="@style/materialText_400_12"
+            android:textColor="@color/grey_70"
+            tools:text="Cody Lane" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_toStartOf="@+id/img1"
+            android:id="@+id/numberTxt"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/titleTxt"
+            android:layout_marginEnd="7dp"
+            android:gravity="end|center_vertical"
+            android:lines="1"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="14dp"
+            android:textAppearance="@style/materialText_700_20"
+            android:textColor="@color/neutral_light_500"
+            tools:text="3 items" />
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/img1"
+            android:src="@drawable/new_design_chevron_right"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <com.google.android.material.textview.MaterialTextView
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:id="@+id/descriptionTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="30dp"
+        android:gravity="top|start"
+        android:lines="1"
+        android:textSize="14dp"
+        android:textAppearance="@style/materialText_500_14"
+        android:textColor="@color/neutral_light_400"
+        tools:ignore="SpUsage"
+        tools:text="Clean my two bedroom apartment which is very dirty" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_line"
+        android:background="@color/colorF0F0F0"
+        android:layout_marginTop="15dp"/>
+
+</LinearLayout>

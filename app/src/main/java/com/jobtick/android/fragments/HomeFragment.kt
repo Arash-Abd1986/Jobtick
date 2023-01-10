@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.text.Html
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -751,7 +752,7 @@ class HomeFragment :
         //   bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
         intent.putExtras(bundle)
         startActivityForResult(intent, ConstantKey.RESULTCODE_MY_JOBS)
-        Timber.i("MyTasksFragment Starting Task with slug: %s", slug)
+        Log.d("MyTasksFragment", slug.toString())
     }
 
     override fun onItemClick(view: View?, obj: TaskCategory?, position: Int) {

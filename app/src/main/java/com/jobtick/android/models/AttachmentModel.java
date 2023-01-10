@@ -10,9 +10,11 @@ import com.jobtick.android.adapers.AttachmentAdapter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 import timber.log.Timber;
 
-public class AttachmentModel implements Parcelable{
+public class AttachmentModel implements Parcelable, Serializable {
     String TAG = AttachmentModel.class.getName();
     @SerializedName("id")
     @Expose

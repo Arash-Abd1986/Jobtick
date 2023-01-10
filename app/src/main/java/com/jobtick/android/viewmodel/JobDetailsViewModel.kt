@@ -2,6 +2,7 @@ package com.jobtick.android.viewmodel
 
 import android.content.Context
 import android.os.Handler
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -66,6 +67,7 @@ class JobDetailsViewModel(private val mainRepository: MainRepository) : ViewMode
                         Method.GET, Constant.URL_TASKS + "/" + strSlug,
                         com.android.volley.Response.Listener { response: String? ->
                             try {
+                                Log.d("taskModel", response.toString())
                                 val jsonObject = JSONObject(response!!)
                                 Timber.e(jsonObject.toString())
                                 println(jsonObject.toString())
@@ -106,6 +108,8 @@ class JobDetailsViewModel(private val mainRepository: MainRepository) : ViewMode
                                      }, 2000)*/
                                 }
                             } catch (e: Exception) {
+                                Log.d("taskModel1", e.toString())
+
                                 /*showToast("Something went wrong", this@JobDetailsActivity)
                                 Handler().postDelayed({
                                     onBackPressed()

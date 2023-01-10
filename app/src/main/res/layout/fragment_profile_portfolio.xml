@@ -59,11 +59,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/isShare"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true" />
                 <LinearLayout
+                    android:layout_toStartOf="@+id/isShare"
                     android:orientation="vertical"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
@@ -140,7 +142,13 @@
 <!--                    android:textColor="@color/neutral_light_800"-->
 <!--                    app:layout_constraintStart_toStartOf="parent"-->
 <!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
+                <LinearLayout
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rl_medias"
                     android:layout_width="match_parent"
@@ -168,12 +176,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
+
                 <LinearLayout
+
                     android:id="@+id/linOptions"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="wrap_content"
                     android:weightSum="2"
-                    android:layout_alignBottom="@+id/rl_medias"
                     android:layout_alignParentBottom="true"
                     android:visibility="gone">
 
@@ -185,8 +194,14 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
+                        <LinearLayout
+                            android:id="@+id/options1"
+                            android:layout_width="wrap_content"
+ android:padding="10dp"                           android:orientation="vertical"
+                            android:layout_height="wrap_content">
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_gravity="center"
                             android:id="@+id/option1_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -202,7 +217,7 @@
                             android:textColor="@color/neutral_light_700" />
 
                     </LinearLayout>
-
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -210,9 +225,15 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
+                        <LinearLayout
+                            android:id="@+id/options2"
+                            android:layout_width="wrap_content"
+                            android:padding="10dp"                           android:orientation="vertical"
+                            android:layout_height="wrap_content">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/option2_icon"
+                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:srcCompat="@drawable/ic_eye" />
@@ -228,17 +249,27 @@
 
                     </LinearLayout>
                 </LinearLayout>
+                </LinearLayout>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/delete_txt"
 
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="20dp"
+
+                        android:textSize="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Delete Portfolio Item"
+                        android:textColor="@color/errorColor" />
+
+                </LinearLayout>
                 <androidx.appcompat.widget.AppCompatImageView
 
                     android:id="@+id/image"
                     android:layout_alignParentTop="true"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:layout_above="@+id/linOptions"
-                    app:layout_constraintBottom_toTopOf="@+id/linOptions"
-                    />
+                    android:scaleType="fitCenter"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

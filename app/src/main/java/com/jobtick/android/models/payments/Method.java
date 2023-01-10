@@ -3,7 +3,9 @@ package com.jobtick.android.models.payments;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Method {
+import java.io.Serializable;
+
+public class Method implements Serializable {
 
     @SerializedName("id")
     @Expose

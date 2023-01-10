@@ -629,6 +629,7 @@ class ExploreFragment :
             val bundle = Bundle()
             bundle.putString(ConstantKey.SLUG, obj!!.slug)
             intent.putExtras(bundle)
+            Log.d("herehere1", obj!!.slug.toString())
             startActivityForResult(intent, 202)
         } else {
             dashboardActivity!!.unauthorizedUser()

@@ -23,11 +23,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/transactions"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true" />
                 <LinearLayout
+                    android:layout_toStartOf="@+id/transactions"
                     android:orientation="vertical"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
@@ -73,6 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
+                    android:layout_toStartOf="@+id/jobAlerts"
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
@@ -83,6 +86,7 @@
                     android:textColor="@color/neutral_light_700"
                     android:text="Job Updates" />
                 <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/jobAlerts"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -98,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
+                    android:layout_toStartOf="@+id/updateRecommendations"
                     android:id="@+id/txt_name_value"
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
@@ -109,6 +114,7 @@
                     android:textColor="@color/neutral_light_700"
                     android:text="Updates &amp; Recommendations" />
                 <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/updateRecommendations"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

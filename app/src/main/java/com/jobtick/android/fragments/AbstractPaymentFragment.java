@@ -217,6 +217,7 @@ public abstract class AbstractPaymentFragment extends Fragment {
     private EndlessRecyclerViewOnScrollListener onScrollListener;
     private final int currentPage = 1;
     PaymentHistoryBottomSheet paymentPaidBottomSheet;
+
     private void fillData(List<PaymentHistory> data, String total_amount, boolean firstInit) {
         if (data.size() == 0 && firstInit) {
             noTransactions.setVisibility(View.VISIBLE);

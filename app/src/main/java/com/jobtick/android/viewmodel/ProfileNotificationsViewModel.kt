@@ -21,22 +21,19 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class   ProfilePortfolioViewModel: ViewModel() {
+class   ProfileNotificationsViewModel: ViewModel() {
 
-    var userAccountModelObservable = MutableLiveData<UserAccountModel>()
-    var success = MutableLiveData<Boolean>()
-    var error = MutableLiveData<String>()
+
     var sessionManager: SessionManager? = null
-    var skillsSearchAdapter = MutableLiveData<SkillsSearchAdapter?>()
-    var skillsSearchAdapter1 = SkillsSearchAdapter()
-    var skillList : MutableLiveData<MutableList<Skills>>? = null
     var jsonobject = MutableLiveData<JSONObject>()
+    var success = MutableLiveData<Boolean>()
 
-    fun getPortfolioItems(context: Context) {
+    fun getNotificationSettings(context: Context, type: String) {
         sessionManager = SessionManager(context)
         (context as DashboardActivity).showProgressDialog()
         Helper.closeKeyboard(context)
-        val call: Call<String?>? = ApiClient.getClientV1WithToken(sessionManager).getPortfolioItems(
+        val call: Call<String?>? = ApiClient.getClientV2(sessionManager).getNotificationSettings(
+            type,
             "XMLHttpRequest"
         )
         call!!.enqueue(object : Callback<String?> {
@@ -46,16 +43,53 @@ class   ProfilePortfolioViewModel: ViewModel() {
                     if(response.isSuccessful) {
 
                             val jsonObject = JSONObject(response.body().toString())
-//                        if(!jsonobject.hasObservers())
-//                                jsonobject = MutableLiveData()
-
-                            jsonobject.value = jsonObject
-                    }else
-                    {
+                            val jsonObjectData = jsonObject.getJSONObject("data")
+                            jsonobject.value = jsonObjectData
+                    } else {
                         val jObjError = JSONObject(
                             response.errorBody()!!.string()
                         )
-                        Log.d("errorport", response.toString())
+                        context.showToast(jObjError.getJSONObject("error").getString("message"), context)
+                    }
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                    context.showToast("Something Went Wrong", context)
+                }
+            }
+            override fun onFailure(call: Call<String?>, t: Throwable) {
+                context.hideProgressDialog()
+                Timber.e(call.toString())
+            }
+        })
+    }
+
+    fun setNotificationSettings(context: Context, type: String, inputs: MutableMap<String, String>) {
+        sessionManager = SessionManager(context)
+        (context as DashboardActivity).showProgressDialog()
+        Helper.closeKeyboard(context)
+        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM).apply {
+            for (input in inputs) {
+                addFormDataPart(input.key, input.value)
+            }
+        }.build()
+
+        val call: Call<String?>? = ApiClient.getClientV2(sessionManager).setNotificationSettings(
+            type,
+            "XMLHttpRequest",
+            requestBody
+        )
+        call!!.enqueue(object : Callback<String?> {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                context.hideProgressDialog()
+                try {
+                    if(response.isSuccessful) {
+                        success.value = true
+                        context.showToast("Successfully saved!", context)
+
+                    } else {
+                        val jObjError = JSONObject(
+                            response.errorBody()!!.string()
+                        )
                         context.showToast(jObjError.getJSONObject("error").getString("message"), context)
                     }
                 } catch (e: java.lang.Exception) {

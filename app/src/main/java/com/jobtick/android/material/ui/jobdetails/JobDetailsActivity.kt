@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -312,6 +313,8 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                 ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManager)))
         )[EventsViewModel::class.java]
         viewModel.getTaskModel(applicationContext, strSlug, sessionManager.tokenType, sessionManager.accessToken, sessionManager.userAccount.id)
+        Log.d("taskModel", "here1")
+
         showProgressDialog()
         linTitle.invisible()
         viewModel.geTaskModelResponse().observe(this) { taskModel ->
@@ -348,35 +351,43 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                 viewModel.userType = JobDetailsViewModel.UserType.VIEWER
             }
         }
+
         setTickerViewerMode()
     }
 
     private fun setTickerViewerMode() {
-        val navHostFragment =
-                supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
-        val inflater = navHostFragment?.navController?.navInflater
-        val graph = inflater?.inflate(R.navigation.job_details_graph)
-        graph?.setStartDestination(R.id.jobDetailsPosterFragment)
+        try {
 
-        navHostFragment?.navController?.graph = graph!!
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
+            val inflater = navHostFragment?.navController?.navInflater
+            val graph = inflater?.inflate(R.navigation.job_details_graph)
+            graph?.setStartDestination(R.id.jobDetailsPosterFragment)
+
+            navHostFragment?.navController?.graph = graph!!
+            Log.d("herehere", "5")
+        }catch (e:Exception) {}
     }
 
     override fun getExtras() {
         super.getExtras()
-        if (intent == null || intent.extras == null) {
-            return
-        }
-        val bundle = intent.extras
-        if (bundle!!.getString(ConstantKey.SLUG) != null) {
-            strSlug = bundle.getString(ConstantKey.SLUG)!!
-        }
-        isFromSearch = bundle.getBoolean(ConstantKey.IS_FROM_SEARCH)
-        if (bundle.getInt(ConstantKey.PUSH_OFFER_ID) != 0) {
-            pushOfferID = bundle.getInt(ConstantKey.PUSH_OFFER_ID)
-        }
-        if (bundle.getInt(ConstantKey.PUSH_QUESTION_ID) != 0) {
-            pushQuestionID = bundle.getInt(ConstantKey.PUSH_QUESTION_ID)
-        }
+        try {
+
+            if (intent == null || intent.extras == null) {
+                return
+            }
+            val bundle = intent.extras
+            if (bundle!!.getString(ConstantKey.SLUG) != null) {
+                strSlug = bundle.getString(ConstantKey.SLUG)!!
+            }
+            isFromSearch = bundle.getBoolean(ConstantKey.IS_FROM_SEARCH)
+            if (bundle.getInt(ConstantKey.PUSH_OFFER_ID) != 0) {
+                pushOfferID = bundle.getInt(ConstantKey.PUSH_OFFER_ID)
+            }
+            if (bundle.getInt(ConstantKey.PUSH_QUESTION_ID) != 0) {
+                pushQuestionID = bundle.getInt(ConstantKey.PUSH_QUESTION_ID)
+            }
+        }catch (e: Exception){}
     }
 
     override fun onSubmitIncreasePrice() {

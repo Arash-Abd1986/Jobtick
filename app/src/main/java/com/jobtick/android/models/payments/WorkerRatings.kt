@@ -3,7 +3,7 @@ package com.jobtick.android.models.payments
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class WorkerRatings {
+class WorkerRatings: java.io.Serializable {
     @SerializedName("rating_breakdown")
     @Expose
     var ratingBreakdown: RatingBreakdown? = null

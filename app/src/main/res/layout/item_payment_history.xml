@@ -13,6 +13,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/dateTxt"
+        android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -51,12 +52,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:layout_toStartOf="@id/priceTxt"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="30dp"
         android:gravity="top|start"
         android:lines="1"
         android:textSize="16dp"
         android:textAppearance="@style/materialText_500_14"
-        android:textColor="@color/neutral_light_700"
+        android:textColor="@color/neutral_light_800"
         tools:ignore="SpUsage"
         tools:text="Clean my two bedroom apartment which is very dirty" />
 
@@ -80,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/descriptionTxt"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="7dp"
         android:gravity="end|center_vertical"
         android:lines="1"
         android:fontFamily="@font/roboto_medium"

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
@@ -55,6 +56,32 @@ class ProfileGetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListe
         super.onAttach(context)
         activity = (requireActivity() as DashboardActivity)
         sessionManager = SessionManager(context)
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true)
+            {
+                override fun handleOnBackPressed() {
+                    try {
+                        val bundle: Bundle
+                        val bundle1 = requireArguments()
+                        bundle = bundleOf(
+                            "streetName" to bundle1.getString("streetName"),
+                            "streetNumber" to bundle1.getString("streetNumber")
+                        )
+                        view?.findNavController()?.navigate(
+                            R.id.action_navigation_profile_billing_address_get_location_to_navigation_profile_billing_address,
+                            bundle
+                        )
+                    }catch (e: Exception) {
+                        view?.findNavController()?.navigate(
+                            R.id.action_navigation_profile_billing_address_get_location_to_navigation_profile_billing_address)
+                    }
+
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            callback
+        )
 
     }
 
@@ -62,6 +89,10 @@ class ProfileGetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity.toolbar!!.visibility = View.GONE
+        try {
+            var bundle = requireArguments()
+        }
+        catch (e: Exception){}
         setCategoryData()
         binding.location.doOnTextChanged { text, _, _, _ ->
             getTaskCategoryData(text.toString())
@@ -69,7 +100,21 @@ class ProfileGetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListe
 
 
         binding.back.setOnClickListener{
-            view.findNavController().navigate(R.id.action_navigation_profile_billing_address_get_location_to_navigation_profile_billing_address)
+            try {
+                val bundle: Bundle
+                val bundle1 = requireArguments()
+                bundle = bundleOf(
+                    "streetName" to bundle1.getString("streetName"),
+                    "streetNumber" to bundle1.getString("streetNumber")
+                )
+                view.findNavController().navigate(
+                    R.id.action_navigation_profile_billing_address_get_location_to_navigation_profile_billing_address,
+                    bundle
+                )
+            }catch (e: Exception) {
+                view.findNavController().navigate(
+                    R.id.action_navigation_profile_billing_address_get_location_to_navigation_profile_billing_address)
+            }
         }
     }
 
@@ -127,8 +172,9 @@ class ProfileGetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListe
 
     override fun clickOnSearchedLoc(location: Feature) {
         val bundle: Bundle
+        val bundle1 = requireArguments()
         val gson = Gson()
-        bundle = bundleOf("suburb" to gson.toJson(location))
+        bundle = bundleOf("suburb" to gson.toJson(location), "streetName" to bundle1.getString("streetName"), "streetNumber" to bundle1.getString("streetNumber"))
         view?.findNavController()?.navigate(R.id.action_navigation_profile_billing_address_get_location_to_navigation_profile_billing_address, bundle)
 
     }
@@ -136,4 +182,6 @@ class ProfileGetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListe
     override fun dismiss() {
 
     }
+
+
 }

@@ -607,6 +607,7 @@
     <string name="draft_description">Your job %s is almost ready to post. Would you like to resume where you left off?</string>
     <string name="profile_delete_account_warning">Deleting your account is irreversible. Your data will be permanently removed from Jobtick servers. You will not be able to reactivate you account.</string>
     <string name="profile_logout">Are you sure for logging out?</string>
+    <string name="profile_portfolio_delete">Are you sure for deleting this portfolio?</string>
     <string name="profile_verify_number">Enter the code we\'ve just sent to your mobile to confirm your identity.</string>
     <string name="profile_about_hint">Write a few sentences about yourself</string>
     <string name="profile_portfolio_hint">Write a few sentences about this job</string>

@@ -6,6 +6,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -15,16 +16,16 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -36,6 +37,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import com.hbisoft.pickit.PickiT
@@ -57,10 +59,12 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 import timber.log.Timber
 import java.io.File
 
@@ -74,6 +78,8 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
 
     private lateinit var next: MaterialButton
     private lateinit var linOptions: LinearLayout
+    private lateinit var options1: LinearLayout
+    private lateinit var options2: LinearLayout
     private lateinit var option1: LinearLayout
     private lateinit var sessionManagerA: SessionManager
     private lateinit var viewModel: PostAJobViewModel
@@ -94,6 +100,8 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
     private var selectedItem: AttachmentModelV2? = null
     private var _binding: FragmentProfilePortfolioBinding? = null
     private val binding get() = _binding!!
+    private var attachmentIDs = mutableMapOf<String, MutableList<String>>()
+    private var portfolioID = "-1"
     var pickiT: PickiT? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,7 +116,6 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = (requireActivity() as DashboardActivity)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -117,8 +124,61 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
         binding.header.back.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_add_portfolio_item_to_navigation_profile_portfolio_item)
         }
+
+        binding.header.txtAction.setOnClickListener {
+            if(checkValidation())
+                addOrUpdatePortfolio(activity)
+        }
+
+        binding.deleteTxt.setOnClickListener {
+            if(portfolioID.equals("-1"))
+            {
+                activity.showToast("error", activity)
+                return@setOnClickListener
+            }
+            else
+
+                showDeleteDialog()
+        }
         initVars()
         initVM()
+
+        try {
+            if (!requireArguments().getString("json").isNullOrEmpty()) {
+                binding.deleteTxt.visibility = View.VISIBLE
+                binding.header.txtTitle.text = "Edit Portfolio Item"
+                val jsonObject = JSONObject(requireArguments().getString("json").toString())
+                binding.isShare.isChecked = jsonObject.getString("share_in") == "1"
+                binding.edittextFirstnameValue.setText(jsonObject.getString("title").toString())
+                binding.about.editText?.setText(jsonObject.getString("description").toString())
+                portfolioID = jsonObject.getString("id")
+                val jsonArray = jsonObject.getJSONArray("img")
+                for(i in 0 until jsonArray.length()) {
+                    val jsonobjectData = jsonArray.getJSONObject(i)
+                    val gson = Gson()
+                    val attachment =
+                        gson.fromJson(jsonobjectData.toString(), AttachmentModelV2::class.java)
+                    attachmentIDs.getOrPut("attachments[]", ::mutableListOf).add(attachment.id.toString())
+
+                    if (attachment.mime!!.contains("pdf")) {
+                        attachment.type = AttachmentAdapter.VIEW_TYPE_PDF
+                    } else {
+                        attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
+                    }
+                    attachmentArrayList[i+1] = attachment
+                }
+            }
+            else
+                binding.deleteTxt.visibility = View.GONE
+                mediaAdapter.notifyDataSetChanged()
+                binding.header.txtTitle.text = "Add Portfolio Item"
+
+
+        }catch (e: Exception) {
+            binding.deleteTxt.visibility = View.GONE
+
+        }
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -142,6 +202,8 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
       //  txtTitle = requireView().findViewById(R.id.txtTitle)
         option2Icon = requireView().findViewById(R.id.option2_icon)
         option2Txt = requireView().findViewById(R.id.option2_txt)
+        options1 = requireView().findViewById(R.id.options1)
+        options2 = requireView().findViewById(R.id.options2)
         image = requireView().findViewById(R.id.image)
         rlAmount.adapter = mediaAdapter
         rlAmount.layoutManager = GridLayoutManager(requireContext(), 3)
@@ -150,20 +212,24 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
 //        next.setOnClickListener {
 //            activity.navController.popBackStack()
 //        }
-        option1Icon.setOnClickListener {
+        options1.setOnClickListener {
+            linOptions.visibility = View.GONE
             when (option) {
                 Option.SELECT_ALL -> {
                     attachmentArrayList.forEach { if (it.type == selectedItem!!.type) it.isChecked = true }
                     mediaAdapter.notifyDataSetChanged()
                 }
                 Option.VIEW -> {
+                    rlAmount.visibility = View.VISIBLE
                     if (image.visibility == View.GONE) {
+                        linOptions.visibility = View.VISIBLE
                         image.visibility = View.VISIBLE
-                        image.setImageURI(Uri.parse(selectedItem!!.file!!.path))
-                        option1Icon.setImageResource(R.drawable.ic_edit_v5)
-                        option1Txt.text = "Edit"
+                        Glide.with(image).load(selectedItem!!.url).into(image)
+                     //   image.setImageURI(Uri.parse(selectedItem!!.file!!.path))
+                        option1Icon.setImageResource(R.drawable.new_design_cross)
+                        option1Txt.text = "Close"
                      //   txtTitle.visibility = View.GONE
-                        rlAmount.visibility = View.GONE
+
                        // activity.previewMode(true)
                     } else {
                       //  activity.previewMode(false)
@@ -179,7 +245,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
                     selectedItem?.let { retryItem ->
                         attachmentArrayList.remove(retryItem)
                         mediaAdapter.notifyDataSetChanged()
-                        next.visibility = View.VISIBLE
+                        next.visibility = View.GONE
                         linOptions.visibility = View.GONE
 
                     }
@@ -188,7 +254,8 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
                 else -> {}
             }
         }
-        option2Icon.setOnClickListener {
+        options2.setOnClickListener {
+            linOptions.visibility = View.GONE
             when (option) {
                 Option.SELECT_ALL -> {
                     attachmentArrayList.removeAll(attachmentArrayList.filter { it.isChecked }.toSet())
@@ -214,12 +281,19 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
                 }
                 Option.VIEW -> {
                     selectedItem?.let { retryItem ->
+                        attachmentIDs["attachments[]"]?.remove(retryItem.id.toString())
+
+                   //     attachmentIDs.remove("attachments[]", retryItem.id.toString())
                         attachmentArrayList.remove(retryItem)
                         mediaAdapter.notifyDataSetChanged()
+                        image.visibility = View.GONE
+
                     }
 
                 }
                 Option.DELETE -> {
+                    Log.d("attachment3", attachmentIDs.size.toString())
+
                     selectedItem?.let { retryItem ->
                         attachmentArrayList.remove(retryItem)
                         mediaAdapter.notifyDataSetChanged()
@@ -235,7 +309,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
         sessionManagerA = SessionManager(requireContext())
 
         viewModel = ViewModelProvider(
-            requireActivity(),
+            this,
             ViewModelFactory(ApiHelper(ApiClient.getClientV1WithToken(sessionManagerA)))
         ).get(PostAJobViewModel::class.java)
         activity.lifecycleScope.launch {
@@ -344,6 +418,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
     }
 
     private fun uploadDataInTempApi(pictureFile: File) {
+
         val call: Call<String?>?
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
         val imageFile = MultipartBody.Part.createFormData("media", pictureFile.name, requestFile)
@@ -365,7 +440,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
                 }
                 try {
                     val strResponse = response.body()
-                    Log.d("tempresponse", strResponse.toString())
+                    Log.d("tempresponse1", strResponse.toString())
                     Timber.e(strResponse)
                     val jsonObject = JSONObject(strResponse)
                     Timber.e(jsonObject.toString())
@@ -373,6 +448,10 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
                         val jsonobjectData = jsonObject.getJSONObject("data")
                         val gson = Gson()
                         val attachment = gson.fromJson(jsonobjectData.toString(), AttachmentModelV2::class.java)
+                      //  attachmentIDs["attachments[]"] = attachment.id.toString()
+                        attachmentIDs.getOrPut("attachments[]", ::mutableListOf).add(attachment.id.toString())
+                        Log.d("requestBodyP", attachmentIDs["attachments[]"].toString())
+
                         if (attachment.mime!!.contains("pdf")) {
                             attachment.type = AttachmentAdapter.VIEW_TYPE_PDF
                         } else {
@@ -398,7 +477,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
                     }
                     //  adapter.notifyItemRangeInserted(0,attachmentArrayList.size());
                 } catch (e: Exception) {
-                    Log.d("tempresponse", e.toString())
+                    Log.d("tempresponse2", e.toString())
                     //showToast("Something went wrong", this@AttachmentActivity)
                     e.printStackTrace()
                     val name = ((call.request().body() as MultipartBody).parts()[0].headers()!!.value(0).toString()).split("\"")[3]
@@ -412,6 +491,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
             }
 
             override fun onFailure(call: Call<String?>, t: Throwable) {
+                Log.d("tempresponse3", t.toString())
                 activity.hideProgressDialog()
                 Timber.e(call.toString())
                 val name = ((call.request().body() as MultipartBody).parts()[0].headers()!!.value(0).toString()).split("\"")[3]
@@ -547,7 +627,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
                 option2Txt.text = "Delete"
             }
             Option.HIDE -> {
-                next.visibility = View.VISIBLE
+                next.visibility = View.GONE
                 linOptions.visibility = View.GONE
             }
             Option.DELETE -> {
@@ -635,14 +715,166 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
     override fun PickiTonMultipleCompleteListener(paths: java.util.ArrayList<String>?, wasSuccessful: Boolean, Reason: String?) {
     }
 
-//    fun previewMode(set: Boolean) {
-//        if (set) {
-//            title.text = "View Image"
-//            linTitle.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.neutral_light_50))
-//        } else {
-//            title.text = "Attachment"
-//            linTitle.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.white))
-//        }
-//    }
+    fun addOrUpdatePortfolio(context: Context) {
+        val sessionManager = SessionManager(requireActivity())
+        (context as DashboardActivity).showProgressDialog()
+        Helper.closeKeyboard(context)
+        val type = if(portfolioID != "-1") {
+            attachmentIDs.getOrPut("id", ::mutableListOf).add(portfolioID)
+            "update"
+        } else
+            "add"
+        attachmentIDs.getOrPut("title", ::mutableListOf).add(binding.edittextFirstnameValue.text.toString())
+        attachmentIDs.getOrPut("description", ::mutableListOf).add(binding.about.editText?.text.toString())
+        if(binding.isShare.isChecked)
+            attachmentIDs.getOrPut("share_in", ::mutableListOf).add("1")
+        else
+            attachmentIDs.getOrPut("share_in", ::mutableListOf).add("0")
+
+        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM).apply {
+            val quizzes: List<String> = attachmentIDs["attachments[]"].orEmpty()
+
+            for (input in quizzes) {
+                addFormDataPart("attachments[]", input)
+            }
+            addFormDataPart("title", binding.edittextFirstnameValue.text.toString())
+            addFormDataPart("description", binding.about.editText?.text.toString())
+            if(binding.isShare.isChecked)
+                addFormDataPart("share_in", "1")
+            else
+                addFormDataPart("share_in", "0")
+
+            //sessionManager?.role?.let { addFormDataPart("role_as", it) }
+        }.build()
+        for(i in 0 until requestBody.size())
+        Log.d("requestBodyport", requestBody.parts().get(i).body().toString())
+        val call: Call<String?>? = ApiClient.getClientV1WithToken(sessionManager).addPortfolioItem(
+            type,
+            "XMLHttpRequest",
+            requestBody
+        )
+        call!!.enqueue(object : Callback<String?> {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                context.hideProgressDialog()
+                try {
+                    if(response.isSuccessful) {
+                        Log.d("responseUpdateProfile", response.toString())
+                        val jsonObject = JSONObject(response.body()!!)
+                        Log.d("responseUpdateProfile", jsonObject.toString())
+                        (requireActivity() as DashboardActivity).showToast("Saved Successfully!", requireActivity())
+                     //   jsonobject.value = jsonObject.getJSONObject("data")
+//                        for(i in 0 until jsonObjectSkills.length()) {
+//                            jsonObjectSkills.getJSONObject(i.toString()).getString("id")
+//                            jsonObjectSkills.getJSONObject(i.toString()).getString("title")
+//                        }
+                    }else
+                    {
+                        val jObjError = JSONObject(
+                            response.errorBody()!!.string()
+                        )
+                        Log.d("attachmentIderr", jObjError.toString())
+                        context.showToast(jObjError.getJSONObject("error").getString("message"), context)
+                    }
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                    context.showToast("Something Went Wrong", context)
+                }
+            }
+            override fun onFailure(call: Call<String?>, t: Throwable) {
+                context.hideProgressDialog()
+                context.showToast(t.toString(), context)
+
+                Timber.e(call.toString())
+            }
+        })
+    }
+    fun deletePortfolio(id: String) {
+        val sessionManager = SessionManager(requireActivity())
+        (context as DashboardActivity).showProgressDialog()
+        Helper.closeKeyboard(activity)
+        val call: Call<String?>? = ApiClient.getClientV1WithToken(sessionManager).deletePortfolio(id,
+            "XMLHttpRequest"
+        )
+        call!!.enqueue(object : Callback<String?> {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                activity.hideProgressDialog()
+                try {
+                    if(response.isSuccessful) {
+                        (requireActivity() as DashboardActivity).showToast("Deleted Successfully!", requireActivity())
+                        view?.findNavController()?.navigate(R.id.action_navigation_profile_add_portfolio_item_to_navigation_profile_portfolio_item)
+                    }else
+                    {
+                        val jObjError = JSONObject(
+                            response.errorBody()!!.string()
+                        )
+                        Log.d("attachmentIderr", jObjError.toString())
+                        activity.showToast(jObjError.getJSONObject("error").getString("message"), context)
+                    }
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                    activity.showToast("Something Went Wrong", context)
+                }
+            }
+            override fun onFailure(call: Call<String?>, t: Throwable) {
+                activity.hideProgressDialog()
+                activity.showToast(t.toString(), context)
+
+                Timber.e(call.toString())
+            }
+        })
+    }
+
+    private fun checkValidation(): Boolean {
+        activity.hideKeyboard()
+        activity.hideKeyboard()
+        when {
+            binding.edittextFirstname.editText?.text.isNullOrEmpty() -> {
+                binding.edittextFirstname.setError("Please enter title")
+                return false
+            }
+            binding.about.editText?.text.isNullOrEmpty() -> {
+                binding.about.setError("Please enter desctiption")
+                return false
+            }
+            attachmentIDs.isEmpty() -> {
+                activity.showToast("Please add atleast one image!", activity)
+                return false
+            }
+        }
+        return true
+    }
+    fun showDeleteDialog() {
+        val cancel: MaterialButton?
+        val delete: MaterialButton?
+        val title: TextView?
+        val mainTitle: TextView?
+        val dialog = Dialog(activity, R.style.AnimatedDialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+        dialog.setContentView(R.layout.dialog_discard_changes_new)
+
+        val width = (resources.displayMetrics.widthPixels * 0.90).toInt()
+        dialog.window!!.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+        cancel = dialog.findViewById(R.id.cancel)
+        delete = dialog.findViewById(R.id.discard)
+        title = dialog.findViewById(R.id.title)
+        mainTitle = dialog.findViewById(R.id.mainTitle)
+        mainTitle.text = "Delete Portfolio"
+        delete.text = "Delete"
+        title.setText(activity.getString(R.string.profile_portfolio_delete))
+
+        cancel.setOnClickListener {
+            dialog.cancel()
+        }
+
+        delete.setOnClickListener {
+            dialog.cancel()
+           deletePortfolio(portfolioID)
+        }
+
+
+        dialog.show()
+
+    }
 
 }

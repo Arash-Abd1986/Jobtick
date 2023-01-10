@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -39,6 +40,8 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
     private lateinit var viewModel: ProfileSkillsViewModel
     private var listMain = ArrayList<Skills>()
     private var listForSearch = ArrayList<Skills>()
+    private var listForTicked = ArrayList<Skills>()
+    private var listForTickedToBeSend = ArrayList<String>()
     var skillsSearchAdapter: SkillsSearchAdapter? = null
 
 
@@ -61,7 +64,7 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
         super.onViewCreated(view, savedInstanceState)
         activity.findViewById<MaterialToolbar>(R.id.toolbar).visibility = View.GONE
         skillsSearchAdapter?.subClickListener = this
-        viewModel = ViewModelProvider(requireActivity())[ProfileSkillsViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ProfileSkillsViewModel::class.java]
         viewModel.getAllSkills(activity)
         viewModel.skillsSearchAdapter.observe(viewLifecycleOwner) {
             skillsSearchAdapter = viewModel.skillsSearchAdapter.value
@@ -76,6 +79,13 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
 
         binding.header.back.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_skills_search_to_navigation_profile_skills)
+        }
+
+        binding.header.txtAction.setOnClickListener {
+            for(list in listForTicked)
+                listForTickedToBeSend.add(list.title.toString())
+            val bundle: Bundle = bundleOf("skills" to listForTickedToBeSend)
+            view.findNavController().navigate(R.id.action_navigation_profile_skills_search_to_navigation_profile_skills, bundle)
         }
 
         binding.header.edtSearch.addTextChangedListener(object : TextWatcher {
@@ -122,25 +132,21 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
     }
 
     override fun clickOnSearchedLoc(location: Skills) {
-        Log.d("skillclicked", location.title.toString())
+        if(location.isTicked)
+            listForTicked.add(location)
+        else
+            listForTicked.remove(location)
 
     }
 
     fun getFilteredSkills(str: String) {
         listForSearch = ArrayList()
-        Log.d("filterskill123", listMain.size.toString() + ", " + str)
         for(i in 0 until listMain.size)
-            if(listMain.get(i).title.toString().lowercase().contains(str.lowercase()))
+            if(listMain[i].title.toString().lowercase().contains(str.lowercase()))
                 listForSearch.add(listMain.get(i))
-//        for ((index, data) in listMain.withIndex()) {
-//            Log.d("filterskill", data.title + "with index" + index)
-//            if (data.title?.contains(str) == true)
-//                listForSearch.add(listMain[index])
-//        }
         skillsSearchAdapter?.clear()
         skillsSearchAdapter?.addItems(listForSearch)
         skillsSearchAdapter?.notifyDataSetChanged()
-        Log.d("filterskill", listForSearch.size.toString())
     }
 
 }

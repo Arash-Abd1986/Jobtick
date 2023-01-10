@@ -5,7 +5,7 @@ enum class ServiceType {
     REVIEWS,
     TASK_DETAILS,
     NEAR_JOBS,
-    SKILLS,
+        SKILLS,
     BLOCK_USER,
     BUDGETS,
     DRAFT,

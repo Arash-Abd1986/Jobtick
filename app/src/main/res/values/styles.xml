@@ -1137,6 +1137,8 @@
     </style>
     <style name="My.TabText.Style" parent="@android:style/Widget.Holo.ActionBar.TabText">
         <item name="android:textAllCaps">false</item>
+        <item name="indicatorSize">50dp</item>
+        <item name="textBold">false</item>
         <item name="android:textSize">14dp</item>
     </style>
     <style name="AnimatedDialog" parent="Theme.AppCompat.Light.Dialog">

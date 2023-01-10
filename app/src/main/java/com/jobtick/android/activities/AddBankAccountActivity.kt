@@ -89,7 +89,7 @@ class AddBankAccountActivity : ActivityBase() {
             showProgressDialog()
             addBankAccount!!.add(edtAccountName.text,
                     edtBsb.text,
-                    edtAccountNumber.text)
+                    edtAccountNumber.text, "")
         }
 
     }

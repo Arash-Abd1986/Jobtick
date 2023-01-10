@@ -4,7 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.jobtick.android.models.AttachmentModel;
 
-public class Poster {
+import java.io.Serializable;
+
+public class Poster implements Serializable {
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -23,15 +25,15 @@ public class Poster {
     @SerializedName("last_online")
     @Expose
     private String lastOnline;
-    @SerializedName("position")
-    @Expose
-    private Object position;
+//    @SerializedName("position")
+//    @Expose
+//    private Object position;
     @SerializedName("poster_ratings")
     @Expose
     private PosterRatings posterRatings;
-    @SerializedName("worker_ratings")
-    @Expose
-    private Object workerRatings;
+//    @SerializedName("worker_ratings")
+//    @Expose
+//    private Object workerRatings;
     @SerializedName("posted_task_statistics")
     @Expose
     private PostedTaskStatistics postedTaskStatistics;
@@ -90,13 +92,13 @@ public class Poster {
         this.lastOnline = lastOnline;
     }
 
-    public Object getPosition() {
-        return position;
-    }
+//    public Object getPosition() {
+//        return position;
+//    }
 
-    public void setPosition(Object position) {
-        this.position = position;
-    }
+//    public void setPosition(Object position) {
+//        this.position = position;
+//    }
 
     public PosterRatings getPosterRatings() {
         return posterRatings;
@@ -106,13 +108,13 @@ public class Poster {
         this.posterRatings = posterRatings;
     }
 
-    public Object getWorkerRatings() {
-        return workerRatings;
-    }
+//    public Object getWorkerRatings() {
+//        return workerRatings;
+//    }
 
-    public void setWorkerRatings(Object workerRatings) {
-        this.workerRatings = workerRatings;
-    }
+//    public void setWorkerRatings(Object workerRatings) {
+//        this.workerRatings = workerRatings;
+//    }
 
     public PostedTaskStatistics getPostedTaskStatistics() {
         return postedTaskStatistics;

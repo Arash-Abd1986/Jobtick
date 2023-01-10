@@ -4,7 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.jobtick.android.models.AttachmentModel;
 
-public class Worker {
+import java.io.Serializable;
+
+public class Worker implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -24,12 +26,12 @@ public class Worker {
     @SerializedName("last_online")
     @Expose
     private String lastOnline;
-    @SerializedName("position")
-    @Expose
-    private Object position;
-    @SerializedName("poster_ratings")
-    @Expose
-    private Object posterRatings;
+//    @SerializedName("position")
+//    @Expose
+//    private Object position;
+//    @SerializedName("poster_ratings")
+//    @Expose
+//    private Object posterRatings;
     @SerializedName("worker_ratings")
     @Expose
     private WorkerRatings workerRatings;
@@ -91,21 +93,21 @@ public class Worker {
         this.lastOnline = lastOnline;
     }
 
-    public Object getPosition() {
-        return position;
-    }
+//    public Object getPosition() {
+//        return position;
+//    }
 
-    public void setPosition(Object position) {
-        this.position = position;
-    }
+//    public void setPosition(Object position) {
+//        this.position = position;
+//    }
 
-    public Object getPosterRatings() {
-        return posterRatings;
-    }
+//    public Object getPosterRatings() {
+//        return posterRatings;
+//    }
 
-    public void setPosterRatings(Object posterRatings) {
-        this.posterRatings = posterRatings;
-    }
+//    public void setPosterRatings(Object posterRatings) {
+//        this.posterRatings = posterRatings;
+//    }
 
     public WorkerRatings getWorkerRatings() {
         return workerRatings;

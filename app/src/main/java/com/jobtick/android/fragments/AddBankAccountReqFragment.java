@@ -123,7 +123,7 @@ public class AddBankAccountReqFragment extends Fragment implements TextWatcher {
 
         addBankAccount.add(edtAccountName.getText(),
                 edtBsb.getText(),
-                edtAccountNumber.getText());
+                edtAccountNumber.getText(), "");
     }
 
     private void goNext() {

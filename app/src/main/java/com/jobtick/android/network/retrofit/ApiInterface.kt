@@ -45,7 +45,6 @@ interface ApiInterface {
         @Header("authorization") auth: String?,
         @Part file: MultipartBody.Part?
     ): Call<String?>?
-
     @Multipart
     @POST("profile/upload-avatar")
     fun uploadProfilePicture(
@@ -92,17 +91,63 @@ interface ApiInterface {
         @Body body: RequestBody
     ): Call<String?>?
 
-    @GET("profile/skill/list")
+    @GET("account")
     fun getSkills(
         @Header("X-Requested-With") XMLHttpRequest: String?,
         //@Header("authorization") auth: String?
     ): Call<String?>?
 
-    @GET("profile/skill/all")
+    @POST("profile/skills")
+    fun addSkills(
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        @Body body: RequestBody
+        //@Header("authorization") auth: String?
+    ): Call<String?>?
+
+    @GET("skills")
     fun getAllSkills(
         @Header("X-Requested-With") XMLHttpRequest: String?,
         //@Header("authorization") auth: String?
     ): Call<String?>?
+
+    @POST("profile/portfolio/{path}")
+    fun addPortfolioItem(
+        @Path("path") path: String,
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        @Body body: RequestBody
+        //@Header("authorization") auth: String?
+    ): Call<String?>?
+
+    @GET("profile/portfolio/all")
+    fun getPortfolioItems(
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+       // @Body body: RequestBody
+        //@Header("authorization") auth: String?
+    ): Call<String?>?
+
+    @GET("notifications/settings")
+    fun getNotificationSettings(
+        @Query("type") type:String,
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        // @Body body: RequestBody
+        //@Header("authorization") auth: String?
+    ): Call<String?>?
+
+    @POST("notifications/settings")
+    fun setNotificationSettings(
+        @Query("type") type:String,
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+         @Body body: RequestBody
+        //@Header("authorization") auth: String?
+    ): Call<String?>?
+
+    @GET("profile/portfolio/delete/{id}")
+    fun deletePortfolio(@Path("id") id:String?,
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        // @Body body: RequestBody
+        //@Header("authorization") auth: String?
+    ): Call<String?>?
+
 
     @POST("account/change-password")
     fun changePass(
@@ -111,12 +156,12 @@ interface ApiInterface {
         //@Header("authorization") auth: String?
     ): Call<String?>?
 
-    @GET("profile/skill/add")
-    fun addSkills(
-        @Header("X-Requested-With") XMLHttpRequest: String?,
-        @Body body: RequestBody
-        //@Header("authorization") auth: String?
-    ): Call<String?>?
+//    @GET("profile/skill/add")
+//    fun addSkills(
+//        @Header("X-Requested-With") XMLHttpRequest: String?,
+//        @Body body: RequestBody
+//        //@Header("authorization") auth: String?
+//    ): Call<String?>?
 
     @GET("account/bankaccount")
     fun getBankAccount(

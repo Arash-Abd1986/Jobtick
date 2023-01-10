@@ -1,6 +1,5 @@
 package com.jobtick.android.fragments.mu_profile_fragments
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,7 +10,6 @@ import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
-import com.jobtick.android.databinding.FragmentProfileAccountBinding
 import com.jobtick.android.databinding.FragmentProfileNotificationsBinding
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.SetToolbar
@@ -48,16 +46,16 @@ class ProfileFragmentNotifications : Fragment() {
         SetToolbar(activity, "Notifications", "", R.id.navigation_profile, binding.header, view)
 
         binding.textEmailNotif.setOnClickListener {
-            var bundle = bundleOf("type" to "Email Notifications")
+            val bundle = bundleOf("type" to "Email Notifications")
             view.findNavController().navigate(R.id.action_navigation_profile_notifications_to_navigation_profile_push_notification, bundle)
         }
         binding.textPushNotif.setOnClickListener {
-            var bundle = bundleOf("type" to "Push Notifications")
+            val bundle = bundleOf("type" to "Push Notifications")
             view.findNavController().navigate(R.id.action_navigation_profile_notifications_to_navigation_profile_push_notification, bundle)
         }
 
         binding.textSmsNotif.setOnClickListener {
-            var bundle = bundleOf("type" to "SMS Notifications")
+            val bundle = bundleOf("type" to "SMS Notifications")
             view.findNavController().navigate(R.id.action_navigation_profile_notifications_to_navigation_profile_push_notification,bundle)
         }
 

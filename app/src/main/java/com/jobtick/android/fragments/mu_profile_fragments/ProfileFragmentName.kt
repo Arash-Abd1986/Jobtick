@@ -55,7 +55,7 @@ class ProfileFragmentName : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         SetToolbar(activity, "Name", "save", R.id.navigation_profile_account, binding.header, view)
 
-        viewModel = ViewModelProvider(requireActivity())[ProfileNewViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ProfileNewViewModel::class.java]
 
         binding.edittextFirstnameValue.setText(arguments?.getString("firstName"))
         binding.edittextLastNameValue.setText(arguments?.getString("lastName"))

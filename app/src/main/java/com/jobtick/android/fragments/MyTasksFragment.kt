@@ -371,7 +371,9 @@ class MyTasksFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initIDS()
-        sessionManager = SessionManager(requireContext())
+        dashboardActivity = requireActivity() as DashboardActivity
+        sessionManager = SessionManager(dashboardActivity)
+        singleChoiceSelected = Constant.TASK_DRAFT_CASE_ALL_JOB_VALUE
         sessionManager?.let {
             it.userAccount?.let {
                 initView()

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
+import androidx.room.Ignore
 import com.google.gson.Gson
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
@@ -47,6 +48,7 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
     private val binding get() = _binding!!
     private var feature: Feature? = null
     private var addBillingAddress: AddBillingAddress? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -135,8 +137,18 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                         )
                 }
             }
-        }catch (e: Exception) {}
-        getBillingAddress(activity)
+        }catch (e: Exception) {
+        }
+
+        try {
+
+            binding.edittextStreetNumber.editText!!.setText(requireArguments().getString("streetNumber").toString())
+            binding.edittextStreetName.editText!!.setText(requireArguments().getString("streetName").toString())
+
+        } catch (e:Exception) {
+            getBillingAddress(activity)
+        }
+       // getBillingAddress(activity)
 
         addBillingAddress = object : AddBillingAddressImpl(activity, sessionManager) {
             override fun onSuccess() {
@@ -170,7 +182,9 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
         binding.suburb.setOnClickListener {
            // val infoBottomSheet = SearchSuburbBottomSheet(this)
             //infoBottomSheet.show(childFragmentManager, null)
-            view.findNavController().navigate(R.id.action_navigation_profile_billing_address_to_navigation_profile_billing_address_get_location)
+            val bundle: Bundle = bundleOf("streetNumber" to binding.edittextStreetNumber.editText!!.text.toString(),
+            "streetName" to binding.edittextStreetName.editText!!.text.toString())
+            view.findNavController().navigate(R.id.action_navigation_profile_billing_address_to_navigation_profile_billing_address_get_location, bundle)
         }
         binding.header.back.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_billing_address_to_navigation_profile_payments)
@@ -214,25 +228,7 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
         Log.d("clicksuburb", location.toString())
         binding.textSuburb.text = location.place_name_en
         feature = location
-        when (location.context?.get(1)?.text) {
-            "New South Wales" ->
-                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_new_south_wales))
-            "Queensland" ->
-                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_queensland))
-            "Victoria" ->
-                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_victoria))
-            "Canberra" ->
-                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_canberra))
-            "Western Australia" ->
-                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_western_australia))
-            "VictNorthern Territoryoria" ->
-                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_northern_territory))
-            "Tasmania" ->
-                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_tasmania))
-            "South Australia" ->
-                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_south_australia))
-
-        }
+        getStateOnMap(location.context?.get(1)?.text.toString())
     }
 
     fun getBillingAddress(context: Context) {
@@ -249,7 +245,15 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                     if(response.isSuccessful) {
                         Log.d("onresponse", response.body().toString())
                         val jsonObject = JSONObject(response.body()!!)
-                        context.showSuccessToast(jsonObject.getString("message"), context)
+                        if(!jsonObject.isNull("data")){
+                        val jsonObject2 = jsonObject.getJSONObject("data")
+                        binding.edittextStreetNumber.editText?.setText(jsonObject2.getString("line1"))
+                        binding.edittextStreetName.editText?.setText(jsonObject2.getString("line2"))
+                        getStateOnMap(jsonObject2.getString("state"))
+                        if(jsonObject.has("message"))
+                            context.showSuccessToast(jsonObject.getString("message"), context)
+                            } else
+                                activity.showToast("no data", activity)
 
                     } else {
                         val jObjError = JSONObject(
@@ -292,6 +296,29 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
             }
         }
         return true
+    }
+
+    fun getStateOnMap(state: String) {
+        when (state) {
+            "New South Wales" ->
+                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_new_south_wales))
+            "Queensland" ->
+                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_queensland))
+            "Victoria" ->
+                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_victoria))
+            "Canberra" ->
+                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_canberra))
+            "Western Australia" ->
+                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_western_australia))
+            "VictNorthern Territoryoria" ->
+                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_northern_territory))
+            "Tasmania" ->
+                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_tasmania))
+            "South Australia" ->
+                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_south_australia))
+
+        }
+
     }
 
 }

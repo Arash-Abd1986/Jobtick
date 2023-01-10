@@ -100,7 +100,7 @@ class ProfileFragmentChangePassword : Fragment() {
                 return false
             }
             !binding.edittextNewPassword.editText?.text?.trim().toString().equals(
-                binding.edittextNewPassword.editText?.text?.trim().toString()
+                binding.edittextConfirmPassword.editText?.text?.trim().toString()
             ) -> {
                 activity.showToast("new password and confirm password are not the same!", activity)
                 return false

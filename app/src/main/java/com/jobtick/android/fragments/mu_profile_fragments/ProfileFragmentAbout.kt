@@ -56,7 +56,7 @@ class ProfileFragmentAbout : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         SetToolbar(activity, "About", "Save", R.id.navigation_profile, binding.header, view)
-        viewModel = ViewModelProvider(activity)[ProfileNewViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ProfileNewViewModel::class.java]
 
 
         viewModel.userAccountModelObservable.observe(viewLifecycleOwner) {

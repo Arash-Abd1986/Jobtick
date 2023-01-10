@@ -79,7 +79,7 @@ class ProfileFragmentOTPVerificationForMobile : Fragment(), OTPListener {
         super.onViewCreated(view, savedInstanceState)
         SetToolbar(activity, "OTP Verification", "", R.id.navigation_profile, binding.header, view)
 
-        viewModel = ViewModelProvider(activity)[ProfileOTPViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ProfileOTPViewModel::class.java]
        // viewModel.errorMobileSendOtp.removeObserver(observer)
         if(requireArguments().getString("number")?.isNotEmpty() == true) {
             mutableMap = mutableMapOf("mobile" to requireArguments().getString("number").toString(), "dialing_code" to "+61")

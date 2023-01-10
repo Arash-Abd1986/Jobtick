@@ -101,7 +101,7 @@ class ReviewsActivity : ActivityBase() {
             if (bundle.containsKey(Constant.Level)) {
                 level = bundle.getInt(Constant.Level)
             }
-            whoIs = "poster"
+            whoIs = "ticker"
         }
         if (userAccountModel == null) {
             userAccountModel = sessionManager.userAccount

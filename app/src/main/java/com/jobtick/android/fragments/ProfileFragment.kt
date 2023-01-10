@@ -1021,7 +1021,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             tvPosterNoreview!!.visibility = View.VISIBLE
             lytPoster.visibility = View.GONE
         } else {
-            posterReview!!.visibility = View.VISIBLE
+            posterReview!!.visibility = View.GONE
             ratingbarAsPoster!!.visibility = View.VISIBLE
             lnPosterJobsuccess!!.visibility = View.VISIBLE
             tvPosterNoreview!!.visibility = View.GONE

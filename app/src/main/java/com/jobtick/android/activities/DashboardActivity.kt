@@ -105,6 +105,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         // Tools.clearSystemBarLight(this);
         toolbar!!.elevation = 0f
         toolbar!!.setNavigationIcon(R.drawable.ic_setting)
+        toolbar!!.visibility = View.GONE
 
         sessionManager1 = SessionManager(this)
         onProfileupdatelistenerSideMenu = this
@@ -293,7 +294,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     private fun onNavClick() {
         smallPlus!!.setOnClickListener { startCategoryList() }
         navController!!.addOnDestinationChangedListener { _: NavController?, destination: NavDestination, _: Bundle? ->
-            toolbar!!.visibility = View.VISIBLE
+            toolbar!!.visibility = View.GONE
             when (destination.id) {
                 R.id.navigation_new_task -> {
                     setMenuItemProperties(0)

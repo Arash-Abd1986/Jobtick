@@ -3,7 +3,9 @@ package com.jobtick.android.models.payments;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RatingBreakdown {
+import java.io.Serializable;
+
+public class RatingBreakdown implements Serializable {
     @SerializedName("1")
     @Expose
     private Integer _1;

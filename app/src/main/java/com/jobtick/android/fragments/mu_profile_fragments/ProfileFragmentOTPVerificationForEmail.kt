@@ -67,7 +67,7 @@ class ProfileFragmentOTPVerificationForEmail : Fragment(), OTPListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         SetToolbar(activity, "OTP Verification", "", R.id.navigation_profile, binding.header, view)
-        viewModel = ViewModelProvider(activity)[ProfileOTPViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ProfileOTPViewModel::class.java]
         if(requireArguments().getString("email")?.isNotEmpty() == true) {
             mutableMap = mutableMapOf("email" to requireArguments().getString("email").toString())
             emailResendOTP(activity, mutableMap)

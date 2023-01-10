@@ -474,4 +474,27 @@ public class Helper {
         context.startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
     }
+
+    public static String getDateWithDesignedFormat(String date)
+    {
+        String formattedDate ="";
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = sdf.parse(date.substring(0, Math.min(date.length(), 10)));
+            SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d yyyy");
+            formattedDate = format.format(date1);
+        }catch (Exception e)
+        {}
+        return formattedDate;
+    }
+
+    public static String getTimeWithDesignedFormat(String date)
+    {
+        try {
+            return date.substring(11, Math.min(date.length(), 19));
+        }catch (Exception e)
+        {return "";}
+
+    }
+
 }

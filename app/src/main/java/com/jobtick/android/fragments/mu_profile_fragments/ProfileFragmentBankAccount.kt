@@ -1,17 +1,13 @@
 package com.jobtick.android.fragments.mu_profile_fragments
 
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.android.volley.*
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.jobtick.android.R
 import com.jobtick.android.activities.ActivityBase
@@ -20,7 +16,10 @@ import com.jobtick.android.databinding.FragmentProfileBankAccountBinding
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.payment.AddBankAccount
 import com.jobtick.android.payment.AddBankAccountImpl
-import com.jobtick.android.utils.*
+import com.jobtick.android.utils.Helper
+import com.jobtick.android.utils.SessionManager
+import com.jobtick.android.utils.SetToolbar
+import com.jobtick.android.utils.hideKeyboard
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,9 +42,8 @@ class ProfileFragmentBankAccount : Fragment(){
     private val binding get() = _binding!!
     private var cyear = 0
     private var cmonth = 0
+    private var dob = ""
     private var cday = 0
-    private var str_due_date: String? = null
-    private var calendarView: CalendarView? = null
     private var addBankAccount: AddBankAccount? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,11 +65,21 @@ class ProfileFragmentBankAccount : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         SetToolbar(activity, "Bank Account", "Save", R.id.navigation_profile, binding.header, view)
         getBankAccount(activity)
-//        DatePickerDialog.OnDateSetListener { view1: DatePicker?, year: Int, month: Int, dayOfMonth: Int ->
-//            val lMonth = month + 1
-//            str_due_date = Tools.getDayMonthDateTimeFormat("$year-$lMonth-$dayOfMonth")
-//            binding.startDateValue.text = str_due_date
-//        }
+
+        if(!sessionManager.userAccount.dob.isNullOrEmpty()) {
+            val myDate = sessionManager.userAccount.dob.substring(0, Math.min(sessionManager.userAccount!!.dob!!.length, 10))
+            val sdf = SimpleDateFormat("yyyy-MM-dd")
+            val date = sdf.parse(myDate)
+            val format = SimpleDateFormat("EEEE, MMMM d yyyy")
+            val formattedDate: String = format.format(date!!)
+            dob = myDate
+            binding.startDateValue.text = formattedDate
+        }
+        else {
+            binding.startDateValue.text = "Choose Date of Birth!"
+            dob = ""
+        }
+
 
         binding.header.txtAction.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_bank_account_to_navigation_profile_payments)
@@ -97,7 +105,7 @@ class ProfileFragmentBankAccount : Fragment(){
         val calendar = Calendar.getInstance()
         val format = SimpleDateFormat("EEEE, MMMM d yyyy")
         val formattedDate: String = format.format(calendar.time)
-        binding.startDateValue.text = formattedDate
+        //binding.startDateValue.text = formattedDate
         cyear = calendar[Calendar.YEAR]
         cmonth = calendar[Calendar.MONTH]
         cday = calendar[Calendar.DAY_OF_MONTH]
@@ -113,7 +121,8 @@ class ProfileFragmentBankAccount : Fragment(){
                 (addBankAccount as AddBankAccountImpl).add(
                     binding.edittextAccountHolder.editText?.text?.trim().toString(),
                     binding.edittextBsb.editText?.text?.trim().toString(),
-                    binding.edittextAccountNumber.editText?.text?.trim().toString()
+                    binding.edittextAccountNumber.editText?.text?.trim().toString(),
+                    dob
                 )
             }
         }
@@ -171,66 +180,14 @@ class ProfileFragmentBankAccount : Fragment(){
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             calendar.timeInMillis = it
             val format = SimpleDateFormat("EEEE, MMMM d yyyy")
+            val format1 = SimpleDateFormat("yyyy-MM-dd")
             val formattedDate: String = format.format(calendar.time)
+            val formattedDate1: String = format1.format(calendar.time)
             binding.startDateValue.text = formattedDate
+            dob = formattedDate1
+            Log.d("dateinbankaccount", dob)
         }
     }
-    fun showCalendar() {
-        val accept: MaterialButton?
-        val decline: MaterialButton?
-        val dialog = Dialog(activity)
-        dialog.setContentView(R.layout.bottom_sheet_date_picker)
-        accept = dialog.findViewById(R.id.btn_accept)
-        decline = dialog.findViewById(R.id.btn_decline)
-        calendarView = dialog.findViewById(R.id.calenderView) as CalendarView
-        calendarView!!.setOnDateChangeListener { arg0: CalendarView?, year: Int, month: Int, date: Int ->
-            cmonth = month + 1
-            cyear = year
-            cday = date
-            str_due_date = Tools.getDayMonthDateTimeFormat("$cyear-$cmonth-$cday")
-            binding.startDateValue.text = str_due_date
-        }
-
-        decline.setOnClickListener {
-            dialog.cancel()
-            binding.startDateValue.text = sessionManager.userAccount.dob
-        }
-
-        accept.setOnClickListener {
-            dialog.cancel()
-        }
-        dialog.show()
-
-    }
-
-//    private fun getBankAccount() {
-//        activity.showProgressDialog()
-//        val stringRequest: StringRequest = object : StringRequest(
-//            Method.GET, Constant.BASE_URL + Constant.ADD_ACCOUNT_DETAILS,
-//            com.android.volley.Response.Listener {
-//
-//            },
-//            com.android.volley.Response.ErrorListener { activity.hideProgressDialog() }) {
-////            override fun getParams(): Map<String, String> {
-////                val map1: MutableMap<String, String> = HashMap()
-////                return map1
-////            }
-//
-//            override fun getHeaders(): Map<String, String> {
-//                val map1: MutableMap<String, String> = HashMap()
-//                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
-//                map1["Content-Type"] = "application/json"
-//                map1["X-Requested-With"] = "XMLHttpRequest"
-//                map1["Version"] = BuildConfig.VERSION_CODE.toString()
-//                return map1
-//            }
-//        }
-//        stringRequest.retryPolicy = DefaultRetryPolicy(0, -1,
-//            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-//        val requestQueue = Volley.newRequestQueue(activity)
-//        requestQueue.add(stringRequest)
-//        Timber.e(stringRequest.url)
-//    }
 
 
     fun getBankAccount(context: Context) {
@@ -247,7 +204,22 @@ class ProfileFragmentBankAccount : Fragment(){
                     if(response.isSuccessful) {
                         Log.d("onresponse", response.body().toString())
                         val jsonObject = JSONObject(response.body()!!)
-                        context.showSuccessToast(jsonObject.getString("message"), context)
+                        if(!jsonObject.isNull("data")) {
+                            val jsonObject2 = jsonObject.getJSONObject("data")
+
+                            binding.edittextAccountNumber.editText?.setText(
+                                "XXXX" + jsonObject2.getString(
+                                    "account_number_last_four"
+                                )
+                            )
+                            binding.edittextAccountHolder.editText?.setText(jsonObject2.getString("account_holder_name"))
+
+                            if (jsonObject.has("message"))
+                                context.showSuccessToast(jsonObject.getString("message"), context)
+                        }
+                        else {
+                            activity.showToast("no data!", activity)
+                        }
 
                     } else {
                         val jObjError = JSONObject(
@@ -275,6 +247,7 @@ class ProfileFragmentBankAccount : Fragment(){
     }
 
     private fun checkValidation(): Boolean {
+        activity.hideKeyboard()
         when {
             binding.edittextAccountHolder.editText?.text.isNullOrEmpty() -> {
                 binding.edittextAccountHolder.setError("Please enter Account Holder")
@@ -286,6 +259,10 @@ class ProfileFragmentBankAccount : Fragment(){
             }
             binding.edittextAccountNumber.editText?.text.isNullOrEmpty() -> {
                 binding.edittextAccountNumber.setError("Please enter Account Number")
+                return false
+            }
+            dob.equals("") -> {
+                activity.showToast("Please Select your Date Of Birth!", activity)
                 return false
             }
         }

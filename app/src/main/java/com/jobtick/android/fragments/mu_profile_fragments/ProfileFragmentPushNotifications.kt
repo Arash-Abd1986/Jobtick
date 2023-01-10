@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
@@ -15,6 +16,7 @@ import com.jobtick.android.databinding.FragmentProfileAccountBinding
 import com.jobtick.android.databinding.FragmentProfilePushNotificationBinding
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.SetToolbar
+import com.jobtick.android.viewmodel.ProfileNotificationsViewModel
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -27,6 +29,9 @@ class ProfileFragmentPushNotifications : Fragment() {
     private lateinit var sessionManager: SessionManager
     private var _binding: FragmentProfilePushNotificationBinding? = null
     private val binding get() = _binding!!
+    private var type: String = ""
+    private lateinit var viewModel: ProfileNotificationsViewModel
+    private var input = mutableMapOf<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +56,50 @@ class ProfileFragmentPushNotifications : Fragment() {
                     it, "save", R.id.navigation_profile, binding.header, view)
             }
 
+        viewModel = ViewModelProvider(this)[ProfileNotificationsViewModel::class.java]
+
+        when(requireArguments().getString("type")) {
+            "Email Notifications" -> type = "email"
+            "Push Notifications" -> type = "push"
+            "SMS Notifications" -> type = "sms"
+        }
+
+        viewModel.getNotificationSettings(activity, type)
+
+        viewModel.jsonobject.observe(viewLifecycleOwner) {
+            binding.jobAlerts.isChecked = viewModel.jsonobject.value?.getString("jobalerts") == "1"
+
+            binding.updateRecommendations.isChecked = viewModel.jsonobject.value?.getString("jobupdates") == "1"
+
+            binding.transactions.isChecked = viewModel.jsonobject.value?.getString("transactional") == "1"
+        }
+
         binding.header.back.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_push_notification_to_navigation_profile_notifications)
+        }
+
+        binding.header.txtAction.setOnClickListener {
+            if(binding.transactions.isChecked)
+                input["transactional"] = "1"
+            else
+                input["transactional"] = "0"
+
+            if(binding.updateRecommendations.isChecked)
+                input["recommendations"] = "1"
+            else
+                input["recommendations"] = "0"
+
+            if(binding.jobAlerts.isChecked)
+                input["jobalerts"] = "1"
+            else
+                input["jobalerts"] = "0"
+
+            viewModel.setNotificationSettings(activity, type, input)
+
+        }
+
+        viewModel.success.observe(viewLifecycleOwner) {
+
         }
     }
 

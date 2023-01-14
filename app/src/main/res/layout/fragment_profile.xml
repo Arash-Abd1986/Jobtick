@@ -46,65 +46,70 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"/>
 
+                <HorizontalScrollView
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_margin="16dp"
 
                     android:orientation="horizontal"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/aboutHeader"
                         android:gravity="center"
-                        style="@style/materialText_W500_20"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
 
 
-                        android:layout_weight="1"
                         android:singleLine="true"
                         android:text="@string/about"
                         android:textColor="@color/neutral_light_500" />
                     <com.google.android.material.textview.MaterialTextView
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:id="@+id/badgesHeader"
                         android:gravity="center"
-                        style="@style/materialText_W500_20"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
 
 
-                        android:layout_weight="1"
                         android:singleLine="true"
                         android:text="@string/badges"
                         android:textColor="@color/neutral_light_500" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:layout_marginEnd="20dp"
+                        android:id="@+id/skillsHeader"
                         android:gravity="center"
-                        style="@style/materialText_W500_20"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
 
 
-                        android:layout_weight="1"
                         android:singleLine="true"
                         android:text="@string/skills"
                         android:textColor="@color/neutral_light_500" />
 
+
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/ratingsHeader"
                         android:gravity="center"
-                        style="@style/materialText_W500_20"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
 
 
-                        android:layout_weight="1"
                         android:singleLine="true"
                         android:text="Ratings &amp; Reviews"
                         android:textColor="@color/neutral_light_500" />
 
 
                 </LinearLayout>
+</HorizontalScrollView>
                 <View
                     android:background="@color/neutral_light_50"
                     android:layout_width="match_parent"
@@ -115,15 +120,26 @@
                     android:layout_marginTop="34dp"
                     android:layout_width="match_parent"
                     android:layout_height="40dp">
-                    <com.mikhaellopez.circularimageview.CircularImageView
-                        android:layout_centerVertical="true"
+
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/img1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_alignParentStart="true"
-                        app:civ_circle_color="@color/primary_50"
-                        android:src="@drawable/new_design_hourglass_empty"
-                        app:civ_border="false" />
+                        app:contentPadding="10dp"
+                        android:background="@color/primary_50"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                        app:srcCompat="@drawable/new_design_hourglass_empty" />
+<!--                    <com.mikhaellopez.circularimageview.CircularImageView-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:id="@+id/img1"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="40dp"-->
+<!--                        android:layout_alignParentStart="true"-->
+<!--                        app:civ_circle_color="@color/primary_50"-->
+<!--                            app:srcCompat="@drawable/new_design_hourglass_empty"-->
+
+<!--                        app:civ_border="false" />-->
 
                     <LinearLayout
                         android:layout_marginStart="8dp"
@@ -146,7 +162,6 @@
                             android:textColor="@color/neutral_light_500" />
                         <com.google.android.material.textview.MaterialTextView
                             android:gravity="center"
-                            style="@style/materialText_W500_20"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="17dp"
@@ -154,7 +169,7 @@
 
                             android:layout_weight="1"
                             android:singleLine="true"
-                            android:text="@string/badges"
+                            android:text="Time"
                             android:textColor="@color/neutral_light_700" />
 
                     </LinearLayout>
@@ -167,15 +182,26 @@
                     android:layout_marginTop="24dp"
                     android:layout_width="match_parent"
                     android:layout_height="40dp">
-                    <com.mikhaellopez.circularimageview.CircularImageView
-                        android:layout_centerVertical="true"
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/img2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_alignParentStart="true"
-                        app:civ_circle_color="@color/primary_50"
-                        android:src="@drawable/new_design_check_circle"
-                        app:civ_border="false" />
+                        app:contentPadding="10dp"
+                        android:background="@color/primary_50"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                        app:srcCompat="@drawable/new_design_check_circle" />
+
+<!--                    <com.mikhaellopez.circularimageview.CircularImageView-->
+<!--                        -->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:id="@+id/img2"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentStart="true"-->
+<!--                        app:civ_circle_color="@color/primary_50"-->
+<!--                        android:src="@drawable/new_design_check_circle"-->
+<!--                        app:civ_border="false" />-->
 
                     <LinearLayout
                         android:layout_marginStart="8dp"
@@ -197,8 +223,8 @@
                             android:text="Success Rate"
                             android:textColor="@color/neutral_light_500" />
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/successRate"
                             android:gravity="center"
-                            style="@style/materialText_W500_20"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="17dp"
@@ -215,6 +241,7 @@
 
                 <include layout="@layout/fragment_profile_about_me" />
             <LinearLayout
+                android:id="@+id/badgesView"
                 android:layout_marginTop="48dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
@@ -222,15 +249,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <View
-                    android:background="@color/light_neutral_n900"
+                    android:background="@drawable/divider_publuc_profile"
                     android:layout_width="75dp"
                     android:layout_height="4dp"/>
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/materialText_W500_20"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="17dp"
+
                     android:layout_marginBottom="24dp"
                     android:layout_weight="1"
                     android:singleLine="true"
@@ -299,13 +326,14 @@
                             </RadioGroup>
                         </RelativeLayout>
                     <LinearLayout
+                        android:id="@+id/skillsView"
                         android:layout_marginTop="32dp"
 
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <View
-                            android:background="@color/light_neutral_n900"
+                            android:background="@drawable/divider_publuc_profile"
                             android:layout_width="75dp"
                             android:layout_height="4dp"/>
 
@@ -341,7 +369,8 @@
                         android:text="+ add your skills"
                         android:textColor="@color/P300" />
                 </FrameLayout>
-                <include layout="@layout/fragment_profile_review" />
+                <include
+                    layout="@layout/fragment_profile_review" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

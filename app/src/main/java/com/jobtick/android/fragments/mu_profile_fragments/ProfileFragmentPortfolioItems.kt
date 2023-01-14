@@ -68,7 +68,7 @@ class ProfileFragmentPortfolioItems : Fragment(), PortfolioAdapter.OnItemClickLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetToolbar(activity, "Portfolio", "Add Portfolio Item", R.id.navigation_profile_account, binding.header, view)
+        SetToolbar(activity, "Portfolio", "Add Portfolio", R.id.navigation_profile_account, binding.header, view)
 
         binding.portfolioItemsRecycler.layoutManager = LinearLayoutManager(activity)
         portfolioAdapter = PortfolioAdapter(list)

@@ -120,7 +120,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetToolbar(activity, "Add Portfolio Item", "Save", R.id.navigation_profile, binding.header, view)
+        SetToolbar(activity, "Add Portfolio", "Save", R.id.navigation_profile, binding.header, view)
         binding.header.back.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_add_portfolio_item_to_navigation_profile_portfolio_item)
         }
@@ -140,17 +140,28 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
 
                 showDeleteDialog()
         }
+        binding.about.editText!!.setOnFocusChangeListener{view, b ->
+            if(b)
+                binding.about.editText!!.hint = "Description"
+            else
+                binding.about.editText!!.hint = ""
+
+        }
+
         initVars()
         initVM()
 
         try {
             if (!requireArguments().getString("json").isNullOrEmpty()) {
                 binding.deleteTxt.visibility = View.VISIBLE
-                binding.header.txtTitle.text = "Edit Portfolio Item"
+                binding.header.txtTitle.text = "Edit Portfolio"
                 val jsonObject = JSONObject(requireArguments().getString("json").toString())
                 binding.isShare.isChecked = jsonObject.getString("share_in") == "1"
                 binding.edittextFirstnameValue.setText(jsonObject.getString("title").toString())
                 binding.about.editText?.setText(jsonObject.getString("description").toString())
+
+
+
                 portfolioID = jsonObject.getString("id")
                 val jsonArray = jsonObject.getJSONArray("img")
                 for(i in 0 until jsonArray.length()) {
@@ -171,7 +182,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
             else
                 binding.deleteTxt.visibility = View.GONE
                 mediaAdapter.notifyDataSetChanged()
-                binding.header.txtTitle.text = "Add Portfolio Item"
+                binding.header.txtTitle.text = "Add Portfolio"
 
 
         }catch (e: Exception) {
@@ -317,7 +328,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
                 if (attachmentArrayList.isEmpty()) {
                     attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_ADD))
                     attachmentArrayList.addAll(it.attachments)
-                    for (i in 0 until 8 - it.attachments.size)
+                    for (i in 0 until 4 - it.attachments.size)
                         attachmentArrayList.add(AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER))
                     mediaAdapter.notifyDataSetChanged()
                 }
@@ -335,7 +346,14 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
     }
 
     override fun onItemClick(view: View?, obj: AttachmentModelV2?, position: Int, action: String?) {
-        showDialog()
+        Log.d("clickedhere", "2")
+
+        //  showDialog()
+        if (checkPermissionReadExternalStorage(requireContext())) {
+            Log.d("clickedhere", "1")
+            val openGallary = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(Intent.createChooser(openGallary, "Open Gallary"), 1)
+        }
     }
 
     fun checkPermissionReadExternalStorage(
@@ -393,7 +411,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
                 if (title.equals(ConstantKey.CREATE_A_JOB, ignoreCase = true)) {
                     attachmentArrayList.add(attachmentArrayList.indexOf(attachmentArrayList.first { it.type == AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER }), AttachmentModelV2(-1, file.name, file.name,
                         "", "", "", "", "", -1, AttachmentAdapter.VIEW_TYPE_PROGRESS, file = file))
-                    attachmentArrayList.removeAt(9)
+                    attachmentArrayList.removeAt(5)
                     mediaAdapter.notifyDataSetChanged()
                     uploadDataInTempApi(file)
                 } else {
@@ -701,7 +719,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
             if (title.equals(ConstantKey.CREATE_A_JOB, ignoreCase = true)) {
                 attachmentArrayList.add(attachmentArrayList.indexOf(attachmentArrayList.first { it.type == AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER }), AttachmentModelV2(-1, file.name, file.name,
                     "", "", "", "", "", -1, AttachmentAdapter.VIEW_TYPE_PROGRESS, file = file))
-                attachmentArrayList.removeAt(9)
+                attachmentArrayList.removeAt(5)
                 mediaAdapter.notifyDataSetChanged()
                 uploadDataInTempApi(file)
             } else {
@@ -715,6 +733,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
     override fun PickiTonMultipleCompleteListener(paths: java.util.ArrayList<String>?, wasSuccessful: Boolean, Reason: String?) {
     }
 
+    @SuppressLint("SuspiciousIndentation")
     fun addOrUpdatePortfolio(context: Context) {
         val sessionManager = SessionManager(requireActivity())
         (context as DashboardActivity).showProgressDialog()
@@ -746,8 +765,8 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
 
             //sessionManager?.role?.let { addFormDataPart("role_as", it) }
         }.build()
-        for(i in 0 until requestBody.size())
-        Log.d("requestBodyport", requestBody.parts().get(i).body().toString())
+//        for(i in 0 until requestBody.size())
+//        Log.d("requestBodyport", requestBody.parts().get(i).body().toString())
         val call: Call<String?>? = ApiClient.getClientV1WithToken(sessionManager).addPortfolioItem(
             type,
             "XMLHttpRequest",

@@ -4,18 +4,21 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Card(
+    val user: User?,
     val brand: String?,
     val exp_month: Int?,
     val exp_year: Int?,
     val last4: String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+            parcel.readParcelable(User::class.java.classLoader),
             parcel.readString(),
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(user, flags)
         parcel.writeString(brand)
         parcel.writeValue(exp_month)
         parcel.writeValue(exp_year)

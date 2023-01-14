@@ -30,7 +30,7 @@
                 android:maxLines="1"
                 android:textSize="@dimen/profile_acounts_header"
                 android:textColor="@color/neutral_light_500"
-                android:text="History Range" />
+                android:text="HISTORY RANGE" />
 
             <RelativeLayout
                 android:id="@+id/parentStart"
@@ -154,6 +154,7 @@
 
         </LinearLayout>
         <View
+            android:layout_marginBottom="12dp"
             android:background="@color/neutral_light_50"
             android:layout_width="match_parent"
             android:layout_height="8dp"/>

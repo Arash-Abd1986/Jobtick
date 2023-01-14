@@ -24,11 +24,10 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/spacing_medium"
-            android:background="@drawable/rounded_date_dark"
             android:paddingLeft="@dimen/spacing_middle"
             android:paddingRight="@dimen/spacing_middle"
-            android:textColor="@color/white"
-            android:visibility="gone"
+            android:textColor="@color/neutral_light_300"
+            android:visibility="visible"
             tools:text="11-06-2016" />
     </RelativeLayout>
 
@@ -37,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutDate"
         android:layout_alignParentEnd="true"
-        app:cardBackgroundColor="@color/N030"
+        app:cardBackgroundColor="@color/neutral_light_50"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         android:layout_marginHorizontal="64dp"
@@ -54,19 +53,19 @@
             android:visibility="visible"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp"
-            app:cardBackgroundColor="@color/N030"
+            app:cardBackgroundColor="@color/neutral_light_50"
             app:cardCornerRadius="8dp">
 
             <com.google.android.material.textview.MaterialTextView
+
                 android:id="@+id/view_text_chat_text"
-                style="@style/materialText_500_15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:gravity="start"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
-                android:textSize="13sp"
+                android:textSize="16dp"
                 android:paddingTop="4dp"
                 android:textColor="@color/N900" />
         </androidx.cardview.widget.CardView>

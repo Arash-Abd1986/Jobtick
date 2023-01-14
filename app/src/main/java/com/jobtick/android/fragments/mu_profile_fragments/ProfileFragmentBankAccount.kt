@@ -134,16 +134,24 @@ class ProfileFragmentBankAccount : Fragment(){
         binding.edittextBsb.editText!!.setOnFocusChangeListener{view, b ->
             if(b)
                 binding.edittextBsb.editText!!.hint = "XXY-ZZZ"
+            else
+                binding.edittextBsb.editText!!.hint = ""
+
         }
 
         binding.edittextAccountNumber.editText!!.setOnFocusChangeListener{view, b ->
             if(b)
                 binding.edittextBsb.editText!!.hint = "XXXXXX-YYYYYYY-ZZZ"
+            else
+                binding.edittextBsb.editText!!.hint = ""
         }
 
         binding.edittextAccountHolder.editText!!.setOnFocusChangeListener{view, b ->
             if(b)
                 binding.edittextAccountHolder.editText!!.hint = "e.g. Oliver Smith"
+            else
+                binding.edittextAccountHolder.editText!!.hint = ""
+
         }
 
 
@@ -208,7 +216,7 @@ class ProfileFragmentBankAccount : Fragment(){
                             val jsonObject2 = jsonObject.getJSONObject("data")
 
                             binding.edittextAccountNumber.editText?.setText(
-                                "XXXX" + jsonObject2.getString(
+                                "XXXXXX-YYYYYYY" + jsonObject2.getString(
                                     "account_number_last_four"
                                 )
                             )

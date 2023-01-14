@@ -23,6 +23,7 @@ import com.jobtick.android.databinding.FragmentProfileAccountBinding
 import com.jobtick.android.fragments.LogOutBottomSheet
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.SetToolbar
+import com.jobtick.android.utils.setSpanStyledTwoLineText
 
 
 private const val ARG_PARAM1 = "param1"
@@ -206,8 +207,9 @@ class ProfileFragmentAccount : Fragment() {
         delete = dialog.findViewById(R.id.discard)
         title = dialog.findViewById(R.id.title)
         mainTitle = dialog.findViewById(R.id.mainTitle)
-        mainTitle.text = "Logout"
+        mainTitle.text = "Come back soon!"
         delete.text = "Logout"
+        cancel.text = "Cancel"
         title.setText(activity.getString(R.string.profile_logout))
 
         cancel.setOnClickListener {

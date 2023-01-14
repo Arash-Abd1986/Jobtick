@@ -66,6 +66,8 @@ class ProfileFragmentSkills : Fragment() {
 
         viewModel = ViewModelProvider(this)[ProfileSkillsViewModel::class.java]
         viewModel.getSkills(activity)
+
+        binding.skillLisrtParent.visibility = View.GONE
         binding.txtAddNewSkill.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_skills_to_navigation_profile_skills_search)
         }
@@ -92,12 +94,17 @@ class ProfileFragmentSkills : Fragment() {
                 if (requireArguments().getStringArrayList("skills")!!.size != 0)
                     for (list in requireArguments().getStringArrayList("skills")!!)
                         it.add(list)
+
+
             }catch (e: Exception) {
 
             }
             skillList = it
-            for(i in 0 until it.size) {
-                addChip(it[i])
+            if(skillList.size != 0) {
+                for (i in 0 until it.size) {
+                    addChip(it[i])
+                }
+                binding.skillLisrtParent.visibility = View.VISIBLE
             }
 
         }

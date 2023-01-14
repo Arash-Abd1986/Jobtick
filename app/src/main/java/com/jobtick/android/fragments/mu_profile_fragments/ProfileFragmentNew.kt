@@ -77,7 +77,6 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
     private lateinit var activity: DashboardActivity
     private var _binding: FragmentProfileNewBinding? = null
     private val binding get() = _binding!!
-//    private lateinit var profileNewViewModel: ProfileNewViewModel
     private var sessionManager: SessionManager? = null
     private var uploadableImage: UploadableImage? = null
     var pickiT: PickiT? = null
@@ -104,22 +103,29 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
         activity.toolbar!!.visibility = View.GONE
 
         if(sessionManager!!.roleLocal == "poster") {
-           // SetToolbar(activity, "Profile", "Switch to Ticker", null, binding.header, view)
-
+            binding.portfolioSkillsParent.visibility = View.GONE
+            binding.line.visibility = View.GONE
+            binding.jobAlertParent.visibility = View.GONE
+            binding.textPublicProfile.visibility = View.GONE
+            binding.textVerificationStatus.visibility = View.GONE
             if(sessionManager!!.userAccount!!.isVerifiedAccount == 1)
                 binding.textVerificationStatus.text = "Verified Poster"
             else
                 binding.isloginParent2.visibility = View.GONE
         }
         else {
-            //SetToolbar(activity, "Profile", "Switch to Poster", null, binding.header, view)
             try {
+                binding.portfolioSkillsParent.visibility = View.VISIBLE
+                binding.line.visibility = View.VISIBLE
+                binding.jobAlertParent.visibility = View.VISIBLE
+                binding.textPublicProfile.visibility = View.VISIBLE
+                binding.textVerificationStatus.visibility = View.VISIBLE
+
                 if (sessionManager!!.userAccount!!.isVerifiedAccount == 1)
                     binding.textVerificationStatus.text = "Verified Ticker"
                 else
                     binding.isloginParent2.visibility = View.GONE
             }catch (e: Exception) {
-                Log.d("exceptioninprofile", e.toString())
             }
         }
         try {
@@ -129,68 +135,12 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
             binding.imgAvatar.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_person))
         }
 
-//        binding.imgAvatar.setOnClickListener { uploadableImage!!.showAttachmentImageBottomSheet(true) }
         binding.imgAvatar.setOnClickListener { showDialog() }
         uploadableImage = object : AbstractUploadableImageImpl(requireActivity()) {
             override fun onImageReady(imageFile: File) {
-                Log.d("onImageReady", "ss")
                 Glide.with(binding.imgAvatar).load(Uri.fromFile(imageFile)).into(binding.imgAvatar)
             }
         }
-
-//        binding.imgAvatar.setOnClickListener { v: View? ->
-//            if (checkPermissionREAD_EXTERNAL_STORAGE(activity)) {
-//                val intent = Intent()
-//                intent.type = "image/*"
-//                intent.action = Intent.ACTION_GET_CONTENT
-//                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
-//                    AttachmentBottomSheet.GALLERY_REQUEST
-//                )
-//            }
-//        }
-
-
-//        binding.imgAvatar.setOnClickListener { view1: View? ->
-//            if (checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//                val permissionlistener: PermissionListener = object : PermissionListener {
-//
-//                    override fun onPermissionGranted() {
-//                        val cameraIntent = NewCameraUtil.getTakePictureIntent(activity)
-//                        if (cameraIntent == null) {
-//                            activity.showToast("can not write to your files to save picture.", activity)
-//                        }
-//                        try {
-//                            startActivityForResult(cameraIntent,
-//                                AttachmentBottomSheet.CAMERA_REQUEST
-//                            )
-//                        } catch (e: ActivityNotFoundException) {
-//                            activity.showToast("Can not find your camera.", activity)
-//                        }
-//                    }
-//
-//                    override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-//
-//                    }
-//                }
-//                TedPermission.with(activity)
-//                    .setPermissionListener(permissionlistener)
-//                    .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-//                    .setPermissions(Manifest.permission.CAMERA)
-//                    .check()
-//            } else {
-//                val cameraIntent = NewCameraUtil.getTakePictureIntent(activity)
-//                if (cameraIntent == null) {
-//                    activity.showToast("can not write to your files to save picture.", activity)
-//                }
-//                try {
-//                    startActivityForResult(cameraIntent,
-//                        AttachmentBottomSheet.CAMERA_REQUEST
-//                    )
-//                } catch (e: ActivityNotFoundException) {
-//                    activity.showToast("Can not find your camera.", activity)
-//                }
-//            }
-//        }
 
         if(sessionManager!!.accessToken != null) {
             binding.fullName.text = sessionManager!!.userAccount!!.name
@@ -218,11 +168,20 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
                         sessionManager!!.roleLocal = "ticker"
                         binding.portfolioSkillsParent.visibility = View.VISIBLE
                         binding.line.visibility = View.VISIBLE
+                        binding.jobAlertParent.visibility = View.VISIBLE
+                        binding.textVerificationStatus.visibility = View.VISIBLE
+                        binding.textPublicProfile.visibility = View.VISIBLE
+
                     } else {
                         binding.txtAction.text = "Switch to Ticker"
                         sessionManager!!.roleLocal = "poster"
                         binding.portfolioSkillsParent.visibility = View.GONE
                         binding.line.visibility = View.GONE
+                        binding.jobAlertParent.visibility = View.GONE
+                        binding.textVerificationStatus.visibility = View.GONE
+                        binding.textPublicProfile.visibility = View.GONE
+
+
                     }
             activity.resetBottomBar()
 

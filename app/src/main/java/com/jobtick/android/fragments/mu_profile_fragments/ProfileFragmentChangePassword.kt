@@ -51,7 +51,7 @@ class ProfileFragmentChangePassword : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         SetToolbar(activity, "Change Password", "Save", R.id.navigation_profile, binding.header, view)
-        changePassViewmodel = ViewModelProvider(activity)[ProfileChangePasswordViewModel::class.java]
+        changePassViewmodel = ViewModelProvider(this)[ProfileChangePasswordViewModel::class.java]
 
         binding.header.back.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_change_password_to_navigation_profile)

@@ -47,12 +47,20 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
             </RelativeLayout>
+        </LinearLayout>
+
             <View
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="6dp"
                 android:background="@color/neutral_light_50"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"/>
+        <LinearLayout
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <RelativeLayout
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
@@ -83,13 +91,19 @@
 
                 </LinearLayout>
             </RelativeLayout>
+        </LinearLayout>
             <View
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
                 android:background="@color/neutral_light_50"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"/>
-
+        <LinearLayout
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_name_title"
                 style="@style/materialText_400_12"
@@ -99,7 +113,7 @@
                 android:maxLines="1"
                 android:textSize="@dimen/profile_acounts_header"
                 android:textColor="@color/neutral_light_500"
-                android:text="Describe Your Activity" />
+                android:text="DESCRIBE YOUR ACTIVITY" />
             <RelativeLayout
                 android:paddingTop="16dp"
                 android:layout_width="match_parent"

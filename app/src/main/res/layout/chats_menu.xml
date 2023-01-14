@@ -30,9 +30,9 @@
             tools:context=".activities.ChatActivity">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
+                android:layout_width="16.67dp"
                 android:layout_height="match_parent"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="8dp"
                 android:src="@drawable/new_design_help_center" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -62,9 +62,9 @@
                 tools:context=".activities.ChatActivity">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="16.67dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="8dp"
                     android:src="@drawable/new_design_report" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -89,9 +89,9 @@
                 tools:context=".activities.ChatActivity">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="16.67dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="8dp"
                     android:src="@drawable/new_design_block" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -102,7 +102,7 @@
                     android:gravity="start"
                     android:text="Block user"
                     android:textAppearance="@style/materialText_400_14"
-                    android:textColor="@color/N900" />
+                    android:textColor="@color/primary_error" />
 
 
             </LinearLayout>

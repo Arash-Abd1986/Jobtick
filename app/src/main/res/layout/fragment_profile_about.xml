@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -30,8 +30,8 @@
         </LinearLayout>
     </LinearLayout>
     <RelativeLayout
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:paddingTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -41,7 +41,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/profile_about_hint">
+            android:hint="About">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/about_text"

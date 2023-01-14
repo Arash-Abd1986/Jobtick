@@ -125,6 +125,14 @@ interface ApiInterface {
         //@Header("authorization") auth: String?
     ): Call<String?>?
 
+    @GET("profile/delete_account")
+    fun deleteAccount(
+        @Header("X-Requested-With") XMLHttpRequest: String?,
+        // @Body body: RequestBody
+        //@Header("authorization") auth: String?
+    ): Call<String?>?
+
+
     @GET("notifications/settings")
     fun getNotificationSettings(
         @Query("type") type:String,

@@ -65,6 +65,34 @@ class   ProfileNewViewModel: ViewModel() {
         })
     }
 
+    fun deleteAccount(context: Context) {
+        sessionManager = SessionManager(context)
+        (context as DashboardActivity).showProgressDialog()
+        val call: Call<String?>?
+        Helper.closeKeyboard(context)
+        call = ApiClient.getClientV1WithToken(sessionManager).deleteAccount(
+            "XMLHttpRequest")
+        call!!.enqueue(object : Callback<String?> {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                context.hideProgressDialog()
+                try {
+                    if(response.isSuccessful) {
+                        success.value = true
+                    }
+
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                    context.showToast("Something Went Wrong", context)
+                }
+            }
+            override fun onFailure(call: Call<String?>, t: Throwable) {
+                context.hideProgressDialog()
+                Timber.e(call.toString())
+            }
+        })
+    }
+
+
     fun emailResendOTP(context: Context, inputs: MutableMap<String, String>) {
         sessionManager = SessionManager(context)
         (context as DashboardActivity).showProgressDialog()

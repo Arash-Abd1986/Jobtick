@@ -47,6 +47,7 @@
 
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/skillLisrtParent"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:orientation="vertical"

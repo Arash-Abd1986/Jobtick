@@ -19,15 +19,14 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtOnlyDate"
-            style="@style/materialText_500_12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/spacing_medium"
-            android:background="@drawable/rounded_date_dark"
+            android:textSize="12dp"
             android:paddingLeft="@dimen/spacing_middle"
             android:paddingRight="@dimen/spacing_middle"
-            android:textColor="@color/white"
+            android:textColor="@color/neutral_light_300"
             android:visibility="gone"
             tools:text="11-06-2016" />
     </RelativeLayout>

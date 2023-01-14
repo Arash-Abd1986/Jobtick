@@ -13,7 +13,6 @@
             android:src="@drawable/new_design_person" />
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/materialText_500_12"
             android:id="@+id/txt_post_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,7 +22,6 @@
             android:singleLine="true"
             tools:text="Clean my two bedroom apartment"
             android:textColor="@color/neutral_light_700"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:textSize="16dp" />
 
 </RelativeLayout>

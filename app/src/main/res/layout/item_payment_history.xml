@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginStart="24dp"
-    android:layout_marginEnd="24dp"
-    android:layout_marginTop="24dp"
-    android:layout_marginBottom="12dp"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+        <View
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:id="@+id/koloft"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@color/colorF0F0F0"/>
 
-
+    <View
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:id="@+id/nazok"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_line"
+        android:background="@color/colorF0F0F0"/>
+</RelativeLayout>
     <com.google.android.material.textview.MaterialTextView
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:id="@+id/dateTxt"
         android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:lines="1"
         android:visibility="visible"
         android:singleLine="true"
@@ -32,14 +47,14 @@
         android:id="@+id/ivAvatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_below="@id/dateTxt"
-        android:layout_alignParentStart="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:src="@drawable/pic"
         app:civ_border="false" />
 
     <RelativeLayout
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -104,26 +119,11 @@
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/nameTxt"
-        android:layout_alignBottom="@id/nameTxt"
-        android:layout_alignEnd="@id/priceTxt"
-        android:layout_alignStart="@id/priceTxt"
         android:gravity="center_vertical|end"
         android:lines="1"
         android:textAppearance="@style/materialText_600_10"
         android:textColor="@color/textColor"
         tools:text="Debited" />
-
-
-    <View
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/spacing_line"
-        android:background="@color/colorF0F0F0"
-        android:layout_alignEnd="@id/priceTxt"
-        android:layout_alignStart="@id/nameTxt"
-        android:layout_below="@id/nameTxt"
-        android:layout_marginTop="15dp"/>
 
 
 </LinearLayout>

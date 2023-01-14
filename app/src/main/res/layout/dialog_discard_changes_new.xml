@@ -53,8 +53,7 @@
                     android:background="@color/transparent"
                     android:gravity="center"
                     android:text="Cancel"
-                    android:textColor="@color/primary"
-                    app:iconPadding="16dp" />
+                    android:textColor="@color/primary"/>
 
                 <View
                     android:layout_width="1dp"

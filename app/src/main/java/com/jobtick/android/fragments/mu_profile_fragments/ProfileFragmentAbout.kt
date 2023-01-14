@@ -72,6 +72,15 @@ class ProfileFragmentAbout : Fragment() {
         binding.header.back.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_about_to_navigation_profile_account)
         }
+
+        binding.about.editText!!.setOnFocusChangeListener{view, b ->
+            if(b)
+                binding.about.editText!!.hint = "Write a few sentences about yourself"
+            else
+                binding.about.editText!!.hint = ""
+
+        }
+
     }
 
     override fun onCreateView(

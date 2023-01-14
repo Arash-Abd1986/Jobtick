@@ -7,7 +7,6 @@
 <ImageView
     android:padding="5dp"
     android:layout_marginStart="22dp"
-    android:layout_marginEnd="22dp"
     android:layout_alignParentStart="true"
     android:layout_centerVertical="true"
     android:src="@drawable/new_design_back_arrow"
@@ -17,8 +16,8 @@
     <androidx.cardview.widget.CardView
         android:visibility="visible"
         android:id="@+id/editTextParent"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="11dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/back"
         android:layout_toStartOf="@+id/txt_action"
@@ -36,9 +35,9 @@
         android:id="@+id/edt_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:textSize="16dp"
         android:background="@null"
-        android:hint="Write a message..."
+        android:hint="Enter your skill"
         android:inputType="text"
         android:padding="5dp"
         android:layout_marginStart="10dp"

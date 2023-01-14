@@ -8,6 +8,10 @@
     <include
         android:id="@+id/header"
         layout="@layout/header_new_design"/>
+    <ScrollView
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -27,8 +31,7 @@
                 android:maxLines="1"
                 android:textSize="@dimen/profile_acounts_header"
                 android:textColor="@color/neutral_light_500"
-                android:text="ACCOUNT INFORMATION" />
-
+                android:text="Credit Card Information" />
             <RelativeLayout
                 android:layout_marginTop="8dp"
                 android:paddingTop="12dp"
@@ -54,21 +57,22 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_marginTop="8dp"
                 android:paddingTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/edittext_bsb"
+                    android:id="@+id/edittext_card_number"
                     style="@style/outlineTextField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="BSB"
+                    android:hint="Card Number"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:inputType="text"
+                        android:inputType="number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -85,11 +89,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/edittext_account_number"
+                    android:id="@+id/edittext_expiry_date"
                     style="@style/outlineTextField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Account Number"
+                    android:hint="Expiry Date"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:inputType="text"
+                        android:drawableEnd="@drawable/new_design_calendar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@+id/email_status"
+                        android:layout_centerVertical="true"
+                        android:maxLength="50"
+                        android:minHeight="54dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:paddingTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edittext_cvc"
+                    style="@style/outlineTextField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="CVC"
 
                     app:errorEnabled="true">
 
@@ -106,59 +136,36 @@
 
             </RelativeLayout>
 
-        </LinearLayout>
-        <View
-            android:layout_marginTop="24dp"
-            android:background="@color/neutral_light_50"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"/>
-        <LinearLayout
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <RelativeLayout
-                android:id="@+id/calender"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+            <LinearLayout
+                android:weightSum="5"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_name_value"
-                    style="@style/materialText_400_12"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/start_date_value"
-                    android:layout_centerVertical="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textSize="@dimen/profile_acounts_values"
-                    android:textColor="@color/neutral_light_700"
-                    android:text="Birthday" />
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_marginEnd="3dp"
-                    android:id="@+id/start_date_value"
-                    style="@style/materialText_400_12"
-                    android:layout_toStartOf="@+id/bankaccount_arrow"
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:maxLines="1"
-                    android:textSize="@dimen/profile_acounts_header"
-                    android:textColor="@color/neutral_light_500"
-                    android:text="Sep 16, 2022" />
+                android:layout_height="75dp">
+                <ImageView
+                    android:layout_weight="1"
+                    android:src="@drawable/visacard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/mastercard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
 
                 <ImageView
-                    android:src="@drawable/new_design_chevron_right"
-                    android:id="@+id/bankaccount_arrow"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/americanexpress"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"/>
-            </RelativeLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
+    </ScrollView>
 </LinearLayout>

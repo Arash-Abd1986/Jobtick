@@ -25,11 +25,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.lujun.androidtagview.TagContainerLayout
+import co.lujun.androidtagview.Utils
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -57,6 +59,7 @@ import com.jobtick.android.network.model.response.LevelsItem
 import com.jobtick.android.utils.Constant
 import com.jobtick.android.utils.ConstantKey
 import com.jobtick.android.utils.ImageUtil
+import com.jobtick.android.utils.ScrollToSpecificViewInScrollView
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.Tools
 import com.jobtick.android.utils.cleanRound
@@ -199,6 +202,16 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var lnPosterReview: RelativeLayout? = null
     private var lnTickerReview: RelativeLayout? = null
     private var badgeRecycler: RecyclerView? = null
+    private lateinit var headingAbout: TextView
+    private lateinit var headingBadges: TextView
+    private lateinit var headingSkills: TextView
+    private lateinit var headingReviews: TextView
+    private lateinit var nesedScrollView: NestedScrollView
+    private lateinit var aboutView: LinearLayout
+    private lateinit var badgesView: LinearLayout
+    private lateinit var reviewView: LinearLayout
+    private lateinit var skillsView: LinearLayout
+    private lateinit var successRate: TextView
     override fun onResume() {
         super.onResume()
         sessionManager?.let {
@@ -338,6 +351,14 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         linFcc2!!.visibility = View.GONE
         linMode.visibility = View.GONE
         txtRole.visibility = View.VISIBLE
+        headingBadges = requireView().findViewById(R.id.badgesHeader)
+        headingSkills = requireView().findViewById(R.id.skillsHeader)
+        headingAbout = requireView().findViewById(R.id.aboutHeader)
+        headingReviews = requireView().findViewById(R.id.ratingsHeader)
+        nesedScrollView = requireView().findViewById(R.id.nested_scroll_view)
+        skillsView = requireView().findViewById(R.id.skillsView)
+        badgesView = requireView().findViewById(R.id.badgesView)
+        successRate = requireView().findViewById(R.id.successRate)
     }
 
     private fun initToolbar() {
@@ -483,6 +504,32 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         }
         rbPortfollio!!.setOnCheckedChangeListener { _: CompoundButton?, _: Boolean -> onChangeTabBiography() }
         rbSkills!!.setOnCheckedChangeListener { _: CompoundButton?, _: Boolean -> onChangeTabBiography() }
+
+        headingSkills.setOnClickListener {
+            resetHeaderColors()
+            headingSkills.setTextColor(requireActivity().getColor(R.color.primary_p500_base_light))
+            ScrollToSpecificViewInScrollView.scrollToView(nesedScrollView, skillsView)
+        }
+        headingBadges.setOnClickListener {
+            resetHeaderColors()
+            headingBadges.setTextColor(requireActivity().getColor(R.color.primary_p500_base_light))
+            ScrollToSpecificViewInScrollView.scrollToView(nesedScrollView, badgesView)
+
+        }
+
+        headingReviews.setOnClickListener {
+            resetHeaderColors()
+            headingReviews.setTextColor(requireActivity().getColor(R.color.primary_p500_base_light))
+            ScrollToSpecificViewInScrollView.scrollToView(nesedScrollView, lnReviews)
+        }
+
+        headingAbout.setOnClickListener {
+            resetHeaderColors()
+            headingAbout.setTextColor(requireActivity().getColor(R.color.primary_p500_base_light))
+            ScrollToSpecificViewInScrollView.scrollToView(nesedScrollView, lnAboutMe)
+
+        }
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -532,7 +579,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     intent.putExtra(ConstantKey.TAB, ConstantKey.PORTFO_SKILLS)
                     startActivity(intent)
                 }
-                lSkill!!.visibility = View.GONE
+                //TODO changesto VISIBLE
+                lSkill!!.visibility = View.VISIBLE
                 flAddSkill!!.visibility = View.GONE
             } else {
                 flAddSkill!!.setOnClickListener {
@@ -666,7 +714,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             }
                             if (badgesModelArrayList!!.size <= 0) {
                                 noPortfolio!!.visibility = View.VISIBLE
-                                lSkill!!.visibility = View.GONE
+                                //TODO changesto VISIBLE
+
+                                lSkill!!.visibility = View.VISIBLE
                                 flAddSkill!!.visibility = View.GONE
                             } else {
                                 noPortfolio!!.visibility = View.GONE
@@ -680,7 +730,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                                 noPortfolio!!.visibility = View.GONE
                             }
                             if (rbPortfollio!!.isChecked) {
-                                lSkill!!.visibility = View.GONE
+                                //TODO changesto VISIBLE
+
+                                lSkill!!.visibility = View.VISIBLE
                                 flAddSkill!!.visibility = View.GONE
                                 noSkill!!.visibility = View.GONE
                             }
@@ -938,7 +990,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             tvAboutHeading!!.text = "\"\""
             tvAboutHeading!!.visibility = View.GONE
         } else {
-            tvAboutHeading!!.visibility = View.VISIBLE
+            tvAboutHeading!!.visibility = View.GONE
             tvAboutHeading!!.text = "\"" + userAccountModel.tagline + "\""
         }
 
@@ -956,8 +1008,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             ratingbarAsTicker!!.rating = userAccountModel.workerRatings.avgRating
             tvTickerReview!!.text =
                 "(" + userAccountModel.workerRatings.receivedReviews.toString() + ")"
-            if (userAccountModel.workTaskStatistics != null) tvTickerCompletionRate!!.text =
-                userAccountModel.workTaskStatistics.completionRate.toString() + "%"
+            if (userAccountModel.workTaskStatistics != null) {
+                tvTickerCompletionRate!!.text =
+                    userAccountModel.workTaskStatistics.completionRate.toString() + "%"
+                successRate.text = userAccountModel.workTaskStatistics.completionRate.toString() + "%"
+            }
             // worker
             if (userAccountModel.workerRatings != null) {
                 tickerReviewNum.text =
@@ -1102,7 +1157,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0
         ) {
             noPortfolio!!.visibility = View.GONE
-            lSkill!!.visibility = View.GONE
+            //TODO changesto VISIBLE
+
+            lSkill!!.visibility = View.VISIBLE
             flAddSkill!!.visibility = View.GONE
             lytEducation!!.visibility = View.GONE
             lytSkills!!.visibility = View.GONE
@@ -1110,7 +1167,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             lPort!!.visibility = View.GONE
         } else {
             if (userAccountModel.skills.education != null && userAccountModel.skills.education.size != 0) {
-                lytEducation!!.visibility = View.VISIBLE
+                lytEducation!!.visibility = View.GONE
                 // tagEducation.setText(userAccountModel.getSkills().getEducation());
                 tagEducation!!.tags = userAccountModel.skills.education
             } else {
@@ -1120,12 +1177,13 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             if (userAccountModel.skills.skills != null && userAccountModel.skills.skills.size != 0) {
                 lytSkills!!.visibility = View.VISIBLE
                 tagSkills!!.tags = userAccountModel.skills.skills
+                Log.d("skillstag", userAccountModel.skills.skills.toString())
             } else {
                 lytSkills!!.visibility = View.GONE
                 tagSkills!!.tags = ArrayList()
             }
             if (userAccountModel.skills.language != null && userAccountModel.skills.language.size != 0) {
-                lytLanguage!!.visibility = View.VISIBLE
+                lytLanguage!!.visibility = View.GONE
                 tagLanguage!!.tags = userAccountModel.skills.language
             } else {
                 lytLanguage!!.visibility = View.GONE
@@ -1180,5 +1238,12 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
 
     companion object {
         var onProfileupdatelistener: onProfileUpdateListener? = null
+    }
+
+    fun resetHeaderColors() {
+        headingSkills.setTextColor(requireActivity().getColor(R.color.neutral_light_500))
+        headingAbout.setTextColor(requireActivity().getColor(R.color.neutral_light_500))
+        headingBadges.setTextColor(requireActivity().getColor(R.color.neutral_light_500))
+        headingReviews.setTextColor(requireActivity().getColor(R.color.neutral_light_500))
     }
 }

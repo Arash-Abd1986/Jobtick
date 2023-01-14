@@ -2,6 +2,7 @@ package com.jobtick.android.fragments.mu_profile_fragments
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.android.material.button.MaterialButton
 import com.jobtick.android.R
@@ -16,6 +18,7 @@ import com.jobtick.android.activities.DashboardActivity
 import com.jobtick.android.databinding.FragmentProfileDeleteAccountBinding
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.SetToolbar
+import com.jobtick.android.viewmodel.ProfileNewViewModel
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -28,6 +31,7 @@ class ProfileFragmentDeleteAccount : Fragment() {
     private lateinit var sessionManager: SessionManager
     private var _binding: FragmentProfileDeleteAccountBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewModel: ProfileNewViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +52,19 @@ class ProfileFragmentDeleteAccount : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         SetToolbar(activity, "Delete Account", "", R.id.navigation_profile, binding.header, view)
 
+        viewModel = ViewModelProvider(this)[ProfileNewViewModel::class.java]
+
+        viewModel.success.observe(viewLifecycleOwner) {
+            sessionManager.userAccount = null
+            sessionManager.login = false
+            sessionManager.tokenType = null
+            sessionManager.accessToken = null
+            val intent = Intent(context, DashboardActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            requireActivity().finish()
+        }
         binding.deleteAccount.setOnClickListener {
             showDialog()
         }
@@ -91,12 +108,18 @@ class ProfileFragmentDeleteAccount : Fragment() {
         delete = dialog.findViewById(R.id.discard)
         title = dialog.findViewById(R.id.title)
 
+        delete.text = "Delete"
+        cancel.text = "Cancel"
+
         title.setText(activity.getString(R.string.profile_delete_account_warning))
 
         cancel.setOnClickListener {
             dialog.cancel()
         }
-
+        delete.setOnClickListener {
+            //viewModel.deleteAccount(activity)
+            dialog.cancel()
+        }
 
         dialog.show()
 

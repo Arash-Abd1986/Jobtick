@@ -13,6 +13,7 @@
     app:singleSelection="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <Button
+        android:layout_weight="0.8"
         style="?attr/materialButtonOutlinedStyle"
         android:id="@+id/day"
         android:layout_width="wrap_content"
@@ -20,6 +21,7 @@
         android:text="Day"
         />
     <Button
+        android:layout_weight="1"
         style="?attr/materialButtonOutlinedStyle"
         android:id="@+id/week"
         android:layout_width="wrap_content"
@@ -27,6 +29,7 @@
         android:text="Week"
         />
     <Button
+        android:layout_weight="1"
         style="?attr/materialButtonOutlinedStyle"
         android:id="@+id/month"
         android:layout_width="wrap_content"
@@ -34,6 +37,7 @@
         android:text="Month"
         />
     <Button
+        android:layout_weight="1.2"
         style="?attr/materialButtonOutlinedStyle"
         android:id="@+id/custom"
         android:layout_width="wrap_content"

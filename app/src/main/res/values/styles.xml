@@ -322,127 +322,127 @@
     </style>
 
 
-    <style name="materialText_400_16" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_400_16" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="materialText_400_14_med" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_400_14_med" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">@dimen/_14sp</item>
     </style>
 
-    <style name="materialText_400_16_reg" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_400_16_reg" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="materialText_400_15" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_400_15" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="materialText_400_20" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_400_20" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="materialText_400_21" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_400_21" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">21sp</item>
     </style>
 
-    <style name="materialText_500_14" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_500_14" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="materialText_500_15" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_500_15" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="materialText_500_13" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_500_13" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">13sp</item>
     </style>
 
-    <style name="materialText_500_12" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_500_12" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="materialText_500_10" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_500_10" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/message_title_second_line</item>
     </style>
 
-    <style name="fontSmall" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="fontSmall" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="materialText_500_16" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_500_16" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="materialText_600_12" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_600_12" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">@dimen/message_title_third_line</item>
     </style>
 
-    <style name="materialText_600_10" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_600_10" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_semi_bold</item>
         <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">10sp</item>
     </style>
 
-    <style name="materialText_600_14" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_600_14" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_semi_bold</item>
         <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="materialText_600_13" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_600_13" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_semi_bold</item>
         <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">13sp</item>
     </style>
 
-    <style name="materialText_600_15" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_600_15" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_semi_bold</item>
         <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="materialText_600_16" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_600_16" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_semi_bold</item>
         <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="materialText_600_18" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_600_18" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_semi_bold</item>
         <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="materialText_700_14" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_700_14" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">14sp</item>
@@ -454,159 +454,164 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="materialText_700_12" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/roboto_bold</item>
-        <item name="android:fontFamily">@font/roboto_bold</item>
+    <style name="materialText_700_12" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="materialText_700_16" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_700_16" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="materialText_700_18" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_700_18" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="materialText_700_20" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_700_20" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="materialText_700_22" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_700_22" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">22sp</item>
     </style>
 
-    <style name="materialText_700_24" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_700_24" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">24sp</item>
     </style>
 
-    <style name="materialText_700_28" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialText_700_28" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">28sp</item>
     </style>
 
-    <style name="materialText_400_14" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="materialText_400_14" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="materialText_400_16_b" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="materialText_400_16_b" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="materialText_300_14" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="materialText_300_14" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="materialText_300_12" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="materialText_300_12" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="materialText_400_13" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="materialText_400_13" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">13sp</item>
     </style>
+    <style name="materialText_400_17" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">17sp</item>
+    </style>
 
-    <style name="materialText_400_12" parent="TextAppearance.MaterialComponents.Caption">
+    <style name="materialText_400_12" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/message_title_second_line</item>
     </style>
 
-    <style name="materialText_400_10" parent="TextAppearance.MaterialComponents.Overline">
+    <style name="materialText_400_10" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">10sp</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="materialText_600_08" parent="TextAppearance.MaterialComponents.Headline4">
+    <style name="materialText_600_08" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_semi_bold</item>
         <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">8sp</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="materialText_500_20" parent="TextAppearance.MaterialComponents.Headline4">
+    <style name="materialText_500_20" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="materialText_500_24" parent="TextAppearance.MaterialComponents.Headline4">
+    <style name="materialText_500_24" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">24sp</item>
     </style>
 
-    <style name="materialText_500_24_body" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="materialText_500_24_body" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">24sp</item>
     </style>
 
-    <style name="materialText_500_30" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="materialText_500_30" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">30sp</item>
     </style>
 
-    <style name="materialText_500_28" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="materialText_500_28" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">28sp</item>
     </style>
 
-    <style name="materialText_500_28_medium" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="materialText_500_28_medium" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">28sp</item>
     </style>
 
-    <style name="materialText_500_18" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="materialText_500_18" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="materialText_500_17" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="materialText_500_17" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">17sp</item>
     </style>
 
-    <style name="materialText_600_20" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="materialText_600_20" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_semi_bold</item>
         <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="materialText_600_24" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="materialText_600_24" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_semi_bold</item>
         <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">24sp</item>
     </style>
 
-    <style name="materialText_600_22" parent="TextAppearance.MaterialComponents.Headline5">
+    <style name="materialText_600_22" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_semi_bold</item>
         <item name="android:fontFamily">@font/roboto_semi_bold</item>
         <item name="android:textSize">22sp</item>
@@ -667,7 +672,7 @@
         <item name="android:popupMenuStyle">@style/MyPopupMenu</item>
     </style>
 
-    <style name="transparentTitleBar" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="transparentTitleBar" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/transparent</item>
     </style>
 
@@ -676,7 +681,7 @@
     <!--
         Help -  400 reg - 500 medium - bold 700 - 900 black - 300 light
     -->
-    <style name="materialText_W500_12" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_W500_12" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">@dimen/_12sp</item>
@@ -686,56 +691,56 @@
         <item name="android:textColor">#aacbb4</item>
     </style>
 
-    <style name="materialText_W500_14" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_W500_14" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">@dimen/_14sp</item>
 
     </style>
 
-    <style name="materialText_W500_16" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_W500_16" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="materialText_W500_18" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_W500_18" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="materialText_W500_20" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_W500_20" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="materialText_W400_12" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_W400_12" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_12sp</item>
     </style>
 
-    <style name="materialText_W400_10" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_W400_10" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_10sp</item>
     </style>
 
-    <style name="materialText_W400_14" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_W400_14" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="materialText_W400_16" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_W400_16" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="materialText_W400_24" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="materialText_W400_24" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_24sp</item>
@@ -909,19 +914,19 @@
         <item name="android:textSize">@dimen/_26sp</item>
         <item name="lineHeight">39sp</item>
     </style>
-    <style name="heading4" parent="TextAppearance.MaterialComponents.Headline4">
+    <style name="heading4" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_24sp</item>
         <item name="lineHeight">@dimen/_36sp</item>
     </style>
-    <style name="heading5" parent="TextAppearance.MaterialComponents.Headline5">
+    <style name="heading5" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_22sp</item>
         <item name="lineHeight">@dimen/_33sp</item>
     </style>
-    <style name="heading6" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="heading6" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">@dimen/_20sp</item>
@@ -936,21 +941,21 @@
         <item name="lineHeight">16sp</item>
     </style>
 
-    <style name="body1" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="body1" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_18sp</item>
         <item name="android:letterSpacing">0.01</item>
         <item name="lineHeight">@dimen/_27sp</item>
     </style>
-    <style name="body2" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="body2" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">@dimen/_17sp</item>
         <item name="android:letterSpacing">0.01</item>
         <item name="lineHeight">@dimen/_21sp</item>
     </style>
-    <style name="body3" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="body3" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_16sp</item>
@@ -982,7 +987,7 @@
         <item name="lineHeight">@dimen/_21sp</item>
     </style>
 
-    <style name="subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="subtitle1" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_20sp</item>
@@ -991,10 +996,10 @@
         <item name="lineHeight">@dimen/_30sp</item>
     </style>
 
-    <style name="subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="subtitle2" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
-        <item name="android:textSize">@dimen/_16sp</item>
+        <item name="android:textSize">@dimen/_20sp</item>
         <item name="textAllCaps">false</item>
         <item name="android:letterSpacing">0.01</item>
         <item name="lineHeight">@dimen/_20sp</item>
@@ -1157,5 +1162,8 @@
         <item name="chipStrokeWidth">1dp</item>
         <item name="chipStrokeColor">@color/neutral_light_500</item>
         <item name="chipBackgroundColor">@color/white</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
+        <item name="cornerSize">50%</item>
     </style>
 </resources>

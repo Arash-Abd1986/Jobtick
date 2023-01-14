@@ -2,6 +2,7 @@ package com.jobtick.android.material.ui.postajob
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -226,11 +227,21 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             rlMain.updateLayoutParams {
                 height = (screenWidth - (80).dpToPx()) / 3
             }
-            add.setOnClickListener {
-                if (items!!.size <= 9)
-                    mOnItemClickListener!!.onItemClick(it, items.get(index = position), adapterPosition, "add")
+            rlMain.setOnClickListener {
+                Log.d("clickedhere", "3," + "size = ${items?.size}")
+
+                if (items!!.size <= 5) {
+                    Log.d("clickedhere", "4")
+
+                    mOnItemClickListener!!.onItemClick(
+                        it,
+                        items.get(index = position),
+                        adapterPosition,
+                        "add"
+                    )
+                }
             }
-            if (items!!.filter { it.type != AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER }.size >= 9) {
+            if (items!!.filter { it.type != AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER }.size >= 5) {
                 add.setColorFilter(context!!.getColor(R.color.neutral_light_400))
             } else {
                 add.setColorFilter(context!!.getColor(R.color.primary))

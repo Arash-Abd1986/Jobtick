@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.Html
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -99,6 +100,8 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
     private lateinit var camera: ImageView
     private lateinit var gallery: ImageView
     private lateinit var document: ImageView
+    private lateinit var noActiveChat: RelativeLayout
+    private lateinit var noActiveChattxt: TextView
 
     private var mypopupWindow: PopupWindow? = null
     private var adapter: ChatAdapter? = null
@@ -294,19 +297,35 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             attachmentLayout.visibility = View.VISIBLE
             more.visibility = View.GONE
         }
+        edtCommentMessage.setOnFocusChangeListener{ _, b->
+            if(b) {
+                attachmentLayout.visibility = View.GONE
+                more.visibility = View.VISIBLE
+            }
+            else
+            {
+                attachmentLayout.visibility = View.VISIBLE
+                more.visibility = View.GONE
+            }
+        }
+
 
         edtCommentMessage.setOnClickListener{
             attachmentLayout.visibility = View.GONE
             more.visibility = View.VISIBLE
         }
 
-        edtCommentMessage.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                attachmentLayout.visibility = View.GONE
-                more.visibility = View.VISIBLE
-                return v?.onTouchEvent(event) ?: true
-            }
-        })
+        noActiveChat.setOnClickListener {
+            if(noActiveChattxt.text.contains("blocked"))
+                setUserBlockState(false)
+        }
+
+
+//        edtCommentMessage.setOnTouchListener { v, event ->
+//            attachmentLayout.visibility = View.GONE
+//            more.visibility = View.VISIBLE
+//            v?.onTouchEvent(event) ?: true
+//        }
 
         camera.setOnClickListener { view1: View? ->
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -385,7 +404,10 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             if (conversationModel!!.chatClosed != null &&
                     conversationModel!!.chatClosed) {
                 rltLayoutActionData.visibility = View.GONE
-                rltLayoutActionDataDeactive.visibility = View.VISIBLE
+                cvAction.visibility = View.GONE
+                noActiveChat.visibility = View.VISIBLE
+                noActiveChattxt.text = Html.fromHtml(getString(R.string.chat_close_state))
+                rltLayoutActionDataDeactive.visibility = View.GONE
             }
         }
         recyclerView.setHasFixedSize(true)
@@ -440,6 +462,8 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         gallery = findViewById(R.id.gallery)
         camera = findViewById(R.id.camera)
         document = findViewById(R.id.pdfDocument)
+        noActiveChat = findViewById(R.id.noActiveChat)
+        noActiveChattxt = findViewById(R.id.noActiveChattxt)
 
     }
 
@@ -448,13 +472,16 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         icSetting.setOnClickListener {
             mypopupWindow!!.showAsDropDown(icSetting, 0, Tools.px2dip(this, -20f))
         }
+
         btnUnblock.setOnClickListener { setUserBlockState(false) }
         if (conversationModel != null) {
             if (conversationModel!!.blocked_by != null) {
                 if (sessionManager.userAccount.id == conversationModel!!.blocked_by) {
                     btnUnblock.visibility = View.VISIBLE
                     cvAction.visibility = View.GONE
-                }
+                    noActiveChat.visibility = View.VISIBLE
+                   // noActiveChattxt.text = getString(R.string.chat_block_state)
+                    noActiveChattxt.text = Html.fromHtml(getString(R.string.chat_block_state))                }
             }
         }
     }
@@ -483,9 +510,18 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                     if (state) {
                         btnUnblock.visibility = View.VISIBLE
                         cvAction.visibility = View.GONE
+                        noActiveChat.visibility = View.VISIBLE
+                     //   noActiveChattxt.text = getString(R.string.chat_block_state)
+                        noActiveChattxt.text = Html.fromHtml(getString(R.string.chat_block_state))
+
+
                     } else {
                         btnUnblock.visibility = View.GONE
                         cvAction.visibility = View.VISIBLE
+                        noActiveChat.visibility = View.GONE
+
+
+                        // noActiveChattxt.text = getString(R.string.chat_block_state)
                     }
                     hideProgressDialog()
                 },

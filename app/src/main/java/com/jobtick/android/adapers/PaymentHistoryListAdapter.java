@@ -55,6 +55,13 @@ public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHisto
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.debitedTxt)
         TextView debitedTxt;
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.koloft)
+        View koloft;
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.nazok)
+        View nazok;
+
 
         public ViewHolder(View v) {
             super(v);
@@ -101,14 +108,22 @@ public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHisto
         if (position == 0) {
             holder.dateTxt.setText(TimeHelper.convertToJustDateFormat(temp.getCreatedAt()));
             holder.dateTxt.setVisibility(View.VISIBLE);
+            holder.koloft.setVisibility(View.GONE);
+            holder.nazok.setVisibility(View.GONE);
         } else {
             if (!TimeHelper.convertToJustDateFormat(items.get(position - 1).getCreatedAt()).equals(
                     TimeHelper.convertToJustDateFormat(temp.getCreatedAt()))) {
 
                 holder.dateTxt.setText(TimeHelper.convertToJustDateFormat(temp.getCreatedAt()));
                 holder.dateTxt.setVisibility(View.VISIBLE);
-            } else
+                holder.koloft.setVisibility(View.VISIBLE);
+                holder.nazok.setVisibility(View.GONE);
+            } else {
+                holder.koloft.setVisibility(View.GONE);
+                holder.nazok.setVisibility(View.VISIBLE);
                 holder.dateTxt.setVisibility(View.GONE);
+
+            }
         }
 
         holder.itemView.setOnClickListener(view -> onclick.onClick(temp));

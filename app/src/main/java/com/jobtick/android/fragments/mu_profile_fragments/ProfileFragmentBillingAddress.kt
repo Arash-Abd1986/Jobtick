@@ -193,11 +193,17 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
         binding.edittextStreetName.editText!!.setOnFocusChangeListener{view, b ->
             if(b)
                 binding.edittextStreetName.editText!!.hint = "e.g. Rose"
+            else
+                binding.edittextStreetName.editText!!.hint = ""
+
         }
 
         binding.edittextStreetNumber.editText!!.setOnFocusChangeListener{view, b ->
             if(b)
                 binding.edittextStreetNumber.editText!!.hint = "e.g. 11"
+            else
+                binding.edittextStreetNumber!!.hint = ""
+
         }
 
 

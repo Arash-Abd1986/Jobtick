@@ -97,8 +97,18 @@
                 android:paddingBottom="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/cardType"
+                    android:foregroundGravity="left"
+
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/visacard"
+                    android:layout_width="42dp"
+                    android:layout_height="14dp"/>
                 <com.google.android.material.textview.MaterialTextView
                     style="@style/materialText_400_12"
+                    android:id="@+id/accountNumberTitle"
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@+id/text_account_number"
                     android:layout_centerVertical="true"
@@ -129,6 +139,8 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/bsbParent"
+            android:visibility="visible"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:orientation="vertical"
@@ -464,6 +476,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
+                    android:id="@+id/serviceFeeTitle"
                     android:layout_toStartOf="@+id/text_service_fee"
                     android:layout_centerVertical="true"
                     android:layout_width="match_parent"
@@ -492,6 +505,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/gstParent"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:orientation="vertical"

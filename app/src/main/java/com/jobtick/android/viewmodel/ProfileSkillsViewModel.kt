@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
+import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
 import com.jobtick.android.adapers.SkillsSearchAdapter
 import com.jobtick.android.material.ui.landing.OnboardingActivity
@@ -83,41 +84,6 @@ class   ProfileSkillsViewModel: ViewModel() {
         })
     }
 
-//    fun getSkills(context: Context, inputs: MutableMap<String, String>) {
-//        sessionManager = SessionManager(context)
-//        (context as DashboardActivity).showProgressDialog()
-//        Helper.closeKeyboard(context)
-//
-//
-//        val call: Call<String?>? = ApiClient.getClientV1WithToken(sessionManager).getSkills(
-//            "XMLHttpRequest"
-//        )
-//
-//
-//        call!!.enqueue(object : Callback<String?> {
-//            override fun onResponse(call: Call<String?>, response: Response<String?>) {
-//                context.hideProgressDialog()
-//                try {
-//                    val jsonObject = JSONObject(response.toString())
-//                    val jsonObject_data = jsonObject.getJSONObject("data")
-//                    sessionManager!!.role =  jsonObject.getJSONObject("data").getString("role")
-//                    val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_data)
-//                    sessionManager!!.userAccount = userAccountModel
-//                    skillsArray.value = sessionManager!!.userAccount.skills.skills
-//
-//                } catch (e: JSONException) {
-//                    e.printStackTrace()
-//                }
-//            }
-//            override fun onFailure(call: Call<String?>, t: Throwable) {
-//                context.hideProgressDialog()
-//                context.showToast(t.toString(), context)
-//
-//                Timber.e(call.toString())
-//            }
-//        })
-//    }
-
     fun getSkills(context: Context) {
         sessionManager = SessionManager(context)
         (context as DashboardActivity).showProgressDialog()
@@ -172,10 +138,13 @@ class   ProfileSkillsViewModel: ViewModel() {
         )
         call!!.enqueue(object : Callback<String?> {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                context.showToast(context.getString(R.string.successfully_saved), context)
                 context.hideProgressDialog()
             }
             override fun onFailure(call: Call<String?>, t: Throwable) {
                 context.hideProgressDialog()
+                context.showToast(context.getString(R.string.server_went_wrong), context)
+
                 Timber.e(call.toString())
             }
         })

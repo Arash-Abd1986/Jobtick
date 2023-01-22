@@ -2,6 +2,7 @@ package com.jobtick.android.fragments.mu_profile_fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,8 +66,8 @@ class ProfileGetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListe
                         val bundle1 = requireArguments()
                         bundle = bundleOf(
                             "streetName" to bundle1.getString("streetName"),
-                            "streetNumber" to bundle1.getString("streetNumber")
-                        )
+                            "streetNumber" to bundle1.getString("streetNumber"),
+                            "suburbDefault" to bundle1.getString("suburbDefault"))
                         view?.findNavController()?.navigate(
                             R.id.action_navigation_profile_billing_address_get_location_to_navigation_profile_billing_address,
                             bundle
@@ -105,7 +106,8 @@ class ProfileGetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListe
                 val bundle1 = requireArguments()
                 bundle = bundleOf(
                     "streetName" to bundle1.getString("streetName"),
-                    "streetNumber" to bundle1.getString("streetNumber")
+                    "streetNumber" to bundle1.getString("streetNumber"),
+                    "suburbDefault" to bundle1.getString("suburbDefault")
                 )
                 view.findNavController().navigate(
                     R.id.action_navigation_profile_billing_address_get_location_to_navigation_profile_billing_address,
@@ -174,7 +176,9 @@ class ProfileGetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListe
         val bundle: Bundle
         val bundle1 = requireArguments()
         val gson = Gson()
-        bundle = bundleOf("suburb" to gson.toJson(location), "streetName" to bundle1.getString("streetName"), "streetNumber" to bundle1.getString("streetNumber"))
+        Log.d("asdasdasdasd", "suburb = "+ gson.toJson(location).toString() + " , "
+        + bundle1.getString("streetName") + " , " + bundle1.getString("streetNumber"))
+        bundle = bundleOf("suburb" to gson.toJson(location).toString(), "streetName" to bundle1.getString("streetName"), "streetNumber" to bundle1.getString("streetNumber"), "suburbDefault" to bundle1.getString("suburbDefault"))
         view?.findNavController()?.navigate(R.id.action_navigation_profile_billing_address_get_location_to_navigation_profile_billing_address, bundle)
 
     }

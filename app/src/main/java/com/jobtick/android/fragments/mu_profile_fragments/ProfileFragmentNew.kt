@@ -5,24 +5,19 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
-import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.provider.DocumentsContract
 import android.provider.MediaStore
-import android.provider.OpenableColumns
-import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -30,11 +25,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.checkSelfPermission
-import androidx.core.net.toFile
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import com.gun0912.tedpermission.PermissionListener
@@ -49,12 +47,11 @@ import com.jobtick.android.activities.UploadableImage
 import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.databinding.FragmentProfileNewBinding
 import com.jobtick.android.fragments.AttachmentBottomSheet
-import com.jobtick.android.fragments.ProfileFragment
+import com.jobtick.android.material.ui.landing.OnboardingActivity
 import com.jobtick.android.models.AttachmentModel
-import com.jobtick.android.models.AttachmentModelV2
+import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
-import com.yalantis.ucrop.UCrop
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -65,8 +62,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 import java.io.File
-import java.io.FileOutputStream
-import java.util.ArrayList
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -99,7 +94,8 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        if(sessionManager!!.userAccount == null)
+            sessionManager!!.userAccount = UserAccountModel()
         activity.toolbar!!.visibility = View.GONE
 
         if(sessionManager!!.roleLocal == "poster") {
@@ -129,13 +125,41 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
             }
         }
         try {
-            Glide.with(binding.imgAvatar).load(sessionManager!!.userAccount!!.avatar!!.url)
+            binding.avatarLoading.visibility = View.VISIBLE
+            Glide.with(binding.imgAvatar).load(sessionManager!!.userAccount!!.avatar!!.url).listener(
+                object : RequestListener<Drawable> {
+
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.avatarLoading.visibility = View.GONE
+
+                        binding.imgAvatar.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_person))
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.avatarLoading.visibility = View.GONE
+
+                        return false
+                    }
+                })
                 .into(binding.imgAvatar)
         }catch (e: Exception) {
+            binding.avatarLoading.visibility = View.GONE
             binding.imgAvatar.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_person))
         }
 
-        binding.imgAvatar.setOnClickListener { showDialog() }
+        binding.imgAvatarParent.setOnClickListener { showDialog() }
         uploadableImage = object : AbstractUploadableImageImpl(requireActivity()) {
             override fun onImageReady(imageFile: File) {
                 Glide.with(binding.imgAvatar).load(Uri.fromFile(imageFile)).into(binding.imgAvatar)
@@ -143,6 +167,7 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
         }
 
         if(sessionManager!!.accessToken != null) {
+            binding.imgAvatarParent.isEnabled = true
             binding.fullName.text = sessionManager!!.userAccount!!.name
             binding.noligonParent.visibility = View.GONE
             binding.isloginParent.visibility = View.VISIBLE
@@ -150,6 +175,7 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
 
         }
         else {
+            binding.imgAvatarParent.isEnabled = false
             binding.fullName.text = "Guest"
             binding.noligonParent.visibility = View.VISIBLE
             binding.isloginParent.visibility = View.GONE
@@ -184,11 +210,19 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
 
                     }
             activity.resetBottomBar()
+            activity.setBottomnav()
 
         }
 
-        binding.loginParent.setOnClickListener {
+        binding.joinJobtick.setOnClickListener {
             activity.unauthorizedUser()
+        }
+
+        binding.loginParent.setOnClickListener {
+            val main = Intent(activity, OnboardingActivity::class.java)
+            main.putExtra("signin", "sss")
+            startActivity(main)
+            //activity.unauthorizedUser()
         }
 
         binding.payments.setOnClickListener {
@@ -276,24 +310,10 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
             true
         }
     }
-//    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        Log.d("onactivity", "asd")
-//        uploadableImage!!.onActivityResult(requestCode, resultCode, data)
-//    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Log.d("imagepath11: ", resultCode.toString() + ", " + requestCode + ", " + data.toString())
         if (requestCode == AttachmentBottomSheet.GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
-//            val filePath = data!!.data
-//           // val onCropImage: OnCropImage = OnUCropImageImpl(activity)
-//            val bitmap = MediaStore.Images.Media.getBitmap(activity.contentResolver, filePath)
-//            if (filePath != null) {
-//                uploadProfileAvatar(filePath.toFile())
-//            }
-//          //  binding.imgAvatar.setImageBitmap(bitmap)
-////            if (filePath != null) {
-////                crop(filePath, false, activity)
-////            }
 
             val filePath = data!!.data
             //val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, filePath)
@@ -329,346 +349,7 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
            // crop(imageUri, false, activity)
         }
     }
-//     fun crop(uri: Uri, isCircle: Boolean, activity: Activity) {
-//         val uriPathHelper = UriPathHelper(activity)
-//        val imageCachePath = uriPathHelper.getCachePath(uri)
-//        val cacheCopyUri = Uri.fromFile(File(imageCachePath))
-//        val cacheCopyFile = File(imageCachePath)
-//        val destinationUri = Uri.fromFile(File(activity.cacheDir, "crop_" + cacheCopyFile.name))
-//        val options = UCrop.Options()
-//        options.setCompressionFormat(Bitmap.CompressFormat.JPEG)
-//        options.setCircleDimmedLayer(isCircle)
-//        options.setActiveControlsWidgetColor(activity.getColor(R.color.colorPrimary))
-//        options.setStatusBarColor(activity.getColor(R.color.backgroundLightGrey))
-//        options.setToolbarColor(activity.getColor(R.color.backgroundLightGrey))
-//        options.setDimmedLayerColor(activity.getColor(R.color.backgroundLightGrey))
-//        options.setRootViewBackgroundColor(activity.getColor(R.color.backgroundLightGrey))
-//        if (isCircle) {
-//            options.setCropFrameColor(activity.getColor(R.color.transparent))
-//            options.setCropGridColor(activity.getColor(R.color.transparent))
-//            UCrop.of(cacheCopyUri, destinationUri)
-//                .withOptions(options)
-//                .start(activity)
-//        } else {
-//            options.setCropFrameColor(activity.getColor(R.color.N070))
-//            options.setCropGridColor(activity.getColor(R.color.N050))
-//            UCrop.of(cacheCopyUri, destinationUri)
-//                .withOptions(options)
-//                .start(activity, this)
-//        }
-//    }
 
-//    private inner class UriPathHelper(val context: Context) {
-//        private var contentUri: Uri? = null
-//
-//        @SuppressLint("NewApi")
-//        fun getCachePath(uri: Uri): String? {
-//            // check here to KITKAT or new version
-//            val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-//            var selection: String? = null
-//            var selectionArgs: Array<String>? = null
-//            // DocumentProvider
-//            if (isKitKat) {
-//                // ExternalStorageProvider
-//                if (isExternalStorageDocument(uri)) {
-//                    val docId = DocumentsContract.getDocumentId(uri)
-//                    val split = docId.split(":".toRegex()).toTypedArray()
-//                    val type = split[0]
-//                    val fullPath = getPathFromExtSD(split)
-//                    return if (fullPath != "") {
-//                        fullPath
-//                    } else {
-//                        null
-//                    }
-//                }
-//
-//
-//                // DownloadsProvider
-//                if (isDownloadsDocument(uri)) {
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                        val id: String
-//                        context.contentResolver.query(uri, arrayOf(MediaStore.MediaColumns.DISPLAY_NAME), null, null, null).use { cursor ->
-//                            if (cursor != null && cursor.moveToFirst()) {
-//                                val fileName = cursor.getString(0)
-//                                val path = Environment.getExternalStorageDirectory().toString() + "/Download/" + fileName
-//                                if (!TextUtils.isEmpty(path)) {
-//                                    return path
-//                                }
-//                            }
-//                        }
-//                        id = DocumentsContract.getDocumentId(uri)
-//                        if (!TextUtils.isEmpty(id)) {
-//                            if (id.startsWith("raw:")) {
-//                                return id.replaceFirst("raw:".toRegex(), "")
-//                            }
-//                            val contentUriPrefixesToTry = arrayOf(
-//                                "content://downloads/public_downloads",
-//                                "content://downloads/my_downloads"
-//                            )
-//                            for (contentUriPrefix in contentUriPrefixesToTry) {
-//                                return try {
-//                                    val contentUri = ContentUris.withAppendedId(Uri.parse(contentUriPrefix), java.lang.Long.valueOf(id))
-//                                    getDataColumn(context, contentUri, null, null)
-//                                } catch (e: NumberFormatException) {
-//                                    //In Android 8 and Android P the id is not a number
-//                                    uri.path!!.replaceFirst("^/document/raw:".toRegex(), "").replaceFirst("^raw:".toRegex(), "")
-//                                }
-//                            }
-//                        }
-//                    } else {
-//                        val id = DocumentsContract.getDocumentId(uri)
-//                        if (id.startsWith("raw:")) {
-//                            return id.replaceFirst("raw:".toRegex(), "")
-//                        }
-//                        try {
-//                            contentUri = ContentUris.withAppendedId(
-//                                Uri.parse("content://downloads/public_downloads"), id.toLong())
-//                        } catch (e: NumberFormatException) {
-//                            e.printStackTrace()
-//                        }
-//                        if (contentUri != null) {
-//                            return getDataColumn(context, contentUri, null, null)
-//                        }
-//                    }
-//                }
-//
-//
-//                // MediaProvider
-//                if (isMediaDocument(uri)) {
-//                    val docId = DocumentsContract.getDocumentId(uri)
-//                    val split = docId.split(":".toRegex()).toTypedArray()
-//                    val type = split[0]
-//                    var contentUri: Uri? = null
-//                    if ("image" == type) {
-//                        contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-//                    } else if ("video" == type) {
-//                        contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-//                    } else if ("audio" == type) {
-//                        contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-//                    }
-//                    selection = "_id=?"
-//                    selectionArgs = arrayOf(split[1])
-//                    return getDataColumn(context, contentUri, selection,
-//                        selectionArgs)
-//                }
-//                if (isGoogleDriveUri(uri)) {
-//                    return getDriveFilePath(uri)
-//                }
-//                if (isWhatsAppFile(uri)) {
-//                    return getFilePathForWhatsApp(uri)
-//                }
-//                if ("content".equals(uri.scheme, ignoreCase = true)) {
-//                    if (isGooglePhotosUri(uri)) {
-//                        return uri.lastPathSegment
-//                    }
-//                    if (isGoogleDriveUri(uri)) {
-//                        return getDriveFilePath(uri)
-//                    }
-//                    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//
-//                        // return getFilePathFromURI(context,uri);
-//                        copyFileToInternalStorage(uri, "userfiles")
-//                        // return getRealPathFromURI(context,uri);
-//                    } else {
-//                        getDataColumn(context, uri, null, null)
-//                    }
-//                }
-//                if ("file".equals(uri.scheme, ignoreCase = true)) {
-//                    return uri.path
-//                }
-//            } else {
-//                if (isWhatsAppFile(uri)) {
-//                    return getFilePathForWhatsApp(uri)
-//                }
-//                if ("content".equals(uri.scheme, ignoreCase = true)) {
-//                    val projection = arrayOf(
-//                        MediaStore.Images.Media.DATA
-//                    )
-//                    var cursor: Cursor? = null
-//                    try {
-//                        cursor = context.contentResolver
-//                            .query(uri, projection, selection, selectionArgs, null)
-//                        val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-//                        if (cursor.moveToFirst()) {
-//                            return cursor.getString(column_index)
-//                        }
-//                    } catch (e: Exception) {
-//                        e.printStackTrace()
-//                    }
-//                }
-//            }
-//            return null
-//        }
-//
-//        private fun fileExists(filePath: String): Boolean {
-//            val file = File(filePath)
-//            return file.exists()
-//        }
-//
-//        private fun getPathFromExtSD(pathData: Array<String>): String {
-//            val type = pathData[0]
-//            val relativePath = "/" + pathData[1]
-//            var fullPath = ""
-//
-//            // on my Sony devices (4.4.4 & 5.1.1), `type` is a dynamic string
-//            // something like "71F8-2C0A", some kind of unique id per storage
-//            // don't know any API that can get the root path of that storage based on its id.
-//            //
-//            // so no "primary" type, but let the check here for other devices
-//            if ("primary".equals(type, ignoreCase = true)) {
-//                fullPath = Environment.getExternalStorageDirectory().toString() + relativePath
-//                if (fileExists(fullPath)) {
-//                    return fullPath
-//                }
-//            }
-//
-//            // Environment.isExternalStorageRemovable() is `true` for external and internal storage
-//            // so we cannot relay on it.
-//            //
-//            // instead, for each possible path, check if file exists
-//            // we'll start with secondary storage as this could be our (physically) removable sd card
-//            fullPath = System.getenv("SECONDARY_STORAGE") + relativePath
-//            if (fileExists(fullPath)) {
-//                return fullPath
-//            }
-//            fullPath = System.getenv("EXTERNAL_STORAGE") + relativePath
-//            return if (fileExists(fullPath)) {
-//                fullPath
-//            } else fullPath
-//        }
-//
-//        private fun getDriveFilePath(uri: Uri): String {
-//            val returnCursor = context.contentResolver.query(uri, null, null, null, null)
-//            /*
-//             * Get the column indexes of the data in the Cursor,
-//             *     * move to the first row in the Cursor, get the data,
-//             *     * and display it.
-//             * */
-//            val nameIndex = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-//            val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
-//            returnCursor.moveToFirst()
-//            val name = returnCursor.getString(nameIndex)
-//            val size = java.lang.Long.toString(returnCursor.getLong(sizeIndex))
-//            val file = File(context.cacheDir, name)
-//            try {
-//                val inputStream = context.contentResolver.openInputStream(uri)
-//                val outputStream = FileOutputStream(file)
-//                var read = 0
-//                val maxBufferSize = 1 * 1024 * 1024
-//                val bytesAvailable = inputStream!!.available()
-//
-//                //int bufferSize = 1024;
-//                val bufferSize = Math.min(bytesAvailable, maxBufferSize)
-//                val buffers = ByteArray(bufferSize)
-//                while (inputStream.read(buffers).also { read = it } != -1) {
-//                    outputStream.write(buffers, 0, read)
-//                }
-//                Timber.e("Size %s", file.length())
-//                inputStream.close()
-//                outputStream.close()
-//                Timber.e("Path %s", file.path)
-//                Timber.e("Size %s", file.length())
-//            } catch (e: Exception) {
-//                Timber.e(e)
-//            }
-//            return file.path
-//        }
-//
-//        /***
-//         * Used for Android Q+
-//         * @param uri
-//         * @param newDirName if you want to create a directory, you can set this variable
-//         * @return
-//         */
-//        fun copyFileToInternalStorage(uri: Uri, newDirName: String): String {
-//            val returnCursor = context.contentResolver.query(uri, arrayOf(
-//                OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE
-//            ), null, null, null)
-//
-//
-//            /*
-//             * Get the column indexes of the data in the Cursor,
-//             *     * move to the first row in the Cursor, get the data,
-//             *     * and display it.
-//             * */
-//            val nameIndex = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-//            val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
-//            returnCursor.moveToFirst()
-//            val name = returnCursor.getString(nameIndex)
-//            val size = java.lang.Long.toString(returnCursor.getLong(sizeIndex))
-//            val output: File
-//            output = if (newDirName != "") {
-//                val dir = File(context.cacheDir.toString() + "/" + newDirName)
-//                if (!dir.exists()) {
-//                    dir.mkdir()
-//                }
-//                File(context.cacheDir.toString() + "/" + newDirName + "/" + name)
-//            } else {
-//                File(context.cacheDir.toString() + "/" + name)
-//            }
-//            try {
-//                val inputStream = context.contentResolver.openInputStream(uri)
-//                val outputStream = FileOutputStream(output)
-//                var read = 0
-//                val bufferSize = 1024
-//                val buffers = ByteArray(bufferSize)
-//                while (inputStream!!.read(buffers).also { read = it } != -1) {
-//                    outputStream.write(buffers, 0, read)
-//                }
-//                inputStream.close()
-//                outputStream.close()
-//            } catch (e: Exception) {
-//                Timber.e(e)
-//            }
-//            return output.path
-//        }
-//
-//        private fun getFilePathForWhatsApp(uri: Uri): String {
-//            return copyFileToInternalStorage(uri, "whatsapp")
-//        }
-//
-//        private fun getDataColumn(context: Context, uri: Uri?, selection: String?, selectionArgs: Array<String>?): String? {
-//            var cursor: Cursor? = null
-//            val column = "_data"
-//            val projection = arrayOf(column)
-//            try {
-//                cursor = context.contentResolver.query(uri!!, projection,
-//                    selection, selectionArgs, null)
-//                if (cursor != null && cursor.moveToFirst()) {
-//                    val index = cursor.getColumnIndexOrThrow(column)
-//                    return cursor.getString(index)
-//                }
-//            } finally {
-//                cursor?.close()
-//            }
-//            return null
-//        }
-//
-//        private fun isExternalStorageDocument(uri: Uri): Boolean {
-//            return "com.android.externalstorage.documents" == uri.authority
-//        }
-//
-//        private fun isDownloadsDocument(uri: Uri): Boolean {
-//            return "com.android.providers.downloads.documents" == uri.authority
-//        }
-//
-//        private fun isMediaDocument(uri: Uri): Boolean {
-//            return "com.android.providers.media.documents" == uri.authority
-//        }
-//
-//        private fun isGooglePhotosUri(uri: Uri): Boolean {
-//            return "com.google.android.apps.photos.content" == uri.authority
-//        }
-//
-//        private fun isWhatsAppFile(uri: Uri): Boolean {
-//            return "com.whatsapp.provider.media" == uri.authority
-//        }
-//
-//        private fun isGoogleDriveUri(uri: Uri): Boolean {
-//            return "com.google.android.apps.docs.storage" == uri.authority || "com.google.android.apps.docs.storage.legacy" == uri.authority
-//        }
-//
-//    }
 
     private fun uploadProfileAvatar(pictureFile: File) {
         activity.showProgressDialog()

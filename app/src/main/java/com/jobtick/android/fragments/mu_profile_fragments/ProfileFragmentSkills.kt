@@ -78,13 +78,8 @@ class ProfileFragmentSkills : Fragment() {
         binding.header.txtAction.setOnClickListener {
             for(i in 0 until skillList.size) {
                 inputs.getOrPut("skills[]", ::mutableListOf).add(skillList[i])
-                Log.d("hereinskill", "skilllist size: " + skillList.size + ", " + inputs["skills[]"])
 
             }
-//            if(inputs.isEmpty())
-//                inputs["skills[]"] = ""
-            Log.d("hereinskill", "skilllist size: " + skillList.size + ", " + inputs.size)
-
             viewModel.addSkill(activity, inputs)
         }
 

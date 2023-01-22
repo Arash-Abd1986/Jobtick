@@ -27,15 +27,15 @@
             app:tint="@color/neutral_light_500" />
 
         <com.google.android.material.textfield.TextInputEditText
+            android:textSize="16dp"
             android:id="@+id/location"
-            style="@style/body2"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:background="@drawable/bg_round_search"
             android:drawableStart="@drawable/ic_search_v5"
-            android:drawablePadding="4dp"
+            android:drawablePadding="5dp"
             android:paddingHorizontal="16dp"
             android:hint="Enter your suburb or postcode"
             android:textColor="@color/neutral_light_800" />

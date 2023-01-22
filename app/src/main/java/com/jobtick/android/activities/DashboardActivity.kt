@@ -1,5 +1,6 @@
 package com.jobtick.android.activities
 
+import android.R.menu
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -15,7 +16,6 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.drawable.DrawableCompat
@@ -32,6 +32,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
@@ -78,6 +79,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     var navController: NavController? = null
     var navHostFragment: NavHostFragment? = null
     private var navigationID = -1
+    private lateinit var bottomNav: BottomNavigationView
 
     @SuppressLint("NonConstantResourceId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -125,6 +127,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         navI4 = findViewById(R.id.nav_i4)
         navI5 = findViewById(R.id.nav_i5)
         smallPlus = findViewById(R.id.small_plus)
+        bottomNav = findViewById(R.id.bottom_nav)
         setHeaderLayout()
         drawerLayout = findViewById(R.id.drawer_layout)
 
@@ -151,6 +154,9 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         })
         navController!!.graph = navGraph
         NavigationUI.setupWithNavController(toolbar!!, navController!!, appBarConfiguration!!)
+
+        //new design for bottomnav -> TODO remove old bottomnav
+        setBottomnav()
     }
 
     private fun handleBundle() {
@@ -247,24 +253,25 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
             }
         }
         search!!.setOnClickListener {
-            if (sessionManager?.accessToken != null) {
+            //TODO visible unathorizeduser
+          //  if (sessionManager?.accessToken != null) {
                 navController!!.navigate(R.id.navigation_my_tasks)
                 linFilter!!.visibility = View.VISIBLE
                 linSignIN!!.visibility = View.GONE
-            } else {
-                unauthorizedUser()
-            }
+//            } else {
+//              //  unauthorizedUser()
+//            }
 
         }
         chat!!.setOnClickListener {
-            if (sessionManager?.accessToken != null) {
+          //  if (sessionManager?.accessToken != null) {
                 linFilterExplore!!.visibility = View.GONE
                 linFilter!!.visibility = View.GONE
                 linSignIN!!.visibility = View.GONE
                 navController!!.navigate(R.id.navigation_inbox)
-            } else {
-                unauthorizedUser()
-            }
+//            } else {
+//            //    unauthorizedUser()
+//            }
 
         }
         profile!!.setOnClickListener {
@@ -284,7 +291,7 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
                     val settings = Intent(this@DashboardActivity, SettingActivity::class.java)
                     startActivity(settings)
                 } else {
-                    unauthorizedUser()
+                 //   unauthorizedUser()
                 }
             }
         }
@@ -752,5 +759,51 @@ Team ${resources.getString(R.string.app_name)}"""
     companion object {
         @JvmField
         var onProfileupdatelistenerSideMenu: onProfileUpdateListener? = null
+    }
+
+     fun setBottomnav() {
+         bottomNav.itemIconTintList = null
+
+         if (sessionManager!!.roleLocal == "poster") {
+            bottomNav.menu.findItem(R.id.navigation_new_task).isVisible = false
+            bottomNav.menu.findItem(R.id.navigation_my_tasks).title = getString(R.string.title_inventory)
+        }
+        else {
+            bottomNav.menu.findItem(R.id.navigation_new_task).isVisible = true
+            bottomNav.menu.findItem(R.id.navigation_my_tasks).title = getString(R.string.title_workspace)
+        }
+
+        bottomNav.setOnItemSelectedListener { item ->
+
+            when(item.itemId) {
+                R.id.navigation_new_task -> {
+                    if (sessionManager!!.roleLocal == "poster") {
+                        navController!!.navigate(R.id.navigation_new_task)
+                    } else {
+                        navController!!.navigate(R.id.navigation_browse)
+                        accountDetails
+                    }
+
+                    true
+                }
+                R.id.navigation_my_tasks -> {
+                    navController!!.navigate(R.id.navigation_my_tasks)
+                    true
+                }
+                R.id.navigation_browse -> {
+                    navController!!.navigate(R.id.navigation_inbox)
+
+                    true
+                }
+                R.id.navigation_profile -> {
+                    navController!!.navigate(R.id.navigation_profile)
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+
     }
 }

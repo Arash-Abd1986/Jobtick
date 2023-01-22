@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -60,12 +60,15 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
+            android:id="@+id/img_avatar_parent"
             android:layout_gravity="center"
             android:layout_marginTop="36dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-        <com.mikhaellopez.circularimageview.CircularImageView
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:id="@+id/img_avatar"
             android:layout_width="80dp"
@@ -74,6 +77,35 @@
 
             android:src="@drawable/new_design_person"
             app:civ_circle_color="#F5F5F5"/>
+            <ProgressBar
+                android:id="@+id/avatarLoading"
+                android:layout_centerInParent="true"
+                android:indeterminateDuration="999"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@drawable/progressbar_drawable"
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
+
+            <RelativeLayout
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/img_avatar"
+                android:layout_marginStart="57dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/img2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:background="@color/black"
+                    app:contentPadding="6dp"
+                    app:contentPaddingStart="7dp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                    app:srcCompat="@drawable/new_design_add_photo_white" />
+            </RelativeLayout>
+
         </RelativeLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -147,6 +179,7 @@
                 android:layout_height="wrap_content">
 
                 <RelativeLayout
+                    android:id="@+id/joinJobtick"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:layout_width="match_parent"

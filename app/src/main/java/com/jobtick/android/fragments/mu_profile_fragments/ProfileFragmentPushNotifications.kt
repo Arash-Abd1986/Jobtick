@@ -53,7 +53,7 @@ class ProfileFragmentPushNotifications : Fragment() {
         if(requireArguments().getString("type")?.isNotEmpty() == true)
             requireArguments().getString("type")?.let {
                 SetToolbar(activity,
-                    it, "save", R.id.navigation_profile, binding.header, view)
+                    it, "Save", R.id.navigation_profile, binding.header, view)
             }
 
         viewModel = ViewModelProvider(this)[ProfileNotificationsViewModel::class.java]
@@ -64,6 +64,8 @@ class ProfileFragmentPushNotifications : Fragment() {
             "SMS Notifications" -> type = "sms"
         }
 
+        binding.transactions.isClickable = false
+
         viewModel.getNotificationSettings(activity, type)
 
         viewModel.jsonobject.observe(viewLifecycleOwner) {
@@ -71,7 +73,8 @@ class ProfileFragmentPushNotifications : Fragment() {
 
             binding.updateRecommendations.isChecked = viewModel.jsonobject.value?.getString("jobupdates") == "1"
 
-            binding.transactions.isChecked = viewModel.jsonobject.value?.getString("transactional") == "1"
+
+           // binding.transactions.isChecked = viewModel.jsonobject.value?.getString("transactional") == "1"
         }
 
         binding.header.back.setOnClickListener {
@@ -82,7 +85,7 @@ class ProfileFragmentPushNotifications : Fragment() {
             if(binding.transactions.isChecked)
                 input["transactional"] = "1"
             else
-                input["transactional"] = "0"
+                input["transactional"] = "1"
 
             if(binding.updateRecommendations.isChecked)
                 input["recommendations"] = "1"

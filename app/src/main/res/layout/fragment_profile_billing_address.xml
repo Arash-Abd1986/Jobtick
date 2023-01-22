@@ -106,26 +106,31 @@
                     android:id="@+id/txt_name_value"
                     style="@style/materialText_400_12"
                     android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/text_suburb"
                     android:layout_centerVertical="true"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
                     android:text="Suburb" />
                 <com.google.android.material.textview.MaterialTextView
+                    android:gravity="end"
                     android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
                     android:id="@+id/text_suburb"
                     style="@style/materialText_400_12"
                     android:layout_toStartOf="@+id/bankaccount_arrow"
+
+ android:layout_toEndOf="@+id/txt_name_value"
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
+                    android:ellipsize="end"
                     android:textSize="@dimen/profile_acounts_header"
+                    android:padding="5dp"
                     android:textColor="@color/neutral_light_500"
-                    android:text="choose suburb" />
+                    android:text="@string/choosesuburb" />
 
                 <ImageView
                     android:src="@drawable/new_design_chevron_right"

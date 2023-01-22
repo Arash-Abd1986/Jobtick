@@ -127,8 +127,8 @@ dependencies {
     implementation 'com.android.installreferrer:installreferrer:2.2'
     implementation 'com.segment.analytics.android:analytics:4.9.0-beta.1'
 
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'            // image loader
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'            // image loader
     implementation 'io.github.memfis19:annca:0.3.7'
 
     // Make HTTP Calls

@@ -1,5 +1,6 @@
 package com.jobtick.android.fragments.mu_profile_fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -66,6 +67,7 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         SetToolbar(activity, "Biiling Address", "Save", R.id.navigation_profile, binding.header, view)
@@ -75,73 +77,25 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                 val gson = Gson()
                 feature = gson.fromJson(requireArguments().getString("suburb"), Feature::class.java)
                 activity.hideKeyboard()
-                Log.d("clicksuburb", feature.toString())
-                binding.textSuburb.text = feature?.place_name_en
-                feature = feature
-                when (feature?.context?.get(1)?.text) {
-                    "New South Wales" ->
-                        binding.stateImage.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                activity,
-                                R.drawable.australia_map__states_new_south_wales
-                            )
-                        )
-                    "Queensland" ->
-                        binding.stateImage.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                activity,
-                                R.drawable.australia_map__states_queensland
-                            )
-                        )
-                    "Victoria" ->
-                        binding.stateImage.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                activity,
-                                R.drawable.australia_map__states_victoria
-                            )
-                        )
-                    "Canberra" ->
-                        binding.stateImage.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                activity,
-                                R.drawable.australia_map__states_canberra
-                            )
-                        )
-                    "Western Australia" ->
-                        binding.stateImage.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                activity,
-                                R.drawable.australia_map__states_western_australia
-                            )
-                        )
-                    "VictNorthern Territoryoria" ->
-                        binding.stateImage.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                activity,
-                                R.drawable.australia_map__states_northern_territory
-                            )
-                        )
-                    "Tasmania" ->
-                        binding.stateImage.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                activity,
-                                R.drawable.australia_map__states_tasmania
-                            )
-                        )
-                    "South Australia" ->
-                        binding.stateImage.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                activity,
-                                R.drawable.australia_map__states_south_australia
-                            )
-                        )
+                Log.d("asdasdasdasd", feature?.place_name_en.toString())
+                Log.d("asdasdasdasd", feature?.text.toString())
+                binding.textSuburb.text = feature?.place_name_en.toString()
+                val state: String = try {
+                    feature?.text.toString()
+                }catch (e: Exception) {
+                    ""
                 }
+                getStateOnMap(state)
             }
         }catch (e: Exception) {
+            try {
+                binding.textSuburb.text = requireArguments().getString("suburbDefault")
+            }catch (e: Exception) {
+                Log.d("asdasdasdasd", e.toString())
+            }
         }
 
         try {
-
             binding.edittextStreetNumber.editText!!.setText(requireArguments().getString("streetNumber").toString())
             binding.edittextStreetName.editText!!.setText(requireArguments().getString("streetName").toString())
 
@@ -168,29 +122,34 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
 
         binding.header.txtAction.setOnClickListener {
             activity.hideKeyboard()
-        if(checkValidation())
-                activity.showProgressDialog()
-            (addBillingAddress as AddBillingAddressImpl).add(binding.edittextStreetNumber.editText?.text?.trim().toString(),
-            binding.edittextStreetName.editText?.text?.trim().toString(),
-                feature?.context?.get(0)?.text.toString(),
-                feature?.context?.get(1)?.text.toString(),
+        if(checkValidation()) {
+            activity.showProgressDialog()
+            (addBillingAddress as AddBillingAddressImpl).add(
+                binding.edittextStreetNumber.editText?.text?.trim().toString(),
+                binding.edittextStreetName.editText?.text?.trim().toString(),
+                binding.textSuburb.text.split(",").get(2),
+                binding.textSuburb.text.split(",").get(1),
+               // feature?.context?.get(0)?.text.toString(),
+                //feature?.context?.get(1)?.text.toString(),
                 //TODO postal code
-                "1234"
-            , "AU")
+                binding.textSuburb.text.split(",")[0],
+                "AU"
+            )
+        }
         }
 
         binding.suburb.setOnClickListener {
            // val infoBottomSheet = SearchSuburbBottomSheet(this)
             //infoBottomSheet.show(childFragmentManager, null)
             val bundle: Bundle = bundleOf("streetNumber" to binding.edittextStreetNumber.editText!!.text.toString(),
-            "streetName" to binding.edittextStreetName.editText!!.text.toString())
+            "streetName" to binding.edittextStreetName.editText!!.text.toString(), "suburbDefault" to binding.textSuburb.text.toString())
             view.findNavController().navigate(R.id.action_navigation_profile_billing_address_to_navigation_profile_billing_address_get_location, bundle)
         }
         binding.header.back.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_billing_address_to_navigation_profile_payments)
         }
 
-        binding.edittextStreetName.editText!!.setOnFocusChangeListener{view, b ->
+        binding.edittextStreetName.editText!!.setOnFocusChangeListener{ _, b ->
             if(b)
                 binding.edittextStreetName.editText!!.hint = "e.g. Rose"
             else
@@ -198,11 +157,11 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
 
         }
 
-        binding.edittextStreetNumber.editText!!.setOnFocusChangeListener{view, b ->
+        binding.edittextStreetNumber.editText!!.setOnFocusChangeListener{ _, b ->
             if(b)
                 binding.edittextStreetNumber.editText!!.hint = "e.g. 11"
             else
-                binding.edittextStreetNumber!!.hint = ""
+                binding.edittextStreetNumber.hint = ""
 
         }
 
@@ -231,7 +190,7 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
 
     override fun clickOnSearchedLoc(location: Feature) {
         activity.hideKeyboard()
-        Log.d("clicksuburb", location.toString())
+        Log.d("clicksuburb", location.toString()+"333")
         binding.textSuburb.text = location.place_name_en
         feature = location
         getStateOnMap(location.context?.get(1)?.text.toString())
@@ -255,13 +214,19 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                         val jsonObject2 = jsonObject.getJSONObject("data")
                         binding.edittextStreetNumber.editText?.setText(jsonObject2.getString("line1"))
                         binding.edittextStreetName.editText?.setText(jsonObject2.getString("line2"))
+                        binding.textSuburb.text = jsonObject2.getString("post_code") + ", " +
+                        jsonObject2.getString("city") + ", " + jsonObject2.getString("state")
                         getStateOnMap(jsonObject2.getString("state"))
                         if(jsonObject.has("message"))
                             context.showSuccessToast(jsonObject.getString("message"), context)
                             } else
                                 activity.showToast("no data", activity)
+                        binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_australia_map__states_empty))
+                        binding.textSuburb.text = getString(R.string.choosesuburb)
 
                     } else {
+                        binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_australia_map__states_empty))
+                        binding.textSuburb.text = getString(R.string.choosesuburb)
                         val jObjError = JSONObject(
                             response.errorBody()!!.string()
                         )
@@ -272,11 +237,14 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
                     context.showToast("Something Went Wrong", context)
+                    binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_australia_map__states_empty))
+                    binding.textSuburb.text = getString(R.string.choosesuburb)
 
                 }
             }
             override fun onFailure(call: Call<String?>, t: Throwable) {
-                Log.d("onresponse1", t.toString())
+                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_australia_map__states_empty))
+                binding.textSuburb.text = getString(R.string.choosesuburb)
 
                 context.showToast(t.toString(), context)
                 context.hideProgressDialog()
@@ -296,7 +264,7 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                 return false
             }
 
-            feature == null -> {
+            binding.textSuburb.text.equals("Choose suburb") -> {
                 activity.showToast("Please Choose Suburb!", activity)
                 return false
             }
@@ -322,7 +290,9 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                 binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_tasmania))
             "South Australia" ->
                 binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_south_australia))
-
+            else -> {
+                binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_australia_map__states_empty))
+            }
         }
 
     }

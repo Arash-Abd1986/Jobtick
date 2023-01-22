@@ -12,21 +12,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:gravity="center_vertical"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/transactions"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:checked="true" />
                 <LinearLayout
                     android:layout_toStartOf="@+id/transactions"
@@ -70,8 +73,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
@@ -89,7 +92,7 @@
                     android:id="@+id/jobAlerts"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:checked="true" />
             </RelativeLayout>
             <View
@@ -97,8 +100,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <RelativeLayout
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textview.MaterialTextView
@@ -117,7 +120,7 @@
                     android:id="@+id/updateRecommendations"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:checked="true" />
             </RelativeLayout>
 

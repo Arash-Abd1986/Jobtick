@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="28dp"
+    android:layout_marginTop="24dp"
+    android:layout_marginEnd="28dp"
+    android:layout_marginBottom="24dp"
+    android:elevation="16dp"
+    app:cardCornerRadius="5dp"
+    app:contentPaddingBottom="24dp"
+    app:contentPaddingLeft="24dp"
+    app:contentPaddingRight="24dp"
+    app:contentPaddingTop="24dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:textSize="20dp"
+                android:textColor="@color/light_neutral_n900"
+                android:id="@+id/mainTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Discard Changes" />
+
+            <ProgressBar
+                android:indeterminateDuration="999"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@drawable/progressbar_drawable"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:textSize="14dp"
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Please wait..."
+                android:textColor="@color/neutral_light_600" />
+
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>

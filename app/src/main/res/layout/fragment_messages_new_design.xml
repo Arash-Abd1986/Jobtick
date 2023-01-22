@@ -24,14 +24,14 @@
             android:layout_height="wrap_content"/>
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_title"
-            style="@style/materialText_400_12"
             android:layout_toEndOf="@+id/back"
             android:layout_toStartOf="@+id/txt_action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:textSize="28dp"
-            android:layout_marginTop="48dp"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginTop="59dp"
             android:layout_marginStart="16dp"
             android:textColor="@color/neutral_light_800"
             android:text="Messaging" />
@@ -54,6 +54,7 @@
     </RelativeLayout>
 
     <com.google.android.material.tabs.TabLayout
+        app:tabRippleColor="@color/neutral_light_50"
             android:background="@color/white"
             app:tabTextColor="@color/neutral_light_500"
             app:tabSelectedTextColor="@color/secondary_s400"

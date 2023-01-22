@@ -65,6 +65,7 @@ public class ApiClient {
         }
         return retrofit2.create(ApiInterface.class);
     }
+
     public static ApiInterface getClientV1WithToken(SessionManager sessionManager) {
 
         if (retrofitWithoutToken == null) {

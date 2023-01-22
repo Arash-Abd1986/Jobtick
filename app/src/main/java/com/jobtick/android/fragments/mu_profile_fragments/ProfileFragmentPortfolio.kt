@@ -153,14 +153,13 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
 
         try {
             if (!requireArguments().getString("json").isNullOrEmpty()) {
+                binding.shareInProParent.visibility = View.VISIBLE
                 binding.deleteTxt.visibility = View.VISIBLE
                 binding.header.txtTitle.text = "Edit Portfolio"
                 val jsonObject = JSONObject(requireArguments().getString("json").toString())
                 binding.isShare.isChecked = jsonObject.getString("share_in") == "1"
                 binding.edittextFirstnameValue.setText(jsonObject.getString("title").toString())
                 binding.about.editText?.setText(jsonObject.getString("description").toString())
-
-
 
                 portfolioID = jsonObject.getString("id")
                 val jsonArray = jsonObject.getJSONArray("img")
@@ -179,11 +178,12 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
                     attachmentArrayList[i+1] = attachment
                 }
             }
-            else
+            else {
+                binding.shareInProParent.visibility = View.GONE
                 binding.deleteTxt.visibility = View.GONE
-                mediaAdapter.notifyDataSetChanged()
                 binding.header.txtTitle.text = "Add Portfolio"
-
+            }
+            mediaAdapter.notifyDataSetChanged()
 
         }catch (e: Exception) {
             binding.deleteTxt.visibility = View.GONE

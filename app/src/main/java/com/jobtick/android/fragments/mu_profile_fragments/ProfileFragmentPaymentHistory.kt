@@ -70,8 +70,8 @@ class ProfileFragmentPaymentHistory : Fragment() {
         SetToolbar(activity, "Payment History", "", R.id.navigation_profile, binding.header, view)
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
 
-        val format = SimpleDateFormat("EEEE, MMMM d yyyy")
-        val formatForApi = SimpleDateFormat("yyyy-MM-dd")
+        val format = SimpleDateFormat(getString(R.string.simpledateformat), Locale.getDefault())
+        val formatForApi = SimpleDateFormat(getString(R.string.simpledateformatbackend), Locale.getDefault())
         val formattedDate: String = format.format(calendar.time)
         val formattedDateForApi: String = formatForApi.format(calendar.time)
         binding.textStartDate.text = formattedDate
@@ -152,7 +152,6 @@ class ProfileFragmentPaymentHistory : Fragment() {
             Response.Listener { response: String? ->
                 try {
                     val jsonObject = JSONObject(response)
-                    Log.d("paymenthistoryresponse", response.toString())
                     if (jsonObject.has("success") && jsonObject.has("data")) {
                         val jsonObject_data = jsonObject.getJSONArray("data")
                         val googleJson = Gson()
@@ -166,7 +165,6 @@ class ProfileFragmentPaymentHistory : Fragment() {
                         fillData(jsonObjList, jsonObject.getString("total_amount"), firstInit)
                     }
                 } catch (e: JSONException) {
-                    Log.d("paymenthistoryerr", e.toString())
 
                     e.printStackTrace()
                 }
@@ -177,7 +175,6 @@ class ProfileFragmentPaymentHistory : Fragment() {
                 (requireActivity() as ActivityBase).errorHandle1(error.networkResponse)
                 //                    ((ActivityBase) requireActivity()).hideProgressDialog();
                 activity.hideProgressDialog()
-                Log.d("paymenthistoryerr", error.toString())
 
 
             }) {
@@ -214,15 +211,13 @@ class ProfileFragmentPaymentHistory : Fragment() {
             }
         }
         binding.recycler.addOnScrollListener(onScrollListener as EndlessRecyclerViewOnScrollListener)
-        binding.recycler.setAdapter(
-            PaymentHistoryListAdapter(
-                data,
-                sessionManager.roleLocal == "poster"
-            ) { paymentHistory: PaymentHistory? ->
-                val bundle = bundleOf("payment" to paymentHistory)
-                view?.findNavController()?.navigate(R.id.action_navigation_profile_payment_history_to_navigation_profile_payment_details, bundle)
-                Log.d("isclicked", paymentHistory!!.taxRate)
-            })
+        binding.recycler.adapter = PaymentHistoryListAdapter(
+            data,
+            sessionManager.roleLocal == "poster"
+        ) { paymentHistory: PaymentHistory? ->
+            val bundle = bundleOf("payment" to paymentHistory, "slug" to paymentHistory!!.task.slug.toString())
+            view?.findNavController()?.navigate(R.id.action_navigation_profile_payment_history_to_navigation_profile_payment_details, bundle)
+        }
     }
     fun showCalendatMaterial(str: String) {
         val datePicker =
@@ -236,8 +231,8 @@ class ProfileFragmentPaymentHistory : Fragment() {
         datePicker.addOnPositiveButtonClickListener {
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             calendar.timeInMillis = it
-            val format = SimpleDateFormat("EEEE, MMMM d yyyy")
-            val formatForApi = SimpleDateFormat("yyyy-MM-dd")
+            val format = SimpleDateFormat(getString(R.string.simpledateformat), Locale.getDefault())
+            val formatForApi = SimpleDateFormat(getString(R.string.simpledateformatbackend), Locale.getDefault())
             val formattedDate: String = format.format(calendar.time)
             val formattedDateForApi: String = formatForApi.format(calendar.time)
             if(datePicker.tag == "Start Date") {

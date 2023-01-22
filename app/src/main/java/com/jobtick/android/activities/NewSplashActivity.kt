@@ -10,8 +10,13 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
 import android.util.Log
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
@@ -36,10 +41,11 @@ import org.json.JSONObject
 import java.util.*
 
 
-
-
 class NewSplashActivity : AppCompatActivity() {
     var sessionManager: SessionManager? = null
+    lateinit var animation: Animation
+    lateinit var loveText: RelativeLayout
+    lateinit var progressBar: ProgressBar
 
     @SuppressLint("NonConstantResourceId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,10 +53,22 @@ class NewSplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_new_splash)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         ButterKnife.bind(this)
+        animation = AnimationUtils.loadAnimation(
+            applicationContext,
+            R.anim.fadein
+        )
+        animation.duration = 2000
+        loveText = findViewById(R.id.loveParent)
+        progressBar = findViewById(R.id.progressbar)
+        loveText.startAnimation(animation)
         val handler = Handler()
         handler.postDelayed({
             sessionManager = SessionManager(this@NewSplashActivity)
-                Log.d("hereinsplash","");
+//            val intent = Intent(this, DashboardActivity::class.java)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//            startActivity(intent)
+            progressBar.visibility = View.VISIBLE
             checkForUpdate()
            // accountDetails
         }, 2000)
@@ -58,7 +76,6 @@ class NewSplashActivity : AppCompatActivity() {
 
 
     private fun login() {
-        Log.d("splashlogin", "");
         if (sessionManager!!.tokenType != null && sessionManager!!.accessToken != null) {
             accountDetails
         } else {
@@ -70,7 +87,6 @@ class NewSplashActivity : AppCompatActivity() {
         get() {
             val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_GET_ACCOUNT,
                     Response.Listener { response: String? ->
-                        Log.d("splashgetAccountres",response.toString());
                         try {
                             val jsonObject = JSONObject(response!!)
                             val jsonObject_data = jsonObject.getJSONObject("data")
@@ -102,7 +118,6 @@ class NewSplashActivity : AppCompatActivity() {
                         }
                     },
                     Response.ErrorListener { error: VolleyError? ->
-                        Log.d("splashgetAccounterr",error.toString());
 
                         openSignUpPage() }) {
                 override fun getHeaders(): Map<String, String> {
@@ -131,7 +146,6 @@ class NewSplashActivity : AppCompatActivity() {
         val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.BASE_URL + Constant.CHECK_UPDATE,
                 Response.Listener { response: String? ->
                     try {
-                        Log.d("splashcheckupdate", response.toString())
 
                         val jsonObject = JSONObject(response!!)
                         val jsonString = jsonObject.toString() //http request

@@ -10,6 +10,9 @@ public class PaymentHistory implements Serializable {
     @SerializedName("id")
     @Expose
     private Integer id;
+    @SerializedName("amount_before_fee")
+    @Expose
+    private String amount_before_fee;
     @SerializedName("amount")
     @Expose
     private String amount;
@@ -50,6 +53,14 @@ public class PaymentHistory implements Serializable {
     @Expose
     private Task task;
 
+    public String getAmount_before_fee() {
+        return amount_before_fee;
+    }
+
+    public void setAmount_before_fee(String amount_before_fee) {
+        this.amount_before_fee = amount_before_fee;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -62,9 +73,12 @@ public class PaymentHistory implements Serializable {
         return amount;
     }
 
+
     public void setAmount(String amount) {
         this.amount = amount;
     }
+
+
 
     public void setTax_amount_on_fee(String tax_amount_on_fee) {
         this.tax_amount_on_fee = tax_amount_on_fee;

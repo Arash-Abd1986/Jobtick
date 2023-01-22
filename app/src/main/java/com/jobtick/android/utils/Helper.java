@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
+
+import androidx.core.content.ContextCompat;
 import timber.log.Timber;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,7 +20,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.format.DateUtils;
+import android.text.style.ImageSpan;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -32,7 +38,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.textfield.TextInputLayout;
 import com.jobtick.android.BuildConfig;
+import com.jobtick.android.R;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -481,7 +489,7 @@ public class Helper {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date1 = sdf.parse(date.substring(0, Math.min(date.length(), 10)));
-            SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d yyyy");
+            SimpleDateFormat format = new SimpleDateFormat("EE, MMM d, yyyy");
             formattedDate = format.format(date1);
         }catch (Exception e)
         {}
@@ -496,5 +504,22 @@ public class Helper {
         {return "";}
 
     }
+
+    public static void setError(Activity activity, String error, TextInputLayout txtInput) {
+        Drawable errorDrawable = ContextCompat.getDrawable(activity, R.drawable.ic_error);
+        SpannableString ss = new SpannableString("    " + error + "\n");
+        assert errorDrawable != null;
+        errorDrawable.setBounds(0, 0, errorDrawable.getIntrinsicWidth(), errorDrawable.getIntrinsicHeight());
+        ImageSpan span ;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            span = new ImageSpan(errorDrawable, ImageSpan.ALIGN_CENTER);
+        } else {
+            span = new ImageSpan(errorDrawable, ImageSpan.ALIGN_BOTTOM);
+        }
+        ss.setSpan(span, 0, 3, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+
+        txtInput.setError(ss);
+    }
+
 
 }

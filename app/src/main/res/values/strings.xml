@@ -44,6 +44,7 @@
     <string name="dashboard">Dashboard</string>
     <string name="payment">Payment</string>
     <string name="saved_tasks">Saved Tasks</string>
+    <string name="successfully_saved">Successfully saved!</string>
     <string name="notifications">Notifications</string>
     <string name="task_alerts">Task Alerts</string>
     <string name="refer_a_friend">Refer A Friend</string>
@@ -57,6 +58,9 @@
     <string name="title_explore">Explore\n</string>
     <string name="title_chat">Chats</string>
     <string name="title_profile">Profile</string>
+    <string name="title_workspace">Workspace</string>
+    <string name="title_messaging">Messaging</string>
+    <string name="title_inventory">Inventory</string>
     <string name="search_categories">Search categories</string>
     <string name="Details">details</string>
     <string name="date_time"><![CDATA[Date & Time]]></string>
@@ -174,6 +178,7 @@
 
     <string name="portfolio">Portfolio</string>
     <string name="skills">Skills</string>
+    <string name="ratingsandreviews">Ratings &amp; Reviews</string>
     <string name="get_quote">Get a  Quote</string>
     <string name="name">Name</string>
     <string name="verify">Verify</string>
@@ -585,9 +590,9 @@
     <string name="add_job_alert">Add job alert</string>
     <string name="get_things_done">Get things done</string>
     <string name="how_do_you_make_use_of_jobtick">How do you make use of Jobtick?</string>
-    <string name="outsourcing_tasks">Make your life easier by outsourcing your daily tasks to professionals!</string>
+    <string name="outsourcing_tasks">Make your life easier by <![CDATA[<b><font color=#AB47BC>outsourcing your daily tasks</font></b>]]> to professionals!</string>
     <string name="earn_money">Earn money</string>
-    <string name="create_your_professional_profile_and_start_earning_right_away">Create your professional profile and start earning right away!</string>
+    <string name="create_your_professional_profile_and_start_earning_right_away">Create your <![CDATA[<b><font color=#AB47BC>professional profile</font></b>]]> and start earning right away!</string>
     <string name="welcome_jobtick">Welcome Jobtick</string>
     <string name="welcome_to_jobtick">Welcome to Jobtick</string>
     <string name="how_do_you_want_to_use_jobtick">How do you want to use Jobtick?</string>
@@ -610,7 +615,7 @@
     <string name="profile_portfolio_delete">Are you sure for deleting this portfolio?</string>
     <string name="profile_verify_number">Enter the code we\'ve just sent to your mobile to confirm your identity.</string>
     <string name="profile_about_hint">Write a few sentences about yourself</string>
-    <string name="profile_portfolio_hint">Write a few sentences about this job</string>
+    <string name="profile_portfolio_hint">few sentences about this job</string>
     <string name="profile_forgotpassword_hint">Your password must contain at least one lowercase character, one special character, one uppercase character, 8 characters minimum, and one number</string>
     <string name="chat_block_state">You blocked this user. Tap to <![CDATA[<b><font color=#4353FF>unblock.</font></b>]]></string>
     <string name="chat_close_state">This chat is already closed!</string>
@@ -626,4 +631,8 @@
         <item>Others</item>
 
     </string-array>
+    <string name="simpledateformat">EE, MMM d, yyyy</string>
+    <string name="simpledateformatbackend">yyyy-MM-dd</string>
+    <string name="choosedate">Choose date</string>
+    <string name="choosesuburb">Choose suburb</string>
 </resources>

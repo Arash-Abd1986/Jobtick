@@ -159,7 +159,7 @@ class ProfileFragmentPayments : Fragment() {
                                             gson.fromJson(jsonString, CreditCardModel::class.java)
                                         if (creditCardModel != null && creditCardModel!!.data != null && creditCardModel!!.data!![0].card != null) {
                                             val brand = creditCardModel!!.data!![0].card!!.brand
-                                            binding.creditCard.text = brand
+                                          //  binding.creditCard.text = brand
                                             if (brand.equals(
                                                     CardTypes.MASTER.type,
                                                     ignoreCase = true
@@ -177,7 +177,7 @@ class ProfileFragmentPayments : Fragment() {
                                             ) binding.cardType.setImageDrawable(
                                                 ContextCompat.getDrawable(
                                                     activity,
-                                                    R.drawable.ic_card_visa
+                                                    R.drawable.visacard
                                                 )
                                             )
                                             if (brand!!.contains(CardTypes.AMERICAN.type)) binding.cardType.setImageDrawable(

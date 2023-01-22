@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -12,20 +11,22 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <com.google.android.material.button.MaterialButton
+        <ImageView
+            android:layout_marginTop="8dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:id="@+id/back"
-            style="@style/borderlessColoredTextButton"
-            android:layout_width="@dimen/_40dp"
-            android:layout_height="@dimen/_40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_gravity="center"
-            android:padding="16dp"
-            app:iconPadding="4dp"
             app:iconGravity="start"
-            app:iconTint="@color/primary_500"
             android:rotation="180"
-            app:icon="@drawable/ic_arrow_right"
-            />
+
+            android:src="@drawable/new_design_chevron_right"
+            app:tint="@color/primary_500" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/skip"
@@ -61,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center"
-                android:text="login" />
+                android:text="Sign in" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"

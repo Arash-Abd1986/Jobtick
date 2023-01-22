@@ -60,8 +60,8 @@ public class Tools {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
-        return dateFormat.format(timeInMillis).toUpperCase();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EE, MMM d, yyyy", Locale.getDefault());
+        return dateFormat.format(timeInMillis);
     }
 
     public static String formatLocalTime(long timeInMillis) {

@@ -16,8 +16,6 @@ public class Constant {
     public static final String FILTER = "Filter";
     public static final String STATE_STRIPE_TICKER = "STATE_STRIPE_TICKER";
     public static final String STATE_STRIPE_POSTER = "STATE_STRIPE_POSTER";
-
-
     public static final String TASK_CANCELLED = "cancelled";
     public static final String TASK_DRAFT = "draft";
     public static final String TASK_OPEN = "open";
@@ -52,10 +50,10 @@ public class Constant {
     public static final String SOCKET_PROD = "https://api.jobtick.com:2096";
    // public static final String BASE_URL_SERVER = SOCKET_DEV;
     public static final String BASE_URL_SERVER = (BuildConfig.DEBUG) ? SOCKET_DEV : SOCKET_PROD;
-    public static final String BASE_URL = BASE_URL_DEBUG;
-   // public static final String BASE_URL = (BuildConfig.DEBUG) ? BASE_URL_DEBUG : BASE_URL_PRODUCT;
-    public static final String BASE_URL_V2 = BASE_URL_DEBUG_V2;
-    //public static final String BASE_URL_V2 = (BuildConfig.DEBUG) ? BASE_URL_DEBUG_V2 : BASE_URL_PRODUCT_V2;
+   // public static final String BASE_URL = BASE_URL_PRODUCT;
+    public static final String BASE_URL = (BuildConfig.DEBUG) ? BASE_URL_DEBUG : BASE_URL_PRODUCT;
+    //public static final String BASE_URL_V2 = BASE_URL_PRODUCT_V2;
+    public static final String BASE_URL_V2 = (BuildConfig.DEBUG) ? BASE_URL_DEBUG_V2 : BASE_URL_PRODUCT_V2;
     public static final String MAP_BOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
     public static final String PROD = "";
     public static final String DEV = "dev.";

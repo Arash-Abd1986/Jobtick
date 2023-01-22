@@ -3,7 +3,11 @@ package com.jobtick.android.fragments.mu_profile_fragments
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ImageSpan
 import android.transition.Explode
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,15 +16,19 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
 import com.jobtick.android.databinding.FragmentProfileAccountBinding
 import com.jobtick.android.fragments.LogOutBottomSheet
+import com.jobtick.android.utils.Helper
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.SetToolbar
 import com.jobtick.android.utils.setSpanStyledTwoLineText
@@ -109,6 +117,22 @@ class ProfileFragmentAccount : Fragment() {
             showDialog()
         }
 
+        binding.number.setOnFocusChangeListener{view, b ->
+            if(b)
+                binding.number.hint = "+61 4XX XXX XXX"
+            else
+                binding.number.hint = ""
+        }
+
+        binding.email.setOnFocusChangeListener{view, b ->
+            if(b)
+                binding.email.hint = ""
+            else
+                binding.email.hint = ""
+        }
+
+
+
         binding.textChangeNumber.setOnClickListener {
             binding.numberTextInput.error = null
             if(binding.txtNumberStatus.text == "Verified") {
@@ -117,13 +141,13 @@ class ProfileFragmentAccount : Fragment() {
                     R.id.action_navigation_profile_account_to_navigation_profile_change_email_first_page, bundle)
             } else {
                 if (validate(listOf(binding.number))) {
-                    val bundle = bundleOf("number" to sessionManager.userAccount.mobile)
+                    val bundle = bundleOf("number" to binding.number.text.toString())
                     view.findNavController().navigate(
                         R.id.action_navigation_profile_account_to_navigation_profile_change_email_second_page,
                         bundle
                     )
                 } else {
-                    binding.numberTextInput.error = "Please Enter Your Number"
+                    Helper.setError(activity, "Please Enter Your Number", binding.numberTextInput)
                 }
 
             }
@@ -137,18 +161,20 @@ class ProfileFragmentAccount : Fragment() {
                     R.id.action_navigation_profile_account_to_navigation_profile_change_email_first_page, bundle)
             } else {
                 if (validate(listOf(binding.email))) {
-                    val bundle = bundleOf("email" to binding.email.text)
+                    val bundle = bundleOf("email" to binding.email.text.toString())
                     view.findNavController().navigate(
                         R.id.action_navigation_profile_account_to_navigation_profile_change_email_second_page,
                         bundle
                     )
                 } else {
-                    binding.emailTextInput.error = "Please Enter Your Email Address"
+                    Helper.setError(activity, "Please Enter Your Email Address", binding.emailTextInput)
                 }
 
             }
 
         }
+
+
 
         //        val callback: OnBackPressedCallback =
 //            object : OnBackPressedCallback(true /* enabled by default */) {
@@ -234,6 +260,18 @@ class ProfileFragmentAccount : Fragment() {
 
     }
 
+    private fun setError(error: String, txtInput: TextInputLayout) {
+        val errorDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_error)
+        val ss = SpannableString("    $error\n")
+        errorDrawable!!.setBounds(0, 0, errorDrawable.intrinsicWidth, errorDrawable.intrinsicHeight)
+        val span = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ImageSpan(errorDrawable, ImageSpan.ALIGN_CENTER)
+        } else {
+            ImageSpan(errorDrawable, ImageSpan.ALIGN_BOTTOM)
+        }
+        ss.setSpan(span, 0, 3, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        txtInput.error = ss
+    }
 
 
 }

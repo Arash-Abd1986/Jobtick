@@ -1,16 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:animateLayoutChanges="true"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/transparent"
     android:layout_height="match_parent"
     tools:context=".activities.SplashActivity">
-
     <ProgressBar
+        android:id="@+id/progressbar"
+        android:visibility="gone"
+        android:layout_marginBottom="32dp"
+        android:layout_above="@+id/loveParent"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:theme="@style/Progressbar.White"
+        android:indeterminateDuration="999"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/progressbar_drawable"
+
+        android:layout_width="32dp"
+        android:layout_height="32dp"/>
+
+<!--    <ProgressBar-->
+<!--        android:layout_marginBottom="32dp"-->
+<!--        android:layout_above="@+id/loveParent"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:theme="@style/Progressbar.Blue"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:paddingTop="60dp"-->
+<!--        android:layout_width="24dp"-->
+<!--        android:layout_height="24dp"/>-->
+    <RelativeLayout
+        android:id="@+id/loveParent"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:layout_width="24dp"
-        android:layout_height="24dp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_centerVertical="true"
+        android:id="@+id/part1"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:text="Made with "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/part1"
+            android:id="@+id/love"
+            android:src="@drawable/new_design_love"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:id="@+id/part2"
+            android:layout_toEndOf="@+id/love"
+            android:text=" in Australia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
 </RelativeLayout>

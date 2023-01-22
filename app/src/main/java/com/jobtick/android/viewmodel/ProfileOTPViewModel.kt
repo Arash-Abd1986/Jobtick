@@ -74,6 +74,8 @@ class ProfileOTPViewModel: ViewModel() {
                     context.showToast("Something Went Wrong", context)
                     successEmailSendOtp.value = false
                 }
+                context.hideProgressDialog()
+
             }
             override fun onFailure(call: Call<String?>, t: Throwable) {
                 errorEmailSendOtp.value = t.toString()
@@ -135,6 +137,9 @@ class ProfileOTPViewModel: ViewModel() {
                     context.showToast("Something Went Wrong", context)
                     successEmailVerificationOTP.value = false
                 }
+
+                context.hideProgressDialog()
+
             }
             override fun onFailure(call: Call<String?>, t: Throwable) {
                 errorEmailVerificationOTP.value = t.toString()
@@ -142,6 +147,7 @@ class ProfileOTPViewModel: ViewModel() {
                 context.hideProgressDialog()
                 Timber.e(call.toString())
                 successEmailVerificationOTP.value = false
+
             }
         })
     }
@@ -189,6 +195,8 @@ class ProfileOTPViewModel: ViewModel() {
                         context.showToast(jObjError.getJSONObject("error").getString("message"), context)
                         successMobileVerificationOTP.value = false
                     }
+                    context.hideProgressDialog()
+
 
                 } catch (e: java.lang.Exception) {
                     Log.d("errorOnOtpSend", e.toString())
@@ -197,6 +205,8 @@ class ProfileOTPViewModel: ViewModel() {
                     context.showToast("Something Went Wrong", context)
                     successMobileVerificationOTP.value = false
                 }
+                context.hideProgressDialog()
+
             }
             override fun onFailure(call: Call<String?>, t: Throwable) {
                 errorMobileVerificationOTP.value = t.toString()
@@ -242,6 +252,8 @@ class ProfileOTPViewModel: ViewModel() {
                     errorMobileSendOtp.postValue("1")
                     context.showToast("Something Went Wrong", context)
                 }
+                context.hideProgressDialog()
+
             }
             override fun onFailure(call: Call<String?>, t: Throwable) {
                 Log.d("hereiam2", errorMobileSendOtp.value.toString())

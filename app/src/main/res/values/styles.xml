@@ -34,6 +34,10 @@
     <style name="Progressbar.White" parent="AppTheme">
         <item name="colorControlActivated">@color/white</item>
     </style>
+    <style name="Progressbar.Blue" parent="AppTheme">
+        <item name="colorControlActivated">@color/primary_500</item>
+    </style>
+
 
     <style name="Widget.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
         <item name="fontFamily">@font/roboto_regular</item>
@@ -941,6 +945,13 @@
         <item name="lineHeight">16sp</item>
     </style>
 
+    <style name="label_bottomnacv" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="textColor">@color/neutral_light_500</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="body1" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
@@ -1165,5 +1176,14 @@
     </style>
     <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
         <item name="cornerSize">50%</item>
+    </style>
+    <style name="bottomNav" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+
+    </style>
+
+    <style name="MaterialCalendarTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <!-- just override the colors used in the default style -->
+        <item name="materialCalendarHeaderTitle">@style/heading6</item>
+
     </style>
 </resources>

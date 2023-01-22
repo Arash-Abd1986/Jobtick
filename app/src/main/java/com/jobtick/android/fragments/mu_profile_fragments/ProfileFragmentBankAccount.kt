@@ -2,7 +2,6 @@ package com.jobtick.android.fragments.mu_profile_fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,10 +39,7 @@ class ProfileFragmentBankAccount : Fragment(){
     private lateinit var sessionManager: SessionManager
     private var _binding: FragmentProfileBankAccountBinding? = null
     private val binding get() = _binding!!
-    private var cyear = 0
-    private var cmonth = 0
     private var dob = ""
-    private var cday = 0
     private var addBankAccount: AddBankAccount? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,16 +63,18 @@ class ProfileFragmentBankAccount : Fragment(){
         getBankAccount(activity)
 
         if(!sessionManager.userAccount.dob.isNullOrEmpty()) {
-            val myDate = sessionManager.userAccount.dob.substring(0, Math.min(sessionManager.userAccount!!.dob!!.length, 10))
-            val sdf = SimpleDateFormat("yyyy-MM-dd")
+            val myDate = sessionManager.userAccount.dob.substring(0,
+                sessionManager.userAccount!!.dob!!.length.coerceAtMost(10)
+            )
+            val sdf = SimpleDateFormat(getString(R.string.simpledateformatbackend), Locale.US)
             val date = sdf.parse(myDate)
-            val format = SimpleDateFormat("EEEE, MMMM d yyyy")
+            val format = SimpleDateFormat(getString(R.string.simpledateformat), Locale.US)
             val formattedDate: String = format.format(date!!)
             dob = myDate
             binding.startDateValue.text = formattedDate
         }
         else {
-            binding.startDateValue.text = "Choose Date of Birth!"
+            binding.startDateValue.text = getString(R.string.choosedate)
             dob = ""
         }
 
@@ -92,7 +90,7 @@ class ProfileFragmentBankAccount : Fragment(){
             }
 
             override fun onError(e: Exception) {
-                activity.showToast(e.toString(), activity)
+                activity.showToast(getString(R.string.server_went_wrong), activity)
                 (requireActivity() as ActivityBase).hideProgressDialog()
             }
 
@@ -101,15 +99,6 @@ class ProfileFragmentBankAccount : Fragment(){
                 (requireActivity() as ActivityBase).hideProgressDialog()
             }
         }
-
-        val calendar = Calendar.getInstance()
-        val format = SimpleDateFormat("EEEE, MMMM d yyyy")
-        val formattedDate: String = format.format(calendar.time)
-        //binding.startDateValue.text = formattedDate
-        cyear = calendar[Calendar.YEAR]
-        cmonth = calendar[Calendar.MONTH]
-        cday = calendar[Calendar.DAY_OF_MONTH]
-      //  binding.startDateValue.text = Tools.getDayMonthDateTimeFormat("$cyear-$cmonth-$cday")
 
         binding.calender.setOnClickListener {
             showCalendatMaterial()
@@ -131,7 +120,7 @@ class ProfileFragmentBankAccount : Fragment(){
                 .navigate(R.id.action_navigation_profile_bank_account_to_navigation_profile_payments)
         }
 
-        binding.edittextBsb.editText!!.setOnFocusChangeListener{view, b ->
+        binding.edittextBsb.editText!!.setOnFocusChangeListener{ _, b ->
             if(b)
                 binding.edittextBsb.editText!!.hint = "XXY-ZZZ"
             else
@@ -139,14 +128,14 @@ class ProfileFragmentBankAccount : Fragment(){
 
         }
 
-        binding.edittextAccountNumber.editText!!.setOnFocusChangeListener{view, b ->
+        binding.edittextAccountNumber.editText!!.setOnFocusChangeListener{ _, b ->
             if(b)
-                binding.edittextBsb.editText!!.hint = "XXXXXX-YYYYYYY-ZZZ"
+                binding.edittextAccountNumber.editText!!.hint = "XXXXXX-YYYYYYY-ZZZ"
             else
-                binding.edittextBsb.editText!!.hint = ""
+                binding.edittextAccountNumber.editText!!.hint = ""
         }
 
-        binding.edittextAccountHolder.editText!!.setOnFocusChangeListener{view, b ->
+        binding.edittextAccountHolder.editText!!.setOnFocusChangeListener{ _, b ->
             if(b)
                 binding.edittextAccountHolder.editText!!.hint = "e.g. Oliver Smith"
             else
@@ -187,16 +176,14 @@ class ProfileFragmentBankAccount : Fragment(){
         datePicker.addOnPositiveButtonClickListener {
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             calendar.timeInMillis = it
-            val format = SimpleDateFormat("EEEE, MMMM d yyyy")
-            val format1 = SimpleDateFormat("yyyy-MM-dd")
+            val format = SimpleDateFormat(getString(R.string.simpledateformat), Locale.US)
+            val format1 = SimpleDateFormat(getString(R.string.simpledateformatbackend), Locale.US)
             val formattedDate: String = format.format(calendar.time)
             val formattedDate1: String = format1.format(calendar.time)
             binding.startDateValue.text = formattedDate
             dob = formattedDate1
-            Log.d("dateinbankaccount", dob)
         }
     }
-
 
     fun getBankAccount(context: Context) {
         sessionManager = SessionManager(context)
@@ -210,7 +197,6 @@ class ProfileFragmentBankAccount : Fragment(){
                 context.hideProgressDialog()
                 try {
                     if(response.isSuccessful) {
-                        Log.d("onresponse", response.body().toString())
                         val jsonObject = JSONObject(response.body()!!)
                         if(!jsonObject.isNull("data")) {
                             val jsonObject2 = jsonObject.getJSONObject("data")
@@ -244,8 +230,6 @@ class ProfileFragmentBankAccount : Fragment(){
                 }
             }
             override fun onFailure(call: Call<String?>, t: Throwable) {
-                Log.d("onresponse1", t.toString())
-
                 context.showToast(t.toString(), context)
                 context.hideProgressDialog()
                 Timber.e(call.toString())
@@ -258,18 +242,18 @@ class ProfileFragmentBankAccount : Fragment(){
         activity.hideKeyboard()
         when {
             binding.edittextAccountHolder.editText?.text.isNullOrEmpty() -> {
-                binding.edittextAccountHolder.setError("Please enter Account Holder")
+                binding.edittextAccountHolder.error = "Please enter Account Holder"
                 return false
             }
             binding.edittextBsb.editText?.text.isNullOrEmpty() -> {
-                binding.edittextBsb.setError("Please enter BSB")
+                binding.edittextBsb.error = "Please enter BSB"
                 return false
             }
             binding.edittextAccountNumber.editText?.text.isNullOrEmpty() -> {
-                binding.edittextAccountNumber.setError("Please enter Account Number")
+                binding.edittextAccountNumber.error = "Please enter Account Number"
                 return false
             }
-            dob.equals("") -> {
+            dob == "" -> {
                 activity.showToast("Please Select your Date Of Birth!", activity)
                 return false
             }

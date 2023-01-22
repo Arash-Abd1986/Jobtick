@@ -1,6 +1,7 @@
 package com.jobtick.android.payment;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -87,8 +88,9 @@ public abstract class AddBankAccountImpl implements AddBankAccount {
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, BASE_URL + ADD_ACCOUNT_DETAILS,
                 response -> {
-                    Timber.e(response);
+                    Log.d("asdasdasdasd", response);
                     try {
+
                         JSONObject jsonObject = new JSONObject(response);
                         Timber.e(jsonObject.toString());
                         if (jsonObject.has("success") && !jsonObject.isNull("success")) {

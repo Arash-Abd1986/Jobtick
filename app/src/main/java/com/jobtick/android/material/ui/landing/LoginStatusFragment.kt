@@ -2,6 +2,7 @@ package com.jobtick.android.material.ui.landing
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,9 +27,20 @@ class LoginStatusFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         sessionManagerA = SessionManager(requireContext())
         activity = (requireActivity() as OnboardingActivity)
+        try {
+            if(activity.intent.getStringExtra("signin").equals("sss")) {
+
+                activity.navController.navigate(R.id.signInFragment)
+                return
+            }
+        }catch (e: Exception){
+            Log.d("errorinex", e.toString())
+        }
+
         when {
             sessionManagerA.userAccount?.account_status?.isBasic_info == true -> {
                 dashboard(sessionManagerA.userAccount)
+                activity.finish()
             }
             !sessionManagerA.onBoardingStatus -> {
                 activity.navController.navigate(R.id.startFragmentSlider)
@@ -37,8 +49,10 @@ class LoginStatusFragment : Fragment() {
                 sessionManagerA.needSignIN = false
                 activity.navController.navigate(R.id.signUpFragment)
             }
+
             else -> {
                 startActivity(Intent(requireActivity(), DashboardActivity::class.java))
+                activity.finish()
             }
         }
     }

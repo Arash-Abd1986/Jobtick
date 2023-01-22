@@ -1,5 +1,6 @@
 package com.jobtick.android.activities;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +46,7 @@ import com.segment.analytics.Properties;
 
 public class ActivityBase extends AppCompatActivity {
     static final String SEGMENT_WRITE_KEY = "CQ6XaLaFHQacQ54uQK4G36";
-    protected ProgressDialog pDialog;
+    protected Dialog pDialog;
     SessionManager sessionManager;
 
     private Pusher pusher;
@@ -137,11 +141,20 @@ public class ActivityBase extends AppCompatActivity {
     }
 
     public void initProgressDialog() {
-        pDialog = new ProgressDialog(this);
-        pDialog.setTitle(getString(R.string.processing));
-        pDialog.setMessage(getString(R.string.please_wait));
+        pDialog = new Dialog(this, R.style.AnimatedDialog);
+        pDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        pDialog.setContentView(R.layout.dialog_view_loading_new);
+        TextView maintitle = pDialog.findViewById(R.id.mainTitle);
+        maintitle.setText("Loading your data");
+        int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
+        pDialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+      //  pDialog.setTitle(getString(R.string.processing));
+       // pDialog.setMessage(getString(R.string.please_wait));
         pDialog.setCancelable(false);
     }
+
 
 
     public void showProgressDialog() {

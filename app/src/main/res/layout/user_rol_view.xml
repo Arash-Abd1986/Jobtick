@@ -97,6 +97,7 @@
 
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ln_ticker_poster"
         android:weightSum="1"
         android:layout_width="match_parent"

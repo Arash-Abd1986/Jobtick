@@ -96,6 +96,8 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
     }
 
     private fun initComponents() {
+        Log.d("fetchdata", "444")
+
         swipeRefresh!!.setOnRefreshListener(this)
         chatList!!.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
@@ -119,6 +121,8 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
     }
 
     private fun initPusher() {
+        Log.d("fetchdata", "333")
+
         val headers = HashMap<String, String>()
         headers["Authorization"] = sessionManager!!.tokenType + " " + sessionManager!!.accessToken
         headers["Content-Type"] = "application/x-www-form-urlencoded"
@@ -148,6 +152,8 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
     }
 
     private fun initToolbar() {
+        Log.d("fetchdata", "222")
+
         dashboardActivity = requireActivity() as DashboardActivity
         if (dashboardActivity == null) return
         toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
@@ -250,6 +256,7 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
     }
 
     private fun fetchData() {
+        Log.d("fetchdata", "111")
         val items = ArrayList<ConversationModel>()
         Helper.closeKeyboard(dashboardActivity)
         val stringRequest: StringRequest = object : StringRequest(Method.GET, Constant.URL_CHAT +
@@ -319,7 +326,7 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
         },
                 Response.ErrorListener { error: VolleyError ->
                     swipeRefresh!!.isRefreshing = false
-                    dashboardActivity!!.errorHandle1(error.networkResponse)
+                  //  dashboardActivity!!.errorHandle1(error.networkResponse)
                 }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()

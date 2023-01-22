@@ -165,5 +165,5 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/spacing_line"
         android:layout_marginStart="90dp"
-        android:background="@color/grey_10" />
+        android:background="@color/neutral_light_50" />
 </LinearLayout>

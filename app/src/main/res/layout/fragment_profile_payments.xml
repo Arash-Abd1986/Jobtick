@@ -8,6 +8,7 @@
         android:id="@+id/header"
         layout="@layout/header_new_design"/>
     <LinearLayout
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -122,7 +123,7 @@
 
                             android:src="@drawable/ic_card_visa"
                             android:id="@+id/cardType"
-                            android:layout_width="38dp"
+                            android:layout_width="33dp"
                             android:layout_height="wrap_content"/>
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/creditCard"

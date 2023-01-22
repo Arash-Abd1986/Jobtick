@@ -104,34 +104,34 @@ class ProfileFragmentOTPVerificationForMobile : Fragment(), OTPListener {
 //            }
 //        })
 
-//        viewModel.successMobileVerificationOTP.observe(viewLifecycleOwner) {
-//            //TODO remove observer not to call always
-//            if(it) {
-//                view.findNavController().navigate(R.id.action_navigation_profile_otp_verification_to_navigation_profile_account)
-//            }
-//
-//            viewModel.successMobileVerificationOTP.removeObservers(this)
-//        }
+        viewModel.successMobileVerificationOTP.observe(viewLifecycleOwner) {
+            //TODO remove observer not to call always
+            if(it) {
+                view.findNavController().navigate(R.id.action_navigation_profile_otp_verification_to_navigation_profile_account)
+            }
+
+            viewModel.successMobileVerificationOTP.removeObservers(this)
+        }
 
 
-//        viewModel.successMobileSendOtp.observe(viewLifecycleOwner){
-//            //TODO remove observer not to call always
-//            if(it) {
-//                timer.start()
-//                setActive(true)
-//            }
-//            else
-//                setActive(false)
-//            viewModel.successMobileSendOtp.removeObservers(this)
-//
-//        }
+        viewModel.successMobileSendOtp.observe(viewLifecycleOwner){
+            //TODO remove observer not to call always
+            if(it) {
+                timer.start()
+                setActive(true)
+            }
+            else
+                setActive(false)
+            viewModel.successMobileSendOtp.removeObservers(this)
+
+        }
 
 
-//        viewModel.hashCheckToken.observe(viewLifecycleOwner) {
-//            if(it != "0")
-//                hasCheckedToken = it
-//            viewModel.hashCheckToken.removeObservers(this)
-//        }
+        viewModel.hashCheckToken.observe(viewLifecycleOwner) {
+            if(it != "0")
+                hasCheckedToken = it
+            viewModel.hashCheckToken.removeObservers(this)
+        }
 
         timer = object : CountDownTimer(3 * 60 * 1000, 1000) {
 

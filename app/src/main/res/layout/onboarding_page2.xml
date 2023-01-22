@@ -28,7 +28,7 @@
         android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/get_things_done"
+        android:text="@string/earn_money"
         android:textColor="@color/neutral_dark"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView3" />
     <View
@@ -42,7 +42,7 @@
         style="@style/body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/how_do_you_make_use_of_jobtick"
+        android:text="@string/create_your_professional_profile_and_start_earning_right_away"
         android:textColor="@color/neutral_light_500"
         app:layout_constraintBottom_toBottomOf="parent" />
     <include

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import com.jobtick.android.R
@@ -57,11 +58,14 @@ class ProfileFragmentChangeEmailSecondPage : Fragment() {
             binding.txtNameTitle.text = "Email Address"
             binding.txtNameTitle1.text = "Email Address"
             binding.text.text = requireArguments().getString("email")
+            binding.image.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_alternate_email))
+
         }
         else {
             binding.txtNameTitle.text = "Mobile Number"
             binding.txtNameTitle1.text = "Mobile Number"
             binding.text.text = requireArguments().getString("number")
+            binding.image.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_smartphone))
         }
         binding.btnCancel.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_change_email_second_page_to_navigation_profile_account)

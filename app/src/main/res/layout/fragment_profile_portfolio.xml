@@ -48,7 +48,12 @@
 
             </RelativeLayout>
         </LinearLayout>
-
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/share_in_pro_parent"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <View
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="6dp"
@@ -62,15 +67,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/isShare"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:checked="true" />
                 <LinearLayout
                     android:layout_toStartOf="@+id/isShare"
@@ -92,6 +97,7 @@
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
+            </LinearLayout>
             <View
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
@@ -128,7 +134,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/about_text"
-                        android:textSize="18dp"
+                        android:textSize="14dp"
                         android:gravity="start|top"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

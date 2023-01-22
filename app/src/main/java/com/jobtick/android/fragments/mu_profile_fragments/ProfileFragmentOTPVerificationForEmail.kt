@@ -72,22 +72,32 @@ class ProfileFragmentOTPVerificationForEmail : Fragment(), OTPListener {
             mutableMap = mutableMapOf("email" to requireArguments().getString("email").toString())
             emailResendOTP(activity, mutableMap)
         }
-//        viewModel.successEmailVerificationOTP.observe(viewLifecycleOwner) {
-//            //TODO remove observer not to call always
-//            if(it) {
-//                view.findNavController().navigate(R.id.action_navigation_profile_otp_verification_to_navigation_profile_account)
-//            }
-//        }
-//        viewModel.successEmailSendOtp.observe(viewLifecycleOwner){
-//            //TODO remove observer not to call always
-//            if(it) {
-//                timer.start()
-//                setActive(true)
-//            }
-//            else
-//                setActive(false)
-//
-//        }
+        viewModel.successEmailVerificationOTP.observe(viewLifecycleOwner) {
+            //TODO remove observer not to call always
+            if(it) {
+                view.findNavController().navigate(R.id.action_navigation_profile_otp_verification_to_navigation_profile_account)
+            }
+            else {
+                var bundle: Bundle? = null
+                if(requireArguments().getString("email")?.isNotEmpty() == true) {
+                    bundle = bundleOf("email" to requireArguments().getString("email").toString())
+                }
+                else if(requireArguments().getString("number")?.isNotEmpty() == true)
+                    bundle = bundleOf("number" to requireArguments().getString("number").toString())
+                //viewModel.success.removeObservers(viewLifecycleOwner)
+                view.findNavController().navigate(R.id.action_navigation_profile_otp_verification_to_navigation_profile_change_email_second_page, bundle)
+            }
+        }
+        viewModel.successEmailSendOtp.observe(viewLifecycleOwner){
+            //TODO remove observer not to call always
+            if(it) {
+                timer.start()
+                setActive(true)
+            }
+            else
+                setActive(false)
+
+        }
 
 
 
@@ -167,7 +177,7 @@ class ProfileFragmentOTPVerificationForEmail : Fragment(), OTPListener {
         val minutes = (sec % 3600) / 60
         val seconds = sec % 60
 
-        return String.format("%02d:%02d", minutes, seconds);
+        return String.format("%02d:%02d", minutes, seconds)
     }
 
     private fun setActive(status: Boolean) {

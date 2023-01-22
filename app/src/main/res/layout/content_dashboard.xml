@@ -7,11 +7,28 @@
     android:background="@color/background">
 
     <include
+        android:visibility="gone"
         android:id="@+id/nav_view"
         layout="@layout/bottom_nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        app:itemRippleColor="@color/primary_50"
+        app:labelVisibilityMode="labeled"
+        app:itemActiveIndicatorStyle="@null"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:menu="@menu/ticker_bottom_nav_menu"
+        android:background="@color/white"
+        app:itemTextAppearanceActive="@style/label_bottomnacv"
+        app:itemTextAppearanceInactive="@style/label_bottomnacv"
+        android:id="@+id/bottom_nav"
+        app:itemIconSize="17dp"
+        app:itemPaddingTop="10dp"
+        app:itemPaddingBottom="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"/>
 
     <fragment
         android:layout_alignParentTop="true"
@@ -19,7 +36,7 @@
         class="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/nav_view"
+        android:layout_above="@+id/bottom_nav"
         app:defaultNavHost="true" />
 
 </RelativeLayout>

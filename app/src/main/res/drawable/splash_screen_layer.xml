@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/blue_splash" />
+    <item android:drawable="@color/white" />
 
-    <item>
-        <bitmap android:gravity="center" android:src="@drawable/splash_logo" />
+    <item android:drawable="@drawable/ic_logo_v4" android:width="96dp"
+        android:height="96dp"
+        android:gravity="center">
+<!--        <selector android:gravity="center" android:background="@drawable/ic_logo_v4" />-->
     </item>
 </layer-list>

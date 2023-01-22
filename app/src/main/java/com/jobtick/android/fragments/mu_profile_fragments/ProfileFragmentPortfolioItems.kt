@@ -80,10 +80,15 @@ class ProfileFragmentPortfolioItems : Fragment(), PortfolioAdapter.OnItemClickLi
         viewModel.getPortfolioItems(activity)
 
         viewModel.jsonobject.observe(viewLifecycleOwner) {
+            binding.noData.noDataParent.visibility = View.GONE
+            binding.dataParent.visibility = View.VISIBLE
             list = ArrayList()
             jsonArray = viewModel.jsonobject.value!!.getJSONArray("data")
             if(jsonArray.length() == 0) {
                 (activity as DashboardActivity).showToast("No data!", activity)
+                binding.noData.noDataParent.visibility = View.VISIBLE
+                binding.dataParent.visibility = View.GONE
+                binding.header.txtAction.visibility = View.GONE
                 return@observe
             }
             for (i in 0 until jsonArray.length()) {
@@ -95,6 +100,11 @@ class ProfileFragmentPortfolioItems : Fragment(), PortfolioAdapter.OnItemClickLi
                 list.add(portfolioDataModel)
             }
             portfolioAdapter!!.addItems(list)
+
+        }
+
+        binding.noData.noDataButton.setOnClickListener {
+            view.findNavController().navigate(R.id.action_navigation_profile_portfolio_item_to_navigation_profile_add_portfolio_item)
 
         }
 

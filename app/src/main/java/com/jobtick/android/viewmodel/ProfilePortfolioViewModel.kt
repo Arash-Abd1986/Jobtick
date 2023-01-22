@@ -43,6 +43,7 @@ class   ProfilePortfolioViewModel: ViewModel() {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 context.hideProgressDialog()
                 try {
+                    Log.d("portfoliores", response.toString())
                     if(response.isSuccessful) {
 
                             val jsonObject = JSONObject(response.body().toString())

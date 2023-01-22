@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.appcompat.widget.AppCompatImageButton
@@ -29,7 +30,7 @@ class StartFragmentSlider : Fragment(), ViewPagerAdapter.ItemClick {
     private lateinit var radioBtnThree: RadioButton
     private lateinit var radioGroup: RadioGroup
     private lateinit var imBack: AppCompatImageView
-    private lateinit var imBackClick: MaterialButton
+    private lateinit var imBackClick: ImageView
     private lateinit var activity: OnboardingActivity
     private lateinit var sessionManagerA: SessionManager
 

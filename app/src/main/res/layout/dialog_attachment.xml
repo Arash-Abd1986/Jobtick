@@ -33,7 +33,7 @@
             android:paddingStart="0dp"
             android:text="PDF"
             android:textColor="@color/neutral_dark"
-            app:icon="@drawable/ic_picture_as_pdf"
+            app:icon="@drawable/new_design_add_photo_custom_size"
             app:iconPadding="16dp" />
 
         <View
@@ -63,7 +63,6 @@
             android:layout_marginTop="@dimen/_8dp"
             android:background="@color/transparent"
             android:gravity="center"
-            android:paddingStart="0dp"
             android:text="Cancel"
             android:textColor="@color/primary"
             app:iconPadding="16dp" />

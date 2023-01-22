@@ -50,12 +50,23 @@ class ProfileFragmentChangeEmailFirstPage : Fragment() {
 
         if(requireArguments().getString("number") == "1") {
             SetToolbar(activity, "Change Mobile Number", "Verify", R.id.navigation_profile_account, binding.header, view)
-//            binding.edittextFirstnameValue.setText(requireArguments().getString("number"))
+                binding.edittextFirstname.hint = "Mobile Number"
         }
         else if(requireArguments().getString("email") == "1") {
             SetToolbar(activity, "Change Email", "Verify", R.id.navigation_profile_account, binding.header, view)
-//            binding.edittextFirstnameValue.setText(requireArguments().getString("email"))
+             binding.edittextFirstname.hint = "Email Address"
         }
+
+        binding.edittextFirstnameValue.setOnFocusChangeListener{view, b ->
+            if(requireArguments().getString("number") == "1") {
+                if (b)
+                    binding.edittextFirstnameValue.hint = "+61 4XX XXX XXX"
+                else
+                    binding.edittextFirstnameValue.hint = ""
+            }
+
+        }
+
 
         binding.header.back.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_change_email_first_page_to_navigation_profile_account)

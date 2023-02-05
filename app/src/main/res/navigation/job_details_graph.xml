@@ -12,13 +12,18 @@
         tools:layout="@layout/fragment_job_details_poster" >
 
         <action
+            app:popUpTo="@id/jobDetailsPosterFragment"
+
             android:id="@+id/action_jobDetailsPosterFragment_to_rescheduleNoticeBottomSheetState"
             app:destination="@id/rescheduleNoticeBottomSheetState" />
         <action
+            app:popUpTo="@id/jobDetailsPosterFragment"
+
             android:id="@+id/action_jobDetailsPosterFragment_to_increaseBudgetBottomSheet"
             app:destination="@id/increaseBudgetBottomSheet" />
         <action
             android:id="@+id/action_jobDetailsPosterFragment_to_increaseBudgetNoticeBottomSheet"
+            app:popUpTo="@id/jobDetailsPosterFragment"
             app:destination="@id/increaseBudgetNoticeBottomSheet" />
     </fragment>
     <fragment

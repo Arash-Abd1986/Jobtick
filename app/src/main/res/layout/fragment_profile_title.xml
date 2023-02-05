@@ -70,7 +70,7 @@
                 android:layout_marginBottom="5dp"
                 android:id="@+id/txt_level"
 
-                style="@style/materialText_W500_14"
+                style="@style/newDesign_12_500"
                 android:textSize="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_full_name"
-                style="@style/materialText_W400_24"
+
                 android:textSize="17dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -176,7 +176,6 @@
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:id="@+id/txt_suburb"
-            style="@style/materialText_W400_16"
             android:textSize="13dp"
             android:visibility="visible"
             android:layout_width="64dp"

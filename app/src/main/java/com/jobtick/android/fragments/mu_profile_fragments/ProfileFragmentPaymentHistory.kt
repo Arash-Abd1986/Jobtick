@@ -89,6 +89,10 @@ class ProfileFragmentPaymentHistory : Fragment() {
             view.findNavController().navigate(R.id.action_navigation_profile_payment_history_to_navigation_profile_payments)
         }
 
+        binding.textDownloadCsv.setOnClickListener{
+            getPaymentHistoryCsv(startDate, endDate)
+        }
+
         binding.filters.toggleButton.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
 
             if(checkedId == binding.filters.custom.id && isChecked)
@@ -195,6 +199,67 @@ class ProfileFragmentPaymentHistory : Fragment() {
         val requestQueue = Volley.newRequestQueue(context)
         requestQueue.add(stringRequest)
     }
+
+
+    fun getPaymentHistoryCsv(from: String?, to: String?) {
+        val type: String
+        type = if (sessionManager.roleLocal == "poster") "poster_payment_filter=true" else "worker_payment_filter=true"
+        val url: String
+        url = if (!firstInit) {
+            Constant.URL_GET_PAYMENT_HISTORY_CSV + "?" +
+                    type + "&date_from=" + from + "&date_to=" + to
+        } else Constant.URL_GET_PAYMENT_HISTORY_CSV + "?" + type
+        activity.showProgressDialog()
+        val stringRequest: StringRequest = object : StringRequest(
+            Method.GET,
+            "$url&limit=50",
+            Response.Listener { response: String? ->
+                try {
+                    val jsonObject = JSONObject(response)
+                    if (jsonObject.has("success") && jsonObject.has("data")) {
+                        val jsonObject_data = jsonObject.getJSONArray("data")
+                        val googleJson = Gson()
+                        val listType = object :
+                            TypeToken<List<PaymentHistory?>?>() {}.type
+                        val jsonObjList =
+                            googleJson.fromJson<List<PaymentHistory>>(
+                                jsonObject_data.toString(),
+                                listType
+                            )
+                        fillData(jsonObjList, jsonObject.getString("total_amount"), firstInit)
+                    }
+                } catch (e: JSONException) {
+
+                    e.printStackTrace()
+                }
+                //                    ((ActivityBase) requireActivity()).hideProgressDialog();
+                activity.hideProgressDialog()
+            },
+            Response.ErrorListener { error: VolleyError ->
+                (requireActivity() as ActivityBase).errorHandle1(error.networkResponse)
+                //                    ((ActivityBase) requireActivity()).hideProgressDialog();
+                activity.hideProgressDialog()
+
+
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val map1: MutableMap<String, String> = HashMap()
+                map1["authorization"] = sessionManager.tokenType + " " + sessionManager.accessToken
+                map1["Content-Type"] = "application/x-www-form-urlencoded"
+                map1["X-Requested-With"] = "XMLHttpRequest"
+                map1["Version"] = BuildConfig.VERSION_CODE.toString()
+                return map1
+            }
+        }
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            0, -1,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        val requestQueue = Volley.newRequestQueue(context)
+        requestQueue.add(stringRequest)
+    }
+
 
     private fun fillData(data: List<PaymentHistory>, total_amount: String, firstInit: Boolean) {
 

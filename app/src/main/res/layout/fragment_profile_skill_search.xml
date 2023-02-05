@@ -8,21 +8,256 @@
     <include
         android:id="@+id/header"
         layout="@layout/header_new_design_search_bar"/>
-    <LinearLayout
+
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
+            android:id="@+id/alphabeticParent"
+            android:gravity="center"
+            android:layout_alignParentEnd="true"
+            android:orientation="vertical"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="12dp"
+                android:textColor="@color/primary_500"
+                android:text="#"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetA"
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="A"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetB"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="B"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetC"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="C"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetD"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="D"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetE"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="E"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetF"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="F"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetG"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="G"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetH"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="H"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetI"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="I"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetJ"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="J"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetK"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="K"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetL"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="L"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetM"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="M"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetN"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="N"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetO"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="O"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetP"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="P"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetQ"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="Q"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetR"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetS"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetT"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="T"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetU"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="U"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetV"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="V"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetW"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="W"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetX"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="X"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetY"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="Y"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/alphabetZ"
+
+                android:textSize="12dp"
+                android:textColor="@color/neutral_light_600"
+                android:text="Z"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginBottom="48dp"
                 android:id="@+id/skill_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
+
         </LinearLayout>
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
 </LinearLayout>

@@ -7,9 +7,15 @@
         android:title="@string/title_explore" />
 
     <item
-        android:id="@+id/navigation_my_tasks"
-        android:icon="@drawable/bottom_nav_icons_inventory"
+        android:id="@+id/navigation_workspace"
+        android:icon="@drawable/bottom_nav_icons_workspace"
         android:title="@string/title_workspace" />
+
+    <item
+        android:id="@+id/navigation_inventory"
+        android:icon="@drawable/bottom_nav_icons_inventory"
+        android:title="@string/title_inventory" />
+
 
     <item
         android:id="@+id/navigation_browse"

@@ -2,6 +2,7 @@ package com.jobtick.android.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -15,10 +16,9 @@ import android.os.Parcelable
 import android.text.Html
 import android.text.TextUtils
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.widget.*
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -34,6 +34,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
+import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -317,7 +318,8 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
 
         noActiveChat.setOnClickListener {
             if(noActiveChattxt.text.contains("blocked"))
-                setUserBlockState(false)
+                showDialogBlock("unblock")
+             //  setUserBlockState(false)
         }
 
 
@@ -473,7 +475,10 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             mypopupWindow!!.showAsDropDown(icSetting, 0, Tools.px2dip(this, -20f))
         }
 
-        btnUnblock.setOnClickListener { setUserBlockState(false) }
+        btnUnblock.setOnClickListener {
+            showDialogBlock("unblock")
+            //  setUserBlockState(false) }
+        }
         if (conversationModel != null) {
             if (conversationModel!!.blocked_by != null) {
                 if (sessionManager.userAccount.id == conversationModel!!.blocked_by) {
@@ -492,13 +497,41 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         val view = inflater.inflate(R.layout.chats_menu, null)
         mypopupWindow = PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
         mypopupWindow!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val block = view.findViewById<View>(R.id.block) as TextView
+        val block = view.findViewById<View>(R.id.blockParent) as LinearLayout
+        val blockText = view.findViewById<View>(R.id.block) as TextView
+        val blockIcon = view.findViewById<View>(R.id.block_icon) as ImageView
+        val report = view.findViewById<View>(R.id.reportParent) as LinearLayout
+        if(conversationModel!!.blocked_by == sessionManager.userAccount.id) {
+            blockIcon.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.new_design_block_black))
+            blockText.setTextColor(getColor(R.color.light_neutral_n900))
+            blockText.text = "Unblock user"
 
+        }
+        else {
+            blockIcon.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.new_design_block ))
+            blockText.setTextColor(getColor(R.color.primary_error))
+            blockText.text = "Block user"
+        }
+        report.setOnClickListener {
+            val bundleReport = Bundle()
+            val intentReport = Intent(this, ReportUser::class.java)
+            bundleReport.putString(Constant.userID, conversationModel!!.id.toString())
+            bundleReport.putString("key", ConstantKey.KEY_USER_REPORT)
+            bundleReport.putString("name", conversationModel!!.name.toString())
+            intentReport.putExtras(bundleReport)
+            startActivity(intentReport)
+            val intent = Intent(this, ReportUser::class.java)
+            startActivity(intent)
+        }
         block.setOnClickListener {
+            if(conversationModel!!.blocked_by == sessionManager.userAccount.id)
+                showDialogBlock("unblock")
+            else
+                showDialogBlock("block")
             mypopupWindow!!.dismiss()
-            val confirmBottomSheet = ConfirmBlockTaskBottomSheet(this, conversationModel!!.receiver.name)
-            confirmBottomSheet.listener = this
-            confirmBottomSheet.show(this.supportFragmentManager, "")
+//            val confirmBottomSheet = ConfirmBlockTaskBottomSheet(this, conversationModel!!.receiver.name)
+//            confirmBottomSheet.listener = this
+//            confirmBottomSheet.show(this.supportFragmentManager, "")
         }
     }
 
@@ -507,7 +540,9 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         showProgressDialog()
         val stringRequest: StringRequest = object : StringRequest(Method.POST, Constant.URL_BLOCK_CHAT,
                 Response.Listener {
+                    Log.d("blockresponse", it.toString())
                     if (state) {
+                        conversationModel!!.blocked_by = sessionManager.userAccount.id
                         btnUnblock.visibility = View.VISIBLE
                         cvAction.visibility = View.GONE
                         noActiveChat.visibility = View.VISIBLE
@@ -516,6 +551,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
 
 
                     } else {
+                        conversationModel!!.blocked_by = 0
                         btnUnblock.visibility = View.GONE
                         cvAction.visibility = View.VISIBLE
                         noActiveChat.visibility = View.GONE
@@ -775,7 +811,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                 pbLoading.visibility = View.GONE
                 imgBtnSend.visibility = View.VISIBLE
                 showToast("Something went wrong", this@ChatActivity)
-                Log.d("errorOnSending", t.message.toString());
+                Log.d("errorOnSending", t.message.toString())
             }
         })
     }
@@ -855,5 +891,52 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         }
     }
 
+    fun showDialogBlock(mode: String) {
+        val cancel: MaterialButton?
+        val delete: MaterialButton?
+        val title: TextView?
+        val mainTitle: TextView?
+        val dialog = Dialog(this, R.style.AnimatedDialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+        dialog.setContentView(R.layout.dialog_discard_changes_new)
+
+        val width = (resources.displayMetrics.widthPixels * 0.90).toInt()
+        dialog.window!!.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+        cancel = dialog.findViewById(R.id.cancel)
+        delete = dialog.findViewById(R.id.discard)
+        title = dialog.findViewById(R.id.title)
+        mainTitle = dialog.findViewById(R.id.mainTitle)
+
+        if(mode == "block") {
+            delete.text = getString(R.string.block)
+            mainTitle.text = getString(R.string.confirm_block_user)
+            title.text = this.getString(R.string.block_user_title)
+
+        }
+        else {
+            delete.setTextColor(getColor(R.color.primary_p500_base_light))
+            title.text = getString(R.string.unblock_user_title) + conversationModel!!.name
+            mainTitle.text = getString(R.string.confirm_unblock_user)
+            delete.text = getString(R.string.unblock)
+        }
+
+        cancel.text = getString(R.string.cancel)
+
+        cancel.setOnClickListener {
+            dialog.cancel()
+        }
+        delete.setOnClickListener {
+            //viewModel.deleteAccount(activity)
+            if(mode == "block")
+                setUserBlockState(true)
+            else
+                setUserBlockState(false)
+            dialog.cancel()
+        }
+
+        dialog.show()
+
+    }
 
 }

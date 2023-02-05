@@ -1,7 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:animateLayoutChanges="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:visibility="gone"
+            android:padding="5dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/new_design_back_arrow"
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:fontFamily="@font/roboto_medium"
+            android:id="@+id/txt_title"
+            android:layout_toEndOf="@+id/back"
+            android:layout_toStartOf="@+id/image_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="28dp"
+            android:layout_marginTop="59dp"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/neutral_light_800"
+            android:text="@string/title_inventory" />
+        <ImageView
+            android:src="@drawable/new_design_notifications"
+            android:layout_marginTop="15dp"
+            android:animateLayoutChanges="true"
+            android:layout_marginEnd="20dp"
+            android:id="@+id/image_action"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/primary_500"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.cardview.widget.CardView
+            android:visibility="visible"
+            android:id="@+id/editTextParent"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:cardBackgroundColor="@color/neutral_light_50"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:cardMaxElevation="0dp"
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="false">
+            <com.google.android.material.textfield.TextInputLayout
+
+                app:hintEnabled="false"
+                android:id="@+id/input_layout_search"
+                app:boxBackgroundColor="@android:color/transparent"
+                android:background="@android:color/transparent"
+                app:startIconDrawable="@drawable/new_design_search"
+                app:startIconTint="@color/neutral_light_500"
+                android:gravity="center"
+                android:layout_gravity="center"
+                app:boxBackgroundMode="none"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:drawablePadding="-10dp"
+                    android:padding="1dp"
+                    style="@style/newDesign_16_500"
+                    android:gravity="center_vertical"
+                    android:id="@+id/edt_search"
+                    android:textColorHint="@color/neutral_light_500"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="@string/action_search"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:visibility="visible" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp"
+            android:weightSum="4.5"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:gravity="center_vertical|start"
+                android:orientation="horizontal"
+                android:layout_weight="1.5"
+                android:layout_width="0dp"
+                android:layout_height="21dp">
+                <TextView
+                    android:fontFamily="@font/roboto_bold"
+                    android:layout_marginEnd="4dp"
+                    android:text="@string/posted"
+                    style="@style/newDesign_12_500"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_centerInParent="true"
+                        android:id="@+id/posted_image"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+
+                        android:background="@color/purple_500"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+                    <TextView
+                        android:id="@+id/posted_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="99"
+                        android:textColor="@color/white"
+                        android:textSize="12dp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginEnd="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_weight="1.5"
+                android:layout_width="0dp"
+                android:layout_height="21dp">
+                <TextView
+                    android:fontFamily="@font/roboto_bold"
+                    android:layout_marginEnd="4dp"
+                    android:text="@string/assigned"
+                    style="@style/newDesign_12_500"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_centerInParent="true"
+                        android:id="@+id/assigned_image"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+
+                        android:background="@color/purple_500"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+                    <TextView
+                        android:id="@+id/assigned_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="99"
+                        android:textColor="@color/white"
+                        android:textSize="12dp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_weight="1.5"
+                android:layout_width="0dp"
+                android:layout_height="21dp">
+                <TextView
+                    android:fontFamily="@font/roboto_bold"
+                    android:layout_marginEnd="4dp"
+                    android:text="@string/ticked"
+                    style="@style/newDesign_12_500"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_centerInParent="true"
+                        android:id="@+id/ticked_image"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+
+                        android:background="@color/purple_500"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+                    <TextView
+                        android:id="@+id/ticked_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="99"
+                        android:textColor="@color/white"
+                        android:textSize="12dp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/more"
+                app:tint="@color/neutral_light_500"
+                android:rotation="90"
+                android:src="@drawable/ic_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+    <View
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/neutral_light_100"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundLightGrey"
@@ -58,6 +295,7 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:background="@color/white"
                     android:id="@+id/recycler_view_status"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -77,3 +315,4 @@
         android:layout_height="wrap_content"
         app:layout_behavior="@string/bottom_sheet_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

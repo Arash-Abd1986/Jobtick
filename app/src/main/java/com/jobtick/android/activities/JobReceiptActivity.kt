@@ -190,6 +190,7 @@ class JobReceiptActivity : ActivityBase() {
                     hideProgressDialog()
                 },
                 Response.ErrorListener { error: VolleyError ->
+                    Log.d("errorcodejobrec", error.networkResponse.statusCode.toString())
                     errorHandle1(error.networkResponse)
                     hideProgressDialog()
                 }) {

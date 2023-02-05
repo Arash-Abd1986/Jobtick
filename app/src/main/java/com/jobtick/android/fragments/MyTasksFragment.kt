@@ -41,6 +41,7 @@ import com.jobtick.android.activities.SearchTaskActivity
 import com.jobtick.android.activities.TaskCreateActivity
 import com.jobtick.android.activities.TaskDetailsActivity
 import com.jobtick.android.adapers.TaskListAdapterV2
+import com.jobtick.android.material.ui.jobdetails.JobDetailsActivity
 import com.jobtick.android.models.TaskModel
 import com.jobtick.android.models.response.myjobs.Data
 import com.jobtick.android.models.response.myjobs.MyJobsResponse
@@ -78,6 +79,7 @@ class MyTasksFragment :
     private lateinit var ivNotification: ImageView
     private lateinit var toolbarTitle: TextView
     private lateinit var filterText: TextView
+    private lateinit var txt_title: TextView
     private lateinit var filterIcon: ImageView
     private lateinit var linFilter: LinearLayout
     private var mBehavior: BottomSheetBehavior<*>? = null
@@ -99,6 +101,7 @@ class MyTasksFragment :
 
     private fun initIDS() {
         recyclerViewStatus = requireView().findViewById(R.id.recycler_view_status)
+        txt_title = requireView().findViewById(R.id.txt_title)
         bottomSheet = requireView().findViewById(R.id.bottom_sheet)
         swipeRefresh = requireView().findViewById(R.id.swipeRefresh)
     }
@@ -109,7 +112,7 @@ class MyTasksFragment :
         toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
         toolbar.menu.clear()
         // toolbar.inflateMenu(R.menu.menu_my_task_black);
-        toolbar.visibility = View.VISIBLE
+        toolbar.visibility = View.GONE
         ivNotification = dashboardActivity!!.findViewById(R.id.ivNotification)
         ivNotification.visibility = View.VISIBLE
         toolbarTitle = dashboardActivity!!.findViewById(R.id.toolbar_title)
@@ -424,7 +427,7 @@ class MyTasksFragment :
 
     // categoryArrayList.clear();
     private val statusList: Unit
-        private get() {
+         get() {
             var query_parameter = ""
             if (strSearch != null) {
                 query_parameter += "&search_query=$strSearch"
@@ -517,7 +520,7 @@ class MyTasksFragment :
         ) {
             getDataFromServer(obj.slug)
         } else {
-            val intent = Intent(dashboardActivity, TaskDetailsActivity::class.java)
+            val intent = Intent(dashboardActivity, JobDetailsActivity::class.java)
             val bundle = Bundle()
             bundle.putString(ConstantKey.SLUG, obj.slug)
             //   bundle.putInt(ConstantKey.USER_ID, obj.getPoster().getId());
@@ -526,6 +529,9 @@ class MyTasksFragment :
             Timber.i("MyTasksFragment Starting Task with slug: %s", obj.slug)
         }
     }
+
+
+
 
     private fun getDataFromServer(slug: String?) {
         dashboardActivity!!.showProgressDialog()

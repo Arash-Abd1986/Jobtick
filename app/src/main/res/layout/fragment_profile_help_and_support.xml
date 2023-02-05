@@ -90,6 +90,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
+            <View
+                android:background="@color/neutral_light_50"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
                 <RelativeLayout
                     android:id="@+id/text_ticker"
@@ -144,7 +148,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/profile_acounts_values"
                     android:textColor="@color/neutral_light_700"
-                    android:text="Live us a Feedback" />
+                    android:text="Leave us a Feedback" />
                 <ImageView
                     android:src="@drawable/new_design_chevron_right"
                     android:layout_centerVertical="true"

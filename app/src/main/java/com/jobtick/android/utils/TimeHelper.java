@@ -94,8 +94,21 @@ public class TimeHelper {
         if(!dateTime.contains("T")){
             return "-1";
         }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE dd, YYYY", Locale.ENGLISH);
 
-        return dateTime.substring(0, dateTime.indexOf("T"));
+        Date date = null;
+        try {
+            date = format.parse(dateTime);
+        } catch (ParseException e) {
+            return "-1";
+        } catch (NullPointerException e){
+            return "No date set";
+        }
+        return sdf.format(date).toUpperCase(Locale.ROOT);
+
+       // return dateTime.substring(0, dateTime.indexOf("T"));
+
     }
 
     //Format: T separator of date and time, output format: 13/03/2020

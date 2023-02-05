@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.database.Cursor.FIELD_TYPE_STRING
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -25,6 +26,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
+import androidx.core.content.PermissionChecker.checkSelfPermission
+//import androidx.core.content.PermissionChecker.checkSelfPermission
+
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -52,6 +57,8 @@ import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.network.retrofit.ApiClient
 import com.jobtick.android.utils.*
+import com.jobtick.android.utils.CameraImagePick.CameraGalleryImagePick
+import com.jobtick.android.utils.CameraImagePick.ImagePickedStatus
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -125,41 +132,47 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
             }
         }
         try {
-            binding.avatarLoading.visibility = View.VISIBLE
-            Glide.with(binding.imgAvatar).load(sessionManager!!.userAccount!!.avatar!!.url).listener(
-                object : RequestListener<Drawable> {
+          //  binding.avatarLoading.visibility = View.VISIBLE
+            if (sessionManager!!.userAccount.avatar != null) {
+                ImageUtil.displayImage(binding.imgAvatar, sessionManager!!.userAccount.avatar.thumbUrl, null)
+            }
 
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        binding.avatarLoading.visibility = View.GONE
-
-                        binding.imgAvatar.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_person))
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        binding.avatarLoading.visibility = View.GONE
-
-                        return false
-                    }
-                })
-                .into(binding.imgAvatar)
+//            Glide.with(binding.imgAvatar).load(sessionManager!!.userAccount!!.avatar!!.thumbUrl).listener(
+//                object : RequestListener<Drawable> {
+//
+//                    override fun onLoadFailed(
+//                        e: GlideException?,
+//                        model: Any?,
+//                        target: Target<Drawable>?,
+//                        isFirstResource: Boolean
+//                    ): Boolean {
+//                        binding.avatarLoading.visibility = View.GONE
+//
+//                        binding.imgAvatar.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_person))
+//                        return false
+//                    }
+//
+//                    override fun onResourceReady(
+//                        resource: Drawable?,
+//                        model: Any?,
+//                        target: Target<Drawable>?,
+//                        dataSource: DataSource?,
+//                        isFirstResource: Boolean
+//                    ): Boolean {
+//                        binding.avatarLoading.visibility = View.GONE
+//
+//                        return false
+//                    }
+//                })
+//                .into(binding.imgAvatar)
         }catch (e: Exception) {
             binding.avatarLoading.visibility = View.GONE
             binding.imgAvatar.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_person))
         }
 
-        binding.imgAvatarParent.setOnClickListener { showDialog() }
+        binding.imgAvatarParent.setOnClickListener {
+            showDialog()
+        }
         uploadableImage = object : AbstractUploadableImageImpl(requireActivity()) {
             override fun onImageReady(imageFile: File) {
                 Glide.with(binding.imgAvatar).load(Uri.fromFile(imageFile)).into(binding.imgAvatar)
@@ -209,7 +222,7 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
 
 
                     }
-            activity.resetBottomBar()
+          //  activity.resetBottomBar()
             activity.setBottomnav()
 
         }
@@ -392,8 +405,9 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
                             attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
                             sessionManager!!.userAccount.avatar = attachment
 
-                            ImageUtil.displayImage(binding.imgAvatar, attachment.url, null)
-                            binding.imgAvatar.setImageBitmap(BitmapFactory.decodeFile(pictureFile.path))
+//                            ImageUtil.displayImage(binding.imgAvatar, attachment.url, null)
+                         //   binding.imgAvatar.setImageBitmap(BitmapFactory.decodeFile(pictureFile.path))
+                            Glide.with(binding.imgAvatar).load(attachment.thumbUrl).into(binding.imgAvatar)
 //                            if (ProfileFragment.onProfileupdatelistener != null) {
 //                                ProfileFragment.onProfileupdatelistener!!.updatedSuccesfully(attachment.url)
 //                            }
@@ -439,14 +453,42 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
         }
         window.findViewById<MaterialButton>(R.id.gallery).setOnClickListener {
             if (checkPermissionREAD_EXTERNAL_STORAGE(requireContext())) {
+                infoDialog.dismiss()
+
                 val openGallary = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(Intent.createChooser(openGallary, "Open Gallary"), AttachmentBottomSheet.GALLERY_REQUEST)
-                infoDialog.dismiss()
             }
         }
-        window.findViewById<MaterialButton>(R.id.pdf).setOnClickListener {
-            if (checkPermissionREAD_EXTERNAL_STORAGE(requireContext())) {
 
+        window.findViewById<MaterialButton>(R.id.pdf).setOnClickListener { view1: View? ->
+            infoDialog.dismiss()
+            if (checkSelfPermission(activity,Manifest.permission.CAMERA) != PERMISSION_GRANTED) {
+                val permissionlistener: PermissionListener = object : PermissionListener {
+
+                    override fun onPermissionGranted() {
+                        val cameraIntent = NewCameraUtil.getTakePictureIntent(activity)
+                        if (cameraIntent == null) {
+                            activity.showToast("can not write to your files to save picture.", activity)
+                        }
+                        try {
+                            startActivityForResult(cameraIntent,
+                                AttachmentBottomSheet.CAMERA_REQUEST
+                            )
+                        } catch (e: ActivityNotFoundException) {
+                            activity.showToast("Can not find your camera.", activity)
+                        }
+                    }
+
+                    override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+
+                    }
+                }
+                TedPermission.with(activity)
+                    .setPermissionListener(permissionlistener)
+                    .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                    .setPermissions(Manifest.permission.CAMERA)
+                    .check()
+            } else {
                 val cameraIntent = NewCameraUtil.getTakePictureIntent(activity)
                 if (cameraIntent == null) {
                     activity.showToast("can not write to your files to save picture.", activity)
@@ -458,14 +500,9 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
                 } catch (e: ActivityNotFoundException) {
                     activity.showToast("Can not find your camera.", activity)
                 }
-
-//                val intent = Intent()
-//                intent.type = "application/pdf"
-//                intent.action = Intent.ACTION_GET_CONTENT
-//                startActivityForResult(Intent.createChooser(intent, "Select PDF File"), 1001)
-                infoDialog.dismiss()
             }
         }
+
     }
 
     override fun PickiTonUriReturned() {
@@ -499,12 +536,22 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
     }
 
     @SuppressLint("Range")
-    fun getPath(uri: Uri?): String {
+    fun getPath(uri: Uri?): String? {
         val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
         val cursor: Cursor = requireActivity().contentResolver.query(uri!!, filePathColumn, null, null, null)!!
-        cursor.moveToFirst()
-        val columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
-        val picturePath: String = cursor.getString(columnIndex)
+        var picturePath: String? = null
+//        if (cursor == null) {
+//            picturePath = uri.path
+//        } else {
+            cursor.moveToFirst()
+            val columnIndex: Int = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+            Log.d("aaaasdasdasd", columnIndex.toString() + "," + cursor.toString())
+
+            if (cursor.getType(columnIndex) == FIELD_TYPE_STRING)
+                picturePath = cursor.getString(columnIndex)
+            else
+                picturePath = uri.path
+
         cursor.close()
         Timber.e(picturePath)
         return picturePath

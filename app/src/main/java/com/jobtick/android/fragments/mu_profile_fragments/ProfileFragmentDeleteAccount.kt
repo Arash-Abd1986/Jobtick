@@ -97,6 +97,7 @@ class ProfileFragmentDeleteAccount : Fragment() {
         val cancel: MaterialButton?
         val delete: MaterialButton?
         val title: TextView?
+        val mainTitle: TextView?
         val dialog = Dialog(activity, R.style.AnimatedDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
@@ -107,9 +108,11 @@ class ProfileFragmentDeleteAccount : Fragment() {
         cancel = dialog.findViewById(R.id.cancel)
         delete = dialog.findViewById(R.id.discard)
         title = dialog.findViewById(R.id.title)
+        mainTitle = dialog.findViewById(R.id.mainTitle)
 
-        delete.text = "Delete"
-        cancel.text = "Cancel"
+        delete.text = getString(R.string.delete)
+        cancel.text = getString(R.string.cancel)
+        mainTitle.text = getString(R.string.profile_delete_account)
 
         title.setText(activity.getString(R.string.profile_delete_account_warning))
 

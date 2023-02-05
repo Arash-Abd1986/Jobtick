@@ -31,7 +31,7 @@
                 android:maxLines="1"
                 android:textSize="@dimen/profile_acounts_header"
                 android:textColor="@color/neutral_light_500"
-                android:text="Credit Card Information" />
+                android:text="CREDIT CARD INFORMATION" />
             <RelativeLayout
                 android:layout_marginTop="8dp"
                 android:paddingTop="12dp"

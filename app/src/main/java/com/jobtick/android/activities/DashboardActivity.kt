@@ -16,6 +16,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.drawable.DrawableCompat
@@ -148,8 +149,11 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         val navGraph = graphInflater.inflate(R.navigation.mobile_navigation)
         navGraph.setStartDestination(  if (sessionManager!!.roleLocal == "poster") {
           //  R.id.navigation_new_task
+            bottomNav.selectedItemId = R.id.navigation_inventory
             R.id.navigation_my_tasks
         } else {
+            bottomNav.selectedItemId = R.id.navigation_new_task
+
             R.id.navigation_browse
         })
         navController!!.graph = navGraph
@@ -766,11 +770,14 @@ Team ${resources.getString(R.string.app_name)}"""
 
          if (sessionManager!!.roleLocal == "poster") {
             bottomNav.menu.findItem(R.id.navigation_new_task).isVisible = false
-            bottomNav.menu.findItem(R.id.navigation_my_tasks).title = getString(R.string.title_inventory)
+            bottomNav.menu.findItem(R.id.navigation_workspace).isVisible = false
+            bottomNav.menu.findItem(R.id.navigation_inventory).isVisible = true
+
         }
         else {
             bottomNav.menu.findItem(R.id.navigation_new_task).isVisible = true
-            bottomNav.menu.findItem(R.id.navigation_my_tasks).title = getString(R.string.title_workspace)
+             bottomNav.menu.findItem(R.id.navigation_workspace).isVisible = true
+             bottomNav.menu.findItem(R.id.navigation_inventory).isVisible = false
         }
 
         bottomNav.setOnItemSelectedListener { item ->
@@ -786,10 +793,18 @@ Team ${resources.getString(R.string.app_name)}"""
 
                     true
                 }
-                R.id.navigation_my_tasks -> {
+                R.id.navigation_inventory -> {
+                    toolbar!!.visibility = View.GONE
                     navController!!.navigate(R.id.navigation_my_tasks)
                     true
                 }
+                R.id.navigation_workspace -> {
+                    toolbar!!.visibility = View.GONE
+
+                    navController!!.navigate(R.id.navigation_my_tasks)
+                    true
+                }
+
                 R.id.navigation_browse -> {
                     navController!!.navigate(R.id.navigation_inbox)
 

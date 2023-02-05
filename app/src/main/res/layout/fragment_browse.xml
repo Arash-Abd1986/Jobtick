@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -10,7 +11,10 @@
     app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
     tools:context=".fragments.ExploreFragment">
 
+
+
     <RelativeLayout
+        android:visibility="visible"
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,6 +78,7 @@
         </RelativeLayout>
 
         <com.google.android.material.textfield.TextInputEditText
+            android:visibility="gone"
             android:id="@+id/location"
             style="@style/body2"
             android:layout_width="match_parent"
@@ -200,11 +205,12 @@
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/appbar"
-        android:layout_marginTop="@dimen/_8dp">
+        android:layout_marginTop="8dp">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -297,4 +303,4 @@
            android:textColor="@color/white" />
    </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

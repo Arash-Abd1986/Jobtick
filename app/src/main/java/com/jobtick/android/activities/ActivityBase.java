@@ -146,7 +146,7 @@ public class ActivityBase extends AppCompatActivity {
 
         pDialog.setContentView(R.layout.dialog_view_loading_new);
         TextView maintitle = pDialog.findViewById(R.id.mainTitle);
-        maintitle.setText("Loading your data");
+        maintitle.setText(getString(R.string.loading_your_data));
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
         pDialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -155,6 +155,20 @@ public class ActivityBase extends AppCompatActivity {
         pDialog.setCancelable(false);
     }
 
+    public void initProgressDialog(String mainTitle) {
+        pDialog = new Dialog(this, R.style.AnimatedDialog);
+        pDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        pDialog.setContentView(R.layout.dialog_view_loading_new);
+        TextView maintitle = pDialog.findViewById(R.id.mainTitle);
+        maintitle.setText(mainTitle);
+        int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
+        pDialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        //  pDialog.setTitle(getString(R.string.processing));
+        // pDialog.setMessage(getString(R.string.please_wait));
+        pDialog.setCancelable(false);
+    }
 
 
     public void showProgressDialog() {
@@ -184,7 +198,10 @@ public class ActivityBase extends AppCompatActivity {
     public void errorHandle1(NetworkResponse networkResponse) {
         if (networkResponse != null) {
             switch (networkResponse.statusCode) {
-                case 400:
+//                case 400:
+//                    showToast("Something Went Wrong", ActivityBase.this);
+//                    break;
+                case 500:
                 case 401:
                     unauthorizedUser();
                     hideProgressDialog();
@@ -237,6 +254,7 @@ public class ActivityBase extends AppCompatActivity {
                                     break;
                             }
                         } catch (JSONException e) {
+                            showToast("Something Went Wrong", ActivityBase.this);
                             e.printStackTrace();
                         }
                     }
@@ -246,6 +264,7 @@ public class ActivityBase extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     break;
+                case 400:
                 default:
                     showToast("Something Went Wrong", ActivityBase.this);
                     break;

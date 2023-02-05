@@ -109,7 +109,7 @@ class ProfileFragmentCreditCard : Fragment(){
 
 
         val calendar = Calendar.getInstance()
-        val format = SimpleDateFormat("EEEE, MMMM d yyyy")
+        val format = SimpleDateFormat("EEEE, MMMM d yyyy", Locale.getDefault())
         val formattedDate: String = format.format(calendar.time)
         //binding.startDateValue.text = formattedDate
         cyear = calendar[Calendar.YEAR]
@@ -191,8 +191,8 @@ class ProfileFragmentCreditCard : Fragment(){
         datePicker.addOnPositiveButtonClickListener {
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             calendar.timeInMillis = it
-            val format = SimpleDateFormat("yyyy-MM-dd")
-            val format1 = SimpleDateFormat("MM/yyyy")
+            val format = SimpleDateFormat(getString(R.string.simpledateformatbackend), Locale.getDefault())
+            val format1 = SimpleDateFormat("MM/yyyy", Locale.getDefault())
             val formattedDate: String = format.format(calendar.time)
             val formattedDate1: String = format1.format(calendar.time)
             binding.edittextExpiryDate.editText?.setText(formattedDate1)

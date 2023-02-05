@@ -76,7 +76,8 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         back = findViewById(R.id.back)
         linTitle = findViewById(R.id.linTitle)
         back.setOnClickListener {
-            navController.popBackStack()
+            if(!navController.popBackStack())
+                finish()
         }
         close.setOnClickListener {
             navController.popBackStack()

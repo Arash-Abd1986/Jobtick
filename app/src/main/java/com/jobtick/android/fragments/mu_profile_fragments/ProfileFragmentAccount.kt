@@ -147,7 +147,7 @@ class ProfileFragmentAccount : Fragment() {
                         bundle
                     )
                 } else {
-                    Helper.setError(activity, "Please Enter Your Number", binding.numberTextInput)
+                    Helper.setError(activity, getString(R.string.please_enter_your_number), binding.numberTextInput)
                 }
 
             }
@@ -167,7 +167,7 @@ class ProfileFragmentAccount : Fragment() {
                         bundle
                     )
                 } else {
-                    Helper.setError(activity, "Please Enter Your Email Address", binding.emailTextInput)
+                    Helper.setError(activity, getString(R.string.please_enter_your_email), binding.emailTextInput)
                 }
 
             }

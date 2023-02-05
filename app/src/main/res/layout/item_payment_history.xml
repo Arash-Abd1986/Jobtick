@@ -5,32 +5,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<!--<RelativeLayout-->
+<!--    android:id="@+id/parentkoloftnazok"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content">-->
         <View
-            android:layout_marginBottom="12dp"
+            android:visibility="visible"
             android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            android:layout_centerVertical="true"
             android:id="@+id/koloft"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:background="@color/colorF0F0F0"/>
+            android:background="@color/colorF0F0F0"
+            android:orientation="horizontal" />
 
     <View
-        android:layout_marginBottom="12dp"
+        android:visibility="gone"
         android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/koloft"
         android:id="@+id/nazok"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/spacing_line"
-        android:background="@color/colorF0F0F0"/>
-</RelativeLayout>
+        android:background="@color/colorF0F0F0"
+        android:orientation="horizontal" />
+<!--</RelativeLayout>-->
     <com.google.android.material.textview.MaterialTextView
+        android:paddingBottom="20dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:id="@+id/dateTxt"
-        android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lines="1"
@@ -53,6 +61,7 @@
         app:civ_border="false" />
 
     <RelativeLayout
+        android:id="@+id/bottomPart"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_centerVertical="true"
@@ -65,7 +74,6 @@
         android:id="@+id/descriptionTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
         android:layout_toStartOf="@id/priceTxt"
         android:layout_marginEnd="30dp"
         android:gravity="top|start"
@@ -99,9 +107,8 @@
         android:layout_marginEnd="7dp"
         android:gravity="end|center_vertical"
         android:lines="1"
-        android:fontFamily="@font/roboto_medium"
         android:textSize="14dp"
-        android:textAppearance="@style/materialText_700_20"
+        android:textAppearance="@style/newDesign_14_500"
         android:textColor="@color/neutral_light_500"
         tools:text="$100" />
 

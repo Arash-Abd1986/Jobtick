@@ -58,6 +58,9 @@ public class ConversationModel implements Parcelable {
     /**
      * No args constructor for use in serialization
      */
+//    public ConversationModel() {
+//    }
+
     public ConversationModel(Context context) {
         this.sessionManager = new SessionManager(context);
     }

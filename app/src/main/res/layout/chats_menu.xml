@@ -21,6 +21,7 @@
             android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/helpParent"
             android:layout_width="161dp"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rounded_back_white_button_active_r8"
@@ -43,7 +44,7 @@
                 android:gravity="start"
                 android:text="Help Center"
                 android:textAppearance="@style/materialText_400_14"
-                android:textColor="@color/N900" />
+                android:textColor="@color/light_neutral_n900" />
 
 
         </LinearLayout>
@@ -53,6 +54,7 @@
                 android:background="@color/N040" />
 
             <LinearLayout
+                android:id="@+id/reportParent"
                 android:layout_width="161dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_rounded_back_white_button_active_r8"
@@ -75,12 +77,12 @@
                     android:gravity="start"
                     android:text="Report"
                     android:textAppearance="@style/materialText_400_14"
-                    android:textColor="@color/N900" />
+                    android:textColor="@color/light_neutral_n900" />
 
 
             </LinearLayout>
             <LinearLayout
-                android:layout_width="161dp"
+android:id="@+id/blockParent"                android:layout_width="161dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_rounded_back_white_button_active_r8"
                 android:orientation="horizontal"
@@ -89,6 +91,7 @@
                 tools:context=".activities.ChatActivity">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/block_icon"
                     android:layout_width="16.67dp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="8dp"

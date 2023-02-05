@@ -319,6 +319,8 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
                 }
                 isLoadingItems = false
             } catch (e: JSONException) {
+                Log.d("fetchdata", e.toString())
+
                 dashboardActivity!!.hideProgressDialog()
                 Timber.e(e.toString())
                 e.printStackTrace()
@@ -326,7 +328,7 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
         },
                 Response.ErrorListener { error: VolleyError ->
                     swipeRefresh!!.isRefreshing = false
-                  //  dashboardActivity!!.errorHandle1(error.networkResponse)
+                    dashboardActivity!!.errorHandle1(error.networkResponse)
                 }) {
             override fun getHeaders(): Map<String, String> {
                 val map1: MutableMap<String, String> = HashMap()

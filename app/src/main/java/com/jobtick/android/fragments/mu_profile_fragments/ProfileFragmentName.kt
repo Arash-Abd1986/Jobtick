@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
 import com.jobtick.android.databinding.FragmentProfileNameBinding
+import com.jobtick.android.utils.Helper
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.SetToolbar
 import com.jobtick.android.utils.isLetter
@@ -104,40 +105,30 @@ class ProfileFragmentName : Fragment() {
         resetError()
         when {
             binding.edittextFirstname.editText?.text.isNullOrEmpty() && binding.edittextLastname.editText?.text.isNullOrEmpty() -> {
-                setError("Please enter your first name", binding.edittextFirstname)
-                setError("Please enter your last name", binding.edittextLastname)
+                Helper.setError(activity, getString(R.string.please_enter_your_first_name), binding.edittextFirstname)
+                Helper.setError(activity, getString(R.string.please_enter_your_last_name), binding.edittextLastname)
                 return false
             }
             binding.edittextFirstname.editText?.text.isNullOrEmpty() -> {
-                setError("Please enter your first name", binding.edittextFirstname)
+                Helper.setError(activity, getString(R.string.please_enter_your_first_name), binding.edittextFirstname)
+
                 return false
             }
             !binding.edittextFirstname.editText?.text.toString().isLetter() -> {
-                setError("Your first name should only contain letters", binding.edittextFirstname)
+                Helper.setError(activity, getString(R.string.your_first_name_should_only), binding.edittextFirstname)
                 return false
             }
             binding.edittextLastname.editText?.text.isNullOrEmpty() -> {
-                setError("Please enter your last name", binding.edittextLastname)
+                Helper.setError(activity, getString(R.string.please_enter_your_last_name), binding.edittextLastname)
+
                 return false
             }
             !binding.edittextLastname.editText?.text.toString().isLetter() -> {
-                setError("Your last name should only contain letters", binding.edittextLastname)
+                Helper.setError(activity, getString(R.string.your_last_name_should_only), binding.edittextLastname)
                 return false
             }
         }
         return true
-    }
-    private fun setError(error: String, txtInput: TextInputLayout) {
-        val errorDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_error)
-        val ss = SpannableString("    $error\n")
-        errorDrawable!!.setBounds(0, 0, errorDrawable.intrinsicWidth, errorDrawable.intrinsicHeight)
-        val span = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ImageSpan(errorDrawable, ImageSpan.ALIGN_CENTER)
-        } else {
-            ImageSpan(errorDrawable, ImageSpan.ALIGN_BOTTOM)
-        }
-        ss.setSpan(span, 0, 3, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-        txtInput.error = ss
     }
     private fun resetError() {
         binding.edittextFirstname.error = null

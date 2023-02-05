@@ -22,7 +22,7 @@
             android:text="@string/continue_with_google"
             android:textColor="@color/neutral_dark"
             app:backgroundTint="@color/neutral_light_50"
-            app:icon="@drawable/ic_google"
+            app:icon="@drawable/new_design_ic_google"
             app:iconGravity="textStart" />
 
         <com.google.android.material.button.MaterialButton
@@ -34,7 +34,7 @@
             android:textColor="@color/neutral_dark"
             android:layout_marginTop="8dp"
             app:backgroundTint="@color/neutral_light_50"
-            app:icon="@drawable/ic_facebook"
+            app:icon="@drawable/new_design_ic_facebook"
             app:iconGravity="textStart" />
 
     </LinearLayout>
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:maxLength="50"
-            android:inputType="text"
+            android:inputType="textWebEmailAddress"
             android:minHeight="54dp" />
     </com.google.android.material.textfield.TextInputLayout>
 

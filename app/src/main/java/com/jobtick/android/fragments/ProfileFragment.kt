@@ -5,33 +5,22 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.widget.CompoundButton
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.RatingBar
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.view.*
+import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import co.lujun.androidtagview.TagContainerLayout
-import co.lujun.androidtagview.Utils
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -40,15 +29,10 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
-import com.jobtick.android.activities.ActivityBase
-import com.jobtick.android.activities.CategoryListActivity
-import com.jobtick.android.activities.DashboardActivity
-import com.jobtick.android.activities.EditProfileActivity
-import com.jobtick.android.activities.ReviewsActivity
-import com.jobtick.android.activities.SettingActivity
-import com.jobtick.android.activities.ZoomImageActivity
+import com.jobtick.android.activities.*
 import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.adapers.BadgesAdapter
+import com.jobtick.android.adapers.Viewpager2Adapter
 import com.jobtick.android.interfaces.onProfileUpdateListener
 import com.jobtick.android.models.AccountStatusModel
 import com.jobtick.android.models.AttachmentModel
@@ -56,14 +40,7 @@ import com.jobtick.android.models.BadgesModel
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.network.model.response.Levels
 import com.jobtick.android.network.model.response.LevelsItem
-import com.jobtick.android.utils.Constant
-import com.jobtick.android.utils.ConstantKey
-import com.jobtick.android.utils.ImageUtil
-import com.jobtick.android.utils.ScrollToSpecificViewInScrollView
-import com.jobtick.android.utils.SessionManager
-import com.jobtick.android.utils.Tools
-import com.jobtick.android.utils.cleanRound
-import com.jobtick.android.utils.setMoreLess
+import com.jobtick.android.utils.*
 import com.jobtick.android.widget.CircularProgressView
 import com.jobtick.android.widget.SpacingItemDecoration
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -101,6 +78,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     var lnPosterJobsuccess: LinearLayout? = null
     private var txtAccountLevel: TextView? = null
     private var ratingbarAsTicker: RatingBar? = null
+    private var tickerTotalRating: TextView? = null
     private var ratingbarAsPoster: RatingBar? = null
     private var tvTickerReview: TextView? = null
     private var tvPosterReview: TextView? = null
@@ -206,12 +184,18 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private lateinit var headingBadges: TextView
     private lateinit var headingSkills: TextView
     private lateinit var headingReviews: TextView
+    private lateinit var averagRate: TextView
     private lateinit var nesedScrollView: NestedScrollView
     private lateinit var aboutView: LinearLayout
     private lateinit var badgesView: LinearLayout
     private lateinit var reviewView: LinearLayout
     private lateinit var skillsView: LinearLayout
     private lateinit var successRate: TextView
+    private lateinit var viewPager: ViewPager2
+    private lateinit var viewPagerAdapter: Viewpager2Adapter
+    private lateinit var viewPagerParent: RelativeLayout
+    private var images = ArrayList<String>()
+    private lateinit var imageCounter: TextView
     override fun onResume() {
         super.onResume()
         sessionManager?.let {
@@ -359,6 +343,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         skillsView = requireView().findViewById(R.id.skillsView)
         badgesView = requireView().findViewById(R.id.badgesView)
         successRate = requireView().findViewById(R.id.successRate)
+        viewPager = requireView().findViewById(R.id.viewPager)
+        imageCounter = requireView().findViewById(R.id.imageCounter)
+        viewPagerParent = requireView().findViewById(R.id.viewPagerParent)
+        tickerTotalRating = requireView().findViewById(R.id.totalRating)
+        averagRate = requireView().findViewById(R.id.averagRate)
     }
 
     private fun initToolbar() {
@@ -453,7 +442,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private fun initComponent() {
         if (sessionManager?.accessToken != null)
             if (sessionManager!!.roleLocal == "poster") {
-                lnPosterReview!!.visibility = View.VISIBLE
+                lnPosterReview!!.visibility = View.GONE
                 lnTickerReview!!.visibility = View.GONE
                 fmPSkills.visibility = View.GONE
                 rlStatus.visibility = View.GONE
@@ -617,6 +606,31 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         badgeRecycler!!.layoutManager = LinearLayoutManager(requireContext())
         badgesAdapter = BadgesAdapter(badgesModelArrayList)
         badgeRecycler!!.adapter = badgesAdapter
+
+        viewPagerAdapter = Viewpager2Adapter(dashboardActivity, images)
+
+        viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            // This method is triggered when there is any scrolling activity for the current page
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            }
+
+            // triggered when you select a new page
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                imageCounter.text = (position + 1).toString() + " of " + images.size
+            }
+
+            // triggered when there is
+            // scroll state will be changed
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+            }
+        })
     }
 
     private fun checkLevel(levels: Levels?) {
@@ -671,8 +685,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             content!!.visibility = View.GONE
             val stringRequest: StringRequest = object : StringRequest(
                 Method.GET,
-               // Constant.URL_PROFILE + "/" + sessionManager!!.userAccount.id,
-                Constant.URL_PROFILE + "/6" ,
+                Constant.URL_PROFILE + "/" + sessionManager!!.userAccount.id,
+//                Constant.URL_PROFILE + "/6" ,
                 Response.Listener { response: String? ->
                     Timber.e(response)
                     content!!.visibility = View.VISIBLE
@@ -690,6 +704,18 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                                 jsonObject.getJSONObject("data").getJSONArray("levels").toString(),
                                 Levels::class.java
                             )
+                            images = ArrayList()
+                            if(userAccountModel!!.portfolio.size == 0) {
+                                viewPagerParent.visibility = View.GONE
+                            } else {
+                                viewPagerParent.visibility = View.VISIBLE
+                                for(imagelink in userAccountModel!!.portfolio)
+                                    images.add(imagelink.modalUrl)
+                                imageCounter.text = "1 of " + images.size
+                                    viewPagerAdapter = Viewpager2Adapter(dashboardActivity, images)
+                                viewPager.adapter = viewPagerAdapter
+                            }
+
                             this.levels = ArrayList()
                             this.levels!!.addAll(levels)
                             checkLevel(levels)
@@ -1015,8 +1041,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             }
             // worker
             if (userAccountModel.workerRatings != null) {
-                tickerReviewNum.text =
-                    userAccountModel.workerRatings.avgRating.toString().cleanRound()
+                averagRate.text = userAccountModel.workerRatings.avgRating.toString().cleanRound()
+                    userAccountModel.workerRatings.receivedReviews.toString()
+                tickerTotalRating?.text = userAccountModel.workerRatings.totalRatings.toString()
+
+                tickerReviewNum.text = userAccountModel.workerRatings.receivedReviews.toString().cleanRound()+ " Reviews"
                 if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get1() != null) {
                     progressBar1Star.progress =
                         userAccountModel.workerRatings.breakdownModel.get1()
@@ -1194,7 +1223,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         tagLanguage!!.tagTypeface = poppinsMedium
         tagSkills!!.tagTypeface = poppinsMedium
         if (userAccountModel.avatar != null) {
-            ImageUtil.displayImage(imgAvatar, userAccountModel.avatar.url, null)
+            ImageUtil.displayImage(imgAvatar, userAccountModel.avatar.thumbUrl, null)
         }
         txtFullName!!.text = userAccountModel.name
         txtSuburb!!.text = userAccountModel.location

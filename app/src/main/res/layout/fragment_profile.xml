@@ -34,6 +34,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/_100dp">
+                <include layout="@layout/layout_public_profile_viewpager"/>
 
                 <include layout="@layout/fragment_profile_title" />
                 <include
@@ -130,16 +131,6 @@
                         android:background="@color/primary_50"
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
                         app:srcCompat="@drawable/new_design_hourglass_empty" />
-<!--                    <com.mikhaellopez.circularimageview.CircularImageView-->
-<!--                        android:layout_centerVertical="true"-->
-<!--                        android:id="@+id/img1"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="40dp"-->
-<!--                        android:layout_alignParentStart="true"-->
-<!--                        app:civ_circle_color="@color/primary_50"-->
-<!--                            app:srcCompat="@drawable/new_design_hourglass_empty"-->
-
-<!--                        app:civ_border="false" />-->
 
                     <LinearLayout
                         android:layout_marginStart="8dp"
@@ -192,17 +183,6 @@
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
                         app:srcCompat="@drawable/new_design_check_circle" />
 
-<!--                    <com.mikhaellopez.circularimageview.CircularImageView-->
-<!--                        -->
-<!--                        android:layout_centerVertical="true"-->
-<!--                        android:id="@+id/img2"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_alignParentStart="true"-->
-<!--                        app:civ_circle_color="@color/primary_50"-->
-<!--                        android:src="@drawable/new_design_check_circle"-->
-<!--                        app:civ_border="false" />-->
-
                     <LinearLayout
                         android:layout_marginStart="8dp"
                         android:gravity="start"
@@ -250,7 +230,7 @@
                 android:layout_height="wrap_content">
                 <View
                     android:background="@drawable/divider_publuc_profile"
-                    android:layout_width="75dp"
+                    android:layout_width="57dp"
                     android:layout_height="4dp"/>
 
                 <com.google.android.material.textview.MaterialTextView
@@ -334,7 +314,7 @@
                         android:layout_height="wrap_content">
                         <View
                             android:background="@drawable/divider_publuc_profile"
-                            android:layout_width="75dp"
+                            android:layout_width="40dp"
                             android:layout_height="4dp"/>
 
                         <com.google.android.material.textview.MaterialTextView
@@ -373,14 +353,14 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:id="@+id/reviewView"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="32dp"
 
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <View
                     android:background="@drawable/divider_publuc_profile"
-                    android:layout_width="75dp"
+                    android:layout_width="140dp"
                     android:layout_height="4dp"/>
                 <com.google.android.material.textview.MaterialTextView
                     style="@style/materialText_W500_20"

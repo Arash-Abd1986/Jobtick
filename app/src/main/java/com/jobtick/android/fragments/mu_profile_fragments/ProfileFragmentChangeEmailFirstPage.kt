@@ -2,6 +2,7 @@ package com.jobtick.android.fragments.mu_profile_fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
 import com.jobtick.android.databinding.FragmentProfileChangeEmailFirstPageBinding
+import com.jobtick.android.utils.Helper
 import com.jobtick.android.utils.KeyboardUtil
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.SetToolbar
@@ -51,10 +53,13 @@ class ProfileFragmentChangeEmailFirstPage : Fragment() {
         if(requireArguments().getString("number") == "1") {
             SetToolbar(activity, "Change Mobile Number", "Verify", R.id.navigation_profile_account, binding.header, view)
                 binding.edittextFirstname.hint = "Mobile Number"
+            binding.edittextFirstname.editText!!.inputType = InputType.TYPE_CLASS_PHONE
         }
         else if(requireArguments().getString("email") == "1") {
             SetToolbar(activity, "Change Email", "Verify", R.id.navigation_profile_account, binding.header, view)
              binding.edittextFirstname.hint = "Email Address"
+            binding.edittextFirstname.editText!!.inputType = InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
+
         }
 
         binding.edittextFirstnameValue.setOnFocusChangeListener{view, b ->
@@ -85,8 +90,20 @@ class ProfileFragmentChangeEmailFirstPage : Fragment() {
                 bundle = bundleOf("number" to binding.edittextFirstnameValue.text.toString())
             view.findNavController().navigate(R.id.action_navigation_profile_change_email_first_page_to_navigation_profile_change_email_second_page, bundle)
             }
-            else
-                binding.edittextFirstname.error = "Pleases fill in the blanks!"
+            else {
+                if (requireArguments().getString("email")?.isNotEmpty() == true)
+                    Helper.setError(
+                        activity,
+                        getString(R.string.please_enter_your_email),
+                        binding.edittextFirstname
+                    )
+                else
+                    Helper.setError(
+                        activity,
+                        getString(R.string.please_enter_your_number),
+                        binding.edittextFirstname
+                    )
+            }
         }
     }
 

@@ -1,8 +1,11 @@
 package com.jobtick.android.adapers;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,7 +64,9 @@ public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHisto
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.nazok)
         View nazok;
-
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.bottomPart)
+        View bottomPart;
 
         public ViewHolder(View v) {
             super(v);
@@ -125,6 +130,23 @@ public class PaymentHistoryListAdapter extends RecyclerView.Adapter<PaymentHisto
 
             }
         }
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//        );
+//        try {
+//
+//
+//            if (holder.nazok.getVisibility() == View.VISIBLE) {
+//                params.setMargins(0, 12, 0, 12);
+//                holder.parentKoloftNazok.setLayoutParams(params);
+//            } else {
+//                params.setMargins(0, 12, 0, 12);
+//                holder.parentKoloftNazok.setLayoutParams(params);
+//            }
+//        }catch (Exception e){
+//            Log.d("asdadadasdasd", e.toString());
+//        }
 
         holder.itemView.setOnClickListener(view -> onclick.onClick(temp));
 

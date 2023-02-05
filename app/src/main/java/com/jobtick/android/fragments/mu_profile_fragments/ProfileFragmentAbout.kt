@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
 import com.jobtick.android.databinding.FragmentProfileAboutBinding
+import com.jobtick.android.utils.Helper
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.utils.SetToolbar
 import com.jobtick.android.utils.isLetter
@@ -106,24 +107,11 @@ class ProfileFragmentAbout : Fragment() {
         resetError()
         when {
             binding.about.editText?.text.isNullOrEmpty() -> {
-                setError("Please enter something about yourself!", binding.about)
+                Helper.setError(activity, getString(R.string.please_enter_something_about_urself), binding.about)
                 return false
             }
         }
         return true
-    }
-
-    private fun setError(error: String, txtInput: TextInputLayout) {
-        val errorDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_error)
-        val ss = SpannableString("    $error\n")
-        errorDrawable!!.setBounds(0, 0, errorDrawable.intrinsicWidth, errorDrawable.intrinsicHeight)
-        val span = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ImageSpan(errorDrawable, ImageSpan.ALIGN_CENTER)
-        } else {
-            ImageSpan(errorDrawable, ImageSpan.ALIGN_BOTTOM)
-        }
-        ss.setSpan(span, 0, 3, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-        txtInput.error = ss
     }
 
     private fun resetError() {

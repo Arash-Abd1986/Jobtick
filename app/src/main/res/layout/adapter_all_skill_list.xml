@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"/>
 
     <View
+        android:id="@+id/separator"
         android:layout_alignParentBottom="true"
         android:background="@color/neutral_light_100"
         android:layout_width="match_parent"

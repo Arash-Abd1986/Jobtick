@@ -87,6 +87,7 @@ class ReviewsActivity : ActivityBase() {
     private lateinit var progressBar4Starp: ProgressBar
     private lateinit var progressBar5Starp: ProgressBar
     private lateinit var ratingbar: RatingBar
+    private lateinit var tvViewAllReviews: TextView
     private var level = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,6 +152,8 @@ class ReviewsActivity : ActivityBase() {
         txtReviewCount5Starp = findViewById(R.id.txt_review_count_5_starP)
         poster = findViewById(R.id.rbPoster)
         ticker = findViewById(R.id.rbTicker)
+        tvViewAllReviews = findViewById(R.id.tvViewAllReviews)
+        tvViewAllReviews.visibility = View.GONE
     }
 
     fun init() {

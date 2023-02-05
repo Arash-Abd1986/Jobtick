@@ -305,6 +305,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.DashboardActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_dashboard"
             android:screenOrientation="portrait" />
         <activity
@@ -353,6 +354,9 @@
         <activity
             android:name=".activities.SearchTaskActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".activities.ReportUser"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

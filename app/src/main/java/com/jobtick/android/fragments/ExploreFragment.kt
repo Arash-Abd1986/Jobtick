@@ -527,7 +527,7 @@ class ExploreFragment :
                 Method.GET,
                 Constant.URL_TASKS_v2 + "?page=" + currentPage + queryParameter,
                 Response.Listener { response: String? ->
-                    Timber.e(response)
+                    Log.d("exploreres", response.toString())
                     swipeRefresh!!.isRefreshing = false
                     newJobCount = 0
                     linNewMessage!!.visibility = View.GONE
@@ -536,7 +536,9 @@ class ExploreFragment :
                         val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         val gson = Gson()
-                        val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(
+                        var myJobsResponse: MyJobsResponse
+                        val (_, data, _, _, _, _, _, _, _, per_page, _, _, total)
+                        = gson.fromJson(
                                 jsonObject.toString(),
                                 MyJobsResponse::class.java
                         )
@@ -548,6 +550,12 @@ class ExploreFragment :
                         Constant.PAGE_SIZE = per_page!!
                         totalPage = total
                         taskListAdapter!!.addItems(data, totalItem)
+
+                        Log.d("aoisjdadas", totalPage.toString() + "," + per_page + "," + data.size)
+//                        totalItem = myJobsResponse.total!!
+//                        Constant.PAGE_SIZE = myJobsResponse.per_page!!
+//                        totalPage = myJobsResponse.total!!
+//                        taskListAdapter!!.addItems(myJobsResponse.data!!, totalItem)
                         isLastPageItems = taskListAdapter!!.itemCount == totalItem
                         swipeRefresh!!.isRefreshing = false
                         isLoadingItems = false

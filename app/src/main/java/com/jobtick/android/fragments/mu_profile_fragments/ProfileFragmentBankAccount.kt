@@ -167,10 +167,10 @@ class ProfileFragmentBankAccount : Fragment(){
     fun showCalendatMaterial() {
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
+                .setTheme(R.style.MaterialCalendarTheme)
                 .setTitleText("Birthday")
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build()
-
         datePicker.show(childFragmentManager, "")
 
         datePicker.addOnPositiveButtonClickListener {
@@ -207,6 +207,8 @@ class ProfileFragmentBankAccount : Fragment(){
                                 )
                             )
                             binding.edittextAccountHolder.editText?.setText(jsonObject2.getString("account_holder_name"))
+
+                            binding.edittextBsb.editText?.setText(jsonObject2.getString("routing_number"))
 
                             if (jsonObject.has("message"))
                                 context.showSuccessToast(jsonObject.getString("message"), context)

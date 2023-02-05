@@ -5,10 +5,11 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -18,19 +19,16 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
 import com.jobtick.android.adapers.SkillsSearchAdapter
-import com.jobtick.android.adapers.SuburbSearchAdapter
 import com.jobtick.android.databinding.FragmentProfileSkillSearchBinding
 import com.jobtick.android.models.response.allSkills.Skills
-import com.jobtick.android.models.response.searchsuburb.Feature
 import com.jobtick.android.utils.SessionManager
 import com.jobtick.android.viewmodel.ProfileSkillsViewModel
-import java.util.*
 import kotlin.collections.ArrayList
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickListener{
+class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickListener, OnClickListener{
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var activity: Activity
@@ -63,17 +61,39 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity.findViewById<MaterialToolbar>(R.id.toolbar).visibility = View.GONE
+        binding.alphabetA.setOnClickListener(this)
+        binding.alphabetB.setOnClickListener(this)
+        binding.alphabetC.setOnClickListener(this)
+        binding.alphabetD.setOnClickListener(this)
+        binding.alphabetE.setOnClickListener(this)
+        binding.alphabetF.setOnClickListener(this)
+        binding.alphabetG.setOnClickListener(this)
+        binding.alphabetH.setOnClickListener(this)
+        binding.alphabetI.setOnClickListener(this)
+        binding.alphabetJ.setOnClickListener(this)
+        binding.alphabetK.setOnClickListener(this)
+        binding.alphabetL.setOnClickListener(this)
+        binding.alphabetM.setOnClickListener(this)
+        binding.alphabetN.setOnClickListener(this)
+        binding.alphabetO.setOnClickListener(this)
+        binding.alphabetP.setOnClickListener(this)
+        binding.alphabetQ.setOnClickListener(this)
+        binding.alphabetR.setOnClickListener(this)
+        binding.alphabetS.setOnClickListener(this)
+        binding.alphabetT.setOnClickListener(this)
+        binding.alphabetU.setOnClickListener(this)
+        binding.alphabetV.setOnClickListener(this)
+        binding.alphabetW.setOnClickListener(this)
+        binding.alphabetX.setOnClickListener(this)
+        binding.alphabetY.setOnClickListener(this)
+        binding.alphabetZ.setOnClickListener(this)
         skillsSearchAdapter?.subClickListener = this
         viewModel = ViewModelProvider(this)[ProfileSkillsViewModel::class.java]
         viewModel.getAllSkills(activity)
         viewModel.skillsSearchAdapter.observe(viewLifecycleOwner) {
             skillsSearchAdapter = viewModel.skillsSearchAdapter.value
-            Log.d("filterskill123", (skillsSearchAdapter?.getItems() as ArrayList<Skills>).size.toString())
-
             listForSearch = skillsSearchAdapter?.getItems() as ArrayList<Skills>
             listMain = skillsSearchAdapter?.getItems() as ArrayList<Skills>
-            Log.d("filterskill123", listMain.size.toString() + ", " + listForSearch.size)
-
             setCategoryData()
         }
 
@@ -147,6 +167,18 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
         skillsSearchAdapter?.clear()
         skillsSearchAdapter?.addItems(listForSearch)
         skillsSearchAdapter?.notifyDataSetChanged()
+    }
+    override fun onClick(p0: View?) {
+        val firstLetter: String
+        if(p0 is TextView && listMain.size != 0) {
+            firstLetter = p0.text.toString()
+            for(txt in listMain)
+                if(txt.title!!.startsWith(firstLetter)) {
+                    val y: Float = binding.skillRecycler.getChildAt(listMain.indexOf(txt)).y
+                    binding.nestedScrollView.smoothScrollTo(0, y.toInt())
+                    break
+                }
+        }
     }
 
 }

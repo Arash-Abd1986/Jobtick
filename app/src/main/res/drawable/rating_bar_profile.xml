@@ -11,4 +11,14 @@
         android:drawable="@drawable/rating_fill"
         />
 
+<!--    <item android:id="@android:id/background"-->
+<!--        android:drawable="@drawable/new_design_star"/>-->
+
+<!--    <item android:id="@android:id/secondaryProgress"-->
+<!--        android:drawable="@drawable/new_design_star"-->
+<!--        />-->
+<!--    <item android:id="@android:id/progress"-->
+<!--        android:drawable="@drawable/new_design_star_filled"-->
+<!--        />-->
+
 </layer-list>

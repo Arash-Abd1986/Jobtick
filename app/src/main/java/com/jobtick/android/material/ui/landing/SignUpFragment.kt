@@ -147,6 +147,7 @@ class SignUpFragment : Fragment() {
 
     @SuppressLint("HardwareIds")
     private fun signUp(email: String?) {
+        activity.initProgressDialog("Signing up")
         activity.showProgressDialog()
         val strDeviceId =
             Settings.Secure.getString(requireActivity().contentResolver, Settings.Secure.ANDROID_ID)

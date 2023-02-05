@@ -45,7 +45,8 @@ class ProfileFragmentHelpAndSupport : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetToolbar(activity, "Account", "", R.id.navigation_profile, binding.header, view)
+        SetToolbar(activity, "" +
+                "Help & Support", "", R.id.navigation_profile, binding.header, view)
         binding.textFeedback.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_help_and_support_to_navigation_profile_feedback)
         }

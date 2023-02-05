@@ -4,20 +4,22 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class MyJobsResponse(
-    val current_page: Int?,
+    val current_page: Int? = -1,
     val `data`: List<Data>?,
-    val first_page_url: String?,
-    val from: Int?,
-    val last_page: Int?,
-    val last_page_url: String?,
-    val links: List<Link>?,
-    val next_page_url: String?,
-    val path: String?,
+    val first_page_url: String? = "",
+    val from: Int? = -1,
+    val last_page: Int? = -1,
+    val last_page_url: String? = "",
+    val links: List<Link>? = emptyList(),
+    val next_page_url: String? = "",
+    val path: String? = "",
     val per_page: Int?,
-    val prev_page_url: String?,
-    val to: Int?,
+    val prev_page_url: String?="",
+    val to: Int? = -1,
     val total: Int?
 ) : Parcelable {
+
+
     constructor(parcel: Parcel) : this(
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.createTypedArrayList(Data),
@@ -32,6 +34,12 @@ data class MyJobsResponse(
             parcel.readString(),
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readValue(Int::class.java.classLoader) as? Int)
+//    constructor() : this(0, emptyList(),
+//        "", 0, 0,
+//        "", emptyList(), "",
+//        "", 0, "",0,0
+//    )
+
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(current_page)

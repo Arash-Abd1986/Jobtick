@@ -242,7 +242,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         TextView txtTitle;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_status)
-        TextView txtStatus;
+        ImageView txtStatus;
         @SuppressLint("NonConstantResourceId")
         @BindView(R.id.txt_user_name)
         TextView txtUserName;
@@ -308,10 +308,10 @@ public class InboxListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     }
 
                     if (item.getReceiver().getIsOnline()) {
-                        txtStatus.setBackground(ContextCompat.getDrawable(context, R.drawable.new_design_ellipse_filled));
+                        txtStatus.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.new_design_ellipse_filled));
                         //txtStatus.setVisibility(View.VISIBLE);
                     } else {
-                        txtStatus.setBackground(ContextCompat.getDrawable(context, R.drawable.new_design_ellipse));
+                        txtStatus.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.new_design_ellipse));
 
                         //txtStatus.setVisibility(View.GONE);
                     }

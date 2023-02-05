@@ -6,8 +6,7 @@
     android:elevation="16dp"
     app:cardCornerRadius="16dp"
     app:contentPaddingBottom="16dp"
-    app:contentPaddingLeft="24dp"
-    app:contentPaddingRight="24dp"
+
     app:contentPaddingTop="12dp">
 
     <LinearLayout
@@ -16,6 +15,8 @@
         android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
+            android:layout_marginRight="24dp"
+            android:layout_marginLeft="24dp"
             android:id="@+id/title"
             style="@style/subtitle1"
             android:layout_width="match_parent"
@@ -25,18 +26,22 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/pdf"
+
             style="@style/borderlessColoredTextButtonLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="left|center"
-            android:paddingStart="0dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
             android:text="PDF"
             android:textColor="@color/neutral_dark"
             app:icon="@drawable/new_design_add_photo_custom_size"
             app:iconPadding="16dp" />
 
         <View
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/_8dp"
@@ -44,12 +49,13 @@
             android:background="@color/neutral_light_100" />
 
         <com.google.android.material.button.MaterialButton
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
             android:id="@+id/gallery"
             style="@style/borderlessColoredTextButtonLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left|center"
-            android:paddingStart="0dp"
             android:text="Photo Library"
             android:textColor="@color/neutral_dark"
             app:icon="@drawable/ic_add_photo_alternate"

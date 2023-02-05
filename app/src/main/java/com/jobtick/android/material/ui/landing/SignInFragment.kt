@@ -103,8 +103,10 @@ class SignInFragment : Fragment() {
         tvFB = requireView().findViewById(R.id.tvFB)
         tvGoogle = requireView().findViewById(R.id.tvGoogle)
         edtEmail = requireView().findViewById(R.id.email)
+        edtEmail.editText!!.setText("jalil@jobtick.com")
         signIn = requireView().findViewById(R.id.signIn)
         edtPassword = requireView().findViewById(R.id.password)
+        edtPassword.editText!!.setText("Qwertyuiop")
         txtError = requireView().findViewById(R.id.error)
         title = requireView().findViewById(R.id.title)
         next.setOnClickListener {
@@ -128,6 +130,7 @@ class SignInFragment : Fragment() {
     }
     @SuppressLint("HardwareIds")
     private fun login(email: String?, password: String?) {
+        activity.initProgressDialog("Logging in")
         activity.showProgressDialog()
         val strFcmToken = token
         val strDeviceId =
@@ -169,6 +172,8 @@ class SignInFragment : Fragment() {
                     // Print Error!
                     try {
                         val jsonObject = JSONObject(jsonError)
+                        Log.d("errorlogin", jsonObject.toString())
+
                         val jsonObjectError = jsonObject.getJSONObject("error")
                         if (jsonObjectError.has("error_code")) {
                             if (jsonObjectError.getInt("error_code") == 1002) {

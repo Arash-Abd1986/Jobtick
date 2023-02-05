@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:maxHeight="400dp"
@@ -13,14 +16,14 @@
         android:layout_height="340dp"
         android:scaleType="fitCenter"
         android:layout_gravity="center"
-        android:visibility="visible"
+        android:visibility="    visible"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/slide1" />
+        app:lottie_rawRes="@raw/slide6" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title"
@@ -49,3 +52,4 @@
         android:visibility="gone"
         layout="@layout/user_rol_view"/>
 </LinearLayout>
+</ScrollView>

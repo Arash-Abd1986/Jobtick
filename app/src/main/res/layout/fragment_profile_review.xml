@@ -4,57 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:background="@drawable/bg_profile"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
     android:id="@+id/ln_reviews"
     android:visibility="visible">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="visible">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/materialText_W500_20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:text="@string/review"
-                android:textColor="@color/N900" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_role"
-                style="@style/materialText_W400_14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:text="@string/review"
-                android:textColor="@color/N300"
-                android:visibility="gone" />
-        </LinearLayout>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvViewAllReviews"
-            style="@style/materialText_W500_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_15sp"
-            android:layout_marginBottom="@dimen/_10sp"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="@string/view_all"
-            android:textColor="@color/blue" />
-    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -62,6 +18,7 @@
         tools:ignore="UselessParent">
 
         <RadioGroup
+            android:visibility="gone"
             android:id="@+id/reviewTabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,27 +89,50 @@
                 android:weightSum="1">
 
                 <LinearLayout
+                    android:gravity="center"
                     android:id="@+id/ticker_review"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_weight=".5"
+                    android:layout_weight=".3"
                     android:orientation="vertical"
-                    android:padding="@dimen/_10sp"
                     android:visibility="visible">
-
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/ticker_review_num"
-                        style="@style/materialText_W400_24"
+                        android:layout_marginBottom="8dp"
+                        android:id="@+id/averagRate"
+                        android:text="0.0"
+                        android:textSize="30dp"
+                        android:textColor="@color/neutral_light_700"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_marginBottom="14dp"
+                        android:text="out of 5"
+                        style="@style/newDesign_16_500"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:text="0"
+                        android:id="@+id/totalRating"
+                        android:visibility="visible"
+                        android:textColor="@color/neutral_light_600"
+                        android:textSize="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textColor="@color/N900" />
+                        />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:text="Ratings"
+                        android:textColor="@color/neutral_light_400"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
 
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -162,10 +142,9 @@
                         <androidx.appcompat.widget.AppCompatRatingBar
                             android:id="@+id/ratingbarAsTicker"
                             style="@style/CustumRatingBar"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
                             android:numStars="5"
                             android:rating="4"
                             android:stepSize="0.5"
@@ -183,6 +162,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/ln_ticker_jobSuccess"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -191,6 +171,7 @@
                         android:orientation="horizontal">
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:visibility="gone"
                             style="@style/materialText_W400_12"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -199,6 +180,7 @@
                             android:textColor="@color/N600" />
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:visibility="gone"
                             android:id="@+id/tvTickerCompletionRate"
                             style="@style/materialText_W400_12"
                             android:layout_width="wrap_content"
@@ -212,7 +194,7 @@
                     android:id="@+id/ticker"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".5"
+                    android:layout_weight=".7"
                     android:orientation="vertical"
                     android:visibility="visible">
 
@@ -226,26 +208,32 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+                            <ImageView
+                                android:layout_centerVertical="true"
+                                android:id="@+id/star5"
+                                android:layout_alignParentStart="true"
+                                android:src="@drawable/new_design_star"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_5"
-                                style="@style/materialText_400_12"
+                                style="@style/newDesign_12_500"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
+                                android:layout_toEndOf="@+id/star5"
                                 android:layout_gravity="end"
                                 android:layout_marginStart="7dp"
                                 android:text="@string/_5"
-                                android:textColor="@color/N300" />
+                                android:textColor="@color/neutral_light_500" />
 
                             <ProgressBar
                                 android:id="@+id/progress_bar_5_star"
                                 style="@style/CustomProgressBarHorizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="4dp"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_middle"
                                 android:layout_toStartOf="@+id/txt_review_count_5_star"
                                 android:layout_toEndOf="@+id/txt_5"
                                 android:indeterminate="false"
@@ -254,12 +242,12 @@
                                 android:progressDrawable="@drawable/color_primary_progress" />
 
                             <com.google.android.material.textview.MaterialTextView
+                                android:visibility="gone"
                                 android:id="@+id/txt_review_count_5_star"
                                 style="@style/materialText_600_12"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
-                                android:minWidth="@dimen/spacing_mxlarge"
                                 android:textColor="@color/N900"
                                 tools:text="(0)" />
                         </RelativeLayout>
@@ -271,25 +259,32 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+                            <ImageView
+                                android:layout_centerVertical="true"
+                                android:id="@+id/star4"
+                                android:layout_alignParentStart="true"
+                                android:src="@drawable/new_design_star"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_4"
-                                style="@style/materialText_400_12"
+                                style="@style/newDesign_12_500"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_marginStart="7dp"
+                                android:layout_toEndOf="@+id/star4"                                android:layout_marginStart="7dp"
                                 android:text="@string/_4"
-                                android:textColor="@color/N300" />
+                                android:textColor="@color/neutral_light_500" />
 
                             <ProgressBar
                                 android:id="@+id/progress_bar_4_star"
                                 style="@style/CustomProgressBarHorizontal"
+
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="4dp"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_middle"
                                 android:layout_toStartOf="@+id/txt_review_count_4_star"
                                 android:layout_toEndOf="@+id/txt_4"
                                 android:indeterminate="false"
@@ -298,6 +293,7 @@
                                 android:progressDrawable="@drawable/color_primary_progress" />
 
                             <com.google.android.material.textview.MaterialTextView
+                                android:visibility="gone"
                                 android:id="@+id/txt_review_count_4_star"
                                 style="@style/materialText_600_12"
                                 android:layout_width="wrap_content"
@@ -316,25 +312,32 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+                            <ImageView
+                                android:layout_centerVertical="true"
+                                android:id="@+id/star3"
+                                android:layout_alignParentStart="true"
+                                android:src="@drawable/new_design_star"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_3"
-                                style="@style/materialText_400_12"
+                                style="@style/newDesign_12_500"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
+                                android:layout_toEndOf="@+id/star3"
                                 android:layout_marginStart="7dp"
                                 android:text="@string/_3"
-                                android:textColor="@color/N300" />
+                                android:textColor="@color/neutral_light_500" />
 
                             <ProgressBar
                                 android:id="@+id/progress_bar_3_star"
                                 style="@style/CustomProgressBarHorizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="4dp"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_middle"
                                 android:layout_toStartOf="@+id/txt_review_count_3_star"
                                 android:layout_toEndOf="@+id/txt_3"
                                 android:indeterminate="false"
@@ -343,6 +346,7 @@
                                 android:progressDrawable="@drawable/color_primary_progress" />
 
                             <com.google.android.material.textview.MaterialTextView
+                                android:visibility="gone"
                                 android:id="@+id/txt_review_count_3_star"
                                 style="@style/materialText_600_12"
                                 android:layout_width="wrap_content"
@@ -361,26 +365,33 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+                            <ImageView
+                                android:layout_centerVertical="true"
+                                android:id="@+id/star2"
+                                android:layout_alignParentStart="true"
+                                android:src="@drawable/new_design_star"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_2"
-                                style="@style/materialText_400_12"
+                                style="@style/newDesign_12_500"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
+                                android:layout_toEndOf="@+id/star2"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="7dp"
                                 android:text="@string/_2"
-                                android:textColor="@color/N300" />
+                                android:textColor="@color/neutral_light_500" />
 
                             <ProgressBar
                                 android:id="@+id/progress_bar_2_star"
                                 style="@style/CustomProgressBarHorizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="4dp"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_middle"
                                 android:layout_toStartOf="@+id/txt_review_count_2_star"
                                 android:layout_toEndOf="@+id/txt_2"
                                 android:indeterminate="false"
@@ -389,6 +400,7 @@
                                 android:progressDrawable="@drawable/color_primary_progress" />
 
                             <com.google.android.material.textview.MaterialTextView
+                                android:visibility="gone"
                                 android:id="@+id/txt_review_count_2_star"
                                 style="@style/materialText_600_12"
                                 android:layout_width="wrap_content"
@@ -408,25 +420,33 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
+                            <ImageView
+                                android:layout_centerVertical="true"
+                                android:id="@+id/star1"
+                                android:layout_alignParentStart="true"
+                                android:src="@drawable/new_design_star"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txt_1"
-                                style="@style/materialText_400_12"
+                                style="@style/newDesign_12_500"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
+                                android:layout_toEndOf="@+id/star1"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="7dp"
                                 android:text="@string/_1"
-                                android:textColor="@color/N300" />
+                                android:textColor="@color/neutral_light_500" />
 
                             <ProgressBar
+
                                 android:id="@+id/progress_bar_1_star"
                                 style="@style/CustomProgressBarHorizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="4dp"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="@dimen/spacing_middle"
-                                android:layout_marginEnd="@dimen/spacing_middle"
                                 android:layout_toStartOf="@+id/txt_review_count_1_star"
                                 android:layout_toEndOf="@+id/txt_1"
                                 android:indeterminate="false"
@@ -435,6 +455,7 @@
                                 android:progressDrawable="@drawable/color_primary_progress" />
 
                             <com.google.android.material.textview.MaterialTextView
+                                android:visibility="gone"
                                 android:id="@+id/txt_review_count_1_star"
                                 style="@style/materialText_600_12"
                                 android:layout_width="wrap_content"
@@ -452,6 +473,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/ln_poster_review"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -796,4 +818,62 @@
         </RelativeLayout>
 
     </LinearLayout>
+    <RelativeLayout
+        android:layout_marginTop="38dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/materialText_W500_20"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/review"
+                android:textColor="@color/N900" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_role"
+                style="@style/materialText_W400_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/review"
+                android:textColor="@color/N300"
+                android:visibility="gone" />
+        </LinearLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_alignParentStart="true"
+            android:id="@+id/ticker_review_num"
+            style="@style/newDesign_16_900"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="126 Reviews" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+                android:id="@+id/tvViewAllReviews"
+            android:textSize="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/view_all"
+            android:textColor="@color/blue" />
+    </RelativeLayout>
+
 </LinearLayout>

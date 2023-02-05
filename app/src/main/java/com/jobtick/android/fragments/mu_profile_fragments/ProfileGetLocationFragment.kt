@@ -44,7 +44,7 @@ class ProfileGetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListe
     private lateinit var activity: DashboardActivity
     private lateinit var sessionManager: SessionManager
     private lateinit var adapter: SuburbSearchAdapter
-    private val justLocality = false
+    private val justLocality = true
     private var _binding: FragmentGetLocationBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -132,7 +132,7 @@ class ProfileGetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListe
 
     fun getTaskCategoryData(searchTxt: String) {
         val qParams =
-                if (justLocality) "&cachebuster=1609011136601&autocomplete=true&country=au&types=locality,address&language=en&languageMode=strict"
+                if (justLocality) "&cachebuster=1609011136601&autocomplete=true&country=au&types=postcode,locality,address&language=en&languageMode=strict"
                 else
                     "&cachebuster=1609011136601&autocomplete=true&country=au&language=en&fuzzyMatch=false&routing=false&languageMode=strict"
         val stringRequest: StringRequest = object : StringRequest(

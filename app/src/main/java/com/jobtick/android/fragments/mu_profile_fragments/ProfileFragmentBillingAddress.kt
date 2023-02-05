@@ -70,7 +70,7 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetToolbar(activity, "Biiling Address", "Save", R.id.navigation_profile, binding.header, view)
+        SetToolbar(activity, "Billing Address", "Save", R.id.navigation_profile, binding.header, view)
         try {
 
             if (requireArguments().getString("suburb")?.isNotEmpty() == true) {
@@ -79,9 +79,10 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                 activity.hideKeyboard()
                 Log.d("asdasdasdasd", feature?.place_name_en.toString())
                 Log.d("asdasdasdasd", feature?.text.toString())
-                binding.textSuburb.text = feature?.place_name_en.toString()
+                binding.textSuburb.text = feature?.place_name.toString()
                 val state: String = try {
-                    feature?.text.toString()
+                    feature?.place_name?.split(",")?.get(feature!!.place_name!!.split(",").size - 1).toString()
+                  //  feature?.text.toString()
                 }catch (e: Exception) {
                     ""
                 }
@@ -107,6 +108,7 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
         addBillingAddress = object : AddBillingAddressImpl(activity, sessionManager) {
             override fun onSuccess() {
                 activity.hideProgressDialog()
+                activity.showToast("Successfully saved!", activity)
             }
 
             override fun onError(e: Exception) {
@@ -127,8 +129,8 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
             (addBillingAddress as AddBillingAddressImpl).add(
                 binding.edittextStreetNumber.editText?.text?.trim().toString(),
                 binding.edittextStreetName.editText?.text?.trim().toString(),
-                binding.textSuburb.text.split(",").get(2),
-                binding.textSuburb.text.split(",").get(1),
+                binding.textSuburb.text.split(",").get(binding.textSuburb.text.split(",").size-3),
+                binding.textSuburb.text.split(",").get(binding.textSuburb.text.split(",").size-2),
                // feature?.context?.get(0)?.text.toString(),
                 //feature?.context?.get(1)?.text.toString(),
                 //TODO postal code
@@ -191,7 +193,7 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
     override fun clickOnSearchedLoc(location: Feature) {
         activity.hideKeyboard()
         Log.d("clicksuburb", location.toString()+"333")
-        binding.textSuburb.text = location.place_name_en
+        binding.textSuburb.text = location.place_name
         feature = location
         getStateOnMap(location.context?.get(1)?.text.toString())
     }
@@ -219,10 +221,16 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                         getStateOnMap(jsonObject2.getString("state"))
                         if(jsonObject.has("message"))
                             context.showSuccessToast(jsonObject.getString("message"), context)
-                            } else
-                                activity.showToast("no data", activity)
-                        binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_australia_map__states_empty))
-                        binding.textSuburb.text = getString(R.string.choosesuburb)
+                            } else {
+                            activity.showToast("no data", activity)
+                            binding.stateImage.setImageDrawable(
+                                AppCompatResources.getDrawable(
+                                    activity,
+                                    R.drawable.new_design_australia_map__states_empty
+                                )
+                            )
+                            binding.textSuburb.text = getString(R.string.choosesuburb)
+                        }
 
                     } else {
                         binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_australia_map__states_empty))
@@ -256,16 +264,16 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
     private fun checkValidation(): Boolean {
         when {
             binding.edittextStreetNumber.editText?.text.isNullOrEmpty() -> {
-                binding.edittextStreetNumber.setError("Please enter Unit/Street Number")
+                Helper.setError(activity, getString(R.string.please_enter_unit_street), binding.edittextStreetNumber)
                 return false
             }
             binding.edittextStreetName.editText?.text.isNullOrEmpty() -> {
-                binding.edittextStreetName.setError("Please enter Street Name")
+                Helper.setError(activity, getString(R.string.please_enter_street_name), binding.edittextStreetName)
                 return false
             }
 
             binding.textSuburb.text.equals("Choose suburb") -> {
-                activity.showToast("Please Choose Suburb!", activity)
+                activity.showToast(getString(R.string.please_choose_suburb), activity)
                 return false
             }
         }
@@ -273,22 +281,22 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
     }
 
     fun getStateOnMap(state: String) {
-        when (state) {
-            "New South Wales" ->
+        when (state.trim()) {
+            "New South Wales", "NSW" ->
                 binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_new_south_wales))
-            "Queensland" ->
+            "Queensland", "QLD" ->
                 binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_queensland))
-            "Victoria" ->
+            "Victoria", "VIC" ->
                 binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_victoria))
-            "Canberra" ->
+            "Canberra", "ACT"  ->
                 binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_canberra))
-            "Western Australia" ->
+            "Western Australia", "WA" ->
                 binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_western_australia))
-            "VictNorthern Territoryoria" ->
+            "VictNorthern Territoryoria", "NT" ->
                 binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_northern_territory))
-            "Tasmania" ->
+            "Tasmania", "TAS" ->
                 binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_tasmania))
-            "South Australia" ->
+            "South Australia", "SA" ->
                 binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.australia_map__states_south_australia))
             else -> {
                 binding.stateImage.setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.new_design_australia_map__states_empty))

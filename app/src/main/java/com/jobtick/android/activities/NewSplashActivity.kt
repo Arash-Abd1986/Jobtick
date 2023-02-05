@@ -15,6 +15,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -46,6 +47,7 @@ class NewSplashActivity : AppCompatActivity() {
     lateinit var animation: Animation
     lateinit var loveText: RelativeLayout
     lateinit var progressBar: ProgressBar
+    lateinit var heart : ImageView
 
     @SuppressLint("NonConstantResourceId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +62,7 @@ class NewSplashActivity : AppCompatActivity() {
         animation.duration = 2000
         loveText = findViewById(R.id.loveParent)
         progressBar = findViewById(R.id.progressbar)
+        heart = findViewById(R.id.love)
         loveText.startAnimation(animation)
         val handler = Handler()
         handler.postDelayed({

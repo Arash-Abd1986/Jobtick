@@ -50,10 +50,10 @@ public class Constant {
     public static final String SOCKET_PROD = "https://api.jobtick.com:2096";
    // public static final String BASE_URL_SERVER = SOCKET_DEV;
     public static final String BASE_URL_SERVER = (BuildConfig.DEBUG) ? SOCKET_DEV : SOCKET_PROD;
-   // public static final String BASE_URL = BASE_URL_PRODUCT;
-    public static final String BASE_URL = (BuildConfig.DEBUG) ? BASE_URL_DEBUG : BASE_URL_PRODUCT;
-    //public static final String BASE_URL_V2 = BASE_URL_PRODUCT_V2;
-    public static final String BASE_URL_V2 = (BuildConfig.DEBUG) ? BASE_URL_DEBUG_V2 : BASE_URL_PRODUCT_V2;
+    public static final String BASE_URL = BASE_URL_DEBUG;
+  //  public static final String BASE_URL = (BuildConfig.DEBUG) ? BASE_URL_DEBUG : BASE_URL_PRODUCT;
+    public static final String BASE_URL_V2 = BASE_URL_DEBUG_V2;
+  //  public static final String BASE_URL_V2 = (BuildConfig.DEBUG) ? BASE_URL_DEBUG_V2 : BASE_URL_PRODUCT_V2;
     public static final String MAP_BOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
     public static final String PROD = "";
     public static final String DEV = "dev.";
@@ -106,6 +106,7 @@ public class Constant {
     public static String URL_NEW_RESEND_OTP = BASE_URL + "email-verification/resent-otp";
     public static final String URL_GET_ACCOUNT = BASE_URL + "account";
     public static final String URL_GET_PAYMENT_HISTORY_FILTER = BASE_URL + "payments/list";
+    public static final String URL_GET_PAYMENT_HISTORY_CSV = BASE_URL + "payment_csv/list";
 
     public static final String URL_CREATE_RESCHEDULE = "reschedule";
 

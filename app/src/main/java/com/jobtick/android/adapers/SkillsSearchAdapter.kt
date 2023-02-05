@@ -9,10 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jobtick.android.R
 import com.jobtick.android.models.response.allSkills.Skills
-import com.jobtick.android.models.response.searchsuburb.Feature
-import com.jobtick.android.utils.getShortAddress
-import com.jobtick.android.utils.getState
-import java.util.*
 import kotlin.collections.ArrayList
 
 class SkillsSearchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
@@ -39,9 +35,12 @@ class SkillsSearchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         var txtName: TextView
         var lytOuter: RelativeLayout
         var tick: ImageView
+        var separator: View
         override fun clear() {}
         override fun onBind(position: Int) {
             super.onBind(position)
+            if(position == items.size - 1)
+                separator.visibility = View.GONE
             txtName.text = items[position].title!!
             lytOuter.setOnClickListener(null)
             if(items[position].isTicked)
@@ -65,6 +64,7 @@ class SkillsSearchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
             txtName = v.findViewById(R.id.txt_title)
             lytOuter = v.findViewById(R.id.parent)
             tick = v.findViewById(R.id.checked)
+            separator = v.findViewById(R.id.separator)
         }
     }
 

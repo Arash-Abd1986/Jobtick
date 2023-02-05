@@ -30,15 +30,18 @@
                 android:src="@drawable/new_design_person"
                 app:civ_border="false" />
 
-            <com.google.android.material.textview.MaterialTextView
+            <com.google.android.material.imageview.ShapeableImageView
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                android:background="@color/white"
+                app:contentPadding="1dp"
                 android:id="@+id/txt_status"
                 style="@style/materialText_600_12"
-                android:layout_width="5.33dp"
-                android:layout_height="5.33dp"
+                android:layout_width="6.33dp"
+                android:layout_height="6.33dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="@dimen/_8sp"
-                android:layout_marginBottom="@dimen/_5sp"
-                android:background="@drawable/new_design_ellipse"
+                android:layout_marginBottom="4dp"
+                app:srcCompat="@drawable/new_design_ellipse"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="@color/white"
                 android:visibility="visible" />

@@ -49,14 +49,14 @@
             </RelativeLayout>
         </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/share_in_pro_parent"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <View
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="9dp"
                 android:background="@color/neutral_light_50"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"/>
@@ -67,8 +67,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -99,7 +97,7 @@
         </LinearLayout>
             </LinearLayout>
             <View
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="9dp"
                 android:layout_marginBottom="6dp"
                 android:background="@color/neutral_light_50"
                 android:layout_width="match_parent"
@@ -150,18 +148,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context=".material.ui.postajob.PostAJobSetTitleFragment">
-
-<!--                <com.google.android.material.textview.MaterialTextView-->
-<!--                    android:id="@+id/txtTitle"-->
-<!--                    style="@style/heading2"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginHorizontal="16dp"-->
-<!--                    android:layout_marginTop="16dp"-->
-<!--                    android:text="Add images and docs"-->
-<!--                    android:textColor="@color/neutral_light_800"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
                 <LinearLayout
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
@@ -174,9 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="@dimen/_8dp"
                     android:layout_marginTop="@dimen/_8dp"
-                    android:layout_marginEnd="@dimen/_8dp"
                     android:layout_marginBottom="100dp" />
 
                 <com.google.android.material.button.MaterialButton

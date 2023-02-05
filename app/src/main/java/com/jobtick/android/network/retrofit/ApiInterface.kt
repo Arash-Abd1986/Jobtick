@@ -64,8 +64,7 @@ interface ApiInterface {
         @Header("X-Requested-With") XMLHttpRequest: String?,
         @Body body: RequestBody
     ): Call<String?>?
-
-
+    
     @POST("email-verification/resent-otp")
     fun emailResendOtp(
         @Header("X-Requested-With") XMLHttpRequest: String?,

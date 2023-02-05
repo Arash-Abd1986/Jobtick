@@ -148,6 +148,7 @@ class ProfileFragmentPayments : Fragment() {
                         Timber.e(response)
                         try {
                             val jsonObject = JSONObject(response!!)
+                            Log.d("responsepaymm", response.toString())
                             Timber.e(jsonObject.toString())
                             if (jsonObject.has("success") && !jsonObject.isNull("success")) {
                                 if (jsonObject.getBoolean("success")) {

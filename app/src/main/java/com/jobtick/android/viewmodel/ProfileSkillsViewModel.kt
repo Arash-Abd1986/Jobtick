@@ -97,15 +97,24 @@ class   ProfileSkillsViewModel: ViewModel() {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 context.hideProgressDialog()
                 try {
-                    val jsonObject = JSONObject(response.body().toString())
-                    val jsonObject_data = jsonObject.getJSONObject("data")
-                    sessionManager!!.role =  jsonObject.getJSONObject("data").getString("role")
-                    val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_data)
-                    sessionManager!!.userAccount = userAccountModel
-                    skillsArray.value = sessionManager!!.userAccount.skills.skills
+                if(response.isSuccessful) {
 
-                } catch (e: JSONException) {
+                        val jsonObject = JSONObject(response.body().toString())
+                        val jsonObject_data = jsonObject.getJSONObject("data")
+                        sessionManager!!.role = jsonObject.getJSONObject("data").getString("role")
+                        val userAccountModel = UserAccountModel().getJsonToModel(jsonObject_data)
+                        sessionManager!!.userAccount = userAccountModel
+                        skillsArray.value = sessionManager!!.userAccount.skills.skills
+                }else {
+                    val jObjError = JSONObject(
+                        response.errorBody()!!.string()
+                    )
+                    context.showToast(jObjError.getJSONObject("error").getString("message"), context)
+                }
+                } catch (e: Exception) {
                     e.printStackTrace()
+                    context.showToast("Something Went Wrong", context)
+
                 }
             }
             override fun onFailure(call: Call<String?>, t: Throwable) {

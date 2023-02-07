@@ -50,6 +50,10 @@ class ProfileReqFragment : Fragment() {
             override fun onImageReady(imageFile: File) {
                 uploadProfileAvatar(imageFile)
             }
+
+            override fun onPdfReady(pdf: File) {
+                TODO("Not yet implemented")
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.transition.Explode
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.Window
@@ -21,6 +22,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.size
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -144,15 +146,23 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
     }
 
     private fun initNavigation() {
+        Log.d("sdsdsddddfd", "here")
+
+       // bottomNav.menu.clear()
+       // bottomNav.inflateMenu(R.menu.ticker_bottom_nav_menu)
+       // bottomNav.performClick()
+        bottomNav.itemIconTintList = null
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         val graphInflater = navController!!.navInflater
         val navGraph = graphInflater.inflate(R.navigation.mobile_navigation)
         navGraph.setStartDestination(  if (sessionManager!!.roleLocal == "poster") {
           //  R.id.navigation_new_task
             bottomNav.selectedItemId = R.id.navigation_inventory
+           // bottomNav.getMenu().findItem(R.id.navigation_inventory).setChecked(true);
             R.id.navigation_my_tasks
         } else {
             bottomNav.selectedItemId = R.id.navigation_new_task
+          //  bottomNav.getMenu().findItem(R.id.navigation_new_task).setChecked(true);
 
             R.id.navigation_browse
         })
@@ -766,6 +776,7 @@ Team ${resources.getString(R.string.app_name)}"""
     }
 
      fun setBottomnav() {
+
          bottomNav.itemIconTintList = null
 
          if (sessionManager!!.roleLocal == "poster") {

@@ -62,9 +62,14 @@ abstract class AbstractUploadableImageImpl(private val activity: FragmentActivit
             val cropImage: OnCropImage = OnUCropImageImpl(activity)
             cropImage.crop(imageUri, isCircle)
         }
+
+        if(requestCode == AttachmentBottomSheet.PDF_REQUEST && resultCode == Activity.RESULT_OK) {
+
+        }
     }
 
     abstract fun onImageReady(imageFile: File)
+    abstract fun onPdfReady(pdf: File)
 
     init {
         attachmentBottomSheet = AttachmentBottomSheet()

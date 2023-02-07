@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.android.volley.AuthFailureError
@@ -112,6 +113,7 @@ class OnboardingActivity : ActivityBase() {
         val signInIntent = mGoogleSignInClient!!.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
         this.fromSignUp = fromSignUp
+        Log.d("googlesignin", "signinwithgoole")
     }
 
     fun facebookLogin(fromSignUp: Boolean) {
@@ -244,8 +246,12 @@ class OnboardingActivity : ActivityBase() {
             // a listener.
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
+            Log.d("googlesignin", "onActivityResult")
+
             Timber.tag("LoginGoogle").d(task.toString())
         } else {
+            Log.d("googlesignin", "onActivityResult1")
+
             callbackManager!!.onActivityResult(requestCode, resultCode, data)
             super.onActivityResult(requestCode, resultCode, data)
         }
@@ -255,7 +261,11 @@ class OnboardingActivity : ActivityBase() {
             val account = completedTask.getResult(ApiException::class.java)
             signInUpdateUI(account)
             Timber.d("LoginGoogle account:%s", account.toString())
+            Log.d("googlesignin", "handleSignInResult")
+
         } catch (e: ApiException) {
+            Log.d("googlesignin", e.toString())
+
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             signInUpdateUI(null)

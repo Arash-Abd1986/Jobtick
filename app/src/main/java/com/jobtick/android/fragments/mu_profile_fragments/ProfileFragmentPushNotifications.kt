@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -46,6 +47,21 @@ class ProfileFragmentPushNotifications : Fragment() {
         activity = (requireActivity() as DashboardActivity)
         sessionManager = SessionManager(context)
 
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true)
+            {
+                override fun handleOnBackPressed() {
+                    prepareDataForSaving()
+                    view!!.findNavController().navigate(R.id.action_navigation_profile_push_notification_to_navigation_profile_notifications)
+
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            callback
+        )
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +69,7 @@ class ProfileFragmentPushNotifications : Fragment() {
         if(requireArguments().getString("type")?.isNotEmpty() == true)
             requireArguments().getString("type")?.let {
                 SetToolbar(activity,
-                    it, "Save", R.id.navigation_profile, binding.header, view)
+                    it, "", R.id.navigation_profile, binding.header, view)
             }
 
         viewModel = ViewModelProvider(this)[ProfileNotificationsViewModel::class.java]
@@ -78,28 +94,10 @@ class ProfileFragmentPushNotifications : Fragment() {
         }
 
         binding.header.back.setOnClickListener {
+            prepareDataForSaving()
             view.findNavController().navigate(R.id.action_navigation_profile_push_notification_to_navigation_profile_notifications)
         }
 
-        binding.header.txtAction.setOnClickListener {
-            if(binding.transactions.isChecked)
-                input["transactional"] = "1"
-            else
-                input["transactional"] = "1"
-
-            if(binding.updateRecommendations.isChecked)
-                input["recommendations"] = "1"
-            else
-                input["recommendations"] = "0"
-
-            if(binding.jobAlerts.isChecked)
-                input["jobalerts"] = "1"
-            else
-                input["jobalerts"] = "0"
-
-            viewModel.setNotificationSettings(activity, type, input)
-
-        }
 
         viewModel.success.observe(viewLifecycleOwner) {
 
@@ -124,5 +122,24 @@ class ProfileFragmentPushNotifications : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private fun prepareDataForSaving() {
+        if(binding.transactions.isChecked)
+            input["transactional"] = "1"
+        else
+            input["transactional"] = "1"
+
+        if(binding.updateRecommendations.isChecked)
+            input["recommendations"] = "1"
+        else
+            input["recommendations"] = "0"
+
+        if(binding.jobAlerts.isChecked)
+            input["jobalerts"] = "1"
+        else
+            input["jobalerts"] = "0"
+
+        viewModel.setNotificationSettings(activity, type, input)
     }
 }

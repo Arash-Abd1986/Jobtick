@@ -1,5 +1,6 @@
 package com.jobtick.android.adapers
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.api.Context
 import com.jobtick.android.R
 import com.jobtick.android.models.response.allSkills.Skills
 import kotlin.collections.ArrayList
@@ -15,7 +17,6 @@ class SkillsSearchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     private var items: ArrayList<Skills> = ArrayList()
     lateinit var subClickListener: SubClickListener
   //  lateinit var dismissListener: DismissListener
-
     interface SubClickListener {
         fun clickOnSearchedLoc(location: Skills)
     }
@@ -39,23 +40,33 @@ class SkillsSearchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         override fun clear() {}
         override fun onBind(position: Int) {
             super.onBind(position)
-            if(position == items.size - 1)
+            if(position == items.size - 1) {
                 separator.visibility = View.GONE
+            }
+            if(items[position].title!!.length == 1) {
+                txtName.textSize = 14F
+                txtName.setTextColor(Color.parseColor("#7B7B7B"))
+                separator.visibility = View.GONE
+            }
             txtName.text = items[position].title!!
             lytOuter.setOnClickListener(null)
             if(items[position].isTicked)
                 tick.visibility = View.VISIBLE
             else
                 tick.visibility = View.GONE
-            lytOuter.setOnClickListener { v: View? ->
-                val item = items[position]
-                item.isTicked = !item.isTicked
-                subClickListener.clickOnSearchedLoc(item)
-                if(item.isTicked)
-                    tick.visibility = View.VISIBLE
-                else
-                    tick.visibility = View.GONE
 
+
+
+            lytOuter.setOnClickListener { v: View? ->
+                if(items[position].title!!.length != 1) {
+                    val item = items[position]
+                    item.isTicked = !item.isTicked
+                    subClickListener.clickOnSearchedLoc(item)
+                    if (item.isTicked)
+                        tick.visibility = View.VISIBLE
+                    else
+                        tick.visibility = View.GONE
+                }
               //  dismissListener.dismiss()
             }
         }

@@ -196,6 +196,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private lateinit var viewPagerParent: RelativeLayout
     private var images = ArrayList<String>()
     private lateinit var imageCounter: TextView
+    private lateinit var textTitle: TextView
+    private lateinit var textAction: ImageView
+    private lateinit var back: ImageView
     override fun onResume() {
         super.onResume()
         sessionManager?.let {
@@ -348,6 +351,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         viewPagerParent = requireView().findViewById(R.id.viewPagerParent)
         tickerTotalRating = requireView().findViewById(R.id.totalRating)
         averagRate = requireView().findViewById(R.id.averagRate)
+        textTitle = requireView().findViewById(R.id.txt_title)
+        textAction = requireView().findViewById(R.id.txt_action)
+        back = requireView().findViewById(R.id.back)
+
+
     }
 
     private fun initToolbar() {
@@ -391,7 +399,12 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 requireContext().startActivity(creatingTask)
             }
             toolbar!!.navigationIcon = null
+
+
         }
+
+        back.setOnClickListener {
+            (requireActivity() as DashboardActivity).navController!!.navigate(R.id.action_navigation_public_profile_to_navigation_profile) }
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -599,7 +612,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             )
         )
         recyclerViewPortfolio!!.setHasFixedSize(true)
-        adapter = AttachmentAdapter(attachmentArrayList, false, activity)
+        adapter = AttachmentAdapter(attachmentArrayList, false, requireActivity() as DashboardActivity)
         recyclerViewPortfolio!!.adapter = adapter
         adapter!!.setOnItemClickListener(this)
         badgeRecycler!!.setHasFixedSize(true)

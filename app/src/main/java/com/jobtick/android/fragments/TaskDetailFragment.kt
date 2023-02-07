@@ -114,6 +114,10 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
             override fun onImageReady(imageFile: File) {
                 if (!isEditTask) uploadDataInTempApi(imageFile) else uploadDataForEditTask(imageFile)
             }
+
+            override fun onPdfReady(pdf: File) {
+                TODO("Not yet implemented")
+            }
         }
         return view
     }

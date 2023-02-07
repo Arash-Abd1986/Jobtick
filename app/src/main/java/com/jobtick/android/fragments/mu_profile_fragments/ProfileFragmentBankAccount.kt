@@ -78,7 +78,6 @@ class ProfileFragmentBankAccount : Fragment(){
             dob = ""
         }
 
-
         binding.header.txtAction.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_bank_account_to_navigation_profile_payments)
         }
@@ -167,7 +166,7 @@ class ProfileFragmentBankAccount : Fragment(){
     fun showCalendatMaterial() {
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
-                .setTheme(R.style.MaterialCalendarTheme)
+              //  .setTheme(R.style.ThemeCalendar)
                 .setTitleText("Birthday")
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build()

@@ -40,7 +40,10 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
     private var listForSearch = ArrayList<Skills>()
     private var listForTicked = ArrayList<Skills>()
     private var listForTickedToBeSend = ArrayList<String>()
-    var skillsSearchAdapter: SkillsSearchAdapter? = null
+    private var skillsSearchAdapter: SkillsSearchAdapter? = null
+    private var alphabeticString = listOf("A", "B", "C", "D", "E", "F", "G", "H", "I",
+    "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -144,6 +147,13 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
             }
     }
     private fun setCategoryData() {
+        for(index1 in alphabeticString)
+        for((index,items) in listMain.withIndex()) {
+            if (items.title!!.startsWith(index1)) {
+                listMain.add(index, Skills(index1, "-1", false))
+                break
+            }
+        }
         skillsSearchAdapter?.subClickListener = this
         val layoutManager = LinearLayoutManager(activity)
         binding.skillRecycler.layoutManager = layoutManager

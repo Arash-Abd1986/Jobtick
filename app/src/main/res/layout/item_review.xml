@@ -26,6 +26,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:textColor="@color/light_neutral_n900"
                 android:id="@+id/txt_post_title"
+                android:lineHeight="22dp"
                 style="@style/newDesign_16_900"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,16 +63,16 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:singleLine="true"
-                    tools:text="." />
+                    tools:text=" • " />
 
                 <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_user_name"
-                style="@style/materialText_600_14"
+                style="@style/newDesign_14_500"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:singleLine="true"
-                android:textColor="@color/colorNavyBlue"
+                    android:textColor="@color/neutral_light_700"
                 tools:text="@string/jessie_albon" />
 
 
@@ -80,13 +81,12 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:id="@+id/txt_created_date"
-                    style="@style/materialText_500_10"
+                    style="@style/newDesign_14_400"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="@dimen/_2sp"
                     android:gravity="center_vertical"
-                    android:textColor="@color/grey_70"
                     tools:text="@string/active_13_min_ago" />
 
             </RelativeLayout>
@@ -118,12 +118,11 @@
                     android:layout_height="wrap_content">
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_weight="1"
-                        style="@style/materialText_500_14"
+                        style="@style/newDesign_14_500"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
-                        android:textColor="@color/neutral_light_500"
                         tools:text="@string/suburb" />
 
                     <LinearLayout
@@ -148,6 +147,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginStart="8dp"
                             android:gravity="center_vertical"
                             android:textColor="@color/grey_70"
                             tools:text="(0.0/5)" />
@@ -156,6 +156,7 @@
                 </LinearLayout>
             </LinearLayout>
             <RelativeLayout
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <com.google.android.material.textview.MaterialTextView
@@ -172,15 +173,15 @@
                 android:visibility="visible" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:lineHeight="21dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true"
                 android:id="@+id/txt_review_message"
-                style="@style/newDesign_12_500"
+                style="@style/newDesign_14_900"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:maxLines="4"
-                android:textColor="@color/light_neutral_n900"
                 tools:text="Excepteur qui qui fugiat et esse pariatur voluptate exercitation esse officia cillum..." />
             </RelativeLayout>
         </LinearLayout>

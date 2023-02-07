@@ -38,7 +38,6 @@ class ProfileFragmentSkills : Fragment() {
     private var _binding: FragmentProfileSkillsNewBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: ProfileSkillsViewModel
-    var skillsSearchAdapter: SkillsSearchAdapter? = null
     var jsonObject: JSONObject? = null
     private var skillList = ArrayList<String>()
     private var inputs = mutableMapOf<String, MutableList<String>>()
@@ -133,6 +132,7 @@ class ProfileFragmentSkills : Fragment() {
         chip.isFocusable = true
         chip.tag = str
         chip.isCloseIconVisible = true
+        chip.setTextAppearance(R.style.newDesign_14_700)
         //chip.setOnClickListener(chipClickListener)
         binding.chipsGroup.addView(chip)
         chip.setOnCloseIconClickListener(chipClickListener)

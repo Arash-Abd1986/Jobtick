@@ -49,7 +49,9 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
     private val binding get() = _binding!!
     private var feature: Feature? = null
     private var addBillingAddress: AddBillingAddress? = null
-
+    private var postalCode: String = ""
+    private var city: String = ""
+    private var state: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,15 +79,17 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                 val gson = Gson()
                 feature = gson.fromJson(requireArguments().getString("suburb"), Feature::class.java)
                 activity.hideKeyboard()
-                Log.d("asdasdasdasd", feature?.place_name_en.toString())
-                Log.d("asdasdasdasd", feature?.text.toString())
-                binding.textSuburb.text = feature?.place_name.toString()
-                val state: String = try {
-                    feature?.place_name?.split(",")?.get(feature!!.place_name!!.split(",").size - 1).toString()
-                  //  feature?.text.toString()
-                }catch (e: Exception) {
-                    ""
+
+                if(feature!!.place_name!!.split(",").size > 2) {
+                    city = feature!!.place_name!!.split(",")[feature!!.place_name!!.split(",").size - 3]
+                    state = feature!!.place_name!!.split(",")[feature!!.place_name!!.split(",").size - 2]
                 }
+                //TODO add postalcode
+                if(feature!!.place_name!!.split(",").size > 3)
+                    postalCode = feature!!.place_name!!.split(",")[feature!!.place_name!!.split(",").size - 4]
+
+                binding.cityPostal.text = city + "." + postalCode
+                binding.textSuburb.text = city
                 getStateOnMap(state)
             }
         }catch (e: Exception) {
@@ -129,12 +133,12 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
             (addBillingAddress as AddBillingAddressImpl).add(
                 binding.edittextStreetNumber.editText?.text?.trim().toString(),
                 binding.edittextStreetName.editText?.text?.trim().toString(),
-                binding.textSuburb.text.split(",").get(binding.textSuburb.text.split(",").size-3),
-                binding.textSuburb.text.split(",").get(binding.textSuburb.text.split(",").size-2),
+                city,
+                state,
                // feature?.context?.get(0)?.text.toString(),
                 //feature?.context?.get(1)?.text.toString(),
                 //TODO postal code
-                binding.textSuburb.text.split(",")[0],
+                postalCode,
                 "AU"
             )
         }
@@ -193,9 +197,16 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
     override fun clickOnSearchedLoc(location: Feature) {
         activity.hideKeyboard()
         Log.d("clicksuburb", location.toString()+"333")
-        binding.textSuburb.text = location.place_name
-        feature = location
-        getStateOnMap(location.context?.get(1)?.text.toString())
+        if(location.place_name!!.split(",").size > 2) {
+            binding.textSuburb.text =
+                location.place_name.split(",")[location.place_name.split(",").size - 3]
+            getStateOnMap(location.place_name.split(",")[location.place_name.split(",").size - 2])
+
+        }
+        if(location.place_name.split(",").size > 3)
+            binding.cityPostal.text =
+                location.place_name.split(",")[binding.textSuburb.text.split(",").size - 3] + "." + location.place_name.split(",")[binding.textSuburb.text.split(",").size - 4]
+                        feature = location
     }
 
     fun getBillingAddress(context: Context) {
@@ -216,9 +227,13 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                         val jsonObject2 = jsonObject.getJSONObject("data")
                         binding.edittextStreetNumber.editText?.setText(jsonObject2.getString("line1"))
                         binding.edittextStreetName.editText?.setText(jsonObject2.getString("line2"))
-                        binding.textSuburb.text = jsonObject2.getString("post_code") + ", " +
-                        jsonObject2.getString("city") + ", " + jsonObject2.getString("state")
+                        binding.textSuburb.text = jsonObject2.getString("city")
+                        binding.cityPostal.text = jsonObject2.getString("city") + "." + jsonObject2.getString("post_code")
                         getStateOnMap(jsonObject2.getString("state"))
+                        city = jsonObject2.getString("city")
+                        state = jsonObject2.getString("state")
+                        postalCode = jsonObject2.getString("post_code")
+
                         if(jsonObject.has("message"))
                             context.showSuccessToast(jsonObject.getString("message"), context)
                             } else {
@@ -276,6 +291,13 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                 activity.showToast(getString(R.string.please_choose_suburb), activity)
                 return false
             }
+
+            postalCode.isEmpty() -> {
+                activity.showToast(getString(R.string.please_enter_postal_code), activity)
+                return false
+            }
+
+
         }
         return true
     }

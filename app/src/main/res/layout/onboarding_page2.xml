@@ -16,7 +16,7 @@
         android:layout_height="340dp"
         android:scaleType="fitCenter"
         android:layout_gravity="center"
-        android:visibility="    visible"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
     <View
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:background="@color/neutral_light_300"
+        android:background="@color/neutral_light_100"
         android:layout_height="1dp"/>
     <com.google.android.material.textview.MaterialTextView
         android:layout_marginTop="8dp"

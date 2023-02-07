@@ -177,6 +177,10 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
             override fun onImageReady(imageFile: File) {
                 Glide.with(binding.imgAvatar).load(Uri.fromFile(imageFile)).into(binding.imgAvatar)
             }
+
+            override fun onPdfReady(pdf: File) {
+                TODO("Not yet implemented")
+            }
         }
 
         if(sessionManager!!.accessToken != null) {
@@ -292,13 +296,16 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
         val permissionlistener: PermissionListener = object : PermissionListener {
 
             override fun onPermissionGranted() {
-                val intent = Intent()
-                intent.type = "image/*"
-                intent.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(
-                    Intent.createChooser(intent, "Select Picture"),
-                    AttachmentBottomSheet.GALLERY_REQUEST
-                )
+//                val intent = Intent()
+//                intent.type = "image/*"
+//                intent.action = Intent.ACTION_GET_CONTENT
+//                startActivityForResult(
+//                    Intent.createChooser(intent, "Select Picture"),
+//                    AttachmentBottomSheet.GALLERY_REQUEST
+//                )
+
+                val openGallary = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(Intent.createChooser(openGallary, "Open Gallary"), AttachmentBottomSheet.GALLERY_REQUEST)
 
             }
 
@@ -405,9 +412,9 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
                             attachment.type = AttachmentAdapter.VIEW_TYPE_IMAGE
                             sessionManager!!.userAccount.avatar = attachment
 
-//                            ImageUtil.displayImage(binding.imgAvatar, attachment.url, null)
+                           ImageUtil.displayImage(binding.imgAvatar, attachment.thumbUrl, null)
                          //   binding.imgAvatar.setImageBitmap(BitmapFactory.decodeFile(pictureFile.path))
-                            Glide.with(binding.imgAvatar).load(attachment.thumbUrl).into(binding.imgAvatar)
+                      //      Glide.with(binding.imgAvatar).load(attachment.thumbUrl).into(binding.imgAvatar)
 //                            if (ProfileFragment.onProfileupdatelistener != null) {
 //                                ProfileFragment.onProfileupdatelistener!!.updatedSuccesfully(attachment.url)
 //                            }
@@ -452,8 +459,9 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
             infoDialog.dismiss()
         }
         window.findViewById<MaterialButton>(R.id.gallery).setOnClickListener {
+            infoDialog.dismiss()
             if (checkPermissionREAD_EXTERNAL_STORAGE(requireContext())) {
-                infoDialog.dismiss()
+
 
                 val openGallary = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(Intent.createChooser(openGallary, "Open Gallary"), AttachmentBottomSheet.GALLERY_REQUEST)

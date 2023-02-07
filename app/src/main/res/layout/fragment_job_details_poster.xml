@@ -116,13 +116,15 @@
             android:layout_marginTop="24dp">
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
                 android:layout_marginStart="16dp"
+
+                android:textSize="17dp"
                 android:layout_weight="1"
                 android:text="Attachments"
-                android:textColor="@color/neutral_light_600" />
+                android:textColor="@color/neutral_light_700" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/seeAll"

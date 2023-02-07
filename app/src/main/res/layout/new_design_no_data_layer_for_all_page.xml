@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:visibility="gone"
+    android:visibility="visible"
     android:id="@+id/noDataParent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,7 +12,7 @@
 
     <ImageView
         android:id="@+id/noDataIcon"
-        android:src="@drawable/new_design_no_data_icon"
+        android:src="@drawable/new_design_no_data_icon_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <com.google.android.material.textview.MaterialTextView

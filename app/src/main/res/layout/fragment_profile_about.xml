@@ -40,26 +40,29 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:paddingTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="433dp">
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/about"
+            android:paddingBottom="30dp"
             style="@style/outlineTextField"
 
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:hint="About">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:paddingBottom="24dp"
                 android:id="@+id/about_text"
                 android:textSize="18dp"
+                android:lineHeight="27dp"
                 android:gravity="start|top"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:maxHeight="433dp"
-                android:minHeight="433dp" />
+                android:maxLength="300"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
     </RelativeLayout>

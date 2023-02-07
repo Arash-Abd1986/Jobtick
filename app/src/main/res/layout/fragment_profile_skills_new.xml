@@ -71,12 +71,25 @@
             android:text="SELECTED SKILLS" />
 
         <com.google.android.material.chip.ChipGroup
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             app:chipSpacingHorizontal="16dp"
-            app:chipSpacingVertical="4dp"
-
+            app:chipSpacingVertical="3dp"
             android:id="@+id/chipsGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+<!--            <com.google.android.material.chip.Chip-->
+<!--                android:textAppearance="@style/newDesign_14_400"-->
+<!--                app:chipEndPadding="8dp"-->
+<!--                android:drawablePadding="0dp"-->
+<!--                app:chipStartPadding="16dp"-->
+<!--                app:textStartPadding="0dp"-->
+<!--                android:paddingStart="3dp"-->
+<!--                android:paddingEnd="8dp"-->
+<!--                app:closeIconVisible="true"-->
+<!--                android:text="adasdasd"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="45dp"/>-->
         </com.google.android.material.chip.ChipGroup>
     </LinearLayout>
 </LinearLayout>

@@ -44,11 +44,12 @@
                 app:tag_border_color="@android:color/transparent"
                 app:tag_border_width="0dp"
                 app:tag_clickable="false"
-                app:tag_corner_radius="5dp"
-                app:tag_text_color="@color/light_neutral_n700"
-                app:tag_text_size="14dp"
+                app:tag_corner_radius="8dp"
+                style="@style/newDesign_16_700"
+                app:tag_text_color="@color/neutral_light_700"
                 app:tag_theme="none"
-                app:vertical_interval="8dp" />
+                app:vertical_interval="8dp" >
+            </co.lujun.androidtagview.TagContainerLayout>
         </LinearLayout>
 
         <LinearLayout

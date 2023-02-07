@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="newDesign_14_400" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/_14sp</item>
+        <item name="textColor">@color/neutral_light_400</item>
+        <item name="lineHeight">19dp</item>
+        <item name="android:lineHeight">19dp</item>
+        <item name="android:textColor">@color/neutral_light_400</item>
+    </style>
+</resources>

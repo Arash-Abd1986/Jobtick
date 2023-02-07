@@ -27,8 +27,6 @@ class ReportUserViewModel: ViewModel() {
     var success = MutableLiveData<Boolean>()
     var error = MutableLiveData<String>()
     var sessionManager: SessionManager? = null
-    var skillsSearchAdapter = MutableLiveData<SkillsSearchAdapter?>()
-    var skillsSearchAdapter1 = SkillsSearchAdapter()
     var skillList : MutableLiveData<MutableList<Skills>>? = null
     var jsonobject = MutableLiveData<JSONObject>()
 

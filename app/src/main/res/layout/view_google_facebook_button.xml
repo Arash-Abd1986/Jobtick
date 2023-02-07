@@ -52,7 +52,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/other"
-            android:background="@color/N050" />
+            android:background="@color/neutral_light_100" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/other"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/or_sign_up_with"
-            android:textColor="@color/neutral_light_300" />
+            android:textColor="@color/neutral_light_100" />
 
         <View
             android:layout_width="0dp"
@@ -70,7 +70,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/other"
-            android:background="@color/N050" />
+            android:background="@color/neutral_light_100" />
     </RelativeLayout>
 
     <include

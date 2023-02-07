@@ -64,6 +64,14 @@ class ProfileFragmentAccount : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         SetToolbar(activity, "Account", "", R.id.navigation_profile, binding.header, view)
 
+        if(sessionManager.roleLocal == "poster") {
+            binding.txtNameTitle.text = getString(R.string.nameonly)
+            binding.aboutParent.visibility = View.GONE
+        }
+        else {
+            binding.txtNameTitle.text = getString(R.string.nameandabout)
+            binding.aboutParent.visibility = View.VISIBLE
+        }
 
         if(sessionManager.userAccount?.email?.toString().equals(null)) {
             binding.txtEmailValue.text = "Status"

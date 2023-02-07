@@ -1046,13 +1046,11 @@
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:minHeight">40dp</item>
-        <item name="android:minWidth">64dp</item>
         <item name="textAllCaps">false</item>
     </style>
 
     <style name="unelevatedColored" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:minHeight">40dp</item>
-        <item name="android:minWidth">64dp</item>
         <item name="colorButtonNormal">@color/white</item>
         <item name="android:textColor">@color/primary</item>
         <item name="fontFamily">@font/roboto_medium</item>
@@ -1183,36 +1181,51 @@
 
     </style>
 
-    <style name="MaterialCalendarTheme" parent="Widget.MaterialComponents.MaterialCalendar">
-        <!-- just override the colors used in the default style -->
-        <item name="materialCalendarHeaderTitle">@style/heading6</item>
-        <item name="android:padding">24dp</item>
-
+    <style name="ThemeCalendar" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="titleTextAppearance">@style/newDesign_16_500</item>
+        <item name="android:titleTextAppearance">@style/newDesign_16_500</item>
+        <item name="colorPrimary">@color/primary_500</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="paddingStart">24dp</item>
+<!--        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>-->
+<!--        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>-->
     </style>
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+
     <style name="newDesign_12_600" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_12sp</item>
         <item name="textColor">@color/neutral_light_600</item>
+        <item name="android:textColor">@color/neutral_light_600</item>
     </style>
     <style name="newDesign_14_600" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_14sp</item>
         <item name="textColor">@color/neutral_light_600</item>
+        <item name="android:textColor">@color/neutral_light_600</item>
     </style>
 
     <style name="newDesign_16_600" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_16sp</item>
-        <item name="textColor">@color/neutral_light_600</item>
+        <item name="android:textColor">@color/neutral_light_600</item>
     </style>
     <style name="newDesign_18_600" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_18sp</item>
         <item name="textColor">@color/neutral_light_600</item>
+        <item name="android:textColor">@color/neutral_light_600</item>
     </style>
 
 
@@ -1221,12 +1234,14 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_12sp</item>
         <item name="textColor">@color/neutral_light_500</item>
+        <item name="android:textColor">@color/neutral_light_500</item>
     </style>
     <style name="newDesign_14_500" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_14sp</item>
         <item name="textColor">@color/neutral_light_500</item>
+        <item name="android:textColor">@color/neutral_light_500</item>
     </style>
 
     <style name="newDesign_16_500" parent="TextAppearance.AppCompat">
@@ -1234,12 +1249,55 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_16sp</item>
         <item name="textColor">@color/neutral_light_500</item>
+        <item name="android:textColor">@color/neutral_light_500</item>
     </style>
     <style name="newDesign_18_500" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_18sp</item>
         <item name="textColor">@color/neutral_light_500</item>
+        <item name="android:textColor">@color/neutral_light_500</item>
+    </style>
+
+
+        <style name="newDesign_12_400" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/_12sp</item>
+        <item name="textColor">@color/neutral_light_400</item>
+        <item name="android:textColor">@color/neutral_light_400</item>
+    </style>
+    <style name="newDesign_14_400" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/_14sp</item>
+        <item name="textColor">@color/neutral_light_400</item>
+        <item name="lineHeight">19dp</item>
+        <item name="android:textColor">@color/neutral_light_400</item>
+    </style>
+
+    <style name="newDesign_16_400" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/_16sp</item>
+        <item name="textColor">@color/neutral_light_400</item>
+        <item name="android:textColor">@color/neutral_light_400</item>
+    </style>
+
+    <style name="newDesign_16_700" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/_16sp</item>
+        <item name="textColor">@color/neutral_light_700</item>
+        <item name="android:textColor">@color/neutral_light_700</item>
+    </style>
+
+    <style name="newDesign_18_400" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/_18sp</item>
+        <item name="textColor">@color/neutral_light_400</item>
+        <item name="android:textColor">@color/neutral_light_400</item>
     </style>
 
     <style name="newDesign_12_900" parent="TextAppearance.AppCompat">
@@ -1247,12 +1305,14 @@
     <item name="android:fontFamily">@font/roboto_regular</item>
     <item name="android:textSize">@dimen/_12sp</item>
     <item name="textColor">@color/light_neutral_n900</item>
+    <item name="android:textColor">@color/light_neutral_n900</item>
 </style>
     <style name="newDesign_14_900" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_14sp</item>
         <item name="textColor">@color/light_neutral_n900</item>
+        <item name="android:textColor">@color/light_neutral_n900</item>
     </style>
 
     <style name="newDesign_16_900" parent="TextAppearance.AppCompat">
@@ -1260,12 +1320,15 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_16sp</item>
         <item name="textColor">@color/light_neutral_n900</item>
+
+        <item name="android:textColor">@color/light_neutral_n900</item>
     </style>
     <style name="newDesign_18_900" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_18sp</item>
         <item name="textColor">@color/light_neutral_n900</item>
+        <item name="android:textColor">@color/light_neutral_n900</item>
     </style>
 
 
@@ -1274,12 +1337,14 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_12sp</item>
         <item name="textColor">@color/primary_500</item>
+        <item name="android:textColor">@color/primary_500</item>
     </style>
     <style name="newDesign_14_p500" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_14sp</item>
         <item name="textColor">@color/primary_500</item>
+        <item name="android:textColor">@color/primary_500</item>
     </style>
 
     <style name="newDesign_16_p500" parent="TextAppearance.AppCompat">
@@ -1287,13 +1352,52 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_16sp</item>
         <item name="textColor">@color/primary_500</item>
+        <item name="android:textColor">@color/primary_500</item>
     </style>
     <style name="newDesign_18_p500" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_18sp</item>
         <item name="textColor">@color/primary_500</item>
+        <item name="android:textColor">@color/primary_500</item>
     </style>
 
 
+    <style name="newDesign_14_700" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/_14sp</item>
+        <item name="textColor">@color/neutral_light_700</item>
+        <item name="lineHeight">19dp</item>
+        <item name="android:textColor">@color/neutral_light_700</item>
+    </style>
+
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomNavigationView" parent="">
+        <item name="colorPrimary">@color/neutral_light_500</item>
+        <item name="colorOnPrimary">@color/neutral_light_500</item>
+    </style>
+
+
+<!--    <style name="Theme.App" parent="Theme.Material3.Light">-->
+<!--        ...-->
+<!--        <item name="materialSwitchStyle">@style/Widget.App.Switch</item>-->
+<!--    </style>-->
+
+    <style name="Widget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Switch" parent="">
+        <item name="trackColorInactive">@color/neutral_light_400</item>
+        <item name="colorOutline">@color/neutral_light_400</item>
+        <item name="trackColor">@color/bottom_nav_color</item>
+        <item name="colorOnContainerUnchecked">@color/bottom_nav_color</item>
+        <item name="colorSurfaceVariant">@color/neutral_light_200</item>
+<!--        <item name="colorSwitchThumbNormal">@color/bottom_nav_color</item>-->
+    </style>
 </resources>

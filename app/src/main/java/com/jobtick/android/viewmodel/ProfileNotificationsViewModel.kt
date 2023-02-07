@@ -65,8 +65,8 @@ class   ProfileNotificationsViewModel: ViewModel() {
 
     fun setNotificationSettings(context: Context, type: String, inputs: MutableMap<String, String>) {
         sessionManager = SessionManager(context)
-        (context as DashboardActivity).showProgressDialog()
-        Helper.closeKeyboard(context)
+       // (context as DashboardActivity).showProgressDialog()
+        Helper.closeKeyboard(context as DashboardActivity)
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM).apply {
             for (input in inputs) {
                 addFormDataPart(input.key, input.value)

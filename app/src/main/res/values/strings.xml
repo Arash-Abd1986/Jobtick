@@ -297,6 +297,7 @@
     <string name="please_enter_unit_street">Please enter Unit/Street Number</string>
     <string name="please_enter_street_name">Please enter Street Name</string>
     <string name="please_choose_suburb">Please Choose Suburb!</string>
+    <string name="please_enter_postal_code">Please Enter Postal Code!</string>
     <string name="please_enter_something_about_urself">Please write something about yourself!</string>
     <string name="sms_verification_code">SMS verification code</string>
 
@@ -376,7 +377,7 @@
     <string name="_2">2</string>
     <string name="_1">1</string>
     <string name="_33_reviews">0 Reviews</string>
-    <string name="as_a_poster">As a poster</string>
+    <string name="as_a_poster">As a Poster</string>
     <string name="as_a_ticker">As a Ticker</string>
     <string name="more">more</string>
     <string name="_4_6">4.6</string>
@@ -608,8 +609,8 @@
     <string name="welcome_jobtick">Welcome Jobtick</string>
     <string name="welcome_to_jobtick">Welcome to Jobtick</string>
     <string name="how_do_you_want_to_use_jobtick">How do you want to use Jobtick?</string>
-    <string name="find_work_and_earn_money">Find work and earn money</string>
-    <string name="delegate_tasks_to_the_professionals">Delegate tasks to the professionals</string>
+    <string name="find_work_and_earn_money">Complete tasks and earn money</string>
+    <string name="delegate_tasks_to_the_professionals">Outsourcing your daily tasks</string>
     <string name="as_a_ticker_poster"><![CDATA[As a Ticker & Poster]]></string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="continue_with_facebook">Continue with Facebook</string>
@@ -657,4 +658,6 @@
     <string name="simpledateformatbackend">yyyy-MM-dd</string>
     <string name="choosedate">Choose date</string>
     <string name="choosesuburb">Choose suburb</string>
+    <string name="nameandabout">NAME &amp; ABOUT</string>
+    <string name="nameonly">NAME</string>
 </resources>

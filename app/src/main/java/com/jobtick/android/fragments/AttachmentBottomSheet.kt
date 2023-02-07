@@ -197,6 +197,7 @@ class AttachmentBottomSheet : BottomSheetDialogFragment() {
         private const val VIDEO_CAPTURE = 101
         const val CAMERA_REQUEST = 1001
         const val GALLERY_REQUEST = 1002
+        const val PDF_REQUEST = 1003
         private const val MY_CAMERA_PERMISSION_CODE = 100
         const val MAX_VIDEO_DURATION: Long = 30
         const val MAX_VIDEO_SIZE = 20 * 1024 * 1024.toLong()

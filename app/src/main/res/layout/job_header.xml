@@ -25,13 +25,12 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/taskStatus"
-            style="@style/caption"
+            style="@style/newDesign_14_600"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:inputType="textCapWords"
             android:text="open"
-            android:textColor="@color/neutral_light_600"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/taskIcon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -61,12 +60,11 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/p_dateTime"
-            style="@style/caption"
+            style="@style/newDesign_14_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="24 minutes ago"
-            android:textColor="@color/neutral_light_500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -122,13 +120,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Tue, Mar 3"
-                    android:textColor="@color/neutral_light_600" />
+                    android:textColor="@color/neutral_light_700" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/dayPart"
-                    style="@style/label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="12dp"
                     android:layout_marginStart="8dp"
                     android:text="Afternoon"
                     android:textColor="@color/neutral_light_500" />
@@ -174,6 +172,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/direction"
                     style="@style/caption"
+                    android:textSize="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

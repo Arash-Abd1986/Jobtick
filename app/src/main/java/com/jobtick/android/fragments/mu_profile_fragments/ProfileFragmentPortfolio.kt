@@ -848,11 +848,11 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
         activity.hideKeyboard()
         when {
             binding.edittextFirstname.editText?.text.isNullOrEmpty() -> {
-                binding.edittextFirstname.setError("Please enter title")
+                Helper.setError(activity, "Please enter title", binding.edittextFirstname)
                 return false
             }
             binding.about.editText?.text.isNullOrEmpty() -> {
-                binding.about.setError("Please enter desctiption")
+                Helper.setError(activity, "Please enter desctiption", binding.about)
                 return false
             }
             attachmentIDs.isEmpty() -> {

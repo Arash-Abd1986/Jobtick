@@ -67,7 +67,7 @@ class ProfileFragmentPaymentHistory : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetToolbar(activity, "Payment History", "", R.id.navigation_profile, binding.header, view)
+        SetToolbar(activity, "Payments History", "", R.id.navigation_profile, binding.header, view)
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
 
         val format = SimpleDateFormat(getString(R.string.simpledateformat), Locale.getDefault())

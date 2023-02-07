@@ -16,6 +16,8 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         app:itemRippleColor="@color/primary_50"
         app:labelVisibilityMode="labeled"
+        app:itemIconTint="@color/bottom_nav_color"
+
         app:itemActiveIndicatorStyle="@null"
         app:itemTextColor="@color/bottom_nav_color"
         app:menu="@menu/ticker_bottom_nav_menu"

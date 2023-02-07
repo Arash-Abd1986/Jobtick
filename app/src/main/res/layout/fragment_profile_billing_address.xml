@@ -148,6 +148,13 @@
             android:src="@drawable/new_design_australia_map_state_6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:id="@+id/cityPostal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

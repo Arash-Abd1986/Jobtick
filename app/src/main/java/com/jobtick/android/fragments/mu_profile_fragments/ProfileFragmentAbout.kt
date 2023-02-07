@@ -68,7 +68,7 @@ class ProfileFragmentAbout : Fragment() {
         binding.aboutText.setText(sessionManager.userAccount.about)
         binding.header.txtAction.setOnClickListener {
             mutableMap = mutableMapOf("about" to binding.about.editText?.text.toString())
-            if(checkValidation()) viewModel.updateProfile(activity, mutableMap)
+            viewModel.updateProfile(activity, mutableMap)
         }
         binding.header.back.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_profile_about_to_navigation_profile_account)

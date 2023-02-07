@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.os.Parcelable
 import android.text.Html
 import android.text.TextUtils
@@ -21,7 +22,6 @@ import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -67,6 +67,7 @@ import retrofit2.Callback
 import timber.log.Timber
 import java.io.File
 import java.util.*
+
 
 class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSheet.NoticeListener {
 
@@ -163,7 +164,10 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
     private val onConnect = Emitter.Listener { runOnUiThread({ Log.e(TAG, "Success connecting") }) }
     private val onConnectError = Emitter.Listener { args: Array<Any?>? ->
         runOnUiThread {
-            Log.e(TAG, "Error connecting " + args)
+            if (args != null) {
+                for(item in args.withIndex())
+                    Log.e(TAG, "Error connecting " + item.value)
+            }
         }
     }
     private val onNewMessage = Emitter.Listener { args: Array<Any?>? ->
@@ -262,6 +266,10 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                 attachmentLayout.visibility = View.GONE
                // more.visibility = View.VISIBLE
                 // uploadDataInPortfolioMediaApi(imageFile)
+            }
+
+            override fun onPdfReady(pdf: File) {
+                TODO("Not yet implemented")
             }
         }
         imgDelete.setOnClickListener {
@@ -379,6 +387,27 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"),
                     AttachmentBottomSheet.GALLERY_REQUEST
                 )
+            }
+        }
+
+        document.setOnClickListener{
+            val file = File(
+                Environment.getExternalStorageDirectory(),
+                "Report.pdf"
+            )
+            val path = Uri.fromFile(file)
+            val pdfOpenintent = Intent(Intent.ACTION_VIEW)
+            pdfOpenintent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            pdfOpenintent.setDataAndType(path, "application/pdf")
+            try {
+                startActivityForResult(Intent.createChooser(pdfOpenintent, "Select Pdf"),
+                    AttachmentBottomSheet.PDF_REQUEST
+                )
+
+              //  startActivity(pdfOpenintent)
+            } catch (e: ActivityNotFoundException) {
+                showToast("SomeThing to wrong", this@ChatActivity)
+
             }
         }
 

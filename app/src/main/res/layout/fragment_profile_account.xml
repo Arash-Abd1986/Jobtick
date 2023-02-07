@@ -59,13 +59,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/about_parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <View
         android:background="@color/neutral_light_50"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
 
     <RelativeLayout
-        android:id="@+id/about_parent"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:layout_width="match_parent"
@@ -88,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </RelativeLayout>
-
+    </LinearLayout>
 </LinearLayout>
         <View
             android:background="@color/neutral_light_50"

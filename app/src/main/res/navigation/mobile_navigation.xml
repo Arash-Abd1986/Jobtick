@@ -45,6 +45,11 @@
         android:id="@+id/navigation_public_profile"
         android:name="com.jobtick.android.fragments.ProfileFragment"
         tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_public_profile_to_navigation_profile"
+            app:destination="@id/navigation_profile"
+            app:exitAnim="@anim/fadeout"
+            app:enterAnim="@anim/fadein"/>
     </fragment>
 
     <fragment

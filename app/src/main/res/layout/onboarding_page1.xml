@@ -38,7 +38,7 @@
     <View
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:background="@color/neutral_light_300"
+        android:background="@color/neutral_light_100"
         android:layout_height="1dp"/>
     <com.google.android.material.textview.MaterialTextView
         android:layout_marginTop="8dp"

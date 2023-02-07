@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import com.jobtick.android.activities.DashboardActivity
-import com.jobtick.android.adapers.SkillsSearchAdapter
 import com.jobtick.android.models.UserAccountModel
 import com.jobtick.android.models.response.allSkills.AllSkillsResponse
 import com.jobtick.android.models.response.allSkills.Skills
@@ -27,8 +26,6 @@ class   ProfilePortfolioViewModel: ViewModel() {
     var success = MutableLiveData<Boolean>()
     var error = MutableLiveData<String>()
     var sessionManager: SessionManager? = null
-    var skillsSearchAdapter = MutableLiveData<SkillsSearchAdapter?>()
-    var skillsSearchAdapter1 = SkillsSearchAdapter()
     var skillList : MutableLiveData<MutableList<Skills>>? = null
     var jsonobject = MutableLiveData<JSONObject>()
 

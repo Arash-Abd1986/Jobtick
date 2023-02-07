@@ -100,7 +100,7 @@
         android:layout_toStartOf="@+id/img_btn_send"
         android:layout_toEndOf="@+id/attachmentsParent"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/neutral_light_50"
         app:cardCornerRadius="16dp"
         app:cardElevation="0dp"
@@ -155,13 +155,13 @@
                 android:layout_toEndOf="@+id/rl_image"
     android:background="@null"
     android:hint="Aa"
-    android:inputType="textMultiLine"
     android:padding="5dp"
+                android:inputType="textMultiLine"
                 android:paddingStart="12dp"
                 android:paddingEnd="20dp"
-    android:maxLines="50"
-    android:minHeight="@dimen/_55dp"
-    android:maxHeight="60dp"
+    android:maxLines="6"
+    android:minHeight="40dp"
+                android:maxHeight="100dp"
     android:layout_centerVertical="true"/>
         </RelativeLayout>
 

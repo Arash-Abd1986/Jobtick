@@ -138,7 +138,8 @@ class ProfileFragmentPaymentDetails : Fragment() {
         }catch (e:Exception){}
         getData(requireArguments().getString("slug").toString())
         binding.header.back.setOnClickListener {
-            view.findNavController().navigate(R.id.action_navigation_profile_payment_details_to_navigation_profile_payment_history)
+            view.findNavController().popBackStack()
+//            view.findNavController().navigate(R.id.action_navigation_profile_payment_details_to_navigation_profile_payment_history)
         }
         binding.textJobDetails.setOnClickListener {
             if (sessionManager.accessToken != null) {

@@ -90,15 +90,12 @@ class ProfileGetLocationFragment : Fragment(), SuburbSearchAdapter.SubClickListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity.toolbar!!.visibility = View.GONE
-        try {
-            var bundle = requireArguments()
-        }
-        catch (e: Exception){}
         setCategoryData()
-        binding.location.doOnTextChanged { text, _, _, _ ->
-            getTaskCategoryData(text.toString())
-        }
 
+        binding.location.doOnTextChanged { text, _, _, _ ->
+            if(text!!.length > 2)
+                getTaskCategoryData(text.toString())
+        }
 
         binding.back.setOnClickListener{
             try {

@@ -2,6 +2,7 @@ package com.jobtick.android.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -73,6 +75,8 @@ class InboxFragmentOpens : Fragment(), InboxListAdapter.OnItemClickListener, OnR
         noMessages = view.findViewById(R.id.no_messages_container)
         chatList = view.findViewById(R.id.recycler_view)
         swipeRefresh = view.findViewById(R.id.swipeRefresh)
+        swipeRefresh!!.setColorSchemeColors(Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE)
+        swipeRefresh!!.setBackgroundColor(requireActivity().getColor(android.R.color.transparent))
         extras
         return view
     }
@@ -89,7 +93,9 @@ class InboxFragmentOpens : Fragment(), InboxListAdapter.OnItemClickListener, OnR
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(context)
-        initToolbar()
+        dashboardActivity = requireActivity() as DashboardActivity
+
+        //   initToolbar()
         initPusher()
         initComponents()
         fetchData()
@@ -148,7 +154,6 @@ class InboxFragmentOpens : Fragment(), InboxListAdapter.OnItemClickListener, OnR
     }
 
     private fun initToolbar() {
-        dashboardActivity = requireActivity() as DashboardActivity
         if (dashboardActivity == null) return
         toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
         toolbar!!.menu.clear()

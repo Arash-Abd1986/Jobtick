@@ -1,6 +1,7 @@
 package com.jobtick.android.fragments
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -51,7 +52,7 @@ class ProfileReqFragment : Fragment() {
                 uploadProfileAvatar(imageFile)
             }
 
-            override fun onPdfReady(pdf: File) {
+            override fun onPdfReady(pdf: File, string: String, uri: Uri) {
                 TODO("Not yet implemented")
             }
         }

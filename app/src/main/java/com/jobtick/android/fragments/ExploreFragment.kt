@@ -2,6 +2,7 @@ package com.jobtick.android.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -115,12 +116,15 @@ class ExploreFragment :
         return view
     }
 
+    @SuppressLint("ResourceAsColor")
     private fun setIDs() {
         recyclerViewFilters = requireView().findViewById(R.id.recycler_view_filters)
         recyclerViewBrowse = requireView().findViewById(R.id.recycler_view_browse)
         lytBtnFilters = requireView().findViewById(R.id.lyt_btn_filters)
         linSearch = requireView().findViewById(R.id.lin_search)
         swipeRefresh = requireView().findViewById(R.id.swipeRefresh)
+        swipeRefresh!!.setColorSchemeColors(Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE)
+        swipeRefresh!!.setBackgroundColor(android.R.color.transparent)
         txtFilters = requireView().findViewById(R.id.txt_filters)
         edtSearch = requireView().findViewById(R.id.edt_search_categoreis)
         icJobAlert = requireView().findViewById(R.id.ic_job_alert)
@@ -137,44 +141,44 @@ class ExploreFragment :
         linNewMessage = requireView().findViewById(R.id.linNewMessage)
     }
 
-    private fun initToolbar() {
-        if (dashboardActivity == null) return
-        toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
-        toolbar!!.menu.clear()
-        // toolbar.inflateMenu(R.menu.menu_browse_task);
-        val ivNotification = dashboardActivity!!.findViewById<ImageView>(R.id.ivNotification)
-        linFilterExplore = dashboardActivity!!.findViewById(R.id.lin_filter_explore)
-        txtFilter = dashboardActivity!!.findViewById(R.id.txt_filter)
-        ivNotification.visibility = View.GONE
-        linFilterExplore!!.visibility = View.GONE
-        filter!!.setOnClickListener {
-            val bundle = Bundle()
-            val intent = Intent(dashboardActivity, FiltersActivity::class.java)
-            bundle.putParcelable(Constant.FILTER, filterModel)
-            intent.putExtras(bundle)
-            startActivityForResult(intent, 101)
-        }
-        val toolbarTitle = dashboardActivity!!.findViewById<TextView>(R.id.toolbar_title)
-        toolbarTitle.visibility = View.VISIBLE
-        toolbarTitle.setText(R.string.explore)
-        toolbar!!.setBackgroundColor(
-                ContextCompat.getColor(
-                        requireContext(),
-                        R.color.backgroundLightGrey
-                )
-        )
-        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
-        toolbarTitle.textSize = 20f
-        val params = Toolbar.LayoutParams(
-                Toolbar.LayoutParams.WRAP_CONTENT,
-                Toolbar.LayoutParams.WRAP_CONTENT
-        )
-        params.gravity = Gravity.START
-        toolbarTitle.layoutParams = params
-        setHasOptionsMenu(true)
-        toolbar!!.navigationIcon = null
-        toolbar!!.visibility = View.GONE
-    }
+//    private fun initToolbar() {
+//        if (dashboardActivity == null) return
+//        toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
+//        toolbar!!.menu.clear()
+//        // toolbar.inflateMenu(R.menu.menu_browse_task);
+//        val ivNotification = dashboardActivity!!.findViewById<ImageView>(R.id.ivNotification)
+//        linFilterExplore = dashboardActivity!!.findViewById(R.id.lin_filter_explore)
+//        txtFilter = dashboardActivity!!.findViewById(R.id.txt_filter)
+//        ivNotification.visibility = View.GONE
+//        linFilterExplore!!.visibility = View.GONE
+//        filter!!.setOnClickListener {
+//            val bundle = Bundle()
+//            val intent = Intent(dashboardActivity, FiltersActivity::class.java)
+//            bundle.putParcelable(Constant.FILTER, filterModel)
+//            intent.putExtras(bundle)
+//            startActivityForResult(intent, 101)
+//        }
+//        val toolbarTitle = dashboardActivity!!.findViewById<TextView>(R.id.toolbar_title)
+//        toolbarTitle.visibility = View.VISIBLE
+//        toolbarTitle.setText(R.string.explore)
+//        toolbar!!.setBackgroundColor(
+//                ContextCompat.getColor(
+//                        requireContext(),
+//                        R.color.backgroundLightGrey
+//                )
+//        )
+//        toolbarTitle.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+//        toolbarTitle.textSize = 20f
+//        val params = Toolbar.LayoutParams(
+//                Toolbar.LayoutParams.WRAP_CONTENT,
+//                Toolbar.LayoutParams.WRAP_CONTENT
+//        )
+//        params.gravity = Gravity.START
+//        toolbarTitle.layoutParams = params
+//        setHasOptionsMenu(true)
+//        toolbar!!.navigationIcon = null
+//        toolbar!!.visibility = View.GONE
+//    }
 
     override fun onResume() {
         super.onResume()
@@ -299,7 +303,7 @@ class ExploreFragment :
         dashboardActivity = requireActivity() as DashboardActivity
         sessionManager = SessionManager(dashboardActivity)
         setIDs()
-        initToolbar()
+        //initToolbar()
         initFilter()
         initBrowse()
         setCTAListener()
@@ -616,7 +620,7 @@ class ExploreFragment :
     }
 
     override fun onClose(): Boolean {
-        toolbar!!.menu.findItem(R.id.action_map).isVisible = true
+    //    toolbar!!.menu.findItem(R.id.action_map).isVisible = true
         return true
     }
 

@@ -186,7 +186,9 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
             mediaAdapter.notifyDataSetChanged()
 
         }catch (e: Exception) {
+            binding.shareInProParent.visibility = View.GONE
             binding.deleteTxt.visibility = View.GONE
+            binding.header.txtTitle.text = "Add Portfolio"
 
         }
 

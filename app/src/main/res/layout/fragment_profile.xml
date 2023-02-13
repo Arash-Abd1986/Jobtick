@@ -11,6 +11,9 @@
     android:overScrollMode="never">
 
     <ProgressBar
+        android:indeterminateDuration="999"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/progressbar_drawable"
         android:id="@+id/pbLoading"
         android:layout_centerInParent="true"
         android:layout_width="36dp"

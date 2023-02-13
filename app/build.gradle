@@ -5,6 +5,7 @@ apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'kotlin-parcelize'
 android {
     signingConfigs {
         release {
@@ -52,6 +53,8 @@ android {
 
         debug {
             minifyEnabled false
+//            minifyEnabled true
+//            shrinkResources true
         }
         release {
             minifyEnabled false

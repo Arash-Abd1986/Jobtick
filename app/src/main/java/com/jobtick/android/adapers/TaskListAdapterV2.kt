@@ -27,7 +27,7 @@ class TaskListAdapterV2(
         private val mItems: ArrayList<Data> = ArrayList(),
         private val userAccountModel: UserAccountModel?,
         private val isSingleLineBody: Boolean,
-        private val isFromExplore: Boolean = false
+        private val isFromExplore: Boolean = true
 ) :
         RecyclerView.Adapter<BaseViewHolder>() {
     private var context: Context? = null
@@ -247,6 +247,7 @@ class TaskListAdapterV2(
 
             if (item.offers != null) {
                 val count = item.offers.size
+                txtOfferCount?.setTextColor(context!!.getColor(R.color.secondary_400))
                 if (count > 1) {
                     txtOfferCount!!.text = "$count Offers"
                     when {
@@ -265,9 +266,13 @@ class TaskListAdapterV2(
 
                 } else {
                     txtOfferCount!!.text = "No offer"
+                    txtOfferCount?.setTextColor(context!!.getColor(R.color.neutral_light_600))
+
                 }
             } else {
                 txtOfferCount!!.text = "No offer"
+                txtOfferCount?.setTextColor(context!!.getColor(R.color.neutral_light_600))
+
             }
             if (item.status != null && isFromExplore) {
                 txtStatus!!.visibility = View.VISIBLE

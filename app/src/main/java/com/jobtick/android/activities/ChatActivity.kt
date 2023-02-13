@@ -4,16 +4,20 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.ActivityNotFoundException
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.os.Parcelable
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.text.Html
 import android.text.TextUtils
 import android.util.Log
@@ -23,6 +27,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -44,6 +49,7 @@ import com.jobtick.android.R
 import com.jobtick.android.adapers.ChatAdapter
 import com.jobtick.android.fragments.AttachmentBottomSheet
 import com.jobtick.android.fragments.ConfirmBlockTaskBottomSheet
+import com.jobtick.android.material.ui.jobdetails.JobDetailsActivity
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.ChatModel
 import com.jobtick.android.models.ConversationModel
@@ -124,12 +130,18 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
     private var uploadableImage: UploadableImage? = null
     private var imageFileTemp: File? = null
     private lateinit var app: AppController
+    private lateinit var unwrappedDrawable: Drawable
+    private lateinit var wrappedDrawable: Drawable
 
 
     override fun onResume() {
         super.onResume()
         pbLoading.visibility = View.VISIBLE
-        imgBtnSend.visibility = View.GONE
+     //   imgBtnSend.visibility = View.GONE
+        imgBtnSend.isEnabled = false
+        DrawableCompat.setTint(DrawableCompat.wrap(imgBtnSend.drawable),
+            ContextCompat.getColor(this@ChatActivity, R.color.neutral_light_500))
+        imgBtnSend.colorFilter
         if (mSocket == null)
             mSocket = app.socket
         if (!mSocket!!.connected()) {
@@ -150,7 +162,10 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             mSocket!!.connect()
         } else {
             pbLoading.visibility = View.GONE
-            imgBtnSend.visibility = View.VISIBLE
+         //   imgBtnSend.visibility = View.VISIBLE
+            imgBtnSend.isEnabled = true
+            DrawableCompat.setTint(DrawableCompat.wrap(imgBtnSend.drawable),
+                ContextCompat.getColor(this@ChatActivity, R.color.primary_500))
         }
 
 //        needRefresh = true
@@ -225,7 +240,10 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                     mSocket!!.emit("subscribe", "conversation-" + conversationModel!!.id)
                     mSocket!!.emit("isonline", conversationModel!!.receiver.id.toString())
                     pbLoading.visibility = View.GONE
-                    imgBtnSend.visibility = View.VISIBLE
+                  //  imgBtnSend.visibility = View.VISIBLE
+                    imgBtnSend.isEnabled = true
+                    DrawableCompat.setTint(DrawableCompat.wrap(imgBtnSend.drawable),
+                        ContextCompat.getColor(this@ChatActivity, R.color.primary_500))
                 }
 
                 //
@@ -239,6 +257,10 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
+        unwrappedDrawable = AppCompatResources.getDrawable(this, R.drawable.new_design_chat_send)!!
+        wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable)
+
         ButterKnife.bind(this)
         ConstantKey.IS_CHAT_SCREEN = true
         setId()
@@ -268,8 +290,23 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                 // uploadDataInPortfolioMediaApi(imageFile)
             }
 
-            override fun onPdfReady(pdf: File) {
-                TODO("Not yet implemented")
+            override fun onPdfReady(pdf: File, string: String, uri: Uri) {
+                imageFileTemp = pdf
+                imgAttachment.setImageDrawable(AppCompatResources.getDrawable(this@ChatActivity, R.drawable.ic_picture_as_pdf))
+                imgBtnImageSelect.visibility = View.INVISIBLE
+                rlImage.visibility = View.VISIBLE
+                attachmentLayout.visibility = View.GONE
+//                val id = DocumentsContract.getDocumentId(uri)
+//                val contentUri = ContentUris.withAppendedId(
+//                    Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id)
+//                )
+
+//                val projection = arrayOf(MediaStore.Images.Media.DATA)
+//                val cursor: Cursor? =
+//                    contentResolver.query(contentUri, projection, null, null, null)
+//                val column_index: Int? = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+//                cursor?.moveToFirst()
+//                imageFileTemp = column_index?.let { cursor.getString(it)?.let { File(it) } }
             }
         }
         imgDelete.setOnClickListener {
@@ -285,13 +322,22 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                 addCommentIntoServer(imageFileTemp, strMessage)
                 edtCommentMessage.text = null
             }
+//            else
+//                showToast("cant send!", this@ChatActivity)
         }
         imgBtnTaskAction.setOnClickListener {
-            val intent = Intent(this@ChatActivity, TaskDetailsActivity::class.java)
-            val bundle = Bundle()
-            bundle.putString(ConstantKey.SLUG, conversationModel!!.slug)
-            intent.putExtras(bundle)
-            startActivity(intent)
+//            val intent = Intent(this@ChatActivity, TaskDetailsActivity::class.java)
+//            val bundle = Bundle()
+//            bundle.putString(ConstantKey.SLUG, conversationModel!!.slug)
+//            intent.putExtras(bundle)
+//            startActivity(intent)
+
+
+                val intent = Intent(this, JobDetailsActivity::class.java)
+                val bundle = Bundle()
+                bundle.putString(ConstantKey.SLUG, conversationModel!!.slug)
+                intent.putExtras(bundle)
+                startActivity(intent)
 
         }
         lytTaskDetails.setOnClickListener {
@@ -391,23 +437,22 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         }
 
         document.setOnClickListener{
-            val file = File(
-                Environment.getExternalStorageDirectory(),
-                "Report.pdf"
-            )
-            val path = Uri.fromFile(file)
-            val pdfOpenintent = Intent(Intent.ACTION_VIEW)
-            pdfOpenintent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            pdfOpenintent.setDataAndType(path, "application/pdf")
-            try {
-                startActivityForResult(Intent.createChooser(pdfOpenintent, "Select Pdf"),
-                    AttachmentBottomSheet.PDF_REQUEST
-                )
+            if (checkPermissionREAD_EXTERNAL_STORAGE(this@ChatActivity)) {
 
-              //  startActivity(pdfOpenintent)
-            } catch (e: ActivityNotFoundException) {
-                showToast("SomeThing to wrong", this@ChatActivity)
+                try {
+                    val pdfIntent = Intent(Intent.ACTION_GET_CONTENT)
+                    pdfIntent.type = "application/pdf"
+                    pdfIntent.addCategory(Intent.CATEGORY_OPENABLE)
+                    startActivityForResult(Intent.createChooser(pdfIntent, "PDF"), AttachmentBottomSheet.PDF_REQUEST)
+//                startActivityForResult(Intent.createChooser(pdfOpenintent, "Select Pdf"),
+//                    AttachmentBottomSheet.PDF_REQUEST
+                    //  )
 
+                    //  startActivity(pdfOpenintent)
+                } catch (e: ActivityNotFoundException) {
+                    showToast("SomeThing to wrong", this@ChatActivity)
+
+                }
             }
         }
 
@@ -472,6 +517,8 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         lytTaskDetails = findViewById(R.id.lyt_task_details)
         recyclerView = findViewById(R.id.recycler_view)
         swipeRefresh = findViewById(R.id.swipeRefresh)
+        swipeRefresh.setColorSchemeColors(Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE)
+        swipeRefresh.setBackgroundColor(getColor(android.R.color.transparent))
         imgBtnImageSelect = findViewById(R.id.img_btn_image_select)
         imgDelete = findViewById(R.id.img_btn_delete)
         edtCommentMessage = findViewById(R.id.edt_comment_message)
@@ -495,7 +542,6 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
         document = findViewById(R.id.pdfDocument)
         noActiveChat = findViewById(R.id.noActiveChat)
         noActiveChattxt = findViewById(R.id.noActiveChattxt)
-
     }
 
     private fun addBlockingSystem() {
@@ -549,8 +595,8 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             bundleReport.putString("name", conversationModel!!.name.toString())
             intentReport.putExtras(bundleReport)
             startActivity(intentReport)
-            val intent = Intent(this, ReportUser::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, ReportUser::class.java)
+//            startActivity(intent)
         }
         block.setOnClickListener {
             if(conversationModel!!.blocked_by == sessionManager.userAccount.id)
@@ -674,7 +720,7 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
 //            imgAvatar.setImageDrawable(getResources().getDrawable(R.drawable.avatar));
             ImageUtil.displayImage(imgAvatar, conversationModel.receiver.avatar.thumbUrl, null)
         } else {
-            imgAvatar.setImageDrawable(resources.getDrawable(R.drawable.pic))
+            imgAvatar.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.pic))
         }
         txtJobTitle.text = conversationModel.name
         txtStatus.text = conversationModel.status
@@ -791,12 +837,16 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
 
     private fun addCommentIntoServer(pictureFile: File?, str_message: String) {
         pbLoading.visibility = View.VISIBLE
-        imgBtnSend.visibility = View.GONE
+      //  imgBtnSend.visibility = View.GONE
+        imgBtnSend.isEnabled = false
+        DrawableCompat.setTint(DrawableCompat.wrap(imgBtnSend.drawable),
+            ContextCompat.getColor(this, R.color.neutral_light_500))
         var call: Call<String>
         call = ApiClient.getClient().sendMessage("XMLHttpRequest", sessionManager.tokenType!! + " " + sessionManager.accessToken!!, conversationModel!!.id.toString(), str_message)
         if (pictureFile != null) {
             val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), pictureFile)
             val imageFile = MultipartBody.Part.createFormData("attachment", pictureFile.name, requestFile)
+
             call = ApiClient.getClient().sendMessageWithImage("XMLHttpRequest", sessionManager.tokenType!! + " " + sessionManager.accessToken!!, imageFile, conversationModel!!.id.toString(), str_message)
         }
         call.enqueue(object : Callback<String?> {
@@ -806,7 +856,10 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
                 rlImage.visibility = View.GONE
                 more.visibility = View.VISIBLE
                 pbLoading.visibility = View.GONE
-                imgBtnSend.visibility = View.VISIBLE
+             //   imgBtnSend.visibility = View.VISIBLE
+                imgBtnSend.isEnabled = true
+                DrawableCompat.setTint(DrawableCompat.wrap(imgBtnSend.drawable),
+                    ContextCompat.getColor(this@ChatActivity, R.color.primary_500))
                 Timber.d(response.toString())
                 if (response.code() == HttpStatus.HTTP_VALIDATION_ERROR) {
                     showToast(response.message(), this@ChatActivity)
@@ -838,7 +891,11 @@ class ChatActivity : ActivityBase(), OnRefreshListener, ConfirmBlockTaskBottomSh
             override fun onFailure(call: Call<String?>, t: Throwable) {
                 //imageFileTemp = null
                 pbLoading.visibility = View.GONE
-                imgBtnSend.visibility = View.VISIBLE
+             //   imgBtnSend.visibility = View.VISIBLE
+                imgBtnSend.isEnabled = true
+                DrawableCompat.setTint(DrawableCompat.wrap(imgBtnSend.drawable),
+                    ContextCompat.getColor(this@ChatActivity, R.color.primary_500))
+            ContextCompat.getColor(this@ChatActivity, R.color.primary_500)
                 showToast("Something went wrong", this@ChatActivity)
                 Log.d("errorOnSending", t.message.toString())
             }

@@ -1,5 +1,7 @@
 package com.jobtick.android.widget;
 
+import android.util.Log;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.OnScrollListener {
@@ -13,6 +15,7 @@ public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.O
     int firstVisibleItem, visibleItemCount, totalItemCount;
 
     private int currentPage = 1;
+    private int firstVisibleInListview = -1;
 
     RecyclerViewPositionHelper mRecyclerViewHelper;
 
@@ -39,10 +42,26 @@ public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.O
                 loading = true;
             }
         }
+
+        if(firstVisibleItem > firstVisibleInListview) {
+          //  onScrollUp();
+
+            Log.i("RecyclerView scrolled: ", "scroll up!");
+        }
+        else {
+           // onScrollDown();
+
+            Log.i("RecyclerView scrolled: ", "scroll down!");
+        }
+        Log.i("RecyclerView scrolled: ", firstVisibleInListview + ", " + firstVisibleItem);
+        firstVisibleInListview = firstVisibleItem;
+
     }
 
     //Start loading
     public abstract void onLoadMore(int currentPage);
+    public abstract void onScrollDown();
+    public abstract void onScrollUp();
     public abstract int getTotalItem();
 
     public void reset(){

@@ -64,7 +64,7 @@ class ReviewsActivity : ActivityBase() {
     private lateinit var txtReviewCount2Star: TextView
     private lateinit var txtReviewCount1Star: TextView
     private lateinit var imgVerifiedAccount: ImageView
-    private lateinit var toolbar: MaterialToolbar
+  //  private lateinit var toolbar: MaterialToolbar
     private lateinit var imgAvatar: CircularImageView
     private var userId = 0
     private lateinit var poster: RadioButton
@@ -88,6 +88,7 @@ class ReviewsActivity : ActivityBase() {
     private lateinit var progressBar5Starp: ProgressBar
     private lateinit var ratingbar: RatingBar
     private lateinit var tvViewAllReviews: TextView
+    private lateinit var back: ImageView
     private var level = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,7 +131,7 @@ class ReviewsActivity : ActivityBase() {
         txtReviewCount2Star = findViewById(R.id.txt_review_count_2_star)
         txtReviewCount1Star = findViewById(R.id.txt_review_count_1_star)
         imgVerifiedAccount = findViewById(R.id.img_verified)
-        toolbar = findViewById(R.id.toolbar)
+     //   toolbar = findViewById(R.id.toolbar)
         imgAvatar = findViewById(R.id.img_avatar)
         noReview = findViewById(R.id.lyt_no_review)
         txtReview = findViewById(R.id.txt_no_review)
@@ -154,10 +155,14 @@ class ReviewsActivity : ActivityBase() {
         ticker = findViewById(R.id.rbTicker)
         tvViewAllReviews = findViewById(R.id.tvViewAllReviews)
         tvViewAllReviews.visibility = View.GONE
+        back = findViewById(R.id.back)
+        back.setOnClickListener {
+            finish()
+        }
     }
 
     fun init() {
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+      //  toolbar.setNavigationOnClickListener { onBackPressed() }
         val layoutManager = LinearLayoutManager(this@ReviewsActivity)
         recyclerReview.layoutManager = layoutManager
         reviewAdapter = ReviewAdapter(this@ReviewsActivity, ArrayList())

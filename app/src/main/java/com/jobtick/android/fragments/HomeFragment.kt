@@ -142,7 +142,7 @@ class HomeFragment :
         setIDs()
         onClick()
         initVars()
-        initToolbar()
+       // initToolbar()
         initVM()
         initCategories()
     }
@@ -629,33 +629,33 @@ class HomeFragment :
         linAction = requireView().findViewById(R.id.lin_action)
     }
 
-    private fun initToolbar() {
-        val dashboardActivity = requireActivity() as DashboardActivity
-        toolbar!!.menu.clear()
-        toolbar!!.inflateMenu(R.menu.menu_new_task)
-        toolbar!!.menu.findItem(R.id.action_search).isVisible = false
-        val toolbarTitle = dashboardActivity.findViewById<TextView>(R.id.toolbar_title)
-        val filterText = dashboardActivity.findViewById<TextView>(R.id.filter_text)
-        dashboardActivity.findViewById<View>(R.id.lin_filter).visibility = View.GONE
-        filterText.text = "All jobs"
-        toolbarTitle.visibility = View.VISIBLE
-        toolbarTitle.setText(R.string.jobTick)
-        toolbar!!.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.backgroundLightGrey
-            )
-        )
-        val params = Toolbar.LayoutParams(
-            Toolbar.LayoutParams.WRAP_CONTENT,
-            Toolbar.LayoutParams.WRAP_CONTENT
-        )
-        params.gravity = Gravity.CENTER
-        toolbarTitle.layoutParams = params
-        ivNotification!!.visibility = View.VISIBLE
-        toolbar!!.navigationIcon = null
-        toolbar!!.visibility = View.GONE
-    }
+//    private fun initToolbar() {
+//        val dashboardActivity = requireActivity() as DashboardActivity
+//        toolbar!!.menu.clear()
+//        toolbar!!.inflateMenu(R.menu.menu_new_task)
+//        toolbar!!.menu.findItem(R.id.action_search).isVisible = false
+//        val toolbarTitle = dashboardActivity.findViewById<TextView>(R.id.toolbar_title)
+//        val filterText = dashboardActivity.findViewById<TextView>(R.id.filter_text)
+//        dashboardActivity.findViewById<View>(R.id.lin_filter).visibility = View.GONE
+//        filterText.text = "All jobs"
+//        toolbarTitle.visibility = View.VISIBLE
+//        toolbarTitle.setText(R.string.jobTick)
+//        toolbar!!.setBackgroundColor(
+//            ContextCompat.getColor(
+//                requireContext(),
+//                R.color.backgroundLightGrey
+//            )
+//        )
+//        val params = Toolbar.LayoutParams(
+//            Toolbar.LayoutParams.WRAP_CONTENT,
+//            Toolbar.LayoutParams.WRAP_CONTENT
+//        )
+//        params.gravity = Gravity.CENTER
+//        toolbarTitle.layoutParams = params
+//        ivNotification!!.visibility = View.VISIBLE
+//        toolbar!!.navigationIcon = null
+//        toolbar!!.visibility = View.GONE
+//    }
 
     private fun initVars() {
         // linMain!!.removeAllViews()
@@ -712,7 +712,7 @@ class HomeFragment :
                 DashboardActivity.Fragment.EXPLORE
             )
         }
-        toolbar!!.setOnMenuItemClickListener { false }
+//        toolbar!!.setOnMenuItemClickListener { false }
         updateProfile!!.setOnClickListener { navigator!!.navigate(R.id.navigation_profile) }
         ivNotification!!.setOnClickListener {
             if (sessionManager?.accessToken != null) {

@@ -354,58 +354,58 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         textTitle = requireView().findViewById(R.id.txt_title)
         textAction = requireView().findViewById(R.id.txt_action)
         back = requireView().findViewById(R.id.back)
-
-
-    }
-
-    private fun initToolbar() {
-        poppinsMedium = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
-        onProfileupdatelistener = this
-        if (dashboardActivity != null) {
-            toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
-            if (sessionManager?.accessToken != null) {
-                toolbar!!.menu.clear()
-                toolbar!!.inflateMenu(R.menu.menu_profile)
-            }else {
-               val signIn = dashboardActivity!!.findViewById<LinearLayout>(R.id.lin_signIn)
-                signIn.visibility= View.VISIBLE
-                signIn.setOnClickListener {
-                    sessionManager?.let {
-                        it.needSignIN = true
-                    }
-                    dashboardActivity!!.unauthorizedUser()
-                }
-            }
-            val ivNotification = dashboardActivity!!.findViewById<ImageView>(R.id.ivNotification)
-            ivNotification.visibility = View.GONE
-            val toolbarTitle = dashboardActivity!!.findViewById<TextView>(R.id.toolbar_title)
-            toolbarTitle.visibility = View.VISIBLE
-            toolbarTitle.setText(R.string.profile)
-            toolbarTitle!!.textSize = 20f
-            toolbarTitle.typeface =
-                ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
-            toolbar!!.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey_100))
-            val params = Toolbar.LayoutParams(
-                Toolbar.LayoutParams.WRAP_CONTENT,
-                Toolbar.LayoutParams.WRAP_CONTENT
-            )
-            params.gravity = Gravity.START
-            toolbarTitle.layoutParams = params
-            btnQuote!!.setOnClickListener {
-                val creatingTask = Intent(requireActivity(), CategoryListActivity::class.java)
-                val bundle = Bundle()
-                bundle.putString("category", "")
-                creatingTask.putExtras(bundle)
-                requireContext().startActivity(creatingTask)
-            }
-            toolbar!!.navigationIcon = null
-
-
-        }
-
         back.setOnClickListener {
             (requireActivity() as DashboardActivity).navController!!.navigate(R.id.action_navigation_public_profile_to_navigation_profile) }
+
     }
+
+//    private fun initToolbar() {
+//        poppinsMedium = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+//        onProfileupdatelistener = this
+//        if (dashboardActivity != null) {
+//            toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
+//            if (sessionManager?.accessToken != null) {
+//                toolbar!!.menu.clear()
+//                toolbar!!.inflateMenu(R.menu.menu_profile)
+//            }else {
+//               val signIn = dashboardActivity!!.findViewById<LinearLayout>(R.id.lin_signIn)
+//                signIn.visibility= View.VISIBLE
+//                signIn.setOnClickListener {
+//                    sessionManager?.let {
+//                        it.needSignIN = true
+//                    }
+//                    dashboardActivity!!.unauthorizedUser()
+//                }
+//            }
+//            val ivNotification = dashboardActivity!!.findViewById<ImageView>(R.id.ivNotification)
+//            ivNotification.visibility = View.GONE
+//            val toolbarTitle = dashboardActivity!!.findViewById<TextView>(R.id.toolbar_title)
+//            toolbarTitle.visibility = View.VISIBLE
+//            toolbarTitle.setText(R.string.profile)
+//            toolbarTitle!!.textSize = 20f
+//            toolbarTitle.typeface =
+//                ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+//            toolbar!!.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey_100))
+//            val params = Toolbar.LayoutParams(
+//                Toolbar.LayoutParams.WRAP_CONTENT,
+//                Toolbar.LayoutParams.WRAP_CONTENT
+//            )
+//            params.gravity = Gravity.START
+//            toolbarTitle.layoutParams = params
+//            btnQuote!!.setOnClickListener {
+//                val creatingTask = Intent(requireActivity(), CategoryListActivity::class.java)
+//                val bundle = Bundle()
+//                bundle.putString("category", "")
+//                creatingTask.putExtras(bundle)
+//                requireContext().startActivity(creatingTask)
+//            }
+//            toolbar!!.navigationIcon = null
+//
+//
+//        }
+//
+
+  //  }
 
     @SuppressLint("NonConstantResourceId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -421,23 +421,23 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         }
         dashboardActivity = requireActivity() as DashboardActivity
         sessionManager = SessionManager(dashboardActivity)
-        initToolbar()
+       // initToolbar()
         userAccountModel = UserAccountModel()
         attachmentArrayList = ArrayList()
         badgesModelArrayList = ArrayList()
-        toolbar!!.setOnMenuItemClickListener { item: MenuItem ->
-            when (item.itemId) {
-                R.id.action_flag -> {
-                }
-                R.id.action_edit -> startActivity(
-                    Intent(
-                        dashboardActivity,
-                        SettingActivity::class.java
-                    )
-                )
-            }
-            false
-        }
+//        toolbar!!.setOnMenuItemClickListener { item: MenuItem ->
+//            when (item.itemId) {
+//                R.id.action_flag -> {
+//                }
+//                R.id.action_edit -> startActivity(
+//                    Intent(
+//                        dashboardActivity,
+//                        SettingActivity::class.java
+//                    )
+//                )
+//            }
+//            false
+//        }
         rlLevels!!.setOnClickListener {
             val levelsInfoBottomSheet = LevelsBottomSheet(levels!!, lastMonthIncome)
             levelsInfoBottomSheet.show(parentFragmentManager, "")

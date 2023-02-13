@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:elevation="5dp"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="6dp"
         app:cardElevation="5dp">
         <LinearLayout
             android:orientation="vertical"
@@ -51,7 +51,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/N040" />
+                android:background="@color/neutral_light_100" />
 
             <LinearLayout
                 android:id="@+id/reportParent"

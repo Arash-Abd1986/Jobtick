@@ -81,9 +81,15 @@ class PostAJobActivity : ActivityBase() {
         close = findViewById(R.id.close)
         back = findViewById(R.id.back)
         options = findViewById(R.id.options)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
+        navController = navHostFragment!!.navController
         options.gone()
         back.setOnClickListener {
-            navController.popBackStack()
+            if(navHostFragment?.childFragmentManager?.backStackEntryCount != 0)
+                navController.popBackStack()
+            else
+                finish()
         }
         close.setOnClickListener {
             if (viewModel.state.value.title.isNotEmpty())
@@ -92,9 +98,9 @@ class PostAJobActivity : ActivityBase() {
                 navController.popBackStack()
         }
         linTitle = findViewById(R.id.linTitle)
-        val navHostFragment =
-                supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
-        navController = navHostFragment!!.navController
+//        val navHostFragment =
+//                supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
+//        navController = navHostFragment!!.navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
             linTitle.visibility = View.VISIBLE
             close.visibility = View.VISIBLE
@@ -141,10 +147,10 @@ class PostAJobActivity : ActivityBase() {
         val infoDialog = AlertDialog.Builder(this)
                 .setView(view)
                 .create()
-        val window = infoDialog.window;
+        val window = infoDialog.window
 
-        val wlp = window!!.attributes;
-        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        val wlp = window!!.attributes
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         wlp.gravity = Gravity.CENTER
         window.attributes = wlp
         infoDialog.show()
@@ -430,17 +436,17 @@ class PostAJobActivity : ActivityBase() {
         requestQueue.add(stringRequest)
     }
 
-    override fun onBackPressed() {
-        if (navController.currentDestination!!.id != R.id.postAJobAttachmentFragment)
-            super.onBackPressed()
-        else {
-            if (viewModel.state.value.isImageVisible) {
-                viewModel.setIsImageVisible(false)
-            } else {
-                super.onBackPressed()
-            }
-        }
-    }
+//    override fun onBackPressed() {
+//        if (navController.currentDestination!!.id != R.id.postAJobAttachmentFragment)
+//            super.onBackPressed()
+//        else {
+//            if (viewModel.state.value.isImageVisible) {
+//                viewModel.setIsImageVisible(false)
+//            } else {
+//                super.onBackPressed()
+//            }
+//        }
+//    }
 
     private fun initVM() {
         sessionManager = SessionManager(applicationContext)

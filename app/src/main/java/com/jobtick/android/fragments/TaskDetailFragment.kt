@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
@@ -115,7 +116,7 @@ class TaskDetailFragment : Fragment(), AttachmentAdapter1.OnItemClickListener, T
                 if (!isEditTask) uploadDataInTempApi(imageFile) else uploadDataForEditTask(imageFile)
             }
 
-            override fun onPdfReady(pdf: File) {
+            override fun onPdfReady(pdf: File, string: String, uri: Uri) {
                 TODO("Not yet implemented")
             }
         }

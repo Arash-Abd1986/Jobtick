@@ -46,9 +46,11 @@ class ProfileFragmentPaymentHistory : Fragment() {
     private val binding get() = _binding!!
     private var textFilter = ""
     private var onScrollListener: EndlessRecyclerViewOnScrollListener? = null
-    var firstInit = false
-    var startDate = ""
-    var endDate = ""
+    private var firstInit = false
+    private var startDate = ""
+    private var endDate = ""
+    private var loadingStatus = false
+    private var paymentHistoryBundle: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +64,9 @@ class ProfileFragmentPaymentHistory : Fragment() {
         super.onAttach(context)
         activity = (requireActivity() as DashboardActivity)
         sessionManager = SessionManager(context)
-
+        getPaymentHistory(startDate, endDate)
+        loadingStatus = true
+        Log.d("here", "1")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,8 +82,6 @@ class ProfileFragmentPaymentHistory : Fragment() {
         startDate = formattedDateForApi
         binding.textEndDate.text = formattedDate
         endDate = formattedDateForApi
-
-        getPaymentHistory(startDate, endDate)
 
 
         binding.recycler.setOnClickListener {
@@ -108,6 +110,8 @@ class ProfileFragmentPaymentHistory : Fragment() {
             }
 
             firstInit = textFilter != ""
+            Log.d("here", textFilter)
+
             if(isChecked)
                 getPaymentHistory(startDate, endDate)
         }
@@ -126,6 +130,8 @@ class ProfileFragmentPaymentHistory : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("here", "3")
+
         _binding = FragmentProfilePaymentHistoryBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -142,10 +148,8 @@ class ProfileFragmentPaymentHistory : Fragment() {
     }
 
     fun getPaymentHistory(from: String?, to: String?) {
-        val type: String
-        type = if (sessionManager.roleLocal == "poster") "poster_payment_filter=true" else "worker_payment_filter=true"
-        val url: String
-        url = if (!firstInit) {
+        val type: String = if (sessionManager.roleLocal == "poster") "poster_payment_filter=true" else "worker_payment_filter=true"
+        val url: String = if (!firstInit) {
             Constant.URL_GET_PAYMENT_HISTORY_FILTER + "?" +
                     type + "&date_from=" + from + "&date_to=" + to
         } else Constant.URL_GET_PAYMENT_HISTORY_FILTER + "?" + type
@@ -263,14 +267,17 @@ class ProfileFragmentPaymentHistory : Fragment() {
 
     private fun fillData(data: List<PaymentHistory>, total_amount: String, firstInit: Boolean) {
 
-        if (data.isEmpty()) {
-            activity.showToast("no data!", activity)
-            return
-        }
-
         binding.recycler.layoutManager = LinearLayoutManager(activity)
         onScrollListener = object : EndlessRecyclerViewOnScrollListener() {
             override fun onLoadMore(currentPage: Int) {}
+            override fun onScrollDown() {
+                TODO("Not yet implemented")
+            }
+
+            override fun onScrollUp() {
+                TODO("Not yet implemented")
+            }
+
             override fun getTotalItem(): Int {
                 return 0
             }
@@ -282,6 +289,9 @@ class ProfileFragmentPaymentHistory : Fragment() {
         ) { paymentHistory: PaymentHistory? ->
             val bundle = bundleOf("payment" to paymentHistory, "slug" to paymentHistory!!.task.slug.toString())
             view?.findNavController()?.navigate(R.id.action_navigation_profile_payment_history_to_navigation_profile_payment_details, bundle)
+        }
+        if (data.isEmpty()) {
+            activity.showToast("no data!", activity)
         }
     }
     fun showCalendatMaterial(str: String) {
@@ -304,10 +314,10 @@ class ProfileFragmentPaymentHistory : Fragment() {
                 binding.textStartDate.text = formattedDate
                 startDate = formattedDateForApi
             }
-            else
-            {
+            else {
                 binding.textEndDate.text = formattedDate
                 endDate = formattedDateForApi
+                getPaymentHistory(startDate, endDate)
             }
         }
     }

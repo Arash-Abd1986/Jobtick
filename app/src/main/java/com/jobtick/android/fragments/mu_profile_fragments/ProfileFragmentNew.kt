@@ -178,7 +178,7 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
                 Glide.with(binding.imgAvatar).load(Uri.fromFile(imageFile)).into(binding.imgAvatar)
             }
 
-            override fun onPdfReady(pdf: File) {
+            override fun onPdfReady(pdf: File, string: String, uri: Uri) {
                 TODO("Not yet implemented")
             }
         }
@@ -445,16 +445,16 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
         val infoDialog = AlertDialog.Builder(requireContext())
             .setView(view)
             .create()
-        val window = infoDialog.window;
+        val window = infoDialog.window
 
-        val wlp = window!!.attributes;
-        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        val wlp = window!!.attributes
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         wlp.gravity = Gravity.BOTTOM
         window.attributes = wlp
         infoDialog.show()
-        window.findViewById<MaterialButton>(R.id.pdf).text = "Camera"
-        window.findViewById<MaterialTextView>(R.id.title).text = "Upload Avatar"
-        window.findViewById<MaterialButton>(R.id.pdf).icon = ContextCompat.getDrawable(activity, R.drawable.new_design_add_photo)
+        window.findViewById<MaterialButton>(R.id.pdf).text = getString(R.string.camera)
+        window.findViewById<MaterialTextView>(R.id.title).text = getString(R.string.upload_avatar)
+        window.findViewById<MaterialButton>(R.id.pdf).icon = ContextCompat.getDrawable(activity, R.drawable.new_design_add_a_photo_outline)
         window.findViewById<MaterialButton>(R.id.cancel).setOnClickListener {
             infoDialog.dismiss()
         }
@@ -543,7 +543,7 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
         TODO("Not yet implemented")
     }
 
-    @SuppressLint("Range")
+    @SuppressLint("Range", "SuspiciousIndentation")
     fun getPath(uri: Uri?): String? {
         val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
         val cursor: Cursor = requireActivity().contentResolver.query(uri!!, filePathColumn, null, null, null)!!

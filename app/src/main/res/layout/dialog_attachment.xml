@@ -36,7 +36,7 @@
             android:paddingEnd="24dp"
             android:text="PDF"
             android:textColor="@color/neutral_dark"
-            app:icon="@drawable/new_design_add_photo_custom_size"
+            app:icon="@drawable/new_design_add_a_photo_outline"
             app:iconPadding="16dp" />
 
         <View

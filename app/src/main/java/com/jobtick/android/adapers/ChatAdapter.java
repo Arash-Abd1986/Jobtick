@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +22,7 @@ import com.jobtick.android.R;
 
 import android.annotation.SuppressLint;
 
+import com.jobtick.android.activities.ChatActivity;
 import com.jobtick.android.activities.ZoomImageActivity;
 import com.jobtick.android.models.AttachmentModel;
 import com.jobtick.android.models.response.chat.MessageItem;
@@ -29,6 +32,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -264,18 +268,29 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
                     doubleTickF.setVisibility(View.GONE);
                 }
-
-                Glide.with(imagePathF).load(item.getAttachment().getThumb_url()).into(imagePathF);
+                if(Objects.requireNonNull(item.getAttachment().getUrl()).endsWith("pdf"))
+                    imagePathF.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.new_design_chat_file_arrow));
+                else
+                    Glide.with(imagePathF).load(item.getAttachment().getThumb_url()).into(imagePathF);
                 imagePathF.setOnClickListener(v -> {
-                    ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
-                    AttachmentModel model = new AttachmentModel();
-                    model.setModalUrl(item.getAttachment().getModal_url());
-                    attachmentArrayList.add(model);
-                    Intent intent = new Intent(context, ZoomImageActivity.class);
-                    intent.putExtra("url", attachmentArrayList);
-                    intent.putExtra("title", "");
-                    intent.putExtra("pos", position);
-                    context.startActivity(intent);
+                    if(item.getAttachment().getUrl().endsWith("pdf"))
+                        try {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getAttachment().getUrl()));
+                            context.startActivity(browserIntent);
+                        } catch (Exception e){
+                            Toast.makeText(context, context.getString(R.string.server_went_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        ArrayList<AttachmentModel> attachmentArrayList = new ArrayList<>();
+                        AttachmentModel model = new AttachmentModel();
+                        model.setModalUrl(item.getAttachment().getModal_url());
+                        attachmentArrayList.add(model);
+                        Intent intent = new Intent(context, ZoomImageActivity.class);
+                        intent.putExtra("url", attachmentArrayList);
+                        intent.putExtra("title", "");
+                        intent.putExtra("pos", position);
+                        context.startActivity(intent);
+                    }
                 });
             } else {
                 txChatFile.setVisibility(View.GONE);

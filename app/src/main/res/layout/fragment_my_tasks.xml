@@ -106,12 +106,14 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/posted"
                 android:gravity="center_vertical|start"
                 android:orientation="horizontal"
                 android:layout_weight="1.5"
                 android:layout_width="0dp"
                 android:layout_height="21dp">
                 <TextView
+                    android:id="@+id/posted_text"
                     android:fontFamily="@font/roboto_bold"
                     android:layout_marginEnd="4dp"
                     android:text="@string/posted"
@@ -122,27 +124,32 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_centerInParent="true"
                         android:id="@+id/posted_image"
-                        android:layout_width="21dp"
-                        android:layout_height="21dp"
-
-                        android:background="@color/purple_500"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
-
-                    <TextView
-                        android:id="@+id/posted_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="99"
+
+                        android:background="@color/purple_500"
+                        app:contentPadding="15dp"
+
+                        app:contentPaddingTop="2dp"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+                    <TextView
+                        android:id="@+id/posted_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="9"
                         android:textColor="@color/white"
                         android:textSize="12dp" />
 
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/assigned"
                 android:layout_marginEnd="12dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -150,6 +157,7 @@
                 android:layout_width="0dp"
                 android:layout_height="21dp">
                 <TextView
+                    android:id="@+id/assigned_text"
                     android:fontFamily="@font/roboto_bold"
                     android:layout_marginEnd="4dp"
                     android:text="@string/assigned"
@@ -163,14 +171,17 @@
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_centerInParent="true"
                         android:id="@+id/assigned_image"
-                        android:layout_width="21dp"
-                        android:layout_height="21dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:contentPadding="15dp"
+
+                        app:contentPaddingTop="2dp"
 
                         android:background="@color/purple_500"
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
 
                     <TextView
-                        android:id="@+id/assigned_text"
+                        android:id="@+id/assigned_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -181,12 +192,14 @@
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ticked"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:layout_weight="1.5"
                 android:layout_width="0dp"
                 android:layout_height="21dp">
                 <TextView
+                    android:id="@+id/ticked_text"
                     android:fontFamily="@font/roboto_bold"
                     android:layout_marginEnd="4dp"
                     android:text="@string/ticked"
@@ -200,14 +213,17 @@
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_centerInParent="true"
                         android:id="@+id/ticked_image"
-                        android:layout_width="21dp"
-                        android:layout_height="21dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:contentPadding="15dp"
+
+                        app:contentPaddingTop="2dp"
 
                         android:background="@color/purple_500"
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
 
                     <TextView
-                        android:id="@+id/ticked_text"
+                        android:id="@+id/ticked_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -218,6 +234,7 @@
                 </RelativeLayout>
             </LinearLayout>
             <ImageView
+                android:padding="1dp"
                 android:id="@+id/more"
                 app:tint="@color/neutral_light_500"
                 android:rotation="90"
@@ -259,40 +276,94 @@
             android:layout_height="match_parent">
 
             <FrameLayout
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/no_jobs_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="@dimen/empty_pages_padding"
-                    android:layout_gravity="center"
                     android:gravity="center"
-                    android:visibility="gone">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/lottieAnimationView"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:visibility="visible"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/no_post"/>
+                    android:layout_height="match_parent">
 
+                    <ImageView
+                        android:id="@+id/noDataIcon"
+                        android:src="@drawable/new_design_no_data_inventory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                     <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/materialText_500_16"
-                        android:text="No job here"
+                        android:id="@+id/noDataText"
+                        android:gravity="center"
+                        android:text="@string/hire_top_rated_tickers"
                         android:layout_marginTop="16dp"
-                        android:gravity="center_horizontal"
-                        android:textColor="@color/colorNavyBlue"/>
+                        android:layout_marginBottom="16dp"
+                        android:textColor="@color/black"
+                        android:textSize="18dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/noDataButton"
+                        android:layout_marginBottom="26.5dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingTop="10.5dp"
+                        android:paddingBottom="10.5dp"
+                        android:textSize="16dp"
+                        android:text="@string/post_a_job"
+                        android:textColor="@color/white"
+                        app:cornerRadius="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/noDataLearnMore"
+                        android:textSize="16dp"
+                        android:textColor="@color/primary_500"
+                        android:text="Help Desk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/no_jobs_container"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:background="@color/white"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:gravity="center"-->
+<!--                    android:visibility="visible">-->
+<!--                <ImageView-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:scaleType="centerInside"-->
+<!--                    android:src="@drawable/new_design_no_data_inventory"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"/>-->
+<!--                    <com.google.android.material.textview.MaterialTextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textAppearance="@style/newDesign_18_900"-->
+<!--                        android:text="No job here"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:gravity="center_horizontal"-->
+<!--                        android:textColor="@color/colorNavyBlue"/>-->
+<!--                    -->
+<!--                    -->
+<!--                    <com.airbnb.lottie.LottieAnimationView-->
+<!--                    android:id="@+id/lottieAnimationView"-->
+
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                        android:scaleType="centerInside"-->
+<!--                        android:visibility="gone"-->
+<!--                        app:lottie_autoPlay="true"-->
+<!--                        app:lottie_loop="true"-->
+<!--                        app:lottie_rawRes="@raw/no_post"/>-->
+
+
+
+<!--                </LinearLayout>-->
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:background="@color/white"
@@ -300,8 +371,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="never"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     tools:listitem="@layout/item_task_view"/>
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/float_post_a_job"
+                    android:layout_marginBottom="24dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_centerInParent="true"
+                        android:id="@+id/expired_image"
+                        android:layout_width="138dp"
+                        android:layout_height="52dp"
+                        android:background="@color/primary_500"
+                        app:contentPadding="30dp"
+
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent.PostJob" />
+
+                    <TextView
+                        android:id="@+id/expired_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawableStart="@drawable/new_design_add_circle_white"
+                        android:drawablePadding="5dp"
+                        android:text="@string/post_a_job"
+                        android:textColor="@color/white"
+                        android:textSize="16dp" />
+
+                </RelativeLayout>
 
             </FrameLayout>
 

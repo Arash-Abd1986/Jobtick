@@ -235,6 +235,16 @@ public abstract class AbstractPaymentFragment extends Fragment {
             }
 
             @Override
+            public void onScrollDown() {
+
+            }
+
+            @Override
+            public void onScrollUp() {
+
+            }
+
+            @Override
             public int getTotalItem() {
                 return 0;
             }

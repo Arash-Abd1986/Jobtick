@@ -199,6 +199,7 @@
     <string name="cancelled">Cancelled</string>
     <string name="overdue">Overdue</string>
     <string name="closed">Closed</string>
+    <string name="expired">Expired</string>
     <string name="posted">Posted</string>
     <string name="ticked">Ticked</string>
     <string name="offered">Offered</string>
@@ -273,6 +274,7 @@
 
     <string name="upload_a_profile_picture">Upload a profile picture</string>
     <string name="provide_bank_account">Provide bank account</string>
+    <string name="upload_avatar">Upload Avatar</string>
     <string name="account_name">Account name</string>
     <string name="_0000_0000_0000_0000">0000 0000 0000 0000</string>
     <string name="bsb">BSB</string>
@@ -641,6 +643,8 @@
     <string name="confirm_block_user">Confirm block User</string>
     <string name="chat_close_state">This chat is already closed!</string>
     <string name="loading_your_data">Loading your data</string>
+    <string name="you_have_no_items_port">You have no item in your portfolio yet</string>
+    <string name="hire_top_rated_tickers">Hire Top Rated Tickers Immediately</string>
     <string name="what_is_your_idea">WHAT IS YOUR IDEA ABOUT APP?</string>
     <string-array name="array_name">
         <item>All Time</item>

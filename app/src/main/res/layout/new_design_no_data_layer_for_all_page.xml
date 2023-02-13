@@ -12,13 +12,13 @@
 
     <ImageView
         android:id="@+id/noDataIcon"
-        android:src="@drawable/new_design_no_data_icon_1"
+        android:src="@drawable/new_design_no_data_icon_portfolio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/noDataText"
         android:gravity="center"
-        android:text="You have no item in your portfolio yet"
+        android:text="@string/you_have_no_items_port"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:textColor="@color/black"

@@ -1,11 +1,13 @@
 package com.jobtick.android.models.response.conversationinfo
 
+import com.google.gson.annotations.SerializedName
+
 data class User(
-    val avatar: Avatar?,
-    val id: Int?,
-    val is_verified_account: Int?,
-    val last_online: String?,
-    val name: String?,
-    val position: Position?,
-    val slug: String?
+    @SerializedName("avatar") val avatar: Avatar?,
+    @SerializedName("id") val id: Int?,
+    @SerializedName("is_verified_account") val is_verified_account: Int?,
+    @SerializedName("last_online") val last_online: String?,
+    @SerializedName("name") val name: String?,
+    @SerializedName("position") val position: Position?,
+    @SerializedName("slug") val slug: String?
 )

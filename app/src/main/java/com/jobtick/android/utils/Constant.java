@@ -48,8 +48,8 @@ public class Constant {
     public static final String BASE_URL_DEBUG_V2 = "https://api-dev.jobtick.com/api/v2/";
     public static final String SOCKET_DEV = "https://api-dev.jobtick.com:2096";
     public static final String SOCKET_PROD = "https://api.jobtick.com:2096";
-   // public static final String BASE_URL_SERVER = SOCKET_DEV;
-    public static final String BASE_URL_SERVER = (BuildConfig.DEBUG) ? SOCKET_DEV : SOCKET_PROD;
+    public static final String BASE_URL_SERVER = SOCKET_DEV;
+   // public static final String BASE_URL_SERVER = (BuildConfig.DEBUG) ? SOCKET_DEV : SOCKET_PROD;
     public static final String BASE_URL = BASE_URL_DEBUG;
   //  public static final String BASE_URL = (BuildConfig.DEBUG) ? BASE_URL_DEBUG : BASE_URL_PRODUCT;
     public static final String BASE_URL_V2 = BASE_URL_DEBUG_V2;

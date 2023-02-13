@@ -2,6 +2,7 @@ package com.jobtick.android.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -66,6 +67,7 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
     private var ivNotification: ImageView? = null
     private var toolbarTitle: TextView? = null
     private var noMessages: LinearLayout? = null
+    @SuppressLint("ResourceAsColor")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -73,6 +75,8 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
         noMessages = view.findViewById(R.id.no_messages_container)
         chatList = view.findViewById(R.id.recycler_view)
         swipeRefresh = view.findViewById(R.id.swipeRefresh)
+        swipeRefresh!!.setColorSchemeColors(Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE)
+        swipeRefresh!!.setBackgroundColor(android.R.color.transparent)
         extras
         return view
     }
@@ -89,7 +93,9 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(context)
-        initToolbar()
+        dashboardActivity = requireActivity() as DashboardActivity
+
+        //  initToolbar()
         initPusher()
         initComponents()
         fetchData()
@@ -154,7 +160,6 @@ class InboxFragment : Fragment(), InboxListAdapter.OnItemClickListener, OnRefres
     private fun initToolbar() {
         Log.d("fetchdata", "222")
 
-        dashboardActivity = requireActivity() as DashboardActivity
         if (dashboardActivity == null) return
         toolbar = dashboardActivity!!.findViewById(R.id.toolbar)
         toolbar!!.menu.clear()

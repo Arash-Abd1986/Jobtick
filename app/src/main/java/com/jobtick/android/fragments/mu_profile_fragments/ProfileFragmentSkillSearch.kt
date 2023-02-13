@@ -1,5 +1,6 @@
 package com.jobtick.android.fragments.mu_profile_fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
@@ -146,13 +147,14 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
                 }
             }
     }
+    @SuppressLint("SuspiciousIndentation")
     private fun setCategoryData() {
         for(index1 in alphabeticString)
-        for((index,items) in listMain.withIndex()) {
-            if (items.title!!.startsWith(index1)) {
-                listMain.add(index, Skills(index1, "-1", false))
-                break
-            }
+            for((index,items) in listMain.withIndex()) {
+                if (items.title!!.startsWith(index1)) {
+                    listMain.add(index, Skills(index1, "-1", false))
+                    break
+                }
         }
         skillsSearchAdapter?.subClickListener = this
         val layoutManager = LinearLayoutManager(activity)

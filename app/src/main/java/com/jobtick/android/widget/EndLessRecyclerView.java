@@ -29,6 +29,16 @@ public class EndLessRecyclerView extends RecyclerView {
             }
 
             @Override
+            public void onScrollDown() {
+
+            }
+
+            @Override
+            public void onScrollUp() {
+
+            }
+
+            @Override
             public int getTotalItem() {
                 return 0;
             }

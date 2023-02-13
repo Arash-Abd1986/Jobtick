@@ -132,7 +132,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                 uploadMedia(imageFile)
             }
 
-            override fun onPdfReady(pdf: File) {
+            override fun onPdfReady(pdf: File, string: String, uri: Uri) {
                 TODO("Not yet implemented")
             }
         }

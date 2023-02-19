@@ -1,6 +1,8 @@
 package com.jobtick.android.fragments
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
@@ -11,9 +13,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
-import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +26,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
@@ -34,6 +35,7 @@ import com.jobtick.android.adapers.AttachmentAdapter
 import com.jobtick.android.adapers.BadgesAdapter
 import com.jobtick.android.adapers.Viewpager2Adapter
 import com.jobtick.android.interfaces.onProfileUpdateListener
+import com.jobtick.android.material.ui.jobdetails.JobDetailsActivity
 import com.jobtick.android.models.AccountStatusModel
 import com.jobtick.android.models.AttachmentModel
 import com.jobtick.android.models.BadgesModel
@@ -100,7 +102,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var progressLevel4: CircularProgressView? = null
     private var pbLoading: ProgressBar? = null
     private var content: LinearLayout? = null
-    private var dashboardActivity: DashboardActivity? = null
+    private lateinit var dashboardActivity: Activity
     private var toolbar: Toolbar? = null
     private var sessionManager: SessionManager? = null
     private var userAccountModel: UserAccountModel? = null
@@ -199,6 +201,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private lateinit var textTitle: TextView
     private lateinit var textAction: ImageView
     private lateinit var back: ImageView
+    private var profileId: String = "0"
     override fun onResume() {
         super.onResume()
         sessionManager?.let {
@@ -355,7 +358,12 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         textAction = requireView().findViewById(R.id.txt_action)
         back = requireView().findViewById(R.id.back)
         back.setOnClickListener {
-            (requireActivity() as DashboardActivity).navController!!.navigate(R.id.action_navigation_public_profile_to_navigation_profile) }
+            when (requireArguments().get("activity")) {
+                "dashboard" -> (requireActivity() as DashboardActivity).navController!!.navigate(R.id.action_navigation_public_profile_to_navigation_profile)
+                "jobdetails" -> (requireActivity() as JobDetailsActivity).navController!!.navigate(R.id.action_navigation_public_profile_to_jobDetailsPosterFragment)
+            }
+        }
+           // (requireActivity() as DashboardActivity).navController!!.navigate(R.id.action_navigation_public_profile_to_navigation_profile) }
 
     }
 
@@ -419,7 +427,20 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             val levelInfoBottomSheet = LevelInfoBottomSheet()
             levelInfoBottomSheet.show(parentFragmentManager, "")
         }
-        dashboardActivity = requireActivity() as DashboardActivity
+        requireArguments().get("activity")
+        when(requireArguments().get("activity")) {
+            "dashboard" -> dashboardActivity = requireActivity() as DashboardActivity
+            "jobdetails" -> {
+                dashboardActivity = requireActivity() as JobDetailsActivity
+                (requireActivity() as JobDetailsActivity).findViewById<LinearLayout>(R.id.linTitle).visibility =
+                    View.GONE
+            }
+            else -> requireActivity() as DashboardActivity
+        }
+
+        profileId = requireArguments().get("id").toString()
+        Log.d("asdadadadads", profileId)
+//        dashboardActivity = requireActivity() as DashboardActivity
         sessionManager = SessionManager(dashboardActivity)
        // initToolbar()
         userAccountModel = UserAccountModel()
@@ -612,7 +633,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             )
         )
         recyclerViewPortfolio!!.setHasFixedSize(true)
-        adapter = AttachmentAdapter(attachmentArrayList, false, requireActivity() as DashboardActivity)
+        adapter = AttachmentAdapter(attachmentArrayList, false, dashboardActivity)
         recyclerViewPortfolio!!.adapter = adapter
         adapter!!.setOnItemClickListener(this)
         badgeRecycler!!.setHasFixedSize(true)
@@ -698,7 +719,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             content!!.visibility = View.GONE
             val stringRequest: StringRequest = object : StringRequest(
                 Method.GET,
-                Constant.URL_PROFILE + "/" + sessionManager!!.userAccount.id,
+                Constant.URL_PROFILE + "/" + profileId,
 //                Constant.URL_PROFILE + "/6" ,
                 Response.Listener { response: String? ->
                     Timber.e(response)
@@ -721,9 +742,18 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             if(userAccountModel!!.portfolio.size == 0) {
                                 viewPagerParent.visibility = View.GONE
                             } else {
+
                                 viewPagerParent.visibility = View.VISIBLE
-                                for(imagelink in userAccountModel!!.portfolio)
-                                    images.add(imagelink.modalUrl)
+
+                                for(i in 0 until jsonObject.getJSONObject("data").getJSONArray("portfolio").length()) {
+                                    val jsonArrayImages = jsonObject.getJSONObject("data").getJSONArray("portfolio").getJSONObject(i)
+                                    for(j in 0 until jsonArrayImages.getJSONArray("img").length()) {
+                                        val jsonObjectImages = jsonArrayImages.getJSONArray("img").getJSONObject(j)
+                                        Log.d("adadaaadad", jsonObjectImages.getString("modal_url"))
+                                        images.add(jsonObjectImages.getString("modal_url"))
+                                    }
+                                  //  Log.d("hereinviewpager", imagelink.modalUrl)
+                                }
                                 imageCounter.text = "1 of " + images.size
                                     viewPagerAdapter = Viewpager2Adapter(dashboardActivity, images)
                                 viewPager.adapter = viewPagerAdapter
@@ -740,7 +770,6 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             adapter!!.clear()
                             badgesAdapter!!.clear()
                             badgesModelArrayList = userAccountModel!!.badges
-                            Log.d("arraylisstsiz", badgesModelArrayList!!.size.toString())
                             if (attachmentArrayList!!.size <= 0) {
                                 noPortfolio!!.visibility = View.VISIBLE
                                 lPort!!.visibility = View.GONE
@@ -777,16 +806,16 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             }
                             setUpAllEditFields(userAccountModel)
                         } else {
-                            dashboardActivity!!.showToast("Connection error", dashboardActivity)
+                            (requireActivity() as ActivityBase).showToast("Connection error", dashboardActivity)
                         }
                     } catch (e: JSONException) {
-                        dashboardActivity!!.showToast("Something went wrong", dashboardActivity)
+                        (requireActivity() as ActivityBase).showToast("Something went wrong", dashboardActivity)
                         Timber.e(e.toString())
                         e.printStackTrace()
                     }
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    dashboardActivity!!.errorHandle1(
+                    (requireActivity() as ActivityBase)!!.errorHandle1(
                         error.networkResponse
                     )
                 }
@@ -1288,4 +1317,5 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         headingBadges.setTextColor(requireActivity().getColor(R.color.neutral_light_500))
         headingReviews.setTextColor(requireActivity().getColor(R.color.neutral_light_500))
     }
+
 }

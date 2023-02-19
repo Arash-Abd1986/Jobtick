@@ -5,7 +5,7 @@ import android.os.Parcelable
 
 data class MyJobsResponse(
     val current_page: Int?,
-    val `data`: List<Data>?,
+    val data: List<Data>?,
     val first_page_url: String?,
     val from: Int?,
     val last_page: Int?,
@@ -60,6 +60,7 @@ data class MyJobsResponse(
     override fun describeContents(): Int {
         return 0
     }
+
 
     companion object CREATOR : Parcelable.Creator<MyJobsResponse> {
         override fun createFromParcel(parcel: Parcel): MyJobsResponse {

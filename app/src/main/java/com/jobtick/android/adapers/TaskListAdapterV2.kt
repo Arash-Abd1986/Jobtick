@@ -148,6 +148,7 @@ class TaskListAdapterV2(
         var txtLocation: TextView? = null
         var txtDueDate: TextView? = null
         var txtBudget: TextView? = null
+        var txtBudgetPre: TextView? = null
         var txtStatus: TextView? = null
         var content: View? = null
         var jobAlertCard: View? = null
@@ -165,6 +166,7 @@ class TaskListAdapterV2(
             txtLocation = itemView.findViewById(R.id.txt_location)
             txtDueDate = itemView.findViewById(R.id.txt_due_date)
             txtBudget = itemView.findViewById(R.id.txt_budget)
+            txtBudgetPre = itemView.findViewById(R.id.txt_budget_pre)
             txtStatus = itemView.findViewById(R.id.txt_status)
             content = itemView.findViewById(R.id.content)
             jobAlertCard = itemView.findViewById(R.id.job_alert_card)
@@ -222,28 +224,35 @@ class TaskListAdapterV2(
                 item.budgetplan?.let {
                     when (item.budgetplan.id) {
                         1 -> {
-                            txtBudget!!.text = "Less than $250"
-                            txtBudget!!.setSpanColor(0, 10, ContextCompat.getColor(context!!, R.color.neutral_light_500))
+                            txtBudgetPre!!.text = "Up to "
+                            txtBudget!!.text = "$250"
+//                            txtBudget!!.setSpanColor(0, 10, ContextCompat.getColor(context!!, R.color.neutral_light_500))
                         }
                         2 -> {
-                            txtBudget!!.text = "$250 to $500"
-                            txtBudget!!.setSpanColor(5, 7, ContextCompat.getColor(context!!, R.color.neutral_light_500))
+                            txtBudget!!.text = "Up to "
+                            txtBudget!!.text = "$500"
+//                            txtBudget!!.setSpanColor(5, 7, ContextCompat.getColor(context!!, R.color.neutral_light_500))
                         }
                         3 -> {
-                            txtBudget!!.text = "$500 to $1000"
-                            txtBudget!!.setSpanColor(5, 7, ContextCompat.getColor(context!!, R.color.neutral_light_500))
+                            txtBudget!!.text = "Up to "
+                            txtBudget!!.text = "$1000"
+//                            txtBudget!!.setSpanColor(5, 7, ContextCompat.getColor(context!!, R.color.neutral_light_500))
                         }
                         4 -> {
-                            txtBudget!!.text = "More than $1000"
-                            txtBudget!!.setSpanColor(0, 10, ContextCompat.getColor(context!!, R.color.neutral_light_500))
+                            txtBudget!!.text = "More than "
+                            txtBudget!!.text = "$1000"
+//                            txtBudget!!.setSpanColor(0, 10, ContextCompat.getColor(context!!, R.color.neutral_light_500))
                         }
                     }
                 }
 
             } else
                 if (item.amount != null) {
+                    txtBudgetPre!!.text = ""
                     txtBudget!!.text = "$" + item.amount
-                } else txtBudget!!.text = ""
+                } else {
+                    txtBudgetPre!!.text = ""
+                    txtBudget!!.text = ""}
 
             if (item.offers != null) {
                 val count = item.offers.size

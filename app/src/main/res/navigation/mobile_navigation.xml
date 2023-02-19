@@ -168,6 +168,9 @@
             app:enterAnim="@anim/fadein"
             android:id="@+id/action_navigation_profile_add_portfolio_item_to_navigation_profile_portfolio_item"
             app:destination="@id/navigation_profile_portfolio_item" />
+        <action
+            android:id="@+id/action_navigation_profile_add_portfolio_item_to_navigation_profile_portfolio_image_preview"
+            app:destination="@id/navigation_profile_portfolio_image_preview" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile_bank_account"
@@ -406,6 +409,20 @@
             android:id="@+id/action_navigation_profile_payments_to_navigation_profile_credit_card_preview"
             app:destination="@id/navigation_profile_credit_card_preview" />
     </fragment>
+
+
+    <fragment
+        android:id="@+id/navigation_profile_portfolio_image_preview"
+        android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentPortfolioImagePreview"
+        tools:layout="@layout/fragment_profile_portfolio_image_preview">
+        <action
+            android:id="@+id/action_navigation_profile_portfolio_image_preview_to_navigation_profile_portfolio_item"
+            app:exitAnim="@anim/fadeout"
+            app:enterAnim="@anim/fadein"
+            app:destination="@id/navigation_profile_add_portfolio_item" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/navigation_profile_portfolio_item"
         android:name="com.jobtick.android.fragments.mu_profile_fragments.ProfileFragmentPortfolioItems"

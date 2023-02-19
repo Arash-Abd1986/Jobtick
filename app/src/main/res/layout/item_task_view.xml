@@ -154,6 +154,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_budget"
+                    android:layout_centerVertical="true"
                     style="@style/heading6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -162,6 +163,17 @@
                     android:gravity="right"
                     android:textColor="@color/primary_500"
                     tools:text="@string/_200" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/txt_budget"
+                    android:id="@+id/txt_budget_pre"
+                    style="@style/newDesign_14_500"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    tools:text="Up to " />
 
             </RelativeLayout>
 

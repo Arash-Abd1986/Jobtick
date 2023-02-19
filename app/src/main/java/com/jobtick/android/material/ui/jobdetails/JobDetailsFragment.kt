@@ -13,8 +13,11 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.DefaultRetryPolicy
@@ -56,6 +59,8 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
     private lateinit var direction: MaterialTextView
     private lateinit var title: MaterialTextView
     private lateinit var name: MaterialTextView
+    private lateinit var viewProfile: MaterialTextView
+    private var viewProfileId: Int = 0
     private lateinit var seeAll: MaterialTextView
     private lateinit var description: MaterialTextView
     private lateinit var msgHeader: MaterialTextView
@@ -204,9 +209,12 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
                 if (viewModel.userType == JobDetailsViewModel.UserType.POSTER) {
                     name.text = taskModel.worker.name
                     txtRoleTitle.text = "Ticked by"
+                    viewProfileId = taskModel.worker.id
+                    id
                 } else {
                     name.text = taskModel.poster.name
                     txtRoleTitle.text = "Ticked by"
+                    viewProfileId = taskModel.poster.id
                 }
             }
             "assigned" -> {
@@ -221,9 +229,11 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
                     budget.gone()
                     name.text = taskModel.poster.name
                     txtRoleTitle.text = "Post by"
+                    viewProfileId = taskModel.poster.id
                 } else {
                     name.text = taskModel.worker.name
                     txtRoleTitle.text = "Assigned to"
+                    viewProfileId = taskModel.worker.id
                     linNext.gone()
                 }
             }
@@ -409,8 +419,9 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
 
     @SuppressLint("SetTextI18n")
     private fun setOfferStatus(taskModel: TaskModel) {
+        Log.d("sdadaaaaa", viewModel.userType.toString())
         if (viewModel.userType == JobDetailsViewModel.UserType.POSTER) {
-            if (taskModel.offerCount > 0) {
+          //  if (taskModel.offerCount > 0) {
                 if (taskModel.offerCount > 0) {
                     btnNext.text = "See offers(${taskModel.offerCount})"
                     budget.gone()
@@ -420,7 +431,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
                     budget.gone()
                     btnNext.isEnabled = false
                 }
-            }
+           // }
         } else {
             if (taskModel.offerCount > 0) {
                 taskModel.offers.forEach {
@@ -513,6 +524,12 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
         direction = requireView().findViewById(R.id.direction)
         title = requireView().findViewById(R.id.title)
         name = requireView().findViewById(R.id.posterName)
+        viewProfile = requireView().findViewById(R.id.viewProfile)
+        viewProfile.setOnClickListener{
+            val bundle: Bundle = bundleOf("activity" to "jobdetails", "id" to viewProfileId.toString())
+           view?.findNavController()?.navigate(R.id.action_jobDetailsPosterFragment_to_navigation_public_profile, bundle)
+
+        }
         icChat = requireView().findViewById(R.id.ic_chat)
         btnNext = requireView().findViewById(R.id.btn_next)
         description = requireView().findViewById(R.id.description)

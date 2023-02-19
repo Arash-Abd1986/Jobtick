@@ -55,14 +55,13 @@ class PostAJobDetailsFragment : Fragment() {
         initVars()
     }
 
-
     @SuppressLint("SetTextI18n")
     private fun initVars() {
         sessionManagerA = SessionManager(requireContext())
         viewModel = ViewModelProvider(
-                requireActivity(),
-                ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManagerA)))
-        ).get(PostAJobViewModel::class.java)
+            requireActivity(),
+            ViewModelFactory(ApiHelper(ApiClient.getClientV2(sessionManagerA)))
+        )[PostAJobViewModel::class.java]
         activity = (requireActivity() as PostAJobActivity)
         next = requireView().findViewById(R.id.btn_next)
         jobDescription = requireView().findViewById(R.id.job_description)

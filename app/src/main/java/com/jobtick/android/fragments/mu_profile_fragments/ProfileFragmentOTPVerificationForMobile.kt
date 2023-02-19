@@ -253,7 +253,7 @@ class ProfileFragmentOTPVerificationForMobile : Fragment(), OTPListener {
         observe(lifecycleOwner, object : Observer<T> {
             override fun onChanged(t: T?) {
                 observer.onChanged(t)
-              //  removeObserver(this)
+                removeObserver(this)
             }
         })
     }

@@ -269,7 +269,8 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
         }
 
         binding.textPublicProfile.setOnClickListener {
-                view.findNavController().navigate(R.id.action_navigation_profile_to_navigation_public_profile)
+            var bundle = bundleOf("activity" to "dashboard", "id" to sessionManager?.userAccount?.id)
+                view.findNavController().navigate(R.id.action_navigation_profile_to_navigation_public_profile, bundle)
         }
     }
 
@@ -454,7 +455,6 @@ class ProfileFragmentNew : Fragment(), PickiTCallbacks {
         infoDialog.show()
         window.findViewById<MaterialButton>(R.id.pdf).text = getString(R.string.camera)
         window.findViewById<MaterialTextView>(R.id.title).text = getString(R.string.upload_avatar)
-        window.findViewById<MaterialButton>(R.id.pdf).icon = ContextCompat.getDrawable(activity, R.drawable.new_design_add_a_photo_outline)
         window.findViewById<MaterialButton>(R.id.cancel).setOnClickListener {
             infoDialog.dismiss()
         }

@@ -110,7 +110,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
         val width = displayMetrics.widthPixels
         attachmentArrayList = ArrayList()
-        mediaAdapter = MediaAdapter(attachmentArrayList, context = requireContext(), width)
+        mediaAdapter = MediaAdapter(attachmentArrayList, context = requireContext(), width, 9)
         mediaAdapter.setOnItemClickListener(this)
         mediaAdapter.showOptions = this
         next = requireView().findViewById(R.id.btn_next)
@@ -557,7 +557,7 @@ class PostAJobAttachmentFragment : Fragment(), MediaAdapter.OnItemClickListener,
         val window = infoDialog.window;
 
         val wlp = window!!.attributes;
-        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         wlp.gravity = Gravity.BOTTOM
         window.attributes = wlp
         infoDialog.show()

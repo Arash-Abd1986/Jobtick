@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatCheckBox
@@ -24,6 +25,7 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private var mOnItemClickListener: OnItemClickListener? = null
     private var context: Context? = null
     private var screenWidth: Int = 0
+    private var size: Int = 0
     private var selectionMode = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER
     lateinit var showOptions: OnShowOptions
 
@@ -45,10 +47,11 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.items = items
     }
 
-    constructor(items: MutableList<AttachmentModelV2>?, context: Context?, width: Int) {
+    constructor(items: MutableList<AttachmentModelV2>?, context: Context?, width: Int, size: Int) {
         this.items = items
         this.context = context
         this.screenWidth = width
+        this.size = size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -103,6 +106,7 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         var error: AppCompatImageView = itemView!!.findViewById(R.id.error)
         var pdf: AppCompatImageView = itemView!!.findViewById(R.id.pdf)
         var rlMain: RelativeLayout = itemView!!.findViewById(R.id.rlMain)
+        var parent: LinearLayout = itemView!!.findViewById(R.id.parent)
         var checkBox: AppCompatCheckBox = itemView!!.findViewById(R.id.checkBox)
 
         @SuppressLint("NotifyDataSetChanged")
@@ -146,16 +150,34 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 calcShowOptions(items, item)
                 notifyDataSetChanged()
             }
-            media.setOnLongClickListener {
-                selectionMode = AttachmentAdapter.VIEW_TYPE_IMAGE
-                notifyDataSetChanged()
-                true
+            media.setOnClickListener{
+                mOnItemClickListener!!.onItemClick(
+                    it,
+                    items?.get(index = position),
+                    adapterPosition,
+                    "media"
+                )
+
             }
-            error.setOnLongClickListener {
-                selectionMode = AttachmentAdapter.VIEW_TYPE_ERROR
-                notifyDataSetChanged()
-                true
+//            media.setOnLongClickListener {
+//                selectionMode = AttachmentAdapter.VIEW_TYPE_IMAGE
+//                notifyDataSetChanged()
+//                true
+//            }
+            error.setOnClickListener{
+                mOnItemClickListener!!.onItemClick(
+                    it,
+                    items?.get(index = position),
+                    adapterPosition,
+                    "error"
+                )
+
             }
+//            error.setOnLongClickListener {
+//                selectionMode = AttachmentAdapter.VIEW_TYPE_ERROR
+//                notifyDataSetChanged()
+//                true
+//            }
             pdf.setOnLongClickListener {
                 selectionMode = AttachmentAdapter.VIEW_TYPE_PDF
                 notifyDataSetChanged()
@@ -230,7 +252,7 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             rlMain.setOnClickListener {
                 Log.d("clickedhere", "3," + "size = ${items?.size}")
 
-                if (items!!.size <= 5) {
+                if (items!!.size <= size) {
                     Log.d("clickedhere", "4")
 
                     mOnItemClickListener!!.onItemClick(
@@ -241,7 +263,7 @@ class MediaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     )
                 }
             }
-            if (items!!.filter { it.type != AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER }.size >= 5) {
+            if (items!!.filter { it.type != AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER }.size >= size) {
                 add.setColorFilter(context!!.getColor(R.color.neutral_light_400))
             } else {
                 add.setColorFilter(context!!.getColor(R.color.primary))

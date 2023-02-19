@@ -23,14 +23,17 @@ import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -39,6 +42,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import com.hbisoft.pickit.PickiT
 import com.hbisoft.pickit.PickiTCallbacks
@@ -122,7 +126,8 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
         super.onViewCreated(view, savedInstanceState)
         SetToolbar(activity, "Add Portfolio", "Save", R.id.navigation_profile, binding.header, view)
         binding.header.back.setOnClickListener {
-            view.findNavController().navigate(R.id.action_navigation_profile_add_portfolio_item_to_navigation_profile_portfolio_item)
+            view.findNavController().popBackStack()
+//            view.findNavController().navigate(R.id.action_navigation_profile_add_portfolio_item_to_navigation_profile_portfolio_item)
         }
 
         binding.header.txtAction.setOnClickListener {
@@ -203,7 +208,7 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
         //activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
         val width = displayMetrics.widthPixels
         attachmentArrayList = ArrayList()
-        mediaAdapter = MediaAdapter(attachmentArrayList, context = requireContext(), width)
+        mediaAdapter = MediaAdapter(attachmentArrayList, context = requireContext(), width, 5)
         mediaAdapter.setOnItemClickListener(this)
         mediaAdapter.showOptions = this
         next = requireView().findViewById(R.id.btn_next)
@@ -348,13 +353,21 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
     }
 
     override fun onItemClick(view: View?, obj: AttachmentModelV2?, position: Int, action: String?) {
-        Log.d("clickedhere", "2")
 
-        //  showDialog()
-        if (checkPermissionReadExternalStorage(requireContext())) {
-            Log.d("clickedhere", "1")
-            val openGallary = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(Intent.createChooser(openGallary, "Open Gallary"), 1)
+        if(action.equals("media")) {
+            Log.d("clickedhereinview", attachmentArrayList[position].type.toString())
+            showDialogForImageClicked("media", obj, position)
+        }
+        else  if(action.equals("error")) {
+            Log.d("clickedhereinview", attachmentArrayList[position].type.toString())
+            showDialogForImageClicked("error", obj, position)
+
+        }
+        else
+            if (checkPermissionReadExternalStorage(requireContext())) {
+                Log.d("clickedhere", "1")
+                val openGallary = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(Intent.createChooser(openGallary, "Open Gallary"), 1)
         }
     }
 
@@ -411,10 +424,14 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
                 //  uploadImageWithAmount();
                 val file = File(imagePath)
                 if (title.equals(ConstantKey.CREATE_A_JOB, ignoreCase = true)) {
-                    attachmentArrayList.add(attachmentArrayList.indexOf(attachmentArrayList.first { it.type == AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER }), AttachmentModelV2(-1, file.name, file.name,
-                        "", "", "", "", "", -1, AttachmentAdapter.VIEW_TYPE_PROGRESS, file = file))
-                    attachmentArrayList.removeAt(5)
+                    attachmentArrayList[attachmentArrayList.indexOf(attachmentArrayList.first { it.type == AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER })] =
+                        AttachmentModelV2(-1, file.name, file.name,
+                            "", "", "", "", "", -1, AttachmentAdapter.VIEW_TYPE_PROGRESS, file = file)
+                    Log.d("arraylistsize", attachmentArrayList.size.toString())
+
+                  //  attachmentArrayList.removeAt(5)
                     mediaAdapter.notifyDataSetChanged()
+                    Log.d("arraylistsize", attachmentArrayList.size.toString())
                     uploadDataInTempApi(file)
                 } else {
                     uploadDataInTaskMediaApi(file)
@@ -676,10 +693,10 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
         val infoDialog = AlertDialog.Builder(requireContext())
             .setView(view)
             .create()
-        val window = infoDialog.window;
+        val window = infoDialog.window
 
-        val wlp = window!!.attributes;
-        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        val wlp = window!!.attributes
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         wlp.gravity = Gravity.BOTTOM
         window.attributes = wlp
         infoDialog.show()
@@ -723,6 +740,8 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
                     "", "", "", "", "", -1, AttachmentAdapter.VIEW_TYPE_PROGRESS, file = file))
                 attachmentArrayList.removeAt(5)
                 mediaAdapter.notifyDataSetChanged()
+                Log.d("arraylistsize", attachmentArrayList.size.toString())
+
                 uploadDataInTempApi(file)
             } else {
                 uploadDataInTaskMediaApi(file)
@@ -898,4 +917,95 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
 
     }
 
+    private fun showDialogForImageClicked(str: String, model: AttachmentModelV2?, position: Int) {
+        val view1: View = layoutInflater.inflate(R.layout.dialog_attachment, null)
+        val infoDialog = AlertDialog.Builder(requireContext())
+            .setView(view1)
+            .create()
+        val window = infoDialog.window
+
+        val wlp = window!!.attributes
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        wlp.gravity = Gravity.BOTTOM
+        window.attributes = wlp
+        infoDialog.show()
+        window.findViewById<MaterialButton>(R.id.cancel).visibility = View.GONE
+        if(str.equals("media")) {
+            window.findViewById<MaterialButton>(R.id.pdf).text = getString(R.string.view)
+            window.findViewById<MaterialButton>(R.id.gallery).text = getString(R.string.delete)
+            window.findViewById<ImageView>(R.id.secondImage).setImageDrawable(
+                ContextCompat.getDrawable(activity, R.drawable.new_design_delete))
+
+            window.findViewById<MaterialTextView>(R.id.title).text =
+                getString(R.string.image_options)
+            window.findViewById<ImageView>(R.id.firstImage).setImageDrawable(
+                ContextCompat.getDrawable(activity, R.drawable.new_design_visibility))
+            window.findViewById<MaterialButton>(R.id.pdf).setOnClickListener {
+
+            }
+
+            window.findViewById<MaterialButton>(R.id.pdf).setOnClickListener {
+                val bundle: Bundle?
+                bundle = bundleOf("image" to model?.modalUrl)
+                view?.findNavController()?.navigate(R.id.action_navigation_profile_add_portfolio_item_to_navigation_profile_portfolio_image_preview, bundle)
+                infoDialog.dismiss()
+            }
+
+            window.findViewById<MaterialButton>(R.id.gallery).setOnClickListener {
+                model.let { retryItem ->
+                    //attachmentArrayList.removeAt(position)
+                    attachmentArrayList[position] = AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER)
+
+                    retryItem?.type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER
+                    attachmentIDs["attachments[]"]?.remove(retryItem?.id.toString())
+
+                    mediaAdapter.notifyDataSetChanged()
+                    next.visibility = View.GONE
+                    linOptions.visibility = View.GONE
+                    infoDialog.dismiss()
+                }
+
+            }
+        }else {
+            window.findViewById<MaterialButton>(R.id.pdf).text = getString(R.string.upload_again)
+            window.findViewById<MaterialButton>(R.id.gallery).text = getString(R.string.delete)
+            window.findViewById<ImageView>(R.id.secondImage).setImageDrawable(
+                ContextCompat.getDrawable(activity, R.drawable.new_design_delete))
+
+            window.findViewById<MaterialTextView>(R.id.title).text =
+                getString(R.string.try_uploading)
+            window.findViewById<ImageView>(R.id.firstImage).setImageDrawable(
+                ContextCompat.getDrawable(activity, R.drawable.new_design_sync))
+            window.findViewById<MaterialButton>(R.id.pdf).setOnClickListener {
+                model?.let { retryItem ->
+                    attachmentArrayList.forEach {
+                        if (it == retryItem) {
+                            it.type = AttachmentAdapter.VIEW_TYPE_PROGRESS
+                            it.isChecked = false
+                        }
+                    }
+                    uploadDataInTempApi(retryItem.file!!)
+                    mediaAdapter.notifyDataSetChanged()
+                    infoDialog.dismiss()
+
+                }
+
+            }
+
+            window.findViewById<MaterialButton>(R.id.gallery).setOnClickListener {
+                model.let { retryItem ->
+                    retryItem?.type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER
+                    attachmentArrayList[position] = AttachmentModelV2(type = AttachmentAdapter.VIEW_TYPE_PLACE_HOLDER)
+
+                    // attachmentArrayList.remove(retryItem)
+                    mediaAdapter.notifyDataSetChanged()
+                    next.visibility = View.GONE
+                    linOptions.visibility = View.GONE
+                    infoDialog.dismiss()
+                }
+
+            }
+        }
+
+    }
 }

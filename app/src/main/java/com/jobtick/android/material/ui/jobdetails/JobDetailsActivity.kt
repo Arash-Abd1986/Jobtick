@@ -78,6 +78,8 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
         back.setOnClickListener {
             if(!navController.popBackStack())
                 finish()
+            else
+                navController.popBackStack()
         }
         close.setOnClickListener {
             navController.popBackStack()
@@ -274,8 +276,8 @@ class JobDetailsActivity : ActivityBase(), IncreaseBudgetFragment.NoticeListener
                     Intent(applicationContext, CancellationWorkerActivity::class.java)
                 }
                 val bundle = Bundle()
-                var gson = Gson()
-                var jsonString = gson.toJson(taskModel)
+                val gson = Gson()
+                val jsonString = gson.toJson(taskModel)
                 bundle.putString(ConstantKey.TASK, jsonString)
                 intent.putExtras(bundle)
                 startActivityForResult(intent, ConstantKey.RESULTCODE_CANCELLATION)

@@ -8,12 +8,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import android.widget.CalendarView
-import android.widget.DatePicker
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -52,6 +50,8 @@ class RescheduleTimeRequestActivity : ActivityBase() {
     private var taskModel: TaskModel? = null
     private lateinit var edtNote: TextInputLayout
     private var mBottomSheetDialog: BottomSheetDialog? = null
+    lateinit var back: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reschedule_time_request)
@@ -68,6 +68,12 @@ class RescheduleTimeRequestActivity : ActivityBase() {
         getTxtPreviousTime = findViewById(R.id.txt_previous_time)
         lytBtnVerify = findViewById(R.id.lyt_btn_verify)
         txtNewTime = findViewById(R.id.txt_new_time)
+        back = findViewById(R.id.back)
+
+        back.setOnClickListener {
+            finish()
+        }
+
     }
 
     private fun init() {

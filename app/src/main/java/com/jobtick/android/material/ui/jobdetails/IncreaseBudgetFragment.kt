@@ -11,11 +11,13 @@ import android.os.Bundle
 import com.jobtick.android.R
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.android.volley.*
 import com.android.volley.Request.Method.POST
 import com.android.volley.toolbox.StringRequest
@@ -52,6 +54,7 @@ class IncreaseBudgetFragment : Fragment() {
     lateinit var label: MaterialTextView
     lateinit var info: AppCompatImageView
     lateinit var lnFee: LinearLayout
+    lateinit var back: ImageView
     private var isReasonOk = false
     private var isAmountOk = false
 
@@ -68,6 +71,7 @@ class IncreaseBudgetFragment : Fragment() {
         info = view.findViewById(R.id.info)
         label = view.findViewById(R.id.label)
         lnFee = view.findViewById(R.id.lnFee)
+        back = view.findViewById(R.id.back)
         submit!!.setOnClickListener(View.OnClickListener {
             if (!validation()) {
                 return@OnClickListener
@@ -75,6 +79,10 @@ class IncreaseBudgetFragment : Fragment() {
             val increasedPrice = addPrice!!.editText!!.text.toString().toInt()
             submitIncreaseBudget(increasedPrice.toString(), reason!!.editText!!.text.toString().trim { it <= ' ' })
         })
+
+        back.setOnClickListener {
+            view.findNavController().popBackStack()
+        }
 
         addPrice!!.editText!!.doOnTextChanged { text, _, _, _ ->
             isAmountOk = if (validation()) {

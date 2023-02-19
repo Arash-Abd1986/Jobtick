@@ -150,7 +150,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
-
         android:weightSum="1">
         <View
             android:layout_width="match_parent"

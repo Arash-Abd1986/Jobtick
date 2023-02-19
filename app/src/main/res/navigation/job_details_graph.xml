@@ -25,6 +25,9 @@
             android:id="@+id/action_jobDetailsPosterFragment_to_increaseBudgetNoticeBottomSheet"
             app:popUpTo="@id/jobDetailsPosterFragment"
             app:destination="@id/increaseBudgetNoticeBottomSheet" />
+        <action
+            android:id="@+id/action_jobDetailsPosterFragment_to_navigation_public_profile"
+            app:destination="@id/navigation_public_profile" />
     </fragment>
     <fragment
         android:id="@+id/increaseBudgetBottomSheet"
@@ -45,5 +48,14 @@
             android:name="isMine"
             android:defaultValue="false"
             app:argType="boolean" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_public_profile"
+        android:name="com.jobtick.android.fragments.ProfileFragment"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_public_profile_to_jobDetailsPosterFragment"
+            app:destination="@id/jobDetailsPosterFragment" />
     </fragment>
 </navigation>

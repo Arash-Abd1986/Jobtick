@@ -23,21 +23,34 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:text="Add an attachment" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/pdf"
-
-            style="@style/borderlessColoredTextButtonLight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <RelativeLayout
             android:layout_marginTop="16dp"
-            android:gravity="left|center"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:text="PDF"
-            android:textColor="@color/neutral_dark"
-            app:icon="@drawable/new_design_add_a_photo_outline"
-            app:iconPadding="16dp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginStart="24dp"
+
+                android:layout_centerVertical="true"
+                android:id="@+id/firstImage"
+                android:src="@drawable/new_design_add_a_photo_outline"
+                android:layout_alignParentStart="true"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/pdf"
+
+                style="@style/borderlessColoredTextButtonLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center"
+                android:layout_toEndOf="@+id/firstImage"
+                android:layout_marginEnd="24dp"
+                android:text="PDF"
+                android:paddingStart="8dp"
+                android:textColor="@color/neutral_dark"/>
+
+        </RelativeLayout>
+
 
         <View
             android:layout_marginEnd="24dp"
@@ -47,20 +60,31 @@
             android:layout_marginTop="@dimen/_8dp"
             android:layout_marginBottom="@dimen/_8dp"
             android:background="@color/neutral_light_100" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginStart="24dp"
 
+            android:layout_centerVertical="true"
+            android:id="@+id/secondImage"
+            android:src="@drawable/ic_add_photo_alternate"
+            android:layout_alignParentStart="true"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"/>
         <com.google.android.material.button.MaterialButton
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
+            android:layout_marginEnd="24dp"
             android:id="@+id/gallery"
             style="@style/borderlessColoredTextButtonLight"
+            android:layout_toEndOf="@+id/secondImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:text="Photo Library"
             android:textColor="@color/neutral_dark"
-            app:icon="@drawable/ic_add_photo_alternate"
+            android:paddingStart="8dp"
             app:iconPadding="16dp" />
-
+        </RelativeLayout>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancel"
             style="@style/colored"

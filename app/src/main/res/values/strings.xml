@@ -275,6 +275,10 @@
     <string name="upload_a_profile_picture">Upload a profile picture</string>
     <string name="provide_bank_account">Provide bank account</string>
     <string name="upload_avatar">Upload Avatar</string>
+    <string name="try_uploading">Try uploading the item again?</string>
+    <string name="image_options">Image Options</string>
+    <string name="view">View</string>
+    <string name="upload_again">Upload Again</string>
     <string name="account_name">Account name</string>
     <string name="_0000_0000_0000_0000">0000 0000 0000 0000</string>
     <string name="bsb">BSB</string>

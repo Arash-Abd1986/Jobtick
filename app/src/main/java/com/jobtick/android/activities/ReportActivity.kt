@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -33,6 +34,7 @@ class ReportActivity : ActivityBase() {
     private lateinit var spinnerFraud: TextView
     private lateinit var spinnerOffensive: TextView
     private lateinit var spinnerOthers: TextView
+    private lateinit var back: ImageView
     private var id: String? = null
     private var strKey: String? = null
     private var isFraud = false
@@ -82,6 +84,7 @@ class ReportActivity : ActivityBase() {
         spinnerFraud = findViewById(R.id.spinner_fraud)
         spinnerOffensive = findViewById(R.id.spinner_offensive)
         spinnerOthers = findViewById(R.id.spinner_others)
+        back = findViewById(R.id.back)
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -105,6 +108,8 @@ class ReportActivity : ActivityBase() {
                 }
             }
         }
+
+        back.setOnClickListener { finish() }
         spinnerFraud.setOnClickListener {
             // selectSpinnerItem(spinnerFraud.text.toString())
             spinnerFraud.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_check), null)

@@ -15,6 +15,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
@@ -80,6 +81,10 @@ class IncreaseBudgetNoticeBottomSheet : Fragment() {
         decline!!.setOnClickListener {
             listener!!.onIncreaseBudgetRejectClick()
             requireActivity().onBackPressed()
+        }
+
+        back.setOnClickListener{
+            view.findNavController().popBackStack()
         }
 
         accept!!.setOnClickListener {

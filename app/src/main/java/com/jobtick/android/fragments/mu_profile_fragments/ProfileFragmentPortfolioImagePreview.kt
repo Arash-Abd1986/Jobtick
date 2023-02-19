@@ -14,13 +14,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.textfield.TextInputLayout
 import com.jobtick.android.R
 import com.jobtick.android.activities.DashboardActivity
@@ -28,6 +27,7 @@ import com.jobtick.android.adapers.PortfolioAdapter
 import com.jobtick.android.adapers.SkillsSearchAdapter
 import com.jobtick.android.databinding.FragmentProfileNameBinding
 import com.jobtick.android.databinding.FragmentProfilePortfolioBinding
+import com.jobtick.android.databinding.FragmentProfilePortfolioImagePreviewBinding
 import com.jobtick.android.databinding.FragmentProfilePortfolioItemBinding
 import com.jobtick.android.models.response.PortfolioDataModel
 import com.jobtick.android.utils.SessionManager
@@ -42,12 +42,12 @@ import org.json.JSONObject
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class ProfileFragmentPortfolioItems : Fragment(), PortfolioAdapter.OnItemClickListener {
+class ProfileFragmentPortfolioImagePreview : Fragment(), PortfolioAdapter.OnItemClickListener {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var activity: Activity
     private lateinit var sessionManager: SessionManager
-    private var _binding: FragmentProfilePortfolioItemBinding? = null
+    private var _binding: FragmentProfilePortfolioImagePreviewBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: ProfilePortfolioViewModel
     private var list =  ArrayList<PortfolioDataModel>()
@@ -71,58 +71,18 @@ class ProfileFragmentPortfolioItems : Fragment(), PortfolioAdapter.OnItemClickLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetToolbar(activity, "Portfolio", "Add Portfolio", R.id.navigation_profile_account, binding.header, view)
-
-
-        binding.portfolioItemsRecycler.layoutManager = LinearLayoutManager(activity)
-//        portfolioAdapter = PortfolioAdapter(list)
-//        binding.portfolioItemsRecycler.adapter = portfolioAdapter
-//        portfolioAdapter!!.setOnItemClickListener(this)
-
-        viewModel = ViewModelProvider(this)[ProfilePortfolioViewModel::class.java]
-
-        if(list.size == 0)
-            viewModel.getPortfolioItems(activity)
-
-
-        viewModel.jsonobject.observeOnce(viewLifecycleOwner) observe@{
-                    binding.noData.noDataParent.visibility = View.GONE
-                    binding.dataParent.visibility = View.VISIBLE
-                    list = ArrayList()
-                    jsonArray = viewModel.jsonobject.value!!.getJSONArray("data")
-                    if (jsonArray.length() == 0) {
-                        (activity as DashboardActivity).showToast("No data!", activity)
-                        binding.noData.noDataParent.visibility = View.VISIBLE
-                        binding.dataParent.visibility = View.GONE
-                        binding.header.txtAction.visibility = View.GONE
-                        return@observe
-                    }
-                    for (i in 0 until jsonArray.length()) {
-                        val jsonObject: JSONObject = jsonArray.getJSONObject(i)
-                        val portfolioDataModel = PortfolioDataModel()
-                        portfolioDataModel.title = jsonObject.getString("title")
-                        portfolioDataModel.description = jsonObject.getString("description")
-                        portfolioDataModel.img_count = jsonObject.getString("img_count")
-                        list.add(portfolioDataModel)
-                    }
-                    portfolioAdapter = PortfolioAdapter(list)
-                 //   portfolioAdapter!!.addItems(list)
-                    binding.portfolioItemsRecycler.adapter = portfolioAdapter
-                    portfolioAdapter!!.setOnItemClickListener(this)
-
+        SetToolbar(activity, "View Image", "", R.id.navigation_profile_account, binding.header, view)
+        try {
+            if (requireArguments().get("image") != null) {
+                Glide.with(binding.image).load(requireArguments().get("image")).into(binding.image)
+            }
+        }catch (e: Exception) {
+            (activity as DashboardActivity).showToast(getString(R.string.server_went_wrong), activity)
+            view.findNavController().navigate(R.id.action_navigation_profile_portfolio_image_preview_to_navigation_profile_portfolio_item)
         }
 
-        binding.noData.noDataButton.setOnClickListener {
-            view.findNavController().navigate(R.id.action_navigation_profile_portfolio_item_to_navigation_profile_add_portfolio_item)
-
-        }
-
-        binding.header.txtAction.setOnClickListener {
-            view.findNavController().navigate(R.id.action_navigation_profile_portfolio_item_to_navigation_profile_add_portfolio_item)
-
-        }
         binding.header.back.setOnClickListener {
-            view.findNavController().navigate(R.id.action_navigation_profile_portfolio_to_navigation_profile)
+            view.findNavController().popBackStack()
         }
     }
 
@@ -131,7 +91,7 @@ class ProfileFragmentPortfolioItems : Fragment(), PortfolioAdapter.OnItemClickLi
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentProfilePortfolioItemBinding.inflate(inflater, container, false)
+        _binding = FragmentProfilePortfolioImagePreviewBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -152,15 +112,5 @@ class ProfileFragmentPortfolioItems : Fragment(), PortfolioAdapter.OnItemClickLi
         view?.findNavController()?.navigate(R.id.action_navigation_profile_portfolio_item_to_navigation_profile_add_portfolio_item, bundle)
     }
 
-    fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
-        observe(lifecycleOwner, object : Observer<T> {
-            override fun onChanged(t: T?) {
-                Log.d("hereportitem", "3")
-
-                observer.onChanged(t)
-                removeObserver(this)
-            }
-        })
-    }
 
 }

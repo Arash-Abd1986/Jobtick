@@ -11,7 +11,7 @@
     android:layout_marginBottom="16dp"
     android:descendantFocusability="blocksDescendants"
     android:overScrollMode="never"
-    android:padding="8dp">
+    >
 
     <RelativeLayout
         android:gravity="center_vertical"
@@ -178,12 +178,15 @@
             android:id="@+id/txt_suburb"
             android:textSize="13dp"
             android:visibility="visible"
-            android:layout_width="64dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:maxLines="2"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:drawableStartCompat="@drawable/new_design_suburb"
             android:textColor="@color/neutral_light_500"
+            android:drawablePadding="5dp"
             tools:text="@string/surfers_paradise_australia" />
 
     </RelativeLayout>

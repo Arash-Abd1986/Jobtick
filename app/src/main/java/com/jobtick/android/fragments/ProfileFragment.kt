@@ -361,6 +361,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             when (requireArguments().get("activity")) {
                 "dashboard" -> (requireActivity() as DashboardActivity).navController!!.navigate(R.id.action_navigation_public_profile_to_navigation_profile)
                 "jobdetails" -> (requireActivity() as JobDetailsActivity).navController!!.navigate(R.id.action_navigation_public_profile_to_jobDetailsPosterFragment)
+                "offerlist" -> (requireActivity() as OfferListActivity).navController!!.navigate(R.id.action_navigation_public_profile_to_offerListFragment)
+
             }
         }
            // (requireActivity() as DashboardActivity).navController!!.navigate(R.id.action_navigation_public_profile_to_navigation_profile) }
@@ -433,6 +435,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             "jobdetails" -> {
                 dashboardActivity = requireActivity() as JobDetailsActivity
                 (requireActivity() as JobDetailsActivity).findViewById<LinearLayout>(R.id.linTitle).visibility =
+                    View.GONE
+            }
+            "offerlist" -> {
+                dashboardActivity = requireActivity() as OfferListActivity
+                (requireActivity() as OfferListActivity).findViewById<RelativeLayout>(R.id.header).visibility =
                     View.GONE
             }
             else -> requireActivity() as DashboardActivity
@@ -717,6 +724,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         get() {
             pbLoading!!.visibility = View.VISIBLE
             content!!.visibility = View.GONE
+            Log.d("asdadadadads", Constant.URL_PROFILE + "/" + profileId)
+
             val stringRequest: StringRequest = object : StringRequest(
                 Method.GET,
                 Constant.URL_PROFILE + "/" + profileId,
@@ -729,7 +738,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     try {
                         val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
-                        Log.d("profileresponse", jsonObject.toString())
+                        Log.d("asdadadadads", response.toString())
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             userAccountModel =
                                 UserAccountModel().getJsonToModel(jsonObject.getJSONObject("data"))
@@ -815,7 +824,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                     }
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    (requireActivity() as ActivityBase)!!.errorHandle1(
+                    (requireActivity() as ActivityBase).errorHandle1(
                         error.networkResponse
                     )
                 }

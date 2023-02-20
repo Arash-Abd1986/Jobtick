@@ -95,7 +95,7 @@ public class TimeHelper {
             return "-1";
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE dd, YYYY", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, YYYY", Locale.ENGLISH);
 
         Date date = null;
         try {

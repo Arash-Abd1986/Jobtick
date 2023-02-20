@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<!--    <include layout="@layout/header_new_design"/>-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_offers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="20dp"
+        android:layout_marginVertical="4dp"
+        android:overScrollMode="never"
+        tools:listitem="@layout/item_offer_v3"/>
+
+</LinearLayout>

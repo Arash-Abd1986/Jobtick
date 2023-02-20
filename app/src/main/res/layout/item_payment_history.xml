@@ -22,7 +22,6 @@
 
     <View
         android:visibility="gone"
-        android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:layout_centerVertical="true"
         android:layout_alignTop="@+id/koloft"

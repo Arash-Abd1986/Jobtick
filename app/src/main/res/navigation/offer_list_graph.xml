@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/job_details_graph"
+    app:startDestination="@id/offerListFragment">
+
+    <fragment
+        android:id="@+id/offerListFragment"
+        android:name="com.jobtick.android.fragments.OfferListFragment"
+        android:label="fragment_job_details_poster"
+        tools:layout="@layout/fragment_offer_list" >
+
+        <action
+            android:id="@+id/action_offerListFragment_to_navigation_public_profile"
+            app:destination="@id/navigation_public_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_public_profile"
+        android:name="com.jobtick.android.fragments.ProfileFragment"
+        tools:layout="@layout/fragment_profile" >
+
+        <action
+            android:id="@+id/action_navigation_public_profile_to_offerListFragment"
+            app:destination="@id/offerListFragment" />
+    </fragment>
+</navigation>

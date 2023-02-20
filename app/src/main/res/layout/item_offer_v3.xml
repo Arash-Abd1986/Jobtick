@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="18dp">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_created_date"

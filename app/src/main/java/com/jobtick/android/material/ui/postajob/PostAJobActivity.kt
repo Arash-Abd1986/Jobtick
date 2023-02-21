@@ -313,8 +313,10 @@ class PostAJobActivity : ActivityBase() {
                         },
                         Response.ErrorListener { error: VolleyError ->
                             val networkResponse = error.networkResponse
+                            Log.d("errorerror", networkResponse.toString())
                             if (networkResponse?.data != null) {
                                 val jsonError = String(networkResponse.data)
+                                Log.d("errorerror", jsonError)
                                 if (networkResponse.statusCode == HttpStatus.AUTH_FAILED) {
                                     unauthorizedUser()
                                     hideProgressDialog()
@@ -323,6 +325,8 @@ class PostAJobActivity : ActivityBase() {
                                 try {
                                     val jsonObject = JSONObject(jsonError)
                                     val jsonObjectError = jsonObject.getJSONObject("error")
+                                    Log.d("errorerror", jsonObjectError.toString())
+
                                     if (jsonObjectError.has("message")) {
                                         showToast(jsonObjectError.getString("message"), this)
                                     }

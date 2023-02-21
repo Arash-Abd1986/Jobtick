@@ -85,11 +85,9 @@ class ProfileFragmentSkills : Fragment() {
         viewModel.skillsArray.observe(viewLifecycleOwner) {
 
             try {
-                if (requireArguments().getStringArrayList("skills")!!.size != 0)
+                if (requireArguments().getStringArrayList("skills") != null && requireArguments().getStringArrayList("skills")?.size != 0)
                     for (list in requireArguments().getStringArrayList("skills")!!)
                         it.add(list)
-
-
             }catch (e: Exception) {
 
             }

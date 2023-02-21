@@ -145,13 +145,23 @@ class ProfileFragmentPortfolio : Fragment(), MediaAdapter.OnItemClickListener, M
 
                 showDeleteDialog()
         }
-        binding.about.editText!!.setOnFocusChangeListener{view, b ->
-            if(b)
-                binding.about.editText!!.hint = "Description"
-            else
-                binding.about.editText!!.hint = ""
-
+        binding.about.editText!!.setOnFocusChangeListener { view, b ->
+            if (b) {
+                 binding.about.editText!!.hint = getString(R.string.profile_portfolio_hint)
+                 binding.about.hint = "Description"
+            } else {
+                    binding.about.hint = getString(R.string.profile_portfolio_hint)
+                    binding.about.editText!!.hint = ""
+            }
         }
+
+//        binding.about.editText!!.setOnFocusChangeListener{view, b ->
+//            if(b)
+//                binding.about.editText!!.hint = "Description"
+//            else
+//                binding.about.editText!!.hint = ""
+//
+//        }
 
         initVars()
         initVM()

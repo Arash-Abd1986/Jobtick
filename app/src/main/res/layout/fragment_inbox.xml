@@ -24,11 +24,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="@dimen/empty_pages_padding"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:visibility="gone">
-
+                    <include
+                        layout="@layout/new_design_no_data_layer_for_all_page"/>
 <!--                <com.airbnb.lottie.LottieAnimationView-->
 <!--                    android:id="@+id/lottieAnimationView"-->
 <!--                    android:layout_width="match_parent"-->
@@ -46,6 +46,7 @@
                         android:textAppearance="@style/materialText_500_16"
                         android:text="@string/no_messages_yet"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:layout_marginTop="16dp"
                         android:textColor="@color/colorNavyBlue"/>
                 </LinearLayout>

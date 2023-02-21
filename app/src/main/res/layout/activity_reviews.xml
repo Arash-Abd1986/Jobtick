@@ -61,6 +61,7 @@
         android:layout_marginBottom="@dimen/spacing_middle"
         android:elevation="0dp"
         android:visibility="visible"
+        android:layout_marginStart="16dp"
         app:cardCornerRadius="@dimen/spacing_medium">
         <include
             layout="@layout/fragment_profile_review" />

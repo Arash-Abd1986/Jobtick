@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/neutral_light_200"
     android:id="@+id/viewPagerParent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content">
     <androidx.cardview.widget.CardView
         app:contentPadding="0dp"
-        app:cardBackgroundColor="#40000000"
+        app:cardBackgroundColor="#50000000"
         app:cardElevation="0dp"
         android:background="@null"
         android:elevation="0dp"

@@ -88,7 +88,7 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                 if(feature!!.place_name!!.split(",").size > 3)
                     postalCode = feature!!.place_name!!.split(",")[feature!!.place_name!!.split(",").size - 4]
 
-                binding.cityPostal.text = city + "." + postalCode
+                binding.cityPostal.text = city + " • " + postalCode
                 binding.textSuburb.text = city
                 getStateOnMap(state)
             }
@@ -205,7 +205,7 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
         }
         if(location.place_name.split(",").size > 3)
             binding.cityPostal.text =
-                location.place_name.split(",")[binding.textSuburb.text.split(",").size - 3] + "." + location.place_name.split(",")[binding.textSuburb.text.split(",").size - 4]
+                location.place_name.split(",")[binding.textSuburb.text.split(",").size - 3] + " • " + location.place_name.split(",")[binding.textSuburb.text.split(",").size - 4]
                         feature = location
     }
 
@@ -228,7 +228,7 @@ class ProfileFragmentBillingAddress : Fragment(), SuburbSearchAdapter.SubClickLi
                         binding.edittextStreetNumber.editText?.setText(jsonObject2.getString("line1"))
                         binding.edittextStreetName.editText?.setText(jsonObject2.getString("line2"))
                         binding.textSuburb.text = jsonObject2.getString("city")
-                        binding.cityPostal.text = jsonObject2.getString("city") + "." + jsonObject2.getString("post_code")
+                        binding.cityPostal.text = jsonObject2.getString("city") + " • " + jsonObject2.getString("post_code")
                         getStateOnMap(jsonObject2.getString("state"))
                         city = jsonObject2.getString("city")
                         state = jsonObject2.getString("state")

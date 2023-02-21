@@ -572,7 +572,7 @@ class MyTasksFragment :
             if (sessionManager?.accessToken != null) {
                 val creating_task = Intent(activity, PostAJobActivity::class.java)
                 val bundle = Bundle()
-               // bundle.putInt(ConstantKey.CATEGORY_ID, obj!!.id)
+                bundle.putInt(ConstantKey.CATEGORY_ID, 1)
                 creating_task.putExtras(bundle)
                 requireActivity().startActivityForResult(creating_task, ConstantKey.RESULTCODE_CATEGORY)
             } else {
@@ -676,6 +676,7 @@ class MyTasksFragment :
                     //  swipeRefresh.setRefreshing(false);
                     strSearch = null
                     swipeRefresh!!.isRefreshing = false
+                    Log.d("errorerror", error.toString())
                     dashboardActivity!!.errorHandle1(error.networkResponse)
                 }
             ) {

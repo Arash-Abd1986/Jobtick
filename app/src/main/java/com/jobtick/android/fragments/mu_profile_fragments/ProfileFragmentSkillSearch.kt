@@ -42,6 +42,7 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
     private var listForTicked = ArrayList<Skills>()
     private var listForTickedToBeSend = ArrayList<String>()
     private var skillsSearchAdapter: SkillsSearchAdapter? = null
+    private var customSkill: String? = null
     private var alphabeticString = listOf("A", "B", "C", "D", "E", "F", "G", "H", "I",
     "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")
 
@@ -64,6 +65,7 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listForTickedToBeSend = ArrayList()
         activity.findViewById<MaterialToolbar>(R.id.toolbar).visibility = View.GONE
         binding.alphabetA.setOnClickListener(this)
         binding.alphabetB.setOnClickListener(this)
@@ -108,6 +110,12 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
         binding.header.txtAction.setOnClickListener {
             for(list in listForTicked)
                 listForTickedToBeSend.add(list.title.toString())
+            val bundle: Bundle = bundleOf("skills" to listForTickedToBeSend)
+            view.findNavController().navigate(R.id.action_navigation_profile_skills_search_to_navigation_profile_skills, bundle)
+        }
+
+        binding.textCustom.setOnClickListener{
+            listForTickedToBeSend.add(customSkill.toString())
             val bundle: Bundle = bundleOf("skills" to listForTickedToBeSend)
             view.findNavController().navigate(R.id.action_navigation_profile_skills_search_to_navigation_profile_skills, bundle)
         }
@@ -176,6 +184,14 @@ class ProfileFragmentSkillSearch : Fragment() , SkillsSearchAdapter.SubClickList
         for(i in 0 until listMain.size)
             if(listMain[i].title.toString().lowercase().contains(str.lowercase()))
                 listForSearch.add(listMain.get(i))
+        if(listForSearch.size == 0 && str.length > 2) {
+            binding.textCustom.visibility = View.VISIBLE
+            binding.textCustom.text = "Save \"$str\" as new skill"
+            customSkill = str
+        }
+        else
+            binding.textCustom.visibility = View.GONE
+
         skillsSearchAdapter?.clear()
         skillsSearchAdapter?.addItems(listForSearch)
         skillsSearchAdapter?.notifyDataSetChanged()

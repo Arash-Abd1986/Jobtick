@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_profile"
     android:orientation="vertical"
-    android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
     android:id="@+id/ln_reviews"
     android:visibility="visible">
@@ -108,8 +107,9 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_marginBottom="14dp"
                         android:text="out of 5"
-                        style="@style/newDesign_16_500"
+                        style="@style/newDesign_14_500"
                         android:layout_width="wrap_content"
+                        android:gravity="center"
                         android:layout_height="wrap_content"/>
                     <com.google.android.material.textview.MaterialTextView
                         android:text="0"
@@ -859,7 +859,7 @@
             style="@style/newDesign_16_900"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="start"
             android:singleLine="true"
             android:text="126 Reviews" />
 

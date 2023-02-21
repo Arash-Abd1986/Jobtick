@@ -258,6 +258,8 @@ class OnboardingActivity : ActivityBase() {
     }
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
+         //   Log.d("googlesignin", "handleSignInResult1 " + completedTask.result)
+
             val account = completedTask.getResult(ApiException::class.java)
             signInUpdateUI(account)
             Timber.d("LoginGoogle account:%s", account.toString())
@@ -289,6 +291,8 @@ class OnboardingActivity : ActivityBase() {
                         scope,
                         Bundle()
                     )
+                    Log.d("googlesignin", "startsignInUpdateUI")
+
                     Helper.closeKeyboard(this)
                     val stringRequest: StringRequest =
                         object : StringRequest(
@@ -309,16 +313,23 @@ class OnboardingActivity : ActivityBase() {
                                         UserAccountModel().getJsonToModel(jsonObjectUser)
                                     sessionManagerA.userAccount = userAccountModel
                                     proceedToCorrectActivity(userAccountModel)
+                                    Log.d("googlesignin", "ressignInUpdateUI")
+
                                 } catch (e: JSONException) {
                                     Timber.e(e.toString())
                                     e.printStackTrace()
                                     FirebaseCrashlytics.getInstance().recordException(e)
+                                    Log.d("googlesignin", "errsignInUpdateUI" + e.toString())
+
                                 }
                             },
                             Response.ErrorListener { error: VolleyError ->
                                 val networkResponse = error.networkResponse
                                 if (networkResponse?.data != null) {
+
                                     val jsonError = String(networkResponse.data)
+                                    Log.d("googlesignin", "jsnerrsignInUpdateUI" + jsonError)
+
                                     // Print Error!
                                     Timber.e(jsonError)
                                     FirebaseCrashlytics.getInstance().recordException(error)

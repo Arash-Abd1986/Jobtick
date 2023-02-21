@@ -83,6 +83,8 @@
     <string name="submit">Submit</string>
     <string name="edit_bank_account">Edit Bank Account</string>
     <string name="add_bank_account">Add Bank Account</string>
+    <string name="bank_account">Bank Account</string>
+    <string name="completed_profile">Completed Profile</string>
     <string name="add_credit_card">Add Credit Card</string>
     <string name="change_billing_address">Change Billing Address</string>
     <string name="remove">Remove</string>
@@ -292,6 +294,7 @@
     <string name="select_a_date">select a Date</string>
     <string name="provide_your_mobile_number">Provide your mobile number</string>
     <string name="mobile_number">mobile number</string>
+    <string name="mobile_number_capital">Mobile Number</string>
     <string name="enter_verification_code_sent">Enter verification code sent</string>
     <string name="please_enter_verification_code">Please enter verification code</string>
     <string name="please_enter_your_email">Please Enter Your Email Address</string>
@@ -668,4 +671,6 @@
     <string name="choosesuburb">Choose suburb</string>
     <string name="nameandabout">NAME &amp; ABOUT</string>
     <string name="nameonly">NAME</string>
+    <string name="you_have_no_closed">You have no closed conversation yet</string>
+    <string name="you_have_no_open">You have no open conversation yet</string>
 </resources>

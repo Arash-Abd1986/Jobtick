@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
@@ -201,6 +202,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private lateinit var textTitle: TextView
     private lateinit var textAction: ImageView
     private lateinit var back: ImageView
+    private lateinit var badge1: ImageView
+    private lateinit var badge2: ImageView
+    private lateinit var badge3: ImageView
+    private lateinit var badge4: ImageView
+    private lateinit var badge5: ImageView
     private var profileId: String = "0"
     override fun onResume() {
         super.onResume()
@@ -356,6 +362,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         averagRate = requireView().findViewById(R.id.averagRate)
         textTitle = requireView().findViewById(R.id.txt_title)
         textAction = requireView().findViewById(R.id.txt_action)
+        badge1 = requireView().findViewById(R.id.badge1)
+        badge2 = requireView().findViewById(R.id.badge2)
+        badge3 = requireView().findViewById(R.id.badge3)
+        badge4 = requireView().findViewById(R.id.badge4)
+        badge5 = requireView().findViewById(R.id.badge5)
         back = requireView().findViewById(R.id.back)
         back.setOnClickListener {
             when (requireArguments().get("activity")) {
@@ -485,9 +496,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             if (sessionManager!!.roleLocal == "poster") {
                 lnPosterReview!!.visibility = View.GONE
                 lnTickerReview!!.visibility = View.GONE
-                fmPSkills.visibility = View.GONE
+                fmPSkills.visibility = View.VISIBLE
                 rlStatus.visibility = View.GONE
-                lnAboutMe.visibility = View.GONE
+                lnAboutMe.visibility = View.VISIBLE
                 linLevel!!.visibility = View.GONE
                 flAddSkill!!.visibility = View.GONE
                 swTickerMode.isChecked = false
@@ -779,6 +790,83 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             adapter!!.clear()
                             badgesAdapter!!.clear()
                             badgesModelArrayList = userAccountModel!!.badges
+
+                            if(userAccountModel!!.badges != null && badgesModelArrayList!!.size > 0)
+                                for(i in 0 until badgesModelArrayList!!.size) {
+                                    // when(badgesModelArrayList!![i].badgesDetails.name.lowercase()){
+                                    Log.d(
+                                        "here111",
+                                        badgesModelArrayList!![i].badgesDetails.name.lowercase()
+                                    )
+                                    Log.d(
+                                        "here111",
+                                        badgesModelArrayList!![i].badgesDetails.name.lowercase()
+                                            .contains("mobile").toString()
+                                    )
+                                    Log.d(
+                                        "here111",
+                                        badgesModelArrayList!![i].is_verified.toString()
+                                    )
+
+                                    if (badgesModelArrayList!![i].badgesDetails.name.lowercase()
+                                            .contains("email")) {
+                                        if (badgesModelArrayList!![i].is_verified == 1) {
+                                            badge1.setBackgroundColor(requireActivity().getColor(R.color.purple_50))
+                                            badge1.imageTintList =
+                                                AppCompatResources.getColorStateList(
+                                                    requireContext(),
+                                                    R.color.purple_400
+                                                )
+                                        }
+                                    }
+                                        else if(badgesModelArrayList!![i].badgesDetails.name.lowercase().contains("mobile")) {
+                                        //     "mobile" ->
+                                        if (badgesModelArrayList!![i].is_verified == 1) {
+                                            Log.d("here111", "222")
+                                            badge2.setBackgroundColor(requireActivity().getColor(R.color.purple_50))
+                                            badge2.imageTintList =
+                                                AppCompatResources.getColorStateList(
+                                                    requireContext(),
+                                                    R.color.purple_400
+                                                )
+                                        }
+                                    }
+                                            else if(badgesModelArrayList!![i].badgesDetails.name.lowercase().contains("abn")) {
+                                        if (badgesModelArrayList!![i].is_verified == 1) {
+                                            badge3.setBackgroundColor(requireActivity().getColor(R.color.purple_50))
+                                            badge3.imageTintList =
+                                                AppCompatResources.getColorStateList(
+                                                    requireContext(),
+                                                    R.color.purple_400
+                                                )
+                                        }
+                                    }
+                                            else if(badgesModelArrayList!![i].badgesDetails.name.lowercase().contains("bank account")) {
+                                        //  "bank account" ->
+                                        if (badgesModelArrayList!![i].is_verified == 1) {
+                                            badge4.setBackgroundColor(requireActivity().getColor(R.color.purple_50))
+                                            badge4.imageTintList =
+                                                AppCompatResources.getColorStateList(
+                                                    requireContext(),
+                                                    R.color.purple_400
+                                                )
+                                        }
+                                    }
+                                            else if(badgesModelArrayList!![i].badgesDetails.name.lowercase().contains("completed profile")) {
+                                        // "completed profile" ->
+                                        if (badgesModelArrayList!![i].is_verified == 1) {
+                                            badge5.setBackgroundColor(requireActivity().getColor(R.color.purple_50))
+                                            badge5.imageTintList =
+                                                AppCompatResources.getColorStateList(
+                                                    requireContext(),
+                                                    R.color.purple_400
+                                                )
+                                        }
+                                    }
+                                  //      }
+                                    }
+
+
                             if (attachmentArrayList!!.size <= 0) {
                                 noPortfolio!!.visibility = View.VISIBLE
                                 lPort!!.visibility = View.GONE

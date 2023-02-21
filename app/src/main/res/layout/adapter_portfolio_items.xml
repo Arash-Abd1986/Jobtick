@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_marginEnd="6dp"
-    android:layout_marginBottom="12dp"
-    android:layout_marginTop="12dp"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -85,6 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/spacing_line"
         android:background="@color/colorF0F0F0"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"/>
 
 </LinearLayout>

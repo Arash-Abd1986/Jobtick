@@ -27,6 +27,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.button.MaterialButton
 import com.jobtick.android.BuildConfig
 import com.jobtick.android.R
 import com.jobtick.android.activities.ChatActivity
@@ -68,12 +69,21 @@ class InboxFragmentOpens : Fragment(), InboxListAdapter.OnItemClickListener, OnR
     private var ivNotification: ImageView? = null
     private var toolbarTitle: TextView? = null
     private var noMessages: LinearLayout? = null
+    private var noMessagesText: TextView? = null
+    private var noMessagesIcon: ImageView? = null
+    private var noMessagesButton: MaterialButton? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_inbox, container, false)
         noMessages = view.findViewById(R.id.no_messages_container)
         chatList = view.findViewById(R.id.recycler_view)
+        noMessagesButton = view.findViewById(R.id.noDataButton)
+        noMessagesIcon = view.findViewById(R.id.noDataIcon)
+        noMessagesText = view.findViewById(R.id.noDataText)
+        noMessagesButton?.visibility = View.GONE
+        noMessagesIcon?.setImageDrawable(AppCompatResources.getDrawable(requireActivity(), R.drawable.new_design_no_data_chat))
+        noMessagesText?.text = getString(R.string.you_have_no_open)
         swipeRefresh = view.findViewById(R.id.swipeRefresh)
         swipeRefresh!!.setColorSchemeColors(Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE)
         swipeRefresh!!.setBackgroundColor(requireActivity().getColor(android.R.color.transparent))

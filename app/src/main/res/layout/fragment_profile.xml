@@ -205,7 +205,7 @@
 
                             android:layout_weight="1"
                             android:singleLine="true"
-                            android:text="Time"
+                            android:text="N/A"
                             android:textColor="@color/neutral_light_700" />
 
                     </LinearLayout>
@@ -258,7 +258,7 @@
 
                             android:layout_weight="1"
                             android:singleLine="true"
-                            android:text="Success Rate"
+                            android:text="N/A"
                             android:textColor="@color/neutral_light_700" />
 
                     </LinearLayout>
@@ -291,7 +291,149 @@
                     android:singleLine="true"
                     android:text="@string/badges"
                     android:textColor="@color/light_neutral_n900" />
+
+                <RelativeLayout
+                    android:layout_marginBottom="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/badge1"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentStart="true"
+                        app:contentPadding="12dp"
+                        app:tint="@color/neutral_light_400"
+                        android:background="@color/neutral_light_100"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                        app:srcCompat="@drawable/new_design_badge1" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@id/badge1"
+                        android:singleLine="true"
+                        android:text="@string/email_s"
+                        style="@style/newDesign_16_700"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_marginBottom="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/badge2"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentStart="true"
+                        app:contentPadding="12dp"
+                        app:tint="@color/neutral_light_400"
+                        android:background="@color/neutral_light_100"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                        app:srcCompat="@drawable/new_design_badge2" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@id/badge2"
+                        android:singleLine="true"
+                        android:text="@string/mobile_number_capital"
+                        style="@style/newDesign_16_700"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_marginBottom="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/badge3"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentStart="true"
+                        app:contentPadding="12dp"
+                        app:tint="@color/neutral_light_400"
+                        android:background="@color/neutral_light_100"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                        app:srcCompat="@drawable/new_design_badge3" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@id/badge3"
+                        android:singleLine="true"
+                        android:text="@string/abn"
+                        style="@style/newDesign_16_700"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_marginBottom="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/badge4"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentStart="true"
+                        app:contentPadding="12dp"
+                        app:tint="@color/neutral_light_400"
+                        android:background="@color/neutral_light_100"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                        app:srcCompat="@drawable/new_design_badge4" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@id/badge4"
+                        android:singleLine="true"
+                        android:text="@string/bank_account"
+                        style="@style/newDesign_16_700"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/badge5"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentStart="true"
+                        app:contentPadding="12dp"
+                        app:tint="@color/neutral_light_400"
+                        android:background="@color/neutral_light_100"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                        app:srcCompat="@drawable/new_design_badge5" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@id/badge5"
+                        android:singleLine="true"
+                        android:text="@string/completed_profile"
+                        style="@style/newDesign_16_700"/>
+
+                </RelativeLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
+                    android:visibility="gone"
                     android:id="@+id/badgeRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

@@ -10,9 +10,9 @@
 <!--    android:layout_width="match_parent"-->
 <!--    android:layout_height="wrap_content">-->
         <View
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="24dp"
             android:layout_centerVertical="true"
             android:id="@+id/koloft"
             android:layout_width="match_parent"
@@ -21,8 +21,10 @@
             android:orientation="horizontal" />
 
     <View
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+
         android:layout_centerVertical="true"
         android:layout_alignTop="@+id/koloft"
         android:id="@+id/nazok"
@@ -41,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lines="1"
-        android:visibility="visible"
+        android:visibility="gone"
         android:singleLine="true"
         android:textSize="14dp"
 

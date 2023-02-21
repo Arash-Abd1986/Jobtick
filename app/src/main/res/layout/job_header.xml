@@ -105,6 +105,7 @@
                 app:srcCompat="@drawable/ic_date_icon" />
 
             <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -153,6 +154,7 @@
                 app:srcCompat="@drawable/ic_location_v6" />
 
             <LinearLayout
+                android:layout_gravity="center_vertical"
                 android:id="@+id/lnLoc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -173,6 +175,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/direction"
                     style="@style/caption"
+                    android:visibility="gone"
                     android:textSize="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

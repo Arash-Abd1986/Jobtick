@@ -16,6 +16,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -126,6 +127,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
     private var noSkill: LinearLayout? = null
     private var addSkill: TextView? = null
     private var addPortFilo: TextView? = null
+    private var addAbout: TextView? = null
+    private var no_about: LinearLayout? = null
     private var txtLevel1: TextView? = null
     private var txtLevel2: TextView? = null
     private var txtLevel3: TextView? = null
@@ -247,6 +250,8 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         flAddSkill = requireView().findViewById(R.id.fl_add_skill)
         noSkill = requireView().findViewById(R.id.no_port_skill)
         addPortFilo = requireView().findViewById(R.id.txt_add_portfolio)
+        addAbout = requireView().findViewById(R.id.addAbout)
+        no_about = requireView().findViewById(R.id.no_about)
         addSkill = requireView().findViewById(R.id.txt_add_skill)
         posterReview = requireView().findViewById(R.id.poster_review)
         tickerReview = requireView().findViewById(R.id.ticker_review)
@@ -440,6 +445,14 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             val levelInfoBottomSheet = LevelInfoBottomSheet()
             levelInfoBottomSheet.show(parentFragmentManager, "")
         }
+
+        addSkill?.setOnClickListener{
+            view.findNavController().navigate(R.id.action_navigation_public_profile_to_navigation_profile_skills)
+        }
+        addAbout?.setOnClickListener{
+            view.findNavController().navigate(R.id.action_navigation_public_profile_to_navigation_profile_about)
+        }
+
         requireArguments().get("activity")
         when(requireArguments().get("activity")) {
             "dashboard" -> dashboardActivity = requireActivity() as DashboardActivity
@@ -589,11 +602,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                 noPortfolio!!.visibility = View.VISIBLE
                 noSkill!!.visibility = View.GONE
                 recyclerViewPortfolio!!.visibility = View.GONE
-                addPortFilo!!.setOnClickListener { view13: View? ->
-                    val intent = Intent(requireActivity(), EditProfileActivity::class.java)
-                    intent.putExtra(ConstantKey.TAB, ConstantKey.PORTFO_SKILLS)
-                    startActivity(intent)
-                }
+//                addPortFilo!!.setOnClickListener { view13: View? ->
+//                    val intent = Intent(requireActivity(), EditProfileActivity::class.java)
+//                    intent.putExtra(ConstantKey.TAB, ConstantKey.PORTFO_SKILLS)
+//                    startActivity(intent)
+//                }
                 lPort!!.visibility = View.GONE
             } else {
                 if (attachmentArrayList!!.size > 10) {
@@ -614,12 +627,13 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         } else if (rbSkills!!.isChecked) {
             if (tagEducation!!.size() <= 0 && tagSkills!!.size() <= 0 && tagLanguage!!.size() <= 0) {
                 noPortfolio!!.visibility = View.GONE
-                noSkill!!.visibility = View.VISIBLE
-                addSkill!!.setOnClickListener { view13: View? ->
-                    val intent = Intent(requireActivity(), EditProfileActivity::class.java)
-                    intent.putExtra(ConstantKey.TAB, ConstantKey.PORTFO_SKILLS)
-                    startActivity(intent)
-                }
+                if(userAccountModel?.id.toString() == profileId)
+                    noSkill!!.visibility = View.VISIBLE
+//                addSkill!!.setOnClickListener { view13: View? ->
+//                    val intent = Intent(requireActivity(), EditProfileActivity::class.java)
+//                    intent.putExtra(ConstantKey.TAB, ConstantKey.PORTFO_SKILLS)
+//                    startActivity(intent)
+//                }
                 //TODO changesto VISIBLE
                 lSkill!!.visibility = View.VISIBLE
                 flAddSkill!!.visibility = View.GONE
@@ -663,13 +677,13 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
 
         viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             // This method is triggered when there is any scrolling activity for the current page
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-            }
+//            override fun onPageScrolled(
+//                position: Int,
+//                positionOffset: Float,
+//                positionOffsetPixels: Int
+//            ) {
+//                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+//            }
 
             // triggered when you select a new page
             override fun onPageSelected(position: Int) {
@@ -679,9 +693,9 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
 
             // triggered when there is
             // scroll state will be changed
-            override fun onPageScrollStateChanged(state: Int) {
-                super.onPageScrollStateChanged(state)
-            }
+//            override fun onPageScrollStateChanged(state: Int) {
+//                super.onPageScrollStateChanged(state)
+//            }
         })
     }
 
@@ -759,7 +773,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                                 Levels::class.java
                             )
                             images = ArrayList()
-                            if(userAccountModel!!.portfolio.size == 0) {
+                            if(jsonObject.getJSONObject("data").getJSONArray("portfolio").length() == 0) {
                                 viewPagerParent.visibility = View.GONE
                             } else {
 
@@ -781,12 +795,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
 
                             this.levels = ArrayList()
                             this.levels!!.addAll(levels)
-                            checkLevel(levels)
+                        //    checkLevel(levels)
                             if (userAccountModel!!.lastMonthIncome != null)
                                 this.lastMonthIncome = userAccountModel!!.lastMonthIncome.toFloat()
-                            // setLevels(levels)
-                            setJobStatus(userAccountModel!!.account_status)
-                            attachmentArrayList = userAccountModel!!.portfolio
+                         //   setJobStatus(userAccountModel!!.account_status)
+                           // attachmentArrayList = userAccountModel!!.portfolio
                             adapter!!.clear()
                             badgesAdapter!!.clear()
                             badgesModelArrayList = userAccountModel!!.badges
@@ -794,20 +807,6 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                             if(userAccountModel!!.badges != null && badgesModelArrayList!!.size > 0)
                                 for(i in 0 until badgesModelArrayList!!.size) {
                                     // when(badgesModelArrayList!![i].badgesDetails.name.lowercase()){
-                                    Log.d(
-                                        "here111",
-                                        badgesModelArrayList!![i].badgesDetails.name.lowercase()
-                                    )
-                                    Log.d(
-                                        "here111",
-                                        badgesModelArrayList!![i].badgesDetails.name.lowercase()
-                                            .contains("mobile").toString()
-                                    )
-                                    Log.d(
-                                        "here111",
-                                        badgesModelArrayList!![i].is_verified.toString()
-                                    )
-
                                     if (badgesModelArrayList!![i].badgesDetails.name.lowercase()
                                             .contains("email")) {
                                         if (badgesModelArrayList!![i].is_verified == 1) {
@@ -867,33 +866,34 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
                                     }
 
 
-                            if (attachmentArrayList!!.size <= 0) {
-                                noPortfolio!!.visibility = View.VISIBLE
-                                lPort!!.visibility = View.GONE
-                            } else {
-                                recyclerViewPortfolio!!.visibility = View.VISIBLE
-                                noPortfolio!!.visibility = View.GONE
-                                //useless portfollio
-                                lPort!!.visibility = View.GONE
-                                adapter!!.addItems(attachmentArrayList)
-                            }
-                            if (badgesModelArrayList!!.size <= 0) {
-                                noPortfolio!!.visibility = View.VISIBLE
-                                //TODO changesto VISIBLE
-
-                                lSkill!!.visibility = View.VISIBLE
-                                flAddSkill!!.visibility = View.GONE
-                            } else {
-                                noPortfolio!!.visibility = View.GONE
-                                lSkill!!.visibility = View.VISIBLE
-                                flAddSkill!!.visibility = View.GONE
-                            }
+//                            if (attachmentArrayList!!.size <= 0) {
+//                                noPortfolio!!.visibility = View.VISIBLE
+//                                lPort!!.visibility = View.GONE
+//                            } else {
+//                                recyclerViewPortfolio!!.visibility = View.VISIBLE
+//                                noPortfolio!!.visibility = View.GONE
+//                                //useless portfollio
+//                                lPort!!.visibility = View.GONE
+//                                adapter!!.addItems(attachmentArrayList)
+//                            }
+                            //Servis kardi
+//                            if (badgesModelArrayList!!.size <= 0) {
+//                                noPortfolio!!.visibility = View.VISIBLE
+//                                //TODO changesto VISIBLE
+//
+//                                lSkill!!.visibility = View.VISIBLE
+//                                flAddSkill!!.visibility = View.GONE
+//                            } else {
+//                                noPortfolio!!.visibility = View.GONE
+//                                lSkill!!.visibility = View.VISIBLE
+//                                flAddSkill!!.visibility = View.GONE
+//                            }
                             badgesAdapter!!.addItems(badgesModelArrayList)
-                            if (userAccountModel!!.portfolio.size == 0) {
-                                noPortfolio!!.visibility = View.VISIBLE
-                            } else {
-                                noPortfolio!!.visibility = View.GONE
-                            }
+//                            if (userAccountModel!!.portfolio.size == 0) {
+//                                noPortfolio!!.visibility = View.VISIBLE
+//                            } else {
+//                                noPortfolio!!.visibility = View.GONE
+//                            }
                             if (rbPortfollio!!.isChecked) {
                                 //TODO changesto VISIBLE
 
@@ -1132,7 +1132,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     private fun setUpAllEditFields(userAccountModel: UserAccountModel?) {
         if (userAccountModel == null) return
         tvAboutHeading!!.setTypeface(txtAbout!!.typeface, Typeface.BOLD_ITALIC)
@@ -1147,8 +1147,12 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         if (userAccountModel.about == null || userAccountModel.about == "") {
             txtAbout!!.text = ""
             txtAbout!!.visibility = View.GONE
+            if(userAccountModel.id.toString() == profileId)
+                no_about?.visibility = View.VISIBLE
         } else {
             txtAbout!!.visibility = View.VISIBLE
+            no_about?.visibility = View.GONE
+
             setMoreLess(txtAbout!!, userAccountModel.about, 5)
         }
         if (userAccountModel.tagline == null || userAccountModel.tagline == "") {
@@ -1165,6 +1169,7 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             lnTickerJobsuccess!!.visibility = View.GONE
             lytTicker.visibility = View.GONE
             tvTickerNoreview!!.visibility = View.VISIBLE
+            tickerReviewNum.text = "No Reviews"
         } else {
             ratingbarAsTicker!!.visibility = View.VISIBLE
             tickerReview!!.visibility = View.VISIBLE
@@ -1181,10 +1186,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
             // worker
             if (userAccountModel.workerRatings != null) {
                 averagRate.text = userAccountModel.workerRatings.avgRating.toString().cleanRound()
-                    userAccountModel.workerRatings.receivedReviews.toString()
+                userAccountModel.workerRatings.receivedReviews.toString()
                 tickerTotalRating?.text = userAccountModel.workerRatings.totalRatings.toString()
 
-                tickerReviewNum.text = userAccountModel.workerRatings.receivedReviews.toString().cleanRound()+ " Reviews"
+                tickerReviewNum.text = userAccountModel.workerRatings.receivedReviews.toString()
+                    .cleanRound() + " Reviews"
                 if (userAccountModel.workerRatings != null && userAccountModel.workerRatings.breakdownModel.get1() != null) {
                     progressBar1Star.progress =
                         userAccountModel.workerRatings.breakdownModel.get1()
@@ -1315,11 +1321,11 @@ class ProfileFragment : Fragment(), onProfileUpdateListener, AttachmentAdapter.O
         } else {
             imgVerified!!.visibility = View.GONE
         }
-        if (userAccountModel.portfolio.size == 0) {
-            noPortfolio!!.visibility = View.VISIBLE
-        } else {
-            noPortfolio!!.visibility = View.GONE
-        }
+//        if (userAccountModel.portfolio.size == 0) {
+//            noPortfolio!!.visibility = View.VISIBLE
+//        } else {
+//            noPortfolio!!.visibility = View.GONE
+//        }
         if (userAccountModel.skills.skills == null && userAccountModel.skills.skills.size == 0 && userAccountModel.skills.language == null &&
             userAccountModel.skills.language.size == 0 &&
             userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0

@@ -89,8 +89,9 @@ class OfferListActivity : ActivityBase(){
 //    }
 
     private fun initNavigation() {
-        Log.d("sdsdsddddfd", "here")
-        navController = Navigation.findNavController(this, R.id.nav_host)
+      //  navController = Navigation.findNavController(this, R.id.nav_host)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        val navController = navHostFragment.navController
         val graphInflater = navController!!.navInflater
         val navGraph = graphInflater.inflate(R.navigation.offer_list_graph)
         navGraph.setStartDestination(R.id.offerListFragment)

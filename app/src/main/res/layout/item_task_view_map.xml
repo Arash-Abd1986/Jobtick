@@ -86,8 +86,9 @@
                     android:src="@drawable/ic_near_me" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:textColor="@color/neutral_light_600"
                     android:id="@+id/txt_location"
-                    style="@style/caption"
+                    android:textAppearance="@style/materialText_W400_14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -123,7 +124,7 @@
                     android:singleLine="true"
                     android:text="No time set"
                     android:textAppearance="@style/materialText_W400_14"
-                    android:textColor="@color/N300" />
+                    android:textColor="@color/neutral_light_600" />
             </LinearLayout>
 
 

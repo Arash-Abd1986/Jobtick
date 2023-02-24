@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "582071119574-8kiqo4h1qj18fe9vbuqghohadue3mp1j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jobtick.android",
+            "certificate_hash": "14e4a1b1984997624069756680fbd17594ce5b11"
+          }
+        },
+        {
+          "client_id": "582071119574-uicro1jbt3ap5r8bohnu6mevv9uvdn6q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jobtick.android",
+            "certificate_hash": "31a84a213d3628e38afe3559e4517287ac4c6a0b"
+          }
+        },
+        {
           "client_id": "582071119574-2d8rcnd0serh1eam9bjr26pcj41emr0i.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -32,10 +48,11 @@
               "client_type": 3
             },
             {
-              "client_id": "582071119574-snrp1tgtfj1tk5um10hdjc6ggpthfj70.apps.googleusercontent.com",
+              "client_id": "582071119574-f551jmeqma67srqvbf9eu4pvo1kghk8p.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.jobtick"
+                "bundle_id": "com.jobtick",
+                "app_store_id": "1539848980"
               }
             }
           ]

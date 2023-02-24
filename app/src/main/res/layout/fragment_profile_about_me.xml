@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/no_portfolio_added_yet" />
+                android:text="@string/no_wrote_nothing" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/materialText_400_14"
@@ -95,11 +95,12 @@
                 android:text="@string/increase_your_chance_to_get_a_job_by" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/addAbout"
                 style="@style/materialText_400_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/adding_portf"
+                android:text="@string/adding_about_urself"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
     </LinearLayout>

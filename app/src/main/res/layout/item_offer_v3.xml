@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
-    android:paddingHorizontal="16dp"
     android:visibility="visible">
 
     <LinearLayout
@@ -21,7 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/neutral_light_50" />
+    <LinearLayout
+        android:paddingHorizontal="16dp"
 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:orientation="vertical"
+        tools:ignore="TooManyViews">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -183,10 +189,9 @@
             android:weightSum="3">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1">
+                android:layout_gravity="center_vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
@@ -206,9 +211,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
@@ -216,22 +224,21 @@
                     android:layout_gravity="center_vertical"
                     app:srcCompat="@drawable/ic_chat_v6" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/message"
-                    style="@style/subtitle2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="6dp"
-                    android:gravity="center"
-                    android:text="Message"
-                    android:textColor="@color/neutral_light_500" />
+<!--                <com.google.android.material.textview.MaterialTextView-->
+<!--                    android:id="@+id/message"-->
+<!--                    style="@style/subtitle2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:layout_marginStart="6dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="Message"-->
+<!--                    android:textColor="@color/neutral_light_500" />-->
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
@@ -252,5 +259,6 @@
             </LinearLayout>
 
         </LinearLayout>
+    </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

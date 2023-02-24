@@ -82,7 +82,7 @@ class ProfileFragmentOTPVerificationForMobile : Fragment(), OTPListener {
         viewModel = ViewModelProvider(this)[ProfileOTPViewModel::class.java]
        // viewModel.errorMobileSendOtp.removeObserver(observer)
         if(requireArguments().getString("number")?.isNotEmpty() == true) {
-            mutableMap = mutableMapOf("mobile" to requireArguments().getString("number").toString(), "dialing_code" to "+61")
+            mutableMap = mutableMapOf("mobile" to requireArguments().getString("number").toString(), "dialing_code" to "+98")
             mobileResendOTP(activity, mutableMap)
         }
 
@@ -269,7 +269,7 @@ class ProfileFragmentOTPVerificationForMobile : Fragment(), OTPListener {
             }
             //sessionManager?.role?.let { addFormDataPart("role_as", it) }
         }.build()
-        call = ApiClient.getClientV1WithToken(sessionManager).emailOtpVerification(
+        call = ApiClient.getClientV1WithToken(sessionManager).mobileOtpVerification(
             "XMLHttpRequest",
             requestBody
         )
@@ -326,7 +326,7 @@ class ProfileFragmentOTPVerificationForMobile : Fragment(), OTPListener {
             }
             //sessionManager?.role?.let { addFormDataPart("role_as", it) }
         }.build()
-        call = ApiClient.getClientV1WithToken(sessionManager).emailResendOtp(
+        call = ApiClient.getClientV1WithToken(sessionManager).mobileSendOtp(
             "XMLHttpRequest",
             requestBody
         )
@@ -334,13 +334,19 @@ class ProfileFragmentOTPVerificationForMobile : Fragment(), OTPListener {
             override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 context.hideProgressDialog()
                 try {
-                    val jsonObject = JSONObject(response.toString())
-                    if (jsonObject.has("success") && !jsonObject.isNull("success")) {
-                        if (jsonObject.getBoolean("success") && !jsonObject.isNull("data")) {
-                            context.showSuccessToast(jsonObject.getString("message"), context)
-                            timer.start()
-                            setActive(true)
+                    Log.d("verifyres", response.toString())
+                    if(response.isSuccessful) {
+                        val jsonObject = JSONObject(response.body().toString())
+                        if (jsonObject.has("success") && !jsonObject.isNull("success")) {
+                            if (jsonObject.getBoolean("success") && !jsonObject.isNull("data")) {
+                                context.showSuccessToast(jsonObject.getString("message"), context)
+                                timer.start()
+                                setActive(true)
+                            }
                         }
+                    } else {
+                        context.showToast("Something Went Wrong", context)
+
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()

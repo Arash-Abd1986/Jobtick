@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_profile"
     android:orientation="vertical"
-    android:layout_marginEnd="16dp"
     android:id="@+id/ln_reviews"
     android:visibility="visible">
 
@@ -861,7 +860,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:singleLine="true"
-            android:text="126 Reviews" />
+            android:text="No Reviews" />
 
 
         <com.google.android.material.textview.MaterialTextView

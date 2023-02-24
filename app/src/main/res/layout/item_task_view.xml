@@ -33,7 +33,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_status"
-                style="@style/overline"
+                style="@style/newDesign_14_600"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -87,7 +87,8 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_location"
-                    style="@style/caption"
+                   style="@style/newDesign_14_600"
+                    android:textColor="@color/neutral_light_600"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -122,8 +123,8 @@
                     android:gravity="center_vertical"
                     android:singleLine="true"
                     android:text="No time set"
-                    android:textAppearance="@style/materialText_W400_14"
-                    android:textColor="@color/N300" />
+                    android:textAppearance="@style/newDesign_14_600"
+                    android:textColor="@color/neutral_light_600" />
             </LinearLayout>
 
 
@@ -141,7 +142,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_offer_count"
-                    style="@style/caption"
+                    style="@style/newDesign_14_600"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"

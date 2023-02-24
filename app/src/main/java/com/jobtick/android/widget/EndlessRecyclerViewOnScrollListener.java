@@ -26,6 +26,7 @@ public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.O
         visibleItemCount = recyclerView.getChildCount();
         totalItemCount = mRecyclerViewHelper.getItemCount();
         firstVisibleItem = mRecyclerViewHelper.findFirstVisibleItemPosition();
+        Log.i("RecyclerView scrolled: ", totalItemCount + ", " + getTotalItem());
 
         if (loading) {
             if (totalItemCount > previousTotal) {
@@ -43,17 +44,6 @@ public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.O
             }
         }
 
-        if(firstVisibleItem > firstVisibleInListview) {
-          //  onScrollUp();
-
-            Log.i("RecyclerView scrolled: ", "scroll up!");
-        }
-        else {
-           // onScrollDown();
-
-            Log.i("RecyclerView scrolled: ", "scroll down!");
-        }
-        Log.i("RecyclerView scrolled: ", firstVisibleInListview + ", " + firstVisibleItem);
         firstVisibleInListview = firstVisibleItem;
 
     }

@@ -60,6 +60,7 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
     RadioGroup rgReasonMessage;
 
     private int reasonId;
+    String reason = "";
 
 
     @Override
@@ -73,13 +74,15 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
     public void setReasons(CancellationReasonModel cancellationReasonModel) {
 
         List<Worker> reasons = cancellationReasonModel.getWorker();
-        if (reason.contains("{poster}"))
-            reason = reason.replace("{poster}", "<b>" + taskModel.getPoster().getName() + "</b>");
-        if (reason.contains("{worker}"))
-            reason = reason.replace("{worker}", "<b>" + taskModel.getWorker().getName() + "</b>");
+        for(int i = 0; i < reasons.size(); i++) {
+            if (reasons.get(i).getReason().contains("{poster}"))
+                reasons.get(i).setReason(reasons.get(i).getReason().replace("{poster}", "<b>" + taskModel.getPoster().getName() + "</b>"));
+            if (reasons.get(i).getReason().contains("{worker}"))
+                reasons.get(i).setReason(reasons.get(i).getReason().replace("{worker}", "<b>" + taskModel.getWorker().getName() + "</b>"));
+        }
 
         for (int i = 0; reasons.size() > i; i++) {
-            String reason = reasons.get(i).getReason();
+            reason = reasons.get(i).getReason();
             switch (i) {
                 case 0:
                     rbReason1.setText(Html.fromHtml(reason));
@@ -116,7 +119,6 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
             } else {
                 cancellationFeeContainer.setVisibility(View.GONE);
             }
-
             btnSubmit.setEnabled(true);
             reasonId = selectedReason.getId();
         }
@@ -124,6 +126,10 @@ public class CancellationWorkerActivity extends AbstractCancellationReasonsActiv
 
     @OnClick(R.id.btn_submit)
     public void onViewClicked() {
+        if(reason.length() == 0) {
+            showToast("Please Choose Atleast One Reason", this);
+            return;
+        }
         String str_comment = null;
         if (!TextUtils.isEmpty(commentText.getText().trim())) {
             str_comment = commentText.getText().trim();

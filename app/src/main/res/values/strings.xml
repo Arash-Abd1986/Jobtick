@@ -366,8 +366,10 @@
     <string name="transportation">Transportation</string>
     <string name="click_to_enlarge">Click to enlarge</string>
     <string name="no_portfolio_added_yet">No portfolio added yet</string>
+    <string name="no_wrote_nothing">You wrote nothing about yourself</string>
     <string name="increase_your_chance_to_get_a_job_by">Increase your chance to get a job by</string>
     <string name="adding_portf">adding your portfolio</string>
+    <string name="adding_about_urself">add few sentences about yourself</string>
     <string name="general_information">General Information</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="payment_id">Payment ID</string>

@@ -150,6 +150,7 @@ android:visibility="gone"
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/about_text"
+                android:lineHeight="27dp"
                 android:textSize="18dp"
                 android:gravity="start|top"
                 android:layout_width="match_parent"

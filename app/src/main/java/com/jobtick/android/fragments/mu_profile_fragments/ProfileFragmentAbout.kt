@@ -71,7 +71,8 @@ class ProfileFragmentAbout : Fragment() {
             viewModel.updateProfile(activity, mutableMap)
         }
         binding.header.back.setOnClickListener {
-            view.findNavController().navigate(R.id.action_navigation_profile_about_to_navigation_profile_account)
+          //  view.findNavController().navigate(R.id.action_navigation_profile_about_to_navigation_profile_account)
+            view.findNavController().popBackStack()
         }
 
         binding.about.editText!!.setOnFocusChangeListener{view, b ->

@@ -61,6 +61,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 import java.util.Locale
+import java.util.stream.Collectors
 
 /**
  * A simple [Fragment] subclass.
@@ -632,13 +633,13 @@ class MyTasksFragment :
                 Method.GET, Constant.URL_MY_JOBS + "?page=" + currentPage + query_parameter,
                 Response.Listener { response: String? ->
                     Timber.e(response)
-                    Log.d("mytaskfragmentjobs", response.toString());
+                    Log.d("mytaskfragmentjobs", response.toString())
                     // categoryArrayList.clear();
                     try {
                         val jsonObject = JSONObject(response!!)
                         Timber.e(jsonObject.toString())
                         val gson = Gson()
-                        val (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(
+                        var (_, data, _, _, _, _, _, _, _, per_page, _, _, total) = gson.fromJson(
                             jsonObject.toString(),
                             MyJobsResponse::class.java
                         )
@@ -646,23 +647,34 @@ class MyTasksFragment :
                             dashboardActivity!!.showToast("some went to wrong", dashboardActivity)
                             return@Listener
                         }
+
+//                        if(sessionManager?.roleLocal == "poster")
+//                            data = data.stream().filter{it.poster_id == sessionManager?.userAccount?.id}.collect(Collectors.toList())
+//                        else
+//                            data = data.stream().filter{it.poster_id != sessionManager?.userAccount?.id}.collect(Collectors.toList())
+//                            data.forEach { it.offers?.stream()?.filter{it.user_id == sessionManager?.userAccount?.id}}
+//                        for((index, item) in data.withIndex())
+//                            if(item.poster_id != sessionManager?.userAccount?.id)
+//                                data1.data.(index)
                         totalItemT = total!!
+                       // totalItemT = data!!.size
                         Constant.PAGE_SIZE = per_page!!
                         if (currentPage == 1) {
                             resetTaskListAdapter()
                         }
-                        taskListAdapter!!.addItems(data, totalItemT)
+                        taskListAdapter!!.addItems(data!!, totalItemT)
                         isLastPage = taskListAdapter!!.itemCount == totalItemT
-                        if (data.isEmpty()) {
-                            noJobs!!.visibility = View.VISIBLE
-                            postAJob?.visibility = View.GONE
-                            recyclerViewStatus!!.visibility = View.GONE
-                        } else {
-                            noJobs!!.visibility = View.GONE
-                            postAJob?.visibility = View.VISIBLE
 
-                            recyclerViewStatus!!.visibility = View.VISIBLE
-                        }
+                            if (data.isEmpty()) {
+                                noJobs!!.visibility = View.VISIBLE
+                                postAJob?.visibility = View.GONE
+                                recyclerViewStatus!!.visibility = View.GONE
+                            } else {
+                                noJobs!!.visibility = View.GONE
+                                postAJob?.visibility = View.VISIBLE
+
+                                recyclerViewStatus!!.visibility = View.VISIBLE
+                            }
                         swipeRefresh!!.isRefreshing = false
                         strSearch = null
                     } catch (e: JSONException) {
@@ -685,7 +697,7 @@ class MyTasksFragment :
                     map1["Content-Type"] = "application/x-www-form-urlencoded"
                     map1["Authorization"] = "Bearer " + sessionManager!!.accessToken
                     map1["Version"] = BuildConfig.VERSION_CODE.toString()
-                    Log.d("mytaskfragmentjobsHeader", map1.toString());
+                    Log.d("mytaskfragmentjobsHeader", map1.toString())
                     return map1
                 }
             }
@@ -941,48 +953,54 @@ class MyTasksFragment :
         val expired_image = viewPopUp?.findViewById<View>(R.id.expired_image) as ShapeableImageView
         val all = viewPopUp?.findViewById<View>(R.id.all) as TextView
 
-        activity?.getColor(R.color.neutral_light_500)?.let { posted_image?.setBackgroundColor(it) }
-        activity?.getColor(R.color.neutral_light_500)?.let { ticked_image?.setBackgroundColor(it) }
-        activity?.getColor(R.color.neutral_light_500)?.let { assigned_image?.setBackgroundColor(it) }
+        AppCompatResources.getDrawable(requireContext(), R.drawable.circle_chips_inventory_workspace)?.let { ticked_number?.background =  it}
+        AppCompatResources.getDrawable(requireContext(), R.drawable.circle_chips_inventory_workspace)?.let { posted_number?.background =  it}
+        AppCompatResources.getDrawable(requireContext(), R.drawable.circle_chips_inventory_workspace)?.let { assigned_number?.background =  it}
         activity?.getColor(R.color.neutral_light_500)?.let { ticked_text?.setTextColor(it) }
         activity?.getColor(R.color.neutral_light_500)?.let { posted_text?.setTextColor(it) }
         activity?.getColor(R.color.neutral_light_500)?.let { assigned_text?.setTextColor(it) }
         activity?.getColor(R.color.neutral_light_500)?.let { expired_text.setTextColor(it) }
         activity?.getColor(R.color.neutral_light_500)?.let { cancelled_text.setTextColor(it) }
         activity?.getColor(R.color.neutral_light_500)?.let { closed_text.setTextColor(it) }
-        activity?.getColor(R.color.neutral_light_500)?.let { expired_image.setBackgroundColor(it) }
-        activity?.getColor(R.color.neutral_light_500)?.let { cancelled_image.setBackgroundColor(it) }
-        activity?.getColor(R.color.neutral_light_500)?.let { closed_image.setBackgroundColor(it) }
+        AppCompatResources.getDrawable(requireContext(), R.drawable.circle_chips_inventory_workspace)?.let { expired_number?.background =  it}
+        AppCompatResources.getDrawable(requireContext(), R.drawable.circle_chips_inventory_workspace)?.let { cancelled_number?.background =  it}
+        AppCompatResources.getDrawable(requireContext(), R.drawable.circle_chips_inventory_workspace)?.let { closed_number?.background =  it}
         activity?.getColor(R.color.neutral_light_500)?.let { all.setTextColor(it) }
 
 
         when (str) {
             "assigned" -> {
-                activity?.getColor(R.color.secondary_400)?.let { assigned_image?.setBackgroundColor(it) }
+                AppCompatResources.getDrawable(requireContext(), R.drawable.circle_chips_inventory_workspace_purple)?.let { assigned_number?.background =  it}
+
                 activity?.getColor(R.color.secondary_400)?.let { assigned_text?.setTextColor(it) }
             }
             "posted" -> {
-                activity?.getColor(R.color.secondary_400)?.let { posted_image?.setBackgroundColor(it) }
+                AppCompatResources.getDrawable(requireContext(), R.drawable.circle_chips_inventory_workspace_purple)?.let { posted_number?.background =  it}
+
                 activity?.getColor(R.color.secondary_400)?.let { posted_text?.setTextColor(it) }
             }
 
             "ticked" -> {
-                activity?.getColor(R.color.secondary_400)?.let { ticked_image?.setBackgroundColor(it) }
+                AppCompatResources.getDrawable(requireContext(), R.drawable.circle_chips_inventory_workspace_purple)?.let { ticked_number?.background =  it}
+
                 activity?.getColor(R.color.secondary_400)?.let { ticked_text?.setTextColor(it) }
             }
 
             "cancelled" -> {
-                activity?.getColor(R.color.secondary_400)?.let { cancelled_image.setBackgroundColor(it) }
+                AppCompatResources.getDrawable(requireContext(), R.drawable.circle_chips_inventory_workspace_purple)?.let { cancelled_number?.background =  it}
+
                 activity?.getColor(R.color.secondary_400)?.let { cancelled_text.setTextColor(it) }
             }
 
             "closed" -> {
-                activity?.getColor(R.color.secondary_400)?.let { closed_image.setBackgroundColor(it) }
+                AppCompatResources.getDrawable(requireContext(), R.drawable.circle_chips_inventory_workspace_purple)?.let { closed_number?.background =  it}
+
                 activity?.getColor(R.color.secondary_400)?.let { closed_text.setTextColor(it) }
             }
 
             "expired" -> {
-                activity?.getColor(R.color.secondary_400)?.let { expired_image.setBackgroundColor(it) }
+                AppCompatResources.getDrawable(requireContext(), R.drawable.circle_chips_inventory_workspace_purple)?.let { expired_number?.background =  it}
+
                 activity?.getColor(R.color.secondary_400)?.let { expired_text.setTextColor(it) }
             }
 

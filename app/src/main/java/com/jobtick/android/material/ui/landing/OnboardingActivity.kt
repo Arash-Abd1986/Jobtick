@@ -49,6 +49,7 @@ class OnboardingActivity : ActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
+        sessionManagerA = SessionManager(this)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
         navController = navHostFragment!!.navController
@@ -206,16 +207,16 @@ class OnboardingActivity : ActivityBase() {
     }
     private fun proceedToCorrectActivity(userAccountModel: UserAccountModel) {
         val intent: Intent
-        if (userAccountModel.account_status.isBasic_info) {
+       // if (userAccountModel.account_status.isBasic_info) {
             intent = Intent(this, DashboardActivity::class.java)
             sessionManagerA.userAccount = userAccountModel
             sessionManagerA.latitude = userAccountModel.latitude.toString()
             sessionManagerA.longitude = userAccountModel.longitude.toString()
             sessionManagerA.login = true
             openActivity(intent)
-        } else {
-            unauthorizedUser()
-        }
+      //  } else {
+          //  unauthorizedUser()
+       // }
     }
     private fun openActivity(intent: Intent) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -313,7 +314,7 @@ class OnboardingActivity : ActivityBase() {
                                         UserAccountModel().getJsonToModel(jsonObjectUser)
                                     sessionManagerA.userAccount = userAccountModel
                                     proceedToCorrectActivity(userAccountModel)
-                                    Log.d("googlesignin", "ressignInUpdateUI")
+                                    Log.d("googlesignin", response.toString())
 
                                 } catch (e: JSONException) {
                                     Timber.e(e.toString())
@@ -368,13 +369,14 @@ class OnboardingActivity : ActivityBase() {
                                 map1["fname"] = "Jobtick"
                                 map1["lname"] = "User"
                                 map1["email"] = strEmail!!
-                                map1["device_token"] = strDeviceId
+                               // map1["device_token"] = strDeviceId
                                 map1["device_type"] = strDevice
                                 if (strFcmToken != null && !strFcmToken.isEmpty()) map1["fcm_token"] =
                                     strFcmToken
                                 map1["access_token"] = strIdToken
                                 map1["latitude"] = sessionManagerA.latitude
                                 map1["longitude"] = sessionManagerA.longitude
+                                Log.d("googlesignin", map1.toString())
                                 return map1
                             }
                         }

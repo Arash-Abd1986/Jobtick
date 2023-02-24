@@ -536,7 +536,7 @@ class ProfileViewFragment :
                                         this.levels!!.addAll(levels)
                                         checkLevel(levels)
                                         setUpAllEditFields(userAccountModel)
-                                        attachmentArrayList = userAccountModel!!.portfolio
+//                                        attachmentArrayList = userAccountModel!!.portfolio
                                         adapter!!.clear()
                                         badgesModelArrayList = userAccountModel!!.badges
                                         if (attachmentArrayList!!.size <= 0) {
@@ -556,11 +556,11 @@ class ProfileViewFragment :
                                             lSkill!!.visibility = View.VISIBLE
                                         }
                                         badgesAdapter!!.addItems(badgesModelArrayList)
-                                        if (userAccountModel!!.portfolio.size == 0) {
-                                            noPortfolio!!.visibility = View.VISIBLE
-                                        } else {
-                                            noPortfolio!!.visibility = View.GONE
-                                        }
+//                                        if (userAccountModel!!.portfolio.size == 0) {
+//                                            noPortfolio!!.visibility = View.VISIBLE
+//                                        } else {
+//                                            noPortfolio!!.visibility = View.GONE
+//                                        }
                                         if (rbPortfollio!!.isChecked) {
                                             lSkill!!.visibility = View.GONE
                                             noSkill!!.visibility = View.GONE
@@ -826,11 +826,11 @@ class ProfileViewFragment :
         } else {
             imgVerified!!.visibility = View.GONE
         }
-        if (userAccountModel.portfolio.size == 0) {
-            noPortfolio!!.visibility = View.VISIBLE
-        } else {
-            noPortfolio!!.visibility = View.GONE
-        }
+//        if (userAccountModel.portfolio.size == 0) {
+//            noPortfolio!!.visibility = View.VISIBLE
+//        } else {
+//            noPortfolio!!.visibility = View.GONE
+//        }
         if (userAccountModel.skills.skills == null && userAccountModel.skills.skills.size == 0 && userAccountModel.skills.language == null && userAccountModel.skills.language.size == 0 &&
                 userAccountModel.skills.education == null && userAccountModel.skills.education.size == 0
         ) {

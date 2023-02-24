@@ -423,7 +423,7 @@ class JobDetailsPosterFragment : Fragment(), WithdrawBottomSheet.Withdraw {
         if (viewModel.userType == JobDetailsViewModel.UserType.POSTER) {
           //  if (taskModel.offerCount > 0) {
                 if (taskModel.offerCount > 0) {
-                    btnNext.text = "See offers(${taskModel.offerCount})"
+                    btnNext.text = "See offers (${taskModel.offerCount})"
                     budget.gone()
                     jobState = JobState.VIEW_OFFER_LIST
                 } else {

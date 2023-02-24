@@ -163,7 +163,7 @@ class ProfileOTPViewModel: ViewModel() {
             }
             //sessionManager?.role?.let { addFormDataPart("role_as", it) }
         }.build()
-        call = ApiClient.getClientV1WithToken(sessionManager).emailOtpVerification(
+        call = ApiClient.getClientV1WithToken(sessionManager).mobileOtpVerification(
             "XMLHttpRequest",
             requestBody
         )
@@ -229,7 +229,7 @@ class ProfileOTPViewModel: ViewModel() {
             }
             //sessionManager?.role?.let { addFormDataPart("role_as", it) }
         }.build()
-        call = ApiClient.getClientV1WithToken(sessionManager).emailResendOtp(
+        call = ApiClient.getClientV1WithToken(sessionManager).mobileSendOtp(
             "XMLHttpRequest",
             requestBody
         )

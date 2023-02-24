@@ -40,7 +40,6 @@
         android:id="@+id/navigation_inbox"
         android:name="com.jobtick.android.fragments.NewDesignMessagesFragment"
         tools:layout="@layout/fragment_messages_new_design" />
-
     <fragment
         android:id="@+id/navigation_public_profile"
         android:name="com.jobtick.android.fragments.ProfileFragment"
@@ -50,6 +49,16 @@
             app:destination="@id/navigation_profile"
             app:exitAnim="@anim/fadeout"
             app:enterAnim="@anim/fadein"/>
+        <action
+            android:id="@+id/action_navigation_public_profile_to_navigation_profile_skills"
+            app:exitAnim="@anim/fadeout"
+            app:enterAnim="@anim/fadein"
+            app:destination="@id/navigation_profile_skills" />
+        <action
+            android:id="@+id/action_navigation_public_profile_to_navigation_profile_about"
+            app:exitAnim="@anim/fadeout"
+            app:enterAnim="@anim/fadein"
+            app:destination="@id/navigation_profile_about" />
     </fragment>
 
     <fragment

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:padding="12dp"
-    android:layout_marginBottom="16dp"
     android:id="@+id/linTitle"
     android:gravity="center"
     android:background="@color/white"

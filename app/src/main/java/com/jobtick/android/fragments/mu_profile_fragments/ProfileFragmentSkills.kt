@@ -71,10 +71,15 @@ class ProfileFragmentSkills : Fragment() {
             view.findNavController().navigate(R.id.action_navigation_profile_skills_to_navigation_profile_skills_search)
         }
         binding.header.back.setOnClickListener {
-            view.findNavController().navigate(R.id.action_navigation_profile_skills_to_navigation_profile)
+            view.findNavController().popBackStack()
+           // view.findNavController().navigate(R.id.action_navigation_profile_skills_to_navigation_profile)
         }
 
         binding.header.txtAction.setOnClickListener {
+            if(skillList.size == 0) {
+                activity.showToast("Please choose atleast one Skill!", activity)
+                return@setOnClickListener
+            }
             for(i in 0 until skillList.size) {
                 inputs.getOrPut("skills[]", ::mutableListOf).add(skillList[i])
 

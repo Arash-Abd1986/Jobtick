@@ -2,6 +2,7 @@ package com.jobtick.android.cancellations;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -216,6 +217,7 @@ public abstract class AbstractCancellationReasonsActivity extends ActivityBase{
                                     String data = jsonObject.getString("data");
                                     Gson gson = new Gson();
                                     this.cancellationReasonModel = gson.fromJson(data, CancellationReasonModel.class);
+                                    Log.d("cancelation", data.toString());
                                     setReasons(cancellationReasonModel);
                                     getNoticeList();
                                 }

@@ -416,7 +416,7 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                             /*
                 * Add Button for empty attachment
                 * */setUpAllEditFields(userAccountModel)
-                            attachmentArrayList = userAccountModel!!.portfolio
+                         //   attachmentArrayList = userAccountModel!!.portfolio
                             // attachmentArrayList.add(new AttachmentModel());
                             Timber.e("%s", attachmentArrayList!!.size)
                             if (attachmentArrayList!!.size >= 0) {
@@ -796,11 +796,11 @@ class EditProfileActivity : ActivityBase(), AttachmentAdapterEditProfile.OnItemC
                         experienceSetUp(userAccountModel)
                     }
                     234 -> {
-                        userAccountModel!!.portfolio =
-                            bundle.getParcelableArrayList(ConstantKey.ATTACHMENT)
+//                        userAccountModel!!.portfolio =
+//                            bundle.getParcelableArrayList(ConstantKey.ATTACHMENT)
                         adapter!!.clearAll()
                         attachmentArrayList!!.clear()
-                        attachmentArrayList = userAccountModel!!.portfolio
+                     //   attachmentArrayList = userAccountModel!!.portfolio
                         /*
                              * include add button */adapter!!.addItems(attachmentArrayList)
                     }

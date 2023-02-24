@@ -169,6 +169,16 @@ class DashboardActivity : ActivityBase(), onProfileUpdateListener, Navigator {
         navController!!.graph = navGraph
         NavigationUI.setupWithNavController(toolbar!!, navController!!, appBarConfiguration!!)
 
+
+//        fun onResume() {
+//            super.onResume()
+//            navController?.addOnDestinationChangedListener(listener)
+//        }
+//
+//        fun onPause() {
+//            navController?.removeOnDestinationChangedListener(listener)
+//            super.onPause()
+//        }
         //new design for bottomnav -> TODO remove old bottomnav
         setBottomnav()
     }
@@ -665,7 +675,33 @@ Team ${resources.getString(R.string.app_name)}"""
                 drawer.closeDrawer(GravityCompat.END)
             }
             else -> {
-                super.onBackPressed()
+                if(navController?.currentDestination?.id == R.id.navigation_my_tasks &&
+                    sessionManager!!.roleLocal == "poster")
+                    finish()
+                if(navController?.currentDestination?.id == R.id.navigation_browse)
+                    finish()
+                else {
+                    super.onBackPressed()
+                    bottomNav.itemIconTintList = null
+
+                    when (navController?.currentDestination?.id) {
+//                        R.id.navigation_new_task -> bottomNav.selectedItemId =
+//                            R.id.navigation_browse
+                        R.id.navigation_my_tasks -> {
+                            if (sessionManager!!.roleLocal == "poster")
+                                bottomNav.selectedItemId = R.id.navigation_inventory
+                            else
+                                bottomNav.selectedItemId = R.id.navigation_workspace
+                        }
+                        R.id.navigation_browse -> bottomNav.selectedItemId =
+                            R.id.navigation_new_task
+                        R.id.navigation_inbox -> bottomNav.selectedItemId = R.id.navigation_browse
+                        R.id.navigation_profile -> bottomNav.selectedItemId =
+                            R.id.navigation_profile
+                    }
+                    Log.d("destination", navController?.currentDestination?.id.toString())
+                    Log.d("destination", bottomNav.selectedItemId.toString())
+                }
             }
         }
     }
@@ -783,15 +819,41 @@ Team ${resources.getString(R.string.app_name)}"""
             bottomNav.menu.findItem(R.id.navigation_new_task).isVisible = false
             bottomNav.menu.findItem(R.id.navigation_workspace).isVisible = false
             bottomNav.menu.findItem(R.id.navigation_inventory).isVisible = true
-
+             if(bottomNav.selectedItemId != R.id.navigation_profile)
+                bottomNav.selectedItemId = R.id.navigation_inventory
         }
         else {
             bottomNav.menu.findItem(R.id.navigation_new_task).isVisible = true
              bottomNav.menu.findItem(R.id.navigation_workspace).isVisible = true
              bottomNav.menu.findItem(R.id.navigation_inventory).isVisible = false
-        }
+             if(bottomNav.selectedItemId != R.id.navigation_profile)
+                bottomNav.selectedItemId = R.id.navigation_new_task
+
+         }
+
+         val listener = NavController.OnDestinationChangedListener { controller, destination, arguments ->
+             Log.d("hereinfragment", destination.id.toString())
+             bottomNav.itemIconTintList = null
+             when (destination.id) {
+                 R.id.navigation_new_task -> bottomNav.selectedItemId = R.id.navigation_new_task
+                // R.id.navigation_browse -> bottomNav.selectedItemId = R.id.navigation_new_task
+                 R.id.navigation_my_tasks -> {
+                     if (sessionManager!!.roleLocal == "poster")
+                        bottomNav.selectedItemId = R.id.navigation_inventory
+                     else
+                         bottomNav.selectedItemId = R.id.navigation_workspace
+                 }
+                 R.id.navigation_workspace -> bottomNav.selectedItemId = R.id.navigation_inventory
+                 R.id.navigation_inbox -> bottomNav.selectedItemId = R.id.navigation_browse
+                 R.id.navigation_profile -> bottomNav.selectedItemId = R.id.navigation_profile
+             }
+             // react on change
+             // you can check destination.id or destination.label and act based on that
+         }
+       //  navController?.addOnDestinationChangedListener(listener)
 
         bottomNav.setOnItemSelectedListener { item ->
+            bottomNav.itemIconTintList = null
 
             when(item.itemId) {
                 R.id.navigation_new_task -> {

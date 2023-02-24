@@ -47,6 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <com.google.android.material.imageview.ShapeableImageView
+                        android:visibility="gone"
                         android:layout_centerInParent="true"
                         android:id="@+id/cancelled_image"
                         android:layout_width="wrap_content"
@@ -57,11 +58,14 @@
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
 
                     <TextView
+                        android:background="@drawable/circle_chips_inventory_workspace"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
                         android:id="@+id/cancelled_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="9999"
+                        android:text="9"
                         android:textColor="@color/white"
                         android:textSize="12dp" />
 
@@ -90,6 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <com.google.android.material.imageview.ShapeableImageView
+                        android:visibility="gone"
                         android:layout_centerInParent="true"
                         android:id="@+id/closed_image"
                         android:layout_width="wrap_content"
@@ -100,11 +105,14 @@
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
 
                     <TextView
+                        android:background="@drawable/circle_chips_inventory_workspace"
                         android:id="@+id/closed_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="9999"
+                        android:text="99"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
                         android:textColor="@color/white"
                         android:textSize="12dp" />
 
@@ -131,6 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <com.google.android.material.imageview.ShapeableImageView
+                        android:visibility="gone"
                         android:layout_centerInParent="true"
                         android:id="@+id/expired_image"
                         android:layout_width="wrap_content"
@@ -141,11 +150,14 @@
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
 
                     <TextView
+                        android:background="@drawable/circle_chips_inventory_workspace"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
                         android:id="@+id/expired_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="9999"
+                        android:text="12"
                         android:textColor="@color/white"
                         android:textSize="12dp" />
 
